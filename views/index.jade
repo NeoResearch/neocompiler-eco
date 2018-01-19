@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  - var title = title || "NeoCompiler.io"
+  h1= title
+  p Welcome to #{title}, an open-source initiative for providing easy access to compilers for NEO platform.
+  p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
+
+  textarea(rows='20', cols='100')

@@ -1,0 +1,16 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="../../neo-devpack-dotnet/Neo.ConvertTask/ConvertTask.cs">
+    <Files>
+      <File FileName="NeoContract1/NeoContract1.csproj" Line="58" Column="14" />
+      <File FileName="NeoContract1/Contract1.cs" Line="16" Column="1" />
+      <File FileName="NeoContract1/Build.tasks" Line="2" Column="17" />
+      <File FileName="../../neo-devpack-dotnet/Neo.ConvertTask/ConvertTask.cs" Line="28" Column="41" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

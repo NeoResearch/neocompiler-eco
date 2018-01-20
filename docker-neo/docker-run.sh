@@ -1,2 +1,1 @@
-docker run
---volume=/etc/localtime:/etc/localtime:ro
+docker run -e COMPILECODE=$COMPILECODE -it --rm $DOCKERNEOCOMPILER

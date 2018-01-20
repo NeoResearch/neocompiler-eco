@@ -12,6 +12,7 @@ var compile = require('./routes/compile');
 var app = express();
 
 app.set('port', 8000 || process.env.PORT);
+//app.use(express.bodyParser()); // Automatically parses form data
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +29,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/compile', compile);
+
+//app.use(express.bodyParser());
+// parse urlencoded request bodies into req.body
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.post('/compilex', function(req, res) {
+  // Specifies which URL to listen for
+  // req.body -- contains form data
+  console.log("body:"+JSON.stringify(req.body.codesend));
+  var outp = JSON.stringify({ a: 1 });
+  console.log("returning json..."+outp);
+  res.send(outp);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

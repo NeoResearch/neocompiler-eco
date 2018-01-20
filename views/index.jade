@@ -6,4 +6,28 @@ block content
   p Welcome to #{title}, an open-source initiative for providing easy access to compilers for NEO platform.
   p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
 
-  textarea(rows='20', cols='100')
+  - var teste = "dXNpbmcgTmVvLlNtYXJ0Q29udHJhY3QuRnJhbWV3b3JrOwp1c2luZyBOZW8uU21hcnRDb250cmFjdC5GcmFtZXdvcmsuU2VydmljZXMuTmVvOwp1c2luZyBTeXN0ZW07CnVzaW5nIFN5c3RlbS5OdW1lcmljczsKCm5hbWVzcGFjZSBOZW9Db250cmFjdDEKewogICAgcHVibGljIGNsYXNzIENvbnRyYWN0MSA6IFNtYXJ0Q29udHJhY3QKICAgIHsKICAgICAgICBwdWJsaWMgc3RhdGljIHZvaWQgTWFpbigpCiAgICAgICAgewogICAgICAgICAgICBTdG9yYWdlLlB1dChTdG9yYWdlLkN1cnJlbnRDb250ZXh0LCAiSGVsbG8iLCAiV29ybGQiKTsKICAgICAgICB9CiAgICB9Cn0K"
+  - var teste2 = new Buffer(teste, 'base64').toString('ascii');
+  form(id="myform",action="/compilex")
+    textarea(id="code",name="codesend",rows='20', cols='100')=teste2
+    button(type="submit") Compile
+  textarea(id="codeout",name="codeout",rows='20', cols='100')="Compiled code..."
+  script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
+  script.
+    $("#myform").submit(function(e) {
+      //alert("go");
+      e.preventDefault(); // Prevents the page from refreshing
+      var $this = $(this); // `this` refers to the current form element
+      var indata = $(this).serialize();
+      //alert("content send:"+indata+" path:"+$this.attr("action")+" pointer:"+$this);
+      $.post(
+        $this.attr("action"), // Gets the URL to sent the post to
+        indata, // Serializes form data in standard format
+        function(data) { 
+            $("#codeout").text(JSON.stringify(data));
+        },
+        "json" // The format the response should be in
+      );
+    });
+
+

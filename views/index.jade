@@ -10,8 +10,14 @@ block content
   - var teste2 = new Buffer(teste, 'base64').toString('ascii');
   form(id="myform",action="/compilex")
     textarea(id="code",name="codesend",rows='20', cols='100')=teste2
+    br
     button(type="submit") Compile
-  textarea(id="codeout",name="codeout",rows='20', cols='100')="Compiled code..."
+  p AVM (in base64):
+  textarea(id="codeoutavm",name="codeoutavm",rows='5', cols='100')="AVM (in base64)"
+  p ABI:
+  textarea(id="codeoutabi",name="codeoutabi",rows='10', cols='100')="ABI (JSON format)"
+  p Compile Messages/Errors:
+  textarea(id="codeouterror",name="codeouterror",rows='20', cols='100')="Errors in code..."
   script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
   script.
     $("#myform").submit(function(e) {
@@ -24,7 +30,11 @@ block content
         $this.attr("action"), // Gets the URL to sent the post to
         indata, // Serializes form data in standard format
         function(data) { 
-            $("#codeout").text(JSON.stringify(data));
+            var coderr = atob(data.output);
+            $("#codeouterror").text(coderr);
+            $("#codeoutavm").text(data.avm);
+            var codeabi = atob(data.abi);
+            $("#codeoutabi").text(codeabi);
         },
         "json" // The format the response should be in
       );

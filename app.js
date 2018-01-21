@@ -38,9 +38,14 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for
   // req.body -- contains form data
-  console.log("body:"+JSON.stringify(req.body.codesend));
-  var outp = JSON.stringify({ a: 1 });
-  console.log("returning json..."+outp);
+  
+  var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
+  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm $DOCKERNEOCOMPILER";
+  var outp = "";
+  outp = require('child_process').execSync(cmddocker).toString();
+  //console.log("returning json..."+outp);
+  console.log("output is: '"+outp+"'");
+  //res.send(JSON.stringify(outp));
   res.send(outp);
 });
 

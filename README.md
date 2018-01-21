@@ -10,4 +10,6 @@ apt install nodejs-legacy
 
 LICENSE MIT
 
-Copyleft 2018
+Copyleft 2017-2018
+
+Igor and Vitor Coelho

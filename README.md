@@ -8,6 +8,16 @@ How to install:
 apt install npm
 apt install nodejs-legacy
 
+Build the docker-neo backend:
+cd docker-neo
+docker build .
+
+Get the docker image id (example ab123456) and set environment variable:
+export DOCKERNEOCOMPILER=ab123456
+
+Run node server:
+./run.sh
+
 LICENSE MIT
 
 Copyleft 2017-2018

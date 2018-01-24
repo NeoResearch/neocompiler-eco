@@ -1,31 +1,58 @@
-NeoCompiler.io
+
+## NeoCompiler.io
 
 This is an open-source initiative for providing an easy access to NEO compilers.
 
-We will start with CSharp, Python (through neo-boa) and Solidity (through neo-solidity initiative).
+*This is still an alpha project with focus on incentiving and disseminating NEO smart contract programming. If you really want to deploy the smart contract on NEO network, make sure you check the AVM with external compilers.*
 
-How to install: 
+We will start with C#, Python (through neo-boa), Java and Solidity (through neo-solidity initiative).
 
-apt install npm
+### What does it currently do
+* Compile input C# code using backend compiler
+* Return AVM and ABI codes
+* Deploy code to private net (being tested right now)
 
-apt install nodejs-legacy
+### Next steps
+* Integrate with Python compiler (neo-boa)
+* Integrate with neo-solidity (project in early phases)
+* Move towards client-based compiling (more secure, robust and much more scalable). Some efforts have been done here already, but many technical challenges are still being dealt with.
+* Integrate with javascript compiler (as soon as it is available)
+* Ideas? Collaborations are welcome :)
 
-Build the docker-neo backend:
+### Dependencies
 
-cd docker-neo
+For Debian-based systems:
 
-docker build .
+`apt install npm`
 
-Get the docker image id (example ab123456) and set environment variable:
+`apt install nodejs-legacy`
 
-export DOCKERNEOCOMPILER=ab123456
+### Building docker-neo backend
 
-Run node server:
+`cd docker-neo`
 
-./run.sh
+`docker build .`
+
+Get latest docker image id and set environment variable:
+
+`export DOCKERNEOCOMPILER=docker ps -l | awk '/^[0-9a-f]/{print $2}'`
+
+## Running node server
+
+`./run.sh`
+
+## Contributing
+
+* If you have ideas or issues, you can inform directly at github or contact us directly
+* Our team is currently formed by researchers/professors, so our time is very constrained... if you feel you can help us, don't hesitate!
+* We created a wallet specially for project donations. That can help us improve our servers and perhaps hire someone for improving graphical interfaces and developing many more interesting features. NEO wallet:
+AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg
+
 
 LICENSE MIT
 
-Copyleft 2017-2018
+*neocompiler.io team*
 
 Igor and Vitor Coelho
+
+Copyleft 2017-2018

@@ -7,7 +7,7 @@ echo -n "{ \"output\": \""
 xbuild | base64 -w 0
 echo -n "\", \"avm\": \""
 if [ -f /buildtmp/NeoContract1/bin/Debug/NeoContract1.avm ]; then
-   cat /buildtmp/NeoContract1/bin/Debug/NeoContract1.avm | base64 -w 0
+   cat /buildtmp/NeoContract1/bin/Debug/NeoContract1.avm | xxd -p | base64 -w 0
 fi
 echo -n "\", \"abi\":\""
 if [ -f /buildtmp/NeoContract1/bin/Debug/NeoContract1.abi.json ]; then

@@ -32,7 +32,7 @@ block content
         function(data) {
             var coderr = atob(data.output);
             $("#codeouterror").text(coderr);
-            $("#codeoutavm").text(data.avm);
+            $("#codeoutavm").text(atob(data.avm));
             var codeabi = atob(data.abi);
             $("#codeoutabi").text(codeabi);
         },

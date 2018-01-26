@@ -12,8 +12,8 @@ block content
     textarea(id="code",name="codesend",rows='20', cols='100')=teste2
     br
     button(type="submit") Compile
-  p AVM (in base64):
-  textarea(id="codeoutavm",name="codeoutavm",rows='5', cols='100')="AVM (in base64)"
+  p AVM (in hex):
+  textarea(id="codeoutavm",name="codeoutavm",rows='5', cols='100')="AVM (in hex)"
   p ABI:
   textarea(id="codeoutabi",name="codeoutabi",rows='10', cols='100')="ABI (JSON format)"
   p Compile Messages/Errors:
@@ -29,7 +29,7 @@ block content
       $.post(
         $this.attr("action"), // Gets the URL to sent the post to
         indata, // Serializes form data in standard format
-        function(data) { 
+        function(data) {
             var coderr = atob(data.output);
             $("#codeouterror").text(coderr);
             $("#codeoutavm").text(data.avm);
@@ -40,10 +40,10 @@ block content
       );
     });
 
-  p 
-   | If you find this project useful, contribute with us at 
+  p
+   | If you find this project useful, contribute with us at
    a(href='https://github.com/igormcoelho/neocompiler.io') GitHub NeoCompiler.io
-   |  or donate some coins. 
+   |  or donate some coins.
    br
    |  That will certainly help maintaining our servers,
    |  improving the interface and extending the tool for many other languages.
@@ -52,5 +52,3 @@ block content
   p Copyleft 2017-2018
   p MIT License
   p Igor and Vitor Coelho
-
-

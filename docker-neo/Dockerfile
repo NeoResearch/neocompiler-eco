@@ -21,5 +21,6 @@ ADD Neo.VM.dll neo-compiler/neon/bin/Release/netcoreapp1.0/
 #RUN export PATH=$PATH:neo-compiler/neon/bin/Release/netcoreapp1.0
 RUN mkdir buildtmp
 COPY NeoContractTeste buildtmp/
-ADD entrypoint.sh /entrypoint.sh 
+RUN apt-get -y install xxd
+ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh

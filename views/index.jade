@@ -14,6 +14,8 @@ block content
     button(type="submit") Compile
   p AVM (in hex):
   textarea(id="codeoutavm",name="codeoutavm",rows='5', cols='100')="AVM (in hex)"
+  p
+    button(id="btn" type="submit") Download
   p ABI:
   textarea(id="codeoutabi",name="codeoutabi",rows='10', cols='100')="ABI (JSON format)"
   p Compile Messages/Errors:
@@ -35,9 +37,18 @@ block content
             $("#codeoutavm").text(atob(data.avm));
             var codeabi = atob(data.abi);
             $("#codeoutabi").text(codeabi);
+            localStorage.setItem('avmFile', data.avm);
         },
         "json" // The format the response should be in
       );
+    });
+    $('#btn').click(function () {
+
+        var blob = new Blob([localStorage.getItem('avmFile')]);
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "file.avm";
+        link.click();
     });
 
   p

@@ -1,28 +1,92 @@
 extends layout
 
 block content
-  - var title = title || "NeoCompiler.io"
-  h1= title
-  p Welcome to #{title}, an open-source initiative for providing easy access to compilers for NEO platform.
-  p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
-
   - var teste = "dXNpbmcgTmVvLlNtYXJ0Q29udHJhY3QuRnJhbWV3b3JrOwp1c2luZyBOZW8uU21hcnRDb250cmFjdC5GcmFtZXdvcmsuU2VydmljZXMuTmVvOwp1c2luZyBTeXN0ZW07CnVzaW5nIFN5c3RlbS5OdW1lcmljczsKCm5hbWVzcGFjZSBOZW9Db250cmFjdDEKewogICAgcHVibGljIGNsYXNzIENvbnRyYWN0MSA6IFNtYXJ0Q29udHJhY3QKICAgIHsKICAgICAgICBwdWJsaWMgc3RhdGljIHZvaWQgTWFpbigpCiAgICAgICAgewogICAgICAgICAgICBTdG9yYWdlLlB1dChTdG9yYWdlLkN1cnJlbnRDb250ZXh0LCAiSGVsbG8iLCAiV29ybGQiKTsKICAgICAgICB9CiAgICB9Cn0K"
-  - var teste2 = new Buffer(teste, 'base64').toString('ascii');
-  form(id="myform",action="/compilex")
-    textarea(id="code",name="codesend",rows='20', cols='100')=teste2
-    br
-    button(type="submit") Compile
-  p AVM (in hex):
-  textarea(id="codeoutavm",name="codeoutavm",rows='5', cols='100')="AVM (in hex)"
-  p
-    button(id="btn" type="submit") Download
-  p ABI:
-  textarea(id="codeoutabi",name="codeoutabi",rows='10', cols='100')="ABI (JSON format)"
-  p Compile Messages/Errors:
-  textarea(id="codeouterror",name="codeouterror",rows='20', cols='100')="Errors in code..."
-  script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
-  script.
-    $("#myform").submit(function(e) {
+    - var teste2 = new Buffer(teste, 'base64').toString('ascii');
+    .container-fluid
+      .row.content
+        .col-sm-3.sidenav
+          h4 Choose Compiler
+          |       
+          ul.nav.nav-pills.nav-stacked
+            li.active
+              a(href='#section1', data-toggle='tab') C#
+            |         
+            li
+              a(href='#section2', data-toggle='tab') Python
+            |         
+            li
+              a(href='#section3', data-toggle='tab') Java
+            |         
+            li
+              a(href='#section4', data-toggle='tab') Solidity
+          br
+        |     
+        .col-sm-9
+          h2 NeoCompiler.io
+          |       
+          h4
+            small
+              | Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.
+          |       
+          h4
+            small
+              | We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
+          br
+          |       
+          h4 Code:
+          |       
+          form(id='codeform', role='form')
+            .form-group
+              .tab-content
+                #section1.tab-pane.fade.in.active
+                  textarea.form-control(id='codecsharp', rows='20', cols='100')=teste2
+                |                   
+                #section2.tab-pane.fade
+                  textarea.form-control(id='codepython', rows='20', cols='100')="python code"
+                |                   
+                #section3.tab-pane.fade
+                  textarea.form-control(id='codejava', rows='20', cols='100')="java code"
+                |                   
+                #section4.tab-pane.fade
+                  textarea.form-control(id='codesolidity', rows='20', cols='100')="solidity code"
+                br
+                button.btn.btn-success(type="submit")="Compile"      
+          |       
+          br
+          br
+          |       
+          h4 AVM (in hex):
+          |       
+          form(id='avmform', role='form')
+            .form-group
+              textarea.form-control(id='codeavm', rows='5', cols='100')="AVM (in hex)"
+              br
+              button.btn.btn-success(type='submit')="Download"
+          |       
+          br
+          br
+          |       
+          h4 ABI:
+          |       
+          form(id='abiform', role='form')
+            .form-group
+              textarea.form-control(id='codeabi',rows='10', cols='100')="ABI (JSON format)"
+          |       
+          br
+          br
+          |       
+          h4 Compile Warning/Errors:
+          |       
+          form(id='warnerrform', role='form')
+            .form-group
+              textarea.form-control(id='codewarnerr',rows='20', cols='100')="Warning/Errors in code..."
+          |       
+          br
+          br
+    script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script.
+     $("#codeform").submit(function(e) {
       //alert("go");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
@@ -33,33 +97,20 @@ block content
         indata, // Serializes form data in standard format
         function(data) {
             var coderr = atob(data.output);
-            $("#codeouterror").text(coderr);
-            $("#codeoutavm").text(atob(data.avm));
+            $("#codewarnerr").text(coderr);
+            $("#codeavm").text(atob(data.avm));
             var codeabi = atob(data.abi);
-            $("#codeoutabi").text(codeabi);
+            $("#codeabi").text(codeabi);
             localStorage.setItem('avmFile', data.avm);
         },
         "json" // The format the response should be in
-      );
-    });
-    $('#btn').click(function () {
-
+       );
+     });
+     $("#avmform").submit(function (e) {
+        e.preventDefault();
         var blob = new Blob([localStorage.getItem('avmFile')]);
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = "file.avm";
         link.click();
-    });
-
-  p
-   | If you find this project useful, contribute with us at
-   a(href='https://github.com/igormcoelho/neocompiler.io') GitHub NeoCompiler.io
-   |  or donate some coins.
-   br
-   |  That will certainly help maintaining our servers,
-   |  improving the interface and extending the tool for many other languages.
-
-  p We are happy with your visit and hoping you may use it to create amazing stuff :)
-  p Copyleft 2017-2018
-  p MIT License
-  p Igor and Vitor Coelho
+     });

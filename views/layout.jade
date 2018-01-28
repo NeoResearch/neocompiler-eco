@@ -1,7 +1,57 @@
-doctype html
-html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+doctype html(lang='en')
+head
+    title neocompiler.io
+    |   
+    meta(charset='utf-8')
+    |   
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    |   
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    |   
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+    |   
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    |   
+    style.
+      /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+      .row.content {height: 2000px}
+      /* Set gray background color and 100% height */
+      .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+      }
+      /* Set black background color, white text and some padding */
+      footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+      }
+      /* On small screens, set height to 'auto' for sidenav and grid */
+      @media screen and (max-width: 767px) {
+      .sidenav {
+      height: auto;
+      padding: 15px;
+      }
+      .row.content {height: auto;}
+      }
   body
     block content
+    
+  footer.container-fluid
+    p
+      | If you find this project useful, contribute with us at 
+      a(href='https://github.com/igormcoelho/neocompiler.io') GitHub NeoCompiler.io
+      |  or donate some coins.
+      |   
+      p
+      | That will certainly help maintaining our servers, improving the interface and extending the tool for many other languages.
+      |   
+      p
+      | We are happy with your visit and hoping you may use it to create amazing stuff :)
+      |   
+      p Copyleft 2017-2018
+      |   
+      p MIT License
+      |   
+      p Igor and Vitor Coelho
+

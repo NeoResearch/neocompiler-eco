@@ -6,83 +6,55 @@ block content
     .container-fluid
       .row.content
         .col-sm-3.sidenav
-          h4 Choose Compiler
-          |       
+          h4 Choose Compiler       
           ul.nav.nav-pills.nav-stacked
             li.active
-              a(href='#section1', data-toggle='tab') C#
-            |         
+              a(href='#section1', data-toggle='tab') C#        
             li
-              a(href='#section2', data-toggle='tab') Python
-            |         
+              a(href='#section2', data-toggle='tab') Python         
             li
-              a(href='#section3', data-toggle='tab') Java
-            |         
+              a(href='#section3', data-toggle='tab') Java        
             li
-              a(href='#section4', data-toggle='tab') Solidity
-          br
-        |     
+              a(href='#section4', data-toggle='tab') Solidity     
         .col-sm-9
-          h2 NeoCompiler.io
-          |       
+          h2 NeoCompiler.io      
           h4
             small
-              | Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.
-          |       
+              Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.       
           h4
             small
-              | We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
-          br
-          |       
-          h4 Code:
-          |       
+              We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).      
+          h4 Code:       
           form(id='codeform', role='form')
             .form-group
               .tab-content
                 #section1.tab-pane.fade.in.active
-                  textarea.form-control(id='codecsharp', rows='20', cols='100')=teste2
-                |                   
+                  textarea.form-control(id='codecsharp', rows='20', cols='100')=teste2                   
                 #section2.tab-pane.fade
-                  textarea.form-control(id='codepython', rows='20', cols='100')="python code"
-                |                   
+                  textarea.form-control(id='codepython', rows='20', cols='100')="python code"                   
                 #section3.tab-pane.fade
-                  textarea.form-control(id='codejava', rows='20', cols='100')="java code"
-                |                   
+                  textarea.form-control(id='codejava', rows='20', cols='100')="java code"                   
                 #section4.tab-pane.fade
                   textarea.form-control(id='codesolidity', rows='20', cols='100')="solidity code"
                 br
                 button.btn.btn-success(type="submit")="Compile"      
-          |       
-          br
-          br
-          |       
-          h4 AVM (in hex):
-          |       
+          br       
+          h4 AVM (in hex):       
           form(id='avmform', role='form')
             .form-group
               textarea.form-control(id='codeavm', rows='5', cols='100')="AVM (in hex)"
               br
               button.btn.btn-success(type='submit')="Download"
-          |       
-          br
-          br
-          |       
-          h4 ABI:
-          |       
+          br       
+          h4 ABI:       
           form(id='abiform', role='form')
             .form-group
               textarea.form-control(id='codeabi',rows='10', cols='100')="ABI (JSON format)"
-          |       
-          br
-          br
-          |       
-          h4 Compile Warning/Errors:
-          |       
+          br       
+          h4 Compile Warning/Errors:       
           form(id='warnerrform', role='form')
             .form-group
-              textarea.form-control(id='codewarnerr',rows='20', cols='100')="Warning/Errors in code..."
-          |       
-          br
+              textarea.form-control(id='codewarnerr',rows='20', cols='100')="Warning/Errors in code..."       
           br
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
     script.

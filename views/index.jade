@@ -23,47 +23,45 @@ block content
               Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.       
           h4
             small
-              We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).      
-          h4 Code:       
-          form(id='codeform', role='form')
-            .form-group
-              .tab-content
-                #section1.tab-pane.fade.in.active
-                  textarea.form-control(id='codecsharp', rows='20', cols='100')=teste2                   
-                #section2.tab-pane.fade
-                  textarea.form-control(id='codepython', rows='20', cols='100')="python code"                   
-                #section3.tab-pane.fade
-                  textarea.form-control(id='codejava', rows='20', cols='100')="java code"                   
-                #section4.tab-pane.fade
-                  textarea.form-control(id='codesolidity', rows='20', cols='100')="solidity code"
-                br
-                button.btn.btn-success(type="submit")="Compile"      
-          br       
-          h4 AVM (in hex):       
-          form(id='avmform', role='form')
-            .form-group
-              textarea.form-control(id='codeavm', rows='5', cols='100')="AVM (in hex)"
-              br
-              button.btn.btn-success(type='submit')="Download"
-          br       
-          h4 ABI:       
-          form(id='abiform', role='form')
-            .form-group
-              textarea.form-control(id='codeabi',rows='10', cols='100')="ABI (JSON format)"
-          br       
-          h4 Compile Warning/Errors:       
-          form(id='warnerrform', role='form')
-            .form-group
-              textarea.form-control(id='codewarnerr',rows='20', cols='100')="Warning/Errors in code..."       
-          br
+              We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
+          form(id='myform', action='/compilex')       
+              h4 Code:       
+              .form-group
+                .tab-content
+                  #section1.tab-pane.fade.in.active
+                    textarea.form-control(id='codecsharp', rows='20', cols='100')=teste2                   
+                  #section2.tab-pane.fade
+                    textarea.form-control(id='codepython', rows='20', cols='100')="python code"                   
+                  #section3.tab-pane.fade
+                    textarea.form-control(id='codejava', rows='20', cols='100')="java code"                   
+                  #section4.tab-pane.fade
+                    textarea.form-control(id='codesolidity', rows='20', cols='100')="solidity code"
+                  br
+                  button.btn.btn-success(type="submit")="Compile"      
+                  br
+                  br
+                      
+                  h4 AVM (in hex):  
+                  textarea.form-control(id='codeavm', rows='5', cols='100')="AVM (in hex)"
+                  br
+                  button.btn.btn-success(type='submit')="Download"  
+                  br
+                  br
+                  
+                  h4 ABI:   
+                  textarea.form-control(id='codeabi',rows='10', cols='100')="ABI (JSON format)"
+                  br
+                  br
+                        
+                  h4 Compile Warning/Errors:
+                  textarea.form-control(id='codewarnerr',rows='20', cols='100')="Warning/Errors in code..." 
+                  br     
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
     script.
-     $("#codeform").submit(function(e) {
-      //alert("go");
+     $("#myform").submit(function(e) {
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
-      //alert("content send:"+indata+" path:"+$this.attr("action")+" pointer:"+$this);
       $.post(
         $this.attr("action"), // Gets the URL to sent the post to
         indata, // Serializes form data in standard format

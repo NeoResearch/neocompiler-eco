@@ -46,13 +46,13 @@ Get latest docker image id and set environment variable:
 * If you have ideas or issues, you can inform directly at github or contact us directly
 * Our team is currently formed by researchers/professors, so our time is very constrained... if you feel you can help us, don't hesitate!
 * We created a wallet specially for project donations. That can help us improve our servers and perhaps hire someone for improving graphical interfaces and developing many more interesting features. NEO wallet:
-AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg
+__AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 
 
 LICENSE MIT
 
-*neocompiler.io team*
+*NeoCompiler.io team*
 
-Igor and Vitor Coelho
+Original authors: [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
 
 Copyleft 2017-2018

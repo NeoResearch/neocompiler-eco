@@ -9,3 +9,4 @@ RUN rm -rf /opt/neo-python/Chains/privnet/*
 ADD w1.wallet /opt/neo-python/
 ADD unsafeprompt.py /opt/neo-python/
 ADD LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
+ADD execimportcontract.sh /

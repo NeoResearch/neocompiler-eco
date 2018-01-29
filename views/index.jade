@@ -32,31 +32,31 @@ block content
                     #section1.tab-pane.fade.in.active
                         textarea.form-control(id='code', name='codesend', rows='20', cols='100')=code     
                     #section2.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend', rows='20', cols='100')="Python"            
+                        textarea.form-control(id='code', name='codesend_python', rows='20', cols='100')="Python"            
                     #section3.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend', rows='20', cols='100')="Java"         
+                        textarea.form-control(id='code', name='codesend_java', rows='20', cols='100')="Java"         
                     #section4.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend', rows='20', cols='100')="Solidity"
+                        textarea.form-control(id='code', name='codesend_sol', rows='20', cols='100')="Solidity"
                   br
                   button.btn.btn-success(type="submit")="Compile"      
                   br
                   br
                       
-                  h4 AVM (in hex):  
-                  textarea.form-control(id='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
-                  br
-                  button.btn.btn-success(type='submit')="Download"  
-                  br
-                  br
+          h4 AVM (in hex):  
+          textarea.form-control(id='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
+          br
+          button.btn.btn-success(type='submit')="Download"  
+          br
+          br
                   
-                  h4 ABI:   
-                  textarea.form-control(id='codeabi',rows='10', cols='100', placeholder="ABI (JSON format)")
-                  br
-                  br
+          h4 ABI:   
+          textarea.form-control(id='codeabi',rows='10', cols='100', placeholder="ABI (JSON format)")
+          br
+          br
                         
-                  h4 Compile Warning/Errors:
-                  textarea.form-control(id='codewarnerr',rows='20', cols='100', placeholder="Warning/Errors in code...")
-                  br    
+          h4 Compile Warning/Errors:
+          textarea.form-control(id='codewarnerr',rows='20', cols='100', placeholder="Warning/Errors in code...")
+          br    
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
     script.
      $("#myform").submit(function(e) {

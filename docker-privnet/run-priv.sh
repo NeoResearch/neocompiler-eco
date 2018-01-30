@@ -1,4 +1,9 @@
-docker run -d --name neo-privnet-with-gas --rm -p 20333-20336:20333-20336/tcp -p 30333-30336:30333-30336/tcp $DOCKERPRIV
+if [ -z ${DOCKERPRIV+x} ]; then 
+   echo "DOCKERPRIV var is unset";
+else
+   echo "DOCKERPRIV=$DOCKERPRIV";
+   docker run -d --name neo-privnet-with-gas --rm -p 20333-20336:20333-20336/tcp -p 30333-30336:30333-30336/tcp $DOCKERPRIV
 
-# open wallet example:
-# python3 unsafeprompt.py -p -e 6f70656e2077616c6c65742077312e77616c6c65740a
+   # open wallet example:
+   # python3 unsafeprompt.py -p -e 6f70656e2077616c6c65742077312e77616c6c65740a
+fi

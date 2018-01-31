@@ -51,7 +51,7 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 
 LICENSE MIT
 
-*NeoCompiler.io team*
+*NeoCompiler.io team* (part of NeoResearch team)
 
 Original authors: [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
 

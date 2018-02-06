@@ -49,7 +49,7 @@ block content
                   h4 AVM (in hex):  
                   textarea.form-control(id='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
                   br
-                  button.btn.btn-success(id='btn_download')="Download AVM"  
+                  button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"  
                   br
                   br
                           
@@ -89,6 +89,8 @@ block content
             $("#codewarnerr").text(coderr);
             $("#codeavm").text(atob(data.avm));
             localStorage.setItem('avmFile', data.avm);
+            $("#btn_download")[0].style="";
+            
             var codeabi = atob(data.abi);
             $("#codeabi").text(codeabi);
             chash=JSON.parse($('#codeabi').text())["hash"];

@@ -620,7 +620,7 @@ class PromptInterface(object):
 
         if args and len(args) > 0:
             tx, fee, results, num_ops = TestInvokeContract(self.Wallet, args)
-            f = open(args[0]+".log", "a")
+            f = open(args[0]+".invoke", "w")
             if tx is not None and results is not None:
                 print("\n-------------------------------------------------------------------------------------------------------------------------------------", file=f)
                 print("Test invoke successful", file=f)

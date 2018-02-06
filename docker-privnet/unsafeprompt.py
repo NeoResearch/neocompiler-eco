@@ -620,18 +620,20 @@ class PromptInterface(object):
 
         if args and len(args) > 0:
             tx, fee, results, num_ops = TestInvokeContract(self.Wallet, args)
-
+            f = open(args[0]+".log", "a")
             if tx is not None and results is not None:
-                print("\n-------------------------------------------------------------------------------------------------------------------------------------")
-                print("Test invoke successful")
-                print("Total operations: %s " % num_ops)
-                print("Results %s " % [str(item) for item in results])
-                print("Invoke TX gas cost: %s " % (tx.Gas.value / Fixed8.D))
-                print("Invoke TX Fee: %s " % (fee.value / Fixed8.D))
-                print("-------------------------------------------------------------------------------------------------------------------------------------\n")
+                print("\n-------------------------------------------------------------------------------------------------------------------------------------", file=f)
+                print("Test invoke successful", file=f)
+                print("Total operations: %s " % num_ops, file=f)
+                print("Results %s " % [str(item) for item in results], file=f)
+                print("Invoke TX gas cost: %s " % (tx.Gas.value / Fixed8.D), file=f)
+                print("Invoke TX Fee: %s " % (fee.value / Fixed8.D), file=f)
+                print("-------------------------------------------------------------------------------------------------------------------------------------\n", file=f)
                 print("Enter your password to continue and invoke on the network\n")
+                f.close();
 
-                passwd = prompt("[password]> ", is_password=True)
+                passwd = 'coz'
+                #passwd = prompt("[password]> ", is_password=True)
                 if not self.Wallet.ValidatePassword(passwd):
                     return print("Incorrect password")
 
@@ -763,11 +765,19 @@ class PromptInterface(object):
         print_tokens(tokens, self.token_style)
         print("\n")
 
+        timebase = time.time()
+
         while self.go_on:
 
             try:
                 if len(self.mycommands) > 0:
-                    result = self.mycommands.pop()
+                    timenow = time.time()
+                    if timenow - timebase > 3: #wait 3 seconds
+                        timebase = timenow
+                        result = self.mycommands.pop()
+                    else:
+                        time.sleep(0.5) # slow refresh
+                        continue
                     #time.sleep(3)
                 else:
                     result = prompt("neo> ",
@@ -794,6 +804,7 @@ class PromptInterface(object):
                     command = command.lower()
 
                     if command == 'quit' or command == 'exit':
+                        time.sleep(2) # consolidate chain
                         self.quit()
                     elif command == 'help':
                         self.help()

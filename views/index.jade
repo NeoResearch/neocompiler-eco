@@ -77,6 +77,15 @@ block content
           br    
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
     script.
+     function hex2bin(hex) {
+      var bytes = [];
+      for(var i=0; i< hex.length-1; i+=2) {
+        //console.log("process:'"+hex.substr(i, 2)+"'");
+        bytes.push(parseInt(hex.substr(i, 2), 16));
+      }
+      str = String.fromCharCode.apply(String, bytes);
+      return str;
+     }
      $("#myform").submit(function(e) {
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
@@ -87,8 +96,9 @@ block content
         function(data) {
             var coderr = atob(data.output);
             $("#codewarnerr").text(coderr);
-            $("#codeavm").text(atob(data.avm));
-            localStorage.setItem('avmFile', data.avm);
+            var hexcodeavm = atob(data.avm);
+            $("#codeavm").text(hexcodeavm);
+            localStorage.setItem('avmFile', hex2bin( hexcodeavm.replace(/(\r\n|\n|\r)/gm,"") ) );
             $("#btn_download")[0].style="";
             
             var codeabi = atob(data.abi);
@@ -108,7 +118,7 @@ block content
         "json" // The format the response should be in
        );
      });
-     $("#avmform").submit(function (e) {
+     $("#btn_download").click(function (e) {
         e.preventDefault();
         var blob = new Blob([localStorage.getItem('avmFile')]);
         var link = document.createElement('a');

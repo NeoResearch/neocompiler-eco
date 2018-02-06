@@ -11,3 +11,4 @@ ADD unsafeprompt.py /opt/neo-python/
 ADD LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
 ADD execimportcontract.sh /
 ADD exectestinvokecontract.sh /
+ADD execsearchcontract.sh /

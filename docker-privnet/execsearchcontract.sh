@@ -14,12 +14,8 @@ if (( $# == 1 )); then
    strshowwallet=`echo "wallet" | xxd -p`
    strexit=`echo "exit" | xxd -p`
    strsearch=`echo "contract $lhash" | xxd -p -c 256`
-   strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strrebuild,$stropen
-
-   echo "TESTINVOKE OUTPUT:"
-   cat $lhash.invoke
+   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strshowwallet,$strrebuild,$stropen
 fi
 
 #example: ./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo=

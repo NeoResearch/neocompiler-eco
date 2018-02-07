@@ -11,6 +11,7 @@ if (( $# == 6 )); then
    echo "$2" | base64 --decode | xxd -p -r > $lhash.avm
    parm=`echo $3 | base64 --decode`
    rv=`echo $4 | base64 --decode`
+   rv=`echo b\"$rv\"`
    op1=`echo $5 | base64 --decode`
    op2=`echo $6 | base64 --decode`
 

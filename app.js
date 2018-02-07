@@ -35,6 +35,10 @@ app.use('/compile', compile);
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
+//var cors = require('cors');
+//app.use(cors());
+
+
 app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for
   // req.body -- contains form data
@@ -58,6 +62,45 @@ app.post('/compilex', function(req, res) {
   res.send(outp);
  }
 });
+
+app.post('/deployx', function(req, res) {
+  var codeavm = new Buffer(req.body.codeavm, 'ascii').toString('base64');
+  var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');
+  var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
+  var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
+
+  var cbx_storage = "False";
+  if(req.body["cbx_storage"])
+     cbx_storage = "True";
+  cbx_storage=new Buffer(cbx_storage, 'ascii').toString('base64');
+
+  var cbx_dynamicinvoke = "False";
+  if(req.body["cbx_dynamicinvoke"])
+     cbx_dynamicinvoke = "True";
+  cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
+
+  var cmddocker = 'docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh '+
+       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + '" | base64';
+  var outp = "";
+
+  console.log(cmddocker);
+  outp = require('child_process').execSync(cmddocker).toString();
+  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+
+  //outp_str = new Buffer(outp, 'base64').toString('ascii');
+  //outp = new Buffer(outp_str, 'ascii').toString('base64');
+  //console.log(outp_str);
+
+  outp = '{"output":"'+outp+'"}';
+  //console.log(outp);
+  //res.send(JSON.stringify(outp));
+  //res.send(outp);
+  //res.send(JSON.parse(outp));
+  res.send(JSON.parse(outp));
+});
+
+
+//docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK" > saida.log
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -47,7 +47,7 @@ block content
           form(id='formdeploy', action='/deployx')           
               .form-group
                   h4 AVM (in hex):  
-                  textarea.form-control(id='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
+                  textarea.form-control(id='codeavm', name='codeavm' rows='5', cols='100', placeholder="AVM (in hex)")
                   br
                   button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"  
                   br
@@ -58,9 +58,9 @@ block content
                   br
                   br
                   h4 Deploy contract to private net:
-                  input(id='contracthash', placeholder="Script Hash")
-                  input(id='contractparams', placeholder='"Parameters (in quotes)"')
-                  input(id='contractreturn', placeholder="Return Code (Void=00, Bool=01, ...)")
+                  input(id='contracthash', name='contracthash' placeholder="Script Hash")
+                  input(id='contractparams', name='contractparams' placeholder='"Parameters (in quotes)"')
+                  input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")
                   input(type="checkbox", name="cbx_storage")
                   | Storage 
                   input(type="checkbox", name="cbx_dynamicinvoke")
@@ -117,6 +117,22 @@ block content
         },
         "json" // The format the response should be in
        );
+     });
+     $("#formdeploy").submit(function(e) {
+      e.preventDefault(); // Prevents the page from refreshing
+      var $this = $(this); // `this` refers to the current form element
+      var indata = $(this).serialize();
+      $.post(
+        $this.attr("action"), // Gets the URL to sent the post to
+        indata, // Serializes form data in standard format
+        function(data) {
+          //console.log("output="+data);
+          var deploymsg = atob(data.output);
+          $("#contractmessages").text(deploymsg);
+        },
+        "json" // The format the response should be in
+       );
+       alert("the deploy action in private net can take up to 10 seconds...");
      });
      $("#btn_download").click(function (e) {
         e.preventDefault();

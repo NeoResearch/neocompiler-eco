@@ -1,0 +1,51 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v1.0",
+    "signature": "35d45b3253e3800f2af1589a3c0443466950aabc"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v1.0": {
+      "neon/2.0.3.1": {
+        "dependencies": {
+          "antshares.monocecil": "1.0.0",
+          "Neo.VM": "2.1.0"
+        },
+        "runtime": {
+          "neon.dll": {}
+        }
+      },
+      "antshares.monocecil/1.0.0": {
+        "runtime": {
+          "lib/netstandard1.6/antshares.monocecil.dll": {}
+        }
+      },
+      "Neo.VM/2.1.0": {
+        "runtime": {
+          "lib/netstandard1.6/Neo.VM.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "neon/2.0.3.1": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "antshares.monocecil/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j2w36zwDWYQBcXn66JjIvNq3+9d4qgKJ71azPcz/uBGOEM//WRu6LfWPrRTbji8ukIKQp2WAiXD2QYsu/teeEQ==",
+      "path": "antshares.monocecil/1.0.0",
+      "hashPath": "antshares.monocecil.1.0.0.nupkg.sha512"
+    },
+    "Neo.VM/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-laeL1s9WLQQZhoq3G50UDGek/t2FPjpa652RwLbwHkCAjZ6m4ri0oEVGDmolWtCyubRiYwJhsSrLIrNgGCmIQQ==",
+      "path": "neo.vm/2.1.0",
+      "hashPath": "neo.vm.2.1.0.nupkg.sha512"
+    }
+  }
+}

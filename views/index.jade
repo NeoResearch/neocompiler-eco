@@ -32,6 +32,7 @@ block content
                     #section1.tab-pane.fade.in.active
                         button.btn.btn-info(id="btn_cs_ex1")="HelloWorld.cs"
                         button.btn.btn-info(id="btn_cs_ex2")="ICO_Template.cs"
+                        button.btn.btn-info(id="btn_cs_ex3")="MyCheckWitness.cs"
                         textarea.form-control(id='code', name='codesend', rows='15', cols='100')=code
                     #section2.tab-pane.fade
                         textarea.form-control(id='code_python', name='codesend_python', rows='15', cols='100')="Python"            
@@ -110,6 +111,8 @@ block content
             cparams=JSON.parse($('#codeabi').text())["functions"][0]["parameters"];
             $("#contractparams")[0].value = '""';
             rettype=JSON.parse($('#codeabi').text())["functions"][0]["returntype"];
+            // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
+            // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
             if(rettype=="Void")
               $("#contractreturn")[0].value = '00';
             else if (rettype=="Bool")
@@ -149,7 +152,12 @@ block content
          $( "#code" )[0].value = data;
        });
      });
-     
+     $("#btn_cs_ex3").click(function (e) {
+       e.preventDefault();
+       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs", function( data ) {
+         $( "#code" )[0].value = data;
+       });
+     });
      
      $("#btn_download").click(function (e) {
         e.preventDefault();

@@ -229,9 +229,10 @@ class PromptInterface(object):
                 passwd1 = prompt("[Password 1]> ", is_password=True)
                 passwd2 = prompt("[Password 2]> ", is_password=True)
 
-                if passwd1 != passwd2 or len(passwd1) < 10:
-                    print("please provide matching passwords that are at least 10 characters long")
-                    return
+                ### remove check to allow 'coz' password
+                #if passwd1 != passwd2 or len(passwd1) < 10:
+                #    print("please provide matching passwords that are at least 10 characters long")
+                #    return
 
                 try:
                     self.Wallet = UserWallet.Create(path=path, password=passwd1)

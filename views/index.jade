@@ -113,12 +113,31 @@ block content
             rettype=JSON.parse($('#codeabi').text())["functions"][0]["returntype"];
             // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
             // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
-            if(rettype=="Void")
+            
+            if(rettype=="Signature")
               $("#contractreturn")[0].value = '00';
-            else if (rettype=="Bool")
+            else if (rettype=="Boolean")
               $("#contractreturn")[0].value = '01';
+            else if (rettype=="Integer")
+              $("#contractreturn")[0].value = '02';
+            else if (rettype=="Hash160")
+              $("#contractreturn")[0].value = '03';
+            else if (rettype=="Hash256")
+              $("#contractreturn")[0].value = '04';
+            else if (rettype=="ByteArray")
+              $("#contractreturn")[0].value = '05';
+            else if (rettype=="PublicKey")
+              $("#contractreturn")[0].value = '06';
+            else if (rettype=="String")
+              $("#contractreturn")[0].value = '07';
+            else if (rettype=="Array")
+              $("#contractreturn")[0].value = '10'; // object[]
+            else if (rettype=="InteropInterface")
+              $("#contractreturn")[0].value = 'f0';
+            else if(rettype=="Void")
+              $("#contractreturn")[0].value = 'ff';
             else
-              $("#contractreturn")[0].value = '00';
+              $("#contractreturn")[0].value = '05'; // assume ByteArray
         },
         "json" // The format the response should be in
        );

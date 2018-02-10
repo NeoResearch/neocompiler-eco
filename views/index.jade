@@ -30,13 +30,15 @@ block content
                   h4 Code:
                   .tab-content
                     #section1.tab-pane.fade.in.active
+                        button.btn.btn-info(id="btn_cs_ex1")="HelloWorld.cs"
+                        button.btn.btn-info(id="btn_cs_ex2")="ICO_Template.cs"
                         textarea.form-control(id='code', name='codesend', rows='15', cols='100')=code
                     #section2.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend_python', rows='15', cols='100')="Python"            
+                        textarea.form-control(id='code_python', name='codesend_python', rows='15', cols='100')="Python"            
                     #section3.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend_java', rows='15', cols='100')="Java"         
+                        textarea.form-control(id='code_java', name='codesend_java', rows='15', cols='100')="Java"         
                     #section4.tab-pane.fade
-                        textarea.form-control(id='code', name='codesend_sol', rows='15', cols='100')="Solidity"
+                        textarea.form-control(id='code_sol', name='codesend_sol', rows='15', cols='100')="Solidity"
                   br
                   button.btn.btn-success(type="submit")="Compile"      
                   br
@@ -134,6 +136,21 @@ block content
        );
        alert("the deploy action in private net can take up to 10 seconds...");
      });
+     
+     $("#btn_cs_ex1").click(function (e) {
+       e.preventDefault();
+       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs", function( data ) {
+         $( "#code" )[0].value = data;
+       });
+     });
+     $("#btn_cs_ex2").click(function (e) {
+       e.preventDefault();
+       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs", function( data ) {
+         $( "#code" )[0].value = data;
+       });
+     });
+     
+     
      $("#btn_download").click(function (e) {
         e.preventDefault();
         var blob = new Blob([localStorage.getItem('avmFile')]);

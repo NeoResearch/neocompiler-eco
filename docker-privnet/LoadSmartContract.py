@@ -9,7 +9,7 @@ from neo.Prompt.Utils import get_arg
 from neo.Cryptography.Crypto import Crypto
 from neo.Core.Blockchain import Blockchain
 from neo.SmartContract.Contract import Contract
-
+from neo.BigInteger import BigInteger
 
 def ImportContractAddr(wallet, args):
 
@@ -208,12 +208,12 @@ def GatherContractDetails(function_code, prompter):
     f.close()
 
     return generate_deploy_script(function_code.Script, name, version, author, email, description,
-                                  function_code.ContractProperties, function_code.ReturnType,
+                                  function_code.ContractProperties, ord(function_code.ReturnType),
                                   function_code.ParameterList)
 
 
 def generate_deploy_script(script, name='test', version='test', author='test', email='test',
-                           description='test', contract_properties=0, return_type=b'\xff', parameter_list=[]):
+                           description='test', contract_properties=0, return_type=255, parameter_list=[]):
     sb = ScriptBuilder()
 
     plist = parameter_list
@@ -228,7 +228,7 @@ def generate_deploy_script(script, name='test', version='test', author='test', e
     sb.push(binascii.hexlify(version.encode('utf-8')))
     sb.push(binascii.hexlify(name.encode('utf-8')))
     sb.push(contract_properties)
-    sb.push(bytearray(return_type))
+    sb.push(BigInteger(return_type))
     sb.push(plist)
     sb.WriteVarData(script)
     sb.EmitSysCall("Neo.Contract.Create")

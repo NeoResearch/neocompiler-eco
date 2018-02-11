@@ -193,11 +193,8 @@ class PromptInterface(object):
                     print("wallet file not found")
                     return
 
-                passwd = ""
-                if path == "w1.wallet":
-                    passwd = 'coz'
-                else:
-                    passwd = prompt("[Password]> ", is_password=True)
+                passwd = 'coz'  #always use this password
+                #passwd = prompt("[Password]> ", is_password=True)
 
                 try:
                     self.Wallet = UserWallet.Open(path, passwd)

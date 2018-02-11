@@ -68,8 +68,16 @@ def LoadContract(args):
 
     return_type = parse_param(args[2], ignore_int=True, prefer_hex=False)
 
-    if type(return_type) is str:
-        return_type = return_type.encode('utf-8')
+    #if type(return_type) is str:
+    return_type = str(return_type)
+    if len(return_type) == 0:
+        return_type = "00"
+    if len(return_type) == 1:
+        return_type = "0"+return_type
+    if len(return_type) > 2:
+        return_type = "00"
+    return_type = return_type.encode('utf-8')
+
 
     needs_storage = bool(parse_param(args[3]))
     needs_dynamic_invoke = bool(parse_param(args[4]))
@@ -200,7 +208,7 @@ def GatherContractDetails(function_code, prompter):
     f.close()
 
     return generate_deploy_script(function_code.Script, name, version, author, email, description,
-                                  function_code.ContractProperties, ord(function_code.ReturnType),
+                                  function_code.ContractProperties, function_code.ReturnType,
                                   function_code.ParameterList)
 
 
@@ -220,7 +228,7 @@ def generate_deploy_script(script, name='test', version='test', author='test', e
     sb.push(binascii.hexlify(version.encode('utf-8')))
     sb.push(binascii.hexlify(name.encode('utf-8')))
     sb.push(contract_properties)
-    sb.push(return_type)
+    sb.push(bytearray(return_type))
     sb.push(plist)
     sb.WriteVarData(script)
     sb.EmitSysCall("Neo.Contract.Create")

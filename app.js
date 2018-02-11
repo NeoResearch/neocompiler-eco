@@ -68,6 +68,9 @@ app.post('/deployx', function(req, res) {
   var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
+  var wallet_deploy = "";
+  if((req.body.wallet_deploy == "w1.wallet")||(req.body.wallet_deploy == "w2.wallet")||(req.body.wallet_deploy == "w3.wallet")||(req.body.wallet_deploy == "w4.wallet"))
+     wallet_deploy = new Buffer(req.body.wallet_deploy, 'ascii').toString('base64');
 
   var cbx_storage = "False";
   if(req.body["cbx_storage"])
@@ -80,10 +83,10 @@ app.post('/deployx', function(req, res) {
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh '+
-       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + '" | base64';
+       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '" | base64';
   var outp = "";
 
-  console.log(cmddocker);
+  //console.log(cmddocker);
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
 

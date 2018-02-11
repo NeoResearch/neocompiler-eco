@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # $1 == HASH
+# import contract $2 $3 $4 $5 $6
 # import contract hash.avm "params" 01 False False
+# $7 == w1.wallet
 
-if (( $# == 6 )); then
+if (( $# == 7 )); then
+   wallet=`echo "$7" | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"
@@ -11,11 +14,11 @@ if (( $# == 6 )); then
    echo "$2" | base64 --decode | xxd -p -r > $lhash.avm
    parm=`echo $3 | base64 --decode`
    rv=`echo $4 | base64 --decode`
-   rv=`echo b\"$rv\"`
+   rv=`echo \"$rv\"`
    op1=`echo $5 | base64 --decode`
    op2=`echo $6 | base64 --decode`
 
-   stropen=`echo "open wallet w1.wallet" | xxd -p`
+   stropen=`echo "open wallet $wallet" | xxd -p`
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
 

@@ -78,7 +78,15 @@ block content
                   button.btn.btn-success(type="submit")="Deploy"      
                   br
                   br
-                      
+          form(id='formsearch', action='/searchx')           
+            .form-group
+                h4 Search contract in private net:
+                input(id='contracthash_search', name='contracthash_search' placeholder="Script Hash")
+                button.btn.btn-success(type="submit")="Search by hash"      
+                br
+                br
+
+            
                         
           h4 Private Net Messages:
           textarea.form-control(id='contractmessages',rows='15', cols='100', placeholder="Contract messages...")
@@ -113,6 +121,7 @@ block content
             $("#codeabi").text(codeabi);
             chash=JSON.parse($('#codeabi').text())["hash"];
             $("#contracthash")[0].value = chash.substr(2,chash.length);
+            $("#contracthash_search")[0].value = $("#contracthash")[0].value;
             cparams=JSON.parse($('#codeabi').text())["functions"][0]["parameters"];
             $("#contractparams")[0].value = '""';
             rettype=JSON.parse($('#codeabi').text())["functions"][0]["returntype"];
@@ -146,6 +155,23 @@ block content
         },
         "json" // The format the response should be in
        );
+     });
+     
+     $("#formsearch").submit(function(e) {
+      e.preventDefault(); // Prevents the page from refreshing
+      var $this = $(this); // `this` refers to the current form element
+      var indata = $(this).serialize();
+      $.post(
+        $this.attr("action"), // Gets the URL to sent the post to
+        indata, // Serializes form data in standard format
+        function(data) {
+          //console.log("output="+data);
+          var deploymsg = atob(data.output);
+          $("#contractmessages").text(deploymsg);
+        },
+        "json" // The format the response should be in
+       );
+       alert("the search action in private net can take up to 5 seconds...");
      });
      $("#formdeploy").submit(function(e) {
       e.preventDefault(); // Prevents the page from refreshing

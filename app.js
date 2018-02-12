@@ -102,6 +102,17 @@ app.post('/deployx', function(req, res) {
   res.send(JSON.parse(outp));
 });
 
+app.post('/searchx', function(req, res) {
+  var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
+  var cmddocker = 'docker exec -t neo-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
+       contracthash_search + '" | base64';
+  var outp = "";
+
+  outp = require('child_process').execSync(cmddocker).toString();
+  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  outp = '{"output":"'+outp+'"}';
+  res.send(JSON.parse(outp));
+});
 
 //docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK" > saida.log
 

@@ -45,6 +45,7 @@ block content
                   br
                   h4 Compile Warning/Errors:
                   textarea.form-control(id='codewarnerr',rows='15', cols='100', placeholder="Warning/Errors in code...")="" 
+                  p *This is beta software: ConvertTask will return "FAIL" even when everything is fine. Sorry for this. If it returns "0 errors" that's OK, just ignore this message for now :)
                   br
 
           form(id='formdeploy', action='/deployx')           
@@ -52,7 +53,8 @@ block content
                   h4 AVM (in hex):  
                   textarea.form-control(id='codeavm', name='codeavm' rows='5', cols='100', placeholder="AVM (in hex)")
                   br
-                  button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"  
+                  button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"
+                  p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)  
                   br
                   br
                           
@@ -85,6 +87,20 @@ block content
                 button.btn.btn-success(type="submit")="Search by hash"      
                 br
                 br
+          form(id='forminvoke', action='/invokex')           
+            .form-group
+                h4 Invoke contract in private net:
+                input(id='invokehash', name='invokehash' placeholder="Script Hash")
+                input(id='invokeparams', name='invokeparams' placeholder="Script Params")
+                select(name='wallet_invoke')
+                  option w1.wallet
+                  option w2.wallet
+                  option w3.wallet
+                  option w4.wallet
+                button.btn.btn-success(type="submit")="Invoke by hash"      
+                br
+                br
+
 
             
                         
@@ -103,6 +119,7 @@ block content
       return str;
      }
      $("#myform").submit(function(e) {
+      $("#codewarnerr").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -122,6 +139,8 @@ block content
             chash=JSON.parse($('#codeabi').text())["hash"];
             $("#contracthash")[0].value = chash.substr(2,chash.length);
             $("#contracthash_search")[0].value = $("#contracthash")[0].value;
+            $("#invokehash")[0].value = $("#contracthash")[0].value;
+            $("#invokeparams")[0].value = "\"\"";
             cparams=JSON.parse($('#codeabi').text())["functions"][0]["parameters"];
             $("#contractparams")[0].value = '""';
             rettype=JSON.parse($('#codeabi').text())["functions"][0]["returntype"];
@@ -158,6 +177,7 @@ block content
      });
      
      $("#formsearch").submit(function(e) {
+      $("#contractmessages").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -171,9 +191,11 @@ block content
         },
         "json" // The format the response should be in
        );
-       alert("the search action in private net can take up to 5 seconds...");
+       alert("the search action in private net can take up to 30 seconds... time for a coffee :)");
      });
-     $("#formdeploy").submit(function(e) {
+     
+     $("#forminvoke").submit(function(e) {
+      $("#contractmessages").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -187,7 +209,25 @@ block content
         },
         "json" // The format the response should be in
        );
-       alert("the deploy action in private net can take up to 10 seconds...");
+       alert("the invoke action in private net can take up to 30 seconds... time for a coffee :)");
+     });
+     
+     $("#formdeploy").submit(function(e) {
+      $("#contractmessages").text("");
+      e.preventDefault(); // Prevents the page from refreshing
+      var $this = $(this); // `this` refers to the current form element
+      var indata = $(this).serialize();
+      $.post(
+        $this.attr("action"), // Gets the URL to sent the post to
+        indata, // Serializes form data in standard format
+        function(data) {
+          //console.log("output="+data);
+          var deploymsg = atob(data.output);
+          $("#contractmessages").text(deploymsg);
+        },
+        "json" // The format the response should be in
+       );
+       alert("the deploy action in private net can take up to 30 seconds... time for a coffee :)");
      });
      
      $("#btn_cs_ex1").click(function (e) {

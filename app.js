@@ -89,16 +89,7 @@ app.post('/deployx', function(req, res) {
   //console.log(cmddocker);
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-
-  //outp_str = new Buffer(outp, 'base64').toString('ascii');
-  //outp = new Buffer(outp_str, 'ascii').toString('base64');
-  //console.log(outp_str);
-
   outp = '{"output":"'+outp+'"}';
-  //console.log(outp);
-  //res.send(JSON.stringify(outp));
-  //res.send(outp);
-  //res.send(JSON.parse(outp));
   res.send(JSON.parse(outp));
 });
 
@@ -113,6 +104,27 @@ app.post('/searchx', function(req, res) {
   outp = '{"output":"'+outp+'"}';
   res.send(JSON.parse(outp));
 });
+
+app.post('/invokex', function(req, res) {
+  console.log("hash:"+req.body.invokehash+" params:"+req.body.invokeparams);
+  console.log("wallet:"+req.body.wallet_invoke);
+  var invokehash = new Buffer(req.body.invokehash, 'ascii').toString('base64');
+  var invokeparams = new Buffer(req.body.invokeparams, 'ascii').toString('base64');
+  var wallet_invoke = "";
+  if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
+     wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
+
+  var cmddocker = 'docker exec -t neo-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
+       invokehash+' '+ invokeparams + ' ' + wallet_invoke + '" | base64';
+  var outp = "";
+
+  console.log(cmddocker);
+  outp = require('child_process').execSync(cmddocker).toString();
+  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  outp = '{"output":"'+outp+'"}';
+  res.send(JSON.parse(outp));
+});
+
 
 //docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK" > saida.log
 

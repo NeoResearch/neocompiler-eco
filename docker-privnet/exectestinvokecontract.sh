@@ -1,20 +1,23 @@
 #!/bin/bash
 
 # $1 == HASH
-# import contract hash.avm "params" 01 False False
+# $2 == PARAMS
+# testinvoke $1 $2
+# $3 == WALLET
 
-if (( $# == 1 )); then
+if (( $# == 3 )); then
+   wallet=`echo "$3" | base64 --decode`
+   parm=`echo $2 | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"
    cd /opt/neo-python/
 
-   stropen=`echo "open wallet w1.wallet" | xxd -p`
+   stropen=`echo "open wallet $wallet" | xxd -p`
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
    strexit=`echo "exit" | xxd -p`
-   strsearch=`echo "contract $lhash" | xxd -p -c 256`
-   strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
+   strinvoke=`echo "testinvoke $lhash $parm" | xxd -p -c 256`
 
    python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strrebuild,$stropen
 

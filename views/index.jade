@@ -91,6 +91,7 @@ block content
                     option w4.wallet
                   button.btn.btn-success(type="submit")="Deploy"      
                   br
+                  p Hex code advices:  Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
                   br
           form(id='formsearch', action='/searchx')           
             .form-group
@@ -130,6 +131,36 @@ block content
       str = String.fromCharCode.apply(String, bytes);
       return str;
      }
+     
+     // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
+     // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
+     function getHexForType(stype) {
+       if(stype=="Signature")
+         return '00';
+       else if (stype=="Boolean")
+         return '01';
+       else if (stype=="Integer")
+         return '02';
+       else if (stype=="Hash160")
+         return '03';
+       else if (stype=="Hash256")
+         return '04';
+       else if (stype=="ByteArray")
+         return '05';
+       else if (stype=="PublicKey")
+         return '06';
+       else if (stype=="String")
+         return '07';
+       else if (stype=="Array")
+         return '10'; // object[]
+       else if (stype=="InteropInterface")
+         return 'f0';
+       else if(stype=="Void")
+         return 'ff';
+       else
+         return '05';
+     }
+     
      $("#myform").submit(function(e) {
       $("#codewarnerr").text("");
       e.preventDefault(); // Prevents the page from refreshing
@@ -152,37 +183,33 @@ block content
             $("#contracthash")[0].value = chash.substr(2,chash.length);
             $("#contracthash_search")[0].value = $("#contracthash")[0].value;
             $("#invokehash")[0].value = $("#contracthash")[0].value;
+            // parse ABI json
+            jsonABI = JSON.parse($('#codeabi').text());
+            console.log("Parsing ABI json");
+            // look for Main function
+            var i = 0; 
+            for(i = 0; i<jsonABI["functions"].length; i++)
+                if( jsonABI["functions"][i]["name"] == "Main" ) {
+                    console.log("Found function 'Main' with id="+i);
+                    break;
+                }
+            // get parameters
+            $("#contractparams")[0].value = "\"";
+            var j = 0;
+            console.log("Parameter count:"+jsonABI["functions"][i]["parameters"].length);
+            for(j = 0; j<jsonABI["functions"][i]["parameters"].length; j++) {
+               var phex=getHexForType(jsonABI["functions"][i]["parameters"][j]["type"]);
+               console.log("parameter["+j+"]: "+jsonABI["functions"][i]["parameters"][j]["type"]+" -> hex("+phex+")");
+               $("#contractparams")[0].value += phex;
+            }
+            $("#contractparams")[0].value += "\"";
+            // set invoke params to many empty strings (at least one is desirable for now)
             $("#invokeparams")[0].value = "\"\"";
-            cparams=JSON.parse($('#codeabi').text())["functions"][0]["parameters"];
-            $("#contractparams")[0].value = '""';
-            rettype=JSON.parse($('#codeabi').text())["functions"][0]["returntype"];
-            // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
-            // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
-            
-            if(rettype=="Signature")
-              $("#contractreturn")[0].value = '00';
-            else if (rettype=="Boolean")
-              $("#contractreturn")[0].value = '01';
-            else if (rettype=="Integer")
-              $("#contractreturn")[0].value = '02';
-            else if (rettype=="Hash160")
-              $("#contractreturn")[0].value = '03';
-            else if (rettype=="Hash256")
-              $("#contractreturn")[0].value = '04';
-            else if (rettype=="ByteArray")
-              $("#contractreturn")[0].value = '05';
-            else if (rettype=="PublicKey")
-              $("#contractreturn")[0].value = '06';
-            else if (rettype=="String")
-              $("#contractreturn")[0].value = '07';
-            else if (rettype=="Array")
-              $("#contractreturn")[0].value = '10'; // object[]
-            else if (rettype=="InteropInterface")
-              $("#contractreturn")[0].value = 'f0';
-            else if(rettype=="Void")
-              $("#contractreturn")[0].value = 'ff';
-            else
-              $("#contractreturn")[0].value = '05'; // assume ByteArray
+            for(j = 1; j<jsonABI["functions"][i]["parameters"].length; j++)
+               $("#invokeparams")[0].value += " \"\"";
+            // get return hexcode
+            rettype=JSON.parse($('#codeabi').text())["functions"][i]["returntype"];
+            $("#contractreturn")[0].value = getHexForType(rettype);
         },
         "json" // The format the response should be in
        );

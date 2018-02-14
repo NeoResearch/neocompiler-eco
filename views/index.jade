@@ -44,22 +44,20 @@ block content
                   button.btn.btn-success(type="submit")="Compile"      
                   br
                   h4 Compile Warning/Errors:
-                  textarea.form-control(id='codewarnerr',rows='15', cols='100', placeholder="Warning/Errors in code...")="" 
+                  textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")="" 
                   p *This is beta software: ConvertTask will return "FAIL" even when everything is fine. Sorry for this. If it returns "0 errors" that's OK, just ignore this message for now :)
                   br
 
           form(id='formdeploy', action='/deployx')           
               .form-group
                   h4 AVM (in hex):  
-                  textarea.form-control(id='codeavm', name='codeavm' rows='5', cols='100', placeholder="AVM (in hex)")
+                  textarea.form-control(id='codeavm', name='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
                   br
                   button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"
                   p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)  
                   br
-                  br
-                          
                   h4 ABI:   
-                  textarea.form-control(id='codeabi',rows='5', cols='100', placeholder="ABI (JSON format)")
+                  textarea.form-control(id='codeabi', readonly, rows='5', cols='100', placeholder="ABI (JSON format)")
                   br
                   br
                   h4 Deploy contract to private net:
@@ -114,11 +112,9 @@ block content
                 br
                 br
 
-
-            
                         
           h4 Private Net Messages:
-          textarea.form-control(id='contractmessages',rows='15', cols='100', placeholder="Contract messages...")
+          textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
           br    
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
     script.

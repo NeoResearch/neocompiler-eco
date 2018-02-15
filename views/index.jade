@@ -116,6 +116,7 @@ block content
                         
           h4 Private Net Messages:
           textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
+          textarea.form-control(id='contractmessagesnotify', readonly, rows='5', cols='100', placeholder="Contract messages Notify...")
           br    
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
     script.
@@ -515,6 +516,23 @@ block content
           //console.log("output="+data);
           var deploymsg = atob(data.output);
           $("#contractmessages").text(deploymsg);
+          $("#contractmessagesnotify").text("");
+          
+          var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
+          while(indexNotify != -1)
+          {
+            var i = 0;
+            var snotify = "";
+            //console.log("found Notiy at "+indexNotify);
+            while($("#contractmessages").text()[indexNotify+"SmartContract.Runtime.Notify".length+40+6+i] != '\n') {
+              snotify += $("#contractmessages").text()[indexNotify+"SmartContract.Runtime.Notify".length+40+6+i]; 
+              i++;
+            }
+            //console.log("NOTIFY:"+snotify);
+            $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+            indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify+1);
+          }
+          
         },
         "json" // The format the response should be in
        );

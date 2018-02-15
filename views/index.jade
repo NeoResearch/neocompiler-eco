@@ -77,9 +77,9 @@ block content
                     option f0
                     option ff
                   //input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")
-                  input(type="checkbox", name="cbx_storage")
+                  input(type="checkbox", name="cbx_storage", id="cbx_storage")
                   | Storage 
-                  input(type="checkbox", name="cbx_dynamicinvoke")
+                  input(type="checkbox", name="cbx_dynamicinvoke", id="cbx_dynamicinvoke")
                   | Dynamic Invoke
                   br
                   br
@@ -251,11 +251,15 @@ block content
          var nparfunc = ""+hexavm[0]+hexavm[1];
          hexavm = hexavm.substr(2,hexavm.length);
          fvalue = parseInt(nparfunc, 16);
+         sfunc = "";
          var i=0;
          for(i=0; i<fvalue; i++) {
            var codepush = ""+hexavm[0]+hexavm[1];
            hexavm = hexavm.substr(2,hexavm.length);
            var cvalue = String.fromCharCode(parseInt(codepush, 16));
+           sfunc += cvalue;
+           if(sfunc == "Neo.Storage")
+              $("#cbx_storage")[0].checked  = true;
            $("#opcodes").text($("#opcodes").text() + cvalue);           
          }
          $("#opcodes").text($("#opcodes").text() + "\n");
@@ -417,7 +421,7 @@ block content
           return; // must be even pairs
        var code = ""+hexavm[0]+hexavm[1];
        hexavm = hexavm.substr(2,hexavm.length);
-       console.log("code ("+code+")");
+       //console.log("code ("+code+")");
        hexavm = parseOpcode(code, hexavm);
        
        printOpcode(hexavm);

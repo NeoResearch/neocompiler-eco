@@ -158,7 +158,7 @@ block content
      }
      
      $("#myform").submit(function(e) {
-      $("#codewarnerr").text("");
+      $("#codewarnerr").val("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -167,9 +167,9 @@ block content
         indata, // Serializes form data in standard format
         function(data) {
             var coderr = atob(data.output);
-            $("#codewarnerr").text(coderr);
+            $("#codewarnerr").val(coderr);
             var hexcodeavm = atob(data.avm);
-            $("#codeavm").text(hexcodeavm);
+            $("#codeavm").val(hexcodeavm);
             localStorage.setItem('avmFile', hex2bin( hexcodeavm.replace(/(\r\n|\n|\r)/gm,"") ) );
             $("#btn_download")[0].style="";
             

@@ -35,7 +35,7 @@ For Debian-based systems:
 
 Get latest docker image id and set environment variable:
 
-`export DOCKERNEOCOMPILER=docker ps -l | awk '/^[0-9a-f]/{print $2}'`
+`export DOCKERNEOCOMPILER=$(docker images | awk 'NR==2{print $3}')`
 
 ## Running node server
 

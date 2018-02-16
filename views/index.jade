@@ -98,7 +98,7 @@ block content
                 input(id='contracthash_search', name='contracthash_search' placeholder="Script Hash")
                 button.btn.btn-success(type="submit")="Search by hash"      
                 br
-                br
+          br
           form(id='forminvoke', action='/invokex')           
             .form-group
                 h4 Invoke contract in private net:
@@ -117,7 +117,14 @@ block content
           h4 Private Net Messages:
           textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
           textarea.form-control(id='contractmessagesnotify', readonly, rows='5', cols='100', placeholder="Contract messages Notify...")
+          br
           br    
+          p Utility: convert String to Hex
+          input(id='stringtohash', placeholder="String to Hash")
+          button.btn.btn-info(id="strtohash")="String to hash"      
+          input(id='stringtohash2', readonly)
+          br
+          br
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
     script.
      function hex2bin(hex) {
@@ -129,6 +136,13 @@ block content
       str = String.fromCharCode.apply(String, bytes);
       return str;
      }
+     
+     $("#strtohash")[0].onclick=function(){
+       var i = 0;
+       for(i = 0;i<$("#stringtohash").val().length;i++){
+           $("#stringtohash2").val($("#stringtohash2").val()+$("#stringtohash").val().charCodeAt(i).toString(16));
+         }
+     };
      
      // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
      // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
@@ -414,6 +428,8 @@ block content
        
        return hexavm;
      }
+     
+     
      
      function printOpcode(hexavm) {
        if(hexavm.length == 0)

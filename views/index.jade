@@ -122,7 +122,7 @@ block content
           p Utility: convert String to Hex
           input(id='stringtohash', placeholder="String to Hash")
           button.btn.btn-info(id="strtohash")="String to hash"      
-          input(id='stringtohash2', readonly)
+          input(id='stringtohash2',style="background-color:#eeeeee", readonly)
           br
           br
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
@@ -139,6 +139,7 @@ block content
      
      $("#strtohash")[0].onclick=function(){
        var i = 0;
+       $("#stringtohash2").val("");
        for(i = 0;i<$("#stringtohash").val().length;i++){
            $("#stringtohash2").val($("#stringtohash2").val()+$("#stringtohash").val().charCodeAt(i).toString(16));
          }

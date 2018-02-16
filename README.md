@@ -8,15 +8,16 @@ This is an open-source initiative for providing an easy access to NEO compilers.
 We will start with C#, Python (through neo-boa), Java and Solidity (through neo-solidity initiative).
 
 ### What does it currently do
-* Compile input C# code using backend compiler
-* Return AVM and ABI codes
-* Deploy code to private net (being tested right now)
+* Compile input C# code using backend compiler;
+* Return AVM and ABI codes;
+* Deploy code to private net;
+* Contract invoke.
 
 ### Next steps
-* Integrate with Python compiler (neo-boa)
-* Integrate with neo-solidity (project in early phases)
-* Move towards client-based compiling (more secure, robust and much more scalable). Some efforts have been done here already, but many technical challenges are still being dealt with.
-* Integrate with javascript compiler (as soon as it is available)
+* Integrate with Python compiler (neo-boa);
+* Integrate with neo-solidity (project in early phases);
+* Move towards client-based compiling (more secure, robust and much more scalable). Some efforts have been done here already, but many technical challenges are still being dealt with;
+* Integrate with javascript compiler (as soon as it is available);
 * Ideas? Collaborations are welcome :)
 
 ### Dependencies

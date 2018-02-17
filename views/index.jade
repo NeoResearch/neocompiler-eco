@@ -113,6 +113,11 @@ block content
                   option w4.wallet
                 button.btn.btn-success(type="submit")="Invoke by hash"      
                 br
+                p Wallet public hashes:
+                p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
+                p w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL/036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
+                p w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx/0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
+                p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
                 br
 
                         
@@ -175,6 +180,9 @@ block content
        else
          return '05';
      }
+     
+     // Calculate gas cost 
+     //https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
      
      // https://github.com/neo-project/neo-vm/blob/master/src/neo-vm/OpCode.cs
      function parseOpcode(opcode, hexavm) {

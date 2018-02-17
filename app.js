@@ -110,12 +110,13 @@ app.post('/invokex', function(req, res) {
   console.log("wallet:"+req.body.wallet_invoke);
   var invokehash = new Buffer(req.body.invokehash, 'ascii').toString('base64');
   var invokeparams = new Buffer(req.body.invokeparams, 'ascii').toString('base64');
+  var attachneo = new Buffer(req.body.attachneo, 'ascii').toString('base64');
   var wallet_invoke = "";
   if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
-       invokehash+' '+ invokeparams + ' ' + wallet_invoke + '" | base64';
+       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '" | base64';
   var outp = "";
 
   console.log(cmddocker);

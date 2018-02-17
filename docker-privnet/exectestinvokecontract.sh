@@ -5,8 +5,9 @@
 # testinvoke $1 $2
 # $3 == WALLET
 
-if (( $# == 3 )); then
-   wallet=`echo "$3" | base64 --decode`
+if (( $# == 4 )); then
+   wallet=`echo "$4" | base64 --decode`
+   neo=`echo "$3" | base64 --decode`
    parm=`echo $2 | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
@@ -17,7 +18,13 @@ if (( $# == 3 )); then
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
    strexit=`echo "exit" | xxd -p`
-   strinvoke=`echo "testinvoke $lhash $parm" | xxd -p -c 256`
+   if [ "$neo" -eq "0" ]; then
+      echo "testinvoke $lhash $parm";
+      strinvoke=`echo "testinvoke $lhash $parm" | xxd -p -c 256`
+   else
+      echo "testinvoke $lhash $parm --attach-neo=$neo";
+      strinvoke=`echo "testinvoke $lhash $parm --attach-neo=$neo" | xxd -p -c 256`
+   fi
 
    python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strrebuild,$stropen
 

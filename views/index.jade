@@ -104,8 +104,9 @@ block content
           form(id='forminvoke', action='/invokex')           
             .form-group
                 h4 Invoke contract in private net:
-                input(id='invokehash', name='invokehash' placeholder="Script Hash")
-                input(id='invokeparams', name='invokeparams' placeholder="Script Params")
+                input(id='invokehash', name='invokehash', placeholder="Script Hash")
+                input(id='invokeparams', name='invokeparams', placeholder="Script Params")
+                input(id='attachneo', name='attachneo', value="0" placeholder="Send NEO")
                 select(name='wallet_invoke')
                   option w1.wallet
                   option w2.wallet

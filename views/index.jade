@@ -33,6 +33,8 @@ block content
                         button.btn.btn-info(id="btn_cs_ex1")="HelloWorld.cs"
                         button.btn.btn-info(id="btn_cs_ex2")="ICO_Template.cs"
                         button.btn.btn-info(id="btn_cs_ex3")="MyCheckWitness.cs"
+                        button.btn.btn-info(id="btn_cs_ex4")="Lock.cs"
+                        button.btn.btn-info(id="btn_cs_ex5")="StructExample.cs"
                         textarea.form-control(id='code', name='codesend', rows='15', cols='100')=code
                     #section2.tab-pane.fade
                         textarea.form-control(id='code_python', name='codesend_python', rows='15', cols='100')="Python"            
@@ -591,6 +593,24 @@ block content
          $( "#code" )[0].value = data;
        });
      });
+     $("#btn_cs_ex4").click(function (e) {
+       e.preventDefault();
+       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs", function( data ) {
+         $( "#code" )[0].value = data;
+       });
+     });
+     $("#btn_cs_ex5").click(function (e) {
+       e.preventDefault();
+       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs", function( data ) {
+         $( "#code" )[0].value = data;
+         $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs", function( data2 ) {
+           $( "#code" )[0].value += data2;
+         });
+       });
+     });
+     
+     
+     
      
      $("#btn_download").click(function (e) {
         e.preventDefault();

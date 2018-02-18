@@ -1,3 +1,12 @@
+CONTAINER_NAME="neo-privnet-with-gas"
+
+if [ -n "$DOCKERPRIV" ]; then
+	echo "Stopping container named $CONTAINER_NAME"
+	docker stop $CONTAINER_NAME 1>/dev/null
+	echo "Removing container named $CONTAINER_NAME"
+	docker rm $CONTAINER_NAME 1>/dev/null
+fi
+
 if [ -z ${DOCKERPRIV+x} ]; then 
    echo "DOCKERPRIV var is unset";
 else

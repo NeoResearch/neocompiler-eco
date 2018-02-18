@@ -6,12 +6,12 @@ RUN apt-get update \
 #RUN apt-get install -y openssh-server
 
 RUN rm -rf /opt/neo-python/Chains/privnet/*
-ADD w1.wallet /opt/neo-python/
-ADD w2.wallet /opt/neo-python/
-ADD w3.wallet /opt/neo-python/
-ADD w4.wallet /opt/neo-python/
-ADD unsafeprompt.py /opt/neo-python/
-ADD LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
-ADD execimportcontract.sh /
-ADD exectestinvokecontract.sh /
-ADD execsearchcontract.sh /
+ADD neo-python/w1.wallet /opt/neo-python/
+ADD neo-python/w2.wallet /opt/neo-python/
+ADD neo-python/w3.wallet /opt/neo-python/
+ADD neo-python/w4.wallet /opt/neo-python/
+ADD neo-python/unsafeprompt.py /opt/neo-python/
+ADD neo-python/LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
+ADD commands/execimportcontract.sh /
+ADD commands/exectestinvokecontract.sh /
+ADD commands/execsearchcontract.sh /

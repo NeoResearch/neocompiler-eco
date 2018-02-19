@@ -29,7 +29,10 @@ if (( $# == 4 )); then
       strinvoke=`echo "testinvoke $lhash $parm --attach-neo=$neo" | xxd -p -c 256`
    fi
 
-   python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strrebuild,$stropen
+   strsceventsOff=`echo "config sc-events off" | xxd -p -c 256`
+   strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
+
+   python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
 
    echo "TESTINVOKE OUTPUT:"
    cat $lhash.invoke

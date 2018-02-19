@@ -17,8 +17,10 @@ if (( $# == 1 )); then
    strshowwallet=`echo "wallet" | xxd -p`
    strexit=`echo "exit" | xxd -p`
    strsearch=`echo "contract $lhash" | xxd -p -c 256`
+   strsceventsOff=`echo "config sc-events off" | xxd -p -c 256`
+   strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
 fi
 
 #example: ./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo=

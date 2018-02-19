@@ -31,8 +31,10 @@ if (( $# == 7 )); then
    #echo "open: $strimport"
    strexit=`echo "exit" | xxd -p`
    strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
+   strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
+   strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strimport,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
 
    echo "IMPORT OUTPUT:"
    cat $lhash.import

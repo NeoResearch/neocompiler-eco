@@ -32,7 +32,7 @@ if (( $# == 7 )); then
    strexit=`echo "exit" | xxd -p`
    strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strimport,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strimport,$strshowwallet,$strrebuild,$stropen
 
    echo "IMPORT OUTPUT:"
    cat $lhash.import

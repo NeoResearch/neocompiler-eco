@@ -18,7 +18,7 @@ if (( $# == 1 )); then
    strexit=`echo "exit" | xxd -p`
    strsearch=`echo "contract $lhash" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strshowwallet,$strrebuild,$stropen
 fi
 
 #example: ./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo=

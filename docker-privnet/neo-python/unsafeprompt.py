@@ -424,9 +424,10 @@ class PromptInterface(object):
                 item2 = int(get_arg(arguments, 1))
                 if item2 and item2 > 0:
                     print('restarting at %s ' % item2)
-                    self.Wallet._current_height = item2
+                    self.Wallet._current_height = item2		    
             except Exception as e:
                 pass
+            time.sleep(20)
         elif item == 'tkn_send':
             token_send(self.Wallet, arguments[1:])
         elif item == 'tkn_send_from':
@@ -816,6 +817,7 @@ class PromptInterface(object):
                         self.do_load_n_run(arguments)
                     elif command == 'import':
                         self.do_import(arguments)
+                        time.sleep(20)
                     elif command == 'export':
                         self.do_export(arguments)
                     elif command == 'wallet':
@@ -836,8 +838,10 @@ class PromptInterface(object):
                         self.show_asset_state(arguments)
                     elif command == 'contract':
                         self.show_contract_state(arguments)
+                        time.sleep(20)
                     elif command == 'testinvoke':
                         self.test_invoke_contract(arguments)
+                        time.sleep(20)
                     elif command == 'mem':
                         self.show_mem()
                     elif command == 'nodes' or command == 'node':

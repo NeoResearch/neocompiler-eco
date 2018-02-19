@@ -83,10 +83,11 @@ app.post('/deployx', function(req, res) {
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execimportcontract.sh '+
-       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '" | tail -n +175 | base64';
+       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '" | base64';
   var outp = "";
+  //Tail option -- | tail -n +175 | base64';
 
-  //console.log(cmddocker);
+  console.log(cmddocker);
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   outp = '{"output":"'+outp+'"}';
@@ -96,7 +97,7 @@ app.post('/deployx', function(req, res) {
 app.post('/searchx', function(req, res) {
   var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
-       contracthash_search + '" | tail -n +175 | base64';
+       contracthash_search + '" | base64';
   var outp = "";
 
   outp = require('child_process').execSync(cmddocker).toString();
@@ -116,7 +117,7 @@ app.post('/invokex', function(req, res) {
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
-       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '" | tail -n +175 | base64';
+       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '" | base64';
   var outp = "";
 
   console.log(cmddocker);

@@ -11,7 +11,8 @@ We will start with C#, Python (through neo-boa), Java and Solidity (through neo-
 * Compile input C# code using backend compiler;
 * Return AVM and ABI codes;
 * Deploy code to private net;
-* Contract invoke.
+* Contract invoke;
+* Tests with different wallets.
 
 ### Next steps
 * Integrate with Python compiler (neo-boa);
@@ -41,6 +42,18 @@ Get latest docker image id and set environment variable:
 ## Running node server
 
 `./run.sh`
+
+## Building and running node server
+
+`./build_and_Run_NeoCompiler_CSharp_Compiler.sh`
+
+## Building and running privnet server
+
+In order to use deploy and testinvoke functionalities, build and run docker-privanet.
+
+Or, simply run:
+
+`./build_and_Run_NeoCompiler_Privnet.sh.sh`
 
 ## Contributing
 

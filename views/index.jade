@@ -515,6 +515,7 @@ block content
      
      $("#formsearch").submit(function(e) {
       $("#contractmessages").text("");
+      $("#contractmessagesnotify").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -533,6 +534,7 @@ block content
      
      $("#forminvoke").submit(function(e) {
       $("#contractmessages").text("");
+      $("#contractmessagesnotify").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();
@@ -568,6 +570,7 @@ block content
      
      $("#formdeploy").submit(function(e) {
       $("#contractmessages").text("");
+      $("#contractmessagesnotify").text("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
       var indata = $(this).serialize();

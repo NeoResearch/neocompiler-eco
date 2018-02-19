@@ -447,7 +447,7 @@ class PromptInterface(object):
                 print("Please supply an address and title")
 
     def do_send(self, arguments):
-        construct_and_send(self, self.Wallet, arguments)
+        construct_and_send(self, self.Wallet, arguments,False)
 
     def do_sign(self, arguments):
         jsn = get_arg(arguments)

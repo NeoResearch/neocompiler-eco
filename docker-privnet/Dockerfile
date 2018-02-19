@@ -19,4 +19,5 @@ ADD neo-python/unsafeprompt.py /opt/neo-python/
 ADD neo-python/LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
 ADD commands/execimportcontract.sh /
 ADD commands/exectestinvokecontract.sh /
+ADD commands/execTransferFundsAtTheBegin.sh /
 ADD commands/execsearchcontract.sh /

@@ -29,6 +29,8 @@ For Debian-based systems:
 
 `apt install nodejs-legacy`
 
+## Docker-neo csharp compiler backend
+
 ### Building docker-neo backend
 
 `cd docker-neo`
@@ -39,21 +41,23 @@ Get latest docker image id and set environment variable:
 
 `export DOCKERNEOCOMPILER=$(docker images | awk 'NR==2{print $3}')`
 
-## Running node server
+### Running node server
 
 `./run.sh`
 
-## Building and running node server
+### Building and running node server
 
 `./build_and_Run_NeoCompiler_CSharp_Compiler.sh`
 
-## Building and running privnet server
+## Privanet backend
+
+### Building and running privnet server
 
 In order to use deploy and testinvoke functionalities, build and run docker-privanet.
 
 Or, simply run:
 
-`./build_and_Run_NeoCompiler_Privnet.sh.sh`
+`./build_and_Run_NeoCompiler_Privnet.sh`
 
 ## Contributing
 

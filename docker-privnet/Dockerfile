@@ -1,11 +1,16 @@
 FROM metachris/neo-privnet-with-gas
 
+LABEL maintainer="NeoResearch"
+LABEL authors="imcoelho,vncoelho"
+
+
 RUN apt-get update \
     && apt-get install -y nano xxd
 
 #RUN apt-get install -y openssh-server
 
 RUN rm -rf /opt/neo-python/Chains/privnet/*
+RUN rm -rf /opt/neo-python/Chains/privnet
 ADD neo-python/w1.wallet /opt/neo-python/
 ADD neo-python/w2.wallet /opt/neo-python/
 ADD neo-python/w3.wallet /opt/neo-python/

@@ -5,6 +5,7 @@
 # testinvoke $1 $2
 # $3 == WALLET
 
+
 if (( $# == 4 )); then
    wallet=`echo "$4" | base64 --decode`
    neo=`echo "$3" | base64 --decode`
@@ -13,7 +14,9 @@ if (( $# == 4 )); then
    #echo "HASH: $lhash"
    #echo "code: $2"
    cd /opt/neo-python/
-
+   rm -rf Chains/privnet
+   rm -rf Chains/privnet/*
+   rm -rf Chains/privnet
    stropen=`echo "open wallet $wallet" | xxd -p`
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
@@ -26,7 +29,7 @@ if (( $# == 4 )); then
       strinvoke=`echo "testinvoke $lhash $parm --attach-neo=$neo" | xxd -p -c 256`
    fi
 
-   python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strrebuild,$stropen
 
    echo "TESTINVOKE OUTPUT:"
    cat $lhash.invoke

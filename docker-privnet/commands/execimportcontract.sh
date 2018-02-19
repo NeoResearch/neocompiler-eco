@@ -5,12 +5,16 @@
 # import contract hash.avm "params" 01 False False
 # $7 == w1.wallet
 
+
 if (( $# == 7 )); then
    wallet=`echo "$7" | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"
    cd /opt/neo-python/
+   rm -rf Chains/privnet
+   rm -rf Chains/privnet/*
+   rm -rf Chains/privnet
    echo "$2" | base64 --decode | xxd -p -r > $lhash.avm
    parm=`echo $3 | base64 --decode`
    rv=`echo $4 | base64 --decode`
@@ -28,7 +32,7 @@ if (( $# == 7 )); then
    strexit=`echo "exit" | xxd -p`
    strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
 
-   python3 unsafeprompt.py -p -e $strexit,$strimport,$strshowwallet,$strrebuild,$stropen
+   python3 unsafeprompt.py -p -e $strexit,$strimport,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strshowwallet,$strrebuild,$stropen
 
    echo "IMPORT OUTPUT:"
    cat $lhash.import

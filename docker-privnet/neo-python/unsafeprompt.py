@@ -21,7 +21,7 @@ from twisted.internet import reactor, task
 
 from neo import __version__
 from neo.Core.Blockchain import Blockchain
-from neo.Fixed8 import Fixed8
+from neocore.Fixed8 import Fixed8
 from neo.IO.MemoryStream import StreamManager
 from neo.Implementations.Blockchains.LevelDB.LevelDBBlockchain import LevelDBBlockchain
 from neo.Implementations.Blockchains.LevelDB.DebugStorage import DebugStorage
@@ -37,7 +37,7 @@ from neo.Prompt.Commands.Wallet import DeleteAddress, ImportWatchAddr, ImportTok
 from neo.Prompt.Utils import get_arg
 from neo.Settings import settings, DIR_PROJECT_ROOT
 from neo.UserPreferences import preferences
-from neo.Wallets.KeyPair import KeyPair
+#from neo.Wallets.KeyPair import KeyPair
 
 import codecs
 

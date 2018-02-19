@@ -14,7 +14,7 @@ if (( $# == 7 )); then
    cd /opt/neo-python/
    rm -rf Chains/privnet
    rm -rf Chains/privnet/*
-   rm -rf Chains/privnet
+   rm -rf Chains/*
    echo "$2" | base64 --decode | xxd -p -r > $lhash.avm
    parm=`echo $3 | base64 --decode`
    rv=`echo $4 | base64 --decode`

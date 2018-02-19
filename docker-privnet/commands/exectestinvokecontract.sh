@@ -16,7 +16,7 @@ if (( $# == 4 )); then
    cd /opt/neo-python/
    rm -rf Chains/privnet
    rm -rf Chains/privnet/*
-   rm -rf Chains/privnet
+   rm -rf Chains/*
    stropen=`echo "open wallet $wallet" | xxd -p`
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
@@ -29,7 +29,7 @@ if (( $# == 4 )); then
       strinvoke=`echo "testinvoke $lhash $parm --attach-neo=$neo" | xxd -p -c 256`
    fi
 
-   strsceventsOff=`echo "config sc-events off" | xxd -p -c 256`
+   strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
    strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
    python3 unsafeprompt.py -p -e $strexit,$strinvoke,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF

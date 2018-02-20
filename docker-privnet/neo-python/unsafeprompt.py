@@ -640,10 +640,13 @@ class PromptInterface(object):
 
                 result = InvokeContract(self.Wallet, tx, fee)
 
+                if result is False:
+                    return None
+
                 return tx
             else:
                 print("Error testing contract invoke")
-                return false
+                return None
 
         print("please specify a contract to invoke")
 
@@ -686,11 +689,14 @@ class PromptInterface(object):
 
                     result = InvokeContract(self.Wallet, tx, Fixed8.Zero())
 
+                    if result is False:
+                        return None
+
                     return tx
                 else:
                     print("test ivoke failed")
                     print("tx is, results are %s %s " % (tx, results))
-                    return false
+                    return None
 
     def show_mem(self):
         total = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
@@ -843,7 +849,7 @@ class PromptInterface(object):
                     elif command == 'import':
                         tx = self.do_import(arguments)
                         # Wait until transaction is on blockchain
-                        if tx is not 0:
+                        if tx is not None:
                             self.wait_for_tx(tx.Hash)
                     elif command == 'export':
                         self.do_export(arguments)
@@ -868,7 +874,7 @@ class PromptInterface(object):
                     elif command == 'testinvoke':
                         tx = self.test_invoke_contract(arguments)
                         # Wait until transaction is on blockchain
-                        if tx is not 0:
+                        if tx is not None:
                             self.wait_for_tx(tx.Hash)
                     elif command == 'mem':
                         self.show_mem()

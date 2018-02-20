@@ -868,7 +868,7 @@ class PromptInterface(object):
                     elif command == 'testinvoke':
                         tx = self.test_invoke_contract(arguments)
                         # Wait until transaction is on blockchain
-                        if tx is not False:
+                        if tx is not 0:
                             self.wait_for_tx(tx.Hash)
                     elif command == 'mem':
                         self.show_mem()

@@ -199,7 +199,6 @@ class PromptInterface(object):
 
                 try:
                     self.Wallet = UserWallet.Open(path, passwd)
-
                     self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
                     self._walletdb_loop.start(1)
                     print("Opened wallet at %s" % path)
@@ -421,8 +420,8 @@ class PromptInterface(object):
             ClaimGas(self.Wallet)
         elif item == 'rebuild':
             self.Wallet.Rebuild()
-            self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
-            self._walletdb_loop.start(1)
+#            self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
+#            self._walletdb_loop.start(1)
             try:
                 item2 = int(get_arg(arguments, 1))
                 if item2 and item2 > 0:
@@ -769,9 +768,10 @@ class PromptInterface(object):
                 foundtx = True
                 print("Transaction found with success")
                 continue
-            print("Waiting for tx {} to show up on blockchain...".format(tx.Hash.ToString()))
-            time.sleep(3)
-            sec_passed += 3
+            if sec_passed < 1:
+                print("Waiting for tx {} to show up on blockchain...".format(tx.Hash.ToString()))
+            time.sleep(1)
+            sec_passed += 1
         if foundtx:
             return True
         else:

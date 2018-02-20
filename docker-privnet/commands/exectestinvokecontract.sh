@@ -8,9 +8,11 @@
 
 if (( $# == 4 )); then
    cd /opt/neo-python/
-   rm -rf Chains/privnet
-   rm -rf Chains/privnet/*
-   rm -rf Chains/*
+   rm $lhash.invoke
+
+#   rm -rf Chains/privnet
+#   rm -rf Chains/privnet/*
+#   rm -rf Chains/*
    wallet=`echo "$4" | base64 --decode`
    neo=`echo "$3" | base64 --decode`
    parm=`echo $2 | base64 --decode`

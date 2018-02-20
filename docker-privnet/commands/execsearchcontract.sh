@@ -6,9 +6,9 @@
 
 if (( $# == 1 )); then
    cd /opt/neo-python/
-   rm -rf Chains/privnet
-   rm -rf Chains/privnet/*
-   rm -rf Chains/*
+#   rm -rf Chains/privnet
+#   rm -rf Chains/privnet/*
+#   rm -rf Chains/*
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"

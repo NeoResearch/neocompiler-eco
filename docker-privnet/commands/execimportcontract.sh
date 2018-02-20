@@ -7,13 +7,6 @@
 
 
 if (( $# == 7 )); then
-   cd /opt/neo-python/
-   rm $lhash.import
-
-#   rm -rf Chains/privnet
-#   rm -rf Chains/privnet/*
-#   rm -rf Chains/*
-
    wallet=`echo "$7" | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
@@ -37,6 +30,11 @@ if (( $# == 7 )); then
    strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
    strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
+   cd /opt/neo-python/
+#   rm -rf Chains/privnet
+#   rm -rf Chains/privnet/*
+#   rm -rf Chains/*
+   rm $lhash.import
    python3 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
 
    echo "IMPORT OUTPUT:"

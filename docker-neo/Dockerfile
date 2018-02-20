@@ -1,5 +1,8 @@
 FROM ubuntu:17.10
 
+LABEL maintainer="NeoResearch"
+LABEL authors="imcoelho,vncoelho"
+
 RUN apt-get update \
     && apt-get install -y nodejs --no-install-recommends
 RUN apt-get -y install mono-complete

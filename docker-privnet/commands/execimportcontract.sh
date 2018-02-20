@@ -7,14 +7,15 @@
 
 
 if (( $# == 7 )); then
-   wallet=`echo "$7" | base64 --decode`
-   lhash=`echo "$1" | base64 --decode`
-   #echo "HASH: $lhash"
-   #echo "code: $2"
    cd /opt/neo-python/
    rm -rf Chains/privnet
    rm -rf Chains/privnet/*
    rm -rf Chains/*
+
+   wallet=`echo "$7" | base64 --decode`
+   lhash=`echo "$1" | base64 --decode`
+   #echo "HASH: $lhash"
+   #echo "code: $2"
    echo "$2" | base64 --decode | xxd -p -r > $lhash.avm
    parm=`echo $3 | base64 --decode`
    rv=`echo $4 | base64 --decode`

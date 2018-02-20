@@ -7,20 +7,21 @@
 
 
 if (( $# == 4 )); then
+   cd /opt/neo-python/
+   rm -rf Chains/privnet
+   rm -rf Chains/privnet/*
+   rm -rf Chains/*
    wallet=`echo "$4" | base64 --decode`
    neo=`echo "$3" | base64 --decode`
    parm=`echo $2 | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"
-   cd /opt/neo-python/
-   rm -rf Chains/privnet
-   rm -rf Chains/privnet/*
-   rm -rf Chains/*
    stropen=`echo "open wallet $wallet" | xxd -p`
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
    strexit=`echo "exit" | xxd -p`
+
    if [ "$neo" -eq "0" ]; then
       echo "testinvoke $lhash $parm";
       strinvoke=`echo "testinvoke $lhash $parm" | xxd -p -c 256`

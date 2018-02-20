@@ -763,14 +763,13 @@ class PromptInterface(object):
         """ Wait for tx to show up on blockchain """
         foundtx = False
         sec_passed = 0
-        #txid = UInt256.ParseString(tx.Hash)
         while not foundtx and sec_passed < max_seconds:
-            _tx, height = Blockchain.Default().GetTransaction(tx)
+            _tx, height = Blockchain.Default().GetTransaction(tx.Hash.ToString())
             if height > -1:
                 foundtx = True
                 print("Transaction found with success")
                 continue
-            print("Waiting for tx {} to show up on blockchain...".format(tx))
+            print("Waiting for tx {} to show up on blockchain...".format(tx.Hash.ToString()))
             time.sleep(3)
             sec_passed += 3
         if foundtx:
@@ -786,7 +785,7 @@ class PromptInterface(object):
         Blockchain.Default().PersistBlocks()
 
         while Blockchain.Default().Height < 2:
-            print("Waiting for prompty to sync...")
+            print("Waiting for prompt to sync...")
             time.sleep(1)
 
         tokens = [(Token.Neo, 'NEO'), (Token.Default, ' cli. Type '),
@@ -850,7 +849,7 @@ class PromptInterface(object):
                         tx = self.do_import(arguments)
                         # Wait until transaction is on blockchain
                         if tx is not None:
-                            self.wait_for_tx(tx.Hash)
+                            self.wait_for_tx(tx)
                     elif command == 'export':
                         self.do_export(arguments)
                     elif command == 'wallet':
@@ -875,7 +874,7 @@ class PromptInterface(object):
                         tx = self.test_invoke_contract(arguments)
                         # Wait until transaction is on blockchain
                         if tx is not None:
-                            self.wait_for_tx(tx.Hash)
+                            self.wait_for_tx(tx)
                     elif command == 'mem':
                         self.show_mem()
                     elif command == 'nodes' or command == 'node':

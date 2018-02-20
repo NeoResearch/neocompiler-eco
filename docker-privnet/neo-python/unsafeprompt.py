@@ -37,7 +37,8 @@ from neo.Prompt.Commands.Wallet import DeleteAddress, ImportWatchAddr, ImportTok
 from neo.Prompt.Utils import get_arg
 from neo.Settings import settings, DIR_PROJECT_ROOT
 from neo.UserPreferences import preferences
-#from neo.Wallets.KeyPair import KeyPair
+from neocore.KeyPair import KeyPair
+from neocore.UInt256 import UInt256
 
 import codecs
 
@@ -420,14 +421,15 @@ class PromptInterface(object):
             ClaimGas(self.Wallet)
         elif item == 'rebuild':
             self.Wallet.Rebuild()
+            self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
+            self._walletdb_loop.start(1)
             try:
                 item2 = int(get_arg(arguments, 1))
                 if item2 and item2 > 0:
                     print('restarting at %s ' % item2)
-                    self.Wallet._current_height = item2		    
+                    self.Wallet._current_height = item2
             except Exception as e:
                 pass
-            time.sleep(20)
         elif item == 'tkn_send':
             token_send(self.Wallet, arguments[1:])
         elif item == 'tkn_send_from':
@@ -638,10 +640,10 @@ class PromptInterface(object):
 
                 result = InvokeContract(self.Wallet, tx, fee)
 
-                return
+                return tx
             else:
                 print("Error testing contract invoke")
-                return
+                return false
 
         print("please specify a contract to invoke")
 
@@ -684,11 +686,11 @@ class PromptInterface(object):
 
                     result = InvokeContract(self.Wallet, tx, Fixed8.Zero())
 
-                    return
+                    return tx
                 else:
                     print("test ivoke failed")
                     print("tx is, results are %s %s " % (tx, results))
-                    return
+                    return false
 
     def show_mem(self):
         total = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
@@ -751,12 +753,35 @@ class PromptInterface(object):
             return commandParts[0], commandParts[1:]
         return None, None
 
-    def run(self):
+    def wait_for_tx(self, tx, max_seconds=300):
+        """ Wait for tx to show up on blockchain """
+        foundtx = False
+        sec_passed = 0
+        #txid = UInt256.ParseString(tx.Hash)
+        while not foundtx and sec_passed < max_seconds:
+            _tx, height = Blockchain.Default().GetTransaction(tx)
+            if height > -1:
+                foundtx = True
+                print("Transaction found with success")
+                continue
+            print("Waiting for tx {} to show up on blockchain...".format(tx))
+            time.sleep(3)
+            sec_passed += 3
+        if foundtx:
+            return True
+        else:
+            print("Transaction was relayed but never accepted by consensus node")
+            return False
 
+    def run(self):
         dbloop = task.LoopingCall(Blockchain.Default().PersistBlocks)
         dbloop.start(.1)
 
         Blockchain.Default().PersistBlocks()
+
+        while Blockchain.Default().Height < 2:
+            print("Waiting for prompty to sync...")
+            time.sleep(1)
 
         tokens = [(Token.Neo, 'NEO'), (Token.Default, ' cli. Type '),
                   (Token.Command, "'help' "), (Token.Default, 'to get started')]
@@ -816,8 +841,10 @@ class PromptInterface(object):
                     elif command == 'load_run':
                         self.do_load_n_run(arguments)
                     elif command == 'import':
-                        self.do_import(arguments)
-                        time.sleep(20)
+                        tx = self.do_import(arguments)
+                        # Wait until transaction is on blockchain
+                        if tx is not 0:
+                            self.wait_for_tx(tx.Hash)
                     elif command == 'export':
                         self.do_export(arguments)
                     elif command == 'wallet':
@@ -837,11 +864,12 @@ class PromptInterface(object):
                     elif command == 'asset':
                         self.show_asset_state(arguments)
                     elif command == 'contract':
-                        self.show_contract_state(arguments)
-                        time.sleep(20)
+                        tx = self.show_contract_state(arguments)
                     elif command == 'testinvoke':
-                        self.test_invoke_contract(arguments)
-                        time.sleep(20)
+                        tx = self.test_invoke_contract(arguments)
+                        # Wait until transaction is on blockchain
+                        if tx is not False:
+                            self.wait_for_tx(tx.Hash)
                     elif command == 'mem':
                         self.show_mem()
                     elif command == 'nodes' or command == 'node':

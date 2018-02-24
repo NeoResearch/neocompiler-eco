@@ -1,4 +1,4 @@
-FROM metachris/neo-privnet-with-gas
+FROM cityofzion/neo-privatenet
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

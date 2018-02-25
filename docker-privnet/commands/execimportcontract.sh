@@ -7,6 +7,7 @@
 
 
 if (( $# == 7 )); then
+   cd /opt/neo-python/
    wallet=`echo "$7" | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
@@ -30,7 +31,6 @@ if (( $# == 7 )); then
    strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
    strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
-   cd /opt/neo-python/
 #   rm -rf Chains/privnet
 #   rm -rf Chains/privnet/*
 #   rm -rf Chains/*

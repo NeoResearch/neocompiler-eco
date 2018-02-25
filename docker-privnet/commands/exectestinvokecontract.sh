@@ -7,6 +7,7 @@
 
 
 if (( $# == 4 )); then
+   cd /opt/neo-python/
    wallet=`echo "$4" | base64 --decode`
    neo=`echo "$3" | base64 --decode`
    parm=`echo $2 | base64 --decode`
@@ -29,7 +30,6 @@ if (( $# == 4 )); then
    strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
    strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
-   cd /opt/neo-python/
 #   rm -rf Chains/privnet
 #   rm -rf Chains/privnet/*
 #   rm -rf Chains/*

@@ -60,6 +60,7 @@ app.post('/compilex', function(req, res) {
   var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm $DOCKERNEOCOMPILER";
   var outp = "";
   outp = require('child_process').execSync(cmddocker).toString();
+  console.log("calling compile function");
   //console.log("returning json..."+outp);
   //console.log("output is: '"+outp+"'");
   //res.send(JSON.stringify(outp));
@@ -91,7 +92,8 @@ app.post('/deployx', function(req, res) {
   var outp = "";
   //Tail option -- | tail -n +175 | base64';
 
-  console.log(cmddocker);
+  //console.log(cmddocker);
+  console.log("calling import contract");
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   outp = '{"output":"'+outp+'"}';
@@ -103,6 +105,8 @@ app.post('/searchx', function(req, res) {
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
        contracthash_search + '" | base64';
   var outp = "";
+
+  console.log("calling search");
 
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
@@ -124,7 +128,8 @@ app.post('/invokex', function(req, res) {
        invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '" | base64';
   var outp = "";
 
-  console.log(cmddocker);
+  console.log("calling testinvoke");
+  //console.log(cmddocker);
   outp = require('child_process').execSync(cmddocker).toString();
   outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   outp = '{"output":"'+outp+'"}';

@@ -59,6 +59,35 @@ Or, simply run:
 
 `./build_and_Run_NeoCompiler_Privnet.sh`
 
+## Privanet backend with NeoScan lightwallet funtionalities
+
+### Building and running privnet server
+
+In order to add NeoScan light wallet functionalities, run docker-compose.
+
+Start up the container, checking the messages and following warnings
+
+```
+docker-compose up
+```
+
+Start up the container in a detached mode
+```
+docker-compose up -d
+```
+
+Fell free to take is down
+```
+docker-compose down
+```
+
+However, consider stopping and restarting
+```
+docker-compose stop
+docker-compose start
+```
+
+
 ## Contributing
 
 * If you have ideas or issues, you can inform directly at github or contact us directly

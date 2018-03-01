@@ -1,3 +1,8 @@
+<p align="center">
+    <img
+      src="http://res.cloudinary.com/dnh3we6el/image/upload/v1519941321/NeoResearch-Logo.png"
+      width="125px;">
+</p>
 
 ## NeoCompiler.io
 

@@ -52,7 +52,7 @@ Get latest docker image id and set environment variable:
 
 ### Building and running node server
 
-`./build_and_Run_NeoCompiler_CSharp_Compiler.sh`
+`./buildRun_WebInterface_CSharpCompiler`
 
 ## Privanet backend
 
@@ -60,15 +60,14 @@ Get latest docker image id and set environment variable:
 
 In order to use deploy and testinvoke functionalities, build and run docker-privanet.
 
-Or, simply run:
-
-`./build_and_Run_NeoCompiler_Privnet.sh`
+`./buildRun_NeoCompiler_PrivateNet`
 
 ## Privanet backend with NeoScan lightwallet funtionalities
 
 ### Building and running privnet server
 
 In order to add NeoScan light wallet functionalities, run docker-compose.
+
 
 Start up the container, checking the messages and following warnings
 
@@ -90,6 +89,15 @@ However, consider stopping and restarting
 ```
 docker-compose stop
 docker-compose start
+```
+
+Or, simply run:
+
+```
+buildRun_Compose_PrivateNet_NeoScanDocker.sh
+buildRun_Compose_PrivateNet_NeoScanDocker.sh stop
+buildRun_Compose_PrivateNet_NeoScanDocker.sh start
+buildRun_Compose_PrivateNet_NeoScanDocker.sh down
 ```
 
 

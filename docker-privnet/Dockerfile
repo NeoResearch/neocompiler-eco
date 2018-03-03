@@ -13,8 +13,8 @@ RUN rm -rf /opt/neo-python/Chains/privnet/*
 RUN rm -rf /opt/neo-python/Chains/*
 
 #Option to update neo-python to current origin master 
-#RUN cd /opt/neo-python && git checkout master && git pull
-#RUN pip3 install -r /opt/neo-python/requirements.txt
+RUN cd /opt/neo-python && git checkout master && git pull
+RUN pip3 install -r /opt/neo-python/requirements.txt
 
 #Add four different wallet files
 ADD neo-python/w1.wallet /opt/neo-python/

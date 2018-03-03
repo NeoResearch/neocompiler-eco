@@ -7,29 +7,29 @@ block content
     .container-fluid
       .row.content
         .col-sm-3.sidenav
-          h4 Choose Compiler       
+          h4 Choose Compiler
           ul.nav.nav-pills.nav-stacked
             li.active
-              a(href='#section1', data-toggle='tab') C#        
+              a(href='#section1', data-toggle='tab') C#
             li
-              a(href='#section2', data-toggle='tab') Python (not yet)         
+              a(href='#section2', data-toggle='tab') Python (not yet)
             li
-              a(href='#section3', data-toggle='tab') Java (not yet)       
+              a(href='#section3', data-toggle='tab') Java (not yet)
             li
-              a(href='#section4', data-toggle='tab') Solidity (not yet)     
+              a(href='#section4', data-toggle='tab') Solidity (not yet)
         .col-sm-9
-          h2 NeoCompiler.io      
+          h2 NeoCompiler.io
           h4
             small
-              p Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.       
+              p Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.
           h4
             small
               p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
           h4
             small
-              | Light wallet functionalities, running with the privanet of this website, can be found 
-              a(target="_blank",href='http://localhost:4000') NeoCompiler-NeoScan   
-          form(id='myform', action='/compilex')           
+              | Light wallet functionalities, running with the privanet of this website, can be found
+              a(target="_blank",href='http://localhost:4000') NeoCompiler-NeoScan
+          form(id='myform', action='/compilex')
               .form-group
                   h4 Code:
                   .tab-content
@@ -39,30 +39,31 @@ block content
                         button.btn.btn-info(id="btn_cs_ex3")="MyCheckWitness.cs"
                         button.btn.btn-info(id="btn_cs_ex4")="Lock.cs"
                         button.btn.btn-info(id="btn_cs_ex5")="StructExample.cs"
-                        textarea.form-control(id='code', name='codesend', rows='15', cols='100')=code
+                        input(type='hidden', id='code', name='codesend', rows='15', cols='100')=code
+                        pre(id="editorCSharp")=code
                     #section2.tab-pane.fade
-                        textarea.form-control(id='code_python', name='codesend_python', rows='15', cols='100')="Python"            
+                        textarea.form-control(id='code_python', name='codesend_python', rows='15', cols='100')="Python"
                     #section3.tab-pane.fade
-                        textarea.form-control(id='code_java', name='codesend_java', rows='15', cols='100')="Java"         
+                        textarea.form-control(id='code_java', name='codesend_java', rows='15', cols='100')="Java"
                     #section4.tab-pane.fade
                         textarea.form-control(id='code_sol', name='codesend_sol', rows='15', cols='100')="Solidity"
                   br
-                  button.btn.btn-success(type="submit")="Compile"      
+                  button.btn.btn-success(type="submit")="Compile"
                   br
                   h4 Compile Warning/Errors:
-                  textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")="" 
+                  textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")=""
                   br
 
-          form(id='formdeploy', action='/deployx')           
+          form(id='formdeploy', action='/deployx')
               .form-group
-                  h4 AVM (in hex):  
+                  h4 AVM (in hex):
                   textarea.form-control(id='codeavm', name='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
                   textarea.form-control(id='opcodes', readonly, rows='5', cols='100', placeholder="AVM OPCODES")
                   br
                   button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"
-                  p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)  
+                  p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)
                   br
-                  h4 ABI:   
+                  h4 ABI:
                   textarea.form-control(id='codeabi', readonly, rows='5', cols='100', placeholder="ABI (JSON format)")
                   br
                   br
@@ -83,7 +84,7 @@ block content
                     option ff
                   //input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")
                   input(type="checkbox", name="cbx_storage", id="cbx_storage")
-                  | Storage 
+                  | Storage
                   input(type="checkbox", name="cbx_dynamicinvoke", id="cbx_dynamicinvoke")
                   | Dynamic Invoke
                   br
@@ -93,18 +94,18 @@ block content
                     option w2.wallet
                     option w3.wallet
                     option w4.wallet
-                  button.btn.btn-success(type="submit")="Deploy"      
+                  button.btn.btn-success(type="submit")="Deploy"
                   br
                   p Hex code advices:  Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
                   br
-          form(id='formsearch', action='/searchx')           
+          form(id='formsearch', action='/searchx')
             .form-group
                 h4 Search contract in private net:
                 input(id='contracthash_search', name='contracthash_search' placeholder="Script Hash")
-                button.btn.btn-success(type="submit")="Search by hash"      
+                button.btn.btn-success(type="submit")="Search by hash"
                 br
           br
-          form(id='forminvoke', action='/invokex')           
+          form(id='forminvoke', action='/invokex')
             .form-group
                 h4 Invoke contract in private net:
                 input(id='invokehash', name='invokehash', placeholder="Script Hash")
@@ -115,7 +116,7 @@ block content
                   option w2.wallet
                   option w3.wallet
                   option w4.wallet
-                button.btn.btn-success(type="submit")="Invoke by hash"      
+                button.btn.btn-success(type="submit")="Invoke by hash"
                 br
                 p Wallet public hashes:
                 p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
@@ -124,19 +125,21 @@ block content
                 p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
                 br
 
-                        
+
           h4 Private Net Messages:
           textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
           textarea.form-control(id='contractmessagesnotify', readonly, rows='5', cols='100', placeholder="Contract messages Notify...")
           br
-          br    
+          br
           p Utility: convert String to Hex
           input(id='stringtohash', placeholder="String to Hash")
-          button.btn.btn-info(id="strtohash")="String to hash"      
+          button.btn.btn-info(id="strtohash")="String to hash"
           input(id='stringtohash2',style="background-color:#eeeeee", readonly)
           br
           br
-    script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js') 
+    script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
+    script(type='text/javascript' src='https://ace.c9.io/build/src/ace.js')
+    script(type='text/javascript' src='https://ace.c9.io/build/src/ext-language_tools.js')
     script.
      function hex2bin(hex) {
       var bytes = [];
@@ -147,7 +150,7 @@ block content
       str = String.fromCharCode.apply(String, bytes);
       return str;
      }
-     
+
      $("#strtohash")[0].onclick=function(){
        var i = 0;
        $("#stringtohash2").val("");
@@ -155,7 +158,7 @@ block content
            $("#stringtohash2").val($("#stringtohash2").val()+$("#stringtohash").val().charCodeAt(i).toString(16));
          }
      };
-     
+
      // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
      // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
      function getHexForType(stype) {
@@ -184,10 +187,10 @@ block content
        else
          return '05';
      }
-     
-     // Calculate gas cost 
+
+     // Calculate gas cost
      //https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
-     
+
      // https://github.com/neo-project/neo-vm/blob/master/src/neo-vm/OpCode.cs
      function parseOpcode(opcode, hexavm) {
        var pvalue = parseInt(opcode, 16);
@@ -201,7 +204,7 @@ block content
            var codepush = ""+hexavm[0]+hexavm[1];
            hexavm = hexavm.substr(2,hexavm.length);
            $("#opcodes").text($("#opcodes").text() + codepush);
-            spush += String.fromCharCode(parseInt(codepush, 16));         
+            spush += String.fromCharCode(parseInt(codepush, 16));
          }
          $("#opcodes").text($("#opcodes").text() +" \""+spush+"\" ");
          $("#opcodes").text($("#opcodes").text() +" # 0x01-0x4B The next opcode bytes is data to be pushed onto the stack\n");
@@ -290,7 +293,7 @@ block content
            sfunc += cvalue;
            if(sfunc == "Neo.Storage")
               $("#cbx_storage")[0].checked  = true;
-           $("#opcodes").text($("#opcodes").text() + cvalue);           
+           $("#opcodes").text($("#opcodes").text() + cvalue);
          }
          $("#opcodes").text($("#opcodes").text() + "\n");
        }
@@ -439,13 +442,13 @@ block content
        else {
          $("#opcodes").text($("#opcodes").text() + opcode + "\t???\t# \n");
        }
-       
-       
+
+
        return hexavm;
      }
-     
-     
-     
+
+
+
      function printOpcode(hexavm) {
        if(hexavm.length == 0)
           return; // string is empty
@@ -455,11 +458,12 @@ block content
        hexavm = hexavm.substr(2,hexavm.length);
        //console.log("code ("+code+")");
        hexavm = parseOpcode(code, hexavm);
-       
+
        printOpcode(hexavm);
      }
-     
+
      $("#myform").submit(function(e) {
+      $("#code").val(ace.edit("editorCSharp").getSession().getValue())
       $("#codewarnerr").val("");
       e.preventDefault(); // Prevents the page from refreshing
       var $this = $(this); // `this` refers to the current form element
@@ -475,10 +479,10 @@ block content
             hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm,"");
             $("#opcodes").text("");
             printOpcode(hexcodeavm);
-            
+
             localStorage.setItem('avmFile', hex2bin( hexcodeavm ) );
             $("#btn_download")[0].style="";
-            
+
             var codeabi = atob(data.abi);
             $("#codeabi").text(codeabi);
             chash=JSON.parse($('#codeabi').text())["hash"];
@@ -489,7 +493,7 @@ block content
             jsonABI = JSON.parse($('#codeabi').text());
             console.log("Parsing ABI json");
             // look for Main function
-            var i = 0; 
+            var i = 0;
             for(i = 0; i<jsonABI["functions"].length; i++)
                 if( jsonABI["functions"][i]["name"] == "Main" ) {
                     console.log("Found function 'Main' with id="+i);
@@ -516,7 +520,7 @@ block content
         "json" // The format the response should be in
        );
      });
-     
+
      $("#formsearch").submit(function(e) {
       $("#contractmessages").text("");
       $("#contractmessagesnotify").text("");
@@ -535,7 +539,7 @@ block content
        );
        alert("the search action in private net can take up to 30 seconds... time for a coffee :)");
      });
-     
+
      $("#forminvoke").submit(function(e) {
       $("#contractmessages").text("");
       $("#contractmessagesnotify").text("");
@@ -550,7 +554,7 @@ block content
           var deploymsg = atob(data.output);
           $("#contractmessages").text(deploymsg);
           $("#contractmessagesnotify").text("");
-          
+
           var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
           while(indexNotify != -1)
           {
@@ -558,20 +562,20 @@ block content
             var snotify = "";
             //console.log("found Notiy at "+indexNotify);
             while($("#contractmessages").text()[indexNotify+"SmartContract.Runtime.Notify".length+40+6+i] != '\n') {
-              snotify += $("#contractmessages").text()[indexNotify+"SmartContract.Runtime.Notify".length+40+6+i]; 
+              snotify += $("#contractmessages").text()[indexNotify+"SmartContract.Runtime.Notify".length+40+6+i];
               i++;
             }
             //console.log("NOTIFY:"+snotify);
             $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
             indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify+1);
           }
-          
+
         },
         "json" // The format the response should be in
        );
        alert("the invoke action in private net can take up to 30 seconds... time for a coffee :)");
      });
-     
+
      $("#formdeploy").submit(function(e) {
       $("#contractmessages").text("");
       $("#contractmessagesnotify").text("");
@@ -590,44 +594,40 @@ block content
        );
        alert("the deploy action in private net can take up to 30 seconds... time for a coffee :)");
      });
-     
-     $("#btn_cs_ex1").click(function (e) {
-       e.preventDefault();
-       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs", function( data ) {
-         $( "#code" )[0].value = data;
-       });
-     });
-     $("#btn_cs_ex2").click(function (e) {
-       e.preventDefault();
-       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs", function( data ) {
-         $( "#code" )[0].value = data;
-       });
-     });
-     $("#btn_cs_ex3").click(function (e) {
-       e.preventDefault();
-       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs", function( data ) {
-         $( "#code" )[0].value = data;
-       });
-     });
-     $("#btn_cs_ex4").click(function (e) {
-       e.preventDefault();
-       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs", function( data ) {
-         $( "#code" )[0].value = data;
-       });
-     });
-     $("#btn_cs_ex5").click(function (e) {
-       e.preventDefault();
-       $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs", function( data ) {
-         $( "#code" )[0].value = data;
-         $.get( "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs", function( data2 ) {
-           $( "#code" )[0].value += data2;
+
+     var editorCSharp = ace.edit("editorCSharp");
+     var cSharpFiles = [
+         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],
+         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs"],
+         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs"],
+         [
+             "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs",
+             "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs"
+         ]
+     ];
+
+     for (var i = 0; i < 5; i++) {
+         $("#btn_cs_ex" + (i + 1)).attr("codeIt", i);
+         $("#btn_cs_ex" + (i + 1)).click(function (e) {
+             e.preventDefault();
+             editorCSharp.getSession().setValue("");
+             var codeHidden = $("#code");
+             $(codeHidden).val($(codeHidden).val());
+
+             var filesList = cSharpFiles[parseInt($(this).attr("codeIt"))];
+             var filesLen = filesList.length;
+
+             for (var j = 0; j < filesLen; j++) {
+                 var file = filesList[j];
+                 $.get(file, function(data) {
+                     $(codeHidden).val($(codeHidden).val() + data);
+                     editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
+                 });
+             }
          });
-       });
-     });
-     
-     
-     
-     
+     }
+
      $("#btn_download").click(function (e) {
         e.preventDefault();
         var blob = new Blob([localStorage.getItem('avmFile')]);
@@ -636,3 +636,24 @@ block content
         link.download = "file.avm";
         link.click();
      });
+
+     editorCSharp.setTheme("ace/theme/clouds");
+     editorCSharp.session.setMode("ace/mode/csharp");
+     editorCSharp.setAutoScrollEditorIntoView(true);
+     editorCSharp.setOptions({
+         enableBasicAutocompletion: true,
+         enableSnippets: true,
+         enableLiveAutocompletion: false,
+         maxLines: 30
+     });
+     editorCSharp.commands.addCommand({
+         name: "showKeyboardShortcuts",
+         bindKey: {win: "Ctrl-Alt-h", mac: "Command-Alt-h"},
+         exec: function (editor) {
+             ace.config.loadModule("ace/ext/keybinding_menu", function (module) {
+                 module.init(editor);
+                 editor.showKeyboardShortcuts()
+             })
+         }
+     })
+     editorCSharp.execCommand("showKeyboardShortcuts")

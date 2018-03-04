@@ -62,8 +62,7 @@ block content
                             #section4.tab-pane.fade
                                 input(type='hidden', id='code_sol', name='codesend_sol', rows='15', cols='100')=code
                                 pre(id="editorSolidity")="Solidity"
-                        br
-                        button.btn.btn-success(type="submit")="Compile"
+                        button.btn.btn-success(type="submit" style="margin-top: 5px;")="Compile"
                         br
                         h4 Compile Warning/Errors:
                         textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")=""
@@ -73,12 +72,10 @@ block content
                     .form-group
                         h4 AVM (in hex):
                         textarea.form-control(id='codeavm', name='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
-                        button.btn.btn-success(data-toggle="collapse", data-target="#opcodesDiv", type="button")="AVM OPCODES"
+                        button.btn.btn-warning(id='btn_download' style="margin-bottom: 5px; margin-top: 5px;")="Download AVM"
+                        button.btn.btn-info(data-toggle="collapse", data-target="#opcodesDiv", type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;")="AVM OPCODES"
                         div.collapse#opcodesDiv()
                             textarea.form-control#opcodes(readonly, rows='5', cols='100', placeholder="AVM OPCODES")
-                        br
-                        br
-                        button.btn.btn-success(id='btn_download')="Download AVM"
                         p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)
                         br
                         h4 ABI:
@@ -121,7 +118,7 @@ block content
                     .form-group
                         h4 Search contract in private net:
                         input(id='contracthash_search', name='contracthash_search' placeholder="Script Hash")
-                        button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Search by hash"
+                        button.btn.btn-info.btn-sm(type="submit" style="margin-left: 10px;")="Search by hash"
                         br
                 br
                 form(id='forminvoke', action='/invokex')

@@ -1,6 +1,22 @@
 extends layout
 
 block content
+    nav.navbar.navbar
+      .container-fluid
+        .navbar-header
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#myNavbar')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='#')
+            span.glyphicon.glyphicon-leaf
+                | NeoCompiler.io
+        #myNavbar.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li.active
+              a(href='https://neocompiler.io') Home
+            li
+              a(target="_blank",href='https://neoscan.neocompiler.io') NeoScan-PrivateNet
     - var teste = "dXNpbmcgTmVvLlNtYXJ0Q29udHJhY3QuRnJhbWV3b3JrOwp1c2luZyBOZW8uU21hcnRDb250cmFjdC5GcmFtZXdvcmsuU2VydmljZXMuTmVvOwp1c2luZyBTeXN0ZW07CnVzaW5nIFN5c3RlbS5OdW1lcmljczsKCm5hbWVzcGFjZSBOZW9Db250cmFjdDEKewogICAgcHVibGljIGNsYXNzIENvbnRyYWN0MSA6IFNtYXJ0Q29udHJhY3QKICAgIHsKICAgICAgICBwdWJsaWMgc3RhdGljIHZvaWQgTWFpbigpCiAgICAgICAgewogICAgICAgICAgICBTdG9yYWdlLlB1dChTdG9yYWdlLkN1cnJlbnRDb250ZXh0LCAiSGVsbG8iLCAiV29ybGQiKTsKICAgICAgICB9CiAgICB9Cn0K"
     - var code = new Buffer(teste, 'base64').toString('ascii');
     - var currentCode = "";
@@ -17,27 +33,24 @@ block content
                         a(href='#section3', data-toggle='tab') Java (not yet)
                     li
                         a(href='#section4', data-toggle='tab') Solidity (not yet)
-                h4 Light Wallets
-                    li
-                        a(target="_blank",href='https://neoscan.neocompiler.io') NeoScan-PrivateNet
             .col-sm-9
-                h2 NeoCompiler.io
                 h4
                     small
                         p Welcome to NeoCompiler.io, an open-source initiative for providing easy access to compilers for NEO platform.
                 h4
                     small
                         p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
+                        p Use CTRL+ALT+H to acess the hotkeys informations
                 form(id='myform', action='/compilex')
                     .form-group
                         h4 Code:
                         .tab-content
                             #section1.tab-pane.fade.in.active
-                                button.btn.btn-info(id="btn_cs_ex1")="HelloWorld.cs"
-                                button.btn.btn-info(id="btn_cs_ex2")="ICO_Template.cs"
-                                button.btn.btn-info(id="btn_cs_ex3")="MyCheckWitness.cs"
-                                button.btn.btn-info(id="btn_cs_ex4")="Lock.cs"
-                                button.btn.btn-info(id="btn_cs_ex5")="StructExample.cs"
+                                button.btn.btn-info(id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;")="HelloWorld.cs"
+                                button.btn.btn-info(id="btn_cs_ex2" style="margin-bottom: 5px; margin-left: 2px;")="ICO_Template.cs"
+                                button.btn.btn-info(id="btn_cs_ex3" style="margin-bottom: 5px; margin-left: 2px;")="MyCheckWitness.cs"
+                                button.btn.btn-info(id="btn_cs_ex4" style="margin-bottom: 5px; margin-left: 2px;")="Lock.cs"
+                                button.btn.btn-info(id="btn_cs_ex5" style="margin-bottom: 5px; margin-left: 2px;")="StructExample.cs"
                                 input(type='hidden', id='code', name='codesend')=code
                                 pre(id="editorCSharp")=code
                             #section2.tab-pane.fade
@@ -56,7 +69,7 @@ block content
                         textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")=""
                         br
 
-                form.collapse#formdeploy(action='/deployx')
+                form#formdeploy(action='/deployx')
                     .form-group
                         h4 AVM (in hex):
                         textarea.form-control(id='codeavm', name='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
@@ -65,7 +78,7 @@ block content
                             textarea.form-control#opcodes(readonly, rows='5', cols='100', placeholder="AVM OPCODES")
                         br
                         br
-                        button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"
+                        button.btn.btn-success(id='btn_download')="Download AVM"
                         p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)
                         br
                         h4 ABI:
@@ -74,8 +87,8 @@ block content
                         br
                         h4 Deploy contract to private net:
                         input(id='contracthash', name='contracthash' placeholder="Script Hash")
-                        input(id='contractparams', name='contractparams' placeholder='"Parameters (in quotes)"')
-                        select(name='contractreturn', id='contractreturn')
+                        input(id='contractparams', name='contractparams' placeholder='"Parameters (in quotes)"' style="margin-left: 5px;")
+                        select.custom-select(name='contractreturn', id='contractreturn' style="margin-left: 5px;")
                             option 00
                             option 01
                             option 02
@@ -88,58 +101,60 @@ block content
                             option f0
                             option ff
                         //input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")
-                        input(type="checkbox", name="cbx_storage", id="cbx_storage")
+                        input(type="checkbox", name="cbx_storage", id="cbx_storage" style="margin-left: 10px;")
                         | Storage
-                        input(type="checkbox", name="cbx_dynamicinvoke", id="cbx_dynamicinvoke")
+                        input(type="checkbox", name="cbx_dynamicinvoke", id="cbx_dynamicinvoke" style="margin-left: 10px;")
                         | Dynamic Invoke
                         br
                         br
-                        select(name='wallet_deploy')
+                        select.custom-select(name='wallet_deploy')
                             option w1.wallet
                             option w2.wallet
                             option w3.wallet
                             option w4.wallet
-                        button.btn.btn-success(type="submit")="Deploy"
-                        br
-                        p Hex code advices:  Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
-                        br
+                        button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Deploy"
+                        .panel.panel-primary(style="margin-top: 10px;")
+                            .panel-heading Hex code advices
+                            .panel-body 
+                                p Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
                 form(id='formsearch', action='/searchx')
                     .form-group
                         h4 Search contract in private net:
                         input(id='contracthash_search', name='contracthash_search' placeholder="Script Hash")
-                        button.btn.btn-success(type="submit")="Search by hash"
+                        button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Search by hash"
                         br
                 br
                 form(id='forminvoke', action='/invokex')
                     .form-group
                         h4 Invoke contract in private net:
                         input(id='invokehash', name='invokehash', placeholder="Script Hash")
-                        input(id='invokeparams', name='invokeparams', placeholder="Script Params")
-                        input(id='attachneo', name='attachneo', value="0" placeholder="Send NEO")
-                        select(name='wallet_invoke')
+                        input(id='invokeparams', name='invokeparams', placeholder="Script Params" style="margin-left: 5px;")
+                        input(id='attachneo', name='attachneo', value="0" placeholder="Send NEO" style="margin-left: 5px;")
+                        br
+                        select.custom-select(name='wallet_invoke' style="margin-top: 10px;")
                             option w1.wallet
                             option w2.wallet
                             option w3.wallet
                             option w4.wallet
-                        button.btn.btn-success(type="submit")="Invoke by hash"
-                        br
-                        p Wallet public hashes:
-                        p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
-                        p w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL/036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
-                        p w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx/0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
-                        p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
-                        br
-
+                        button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Invoke by hash"
+                        .panel.panel-primary(style="margin-top: 10px;")
+                            .panel-heading Wallet public hashes
+                            .panel-body 
+                                p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
+                                p w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL/036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
+                                p w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx/0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
+                                p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
 
                 h4 Private Net Messages:
                 textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
+                br
                 textarea.form-control(id='contractmessagesnotify', readonly, rows='5', cols='100', placeholder="Contract messages Notify...")
                 br
                 br
                 p Utility: convert String to Hex
                 input(id='stringtohash', placeholder="String to Hash")
-                button.btn.btn-info(id="strtohash")="String to hash"
-                input(id='stringtohash2',style="background-color:#eeeeee", readonly)
+                button.btn.btn-info.btn-sm(id="strtohash" style="margin-left: 10px;" )="String to hash"
+                input(id='stringtohash2',style="background-color:#eeeeee; margin-left: 10px;", readonly)
                 br
                 br
     script(type='text/javascript' src='https://code.jquery.com/jquery-3.2.1.min.js')
@@ -616,7 +631,7 @@ block content
                 exec: function (editor) {
                     ace.config.loadModule("ace/ext/keybinding_menu", function (module) {
                         module.init(editor);
-                        editor.showKeyboardShortcuts()
+                        //editor.showKeyboardShortcuts() just shows when tigger the hotkey
                     })
                 }
             })

@@ -46,11 +46,11 @@ block content
                         h4 Code:
                         .tab-content
                             #section1.tab-pane.fade.in.active
-                                button.btn.btn-info(id="btn_cs_ex1")="HelloWorld.cs"
-                                button.btn.btn-info(id="btn_cs_ex2")="ICO_Template.cs"
-                                button.btn.btn-info(id="btn_cs_ex3")="MyCheckWitness.cs"
-                                button.btn.btn-info(id="btn_cs_ex4")="Lock.cs"
-                                button.btn.btn-info(id="btn_cs_ex5")="StructExample.cs"
+                                button.btn.btn-info(id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;")="HelloWorld.cs"
+                                button.btn.btn-info(id="btn_cs_ex2" style="margin-bottom: 5px; margin-left: 2px;")="ICO_Template.cs"
+                                button.btn.btn-info(id="btn_cs_ex3" style="margin-bottom: 5px; margin-left: 2px;")="MyCheckWitness.cs"
+                                button.btn.btn-info(id="btn_cs_ex4" style="margin-bottom: 5px; margin-left: 2px;")="Lock.cs"
+                                button.btn.btn-info(id="btn_cs_ex5" style="margin-bottom: 5px; margin-left: 2px;")="StructExample.cs"
                                 input(type='hidden', id='code', name='codesend')=code
                                 pre(id="editorCSharp")=code
                             #section2.tab-pane.fade
@@ -76,7 +76,7 @@ block content
                         br
                         textarea.form-control(id='opcodes', readonly, rows='5', cols='100', placeholder="AVM OPCODES")
                         br
-                        button.btn.btn-success(id='btn_download', style="visibility:hidden")="Download AVM"
+                        button.btn.btn-success(id='btn_download')="Download AVM"
                         p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)
                         br
                         h4 ABI:
@@ -111,9 +111,10 @@ block content
                             option w3.wallet
                             option w4.wallet
                         button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Deploy"
-                        br
-                        p Hex code advices:  Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
-                        br
+                        .panel.panel-primary(style="margin-top: 10px;")
+                            .panel-heading Hex code advices
+                            .panel-body 
+                                p Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).
                 form(id='formsearch', action='/searchx')
                     .form-group
                         h4 Search contract in private net:
@@ -134,14 +135,13 @@ block content
                             option w3.wallet
                             option w4.wallet
                         button.btn.btn-success.btn-sm(type="submit" style="margin-left: 10px;")="Invoke by hash"
-                        br
-                        p Wallet public hashes:
-                        p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
-                        p w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL/036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
-                        p w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx/0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
-                        p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
-                        br
-
+                        .panel.panel-primary(style="margin-top: 10px;")
+                            .panel-heading Wallet public hashes
+                            .panel-body 
+                                p w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y/031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
+                                p w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL/036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
+                                p w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx/0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
+                                p w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9/02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
 
                 h4 Private Net Messages:
                 textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")

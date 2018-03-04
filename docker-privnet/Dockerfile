@@ -34,5 +34,7 @@ ADD commands/execimportcontract.sh /
 ADD commands/exectestinvokecontract.sh /
 ADD commands/execsearchcontract.sh /
 
+#RUN /execTransferFundsAtTheBegin.sh
+
 # (Testing) On docker run, perform 6 send transations
 #CMD ["/bin/bash", "/execTransferFundsAtTheBegin.sh"]

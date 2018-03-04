@@ -1,9 +1,6 @@
 #!/bin/bash
 
 cd /opt/neo-python/
-rm -rf Chains/privnet
-rm -rf Chains/privnet/*
-rm -rf Chains/*
 
 send1=`echo "send neo APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 10000" | xxd -p -c 256`
 send2=`echo "send gas APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 1000" | xxd -p -c 256`

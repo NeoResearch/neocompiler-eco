@@ -448,7 +448,7 @@ class PromptInterface(object):
                 print("Please supply an address and title")
 
     def do_send(self, arguments):
-        construct_and_send(self, self.Wallet, arguments,False)
+        return construct_and_send(self, self.Wallet, arguments,False)
 
     def do_sign(self, arguments):
         jsn = get_arg(arguments)
@@ -855,7 +855,10 @@ class PromptInterface(object):
                     elif command == 'wallet':
                         self.show_wallet(arguments)
                     elif command == 'send':
-                        self.do_send(arguments)
+                        tx = self.do_send(arguments)
+                        if tx is not None:
+                            if tx is not 0:
+                                self.wait_for_tx(tx)
                     elif command == 'sign':
                         self.do_sign(arguments)
                     elif command == 'block':

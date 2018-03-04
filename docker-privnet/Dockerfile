@@ -34,7 +34,5 @@ ADD commands/execimportcontract.sh /
 ADD commands/exectestinvokecontract.sh /
 ADD commands/execsearchcontract.sh /
 
-#RUN /execTransferFundsAtTheBegin.sh
-
-# (Testing) On docker run, perform 6 send transations
-#CMD ["/bin/bash", "/execTransferFundsAtTheBegin.sh"]
+# On docker startup, perform 6 send transations on another neo-python folder, then, delete it
+CMD ["/bin/bash", "/execTransferFundsAtTheBegin.sh"]

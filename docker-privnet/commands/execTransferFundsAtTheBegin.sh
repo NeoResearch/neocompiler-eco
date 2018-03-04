@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd /opt/neo-python/
+#cd /opt/neo-python/
+cp -r /opt/neo-python/ /opt/neo-pythonTemp/
+cd /opt/neo-pythonTemp/
 
 send1=`echo "send neo APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 10000" | xxd -p -c 256`
 send2=`echo "send gas APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 1000" | xxd -p -c 256`
@@ -13,6 +15,9 @@ strrebuild=`echo "wallet rebuild" | xxd -p`
 strexit=`echo "exit" | xxd -p`
 
 python3 unsafeprompt.py -p -e $strexit,$strrebuild,$send1,$strrebuild,$send2,$strrebuild,$send3,$strrebuild,$send4,$strrebuild,$send5,$strrebuild,$send6,$strrebuild,$stropen
+
+cd /
+rm -rf /opt/neo-pythonTemp
 
 #example: ./exectransferfundsAtTheBegin.sh
 #outside: docker exec -t neo-privnet-with-gas dash -i -c "./exectransferfundsAtTheBegin.sh" > saida.log

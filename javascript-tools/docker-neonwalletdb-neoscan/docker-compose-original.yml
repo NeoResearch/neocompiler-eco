@@ -30,7 +30,7 @@ services:
       - redis
       - neo-privnet
   neo-privnet:
-    image: vncoelho/neo-compiler-privatenet-with-gas:1.1
+    image: neo-compiler-privnet-with-gas
     container_name: "neo-compiler-privnet-with-gas"
     ports:
       - 20333:20333
@@ -58,7 +58,7 @@ services:
         - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
   neo-scan:
-    image: igormcoelho/neo-docker-scan:1.0
+    image: slipoh/neo-scan
     container_name: "neo-scan"
     ports:
       - 4000:4000

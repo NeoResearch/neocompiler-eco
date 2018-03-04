@@ -1,4 +1,4 @@
-FROM cityofzion/neo-privatenet
+FROM cityofzion/neo-privatenet:2.7.1
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

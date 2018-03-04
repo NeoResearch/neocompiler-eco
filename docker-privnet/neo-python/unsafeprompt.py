@@ -768,10 +768,10 @@ class PromptInterface(object):
                 foundtx = True
                 print("Transaction found with success")
                 continue
-            if sec_passed < 1:
+            if sec_passed < 4:
                 print("Waiting for tx {} to show up on blockchain...".format(tx.Hash.ToString()))
-            time.sleep(1)
-            sec_passed += 1
+            time.sleep(4)
+            sec_passed += 4
         if foundtx:
             return True
         else:

@@ -40,7 +40,6 @@ block content
                 h4
                     small
                         p We will start with classic C# code, Python (through neo-boa project) and **Solidity** (yes, we will port it from a brand new neo-solidity project).
-                        p Use CTRL+ALT+H to acess the hotkeys informations
                 form(id='myform', action='/compilex')
                     .form-group
                         h4 Code:
@@ -62,6 +61,7 @@ block content
                             #section4.tab-pane.fade
                                 input(type='hidden', id='code_sol', name='codesend_sol', rows='15', cols='100')=code
                                 pre(id="editorSolidity")="Solidity"
+                        small Use CTRL+ALT+H to acess the hotkeys informations<br />
                         button.btn.btn-success(type="submit" style="margin-top: 5px;")="Compile"
                         br
                         h4 Compile Warning/Errors:
@@ -137,11 +137,10 @@ block content
                         .panel.panel-primary(style="margin-top: 10px;")
                             .panel-heading Wallet public hashes
                             .panel-body 
-                                a(href='https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y') w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y / 031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
-                                a(href='https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL') w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL / 036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb
-                                a(href='https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx') w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx / 0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d
-                                a(href='https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9') w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9 / 02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4
-
+                                a(href='https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y') w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y / 031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a<br />					
+                                a(href='https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL') w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL / 036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb<br />
+                                a(href='https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx') w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx / 0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d<br />
+                                a(href='https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9') w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9 / 02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br />
                 h4 Private Net Messages:
                 textarea.form-control(id='contractmessages', readonly, rows='15', cols='100', placeholder="Contract messages...")
                 br

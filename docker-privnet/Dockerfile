@@ -33,7 +33,3 @@ ADD neo-python/LoadSmartContract.py /opt/neo-python/neo/Prompt/Commands/
 ADD commands/execimportcontract.sh /
 ADD commands/exectestinvokecontract.sh /
 ADD commands/execsearchcontract.sh /
-
-# On docker startup, perform 6 send transations on another neo-python folder, then, delete it
-#CMD ["/bin/bash", "/execTransferFundsAtTheBegin.sh"]
-#ENTRYPOINT /execTransferFundsAtTheBegin.sh

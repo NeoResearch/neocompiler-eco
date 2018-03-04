@@ -34,6 +34,8 @@ For Debian-based systems:
 
 `apt install nodejs-legacy`
 
+`npm install`
+
 ## Docker-neo csharp compiler backend
 
 ### Building docker-neo backend

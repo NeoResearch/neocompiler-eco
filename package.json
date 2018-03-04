@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "stop" : "node stop-app.js"
+    "stop": "node stop-app.js"
   },
   "dependencies": {
     "body-parser": "~1.18.2",
@@ -13,6 +13,8 @@
     "express": "~4.15.5",
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
-    "serve-favicon": "~2.4.5"
+    "npm": "^5.7.1",
+    "serve-favicon": "~2.4.5",
+    "socket.io": "^2.0.4"
   }
 }

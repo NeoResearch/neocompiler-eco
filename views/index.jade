@@ -69,12 +69,14 @@ block content
                         textarea.form-control(id='codewarnerr',readonly,rows='15', cols='100', placeholder="Warning/Errors in code...")=""
                         br
 
-                form(id='formdeploy', action='/deployx')
+                form#formdeploy(action='/deployx')
                     .form-group
                         h4 AVM (in hex):
                         textarea.form-control(id='codeavm', name='codeavm', rows='5', cols='100', placeholder="AVM (in hex)")
+                        button.btn.btn-success(data-toggle="collapse", data-target="#opcodesDiv", type="button")="AVM OPCODES"
+                        div.collapse#opcodesDiv()
+                            textarea.form-control#opcodes(readonly, rows='5', cols='100', placeholder="AVM OPCODES")
                         br
-                        textarea.form-control(id='opcodes', readonly, rows='5', cols='100', placeholder="AVM OPCODES")
                         br
                         button.btn.btn-success(id='btn_download')="Download AVM"
                         p *This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)
@@ -481,7 +483,7 @@ block content
         }
 
         $("#myform").submit(function (e) {
-            $("#code").val(ace.edit("editorCSharp").getSession().getValue())
+            $("#code").val(ace.edit("editorCSharp").getSession().getValue());
             $("#codewarnerr").val("");
             e.preventDefault(); // Prevents the page from refreshing
             var $this = $(this); // `this` refers to the current form element
@@ -655,8 +657,6 @@ block content
             $("#btn_cs_ex" + (i + 1)).click(function (e) {
                 e.preventDefault();
                 editorCSharp.getSession().setValue("");
-                var codeHidden = $("#code");
-                $(codeHidden).val($(codeHidden).val());
 
                 var filesList = cSharpFiles[parseInt($(this).attr("codeIt"))];
                 var filesLen = filesList.length;
@@ -664,7 +664,6 @@ block content
                 for (var j = 0; j < filesLen; j++) {
                     var file = filesList[j];
                     $.get(file, function (data) {
-                        $(codeHidden).val($(codeHidden).val() + data);
                         editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
                     });
                 }
@@ -679,5 +678,3 @@ block content
             link.download = "file.avm";
             link.click();
         });
-
-        editorCSharp.execCommand("showKeyboardShortcuts")

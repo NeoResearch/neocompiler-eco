@@ -481,7 +481,12 @@ block content
         }
 
         $("#myform").submit(function (e) {
-            $("#code").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code").val("");
+            $("#code_python").val("");
+            if($("#section1.tab-pane.fade.active.in").length != 0)
+               $("#code").val(ace.edit("editorCSharp").getSession().getValue());
+            if($("#section2.tab-pane.fade.active.in").length != 0)
+               $("#code_python").val(ace.edit("editorPython").getSession().getValue());   
             $("#codewarnerr").val("");
             e.preventDefault(); // Prevents the page from refreshing
             var $this = $(this); // `this` refers to the current form element

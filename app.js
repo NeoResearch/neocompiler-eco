@@ -1,47 +1,18 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-
-var index = require('./routes/index');
-var users = require('./routes/users');
-var compile = require('./routes/compile');
+var express  = require('express');
+var morgan = require('morgan');             // log requests to the console (express4)
+var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
+var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 
 var app = express();
 
-app.set('port', 8000 || process.env.PORT);
-//app.use(express.bodyParser()); // Automatically parses form data
+app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
+app.use(morgan('dev'));                                         // log every request to the console
+app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+app.use(bodyParser.json());                                     // parse application/json
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+app.use(methodOverride());
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-   parameterLimit: 100000,
-   limit: '5mb',
-   extended: false
- }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', index);
-app.use('/users', users);
-app.use('/compile', compile);
-
-//app.use(express.bodyParser());
-// parse urlencoded request bodies into req.body
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
-
-//var cors = require('cors');
-//app.use(cors());
-
+app.listen(8000);
 
 app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for

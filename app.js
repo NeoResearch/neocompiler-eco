@@ -48,6 +48,21 @@ app.post('/compilex', function(req, res) {
   // req.body -- contains form data
   //console.log("req.body.codesend='"+req.body.codesend+"'");
 
+ // Python
+ if(req.body.codesend_python)
+ {
+   var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
+   var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
+   var outp = "";
+   outp = require('child_process').execSync(cmddocker).toString();
+   console.log("calling compile function");
+   //console.log("returning json..."+outp);
+   //console.log("output is: '"+outp+"'");
+   //res.send(JSON.stringify(outp));
+   res.send(outp);
+ } // Python
+ else { // C#
+
  if(!process.env.DOCKERNEOCOMPILER) {
   console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
   var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
@@ -66,19 +81,8 @@ app.post('/compilex', function(req, res) {
   //res.send(JSON.stringify(outp));
   res.send(outp);
  }
-});
+} // C#
 
-
-app.post('/compilepy', function(req, res) {
-  var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
-  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
-  var outp = "";
-  outp = require('child_process').execSync(cmddocker).toString();
-  console.log("calling compile function");
-  //console.log("returning json..."+outp);
-  //console.log("output is: '"+outp+"'");
-  //res.send(JSON.stringify(outp));
-  res.send(outp);
 });
 
 

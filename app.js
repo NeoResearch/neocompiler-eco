@@ -68,6 +68,20 @@ app.post('/compilex', function(req, res) {
  }
 });
 
+
+app.post('/compilepy', function(req, res) {
+  var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
+  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
+  var outp = "";
+  outp = require('child_process').execSync(cmddocker).toString();
+  console.log("calling compile function");
+  //console.log("returning json..."+outp);
+  //console.log("output is: '"+outp+"'");
+  //res.send(JSON.stringify(outp));
+  res.send(outp);
+});
+
+
 app.post('/deployx', function(req, res) {
   var codeavm = new Buffer(req.body.codeavm, 'ascii').toString('base64');
   var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');

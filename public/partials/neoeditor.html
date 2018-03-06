@@ -164,10 +164,6 @@ def Main():
             <h4>Private Net Messages:</h4>
             <textarea id="contractmessages" readonly="readonly" rows="15" cols="100" placeholder="Contract messages..." class="form-control"></textarea><br/>
             <textarea id="contractmessagesnotify" readonly="readonly" rows="5" cols="100" placeholder="Contract messages Notify..." class="form-control"></textarea><br/><br/>
-            <p>Utility: convert String to Hex</p>
-            <input id="stringtohash" placeholder="String to Hash"/>
-            <button id="strtohash" style="margin-left: 10px;" class="btn btn-info btn-sm">String to hash</button>
-            <input id="stringtohash2" style="background-color:#eeeeee; margin-left: 10px;" readonly="readonly"/><br/><br/>
         </div>
     </div>
 </div>
@@ -181,13 +177,6 @@ def Main():
         str = String.fromCharCode.apply(String, bytes);
         return str;
     }
-    $("#strtohash")[0].onclick = function () {
-        var i = 0;
-        $("#stringtohash2").val("");
-        for (i = 0; i < $("#stringtohash").val().length; i++) {
-            $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
-        }
-    };
     // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
     // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
     function getHexForType(stype) {

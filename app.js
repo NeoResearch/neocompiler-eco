@@ -2,10 +2,12 @@ var express  = require('express');
 var logger = require('morgan');             // log requests to the console (express4)
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
-var path = require('path');
+//var path = require('path');
 var cookieParser = require('cookie-parser');
 
 var app = express();
+
+app.set('view engine', 'html');
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users

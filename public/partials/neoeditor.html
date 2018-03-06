@@ -1,12 +1,66 @@
 <div class="container-fluid">
     <div class="row content">
         <div class="col-sm-9">
-            <br><p>Use CTRL+ALT+H to acess the hotkeys informations</p>
             <form id="myform" action="/compilex">
                 <h4>Code:</h4>
-                <input type="hidden" id="code_java" name="codesend_java"/>
-                <pre id="editorJava">Java</pre>
+                <div class="tab-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
+                        <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
+                        <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li>
+                        <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active cont" id="csharpcode">
+                                <button id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">HelloWorld.cs</button>
+                                <button id="btn_cs_ex2" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">ICO_Template.cs</button>
+                                <button id="btn_cs_ex3" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">MyCheckWitness.cs</button>
+                                <button id="btn_cs_ex4" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">Lock.cs</button>
+                                <button id="btn_cs_ex5" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">StructExample.cs</button>
+                                <input type="hidden" id="code" name="codesend"/>
+                                <pre id="editorCSharp">
+using Neo.SmartContract.Framework;
+using Neo.SmartContract.Framework.Services.Neo;
+using System;
+using System.Numerics;
+namespace NeoContract1
+{
+public class Contract1 : SmartContract
+{
+public static void Main()
+{
+    Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+}
+}
+}
+                                </pre>
+                        </div>
+                        <div class="tab-pane cont" id="pythoncode">
+                            <input type="hidden" id="code_python" name="codesend_python"/>
+                            <pre id="editorPython">
+from boa.interop.Neo.Runtime import Notify, CheckWitness
+
+def Main():
+    OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
+    result = CheckWitness(OWNER)
+    if result:
+        print(&quot;OWNER is caller&quot;)
+        return True
+    return False
+                            </pre>
+                        </div>
+                        <div class="tab-pane" id="javacode">
+                            <input type="hidden" id="code_java" name="codesend_java"/>
+                            <pre id="editorJava">Java</pre>
+                        </div>
+                        <div class="tab-pane" id="soliditycode">
+                            <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
+                            <pre id="editorSolidity">Solidity</pre>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" style="margin-top: 5px;" class="btn btn-success">Compile</button><br/>
+                <p>Use CTRL+ALT+H to acess the hotkeys informations</p>
                 <h4>Compile Warning/Errors:</h4>
                 <textarea id="codewarnerr" readonly="readonly" rows="15" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea><br/>
             </form>
@@ -78,7 +132,32 @@
                     <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm">Invoke by hash</button>
                     <div style="margin-top: 10px;" class="panel panel-primary">
                         <div class="panel-heading">Wallet public hashes</div>
-                        <div class="panel-body"> <a href="https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y">w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y / 031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a</a><a href="https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL">w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL / 036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb</a><a href="https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx">w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx / 0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d</a><a href="https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9">w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9 / 02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4</a></div>
+                        <div class="panel-body"> 
+                            <a href="https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" 
+                                target="popup" 
+                                onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
+                                w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
+                                    031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a<br><br>
+                            </a>
+                            <a href="https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL" 
+                                target="popup" 
+                                onclick="window.open('https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
+                                w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL<br>
+                                    036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb<br><br>
+                             </a>
+                             <a href="https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx" 
+                                target="popup" 
+                                onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
+                                w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx<br>
+                                    0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d<br><br>
+                            </a>
+                            <a href="https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9" 
+                                target="popup" 
+                                onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
+                                w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9<br>
+                                    02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br><br>
+                             </a>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -404,7 +483,16 @@
         printOpcode(hexavm);
     }
     $("#myform").submit(function (e) {
-        $("#code").val(ace.edit("editorCSharp").getSession().getValue());
+        $("#code").val("");
+        $("#code_python").val("");
+        if($("#section1.tab-pane.fade.active.in").length != 0) {
+            $("#code").val(ace.edit("editorCSharp").getSession().getValue());
+            console.log("C# Compile");
+        }
+        if($("#section2.tab-pane.fade.active.in").length != 0) {
+            $("#code_python").val(ace.edit("editorPython").getSession().getValue());
+            console.log("Python Compile");
+        }
         $("#codewarnerr").val("");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
@@ -550,7 +638,33 @@
         })
         return editor
     }
-    var editorJava = createEditor("editorJava", "ace/mode/java");
+    var editorPython = createEditor("editorPython", "ace/mode/python");
+    var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+    var cSharpFiles = [
+        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],
+        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs"],
+        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs"],
+        [
+            "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs",
+            "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs"
+        ]
+    ];
+    for (var i = 0; i < 5; i++) {
+        $("#btn_cs_ex" + (i + 1)).attr("codeIt", i);
+        $("#btn_cs_ex" + (i + 1)).click(function (e) {
+            e.preventDefault();
+            editorCSharp.getSession().setValue("");
+            var filesList = cSharpFiles[parseInt($(this).attr("codeIt"))];
+            var filesLen = filesList.length;
+            for (var j = 0; j < filesLen; j++) {
+                var file = filesList[j];
+                $.get(file, function (data) {
+                    editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
+                });
+            }
+        });
+    }
     $("#btn_download").click(function (e) {
         e.preventDefault();
         var blob = new Blob([localStorage.getItem('avmFile')]);

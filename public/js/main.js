@@ -7,10 +7,7 @@ var app = angular.module('neoCompilerIoWebApp', [
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
     // Pages
-    .when("/", {templateUrl: "partials/csharp_code.html", controller: "PageCtrl"})
-    .when("/python", {templateUrl: "partials/python_code.html", controller: "PageCtrl"})
-    .when("/java", {templateUrl: "partials/java_code.html", controller: "PageCtrl"})
-    .when("/solidity", {templateUrl: "partials/solidity_code.html", controller: "PageCtrl"})
+    .when("/", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
 
     // Utils

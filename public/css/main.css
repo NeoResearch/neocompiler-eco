@@ -1,9 +1,4 @@
 /* Global Styles */
-
-.footer {
-    background-color: rgba(12, 20, 24, 0.425);
-}
-
 html, body {
     height: 100%;
 }
@@ -86,8 +81,9 @@ body {
     font-style: italic;
 }
 
-footer {
+.footer {
     margin: 50px 0;
+    background-color: rgba(12, 20, 24, 0.425);
 }
 
 /* Responsive Styles */

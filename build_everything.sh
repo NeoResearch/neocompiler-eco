@@ -2,10 +2,10 @@
 [[ `docker-compose --version | awk '{print $3}'` == "1.19.0," ]] && echo "docker-compose is ok: 1.19.0" || echo "ERROR: DOCKER COMPOSE VERSION SHOULD BE 1.19.0!"
 
 echo "Ensuring that docker-compose is down (no reestart will be possible)";
-./buildRun_Compose_PrivateNet_Neon_NeoScanDocker.sh down
+./buildRun_Compose_PrivateNet_NeoScanDocker.sh down
 
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
-./buildRun_Compose_PrivateNet_Neon_NeoScanDocker.sh
+./buildRun_Compose_PrivateNet_NeoScanDocker.sh
 echo "NeoScan-Docker Built with Sucess. You will probably need to wait some time until NeoScan is fully sync.";
 
 # Old command that was used before our private Hub-docker images

@@ -1,8 +1,8 @@
 #!/bin/bash
 [[ `docker-compose --version | awk '{print $3}'` == "1.19.0," ]] && echo "docker-compose is ok: 1.19.0" || echo "ERROR: DOCKER COMPOSE VERSION SHOULD BE 1.19.0!"
 
-echo "Ensuring that docker-compose is down (no reestart will be possible)";
-./buildRun_Compose_PrivateNet_NeoScanDocker.sh down
+echo "Ensuring that any docker-composes is down (no reestart will be possible)";
+./stop-all-docker-compose.sh
 
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 ./buildRun_Compose_PrivateNet_NeoScanDocker.sh

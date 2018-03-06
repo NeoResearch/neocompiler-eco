@@ -4,6 +4,10 @@
 echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 ./stop-all-docker-compose.sh
 
+echo "PRUNE any useless NPM dep and install";
+npm prune
+npm install
+
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 ./buildRun_Compose_PrivateNet_NeoScanDocker.sh
 echo "NeoScan-Docker Built with Sucess. You will probably need to wait some time until NeoScan is fully sync.";

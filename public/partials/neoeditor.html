@@ -2,7 +2,7 @@
     <div class="row content">
         <div class="col-sm-9">
             <form id="myform" action="/compilex">
-                <h4>Code:</h4>
+                <br>
                 <div class="tab-container">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
@@ -10,6 +10,9 @@
                         <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li>
                         <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li>
                     </ul>
+
+                    <!-- /////////////////////////////////////////////////////////////////// -->
+                    <!-- csharpcode -->
                     <div class="tab-content">
                         <div class="tab-pane active cont" id="csharpcode">
                                 <button id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">HelloWorld.cs</button>
@@ -35,6 +38,12 @@ public static void Main()
 }
                                 </pre>
                         </div>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- end csharpcode -->
+
+
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- python div -->
                         <div class="tab-pane cont" id="pythoncode">
                             <input type="hidden" id="code_python" name="codesend_python"/>
                             <pre id="editorPython">
@@ -59,21 +68,32 @@ def Main():
                         </div>
                     </div>
                 </div>
+                <!-- end python div -->
+                <!-- /////////////////////////////////////////////////////////////////// -->
+
+                <!-- /////////////////////////////////////////////////////////////////// -->
+                <!-- common submit button -->
                 <button type="submit" style="margin-top: 5px;" class="btn btn-success">Compile</button><br/>
-                <p>Use CTRL+ALT+H to acess the hotkeys informations</p>
+                <p><font size="1">Use CTRL+ALT+H to acess the hotkeys informations</font></p>
                 <h4>Compile Warning/Errors:</h4>
+                <!-- end common submit button -->
+                <!-- /////////////////////////////////////////////////////////////////// -->
+
                 <textarea id="codewarnerr" readonly="readonly" rows="15" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea><br/>
             </form>
+            <!-- end of compilex form -->
+            <!-- /////////////////////////////////////////////////////////////////// -->
+
             <form id="formdeploy" action="/deployx">
                 <div class="form-group">
                     <h4>AVM (in hex):</h4>
                     <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
                     <button id="btn_download" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download AVM</button>
                     <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
+                    <p><font size="1">*This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)</font></p>
                     <div id="opcodesDiv" class="collapse">
                         <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
                     </div>
-                    <p>*This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)</p><br/>
                     <h4>ABI:</h4>
                     <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea><br/><br/>
                     <h4>Deploy contract to private net:</h4>
@@ -132,30 +152,30 @@ def Main():
                     <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm">Invoke by hash</button>
                     <div style="margin-top: 10px;" class="panel panel-primary">
                         <div class="panel-heading">Wallet public hashes</div>
-                        <div class="panel-body"> 
-                            <a href="https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" 
-                                target="popup" 
+                        <div class="panel-body">
+                            <a href="https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
+                                target="popup"
                                 onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
                                 w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
                                     031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a<br><br>
                             </a>
-                            <a href="https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL" 
-                                target="popup" 
+                            <a href="https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
+                                target="popup"
                                 onclick="window.open('https://dev.neocompiler.io/v2/address/balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
                                 w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL<br>
                                     036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb<br><br>
                              </a>
-                             <a href="https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx" 
-                                target="popup" 
+                             <a href="https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
+                                target="popup"
                                 onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
                                 w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx<br>
                                     0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d<br><br>
                             </a>
-                            <a href="https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9" 
-                                target="popup" 
+                            <a href="https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
+                                target="popup"
                                 onclick="window.open('https://dev.neocompiler.io/v2/address/balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
                                 w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9<br>
-                                    02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br><br>
+                                    02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br>
                              </a>
                         </div>
                     </div>

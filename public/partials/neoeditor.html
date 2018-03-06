@@ -1,5 +1,21 @@
 <div class="container-fluid" style="margin-left: 10%; margin-right: 10%;">
     <div class="row content">
+        <div class="modal fade" id="TimeInfoModal" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Information</h4>
+                    </div>
+                    <div class="modal-body">
+                    <p>It can take up to 30 seconds... time for a coffee :)</p>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <form id="myform" action="/compilex">
             <br>
             <div class="tab-container">
@@ -72,7 +88,7 @@ def Main():
 
             <!-- /////////////////////////////////////////////////////////////////// -->
             <!-- common submit button -->
-            <button type="submit" style="margin-top: 5px;" class="btn btn-success">Compile</button><br/>
+            <button type="submit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal" data-target="#TimeInfoModal">Compile</button><br/>
             <p><font size="1">Use CTRL+ALT+H to acess the hotkeys informations</font></p>
             <h4>Compile Warning/Errors:</h4>
             <!-- end common submit button -->
@@ -120,7 +136,7 @@ def Main():
                 <option>w3.wallet</option>
                 <option>w4.wallet</option>
                 </select>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm">Deploy</button>
+                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
                 <div style="margin-top: 10px;" class="panel panel-primary">
                     <div class="panel-heading">Hex code advices</div>
                     <div class="panel-body">
@@ -133,7 +149,7 @@ def Main():
             <div class="form-group">
                 <h4>Search contract in private net:</h4>
                 <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-info btn-sm">Search by hash</button><br/>
+                <button type="submit" style="margin-left: 10px;" class="btn btn-info btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button><br/>
             </div>
         </form><br/>
         <form id="forminvoke" action="/invokex">
@@ -148,7 +164,7 @@ def Main():
                 <option>w3.wallet</option>
                 <option>w4.wallet</option>
                 </select>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm">Invoke by hash</button>
+                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
             </div>
         </form>
         <h4>Private Net Messages:</h4>
@@ -541,7 +557,6 @@ def Main():
             },
             "json" // The format the response should be in
         );
-        alert("the search action in private net can take up to 30 seconds... time for a coffee :)");
     });
     $("#forminvoke").submit(function (e) {
         $("#contractmessages").text("");
@@ -573,7 +588,6 @@ def Main():
             },
             "json" // The format the response should be in
         );
-        alert("the invoke action in private net can take up to 30 seconds... time for a coffee :)");
     });
     $("#formdeploy").submit(function (e) {
         $("#contractmessages").text("");
@@ -591,7 +605,6 @@ def Main():
             },
             "json" // The format the response should be in
         );
-        alert("the deploy action in private net can take up to 30 seconds... time for a coffee :)");
     });
     function createEditor(name, mode) {
         var editor = ace.edit(name);

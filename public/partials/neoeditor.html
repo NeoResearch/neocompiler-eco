@@ -474,11 +474,11 @@ def Main():
     $("#myform").submit(function (e) {
         $("#code").val("");
         $("#code_python").val("");
-        if($("#section1.tab-pane.fade.active.in").length != 0) {
+        if($("#csharpcode.tab-pane.active.cont").length != 0) {
             $("#code").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("C# Compile");
         }
-        if($("#section2.tab-pane.fade.active.in").length != 0) {
+        if($("#pythoncode.tab-pane.active.cont").length != 0) {
             $("#code_python").val(ace.edit("editorPython").getSession().getValue());
             console.log("Python Compile");
         }

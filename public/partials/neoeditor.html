@@ -105,7 +105,6 @@ def Main():
                 <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
                 <button id="btn_download" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download AVM</button>
                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
-                <p><font size="1">*This is beta. Download AVM may be corrupt... trust in hex codes more than binary download :)</font></p>
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
                 </div>
@@ -175,10 +174,8 @@ def Main():
 <script>
     function hex2bin(hex) {
         var bytes = [];
-        for (var i = 0; i < hex.length - 1; i += 2) {
-            //console.log("process:'"+hex.substr(i, 2)+"'");
+        for (var i = 0; i < hex.length - 1; i += 2)
             bytes.push(parseInt(hex.substr(i, 2), 16));
-        }
         str = String.fromCharCode.apply(String, bytes);
         return str;
     }
@@ -504,7 +501,15 @@ def Main():
                 hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
                 $("#opcodes").text("");
                 printOpcode(hexcodeavm);
-                localStorage.setItem('avmFile', hex2bin(hexcodeavm));
+                datacontent = hex2bin(hexcodeavm);
+                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                localStorage.setItem('avmFile', datacontent);//, {type: 'application/octet-stream'});
+                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+
+                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
+                //console.log(localStorage.getItem('avmFile').charCodeAt(1));
+                //console.log(localStorage.getItem('avmFile').charCodeAt(2));
                 $("#btn_download")[0].style = "";
                 var codeabi = atob(data.abi);
                 $("#codeabi").text(codeabi);
@@ -678,10 +683,36 @@ def Main():
     }
     $("#btn_download").click(function (e) {
         e.preventDefault();
+        /*
         var blob = new Blob([localStorage.getItem('avmFile')]);
+        console.log(blob);
+
         var link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
         link.download = "file.avm";
         link.click();
+        */
+        mydata = localStorage.getItem('avmFile');
+        mydatalist = new Array(mydata.length);
+        for(var i = 0; i<mydata.length; i++)
+            mydatalist[i] = mydata.charCodeAt(i);
+        //console.log("mydata:"+typeof(mydata)+" : "+mydata);
+        mybuf = new Uint8Array(mydatalist); // MAGIC???
+        //console.log("mybuf:"+mybuf);
+        var file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
+    if (window.navigator.msSaveOrOpenBlob) // IE10+
+        window.navigator.msSaveOrOpenBlob(file, "file.avm");
+    else { // Others
+        var a = document.createElement("a"),
+                url = URL.createObjectURL(file);
+        a.href = url;
+        a.download = "file.avm";
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(function() {
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }, 0);
+    }
     });
 </script>

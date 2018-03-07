@@ -700,6 +700,8 @@ def Main():
         //console.log("mydata:"+typeof(mydata)+" : "+mydata);
         mybuf = new Uint8Array(mydatalist); // MAGIC???
         //console.log("mybuf:"+mybuf);
+        var d = new Date();
+        var n = d.getTime();
         var file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
         if (window.navigator.msSaveOrOpenBlob) // IE10+
             window.navigator.msSaveOrOpenBlob(file, n + ".avm");
@@ -707,8 +709,6 @@ def Main():
             var a = document.createElement("a"),
                     url = URL.createObjectURL(file);
             a.href = url;
-            var d = new Date();
-            var n = d.getTime();
             a.download = n + ".avm";
             document.body.appendChild(a);
             a.click();

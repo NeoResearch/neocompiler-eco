@@ -721,7 +721,7 @@ def Main():
 
     $("#btn_downloadOpCode").click(function (e) {
         e.preventDefault();
-        mydata = localStorage.getItem('avmFile');
+        mydata = $('#formdeploy').contents().find('#opcodes').val();
         var d = new Date();
         var n = d.getTime();
         var file = new Blob([mydata],{type:'application/octet-stream'});

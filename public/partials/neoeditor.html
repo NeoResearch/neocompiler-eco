@@ -107,6 +107,7 @@ def Main():
                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
+                    <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
                 </div>
                 <h4>ABI:</h4>
                 <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea><br/><br/>
@@ -701,7 +702,7 @@ def Main():
         //console.log("mybuf:"+mybuf);
         var file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
         if (window.navigator.msSaveOrOpenBlob) // IE10+
-            window.navigator.msSaveOrOpenBlob(file, "file.avm");
+            window.navigator.msSaveOrOpenBlob(file, n + ".avm");
         else { // Others
             var a = document.createElement("a"),
                     url = URL.createObjectURL(file);
@@ -709,6 +710,30 @@ def Main():
             var d = new Date();
             var n = d.getTime();
             a.download = n + ".avm";
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(function() {
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            }, 0);
+        }
+    });
+
+    $("#btn_downloadOpCode").click(function (e) {
+        e.preventDefault();
+        mydata = localStorage.getItem('avmFile');
+        var d = new Date();
+        var n = d.getTime();
+        var file = new Blob([mydata],{type:'application/octet-stream'});
+        if (window.navigator.msSaveOrOpenBlob) // IE10+
+            window.navigator.msSaveOrOpenBlob(file, n + ".opcodes");
+        else { // Others
+            var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+            a.href = url;
+            var d = new Date();
+            var n = d.getTime();
+            a.download = n + ".opcodes";
             document.body.appendChild(a);
             a.click();
             setTimeout(function() {

@@ -7,7 +7,15 @@ var cookieParser = require('cookie-parser');
 
 var app = express();
 
-app.set('view engine', 'html');
+//app.set('view engine', 'html');
+
+//var session = require('express-session');
+//app.use(session({secret: "Shh, its a secret!"}));
+//app.use(session({
+//    secret: "That's a secret!",//cookie_secret,
+//    resave: true,
+//    saveUninitialized: true
+//}));
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
@@ -24,7 +32,14 @@ app.use(methodOverride());
 app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
-app.post('/compilex', function(req, res) {
+function promiseFromChildProcess(child) {
+    return new Promise(function (resolve, reject) {
+        child.addListener("error", reject);
+        child.addListener("exit", resolve);
+    });
+}
+
+app.post('/compilex', function(req, res, next) {
   // Specifies which URL to listen for
   // req.body -- contains form data
   //console.log("req.body.codesend='"+req.body.codesend+"'");
@@ -52,15 +67,57 @@ app.post('/compilex', function(req, res) {
   res.send(msgret);
  }
  else {
+   console.log("Begin C# compile");
+
+
   var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
-  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm $DOCKERNEOCOMPILER";
+  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";//$DOCKERNEOCOMPILER";
   var outp = "";
-  outp = require('child_process').execSync(cmddocker).toString();
-  console.log("calling compile function");
-  //console.log("returning json..."+outp);
-  //console.log("output is: '"+outp+"'");
-  //res.send(JSON.stringify(outp));
-  res.send(outp);
+
+  var child = require('child_process').exec(cmddocker);
+  child.on('exit', function() {
+    console.log("exit compile docker");
+    res.send(outp);
+  });
+  child.stdout.on('data', function (data) {
+    outp = outp+data;
+  });
+  /*
+  var exec = require('child_process').exec;
+
+
+  console.log("cmd: "+cmddocker);
+  var child = exec(cmddocker);
+
+  console.log("child: "+child);
+
+  child.stdout.on('data', function (data) {
+    console.log('stdout: ' + data);
+    console.log('send data');
+    res.send('{"output":"oi","avm":"oi2","abi":"abi2"}');
+  });
+  child.stderr.on('data', function (data) {
+    console.log('stderr: ' + data);
+  });
+  child.on('close', function (code) {
+    console.log('closing code: ' + code);
+  });
+
+  promiseFromChildProcess(child).then(function (result) {
+    console.log('promise complete: ' + result);
+    outp = (result).toString();
+    res.send(outp);
+    }, function (err) {
+      console.log('promise rejected: ' + err);
+  });
+*/
+
+  console.log("End C# compile");
+  //console.log("calling compile function");
+  ////console.log("returning json..."+outp);
+  ////console.log("output is: '"+outp+"'");
+  ////res.send(JSON.stringify(outp));
+  //res.send(outp);
  }
 } // C#
 
@@ -87,30 +144,54 @@ app.post('/deployx', function(req, res) {
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execimportcontract.sh '+
-       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '" | base64';
+       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '"'; //'" | base64';
   var outp = "";
   //Tail option -- | tail -n +175 | base64';
 
   //console.log(cmddocker);
   console.log("calling import contract");
-  outp = require('child_process').execSync(cmddocker).toString();
-  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  outp = '{"output":"'+outp+'"}';
-  res.send(JSON.parse(outp));
+
+  //outp = require('child_process').execSync(cmddocker).toString();
+  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = '{"output":"'+outp+'"}';
+  //res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker);
+  child.on('exit', function() {
+    outp = new Buffer(outp).toString('base64');
+    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+    outp = '{"output":"'+outp+'"}';
+    res.send(JSON.parse(outp));
+  });
+  child.stdout.on('data', function (data) {
+    outp = outp+data;
+    console.log("MORE DATA ON DEPLOY:"+data);
+  });
+
 });
 
 app.post('/searchx', function(req, res) {
   var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
-       contracthash_search + '" | base64';
+       contracthash_search +'" '; //'" | base64';
   var outp = "";
 
   console.log("calling search");
 
-  outp = require('child_process').execSync(cmddocker).toString();
-  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  outp = '{"output":"'+outp+'"}';
-  res.send(JSON.parse(outp));
+  //outp = require('child_process').execSync(cmddocker).toString();
+  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = '{"output":"'+outp+'"}';
+  //res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker);
+  child.on('exit', function() {
+    outp = new Buffer(outp).toString('base64');
+    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+    outp = '{"output":"'+outp+'"}';
+    res.send(JSON.parse(outp));
+  });
+  child.stdout.on('data', function (data) {
+    outp = outp+data;
+    //console.log("MORE DATA ON DEPLOY:"+data);
+  });
 });
 
 app.post('/invokex', function(req, res) {
@@ -124,15 +205,26 @@ app.post('/invokex', function(req, res) {
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
-       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '" | base64';
+       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '"';//'" | base64';
   var outp = "";
 
   console.log("calling testinvoke");
-  //console.log(cmddocker);
-  outp = require('child_process').execSync(cmddocker).toString();
-  outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  outp = '{"output":"'+outp+'"}';
-  res.send(JSON.parse(outp));
+
+  //outp = require('child_process').execSync(cmddocker).toString();
+  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = '{"output":"'+outp+'"}';
+  //res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker);
+  child.on('exit', function() {
+    outp = new Buffer(outp).toString('base64');
+    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+    outp = '{"output":"'+outp+'"}';
+    res.send(JSON.parse(outp));
+  });
+  child.stdout.on('data', function (data) {
+    outp = outp+data;
+    //console.log("MORE DATA ON DEPLOY:"+data);
+  });
 });
 
 

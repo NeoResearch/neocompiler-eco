@@ -103,7 +103,16 @@ def Main():
             <div class="form-group">
                 <h4>AVM (in hex):</h4>
                 <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
-                <button id="btn_download" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download AVM</button>
+                <div class="dropdown btn-group">
+                        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            Download AVM
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a>binary file</a></li>
+                            <li><a>hex code</a></li>
+                        </ul>
+                    </div>
                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
@@ -502,9 +511,8 @@ def Main():
                 hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
                 $("#opcodes").text("");
                 printOpcode(hexcodeavm);
-                datacontent = hex2bin(hexcodeavm);
                 //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                localStorage.setItem('avmFile', datacontent);//, {type: 'application/octet-stream'});
+                localStorage.setItem('avmFile', hexcodeavm);//, {type: 'application/octet-stream'});
                 //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
                 //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
 
@@ -682,34 +690,16 @@ def Main():
             }
         });
     }
-    $("#btn_download").click(function (e) {
-        e.preventDefault();
-        /*
-        var blob = new Blob([localStorage.getItem('avmFile')]);
-        console.log(blob);
-
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = "file.avm";
-        link.click();
-        */
-        mydata = localStorage.getItem('avmFile');
-        mydatalist = new Array(mydata.length);
-        for(var i = 0; i<mydata.length; i++)
-            mydatalist[i] = mydata.charCodeAt(i);
-        //console.log("mydata:"+typeof(mydata)+" : "+mydata);
-        mybuf = new Uint8Array(mydatalist); // MAGIC???
-        //console.log("mybuf:"+mybuf);
+    function download(file, ext){
         var d = new Date();
         var n = d.getTime();
-        var file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
         if (window.navigator.msSaveOrOpenBlob) // IE10+
-            window.navigator.msSaveOrOpenBlob(file, n + ".avm");
+            window.navigator.msSaveOrOpenBlob(file, n + ext);
         else { // Others
             var a = document.createElement("a"),
                     url = URL.createObjectURL(file);
             a.href = url;
-            a.download = n + ".avm";
+            a.download = n + ext;
             document.body.appendChild(a);
             a.click();
             setTimeout(function() {
@@ -717,29 +707,34 @@ def Main():
                 window.URL.revokeObjectURL(url);
             }, 0);
         }
-    });
-
+    }
     $("#btn_downloadOpCode").click(function (e) {
         e.preventDefault();
         mydata = $('#formdeploy').contents().find('#opcodes').val();
-        var d = new Date();
-        var n = d.getTime();
         var file = new Blob([mydata],{type:'application/octet-stream'});
-        if (window.navigator.msSaveOrOpenBlob) // IE10+
-            window.navigator.msSaveOrOpenBlob(file, n + ".opcodes");
-        else { // Others
-            var a = document.createElement("a"),
-                    url = URL.createObjectURL(file);
-            a.href = url;
-            var d = new Date();
-            var n = d.getTime();
-            a.download = n + ".opcodes";
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(function() {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 0);
+        download(file, ".opcodes");
+    });
+    function downloadAVM(isBin) {
+        
+    }
+    $(".dropdown-menu li a").click(function(){
+        selected_index = $(this).closest('li').index();
+        
+        var file = new Blob();
+        mydata = localStorage.getItem('avmFile');
+        
+        if( selected_index == 0 ) {
+            mydata = hex2bin(mydata);
+            mydatalist = new Array(mydata.length);
+            for(var i = 0; i<mydata.length; i++)
+                mydatalist[i] = mydata.charCodeAt(i);
+            
+            mybuf = new Uint8Array(mydatalist); // MAGIC???
+            file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
         }
+        else {
+            file = new Blob([mydata],{type:'application/octet-stream'});//new Blob([data], {type: type});
+        }
+        download(file, ".avm");
     });
 </script>

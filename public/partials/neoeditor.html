@@ -88,7 +88,7 @@ def Main():
 
             <!-- /////////////////////////////////////////////////////////////////// -->
             <!-- common submit button -->
-            <button type="submit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button><br/>
+            <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button><br/>
             <p><font size="1">Use CTRL+ALT+H to acess the hotkeys informations</font></p>
             <h4>Compile Warning/Errors:</h4>
             <!-- end common submit button -->
@@ -136,7 +136,7 @@ def Main():
                 <option>w3.wallet</option>
                 <option>w4.wallet</option>
                 </select>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
+                <button type="submit" id="deploybtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
                 <div style="margin-top: 10px;" class="panel panel-primary">
                     <div class="panel-heading">Hex code advices</div>
                     <div class="panel-body">
@@ -149,7 +149,7 @@ def Main():
             <div class="form-group">
                 <h4>Search contract in private net:</h4>
                 <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-info btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button><br/>
+                <button type="submit" id="searchbtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button><br/>
             </div>
         </form><br/>
         <form id="forminvoke" action="/invokex">
@@ -164,7 +164,7 @@ def Main():
                 <option>w3.wallet</option>
                 <option>w4.wallet</option>
                 </select>
-                <button type="submit" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                <button type="submit" id="invokebtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
             </div>
         </form>
         <h4>Private Net Messages:</h4>
@@ -477,6 +477,7 @@ def Main():
         printOpcode(hexavm);
     }
     $("#myform").submit(function (e) {
+        $("#compilebtn")[0].disabled = true;
         $("#code").val("");
         $("#code_python").val("");
         if($("#csharpcode.tab-pane.active.cont").length != 0) {
@@ -495,6 +496,7 @@ def Main():
             $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
+                $("#compilebtn")[0].disabled = false;
                 var coderr = atob(data.output);
                 $("#codewarnerr").val(coderr);
                 var hexcodeavm = atob(data.avm);
@@ -542,6 +544,9 @@ def Main():
         );
     });
     $("#formsearch").submit(function (e) {
+      $("#deploybtn")[0].disabled = true;
+      $("#searchbtn")[0].disabled = true;
+      $("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
@@ -551,6 +556,9 @@ def Main():
             $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
+              $("#deploybtn")[0].disabled = false;
+              $("#searchbtn")[0].disabled = false;
+              $("#invokebtn")[0].disabled = false;
                 //console.log("output="+data);
                 var deploymsg = atob(data.output);
                 $("#contractmessages").text(deploymsg);
@@ -559,6 +567,9 @@ def Main():
         );
     });
     $("#forminvoke").submit(function (e) {
+      $("#deploybtn")[0].disabled = true;
+      $("#searchbtn")[0].disabled = true;
+      $("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
@@ -568,6 +579,9 @@ def Main():
             $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
+              $("#deploybtn")[0].disabled = false;
+              $("#searchbtn")[0].disabled = false;
+              $("#invokebtn")[0].disabled = false;
                 //console.log("output="+data);
                 var deploymsg = atob(data.output);
                 $("#contractmessages").text(deploymsg);
@@ -590,6 +604,9 @@ def Main():
         );
     });
     $("#formdeploy").submit(function (e) {
+        $("#deploybtn")[0].disabled = true;
+        $("#searchbtn")[0].disabled = true;
+        $("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
@@ -599,6 +616,9 @@ def Main():
             $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
+               $("#deploybtn")[0].disabled = false;
+               $("#searchbtn")[0].disabled = false;
+               $("#invokebtn")[0].disabled = false;
                 //console.log("output="+data);
                 var deploymsg = atob(data.output);
                 $("#contractmessages").text(deploymsg);

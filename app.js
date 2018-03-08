@@ -74,6 +74,7 @@ app.post('/compilex', function(req, res, next) {
         res.send(outp);
     });
     child.stdout.on('data', function (data) {
+      //console.log(data);
       outp = outp+data;
     });
   } // Python

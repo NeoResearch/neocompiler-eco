@@ -32,10 +32,16 @@ app.use(methodOverride());
 app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
-var options = {
-  timeout: 10000,
+var optionsDefault = {
+  timeout: 120000,
   killSignal: 'SIGKILL'
 }
+
+var optionsDeploy = {
+  timeout: 300000,
+  killSignal: 'SIGKILL'
+}
+
 
 function promiseFromChildProcess(child) {
     return new Promise(function (resolve, reject) {
@@ -55,13 +61,13 @@ app.post('/compilex', function(req, res, next) {
     var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
     var outp = "";
-    var child = require('child_process').exec(cmddocker, options);
+    var child = require('child_process').exec(cmddocker, optionsDefault);
     child.on('exit', function(code, signal) {
       console.log("calling compile function");
       if( signal == 'SIGKILL' )
       {
         var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-        var msgret = "{\"output\":\""+msg64+"\"}";
+        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
         res.send(msgret);
       }
       else
@@ -74,11 +80,11 @@ app.post('/compilex', function(req, res, next) {
   else { // C#
 
     if(!process.env.DOCKERNEOCOMPILER) {
-    console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
-    var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
-    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-    //console.log("output is: '"+msgret+"'");
-    res.send(msgret);
+      console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
+      var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+      //console.log("output is: '"+msgret+"'");
+      res.send(msgret);
     }
     else {
       console.log("Begin C# compile");
@@ -88,19 +94,20 @@ app.post('/compilex', function(req, res, next) {
       var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";//$DOCKERNEOCOMPILER";
       var outp = "";
 
-      var child = require('child_process').exec(cmddocker, options);
+      var child = require('child_process').exec(cmddocker, optionsDefault);
       child.on('exit', function(code, signal) {
         console.log("exit compile docker");
         if( signal == 'SIGKILL' )
         {
           var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-          var msgret = "{\"output\":\""+msg64+"\"}";
+          var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
           res.send(msgret);
         }
         else
           res.send(outp);
       });
       child.stdout.on('data', function (data) {
+        //console.log(data);
         outp = outp+data;
       });
       /*
@@ -176,12 +183,20 @@ app.post('/deployx', function(req, res) {
   //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   //outp = '{"output":"'+outp+'"}';
   //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker);
-  child.on('exit', function() {
-    outp = new Buffer(outp).toString('base64');
-    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-    outp = '{"output":"'+outp+'"}';
-    res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker, optionsDeploy);
+  child.on('exit', function(code, signal) {
+    console.log("exit compile docker");
+    if( signal == 'SIGKILL' ) {
+      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\"}";
+      res.send(msgret);
+    }
+    else {
+      outp = new Buffer(outp).toString('base64');
+      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+      outp = '{"output":"'+outp+'"}';
+      res.send(JSON.parse(outp));
+    }
   });
   child.stdout.on('data', function (data) {
     outp = outp+data;
@@ -202,12 +217,20 @@ app.post('/searchx', function(req, res) {
   //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   //outp = '{"output":"'+outp+'"}';
   //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker);
-  child.on('exit', function() {
-    outp = new Buffer(outp).toString('base64');
-    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-    outp = '{"output":"'+outp+'"}';
-    res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker, optionsDefault);
+  child.on('exit', function(code, signal) {
+    console.log("exit compile docker");
+    if( signal == 'SIGKILL' ) {
+      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\"}";
+      res.send(msgret);
+    }
+    else {
+      outp = new Buffer(outp).toString('base64');
+      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+      outp = '{"output":"'+outp+'"}';
+      res.send(JSON.parse(outp));
+    }
   });
   child.stdout.on('data', function (data) {
     outp = outp+data;
@@ -235,12 +258,20 @@ app.post('/invokex', function(req, res) {
   //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   //outp = '{"output":"'+outp+'"}';
   //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker);
-  child.on('exit', function() {
-    outp = new Buffer(outp).toString('base64');
-    outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-    outp = '{"output":"'+outp+'"}';
-    res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker, optionsDefault);
+  child.on('exit', function(code, signal) {
+    console.log("exit compile docker");
+    if( signal == 'SIGKILL' ) {
+      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\"}";
+      res.send(msgret);
+    }
+    else {
+      outp = new Buffer(outp).toString('base64');
+      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+      outp = '{"output":"'+outp+'"}';
+      res.send(JSON.parse(outp));
+    }
   });
   child.stdout.on('data', function (data) {
     outp = outp+data;

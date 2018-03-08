@@ -55,12 +55,21 @@ app.post('/compilex', function(req, res, next) {
     var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
     var outp = "";
-    outp = require('child_process').execSync(cmddocker).toString();
-    console.log("calling compile function");
-    //console.log("returning json..."+outp);
-    //console.log("output is: '"+outp+"'");
-    //res.send(JSON.stringify(outp));
-    res.send(outp);
+    var child = require('child_process').exec(cmddocker, options);
+    child.on('exit', function(code, signal) {
+      console.log("calling compile function");
+      if( signal == 'SIGKILL' )
+      {
+        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+        var msgret = "{\"output\":\""+msg64+"\"}";
+        res.send(msgret);
+      }
+      else
+        res.send(outp);
+    });
+    child.stdout.on('data', function (data) {
+      outp = outp+data;
+    });
   } // Python
   else { // C#
 

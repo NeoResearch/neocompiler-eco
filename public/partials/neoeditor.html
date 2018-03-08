@@ -108,7 +108,7 @@ def Main():
                             Download AVM
                             <span class="caret"></span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" id="downloadMenu">
                             <li><a>binary file</a></li>
                             <li><a>hex code</a></li>
                         </ul>
@@ -717,7 +717,7 @@ def Main():
     function downloadAVM(isBin) {
         
     }
-    $(".dropdown-menu li a").click(function(){
+    $("#downloadMenu").click(function(){
         selected_index = $(this).closest('li').index();
         
         var file = new Blob();

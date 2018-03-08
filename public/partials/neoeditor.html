@@ -711,7 +711,7 @@ def Main():
     $("#btn_downloadOpCode").click(function (e) {
         e.preventDefault();
         mydata = $('#formdeploy').contents().find('#opcodes').val();
-        var file = new Blob([mydata],{type:'application/octet-stream'});
+        var file = new Blob([mydata],{type:'text/plain'});
         download(file, ".opcodes");
     });
     function downloadAVM(isBin) {
@@ -733,7 +733,7 @@ def Main():
             file = new Blob([mybuf],{type:'application/octet-stream'});//new Blob([data], {type: type});
         }
         else {
-            file = new Blob([mydata],{type:'application/octet-stream'});//new Blob([data], {type: type});
+            file = new Blob([mydata],{type:'text/plain'});//new Blob([data], {type: type});
         }
         download(file, ".avm");
     });

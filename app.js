@@ -32,6 +32,11 @@ app.use(methodOverride());
 app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
+var options = {
+  timeout: 10000,
+  killSignal: 'SIGKILL'
+}
+
 function promiseFromChildProcess(child) {
     return new Promise(function (resolve, reject) {
         child.addListener("error", reject);
@@ -44,82 +49,89 @@ app.post('/compilex', function(req, res, next) {
   // req.body -- contains form data
   //console.log("req.body.codesend='"+req.body.codesend+"'");
 
- // Python
- if(req.body.codesend_python)
- {
-   var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
-   var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
-   var outp = "";
-   outp = require('child_process').execSync(cmddocker).toString();
-   console.log("calling compile function");
-   //console.log("returning json..."+outp);
-   //console.log("output is: '"+outp+"'");
-   //res.send(JSON.stringify(outp));
-   res.send(outp);
- } // Python
- else { // C#
-
- if(!process.env.DOCKERNEOCOMPILER) {
-  console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
-  var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
-  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-  //console.log("output is: '"+msgret+"'");
-  res.send(msgret);
- }
- else {
-   console.log("Begin C# compile");
-
-
-  var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
-  var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";//$DOCKERNEOCOMPILER";
-  var outp = "";
-
-  var child = require('child_process').exec(cmddocker);
-  child.on('exit', function() {
-    console.log("exit compile docker");
+  // Python
+  if(req.body.codesend_python)
+  {
+    var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
+    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
+    var outp = "";
+    outp = require('child_process').execSync(cmddocker).toString();
+    console.log("calling compile function");
+    //console.log("returning json..."+outp);
+    //console.log("output is: '"+outp+"'");
+    //res.send(JSON.stringify(outp));
     res.send(outp);
-  });
-  child.stdout.on('data', function (data) {
-    outp = outp+data;
-  });
-  /*
-  var exec = require('child_process').exec;
+  } // Python
+  else { // C#
+
+    if(!process.env.DOCKERNEOCOMPILER) {
+    console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
+    var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
+    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+    //console.log("output is: '"+msgret+"'");
+    res.send(msgret);
+    }
+    else {
+      console.log("Begin C# compile");
 
 
-  console.log("cmd: "+cmddocker);
-  var child = exec(cmddocker);
+      var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
+      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";//$DOCKERNEOCOMPILER";
+      var outp = "";
 
-  console.log("child: "+child);
+      var child = require('child_process').exec(cmddocker, options);
+      child.on('exit', function(code, signal) {
+        console.log("exit compile docker");
+        if( signal == 'SIGKILL' )
+        {
+          var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+          var msgret = "{\"output\":\""+msg64+"\"}";
+          res.send(msgret);
+        }
+        else
+          res.send(outp);
+      });
+      child.stdout.on('data', function (data) {
+        outp = outp+data;
+      });
+      /*
+      var exec = require('child_process').exec;
 
-  child.stdout.on('data', function (data) {
-    console.log('stdout: ' + data);
-    console.log('send data');
-    res.send('{"output":"oi","avm":"oi2","abi":"abi2"}');
-  });
-  child.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
-  });
-  child.on('close', function (code) {
-    console.log('closing code: ' + code);
-  });
 
-  promiseFromChildProcess(child).then(function (result) {
-    console.log('promise complete: ' + result);
-    outp = (result).toString();
-    res.send(outp);
-    }, function (err) {
-      console.log('promise rejected: ' + err);
-  });
-*/
+      console.log("cmd: "+cmddocker);
+      var child = exec(cmddocker);
 
-  console.log("End C# compile");
-  //console.log("calling compile function");
-  ////console.log("returning json..."+outp);
-  ////console.log("output is: '"+outp+"'");
-  ////res.send(JSON.stringify(outp));
-  //res.send(outp);
- }
-} // C#
+      console.log("child: "+child);
+
+      child.stdout.on('data', function (data) {
+        console.log('stdout: ' + data);
+        console.log('send data');
+        res.send('{"output":"oi","avm":"oi2","abi":"abi2"}');
+      });
+      child.stderr.on('data', function (data) {
+        console.log('stderr: ' + data);
+      });
+      child.on('close', function (code) {
+        console.log('closing code: ' + code);
+      });
+
+      promiseFromChildProcess(child).then(function (result) {
+        console.log('promise complete: ' + result);
+        outp = (result).toString();
+        res.send(outp);
+        }, function (err) {
+          console.log('promise rejected: ' + err);
+      });
+      */
+
+      console.log("End C# compile");
+      //console.log("calling compile function");
+      ////console.log("returning json..."+outp);
+      ////console.log("output is: '"+outp+"'");
+      ////res.send(JSON.stringify(outp));
+      //res.send(outp);
+    }
+  } // C#
 
 });
 
@@ -131,16 +143,16 @@ app.post('/deployx', function(req, res) {
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
   var wallet_deploy = "";
   if((req.body.wallet_deploy == "w1.wallet")||(req.body.wallet_deploy == "w2.wallet")||(req.body.wallet_deploy == "w3.wallet")||(req.body.wallet_deploy == "w4.wallet"))
-     wallet_deploy = new Buffer(req.body.wallet_deploy, 'ascii').toString('base64');
+    wallet_deploy = new Buffer(req.body.wallet_deploy, 'ascii').toString('base64');
 
   var cbx_storage = "False";
   if(req.body["cbx_storage"])
-     cbx_storage = "True";
+    cbx_storage = "True";
   cbx_storage=new Buffer(cbx_storage, 'ascii').toString('base64');
 
   var cbx_dynamicinvoke = "False";
   if(req.body["cbx_dynamicinvoke"])
-     cbx_dynamicinvoke = "True";
+    cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execimportcontract.sh '+

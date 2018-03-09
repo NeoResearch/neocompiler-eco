@@ -1,4 +1,13 @@
 <div class="container-fluid" style="margin-left: 10%; margin-right: 10%;">
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="../index.html">Home</a>
+                </li>
+                <li class="active">Neo Editor</li>
+            </ol>
+        </div>
+    </div>
     <div class="modal fade" id="TimeInfoModal" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -15,26 +24,29 @@
             </div>
         </div>
     </div>
-    <form id="formCompile" action="/compilex" style="margin-top: 10px;">
-        <div class="tab-container">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
-                <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
-                <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li>
-                <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li>
-            </ul>
-
-            <!-- /////////////////////////////////////////////////////////////////// -->
-            <!-- csharpcode -->
-            <div class="tab-content">
-                <div class="tab-pane active cont" id="csharpcode">
-                        <button id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">HelloWorld.cs</button>
-                        <button id="btn_cs_ex2" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">ICO_Template.cs</button>
-                        <button id="btn_cs_ex3" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">MyCheckWitness.cs</button>
-                        <button id="btn_cs_ex4" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">Lock.cs</button>
-                        <button id="btn_cs_ex5" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">StructExample.cs</button>
-                        <input type="hidden" id="code" name="codesend"/>
-                        <pre id="editorCSharp">
+    <div class="panel panel-success">
+        <div class="panel-heading">Compile</div>
+        <div class="panel-body">
+            <form id="formCompile" action="/compilex" style="margin-top: 10px;">
+                <div class="tab-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
+                        <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
+                        <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li>
+                        <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li>
+                    </ul>
+        
+                    <!-- /////////////////////////////////////////////////////////////////// -->
+                    <!-- csharpcode -->
+                    <div class="tab-content">
+                        <div class="tab-pane active cont" id="csharpcode">
+                                <button id="btn_cs_ex1" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">HelloWorld.cs</button>
+                                <button id="btn_cs_ex2" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">ICO_Template.cs</button>
+                                <button id="btn_cs_ex3" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">MyCheckWitness.cs</button>
+                                <button id="btn_cs_ex4" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">Lock.cs</button>
+                                <button id="btn_cs_ex5" style="margin-bottom: 5px; margin-left: 2px;" class="btn btn-info">StructExample.cs</button>
+                                <input type="hidden" id="code" name="codesend"/>
+                                <pre id="editorCSharp">
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
 using System;
@@ -49,17 +61,17 @@ namespace NeoContract1
         }
     }
 }
-                        </pre>
-                </div>
-                <!-- /////////////////////////////////////////////////////////////////// -->
-                <!-- end csharpcode -->
-
-
-                <!-- /////////////////////////////////////////////////////////////////// -->
-                <!-- python div -->
-                <div class="tab-pane cont" id="pythoncode">
-                    <input type="hidden" id="code_python" name="codesend_python"/>
-                    <pre id="editorPython">
+                                </pre>
+                        </div>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- end csharpcode -->
+        
+        
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- python div -->
+                        <div class="tab-pane cont" id="pythoncode">
+                            <input type="hidden" id="code_python" name="codesend_python"/>
+                            <pre id="editorPython">
 from boa.interop.Neo.Runtime import Notify, CheckWitness
 
 def Main():
@@ -69,110 +81,132 @@ def Main():
         print(&quot;OWNER is caller&quot;)
         return True
     return False
-                    </pre>
+                            </pre>
+                        </div>
+                        <div class="tab-pane" id="javacode">
+                            <input type="hidden" id="code_java" name="codesend_java"/>
+                            <pre id="editorJava">Java</pre>
+                        </div>
+                        <div class="tab-pane" id="soliditycode">
+                            <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
+                            <pre id="editorSolidity">Solidity</pre>
+                        </div>
+                    </div>
                 </div>
-                <div class="tab-pane" id="javacode">
-                    <input type="hidden" id="code_java" name="codesend_java"/>
-                    <pre id="editorJava">Java</pre>
+                <!-- end python div -->
+                <!-- /////////////////////////////////////////////////////////////////// -->
+        
+                <!-- /////////////////////////////////////////////////////////////////// -->
+                <!-- common submit button -->
+                <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
+                <p><font size="1">Use CTRL+ALT+H to acess the hotkeys informations</font></p>
+                <h4>Compile Warning/Errors:</h4>
+                <!-- end common submit button -->
+                <!-- /////////////////////////////////////////////////////////////////// -->
+        
+                <textarea id="codewarnerr" readonly="readonly" rows="15" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
+                <h4>AVM (in hex):</h4>
+                <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
+                <div class="dropdown btn-group">
+                        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                            Download AVM
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="downloadMenu">
+                            <li><a>binary file</a></li>
+                            <li><a>hex code</a></li>
+                        </ul>
+                    </div>
+                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
+                <div id="opcodesDiv" class="collapse">
+                    <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
+                    <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
                 </div>
-                <div class="tab-pane" id="soliditycode">
-                    <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
-                    <pre id="editorSolidity">Solidity</pre>
+                <h4>ABI:</h4>
+                <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
+            </form>
+            <!-- end of compilex form -->
+            <!-- /////////////////////////////////////////////////////////////////// -->
+        </div>
+    </div>
+
+    <div class="panel panel-warning">
+        <div class="panel-heading">Deploy contract to private net</div>
+        <div class="panel-body">
+            <form id="formdeploy" action="/deployx">
+                <div class="form-group">
+                    <input id="contracthash" name="contracthash" placeholder="Script Hash"/>
+                    <input id="contractparams" name="contractparams" placeholder="&quot;Parameters (in quotes)&quot;" style="margin-left: 5px;"/>
+                    <select name="contractreturn" id="contractreturn" style="margin-left: 5px;" class="custom-select" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
+                    <option>00</option>
+                    <option>01</option>
+                    <option>02</option>
+                    <option>03</option>
+                    <option>04</option>
+                    <option>05</option>
+                    <option>06</option>
+                    <option>07</option>
+                    <option>10</option>
+                    <option>f0</option>
+                    <option>ff</option>
+                    </select>
+                    <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
+                    <input type="checkbox" name="cbx_storage" id="cbx_storage" style="margin-left: 10px;"/>Storage
+                    <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke" style="margin-left: 10px;"/>Dynamic Invoke<br>
+                    <select name="wallet_deploy" class="custom-select" style="margin-top: 10px;">
+                    <option>w1.wallet</option>
+                    <option>w2.wallet</option>
+                    <option>w3.wallet</option>
+                    <option>w4.wallet</option>
+                    </select>
+                    <button type="submit" id="deploybtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
                 </div>
-            </div>
+            </form>
         </div>
-        <!-- end python div -->
-        <!-- /////////////////////////////////////////////////////////////////// -->
+    </div>
 
-        <!-- /////////////////////////////////////////////////////////////////// -->
-        <!-- common submit button -->
-        <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
-        <p><font size="1">Use CTRL+ALT+H to acess the hotkeys informations</font></p>
-        <h4>Compile Warning/Errors:</h4>
-        <!-- end common submit button -->
-        <!-- /////////////////////////////////////////////////////////////////// -->
+    <div class="panel panel-info">
+        <div class="panel-heading">Search contract in private net</div>
+        <div class="panel-body">
+            <form id="formsearch" action="/searchx">
+                <div class="form-group">
+                    <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
+                    <button type="submit" id="searchbtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div class="panel panel-warning">
+        <div class="panel-heading">Invoke contract in private net</div>
+        <div class="panel-body">
+            <form id="forminvoke" action="/invokex">
+                <div class="form-group">
+                    <input id="invokehash" name="invokehash" placeholder="Script Hash"/>
+                    <input id="invokeparams" name="invokeparams" placeholder="Script Params" style="margin-left: 5px;"/>
+                    <input id="attachneo" name="attachneo" value="0" placeholder="Send NEO" style="margin-left: 5px;"/><br>
+                    <select name="wallet_invoke" style="margin-top: 10px;" class="custom-select">
+                    <option>w1.wallet</option>
+                    <option>w2.wallet</option>
+                    <option>w3.wallet</option>
+                    <option>w4.wallet</option>
+                    </select>
+                    <button type="submit" id="invokebtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        <textarea id="codewarnerr" readonly="readonly" rows="15" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
-        <h4>AVM (in hex):</h4>
-        <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
-        <div class="dropdown btn-group">
-                <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                    Download AVM
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" id="downloadMenu">
-                    <li><a>binary file</a></li>
-                    <li><a>hex code</a></li>
-                </ul>
-            </div>
-        <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
-        <div id="opcodesDiv" class="collapse">
-            <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
-            <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
+    <div class="panel panel-info">
+        <div class="panel-heading">Private Net Messages</div>
+        <div class="panel-body">
+            <form id="formprivatenet">
+                <textarea id="contractmessages" readonly="readonly" rows="15" cols="100" placeholder="Contract messages..." class="form-control"></textarea><br>
+                <textarea id="contractmessagesnotify" readonly="readonly" rows="5" cols="100" placeholder="Contract messages Notify..." class="form-control"></textarea><br>
+            </form>
         </div>
-        <h4>ABI:</h4>
-        <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
-    </form>
-    <!-- end of compilex form -->
-    <!-- /////////////////////////////////////////////////////////////////// -->
+    </div>
 
-    <form id="formdeploy" action="/deployx">
-        <div class="form-group">
-            <h4>Deploy contract to private net:</h4>
-            <input id="contracthash" name="contracthash" placeholder="Script Hash"/>
-            <input id="contractparams" name="contractparams" placeholder="&quot;Parameters (in quotes)&quot;" style="margin-left: 5px;"/>
-            <select name="contractreturn" id="contractreturn" style="margin-left: 5px;" class="custom-select" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
-            <option>00</option>
-            <option>01</option>
-            <option>02</option>
-            <option>03</option>
-            <option>04</option>
-            <option>05</option>
-            <option>06</option>
-            <option>07</option>
-            <option>10</option>
-            <option>f0</option>
-            <option>ff</option>
-            </select>
-            <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
-            <input type="checkbox" name="cbx_storage" id="cbx_storage" style="margin-left: 10px;"/>Storage
-            <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke" style="margin-left: 10px;"/>Dynamic Invoke<br>
-            <select name="wallet_deploy" class="custom-select" style="margin-top: 10px;">
-            <option>w1.wallet</option>
-            <option>w2.wallet</option>
-            <option>w3.wallet</option>
-            <option>w4.wallet</option>
-            </select>
-            <button type="submit" id="deploybtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
-        </div>
-    </form>
-    <form id="formsearch" action="/searchx">
-        <div class="form-group">
-            <h4>Search contract in private net:</h4>
-            <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
-            <button type="submit" id="searchbtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button>
-        </div>
-    </form>
-    <form id="forminvoke" action="/invokex">
-        <div class="form-group">
-            <h4>Invoke contract in private net:</h4>
-            <input id="invokehash" name="invokehash" placeholder="Script Hash"/>
-            <input id="invokeparams" name="invokeparams" placeholder="Script Params" style="margin-left: 5px;"/>
-            <input id="attachneo" name="attachneo" value="0" placeholder="Send NEO" style="margin-left: 5px;"/>
-            <select name="wallet_invoke" style="margin-top: 10px;" class="custom-select">
-            <option>w1.wallet</option>
-            <option>w2.wallet</option>
-            <option>w3.wallet</option>
-            <option>w4.wallet</option>
-            </select>
-            <button type="submit" id="invokebtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
-        </div>
-    </form>
-    <form id="formprivatenet">
-        <h4>Private Net Messages:</h4>
-        <textarea id="contractmessages" readonly="readonly" rows="15" cols="100" placeholder="Contract messages..." class="form-control"></textarea><br>
-        <textarea id="contractmessagesnotify" readonly="readonly" rows="5" cols="100" placeholder="Contract messages Notify..." class="form-control"></textarea><br>
-    </form>
 </div>
 <script>
     function hex2bin(hex) {

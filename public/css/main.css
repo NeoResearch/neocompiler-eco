@@ -46,30 +46,92 @@ body {
     color: #3b5998;
 }
 
+.link-black {
+    color: black;
+}
+
 .error-404 {
     font-size: 8em;
 }
 
-.price {
-    font-size: 4em;
-}
-
-.price-cents {
-    vertical-align: super;
-    font-size: 50%;
-}
-
-.price-month {
-    font-size: 35%;
-    font-style: italic;
-}
-
 .footer {
     padding-top: 2%;
-    background-color: #222;
-    color: gray;
+    background-color: #337ab7;
+    color: white;
 }
 
+/* nav bar */
+.navbar-default .navbar-brand {
+    color:#337ab7
+}
+.navbar-default .navbar-brand:hover {
+    color:#337ab7;
+}
+.navbar-default .navbar-brand:focus {
+    color:#337ab7;
+}
+
+.nav.navbar-nav.navbar-right li a {
+    color:#337ab7;
+}
+
+/* home page */
+
+hr {
+    max-width: 50px;
+    border-width: 3px;
+    border-color: #337ab7;
+}
+
+hr2 {
+    max-width: 50px;
+    border-width: 3px;
+    border-color: white;
+}
+  
+.bg-dark {
+    background-color: #337ab7;
+}
+  
+.bg-light {
+    background-color: white;
+}
+
+.text-white {
+    color: white;
+}
+
+.text-black {
+    color: black;
+}
+
+.text-default {
+    color: #337ab7;
+}
+  
+section {
+    padding: 8rem 0;
+}
+
+.section-heading {
+    margin-top: 0;
+}
+
+.service-box {
+    max-width: 400px;
+}
+
+.btn-home {
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 300px;
+}
+  
+.btn-xl {
+    padding: 1rem 2rem;
+ }
+  
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
     .sidenav {

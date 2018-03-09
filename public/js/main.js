@@ -6,13 +6,14 @@ var app = angular.module('neoCompilerIoWebApp', [
 /* Routes */
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
-    // Pages
-    .when("/", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
-    .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
 
-    // Utils
-    //.when("/utils1", {templateUrl: "partials/utils1.html", controller: "PageCtrl"})
-    //.when("/utils2", {templateUrl: "partials/utils2.html", controller: "PageCtrl"})
+    //home page
+    .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
+
+    // Pages
+    .when("/neoeditor", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
+    .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
+    
     // else 404
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
 }]);

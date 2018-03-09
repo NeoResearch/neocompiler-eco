@@ -123,7 +123,7 @@ def Main():
                 <h4>Deploy contract to private net:</h4>
                 <input id="contracthash" name="contracthash" placeholder="Script Hash"/>
                 <input id="contractparams" name="contractparams" placeholder="&quot;Parameters (in quotes)&quot;" style="margin-left: 5px;"/>
-                <select name="contractreturn" id="contractreturn" style="margin-left: 5px;" class="custom-select">
+                <select name="contractreturn" id="contractreturn" style="margin-left: 5px;" class="custom-select" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
                 <option>00</option>
                 <option>01</option>
                 <option>02</option>
@@ -146,12 +146,6 @@ def Main():
                 <option>w4.wallet</option>
                 </select>
                 <button type="submit" id="deploybtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
-                <div style="margin-top: 10px;" class="panel panel-primary">
-                    <div class="panel-heading">Hex code advices</div>
-                    <div class="panel-body">
-                        <p>Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).</p>
-                    </div>
-                </div>
             </div>
         </form>
         <form id="formsearch" action="/searchx">
@@ -736,5 +730,8 @@ def Main():
             file = new Blob([mydata],{type:'text/plain'});//new Blob([data], {type: type});
         }
         download(file, ".avm");
+    });
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();   
     });
 </script>

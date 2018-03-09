@@ -12,25 +12,8 @@ body {
     cursor:pointer;
 }
 
-
-.img-home-portfolio,
-.img-customer,
-.portfolio-item {
-    margin-bottom: 30px;
-}
-
 .tab-pane {
     margin-top: 15px;
-}
-
-/* Page Sections */
-.section,
-.section-colored {
-    padding: 50px 0;
-}
-
-.section-colored {
-    background-color: #e1e1e1;
 }
 
 .sidebar {
@@ -82,17 +65,9 @@ body {
 }
 
 .footer {
-    margin: 50px 0;
-    background-color: rgba(12, 20, 24, 0.425);
-}
-
-/* Responsive Styles */
-@media (max-width: 767px) {
-
-    .carousel {
-        height: 70%;
-        /* increases the carousel height so it looks good on phones */
-    }
+    padding-top: 2%;
+    background-color: #222;
+    color: gray;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
@@ -102,15 +77,10 @@ body {
         padding: 15px;
     }
 
-    .row.content {
-        height: auto;
-    }
-
     .ace_editor {
         border: 1px solid lightgray;
-        margin: auto;
         height: 200px;
-        width: 815px;
+        width: 100%;
         float: left;
     }
 

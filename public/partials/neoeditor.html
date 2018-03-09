@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <form id="myform" action="/compilex">
+    <form id="formCompile" action="/compilex">
         <br>
         <div class="tab-container">
             <ul class="nav nav-tabs">
@@ -475,7 +475,7 @@ def Main():
         hexavm = parseOpcode(code, hexavm);
         printOpcode(hexavm);
     }
-    $("#myform").submit(function (e) {
+    $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;
         $("#code").val("");
         $("#code_python").val("");

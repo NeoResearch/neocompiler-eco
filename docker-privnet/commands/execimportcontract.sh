@@ -7,7 +7,12 @@
 
 
 if (( $# == 7 )); then
-   cd /opt/neo-python/
+   #cd /neo-python/
+   export randomFolder=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32)
+   cp -r /neo-python/ /neo-python$randomFolder
+   #cp -r /opt/node1/neo-cli/Chain /neo-python$randomFolder/Chains/privnet
+   cd /neo-python$randomFolder
+
    wallet=`echo "$7" | base64 --decode`
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
@@ -27,18 +32,17 @@ if (( $# == 7 )); then
    strimport=`echo "import contract $lhash.avm $parm $rv $op1 $op2" | xxd -p -c 256`
    #echo "open: $strimport"
    strexit=`echo "exit" | xxd -p`
-   strinvoke=`echo "testinvoke $lhash" | xxd -p -c 256`
    strsceventsOFF=`echo "config sc-events off" | xxd -p -c 256`
    strsceventsON=`echo "config sc-events on" | xxd -p -c 256`
 
-#   rm -rf Chains/privnet
-#   rm -rf Chains/privnet/*
-#   rm -rf Chains/*
-   rm $lhash.import
-   python3 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
+   #rm $lhash.import
+   echo "calling python for deploy"
+#   python3.6 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
+   python3.6 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
 
-   echo "IMPORT OUTPUT:"
-   cat $lhash.import
+#   echo "Time to delete folder"
+   rm -rf /neo-python$randomFolder/
+   echo "Bye bye - deploy script :D"
 fi
 
 #example: ./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK

@@ -152,8 +152,8 @@ app.post('/compilex', function(req, res, next) {
 
 });
 
-
 app.post('/deployx', function(req, res) {
+  console.log("Calling app.post route /deployx. Import contract!\n");
   var codeavm = new Buffer(req.body.codeavm, 'ascii').toString('base64');
   var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
@@ -177,20 +177,33 @@ app.post('/deployx', function(req, res) {
   var outp = "";
   //Tail option -- | tail -n +175 | base64';
 
-  //console.log(cmddocker);
-  console.log("calling import contract");
+
+  console.log("SC Deploy: import contract");
+  console.log(cmddocker);
 
   //outp = require('child_process').execSync(cmddocker).toString();
   //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
   //outp = '{"output":"'+outp+'"}';
   //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker, optionsDeploy);
+
+  var child_process = require('child_process');
+  var exec = child_process.exec;
+
+  child = exec(cmddocker, optionsDeploy, function(err,stdout,stderr) {
+	if (err) {
+		console.log('Child process exited with error code!!', err.code);
+		return
+	}
+	//console.log("\n \n\n Finishing here: " + err + "\n stdout" + stdout + "\nstderr" + stderr + "\n\n\n\n");
+  });
+
   child.on('exit', function(code, signal) {
-    console.log("exit compile docker");
-    if( signal == 'SIGKILL' ) {
+    console.log("\n[app-js] - exiting deploy docker...");
+    if( signal != null ) {
+      console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
       var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
       var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(msgret);
+      res.send(JSON.parse(msgret));
     }
     else {
       outp = new Buffer(outp).toString('base64');
@@ -199,32 +212,23 @@ app.post('/deployx', function(req, res) {
       res.send(JSON.parse(outp));
     }
   });
-  child.stdout.on('data', function (data) {
+
+  child.stdout.on('data', function (data, signal) {
     outp = outp+data;
     console.log("MORE DATA ON DEPLOY:"+data);
   });
 
-});
+/*
+  var child = require('child_process').exec(cmddocker, optionsDeploy);
 
-app.post('/searchx', function(req, res) {
-  var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
-  var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
-       contracthash_search +'" '; //'" | base64';
-  var outp = "";
 
-  console.log("calling search");
-
-  //outp = require('child_process').execSync(cmddocker).toString();
-  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  //outp = '{"output":"'+outp+'"}';
-  //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker, optionsDefault);
   child.on('exit', function(code, signal) {
-    console.log("exit compile docker");
+    console.log("\n [app-js] - exit compile docker");
     if( signal == 'SIGKILL' ) {
+      console.log("[app-js] - SIGKILL was detected");
       var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
       var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(msgret);
+      res.send(JSON.parse(msgret));
     }
     else {
       outp = new Buffer(outp).toString('base64');
@@ -233,10 +237,20 @@ app.post('/searchx', function(req, res) {
       res.send(JSON.parse(outp));
     }
   });
-  child.stdout.on('data', function (data) {
+
+  child.stdout.on('data', function (data, signal) {
+    if( signal == 'SIGKILL' ) {
+      console.log("[app-js] - stdout.on stdout.on KILLING process on POST due to Timeout!!!");
+      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\"}";
+      res.send(JSON.parse(msgret));
+    }
+
     outp = outp+data;
-    //console.log("MORE DATA ON DEPLOY:"+data);
+    console.log("MORE DATA ON DEPLOY:"+data);
   });
+*/
+
 });
 
 app.post('/invokex', function(req, res) {
@@ -245,15 +259,72 @@ app.post('/invokex', function(req, res) {
   var invokehash = new Buffer(req.body.invokehash, 'ascii').toString('base64');
   var invokeparams = new Buffer(req.body.invokeparams, 'ascii').toString('base64');
   var attachneo = new Buffer(req.body.attachneo, 'ascii').toString('base64');
+
+  var cbx_invokeonly = "0";
+  if(req.body["cbx_invokeonly"])
+    cbx_invokeonly = "1";
+  cbx_invokeonly=new Buffer(cbx_invokeonly, 'ascii').toString('base64');
+
+  console.log("invokeonly is :" + cbx_invokeonly)
   var wallet_invoke = "";
   if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
-       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + '"';//'" | base64';
+       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 
+  console.log(cmddocker);
   console.log("calling testinvoke");
+
+  //outp = require('child_process').execSync(cmddocker).toString();
+  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = '{"output":"'+outp+'"}';
+  //res.send(JSON.parse(outp));
+  var child = require('child_process').exec(cmddocker, optionsDefault);
+
+  var child_process = require('child_process');
+  var exec = child_process.exec;
+
+  child = exec(cmddocker, optionsDefault, function(err,stdout,stderr) {
+	if (err) {
+		console.log('Child process exited with error code!!', err.code);
+		return
+	}
+	//console.log("\n \n\n Finishing here: " + err + "\n stdout" + stdout + "\nstderr" + stderr + "\n\n\n\n");
+  });
+
+
+  child.on('exit', function(code, signal) {
+    console.log("\n[app-js] -  exiting invokex docker");
+    if( signal == 'SIGKILL' ) {
+      console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
+      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\"}";
+      res.send(msgret);
+    }
+    else {
+      console.log("Bye bye invoke!!!");
+      outp = new Buffer(outp).toString('base64');
+      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+      outp = '{"output":"'+outp+'"}';
+      res.send(JSON.parse(outp));
+    }
+  });
+  child.stdout.on('data', function (data) {
+    outp = outp+data;
+    console.log("MORE DATA ON INVOKE:"+data);
+  });
+});
+
+
+app.post('/searchx', function(req, res) {
+  var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
+  var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
+       contracthash_search +'" '; //'" | base64';
+  var outp = "";
+
+  console.log("calling search");
 
   //outp = require('child_process').execSync(cmddocker).toString();
   //outp = outp.replace(/(\r\n|\n|\r)/gm,"");

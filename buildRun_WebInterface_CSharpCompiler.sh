@@ -9,5 +9,11 @@ echo "BUILDING neo-boa-compiler";
 
 export DOCKERNEOCOMPILER=$(docker images -aq "docker-mono-neo-compiler")
 
+echo "STOPING server doors";
+./stop.sh
+
+echo "SLEEP 5 seconds. Waiting some couple of seconds until everything is processed...";
+sleep 5
+
 echo "RUNNING NeoCompiler.io server (sponsored by NeoResearch)";
 ./run.sh

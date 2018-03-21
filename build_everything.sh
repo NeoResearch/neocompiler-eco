@@ -6,13 +6,18 @@ echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 
 echo "PRUNE any useless NPM dep and install";
 npm prune
+echo "NPM Install";
 npm install
+
+#echo "(OPTIONAL - use during developing) BUILDING docker-compiler-privnet";
+#(cd docker-privnet; ./docker_build.sh)
 
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 ./buildRun_Compose_PrivateNet_NeoScanDocker.sh
 echo "NeoScan-Docker Built with Sucess. You will probably need to wait some time until NeoScan is fully sync.";
 
 # Old command that was used before our private Hub-docker images
+# When creating a new version of Docker-NeoCompiler-Neo-Scan and Docker-NeoCompiler-PrivateNet it might be usefull again
 #echo "EXECUTE TransferScript on PrivateNet";
 #docker exec -d -t neo-compiler-privnet-with-gas dash -i -c "./execTransferFundsAtTheBegin.sh"
 

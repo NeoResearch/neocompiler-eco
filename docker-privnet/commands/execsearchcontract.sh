@@ -5,7 +5,12 @@
 
 
 if (( $# == 1 )); then
-   cd /opt/neo-python/
+   #cd /neo-python/
+   export randomFolder=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 32)
+   cp -r /neo-python/ /neo-python$randomFolder
+   cp -r /opt/node1/neo-cli/Chain /neo-python$randomFolder/Chains/privnet
+   cd /neo-python$randomFolder
+
    lhash=`echo "$1" | base64 --decode`
    #echo "HASH: $lhash"
    #echo "code: $2"
@@ -21,7 +26,12 @@ if (( $# == 1 )); then
 #   rm -rf Chains/privnet/*
 #   rm -rf Chains/*
 
-   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
+   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
+
+
+   echo "Time to delete folder"
+   rm -rf /neo-python$randomFolder/
+   echo "Bye bye... :D"
 fi
 
 #example: ./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo=

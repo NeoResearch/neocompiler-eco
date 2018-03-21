@@ -1,8 +1,7 @@
 #!/bin/bash
 
-#cd /opt/neo-python/
-cp -r /opt/neo-python/ /opt/neo-pythonTemp/
-cd /opt/neo-pythonTemp/
+cp -r /neo-python/ /neo-pythonTemp/
+cd /neo-pythonTemp/
 
 send1=`echo "send neo APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 10000" | xxd -p -c 256`
 send2=`echo "send gas APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL 1000" | xxd -p -c 256`
@@ -14,9 +13,7 @@ stropen=`echo "open wallet w1.wallet" | xxd -p`
 strrebuild=`echo "wallet rebuild" | xxd -p`
 strexit=`echo "exit" | xxd -p`
 
-python3 unsafeprompt.py -p -e $strexit,$strrebuild,$send1,$strrebuild,$send2,$strrebuild,$send3,$strrebuild,$send4,$strrebuild,$send5,$strrebuild,$send6,$strrebuild,$stropen
+#python3 unsafeprompt.py -p -e $strexit,$strrebuild,$send1,$strrebuild,$send2,$strrebuild,$send3,$strrebuild,$send4,$strrebuild,$send5,$strrebuild,$send6,$strrebuild,$stropen
+python3.6 unsafeprompt.py -p -e $strexit,$send1,$send2,$send3,$send4,$send5,$send6,$stropen
 
-rm -rf /opt/neo-pythonTemp/
-
-#example: ./exectransferfundsAtTheBegin.sh
-#outside: docker exec -t neo-privnet-with-gas dash -i -c "./exectransferfundsAtTheBegin.sh" > saida.log
+rm -rf /neo-pythonTemp/

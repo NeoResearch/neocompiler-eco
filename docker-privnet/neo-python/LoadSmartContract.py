@@ -63,9 +63,13 @@ def LoadContract(args):
     path = args[0]
     params = parse_param(args[1], ignore_int=True, prefer_hex=False)
 
+    if type(params) is str:
+        params = params.encode('utf-8')
 
     return_type = parse_param(args[2], ignore_int=True, prefer_hex=False)
 
+    if type(return_type) is str:
+        return_type = return_type.encode('utf-8')
 
 
     needs_storage = bool(parse_param(args[3]))
@@ -184,17 +188,15 @@ def GatherContractDetails(function_code, prompter):
                          get_bottom_toolbar_tokens=prompter.get_bottom_toolbar,
                          style=prompter.token_style)
 
-    f = open(function_code.ScriptHash().ToString()+".import", "w")
-    print("Creating smart contract....", file=f)
-    print("                 Name: %s " % name, file=f)
-    print("              Version: %s" % version, file=f)
-    print("               Author: %s " % author, file=f)
-    print("                Email: %s " % email, file=f)
-    print("          Description: %s " % description, file=f)
-    print("        Needs Storage: %s " % function_code.HasStorage, file=f)
-    print(" Needs Dynamic Invoke: %s " % function_code.HasDynamicInvoke, file=f)
-    print(json.dumps(function_code.ToJson(), indent=4), file=f)
-    f.close()
+    print("Creating smart contract....")
+    print("                 Name: %s " % name)
+    print("              Version: %s" % version)
+    print("               Author: %s " % author)
+    print("                Email: %s " % email)
+    print("          Description: %s " % description)
+    print("        Needs Storage: %s " % function_code.HasStorage)
+    print(" Needs Dynamic Invoke: %s " % function_code.HasDynamicInvoke)
+    print(json.dumps(function_code.ToJson(), indent=4))
 
     return generate_deploy_script(function_code.Script, name, version, author, email, description,
                                   function_code.ContractProperties, ord(function_code.ReturnType),

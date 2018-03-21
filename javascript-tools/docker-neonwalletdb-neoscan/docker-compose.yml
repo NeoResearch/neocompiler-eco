@@ -30,7 +30,7 @@ services:
       - redis
       - neo-privnet
   neo-privnet:
-    image: vncoelho/neo-compiler-privatenet-with-gas:1.1
+    image: vncoelho/neo-compiler-privatenet-with-gas:1.2
     container_name: "neo-compiler-privnet-with-gas"
     ports:
       - 20333:20333

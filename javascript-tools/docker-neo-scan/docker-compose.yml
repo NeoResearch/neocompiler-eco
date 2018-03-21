@@ -1,7 +1,7 @@
 version: "3"
 services:
   neo-scan:
-    image: igormcoelho/neo-docker-scan:1.0
+    image: vncoelho/neo-compiler-neo-scan:1.2 #slipoh/neo-scan
     container_name: "neo-scan"
     ports:
       - 4000:4000
@@ -23,10 +23,10 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres 
       POSTGRES_PASSWORD: postgres
   neo-privnet:
-    image: vncoelho/neo-compiler-privatenet-with-gas:1.1 
+    image: vncoelho/neo-compiler-privnet-with-gas:1.2  #neo-compiler-privnet-with-gas:1.2 
     container_name: "neo-compiler-privnet-with-gas"
     ports:
       - 20333:20333

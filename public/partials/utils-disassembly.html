@@ -57,14 +57,14 @@
                 hexavm = hexavm.substr(2, hexavm.length);
                 bsize = parseInt(sizepush, 16);
                 $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA1\t #"+bsize+" bytes: ");
-                var spush = "";
+                //var spush = ""; // no need for string, large bytes are usually not string data
                 for (i = 0; i < bsize; i++) {
                     var codepush = "" + hexavm[0] + hexavm[1];
                     hexavm = hexavm.substr(2, hexavm.length);
                     $("#opcodes").text($("#opcodes").text() + codepush);
-                    spush += String.fromCharCode(parseInt(codepush, 16));
+                    //spush += String.fromCharCode(parseInt(codepush, 16));
                 }
-                $("#opcodes").text($("#opcodes").text() + spush +" # pushed onto the stack\n");
+                $("#opcodes").text($("#opcodes").text() + "# " + bsize + " bytes pushed onto the stack\n");
             }
             else if (opcode == "4d") {
               var bsize = 0;
@@ -75,14 +75,14 @@
               hexavm = hexavm.substr(2, hexavm.length);
               bsize = bsize*256 + parseInt(sizepush, 16);
               $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA2\t #"+bsize+" bytes: ");
-              var spush = "";
+              //var spush = ""; // no need for string, large bytes are usually not string data
               for (i = 0; i < bsize; i++) {
                   var codepush = "" + hexavm[0] + hexavm[1];
                   hexavm = hexavm.substr(2, hexavm.length);
                   $("#opcodes").text($("#opcodes").text() + codepush);
-                  spush += String.fromCharCode(parseInt(codepush, 16));
+                  //spush += String.fromCharCode(parseInt(codepush, 16));
               }
-              $("#opcodes").text($("#opcodes").text() + spush +" # pushed onto the stack\n");
+              $("#opcodes").text($("#opcodes").text() + "# " + bsize + " bytes pushed onto the stack\n");
                 //$("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA2\t#The next two bytes contain the number of bytes to be pushed onto the stack\n");
             }
             else if (opcode == "4e") {
@@ -100,14 +100,14 @@
               hexavm = hexavm.substr(2, hexavm.length);
               bsize = bsize*256 + parseInt(sizepush, 16);
               $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA4\t #"+bsize+" bytes: ");
-              var spush = "";
+              //var spush = ""; // no need for string, large bytes are usually not string data
               for (i = 0; i < bsize; i++) {
                   var codepush = "" + hexavm[0] + hexavm[1];
                   hexavm = hexavm.substr(2, hexavm.length);
                   $("#opcodes").text($("#opcodes").text() + codepush);
-                  spush += String.fromCharCode(parseInt(codepush, 16));
+                  //spush += String.fromCharCode(parseInt(codepush, 16));
               }
-              $("#opcodes").text($("#opcodes").text() + spush +" # pushed onto the stack\n");
+              $("#opcodes").text($("#opcodes").text() + "# " + bsize + " bytes pushed onto the stack\n");
                 //$("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA4\t#The next four bytes contain the number of bytes to be pushed onto the stack.\n");
             }
             else if (opcode == "4f")

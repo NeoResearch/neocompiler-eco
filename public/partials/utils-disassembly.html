@@ -350,7 +350,9 @@
 
             $("#disassembly").submit(function (e) {
                 e.preventDefault(); // Prevents the page from refreshing
-                printOpcode($("#avmcode")[0].value);
+                var hexavm = $("#avmcode")[0].value;
+                $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
+                printOpcode(hexavm);
             });
         </script>
     </body>

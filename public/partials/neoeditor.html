@@ -291,7 +291,7 @@ def Main():
           bsize = String.fromCharCode(parseInt(sizepush, 16));
           sizepush = "" + hexavm[0] + hexavm[1];
           hexavm = hexavm.substr(2, hexavm.length);
-          bsize = bsize*255 + String.fromCharCode(parseInt(sizepush, 16));
+          bsize = bsize*256 + String.fromCharCode(parseInt(sizepush, 16));
           $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA2\t #"+bsize+" bytes: ");
           var spush = "";
           for (i = 0; i < bsize; i++) {
@@ -310,13 +310,13 @@ def Main():
           bsize += String.fromCharCode(parseInt(sizepush, 16));
           sizepush = "" + hexavm[0] + hexavm[1];
           hexavm = hexavm.substr(2, hexavm.length);
-          bsize = bsize*255 + String.fromCharCode(parseInt(sizepush, 16));
+          bsize = bsize*256 + String.fromCharCode(parseInt(sizepush, 16));
           sizepush = "" + hexavm[0] + hexavm[1];
           hexavm = hexavm.substr(2, hexavm.length);
-          bsize = bsize*255 + String.fromCharCode(parseInt(sizepush, 16));
+          bsize = bsize*256 + String.fromCharCode(parseInt(sizepush, 16));
           sizepush = "" + hexavm[0] + hexavm[1];
           hexavm = hexavm.substr(2, hexavm.length);
-          bsize = bsize*255 + String.fromCharCode(parseInt(sizepush, 16));
+          bsize = bsize*256 + String.fromCharCode(parseInt(sizepush, 16));
           $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA4\t #"+bsize+" bytes: ");
           var spush = "";
           for (i = 0; i < bsize; i++) {

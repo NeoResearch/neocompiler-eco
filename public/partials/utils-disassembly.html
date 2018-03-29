@@ -168,8 +168,6 @@
                 $("#opcodes").text($("#opcodes").text() + opcode + "\tCALL\t# \n");
             else if (opcode == "66")
                 $("#opcodes").text($("#opcodes").text() + opcode + "\tRET\t# \n");
-            else if (opcode == "67")
-                $("#opcodes").text($("#opcodes").text() + opcode + "\tAPPCALL\t# \n");
             else if (opcode == "68") {
                 $("#opcodes").text($("#opcodes").text() + opcode + "\tSYSCALL\t# ");
                 var nparfunc = "" + hexavm[0] + hexavm[1];
@@ -188,8 +186,19 @@
                 }
                 $("#opcodes").text($("#opcodes").text() + "\n");
             }
-            else if (opcode == "69")
-                $("#opcodes").text($("#opcodes").text() + opcode + "\tTAILCALL\t# \n");
+            else if ((opcode == "67") ||  (opcode == "69")) {  // read 20 bytes in reverse order
+              if (opcode == "69")
+                  $("#opcodes").text($("#opcodes").text() + opcode + "\tTAILCALL\t#");
+              if (opcode == "67")
+                  $("#opcodes").text($("#opcodes").text() + opcode + "\tAPPCALL\t#");
+              var codecall = "";
+              for (i = 0; i < 20; i++) {
+                  var codepush = "" + hexavm[0] + hexavm[1];
+                  hexavm = hexavm.substr(2, hexavm.length);
+                  codecall = codepush + codecall;
+              }
+              $("#opcodes").text($("#opcodes").text() + codecall + "\n");
+            }
             else if (opcode == "6a")
                 $("#opcodes").text($("#opcodes").text() + opcode + "\tDUPFROMALTSTACK\t# \n");
             else if (opcode == "6b")

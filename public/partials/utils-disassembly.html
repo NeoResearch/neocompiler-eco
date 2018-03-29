@@ -70,10 +70,10 @@
               var bsize = 0;
               var sizepush = "" + hexavm[0] + hexavm[1];
               hexavm = hexavm.substr(2, hexavm.length);
-              bsize = parseInt(sizepush, 16);
+              bsize = 256*parseInt(sizepush, 16);
               sizepush = "" + hexavm[0] + hexavm[1];
               hexavm = hexavm.substr(2, hexavm.length);
-              bsize = bsize*256 + parseInt(sizepush, 16);
+              bsize += parseInt(sizepush, 16);
               $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA2\t #"+bsize+" bytes: ");
               //var spush = ""; // no need for string, large bytes are usually not string data
               for (i = 0; i < bsize; i++) {
@@ -89,16 +89,16 @@
               var bsize = 0;
               var sizepush = "" + hexavm[0] + hexavm[1];
               hexavm = hexavm.substr(2, hexavm.length);
+              bsize = 256*256*256*parseInt(sizepush, 16);
+              sizepush = "" + hexavm[0] + hexavm[1];
+              hexavm = hexavm.substr(2, hexavm.length);
+              bsize += 256*256*parseInt(sizepush, 16);
+              sizepush = "" + hexavm[0] + hexavm[1];
+              hexavm = hexavm.substr(2, hexavm.length);
+              bsize += 256*parseInt(sizepush, 16);
+              sizepush = "" + hexavm[0] + hexavm[1];
+              hexavm = hexavm.substr(2, hexavm.length);
               bsize += parseInt(sizepush, 16);
-              sizepush = "" + hexavm[0] + hexavm[1];
-              hexavm = hexavm.substr(2, hexavm.length);
-              bsize = bsize*256 + parseInt(sizepush, 16);
-              sizepush = "" + hexavm[0] + hexavm[1];
-              hexavm = hexavm.substr(2, hexavm.length);
-              bsize = bsize*256 + parseInt(sizepush, 16);
-              sizepush = "" + hexavm[0] + hexavm[1];
-              hexavm = hexavm.substr(2, hexavm.length);
-              bsize = bsize*256 + parseInt(sizepush, 16);
               $("#opcodes").text($("#opcodes").text() + opcode + "\tPUSHDATA4\t #"+bsize+" bytes: ");
               //var spush = ""; // no need for string, large bytes are usually not string data
               for (i = 0; i < bsize; i++) {

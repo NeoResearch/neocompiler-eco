@@ -4,8 +4,6 @@
 echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 ./stop-all-docker-compose.sh
 
-git pull
-
 echo "PRUNE any useless NPM dep and install";
 npm prune
 echo "NPM Install";

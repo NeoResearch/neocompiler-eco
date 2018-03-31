@@ -9,8 +9,8 @@ npm prune
 echo "NPM Install";
 npm install
 
-#echo "(OPTIONAL - use during developing) BUILDING docker-compiler-privnet";
-#(cd docker-privnet; ./docker_build.sh)
+echo "(OPTIONAL - use during developing) BUILDING docker-compiler-privnet";
+(cd docker-privnet; ./docker_build.sh)
 
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 ./buildRun_Compose_PrivateNet_NeoScanDocker.sh

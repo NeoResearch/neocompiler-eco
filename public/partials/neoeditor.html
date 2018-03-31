@@ -165,18 +165,6 @@ def Main():
         </div>
     </div>
 
-    <div class="panel panel-info">
-        <div class="panel-heading">Search contract in private net</div>
-        <div class="panel-body">
-            <form id="formsearch" action="/searchx" method="post">
-                <div class="form-group">
-                    <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
-                    <button type="submit" id="searchbtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div class="panel panel-warning">
         <div class="panel-heading">Invoke contract in private net</div>
         <div class="panel-body">
@@ -196,6 +184,27 @@ def Main():
                 </div>
             </form>
         </div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">Search contract in private net</div>
+        <div class="panel-body">
+            <form id="formsearch" action="/searchx" method="post">
+                <div class="form-group">
+                    <input id="contracthash_search" name="contracthash_search" placeholder="Script Hash"/>
+                    <button type="submit" id="searchbtn" style="margin-left: 10px;" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Search by hash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="dropdown btn-group">
+        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="https://neoscan.neocompiler.io/api/main_net/v1/get_transaction/$atest"
+          target="popup"
+          onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_transaction/$atest','popup','width=600,height=600'); return false;">
+          Check TX
+        </a>
     </div>
 
     <div class="panel panel-info">

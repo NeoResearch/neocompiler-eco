@@ -24,17 +24,17 @@ ADD commands/execsearchcontract.sh /neo-python
 #Optional script to send funds to all other 3 wallets
 ADD commands/execTransferFundsAtTheBegin.sh /neo-python
 
-#Starts w1.wallet in a newWindow
+#Starts screen for python wallets syncing, spped up neo-privatenet online acess
 ADD scripts/run.sh /opt/
 ADD commands/execSleepNeopyInfinitSync.sh /neo-python
 
-
+#=========================================================
+#Other commands that once were useful or tested - TODO
 #RUN apt-get install -y openssh-server
-
 #Delete old privnet chain files
 #RUN rm -rf /neo-python/Chains/privnet/*
 #RUN rm -rf /neo-python/Chains/*
-
 #Option to update neo-python to current origin master 
 #RUN cd /opt/neo-python && git checkout master && git pull
 #RUN pip3 install -r /opt/neo-python/requirements.txt
+#=========================================================

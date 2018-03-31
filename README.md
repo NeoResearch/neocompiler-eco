@@ -36,9 +36,16 @@ For Debian-based systems:
 
 `npm install`
 
+## Build everything
+
+This will call a docker-compose with NeoCompiler Private Net+NeoScan.
+Furthermore, it will set all available compilers and open the fron/backend interface and server, respectively.
+
+`./build_everything.sh`
+
 ## Docker-neo csharp compiler backend
 
-### Building docker-neo backend
+### Building docker-neo csharp backend
 
 `cd docker-neo`
 
@@ -72,6 +79,8 @@ In order to add NeoScan light wallet functionalities, run docker-compose.
 
 
 Start up the container, checking the messages and following warnings
+
+`cd ./javascript-tools/docker-neo-scan`
 
 ```
 docker-compose up

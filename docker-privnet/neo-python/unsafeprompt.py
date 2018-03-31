@@ -221,12 +221,23 @@ class PromptInterface(object):
                     #time.sleep(3)
                     print("Opened wallet at %s" % path)
 
-                    print("\n\nWallet current height is: %s / %s" % (self.Wallet._current_height, Blockchain.Default().Height))
-                    print("\nWait a couple of seconds before continuing with the oppned wallet ...")
+                    #TODO - NeoCompiler.io syncing process
+                    blockchainheight = max(Blockchain.Default().HeaderHeight,Blockchain.Default().Height)
+                    print("\nWallet current height is: %s / %s" % (self.Wallet._current_height, blockchainheight))
+                    print("Waiting (at least 3 seconds) before continuing with this wallet ...")
+                    #time.sleep(3)
+                    timenow = time.time()
+                    timebase = time.time()
+                    while(timenow - timebase < 3):
+                        timenow = time.time()
+                    print("Waiting until wallet reaches current blockchain height.")
                     walletheight = self.Wallet._current_height
-                    while(walletheight < Blockchain.Default().Height - 10):
+                    blockchainheight = max(Blockchain.Default().HeaderHeight,Blockchain.Default().Height)
+                    #TODO Maybe use blockchainheight +1
+                    while(walletheight < blockchainheight):
                         walletheight = self.Wallet._current_height
-                        print("\n\nWallet current height is: %s/%s" % self.Wallet._current_height % Blockchain.Default().Height)
+                        blockchainheight = max(Blockchain.Default().HeaderHeight, Blockchain.Default().Height)
+                    print("After syncing, wallet current height is: %s / %s\n" % (self.Wallet._current_height, blockchainheight))
 
                 except Exception as e:
                     print("Could not open wallet: %s" % e)
@@ -521,9 +532,22 @@ class PromptInterface(object):
                 if item2 and item2 > 0:
                     print("Restarting at %s" % item2)
                     self.Wallet._current_height = item2
-                print("Waiting for wallet to sync and rebuild...")
-                time.sleep(60 * 0.5)
+
+                #TODO - NeoCompiler.io syncing process - BEGINS
+                print("Waiting, at least, 30 seconds, for wallet to sync and rebuild...")
+                #time.sleep(30)
+                timenow = time.time()
+                timebase = time.time()
+                while(timenow - timebase < 30):
+                    timenow = time.time()
+                walletheight = self.Wallet._current_height
+                blockchainheight = max(Blockchain.Default().HeaderHeight,Blockchain.Default().Height)
+                while(walletheight < blockchainheight):
+                    walletheight = self.Wallet._current_height
+                    blockchainheight = max(Blockchain.Default().HeaderHeight,Blockchain.Default().Height)
+                #TODO - NeoCompiler.io syncing process - ENDS
             except Exception as e:
+                print("Problems happened when rebuilding %s" % e)
                 pass
         elif item == 'tkn_send':
             token_send(self.Wallet, arguments[1:])
@@ -850,27 +874,28 @@ class PromptInterface(object):
         else:
             print("Cannot configure %s try 'config sc-events on|off' or 'config debug on|off'", what)
 
-    #TODO NeoCompiler parse_result function
+    #TODO NeoCompiler parse_result function -- BEGINS
     def parse_result(self, result):
         if len(result):
             commandParts = [s for s in result.split()]
             return commandParts[0], commandParts[1:]
         return None, None
+    #TODO NeoCompiler parse_result function -- ENDS
 
-    #TODO wait_for_tx from Coz-PrivateNet claims
+    #TODO wait_for_tx from Coz-PrivateNet claims - BEGINS
     def wait_for_tx(self, tx, max_seconds=150):
         """ Wait for tx to show up on blockchain """
         foundtx = False
         sec_passed = 0
 
         while not foundtx and sec_passed < max_seconds:
-            timebase = time.time()
             _tx, height = Blockchain.Default().GetTransaction(tx.Hash.ToString())
             if height > -1:
                 foundtx = True
                 print("Transaction found with success")
                 continue
             timenow = time.time()
+            timebase = time.time()
             #if(timenow - timebase < 3):
             #    print("Waiting for tx {} to show up on blockchain...".format(tx.Hash.ToString()))
             #time.sleep(3)
@@ -885,7 +910,7 @@ class PromptInterface(object):
         else:
             print("Transaction was relayed but never accepted by consensus node in 150 seconds")
             return False
-
+    #TODO wait_for_tx from Coz-PrivateNet claims - ENDS
 
     def run(self):
         dbloop = task.LoopingCall(Blockchain.Default().PersistBlocks)
@@ -909,13 +934,12 @@ class PromptInterface(object):
             try:
                 if len(self.mycommands) > 0:
                     timenow = time.time()
-                    if timenow - timebase > 1: #wait 2 seconds TODO NeoCompiler.IO - This trick still seems to be necessary in order to wait for sync
+                    if timenow - timebase > 2: #wait 2 seconds TODO NeoCompiler.IO - This trick still seems to be necessary in order to wait for sync
                         timebase = timenow
                         result = self.mycommands.pop()
                     else:
                         time.sleep(0.3) # slow refresh
                         continue
-                    #result = self.mycommands.pop()
                 else:
                     result = prompt("neo> ",
                                 completer=self.get_completer(),
@@ -931,8 +955,7 @@ class PromptInterface(object):
                 # Control-C pressed: do nothing
                 continue
             try:
-                #TODO NeoCompiler parse_result function
-                command, arguments = self.parse_result(result)
+                command, arguments = self.parse_result(result) #TODO NeoCompiler parse_result function
 
                 if command is not None and len(command) > 0:
                     command = command.lower()
@@ -952,12 +975,13 @@ class PromptInterface(object):
                         self.do_load_n_run(arguments)
                     elif command == 'import':
                         tx = self.do_import(arguments)
-                        # Wait until transaction is on blockchain
+                        # TODO Wait until transaction is on blockchain -- BEGINS
                         if tx is not None:
                             print("\nDeploy has been completed with relayed TX %s" % tx.Hash.ToString())
                             print("\nCheck the progress at the NeoCompiler NeoScan-Privanet.\nIn same few unexpected cases, transactions are not being relayed. Possible due to multiple uses of the same wallet.\n")
                         #if tx is not None:
                         #    self.wait_for_tx(tx)
+                        # TODO Wait until transaction is on blockchain -- ENDS
                     elif command == 'export':
                         self.do_export(arguments)
                     elif command == 'wallet':
@@ -983,14 +1007,16 @@ class PromptInterface(object):
                         self.show_contract_state(arguments)
                     elif command == 'testinvoke':
                         tx = self.test_invoke_contract(arguments)
+                        # TODO Wait until transaction is on blockchain -- BEGINS
                         if tx is not None:
                             print("\nTestinvoke has been completed with relayed TX %s" % tx.Hash.ToString())
                             print("\nCheck the progress at the NeoCompiler NeoScan-Privanet.\nIn same few unexpected cases, transactions are not being relayed. Possible due to multiple uses of the same wallet.\n")
                         # Wait until transaction is on blockchain
                         #if tx is not None:
                         #    self.wait_for_tx(tx)
+                        # TODO Wait until transaction is on blockchain -- ENDS
                     elif command == 'testinvokeonly':
-                        self.test_invoke_contract(arguments,True)
+                        self.test_invoke_contract(arguments,True) # TODO NeoCompiler.io invokeonly
                     elif command == 'withdraw_request':
                         self.make_withdraw_request(arguments)
                     elif command == 'withdraw':

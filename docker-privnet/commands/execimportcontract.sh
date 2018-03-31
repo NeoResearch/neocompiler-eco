@@ -28,7 +28,7 @@ if (( $# == 7 )); then
    strrebuild=`echo "wallet rebuild" | xxd -p`
    strshowwallet=`echo "wallet" | xxd -p`
 
-   #echo "open: $stropen"
+   echo "open: $stropen"
    strimport=`echo "import contract $lhash.avm $parm $rv $op1 $op2" | xxd -p -c 256`
    #echo "open: $strimport"
    strexit=`echo "exit" | xxd -p`

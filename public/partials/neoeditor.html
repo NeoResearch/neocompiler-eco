@@ -198,12 +198,9 @@ def Main():
         </div>
     </div>
 
-
-    <div class="dropdown btn-group">
-        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown" href="https://neoscan.neocompiler.io/api/main_net/v1/get_transaction/$atest"
-          target="popup"
-          onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_transaction/$atest','popup','width=600,height=600'); return false;">
-          Check TX
+    <div class="panel panel-info">
+        <a id="link2">
+          Check last relayed TX
         </a>
     </div>
 
@@ -219,6 +216,10 @@ def Main():
 
 </div>
 <script>
+    var neoScanTXBaseURL = "https://neoscan.neocompiler.io/api/main_net/v1/get_transaction/"
+    document.getElementById("link2").setAttribute("target","_blank");
+    document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + -1);
+
     function hex2bin(hex) {
         var bytes = [];
         for (var i = 0; i < hex.length - 1; i += 2)
@@ -746,6 +747,18 @@ def Main():
                  $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
                  indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
              }
+
+             //New test for getting last TX link
+             var indexRelayedTx = $("#contractmessages").text().indexOf("relayed TX");
+             var relayedTX = "";
+             if(indexRelayedTx != -1)
+             {
+                   //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
+                   for(var i = 0; i<64; i++)
+                         relayedTX += $("#contractmessages").text()[indexRelayedTx + 11 + i];
+                   console.log("Relayed tx is:"+relayedTX);
+                   document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
+             }
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
            $("#searchbtn")[0].disabled = false;
@@ -784,6 +797,18 @@ def Main():
            // console.log("output="+data);
            var deploymsg = atob(data.output);
            $("#contractmessages").text(deploymsg);
+
+           //New test for getting last TX link
+           var indexRelayedTx = $("#contractmessages").text().indexOf("relayed TX");
+           var relayedTX = "";
+           if(indexRelayedTx != -1)
+           {
+                 //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
+                 for(var i = 0; i<64; i++)
+                       relayedTX += $("#contractmessages").text()[indexRelayedTx + 11 + i];
+                 console.log("Relayed tx is:"+relayedTX);
+                 document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
+           }
         }).fail(function(jqXHR, textStatus){
            //if(textStatus === 'timeout')
            //{

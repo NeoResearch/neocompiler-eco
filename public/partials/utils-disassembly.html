@@ -361,12 +361,19 @@
             printOpcode(hexavm);
         }
 
+        function revertHexString(hex) {
+            var reverthex = "";
+            for (var i = 0; i < hex.length - 1; i += 2)
+                reverthex = "" + hex.substr(i, 2) + reverthex;
+            return reverthex;
+        }
+
             $("#disassembly").submit(function (e) {
                 e.preventDefault(); // Prevents the page from refreshing
                 var hexavm = $("#avmcode")[0].value;
                 hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
                 var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
-                var shash = sjcl.codec.hex.fromBits(bitshash160);
+                var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
                 $("#scripthash")[0].value = shash;
                 $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
                 printOpcode(hexavm);

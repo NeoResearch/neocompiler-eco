@@ -10,7 +10,6 @@ screen -dmS node4 expect /opt/start_consensus_node.sh /opt/node4/neo-cli/ wallet
 
 #This screen keeps neo-python open after rebuild on w1.wallet
 #TODO - Improve this to be called on NeoCompiler. Then, different wallets could be sync when users fell that they are not.
-sleep 5
 screen -dmS pythonSyncing /neo-python/execSleepNeopyInfinitSync.sh
 
 sleep infinity

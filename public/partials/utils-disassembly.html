@@ -184,8 +184,8 @@
                     hexavm = hexavm.substr(2, hexavm.length);
                     var cvalue = String.fromCharCode(parseInt(codepush, 16));
                     sfunc += cvalue;
-                    if (sfunc == "Neo.Storage")
-                        $("#cbx_storage")[0].checked = true;
+                    //if (sfunc == "Neo.Storage")
+                    //    $("#cbx_storage")[0].checked = true;
                     $("#opcodes").text($("#opcodes").text() + cvalue);
                 }
                 $("#opcodes").text($("#opcodes").text() + "\n");
@@ -367,7 +367,7 @@
                 hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
                 var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
                 var shash = sjcl.codec.hex.fromBits(bitshash160);
-                $("#scripthash").text(shash);
+                $("#scripthash")[0].value = shash;
                 $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
                 printOpcode(hexavm);
             });

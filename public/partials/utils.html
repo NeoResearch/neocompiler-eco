@@ -34,6 +34,16 @@
                         </div>
                     </div>
                     <div class="panel panel-primary">
+                        <div class="panel-heading">Revert Hex String</div>
+                        <div class="panel-body">
+                            <form id="frmreverse" action="">
+                                <input id="hexstring" placeholder="Hex String to Reverse" style="width: 40%"/>
+                                <button type="submit" id="doreverse" style="margin-left: 1%; width: 15%;" class="btn btn-info btn-sm">Reverse Hex String</button>
+                                <input id="reversehexstring" style="background-color:#eeeeee; margin-left: 1%; width: 41%" readonly="readonly"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Disassembly opcodes</div>
                         <div class="panel-body">
                             <form id="disassembly" action="">
@@ -120,25 +130,25 @@
             var url_w4 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
             $.getJSON(url_w1, function(result) {
                 var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
                 data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
                 $("#w1Data")[0].value = data;
             });
             $.getJSON(url_w2, function(result) {
                 var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
                 data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
                 $("#w2Data")[0].value = data;
             });
             $.getJSON(url_w3, function(result) {
                 var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
                 data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
                 $("#w3Data")[0].value = data;
             });
             $.getJSON(url_w4, function(result) {
                 var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
                 data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
                 $("#w4Data")[0].value = data;
             });
@@ -487,7 +497,7 @@
             for (var i = 0; i < hex.length - 1; i += 2)
                 reverthex = "" + hex.substr(i, 2) + reverthex;
             return reverthex;
-        }    
+        }
 
         function toBase58(data)
         {
@@ -545,6 +555,10 @@
             for (i = 0; i < $("#stringtohash").val().length; i++) {
                 $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
             }
+        });
+        $("#frmreverse").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            $("#reversehexstring").val( revertHexString($("#hexstring").val()) );
         });
     </script>
 </div>

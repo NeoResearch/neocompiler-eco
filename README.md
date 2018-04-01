@@ -1,26 +1,27 @@
 <p align="center">
     <img
-      src="http://res.cloudinary.com/dnh3we6el/image/upload/v1519941321/NeoResearch-Logo.png"
+      src="./public/images/logo.png"
       width="125px;">
+      <img
+        src="./public/images/prototype-icon-eco.png"
+        width="125px;">
 </p>
 
-## NeoCompiler.io
+## NeoCompiler Eco
 
-This is an open-source initiative for providing an easy access to NEO compilers.
+This is an open-source initiative for providing an easy access to compilers on NEO ecosystem.
 
-*This is still an alpha project with focus on incentiving and disseminating NEO smart contract programming. If you really want to deploy the smart contract on NEO network, make sure you check the AVM with external compilers.*
-
-We will start with C#, Python (through neo-boa), Java and Solidity (through neo-solidity initiative).
+We will start with C#, Python (through neo-boa), Java and Solidity (through NeoSol initiative).
 
 ### What does it currently do
 * Compile input C# code using backend compiler;
+* Integrate with Python compiler (neo-boa);
 * Return AVM and ABI codes;
 * Deploy code to private net;
 * Contract invoke;
 * Tests with different wallets.
 
 ### Next steps
-* Integrate with Python compiler (neo-boa);
 * Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable). Some efforts have been done here already, but many technical challenges are still being dealt with;
 * Integrate with javascript compiler (as soon as it is available);
@@ -47,7 +48,7 @@ Furthermore, it will set all available compilers and open the fron/backend inter
 
 ### Building docker-neo csharp backend
 
-`cd docker-neo`
+`cd docker-neo-mono`
 
 `docker build .`
 
@@ -122,8 +123,9 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 
 LICENSE MIT
 
-*NeoCompiler.io team* (part of NeoResearch team)
+*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho),[@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
 
+This project is part of NeoResearch initiative.
 Original authors: [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
 
 Copyleft 2017-2018

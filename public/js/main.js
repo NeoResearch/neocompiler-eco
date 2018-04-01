@@ -12,6 +12,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 
     // Pages
     .when("/neoeditor", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
+    .when("/utils", {templateUrl: "partials/utils.html", controller: "PageCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
     
     // else 404

@@ -1,38 +1,148 @@
-<!DOCTYPE html>
-<html>
-    <head>
+<div class="container">
 
-        <!-- Meta-Information -->
-        <title>NeoCompiler - Opcodes disassembly</title>
-        <meta charset="utf-8">
-        <meta name="description" content="Neocompiler.io conversor">
+    <div class="row">
 
-        <!-- Bootstrap Stylesheets -->
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><a href="../index.html">Home</a>
+                </li>
+                <li class="active">Utils</li>
+            </ol>
+        </div>
 
-        <!-- Javascripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </div>
 
-        <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/sjcl.js"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/core/sha256.js"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/core/ripemd160.js"></script>
-        <script type="text/javascript" src="https://cdn.rawgit.com/silentmatt/javascript-biginteger/master/biginteger.js"></script>
-        
-    </head>
-    <body>
-        <form id="disassembly" action="" style="margin-left: 10%">
-                <p>Disassembly opcodes</p>
-                <textarea id="avmcode" placeholder="AVM code"></textarea>
-                <button type="submit" id="btnDisassembly" style="margin-left: 10px;" class="btn btn-info btn-sm">Disassembly</button>
-                <input type="text" id="scripthash" placeholder="Script Hash"></input>
-                <input type="text" id="address58" placeholder="Address (Base58)"></input>
-                <textarea id="opcodes" rows="5" cols="100" style="background-color:#eeeeee; margin-left: 10px;" readonly="readonly"></textarea>
-        </form>
-        <script>
+    <div class="row" style="height: 100%">
+
+        <div class="col-sm-3 sidenav" style="width: 20%">
+            <ul class="nav nav-pills nav-stacked"  data-tab data-options="deep_linking: true">
+              <li class="active"><a data-target="#conversor"  data-toggle="tab">Conversors</a></li>
+              <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
+            </ul><br>
+        </div>
+        <div class="col" style="height: 100%; width: 80%; margin-left: 20%;">
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="conversor">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Convert String to Hex</div>
+                        <div class="panel-body">
+                            <form id="str2hash" action="">
+                                <input id="stringtohash" placeholder="String to Hash" style="width: 40%"/>
+                                <button type="submit" id="strtohash" style="margin-left: 1%; width: 15%;" class="btn btn-info btn-sm">String to hash</button>
+                                <input id="stringtohash2" style="background-color:#eeeeee; margin-left: 1%; width: 41%" readonly="readonly"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Disassembly opcodes</div>
+                        <div class="panel-body">
+                            <form id="disassembly" action="">
+                                <textarea id="avmcode" placeholder="AVM code" style="width: 100%"></textarea><br>
+                                <button type="submit" id="btnDisassembly" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Disassembly</button><br>
+                                <input type="text" id="scripthash" placeholder="Script Hash" style="width: 48%"></input>
+                                <input type="text" id="address58" placeholder="Address (Base58)" style="width: 48%; margin-left: 1%"></input><br>
+                                <textarea id="opcodes" rows="5" cols="100" style="background-color:#eeeeee; width: 100%; margin-top: 1%" readonly="readonly"></textarea>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade in active" id="wallet">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
+                                031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
+                        </div>
+                        <div class="panel-body">
+                                <textarea id="w1Data" style="width: 100%; height: 50px;"></textarea><br>
+                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
+                                    target="popup"
+                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
+                                    more details
+                                </a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            w2: APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL<br>
+                                036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb<br>
+                        </div>
+                        <div class="panel-body">
+                                <textarea id="w2Data" style="width: 100%; height: 50px;"></textarea><br>
+                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
+                                    target="popup"
+                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
+                                    more details
+                                </a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            w3: AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx<br>
+                                0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d<br>
+                        </div>
+                        <div class="panel-body">
+                                <textarea id="w3Data" style="width: 100%; height: 50px;"></textarea><br>
+                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
+                                    target="popup"
+                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
+                                    more details
+                                </a>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            w4: AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9<br>
+                                02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br>
+                        </div>
+                        <div class="panel-body">
+                                <textarea id="w4Data" style="width: 100%; height: 50px;"></textarea><br>
+                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
+                                    target="popup"
+                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
+                                    more details
+                                </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/sjcl.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/core/sha256.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bitwiseshiftleft/sjcl/master/core/ripemd160.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/silentmatt/javascript-biginteger/master/biginteger.js"></script>
+    <script>
+        function populateWalletData()
+        {
+            var url_w1 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
+            var url_w2 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL";
+            var url_w3 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx";
+            var url_w4 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
+            $.getJSON(url_w1, function(result) {
+                var data = "";
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
+                $("#w1Data")[0].value = data;
+            });
+            $.getJSON(url_w2, function(result) {
+                var data = "";
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
+                $("#w2Data")[0].value = data;
+            });
+            $.getJSON(url_w3, function(result) {
+                var data = "";
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
+                $("#w3Data")[0].value = data;
+            });
+            $.getJSON(url_w4, function(result) {
+                var data = "";
+                data += result.balance[0].amount + " " + result.balance[0].asset + "\n"; 
+                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
+                $("#w4Data")[0].value = data;
+            });
+        }
 
         // Calculate gas cost
         //https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
@@ -371,6 +481,7 @@
                 bigint = bigint.multiply(256).add(parseInt(hex.substr(i, 2), 16));
             return bigint;
         }
+
         function revertHexString(hex) {
             var reverthex = "";
             for (var i = 0; i < hex.length - 1; i += 2)
@@ -426,6 +537,14 @@
             $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
             printOpcode(hexavm);
         });
-        </script>
-    </body>
-</html>
+
+        $("#str2hash").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            var i = 0;
+            $("#stringtohash2").val("");
+            for (i = 0; i < $("#stringtohash").val().length; i++) {
+                $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
+            }
+        });
+    </script>
+</div>

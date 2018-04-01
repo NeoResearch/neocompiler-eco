@@ -14,7 +14,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     .when("/neoeditor", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
     .when("/utils", {templateUrl: "partials/utils.html", controller: "PageCtrl"})
     .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
-    
+
     // else 404
     .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
 }]);
@@ -22,7 +22,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 /* Controls all other Pages */
 app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
   // Activates Tooltips for Social Links
-  $('.tooltip-social').tooltip({
-    selector: "a[data-toggle=tooltip]"
-  })
+  //$('.tooltip-social').tooltip({
+  //  selector: "a[data-toggle=tooltip]"
+  //})
 });

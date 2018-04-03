@@ -9,23 +9,24 @@
 
 ## NeoCompiler Eco
 
-This is an open-source initiative for providing an easy access to compilers on NEO ecosystem.
+This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
-We will start with C#, Python (through neo-boa), Java and Solidity (through NeoSol initiative).
+In particular, we provide simple interact and didactic interfaces for allowing online compiling.
+In the first moment, we started with C# and Python.
+Our next steps are moving us towards Java and Solidity (through NeoSol initiative).
 
 ### What does it currently do
-* Compile input C# code using backend compiler;
-* Integrate with Python compiler (neo-boa);
-* Return AVM and ABI codes;
-* Deploy code to private net;
-* Contract invoke;
-* Tests with different wallets.
+* Compile input C# or Python code using reliable and safe servers (backend) compilers;
+* Return AVM and ABI codes (more precise of C# compiler);
+* Deploy and invoke code to private net (Current in the back);
+* Tests with different wallets, synced and with able to provide historic data our activity.
 
 ### Next steps
 * Integrate with neo-solidity (project in early phases);
-* Move towards client-based compiling (more secure, robust and much more scalable). Some efforts have been done here already, but many technical challenges are still being dealt with;
-* Integrate with javascript compiler (as soon as it is available);
-* Ideas? Collaborations are welcome :)
+* Move towards client-based compiling (more secure, robust and much more scalable).
+    - Some efforts have been done here already, but many technical challenges are still being dealt with;
+    - It has not been easy, still, to accomplish all necessary invocatations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those intesred on Neo's multi-language programming interface.
+* Ideas? Collaborations are welcome :) The goal is to be didactic and bring it close to citizens and users: Smart Cities, Smart Governance and Smart Blockchain Technologies :P
 
 ### Dependencies
 
@@ -37,14 +38,18 @@ For Debian-based systems:
 
 `npm install`
 
-## Build everything
+# Build everything
+
+The online commando required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
 
 This will call a docker-compose with NeoCompiler Private Net+NeoScan.
 Furthermore, it will set all available compilers and open the fron/backend interface and server, respectively.
 
 `./build_everything.sh`
 
-## Docker-neo csharp compiler backend
+# Developers guidelines
+
+## Docker-neo csharp and neo-python compilers backend
 
 ### Building docker-neo csharp backend
 
@@ -64,20 +69,15 @@ Get latest docker image id and set environment variable:
 
 `./buildRun_WebInterface_CSharpCompiler`
 
-## Privanet backend
+## Alone and solitary private net backend: Building and running private net server
 
-### Building and running privnet server
-
-In order to use deploy and testinvoke functionalities, build and run docker-privanet.
+In order to use deploy and invoke (also testinvoke, if you want to quicker on your verifications) functionalities, build and run a docker private (namely, docker-privanet).
 
 `./buildRun_NeoCompiler_PrivateNet`
 
 ## Privanet backend with NeoScan lightwallet funtionalities
 
-### Building and running privnet server
-
-In order to add NeoScan light wallet functionalities, run docker-compose.
-
+In order to add NeoScan `light wallet` (more is comming...) functionalities, run docker-compose.
 
 Start up the container, checking the messages and following warnings
 
@@ -111,11 +111,37 @@ buildRun_Compose_PrivateNet_NeoScanDocker.sh stop
 buildRun_Compose_PrivateNet_NeoScanDocker.sh start
 buildRun_Compose_PrivateNet_NeoScanDocker.sh down
 ```
+### Other functionalities and integrations are possible and some are implemented
 
+Check out Neo-Scan + Neon-Db, for instance.
+
+
+
+## NeoCompiler dockers tips
+
+Nowadays, you should check docker docker-compose.yml (pick up a combination of your choice, from `dockers-neo-scan-neon` folder, for locally modifying some characteristic of NeoCompiler.
+
+Run `build_everything.sh` with an additional parameter (any of your choice) is going to build/call your modified files of the private net (i.e. call `./buildRun_NeoCompiler_PrivateNet`).
+
+After that, considering your modified `docker_build.sh` you gonna be able to modify the aforementioned docker-compose. Then, any modification that is felt to be good should be communicated as an Issue or Pull Request.
+
+## Other functionalities and integrations are possible and some are implemented
+
+Check out Neo-Scan + Neon-Db, for instance.
 
 ## Contributing
 
 * If you have ideas or issues, you can inform directly at github or contact us directly
+
+  1. Check the open [issues](https://github.com/NeoResearch/neocompiler-eco/issues) and
+[pull requests](https://github.com/NeoResearch/neocompiler-eco/pulls) for existing discussions.
+  1. Open an issue first, to discuss a new feature or enhancement.
+  1. Write tests, and make sure the test suite passes locally and on CI.
+  1. Open a pull request, and reference the relevant issue(s).
+  1. After receiving feedback, squash your commits and add a great commit message.
+  1. Run `make push-tag` after merging your pull request.
+  1. Anyway, you already were part of team... :P
+
 * Our team is currently formed by researchers/professors, so our time is very constrained... if you feel you can help us, don't hesitate!
 * We created a wallet specially for project donations. That can help us improve our servers and perhaps hire someone for improving graphical interfaces and developing many more interesting features. NEO wallet:
 __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__

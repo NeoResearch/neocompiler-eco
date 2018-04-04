@@ -1054,12 +1054,12 @@ def Main():
           $.getJSON(urlToGet, function(result) {
               console.log(result);
               if(result.txid == "not found" || result.vin == null){
-                activationStatus.innerHTML = "PENDING";
+                activationStatus.innerHTML = "<font color=\"yellow\">PENDING</font>";
               }else{
-                activationStatus.innerHTML = "FOUND";
+                activationStatus.innerHTML = "<font color=\"green\">FOUND</font>";
               }
           }).fail(function (result) {
-              activationStatus.innerHTML = "PROBLEMS";
+              activationStatus.innerHTML = "<font color=\"red\">PROBLEMS</font>";
           });
 
           txRow.insertCell(-1).appendChild(activationStatus);
@@ -1084,12 +1084,12 @@ def Main():
               //console.log("div is activationStatus"+indexToUpdate);
               if(result.txid == "not found" || result.vin == null){
                 //console.log("PENDING");
-                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "PENDING";
+                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"yellow\">PENDING</font>";
               }else{
-                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "FOUND";
+                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"green\">FOUND</font>";
               }
           }).fail(function (result) {
-              document.getElementById("activationStatus"+indexToUpdate).innerHTML = "PROBLEMS";
+              document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">PROBLEMS</font>";
           });
    }
 

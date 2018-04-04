@@ -6,7 +6,7 @@ var app = angular.module('neoCompilerIoWebApp', [
 var NEOSCAN_PATH = "https://neoscan.neocompiler.io";
 var NODES_CSHARP_PATH = "http://nodes.csharp.neocompiler.io";
 
-var LOCAL_DEVELOPMENT = true;
+var LOCAL_DEVELOPMENT = false;
 
 if(LOCAL_DEVELOPMENT){
 	NEOSCAN_PATH = "http://localhost:4000";

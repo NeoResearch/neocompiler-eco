@@ -198,6 +198,7 @@ def Main():
         </div>
     </div>
 
+    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Check all relayed TXs</button><br>
     <div id="divRelayedTXs" class="table-responsive"></div>
 
     <div class="panel panel-info">
@@ -997,28 +998,27 @@ def Main():
       if(idToRemove < vecRelayedTXs.length && idToRemove > -1)
       {
           vecRelayedTXs.splice(idToRemove, 1);
-          drawRules();
+          drawRelayedTXs();
       }else{
         alert("Cannot remove rule ID " + idToRemove + " from set of rules with size " + priceAlert.length)
       }
     }
 
-    drawRules();
-    function drawRules(){
+    drawRelayedTXs();
+    function drawRelayedTXs(){
     	//Clear previous data
     	document.getElementById("divRelayedTXs").innerHTML = "";
     	var table = document.createElement("table");
       table.setAttribute('class', 'table');
 
       var row = table.insertRow(-1);
-
       row.insertCell(-1).appendChild(document.createTextNode("ID"));
       row.insertCell(-1).appendChild(document.createTextNode("TX"));
       row.insertCell(-1).appendChild(document.createTextNode("Note"));
       row.insertCell(-1).appendChild(document.createTextNode("Activation \n status"));
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
-          var row = table.insertRow(-1);
+          var txRow = table.insertRow(-1);
           //row.insertCell(-1).appendChild(document.createTextNode(i));
           //Insert button that remove rule
           var b = document.createElement('button');
@@ -1030,35 +1030,68 @@ def Main():
           b.onclick = function () {buttonRemoveRule(this.value);};
           b.innerHTML = i;
 
-          row.insertCell(-1).appendChild(b);
+          txRow.insertCell(-1).appendChild(b);
 
           var link=document.createElement("a");
+          var urlToGet = neoScanTXBaseURL + vecRelayedTXs[i].tx;
           link.appendChild(document.createTextNode(vecRelayedTXs[i].tx));
-          link.href = neoScanTXBaseURL + vecRelayedTXs[i].tx;
+          link.href = urlToGet;
           link.target = '_blank';
-          link.onclick = neoScanTXBaseURL + vecRelayedTXs[i].tx;
-          row.insertCell(-1).appendChild(link);
+          link.onclick = urlToGet;
+          txRow.insertCell(-1).appendChild(link);
 
           var input = document.createElement("input");
           //input.setAttribute("type", "hidden");
           input.setAttribute("name", "textNote"+i);
           input.setAttribute("value", vecRelayedTXs[i].note);
-          row.insertCell(-1).appendChild(input);
+          txRow.insertCell(-1).appendChild(input);
 
+          //Check activation status
           var activationStatus = document.createElement('div');
-          activationStatus.setAttribute('id', "childDonation"+i);
+          activationStatus.setAttribute('id', "activationStatus"+i);
           activationStatus.innerHTML = "-";
 
-            if(false)
-              activationStatus.innerHTML = "ON";
-            else
-              activationStatus.innerHTML = "OFF";
+          $.getJSON(urlToGet, function(result) {
+              console.log(result);
+              if(result.txid == "not found" || result.vin == null){
+                activationStatus.innerHTML = "PENDING";
+              }else{
+                activationStatus.innerHTML = "FOUND";
+              }
+          }).fail(function (result) {
+              activationStatus.innerHTML = "PROBLEMS";
+          });
 
-          row.insertCell(-1).appendChild(activationStatus);
-    	}
+          txRow.insertCell(-1).appendChild(activationStatus);
+          //Check activation status ends
+    	}//Finishes loop that draws each relayed transaction
+
       document.getElementById("divRelayedTXs").appendChild(table);
-
+      searchForTXs();
     }//Finishe DrawRules function
+
+   //This function tries to search and verify for all relayed TXs that were, possible, broadcasted and included in the blockchain
+   function searchForTXs(){
+     for (i = 0; i < vecRelayedTXs.length; i++)
+      searchForTX(i);
+   }
+
+   //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
+   function searchForTX(indexToUpdate){
+          var urlToGet = neoScanTXBaseURL + vecRelayedTXs[indexToUpdate].tx;
+          //console.log("urlToGet:" + urlToGet);
+          $.getJSON(urlToGet, function(result) {
+              //console.log("div is activationStatus"+indexToUpdate);
+              if(result.txid == "not found" || result.vin == null){
+                //console.log("PENDING");
+                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "PENDING";
+              }else{
+                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "FOUND";
+              }
+          }).fail(function (result) {
+              document.getElementById("activationStatus"+indexToUpdate).innerHTML = "PROBLEMS";
+          });
+   }
 
    function updateTXTable(contractMessagesBox){
      var indexRelayedTx = contractMessagesBox.indexOf("relayed TX");
@@ -1071,7 +1104,7 @@ def Main():
            console.log("Relayed tx is:"+relayedTX);
            //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
            vecRelayedTXs.push({tx:relayedTX, note:"Test Note"});
-           drawRules();
+           drawRelayedTXs();
      }
    }
 

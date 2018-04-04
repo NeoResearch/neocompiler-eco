@@ -3,6 +3,16 @@ var app = angular.module('neoCompilerIoWebApp', [
   'ngRoute'
 ]);
 
+var NEOSCAN_PATH = "https://neoscan.neocompiler.io";
+var NODES_CSHARP_PATH = "http://nodes.csharp.neocompiler.io";
+
+var localDevelopment = false;
+
+if(localDevelopment){
+	NEOSCAN_PATH = "http://localhost:4000";
+	NODES_CSHARP_PATH = "http://localhost:30333";
+}
+
 /* Routes */
 app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider

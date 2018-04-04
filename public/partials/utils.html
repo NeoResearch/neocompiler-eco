@@ -60,9 +60,9 @@
                         </div>
                         <div class="panel-body">
                                 <textarea id="w1Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
+                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
                                     target="popup"
-                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
+                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
                                     more details
                                 </a>
                         </div>
@@ -74,9 +74,9 @@
                         </div>
                         <div class="panel-body">
                                 <textarea id="w2Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
+                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
                                     target="popup"
-                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
+                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
                                     more details
                                 </a>
                         </div>
@@ -88,9 +88,9 @@
                         </div>
                         <div class="panel-body">
                                 <textarea id="w3Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
+                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
                                     target="popup"
-                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
+                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
                                     more details
                                 </a>
                         </div>
@@ -102,9 +102,9 @@
                         </div>
                         <div class="panel-body">
                                 <textarea id="w4Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href="https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
+                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
                                     target="popup"
-                                    onclick="window.open('https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
+                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
                                     more details
                                 </a>
                         </div>
@@ -120,10 +120,10 @@
     <script>
         function populateWalletData()
         {
-            var url_w1 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
-            var url_w2 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL";
-            var url_w3 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx";
-            var url_w4 = "https://neoscan.neocompiler.io/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
+            var url_w1 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
+            var url_w2 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL";
+            var url_w3 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx";
+            var url_w4 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
             $.getJSON(url_w1, function(result) {
                 var data = "";
                 data += result.balance[0].amount + " " + result.balance[0].asset + "\n";

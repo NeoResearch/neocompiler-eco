@@ -4,19 +4,20 @@
 echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 ./stop-all-docker-compose.sh
 
-echo "PRUNE any useless NPM dep and install";
-npm prune
-echo "NPM Install";
-npm install
-
 if (( $# != 0 )); then
 	echo "BUILDING docker-compiler-privnet (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
 	(cd docker-privnet; ./docker_build.sh)
+	echo "PROCEEDING. docker-compiler-privnet was BUILT (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
 fi
 
 echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 (cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-echo "NeoScan-Docker Built with Sucess. You will probably need to wait some time until NeoScan is fully sync.";
+echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
+
+echo "PRUNE any useless NPM dep and install";
+npm prune
+echo "NPM Install";
+npm install
 
 echo "BUILDING/RUNNING web interface and csharp compiler";
 ./buildRun_WebInterface_CSharpCompiler.sh

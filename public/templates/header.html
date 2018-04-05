@@ -16,7 +16,7 @@
                 <li><a href="#/neoeditor">Neo Editor</a>
                 </li>
                 <li>
-                    <a href="https://neoscan.neocompiler.io" target="_blank">
+                    <a id="headerNeoScanLink" >
                         NeoScan-PrivateNet
                     </a>
                 </li>
@@ -30,3 +30,8 @@
     </div>
     <!-- /.container -->
 </nav>
+
+<script>
+   document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
+   document.getElementById("headerNeoScanLink").setAttribute("href",NEOSCAN_PATH);
+</script>

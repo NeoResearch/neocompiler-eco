@@ -198,7 +198,7 @@ def Main():
         </div>
     </div>
 
-    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Check TXs status</button><br>
+    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 10px;" class="btn btn-success btn-sm">Check TXs status</button><br>
     <div id="divRelayedTXs" class="table-responsive"></div>
 
     <div class="panel panel-info">
@@ -1012,10 +1012,18 @@ def Main():
       table.setAttribute('class', 'table');
 
       var row = table.insertRow(-1);
-      row.insertCell(-1).appendChild(document.createTextNode("ID"));
-      row.insertCell(-1).appendChild(document.createTextNode("TX"));
-      row.insertCell(-1).appendChild(document.createTextNode("Note"));
-      row.insertCell(-1).appendChild(document.createTextNode("Blockchained"));
+      var headers1 = document.createElement('div');
+      var headers2 = document.createElement('div');
+      var headers3 = document.createElement('div');
+      var headers4 = document.createElement('div');
+      headers1.innerHTML = "<b> ID </b>";
+      row.insertCell(-1).appendChild(headers1);
+      headers2.innerHTML = "<b> TX </b>";
+      row.insertCell(-1).appendChild(headers2);
+      headers3.innerHTML = "<b> Note </b>";
+      row.insertCell(-1).appendChild(headers3);
+      headers4.innerHTML = "<b> Blockchained </b>";
+      row.insertCell(-1).appendChild(headers4);
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
           var txRow = table.insertRow(-1);
@@ -1100,7 +1108,7 @@ def Main():
            //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
            for(var i = 0; i<64; i++)
                  relayedTX += contractMessagesBox[indexRelayedTx + 11 + i];
-           console.log("Relayed tx is:"+relayedTX);
+           //console.log("Relayed tx is:"+relayedTX);
            //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
            vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
            drawRelayedTXs();

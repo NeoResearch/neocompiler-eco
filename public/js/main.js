@@ -7,6 +7,8 @@ var NEOSCAN_PATH = "https://neoscan.neocompiler.io";
 var NODES_CSHARP_PATH = "http://nodes.csharp.neocompiler.io";
 
 var LOCAL_DEVELOPMENT = false;
+if(this.window.location.href.indexOf("localhost")  != -1)
+	LOCAL_DEVELOPMENT = true;
 
 if(LOCAL_DEVELOPMENT){
 	NEOSCAN_PATH = "http://localhost:4000";

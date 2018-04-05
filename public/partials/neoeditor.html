@@ -198,7 +198,7 @@ def Main():
         </div>
     </div>
 
-    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Check all relayed TXs</button><br>
+    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Check TXs status</button><br>
     <div id="divRelayedTXs" class="table-responsive"></div>
 
     <div class="panel panel-info">
@@ -1015,7 +1015,7 @@ def Main():
       row.insertCell(-1).appendChild(document.createTextNode("ID"));
       row.insertCell(-1).appendChild(document.createTextNode("TX"));
       row.insertCell(-1).appendChild(document.createTextNode("Note"));
-      row.insertCell(-1).appendChild(document.createTextNode("Activation \n status"));
+      row.insertCell(-1).appendChild(document.createTextNode("Blockchained"));
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
           var txRow = table.insertRow(-1);
@@ -1052,14 +1052,14 @@ def Main():
           activationStatus.innerHTML = "-";
 
           $.getJSON(urlToGet, function(result) {
-              console.log(result);
+              //console.log(result);
               if(result.txid == "not found" || result.vin == null){
-                activationStatus.innerHTML = "<font color=\"yellow\">PENDING</font>";
+                activationStatus.innerHTML = "<font color=\"blue\">PENDING</font>";
               }else{
                 activationStatus.innerHTML = "<font color=\"green\">FOUND</font>";
               }
           }).fail(function (result) {
-              activationStatus.innerHTML = "<font color=\"red\">PROBLEMS</font>";
+              activationStatus.innerHTML = "<font color=\"red\">FAILED</font>";
           });
 
           txRow.insertCell(-1).appendChild(activationStatus);
@@ -1083,13 +1083,12 @@ def Main():
           $.getJSON(urlToGet, function(result) {
               //console.log("div is activationStatus"+indexToUpdate);
               if(result.txid == "not found" || result.vin == null){
-                //console.log("PENDING");
-                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"yellow\">PENDING</font>";
+                document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"blue\">PENDING</font>";
               }else{
                 document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"green\">FOUND</font>";
               }
           }).fail(function (result) {
-              document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">PROBLEMS</font>";
+              document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
    }
 
@@ -1103,7 +1102,7 @@ def Main():
                  relayedTX += contractMessagesBox[indexRelayedTx + 11 + i];
            console.log("Relayed tx is:"+relayedTX);
            //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
-           vecRelayedTXs.push({tx:relayedTX, note:"Test Note"});
+           vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
            drawRelayedTXs();
      }
    }

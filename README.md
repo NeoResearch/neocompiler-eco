@@ -73,7 +73,7 @@ Get latest docker image id and set environment variable:
 
 In order to use deploy and invoke (also testinvoke, if you want to quicker on your verifications) functionalities, build and run a docker private (namely, docker-privanet).
 
-`./buildRun_NeoCompiler_PrivateNet`
+`(cd docker-privnet; ./buildRun_NeoCompiler_PrivateNet.sh)`
 
 ## Privanet backend with NeoScan lightwallet funtionalities
 
@@ -106,10 +106,10 @@ docker-compose start
 Or, simply run:
 
 ```
-buildRun_Compose_PrivateNet_NeoScanDocker.sh
-buildRun_Compose_PrivateNet_NeoScanDocker.sh stop
-buildRun_Compose_PrivateNet_NeoScanDocker.sh start
-buildRun_Compose_PrivateNet_NeoScanDocker.sh down
+(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
+(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh stop)
+(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh start)
+(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh down)
 ```
 ### Other functionalities and integrations are possible and some are implemented
 
@@ -121,7 +121,7 @@ Check out Neo-Scan + Neon-Db, for instance.
 
 Nowadays, you should check docker docker-compose.yml (pick up a combination of your choice, from `dockers-neo-scan-neon` folder, for locally modifying some characteristic of NeoCompiler.
 
-Run `build_everything.sh` with an additional parameter (any of your choice) is going to build/call your modified files of the private net (i.e. call `./buildRun_NeoCompiler_PrivateNet`).
+Run `build_everything.sh` with an additional parameter (any of your choice) is going to build/call your modified files of the private net (i.e. call `(cd docker-privnet; ./buildRun_NeoCompiler_PrivateNet.sh)`).
 
 After that, considering your modified `docker_build.sh` you gonna be able to modify the aforementioned docker-compose. Then, any modification that is felt to be good should be communicated as an Issue or Pull Request.
 

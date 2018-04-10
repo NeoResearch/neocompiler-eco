@@ -637,7 +637,7 @@ def Main():
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
         $.post(
-            $this.attr("action"), // Gets the URL to sent the post to
+            BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
                 $("#compilebtn")[0].disabled = false;
@@ -706,7 +706,7 @@ def Main():
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
         $.post(
-            $this.attr("action"), // Gets the URL to sent the post to
+            BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
               $("#deploybtn")[0].disabled = false;
@@ -764,7 +764,7 @@ def Main():
         $.ajax({
          cache:false,
          type:"POST",
-         url:$this.attr("action"), // Gets the URL to sent the post to
+         url:BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
          //contentType: "application/json",
          dataType: "json",
          data:indata,
@@ -820,7 +820,7 @@ def Main():
         $.ajax({
          cache:false,
          type:"POST",
-         url:$this.attr("action"), // Gets the URL to sent the post to
+         url:BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
          //contentType: "application/json",
          dataType: "json",
          data:indata,

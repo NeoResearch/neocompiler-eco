@@ -23,6 +23,7 @@ Our next steps are moving us towards Java and Solidity (through NeoSol initiativ
 
 ### Next steps
 * Integrate with Go
+* Integrate with Java
 * Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;

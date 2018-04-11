@@ -151,9 +151,11 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 
 LICENSE MIT
 
-*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho),[@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
 
-This project is part of NeoResearch initiative.
-Original authors: [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
+This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io). 
+The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.
+Questions regarding the webserver may be directed to [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho).
+
+*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho),[@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
 
 Copyleft 2017-2018

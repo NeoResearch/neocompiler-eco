@@ -22,6 +22,7 @@ Our next steps are moving us towards Java and Solidity (through NeoSol initiativ
 * Tests with different wallets, synced and with able to provide historic data our activity.
 
 ### Next steps
+* Integrate with Go
 * Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;

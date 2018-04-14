@@ -108,16 +108,17 @@ def Main():
                 <h4>AVM (in hex):</h4>
                 <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
                 <div class="dropdown btn-group">
-                        <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                            Download AVM
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" id="downloadMenu">
-                            <li><a>binary file</a></li>
-                            <li><a>hex code</a></li>
-                        </ul>
-                    </div>
+                    <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                        Download AVM
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" id="downloadMenu">
+                        <li><a onclick="downloadAVM('0')">binary file</a></li>
+                        <li><a onclick="downloadAVM('1')">hex code</a></li>
+                    </ul>
+                </div>
                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
+                <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()">
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
                     <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
@@ -998,11 +999,8 @@ def Main():
         var file = new Blob([mydata],{type:'text/plain'});
         download(file, ".opcodes");
     });
-    function downloadAVM(isBin) {
-
-    }
-    $("#downloadMenu").click(function(){
-        selected_index = $(this).closest('li').index();
+    function downloadAVM( selected_index ){
+        console.log(selected_index);
 
         var file = new Blob();
         mydata = localStorage.getItem('avmFile');
@@ -1020,7 +1018,7 @@ def Main():
             file = new Blob([mydata],{type:'text/plain'});//new Blob([data], {type: type});
         }
         download(file, ".avm");
-    });
+    };
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -1144,6 +1142,31 @@ def Main():
            vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
            drawRelayedTXs();
      }
+   }
+
+   function ImportAVM() {
+        var file = document.getElementById("importAVMFile").files[0];
+        if (file) {          
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                var result = this.result;
+                var hex = "";
+                for (var i = 0; i < this.result.length; i++) {
+                    var byteStr = result.charCodeAt(i).toString(16);
+                    if (byteStr.length < 2) {
+                        byteStr = "0" + byteStr;
+                    }
+                    if( i > 0  && i % 30 == 0 )
+                        hex += "\n";
+                    hex += byteStr;
+                }
+                $("#codeavm").val(hex);
+                $("#opcodes").text("");
+                $("#codeabi").text("");
+                $("#codewarnerr").text("");
+            };
+            reader.readAsBinaryString(file);
+        }
    }
 
 </script>

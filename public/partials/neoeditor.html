@@ -669,15 +669,15 @@ def Main():
                     textAbi += "\t" + 
                         jsonABI["functions"][i]["returntype"] + " " +
                         jsonABI["functions"][i]["name"] + "(";
-                    var parLength = jsonABI["functions"][i]["parameters"].length;
                     var f = 0;
-                    for (f = 0; f < parLength - 1; f++)
+                    for (f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
                     {
                         textAbi += jsonABI["functions"][i]["parameters"][f]["type"] + " " +
-                            jsonABI["functions"][i]["parameters"][f]["name"] + ", ";
+                            jsonABI["functions"][i]["parameters"][f]["name"];
+                        if( f != jsonABI["functions"][i]["parameters"].length - 1 )
+                            textAbi += ", ";
                     }
-                    textAbi += jsonABI["functions"][i]["parameters"][parLength-1]["type"] + " " +
-                            jsonABI["functions"][i]["parameters"][parLength-1]["name"] + ")";
+                    textAbi += ");"
                 }
                 var e = 0;
                 for (e = 0; e < jsonABI["events"].length; f++)

@@ -277,6 +277,21 @@ def Main():
         str = String.fromCharCode.apply(String, bytes);
         return str;
     }
+
+    function bin2hex(bin)
+    {
+        var hex = "";
+        for (var i = 0; i < bin.length; i++) {
+            var byteStr = bin.charCodeAt(i).toString(16);
+            if (byteStr.length < 2) {
+                byteStr = "0" + byteStr;
+            }
+            if( i > 0  && i % 30 == 0 )
+                hex += "\n";
+            hex += byteStr;
+        }
+        return hex;
+    }
     // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
     // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
     function getHexForType(stype) {
@@ -1149,17 +1164,7 @@ def Main():
         if (file) {          
             var reader = new FileReader();
             reader.onloadend = function () {
-                var result = this.result;
-                var hex = "";
-                for (var i = 0; i < this.result.length; i++) {
-                    var byteStr = result.charCodeAt(i).toString(16);
-                    if (byteStr.length < 2) {
-                        byteStr = "0" + byteStr;
-                    }
-                    if( i > 0  && i % 30 == 0 )
-                        hex += "\n";
-                    hex += byteStr;
-                }
+                var hex = bin2hex(this.result);
                 $("#codeavm").val(hex);
                 $("#opcodes").text("");
                 $("#codeabi").text("");

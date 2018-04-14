@@ -658,13 +658,39 @@ def Main():
                 //console.log(localStorage.getItem('avmFile').charCodeAt(2));
                 //$("#btn_download")[0].style = "";
                 var codeabi = atob(data.abi);
-                $("#codeabi").text(codeabi);
-                chash = JSON.parse($('#codeabi').text())["hash"];
+                jsonABI = JSON.parse(codeabi);
+
+                var textAbi = "Hash: " + jsonABI["hash"] + "\n";
+                textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
+                textAbi += "Functions:" + "\n"
+                var i = 0;
+                for (i = 0; i < jsonABI["functions"].length; i++)
+                {
+                    textAbi += "\t" + 
+                        jsonABI["functions"][i]["returntype"] + " " +
+                        jsonABI["functions"][i]["name"] + "(";
+                    var parLength = jsonABI["functions"][i]["parameters"].length;
+                    var f = 0;
+                    for (f = 0; f < parLength - 1; f++)
+                    {
+                        textAbi += jsonABI["functions"][i]["parameters"][f]["type"] + " " +
+                            jsonABI["functions"][i]["parameters"][f]["name"] + ", ";
+                    }
+                    textAbi += jsonABI["functions"][i]["parameters"][parLength-1]["type"] + " " +
+                            jsonABI["functions"][i]["parameters"][parLength-1]["name"] + ")";
+                }
+                var e = 0;
+                for (e = 0; e < jsonABI["events"].length; f++)
+                {
+                    textAbi += "\t\t" + jsonABI["events"][e] + "\n";
+                }
+
+                $("#codeabi").text(textAbi);
+                chash = jsonABI["hash"];
                 $("#contracthash")[0].value = chash.substr(2, chash.length);
                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
                 // parse ABI json
-                jsonABI = JSON.parse($('#codeabi').text());
                 console.log("Parsing ABI json");
                 // look for Main function
                 var i = 0;

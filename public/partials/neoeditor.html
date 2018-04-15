@@ -302,6 +302,13 @@ def Main():
             console.log("Golang Compile");
         }
         $("#codewarnerr").val("");
+        $("#codeavm").val("");
+        $("#opcodes").val("");
+        $("#codeabi").val("");
+        $("#contracthash").val("");
+        $("#contracthash_search").val("");
+        $("#invokehash").val("");
+        $("#contractparams").val("");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();

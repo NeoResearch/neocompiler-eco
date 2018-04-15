@@ -32,6 +32,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
                         <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
+                        <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
                         <li class="disabled"><a data-target="#javacode">Java ( not yet )</a></li> <!--- <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li> -->
                         <li class="disabled"><a data-target="#soliditycode">Solidity ( not yet )</a></li> <!--- <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li> -->
                     </ul>
@@ -66,6 +67,21 @@ namespace NeoContract1
                         <!-- /////////////////////////////////////////////////////////////////// -->
                         <!-- end csharpcode -->
 
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- golang div -->
+                        <div class="tab-pane cont" id="golangcode">
+                            <input type="hidden" id="code_golang" name="codesend_golang"/>
+                            <pre id="editorGolang">
+package main
+
+func Main() int {
+	x := 10
+	return x
+}
+                            </pre>
+                        </div>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- end golang -->
 
                         <!-- /////////////////////////////////////////////////////////////////// -->
                         <!-- python div -->
@@ -272,6 +288,7 @@ def Main():
         $("#compilebtn")[0].disabled = true;
         $("#code").val("");
         $("#code_python").val("");
+        $("#code_golang").val("");
         if($("#csharpcode.tab-pane.active.cont").length != 0) {
             $("#code").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("C# Compile");
@@ -279,6 +296,10 @@ def Main():
         if($("#pythoncode.tab-pane.active.cont").length != 0) {
             $("#code_python").val(ace.edit("editorPython").getSession().getValue());
             console.log("Python Compile");
+        }
+        if($("#golangcode.tab-pane.active.cont").length != 0) {
+            $("#code_golang").val(ace.edit("editorGolang").getSession().getValue());
+            console.log("Golang Compile");
         }
         $("#codewarnerr").val("");
         e.preventDefault(); // Prevents the page from refreshing
@@ -314,7 +335,7 @@ def Main():
                 var i = 0;
                 for (i = 0; i < jsonABI["functions"].length; i++)
                 {
-                    textAbi += "\t" + 
+                    textAbi += "\t" +
                         jsonABI["functions"][i]["returntype"] + " " +
                         jsonABI["functions"][i]["name"] + "(";
                     var f = 0;
@@ -591,6 +612,7 @@ def Main():
         return editor
     }
     var editorPython = createEditor("editorPython", "ace/mode/python");
+    var editorGolang = createEditor("editorGolang", "ace/mode/golang");
     var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
     var cSharpFiles = [
         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
@@ -617,7 +639,7 @@ def Main():
             }
         });
     }
-    
+
     $("#btn_downloadOpCode").click(function (e) {
         e.preventDefault();
         mydata = $('#formdeploy').contents().find('#opcodes').val();
@@ -771,7 +793,7 @@ def Main():
 
    function ImportAVM() {
         var file = document.getElementById("importAVMFile").files[0];
-        if (file) {          
+        if (file) {
             var reader = new FileReader();
             reader.onloadend = function () {
                 var hex = bin2hex(this.result);
@@ -789,7 +811,7 @@ def Main():
                 $("#contracthash")[0].value = shash;
                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
-                
+
                 console.log(toBase58(shash));//address
             };
             reader.readAsBinaryString(file);

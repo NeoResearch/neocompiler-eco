@@ -78,7 +78,32 @@ app.post('/compilex', function(req, res, next) {
       outp = outp+data;
     });
   } // Python
-  else { // C#
+
+  // Golang
+  if(req.body.codesend_golang)
+  {
+    var code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
+    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-go";
+    var outp = "";
+    var child = require('child_process').exec(cmddocker, optionsDefault);
+    child.on('exit', function(code, signal) {
+      console.log("GOLANG: calling compile function");
+      if( signal == 'SIGKILL' )
+      {
+        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+        res.send(msgret);
+      }
+      else
+        res.send(outp);
+    });
+    child.stdout.on('data', function (data) {
+      //console.log(data);
+      outp = outp+data;
+    });
+  } // Golang
+
+  if(req.body.codesend) { // C#
 
     if(!process.env.DOCKERNEOCOMPILER) {
       console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");

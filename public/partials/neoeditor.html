@@ -134,7 +134,7 @@ def Main():
                     </ul>
                 </div>
                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
-                <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()">
+                <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br>
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
                     <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
@@ -322,7 +322,7 @@ def Main():
                 var hexcodeavm = atob(data.avm);
                 $("#codeavm").val(hexcodeavm);
                 hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-                $("#opcodes").text("");
+                $("#opcodes").val("");
                 printOpcode(hexcodeavm, $("#opcodes"));
                 //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
                 localStorage.setItem('avmFile', hexcodeavm);//, {type: 'application/octet-stream'});
@@ -338,30 +338,39 @@ def Main():
 
                 var textAbi = "Hash: " + jsonABI["hash"] + "\n";
                 textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
-                textAbi += "Functions:" + "\n"
-                var i = 0;
-                for (i = 0; i < jsonABI["functions"].length; i++)
+                textAbi += "Functions:" + "\n";
+                for (var i = 0; i < jsonABI["functions"].length; i++)
                 {
                     textAbi += "\t" +
                         jsonABI["functions"][i]["returntype"] + " " +
                         jsonABI["functions"][i]["name"] + "(";
-                    var f = 0;
-                    for (f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
+                    for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
                     {
                         textAbi += jsonABI["functions"][i]["parameters"][f]["type"] + " " +
                             jsonABI["functions"][i]["parameters"][f]["name"];
                         if( f != jsonABI["functions"][i]["parameters"].length - 1 )
                             textAbi += ", ";
                     }
-                    textAbi += ");"
+                    textAbi += ");\n";
                 }
-                var e = 0;
-                for (e = 0; e < jsonABI["events"].length; f++)
+                textAbi += "Events:" + "\n";
+                for (var e = 0; e < jsonABI["events"].length; e++)
                 {
-                    textAbi += "\t\t" + jsonABI["events"][e] + "\n";
+                    textAbi += "\t" +
+                        jsonABI["events"][e]["returntype"] + " " +
+                        jsonABI["events"][e]["name"] + "(";
+                    for (var f = 0; f < jsonABI["events"][e]["parameters"].length; f++)
+                    {
+                        textAbi += jsonABI["events"][e]["parameters"][f]["type"] + " " +
+                            jsonABI["events"][e]["parameters"][f]["name"];
+                        if( f != jsonABI["events"][e]["parameters"].length - 1 )
+                            textAbi += ", ";
+                    }
+                    textAbi += ");\n";
                 }
 
-                $("#codeabi").text(textAbi);
+                console.log(codeabi);
+                $("#codeabi").val(textAbi);
                 chash = jsonABI["hash"];
                 $("#contracthash")[0].value = chash.substr(2, chash.length);
                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
@@ -390,7 +399,7 @@ def Main():
                 for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++)
                     $("#invokeparams")[0].value += " \"\"";
                 // get return hexcode
-                rettype = JSON.parse($('#codeabi').text())["functions"][i]["returntype"];
+                rettype = jsonABI["functions"][i]["returntype"];
                 $("#contractreturn")[0].value = getHexForType(rettype);
             },
             "json" // The format the response should be in

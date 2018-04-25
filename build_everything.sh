@@ -14,11 +14,6 @@ echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
 (cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
 
-echo "PRUNE any useless NPM dep and install";
-npm prune
-echo "NPM Install";
-npm install
-
 echo "BUILDING/RUNNING web interface and csharp compiler";
 ./buildRun_WebInterface_CSharpCompiler.sh
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Time to sleep a little bit before starting server configurations"
+echo "WAITING Time to sleep a little bit before starting server configurations"
 sleep 10
 echo "ENTERING into /data"
 cd /data

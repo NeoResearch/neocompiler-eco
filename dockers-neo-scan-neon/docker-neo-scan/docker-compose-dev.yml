@@ -1,0 +1,44 @@
+version: "3"
+services:
+  neo-scan:
+    build: .
+    image: neo-compiler-neo-scan:latest # slipoh/neo-scan #vncoelho/neo-compiler-neo-scan:1.2 #slipoh/neo-scan
+    container_name: "neo-scan"
+    ports:
+      - 4000:4000
+    links:
+      - postgresql:postgres
+      - neo-csharp-nodes:20333
+      - neo-csharp-nodes:20334
+      - neo-csharp-nodes:20335
+      - neo-csharp-nodes:20336
+      - neo-csharp-nodes:30333
+      - neo-csharp-nodes:30334
+      - neo-csharp-nodes:30335
+      - neo-csharp-nodes:30336
+      - neo-csharp-nodes:30337
+      - neo-csharp-nodes:38088
+    depends_on:
+      - postgresql
+      - neo-csharp-nodes
+  postgresql:
+    image: postgres:10.1
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: postgres
+  neo-csharp-nodes:
+    image: neo-compiler-csharp-nodes:1.0  #neo-compiler-privnet-with-gas:1.2 
+    container_name: "neo-compiler-csharp-nodes"
+    ports:
+      - 20333:20333
+      - 20334:20334
+      - 20335:20335
+      - 20336:20336
+      - 30333:30333
+      - 30334:30334
+      - 30335:30335
+      - 30336:30336
+      - 30337:30337
+      - 38088:38088

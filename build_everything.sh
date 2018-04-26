@@ -10,8 +10,12 @@ if (( $# != 0 )); then
 	echo "PROCEEDING. docker-compiler-privnet was BUILT (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
 fi
 
-echo "BUILDING/RUNNING Private Net with NeoScan-Docker";
+echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
 (cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
+
+#echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker direct from local dockerfile";
+#(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker-dev.sh)
+
 echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
 
 echo "BUILDING/RUNNING web interface and csharp compiler";

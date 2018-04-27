@@ -456,7 +456,7 @@ def Main():
          //contentType: "application/json",
          dataType: "json",
          data:indata,
-        timeout:120000  // we chose 2 min secs for kicks
+        timeout:180000  // we chose 3 min secs for kicks on invokes - Current nodes with 15s sync
         }).done(function(data){
            //alert( "Always of invoke!");
            $("#deploybtn")[0].disabled = false;
@@ -465,6 +465,9 @@ def Main():
              //console.log("output="+data);
              var invokemsg = atob(data.output);
              $("#contractmessages").text(invokemsg);
+
+             //----------------------------------------------------
+             //Procedure for filtering notify messages and showing on events specify textnofity box
              $("#contractmessagesnotify").text("");
              var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
              while (indexNotify != -1) {
@@ -479,37 +482,9 @@ def Main():
                  $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
                  indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
              }
+             //----------------------------------------------------
 
-             /*
-             $.post(
-                 $this.attr("action"), // Gets the URL to sent the post to
-                 indata, // Serializes form data in standard format
-                 function (data) {
-                   $("#deploybtn")[0].disabled = false;
-                   $("#searchbtn")[0].disabled = false;
-                   $("#invokebtn")[0].disabled = false;
-                     //console.log("output="+data);
-                     var deploymsg = atob(data.output);
-                     $("#contractmessages").text(deploymsg);
-                     $("#contractmessagesnotify").text("");
-                     var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
-                     while (indexNotify != -1) {
-                         var i = 0;
-                         var snotify = "";
-                         //console.log("found Notiy at "+indexNotify);
-                         while ($("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
-                             snotify += $("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
-                             i++;
-                         }
-                         //console.log("NOTIFY:"+snotify);
-                         $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
-                         indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
-                     }
-                 },
-                 "json" // The format the response should be in
-             ); */
-
-             //New test for getting last TX link
+             //Let's try to get the last relayed TX hash
              updateTXTable($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
@@ -517,6 +492,35 @@ def Main():
            $("#invokebtn")[0].disabled = false;
            $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n");
         }); //End of ajax for POST invoke
+
+        /*
+        $.post(
+            $this.attr("action"), // Gets the URL to sent the post to
+            indata, // Serializes form data in standard format
+            function (data) {
+              $("#deploybtn")[0].disabled = false;
+              $("#searchbtn")[0].disabled = false;
+              $("#invokebtn")[0].disabled = false;
+                //console.log("output="+data);
+                var deploymsg = atob(data.output);
+                $("#contractmessages").text(deploymsg);
+                $("#contractmessagesnotify").text("");
+                var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
+                while (indexNotify != -1) {
+                    var i = 0;
+                    var snotify = "";
+                    //console.log("found Notiy at "+indexNotify);
+                    while ($("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
+                        snotify += $("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
+                        i++;
+                    }
+                    //console.log("NOTIFY:"+snotify);
+                    $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+                    indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
+                }
+            },
+            "json" // The format the response should be in
+        ); */
     });//End of invoke function
 
 
@@ -539,7 +543,7 @@ def Main():
          //contentType: "application/json",
          dataType: "json",
          data:indata,
-         timeout:360000 //6 min timeout
+         timeout:180000 // we chose 3 min secs for kicks on deploy - Current nodes with 15s sync
         }).done(function(data){
            //alert( "Always of deploy!");
            $("#deploybtn")[0].disabled = false;
@@ -549,7 +553,7 @@ def Main():
            var deploymsg = atob(data.output);
            $("#contractmessages").text(deploymsg);
 
-           //New test for getting last TX link
+           //Let's try to get the last relayed TX hash
            updateTXTable($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            //if(textStatus === 'timeout')
@@ -712,6 +716,7 @@ def Main():
         }
         download(file, ".avm");
     };
+
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -722,7 +727,7 @@ def Main():
           vecRelayedTXs.splice(idToRemove, 1);
           drawRelayedTXs();
       }else{
-        alert("Cannot remove rule ID " + idToRemove + " from set of rules with size " + priceAlert.length)
+        alert("Cannot remove TX with ID " + idToRemove + " from set of rules with size " + vecRelayedTXs.length)
       }
     }
 

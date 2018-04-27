@@ -5,3 +5,4 @@
 node_modules
 .fuse*
 package-lock.json
+*.DS_Store

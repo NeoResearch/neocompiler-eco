@@ -217,6 +217,7 @@ app.post('/deployx', function(req, res) {
   child = exec(cmddocker, optionsDeploy, function(err,stdout,stderr) {
 	if (err) {
 		console.log('Child process exited with error code!!', err.code);
+		console.log(err)
 		return
 	}
 	//console.log("\n \n\n Finishing here: " + err + "\n stdout" + stdout + "\nstderr" + stderr + "\n\n\n\n");

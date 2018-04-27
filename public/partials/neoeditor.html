@@ -235,54 +235,60 @@ def Main():
 
 </div>
 <script>
+    var neoScanTXBaseURL = NEOSCAN_PATH + "/api/main_net/v1/get_transaction/";
+
     var vecRelayedTXs = [];
+    drawRelayedTXs();
+
+    neonJSPlayground();
     // =============================================
     //First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
-    var NeonA = Neon.default
-    const query = Neon.default.create.query()
-    var wallet = Neon.wallet
-    console.log("query: " + query)
-    console.log("wallet: " + wallet)
-    var tx = Neon.tx
-    console.log("tx: " + tx)
-    let tx2 = Neon.default.create.tx({type: 128})
-    console.log("tx2: " + tx2)
+    function neonJSPlayground(){
+      var NeonA = Neon.default
+      const query = Neon.default.create.query()
+      var wallet = Neon.wallet
+      console.log("query: " + query)
+      console.log("wallet: " + wallet)
+      var tx = Neon.tx
+      console.log("tx: " + tx)
+      let tx2 = Neon.default.create.tx({type: 128})
+      console.log("tx2: " + tx2)
 
-    const config = {
-      name: 'PrivateNet',
-      extra: {
-        neoscan: NEOSCAN_PATH + '/api/main_net'
+      const config = {
+        name: 'PrivateNet',
+        extra: {
+          neoscan: NEOSCAN_PATH + '/api/main_net'
+        }
       }
-    }
-    const privateNet = new Neon.rpc.Network(config)
-    Neon.default.add.network(privateNet)
-    console.log(Neon.settings.networks['PrivateNet'])
-    balance = Neon.api.neoscan.getBalance('PrivateNet', "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-    .then(res => console.log(res))
+      const privateNet = new Neon.rpc.Network(config)
+      Neon.default.add.network(privateNet)
+      console.log(Neon.settings.networks['PrivateNet'])
+      balance = Neon.api.neoscan.getBalance('PrivateNet', "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+      .then(res => console.log(res))
 
 
-    const intent = Neon.api.makeIntent({NEO:1,GAS:500}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
-    console.log(intent) // This is an array of 2 Intent objects, one for each asset
-    const configTest = {
-      net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-      url: NODES_CSHARP_PATH,
-      address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
-      privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
-      intents: intent
-    }
+      const intent = Neon.api.makeIntent({NEO:1,GAS:500}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
+      console.log(intent) // This is an array of 2 Intent objects, one for each asset
+      const configTest = {
+        net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
+        url: NODES_CSHARP_PATH,
+        address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
+        privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
+        intents: intent
+      }
 
-    Neon.default.sendAsset(configTest)
-    .then(res => {
-      console.log(res.response)
-    })
-    .catch(e => {
-      console.log(e)
-    })
+      Neon.default.sendAsset(configTest)
+      .then(res => {
+        console.log(res.response)
+      })
+      .catch(e => {
+        console.log(e)
+      })
 
-    //END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
+      const sb = Neon.default.create.scriptBuilder()
+    }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
     // =============================================
 
-    var neoScanTXBaseURL = NEOSCAN_PATH + "/api/main_net/v1/get_transaction/"
 
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;
@@ -443,35 +449,6 @@ def Main():
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
 
-        /*
-        $.post(
-            $this.attr("action"), // Gets the URL to sent the post to
-            indata, // Serializes form data in standard format
-            function (data) {
-              $("#deploybtn")[0].disabled = false;
-              $("#searchbtn")[0].disabled = false;
-              $("#invokebtn")[0].disabled = false;
-                //console.log("output="+data);
-                var deploymsg = atob(data.output);
-                $("#contractmessages").text(deploymsg);
-                $("#contractmessagesnotify").text("");
-                var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
-                while (indexNotify != -1) {
-                    var i = 0;
-                    var snotify = "";
-                    //console.log("found Notiy at "+indexNotify);
-                    while ($("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
-                        snotify += $("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
-                        i++;
-                    }
-                    //console.log("NOTIFY:"+snotify);
-                    $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
-                    indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
-                }
-            },
-            "json" // The format the response should be in
-        ); */
-
         $.ajax({
          cache:false,
          type:"POST",
@@ -503,16 +480,43 @@ def Main():
                  indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
              }
 
+             /*
+             $.post(
+                 $this.attr("action"), // Gets the URL to sent the post to
+                 indata, // Serializes form data in standard format
+                 function (data) {
+                   $("#deploybtn")[0].disabled = false;
+                   $("#searchbtn")[0].disabled = false;
+                   $("#invokebtn")[0].disabled = false;
+                     //console.log("output="+data);
+                     var deploymsg = atob(data.output);
+                     $("#contractmessages").text(deploymsg);
+                     $("#contractmessagesnotify").text("");
+                     var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
+                     while (indexNotify != -1) {
+                         var i = 0;
+                         var snotify = "";
+                         //console.log("found Notiy at "+indexNotify);
+                         while ($("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
+                             snotify += $("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
+                             i++;
+                         }
+                         //console.log("NOTIFY:"+snotify);
+                         $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+                         indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
+                     }
+                 },
+                 "json" // The format the response should be in
+             ); */
+
              //New test for getting last TX link
              updateTXTable($("#contractmessages").text());
-
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
            $("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n");
         }); //End of ajax for POST invoke
-
     });//End of invoke function
 
 
@@ -547,7 +551,6 @@ def Main():
 
            //New test for getting last TX link
            updateTXTable($("#contractmessages").text());
-
         }).fail(function(jqXHR, textStatus){
            //if(textStatus === 'timeout')
            //{
@@ -601,7 +604,6 @@ def Main():
          },
          timeout:400000,  // I chose 7min secs for kicks
        }); */
-
     }); //End of formdeploy function
 
     function createEditor(name, mode) {
@@ -662,6 +664,34 @@ def Main():
         var file = new Blob([mydata],{type:'text/plain'});
         download(file, ".opcodes");
     });
+
+    function ImportAVM() {
+         var file = document.getElementById("importAVMFile").files[0];
+         if (file) {
+             var reader = new FileReader();
+             reader.onloadend = function () {
+                 var hex = bin2hex(this.result);
+                 $("#codeavm").val(hex);
+                 $("#opcodes").text("");
+                 $("#codeabi").text("");
+                 $("#codewarnerr").text("");
+
+                 var hexavm = hex;
+                 hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+                 var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
+                 var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
+                 printOpcode(hexavm, $("#opcodes"));
+
+                 $("#contracthash")[0].value = shash;
+                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
+                 $("#invokehash")[0].value = $("#contracthash")[0].value;
+
+                 console.log(toBase58(shash));//address
+             };
+             reader.readAsBinaryString(file);
+         }
+    }
+
     function downloadAVM( selected_index ){
         console.log(selected_index);
 
@@ -686,7 +716,7 @@ def Main():
         $('[data-toggle="tooltip"]').tooltip();
     });
 
-    function buttonRemoveRule(idToRemove){
+    function buttonRemoveTX(idToRemove){
       if(idToRemove < vecRelayedTXs.length && idToRemove > -1)
       {
           vecRelayedTXs.splice(idToRemove, 1);
@@ -696,7 +726,6 @@ def Main():
       }
     }
 
-    drawRelayedTXs();
     function drawRelayedTXs(){
     	//Clear previous data
     	document.getElementById("divRelayedTXs").innerHTML = "";
@@ -724,15 +753,15 @@ def Main():
           var b = document.createElement('button');
           b.setAttribute('content', 'test content');
           b.setAttribute('class', 'btn btn-danger');
-          //b.onclick = function () {buttonRemoveRule();};
           b.setAttribute('value', i);
+          //b.onclick = function () {buttonRemoveRule();};
           //b.onclick = function () {alert(this.value);};
-          b.onclick = function () {buttonRemoveRule(this.value);};
+          b.onclick = function () {buttonRemoveTX(this.value);};
           b.innerHTML = i;
 
           txRow.insertCell(-1).appendChild(b);
 
-          var link=document.createElement("a");
+          var link = document.createElement("a");
           var urlToGet = neoScanTXBaseURL + vecRelayedTXs[i].tx;
           link.appendChild(document.createTextNode(vecRelayedTXs[i].tx));
           link.href = urlToGet;
@@ -751,7 +780,8 @@ def Main():
           activationStatus.setAttribute('id', "activationStatus"+i);
           activationStatus.innerHTML = "-";
 
-          $.getJSON(urlToGet, function(result) {
+          //This draw can be deprecated
+          /*$.getJSON(urlToGet, function(result) {
               //console.log(result);
               if(result.txid == "not found" || result.vin == null){
                 activationStatus.innerHTML = "<font color=\"blue\">PENDING</font>";
@@ -760,7 +790,7 @@ def Main():
               }
           }).fail(function (result) {
               activationStatus.innerHTML = "<font color=\"red\">FAILED</font>";
-          });
+          });*/
 
           txRow.insertCell(-1).appendChild(activationStatus);
           //Check activation status ends
@@ -778,9 +808,7 @@ def Main():
 
    //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
    function searchForTX(indexToUpdate){
-          var urlToGet = neoScanTXBaseURL + vecRelayedTXs[indexToUpdate].tx;
-          //console.log("urlToGet:" + urlToGet);
-          $.getJSON(urlToGet, function(result) {
+          $.getJSON(neoScanTXBaseURL + vecRelayedTXs[indexToUpdate].tx, function(result) {
               //console.log("div is activationStatus"+indexToUpdate);
               if(result.txid == "not found" || result.vin == null){
                 document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"blue\">PENDING</font>";
@@ -805,33 +833,6 @@ def Main():
            vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
            drawRelayedTXs();
      }
-   }
-
-   function ImportAVM() {
-        var file = document.getElementById("importAVMFile").files[0];
-        if (file) {
-            var reader = new FileReader();
-            reader.onloadend = function () {
-                var hex = bin2hex(this.result);
-                $("#codeavm").val(hex);
-                $("#opcodes").text("");
-                $("#codeabi").text("");
-                $("#codewarnerr").text("");
-
-                var hexavm = hex;
-                hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-                var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
-                var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
-                printOpcode(hexavm, $("#opcodes"));
-
-                $("#contracthash")[0].value = shash;
-                $("#contracthash_search")[0].value = $("#contracthash")[0].value;
-                $("#invokehash")[0].value = $("#contracthash")[0].value;
-
-                console.log(toBase58(shash));//address
-            };
-            reader.readAsBinaryString(file);
-        }
    }
 
 </script>

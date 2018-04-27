@@ -14,6 +14,7 @@
 #CHECK IF POSTGRES CAN BE SAVED
 *docker commit 99088a34f87b vncoelho/neo-compiler-postgres:1.2.1
 *docker push vncoelho/neo-compiler-postgres:1.2.1
+Best tip is to dump and pg-restore
 
 --------Come back docker-compose to last version---------------------
 TODO: Improvee this

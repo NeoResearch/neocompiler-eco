@@ -5,16 +5,16 @@ echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 ./stop-all-docker-compose.sh
 
 if (( $# != 0 )); then
-	echo "BUILDING docker-compiler-privnet (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
+	echo "(DEV MOD) BUILDING docker-compiler-privnet (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
 	(cd docker-privnet; ./docker_build.sh)
 	echo "PROCEEDING. docker-compiler-privnet was BUILT (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
+
+	echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker direct from local dockerfile";
+	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker-dev.sh)
+else
+	echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
+	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 fi
-
-echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-
-#echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker direct from local dockerfile";
-#(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker-dev.sh)
 
 echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
 

@@ -263,59 +263,10 @@ def Main():
     var vecRelayedTXs = [];
     drawRelayedTXs();
 
+    //Call neonJSPlayground function
     neonJSPlayground();
-    // =============================================
-    //First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
-    function neonJSPlayground(){
-      var NeonA = Neon.default
-      const query = Neon.default.create.query()
-      var wallet = Neon.wallet
-      console.log("query: " + query)
-      console.log("wallet: " + wallet)
-      var tx = Neon.tx
-      console.log("tx: " + tx)
-      let tx2 = Neon.default.create.tx({type: 128})
-      console.log("tx2: " + tx2)
 
-      const config = {
-        name: 'PrivateNet',
-        extra: {
-          neoscan: NEOSCAN_PATH + '/api/main_net'
-        }
-      }
-      const privateNet = new Neon.rpc.Network(config)
-      Neon.default.add.network(privateNet)
-      console.log(Neon.settings.networks['PrivateNet'])
-      balance = Neon.api.neoscan.getBalance('PrivateNet', "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-      .then(res => console.log(res))
-
-
-      const intent = Neon.api.makeIntent({NEO:1,GAS:500}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
-      console.log(intent) // This is an array of 2 Intent objects, one for each asset
-      const configTest = {
-        net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-        url: NODES_CSHARP_PATH,
-        address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
-        privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
-        intents: intent
-      }
-
-      Neon.default.sendAsset(configTest)
-      .then(res => {
-        console.log(res.response)
-      })
-      .catch(e => {
-        console.log(e)
-      })
-
-      const sb = Neon.default.create.scriptBuilder()
-
-      //sb.emitAppCall('35816a2b6f823a28aa6674ca56c28862fe419f8', 'name')
-      //const tx3 = Neon.default.create.invocationTx('KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', {}, {}, sb.str, 0)
-    }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
-    // =============================================
-
-
+    //===============================================================
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;
         $("#code").val("");
@@ -443,6 +394,7 @@ def Main():
         );  //End of POST for Compile
 
     }); //End of form Compile function
+    //===============================================================
 
     /* $("#formsearch").submit(function (e) {
       $("#deploybtn")[0].disabled = true;
@@ -469,7 +421,7 @@ def Main():
 
     }); //End of form Compile function */
 
-
+    //===============================================================
     $("#forminvoke").submit(function (e) {
       $("#deploybtn")[0].disabled = true;
       //$("#searchbtn")[0].disabled = true;
@@ -553,8 +505,9 @@ def Main():
             "json" // The format the response should be in
         ); */
     });//End of invoke function
+    //===============================================================
 
-
+    //===============================================================
     $("#formdeploy").submit(function (e) {
         $("#deploybtn")[0].disabled = true;
         //$("#searchbtn")[0].disabled = true;
@@ -640,7 +593,9 @@ def Main():
          timeout:400000,  // I chose 7min secs for kicks
        }); */
     }); //End of formdeploy function
+    //===============================================================
 
+    //===============================================================
     function createEditor(name, mode) {
         var editor = ace.edit(name);
         editor.setTheme("ace/theme/clouds");
@@ -677,14 +632,18 @@ def Main():
             "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs"
         ]
     ];
+    //===============================================================
 
+    //===============================================================
     $("#btn_downloadOpCode").click(function (e) {
         e.preventDefault();
         mydata = $('#formdeploy').contents().find('#opcodes').val();
         var file = new Blob([mydata],{type:'text/plain'});
         download(file, ".opcodes");
     });
+    //===============================================================
 
+    //===============================================================
     function ImportAVM() {
          var file = document.getElementById("importAVMFile").files[0];
          if (file) {
@@ -711,7 +670,9 @@ def Main():
              reader.readAsBinaryString(file);
          }
     }
+    //===============================================================
 
+    //===============================================================
     function setExample( selected_index ){
         console.log(selected_index);
 
@@ -721,7 +682,9 @@ def Main():
             editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
         });
     }
+    //===============================================================
 
+    //===============================================================
     function downloadAVM( selected_index ){
         console.log(selected_index);
 
@@ -742,17 +705,21 @@ def Main():
         }
         download(file, ".avm");
     };
+    //===============================================================
 
+    //===============================================================
     function buttonRemoveTX(idToRemove){
       if(idToRemove < vecRelayedTXs.length && idToRemove > -1)
       {
           vecRelayedTXs.splice(idToRemove, 1);
           drawRelayedTXs();
       }else{
-        alert("Cannot remove TX with ID " + idToRemove + " from set of rules with size " + vecRelayedTXs.length)
+        alert("Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
     }
+    //===============================================================
 
+    //===============================================================
     function drawRelayedTXs(){
     	//Clear previous data
     	document.getElementById("divRelayedTXs").innerHTML = "";
@@ -826,14 +793,18 @@ def Main():
       document.getElementById("divRelayedTXs").appendChild(table);
       searchForTXs();
     }//Finishe DrawRules function
+   //===============================================================
 
+  //===============================================================
    //This function tries to search and verify for all relayed TXs that were, possible, broadcasted and included in the blockchain
    function searchForTXs(){
      //console.log("Searching tx's");
      for (i = 0; i < vecRelayedTXs.length; i++)
       searchForTX(i);
    }
+   //===============================================================
 
+   //===============================================================
    //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
    function searchForTX(indexToUpdate){
           $.getJSON(neoScanTXBaseURL + vecRelayedTXs[indexToUpdate].tx, function(result) {
@@ -847,7 +818,9 @@ def Main():
               document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
    }
+   //===============================================================
 
+   //===============================================================
    function updateTXTable(contractMessagesBox){
      var indexRelayedTx = contractMessagesBox.indexOf("relayed TX");
      var relayedTX = "";
@@ -862,5 +835,6 @@ def Main():
            drawRelayedTXs();
      }
    }
+   //===============================================================
 
 </script>

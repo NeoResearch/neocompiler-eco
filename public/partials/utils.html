@@ -12,6 +12,7 @@
         <div class="col-sm-3 sidenav">
             <ul class="nav nav-pills nav-stacked"  data-tab data-options="deep_linking: true">
               <li class="active"><a data-target="#conversor"  data-toggle="tab">Conversors</a></li>
+              <li><a data-target="#transaction"  data-toggle="tab">Transaction</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
             </ul>
         </div>
@@ -51,8 +52,23 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
+                <div class="tab-pane fade in active" id="transaction">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Create TX</div>
+                        <div class="panel-body">
+                            <form id="createtx" action="">
+                                <input id="createtx_from" placeholder="From" style="width: 45%; margin-right: 10px;" required/>
+                                <input id="createtx_from_privatek" placeholder="Private Key" style="width: 47%; margin-top: 10px;" required/>
+                                <input id="createtx_to" placeholder="To" style="width:45%; margin-top: 10px;" required/><br>
+                                <input id="createtx_NEO" placeholder="NEO" style="width: 45%; margin-top: 10px;" required/>
+                                <input id="createtx_GAS" placeholder="GAS" style="width: 47%; margin-left: 10px; margin-bottom: 10px;" required/><br>
+                                <button type="submit" id="txcreate" class="btn btn-info btn-sm">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="tab-pane fade in active" id="wallet">
+                    <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
@@ -169,5 +185,42 @@
             e.preventDefault(); // Prevents the page from refreshing
             $("#reversehexstring").val( revertHexString($("#hexstring").val()) );
         });
+
+        $("#createtx").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
+        });
+        function CreateTx( from, fromPrivateKey, to, neo, gas ){
+            const config = {
+                name: 'PrivateNet',
+                extra: {
+                neoscan: NEOSCAN_PATH + '/api/main_net'
+                }
+            }
+            const privateNet = new Neon.rpc.Network(config)
+            Neon.default.add.network(privateNet)
+            console.log(Neon.settings.networks['PrivateNet'])
+            balance = Neon.api.neoscan.getBalance('PrivateNet', from)
+            .then(res => console.log(res))
+
+
+            const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+            console.log(intent) // This is an array of 2 Intent objects, one for each asset
+            const configTest = {
+                net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
+                url: NODES_CSHARP_PATH,
+                address: from,  // This is the address which the assets come from.
+                privateKey: fromPrivateKey,
+                intents: intent
+            }
+
+            Neon.default.sendAsset(configTest)
+            .then(res => {
+                console.log(res.response)
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        }
     </script>
 </div>

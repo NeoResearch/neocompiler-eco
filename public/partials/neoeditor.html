@@ -161,7 +161,7 @@ def Main():
             <form id="formdeploy" action="/deployx" method="post">
                 <div class="form-group">
                     <input id="contracthash" name="contracthash" placeholder="Script Hash"/>
-                    <input id="contractparams" name="contractparams" placeholder="&quot;Parameters (in quotes)&quot;" style="margin-left: 5px;"/>
+                    <input id="contractparams" name="contractparams" value='""' placeholder="&quot;Parameters (in quotes)&quot;" style="margin-left: 5px;">
                     <select name="contractreturn" id="contractreturn" style="margin-left: 5px;" class="custom-select" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
                     <option>00</option>
                     <option>01</option>
@@ -176,7 +176,7 @@ def Main():
                     <option>ff</option>
                     </select>
                     <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
-                    <input type="checkbox" name="cbx_storage" id="cbx_storage" style="margin-left: 10px;"/>Storage
+                    <input type="checkbox" name="cbx_storage" id="cbx_storage" style="margin-left: 10px;" checked/>Storage
                     <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke" style="margin-left: 10px;"/>Dynamic Invoke<br>
                     <select name="wallet_deploy" class="custom-select" style="margin-top: 10px;">
                     <option>w1.wallet</option>
@@ -196,7 +196,7 @@ def Main():
             <form id="forminvoke" action="/invokex" method="post">
                 <div class="form-group">
                     Contract:<input id="invokehash" name="invokehash" placeholder="Script Hash"/>
-                    Params:<input id="invokeparams" name="invokeparams" placeholder="Script Params" style="margin-left: 5px;"/>
+                    Params:<input id="invokeparams" name="invokeparams" value='""' placeholder="Script Params" style="margin-left: 5px;"/>
                     NEO: <input id="attachneo" name="attachneo" value="0" placeholder="Send NEO" style="margin-left: 5px;"/>
                     <input type="checkbox" name="cbx_invokeonly" id="cbx_invokeonly" style="margin-left: 10px;"/>TestInvokeOnly<br><br>
                     <select name="wallet_invoke" style="margin-top: 10px;" class="custom-select">
@@ -322,7 +322,7 @@ def Main():
         $("#contracthash").val("");
         $("#contracthash_search").val("");
         $("#invokehash").val("");
-        $("#contractparams").val("");
+        $("#contractparams").val("\"\"");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
@@ -724,10 +724,6 @@ def Main():
         }
         download(file, ".avm");
     };
-
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
 
     function buttonRemoveTX(idToRemove){
       if(idToRemove < vecRelayedTXs.length && idToRemove > -1)

@@ -10,8 +10,8 @@
     </div>
     <div class="row">
         <div class="col-sm-3 sidenav">
-            <ul class="nav nav-pills nav-stacked"  data-tab data-options="deep_linking: true">
-              <li class="active"><a data-target="#conversor"  data-toggle="tab">Conversors</a></li>
+            <ul class="nav nav-pills nav-stacked">
+              <li class="active"><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
             </ul>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade in active" id="transaction">
+                <div class="tab-pane fade" id="transaction">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX</div>
                         <div class="panel-body">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade in active" id="wallet">
+                <div class="tab-pane fade" id="wallet">
                     <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
                     <div class="panel panel-primary">
                         <div class="panel-heading">

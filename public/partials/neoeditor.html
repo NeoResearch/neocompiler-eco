@@ -309,6 +309,9 @@ def Main():
       })
 
       const sb = Neon.default.create.scriptBuilder()
+
+      //sb.emitAppCall('5b7074e873973a6ed3708862f219a6fbf4d1c411', 'name')
+      //const tx3 = Neon.default.create.invocationTx('KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', {}, {}, sb.str, 0)
     }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
     // =============================================
 
@@ -335,7 +338,7 @@ def Main():
         $("#opcodes").val("");
         $("#codeabi").val("");
         $("#contracthash").val("");
-        $("#contracthash_search").val("");
+        //$("#contracthash_search").val("");
         $("#invokehash").val("");
         $("#contractparams").val("\"\"");
         e.preventDefault(); // Prevents the page from refreshing
@@ -364,7 +367,7 @@ def Main():
                 //$("#btn_download")[0].style = "";
 
                 $("#contracthash")[0].value = getScriptHashFromAVM(hexcodeavm);
-                $("#contracthash_search")[0].value = $("#contracthash")[0].value;
+                //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
 
                 var codeabi = atob(data.abi);
@@ -441,7 +444,7 @@ def Main():
 
     }); //End of form Compile function
 
-    $("#formsearch").submit(function (e) {
+    /* $("#formsearch").submit(function (e) {
       $("#deploybtn")[0].disabled = true;
       $("#searchbtn")[0].disabled = true;
       $("#invokebtn")[0].disabled = true;
@@ -464,12 +467,12 @@ def Main():
             "json" // The format the response should be in
         ); //End of POST for search
 
-    }); //End of form Compile function
+    }); //End of form Compile function */
 
 
     $("#forminvoke").submit(function (e) {
       $("#deploybtn")[0].disabled = true;
-      $("#searchbtn")[0].disabled = true;
+      //$("#searchbtn")[0].disabled = true;
       $("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
@@ -488,7 +491,7 @@ def Main():
         }).done(function(data){
            //alert( "Always of invoke!");
            $("#deploybtn")[0].disabled = false;
-           $("#searchbtn")[0].disabled = false;
+           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
              //console.log("output="+data);
              var invokemsg = atob(data.output);
@@ -516,7 +519,7 @@ def Main():
              updateTXTable($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
-           $("#searchbtn")[0].disabled = false;
+           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n");
         }); //End of ajax for POST invoke
@@ -554,7 +557,7 @@ def Main():
 
     $("#formdeploy").submit(function (e) {
         $("#deploybtn")[0].disabled = true;
-        $("#searchbtn")[0].disabled = true;
+        //$("#searchbtn")[0].disabled = true;
         $("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
@@ -575,7 +578,7 @@ def Main():
         }).done(function(data){
            //alert( "Always of deploy!");
            $("#deploybtn")[0].disabled = false;
-           $("#searchbtn")[0].disabled = false;
+           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            // console.log("output="+data);
            var deploymsg = atob(data.output);
@@ -592,7 +595,7 @@ def Main():
            //alert(textStatus);
            //alert(jqXHR);
            $("#deploybtn")[0].disabled = false;
-           $("#searchbtn")[0].disabled = false;
+           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            $("#contractmessages").text("Some unexpected error happened when calling POST for deploying!\n");
         }); //End of ajax for POST deploy
@@ -700,7 +703,7 @@ def Main():
                  printOpcode(hexavm, $("#opcodes"));
 
                  $("#contracthash")[0].value = shash;
-                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
+                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
                  $("#invokehash")[0].value = $("#contracthash")[0].value;
 
                  console.log(toBase58(shash));//address

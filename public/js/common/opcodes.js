@@ -1,44 +1,3 @@
-function download(file, ext){
-    var d = new Date();
-    var n = d.getTime();
-    if (window.navigator.msSaveOrOpenBlob) // IE10+
-        window.navigator.msSaveOrOpenBlob(file, n + ext);
-    else { // Others
-        var a = document.createElement("a"),
-                url = URL.createObjectURL(file);
-        a.href = url;
-        a.download = n + ext;
-        document.body.appendChild(a);
-        a.click();
-        setTimeout(function() {
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }, 0);
-    }
-}
-
-function hex2bin(hex) {
-    var bytes = [];
-    for (var i = 0; i < hex.length - 1; i += 2)
-        bytes.push(parseInt(hex.substr(i, 2), 16));
-    str = String.fromCharCode.apply(String, bytes);
-    return str;
-}
-
-function bin2hex(bin)
-{
-    var hex = "";
-    for (var i = 0; i < bin.length; i++) {
-        var byteStr = bin.charCodeAt(i).toString(16);
-        if (byteStr.length < 2) {
-            byteStr = "0" + byteStr;
-        }
-        if( i > 0  && i % 30 == 0 )
-            hex += "\n";
-        hex += byteStr;
-    }
-    return hex;
-}
 // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
 // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
 function getHexForType(stype) {
@@ -68,57 +27,6 @@ function getHexForType(stype) {
         return '05';
 }
 
-function hex2int(hex) {
-    var bigint = BigInteger(0);
-    bigint = bigint.add(parseInt(hex.substr(i, 2), 16));
-    for (var i = 2; i < hex.length - 1; i += 2)
-        bigint = bigint.multiply(256).add(parseInt(hex.substr(i, 2), 16));
-    return bigint;
-}
-
-function revertHexString(hex) {
-    var reverthex = "";
-    for (var i = 0; i < hex.length - 1; i += 2)
-        reverthex = "" + hex.substr(i, 2) + reverthex;
-    return reverthex;
-}
-
-function toBase58(data)
-{
-    var hexdata = "17" + revertHexString(data);
-    console.log( hexdata );
-    var bitchecksum = sjcl.hash.sha256.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexdata)));
-    console.log( sjcl.codec.hex.fromBits(bitchecksum) );
-    var cut = bitchecksum.slice(0,1);
-    console.log( sjcl.codec.hex.fromBits(cut) );
-    var buffer = hexdata + sjcl.codec.hex.fromBits(cut);
-    console.log( buffer );
-    return Base58Encode(buffer);
-}
-
-function Base58Encode(input)
-{
-    var Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-    var value = BigInteger(hex2int(input));
-    var sb = "";
-    while (value >= 58)
-    {
-        var mod = value.remainder(58);
-        sb = ""+Alphabet.charAt(mod)+sb;
-        value = value.divide(58);
-    }
-    sb = ""+Alphabet.charAt(value)+sb;
-    console.log( sb );
-    for (var i = 0; i < input.length - 1; i += 2)
-    {
-        if (input.substr(i, 2) == "00")
-            sb = ""+Alphabet.charAt(0)+sb;
-        else
-            break;
-    }
-    console.log( sb );
-    return sb;
-}
 
 // Calculate gas cost
 //https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
@@ -448,11 +356,4 @@ function printOpcode(hexavm, target) {
     //console.log("code ("+code+")");
     hexavm = parseOpcode(code, hexavm, target);
     printOpcode(hexavm, target);
-}
-
-function getScriptHashFromAVM(avm)
-{
-    var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(avm)));
-    var chash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
-    return chash;
 }

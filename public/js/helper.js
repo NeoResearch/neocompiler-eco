@@ -449,3 +449,10 @@ function printOpcode(hexavm, target) {
     hexavm = parseOpcode(code, hexavm, target);
     printOpcode(hexavm, target);
 }
+
+function getScriptHashFromAVM(avm)
+{
+    var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(avm)));
+    var chash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
+    return chash;
+}

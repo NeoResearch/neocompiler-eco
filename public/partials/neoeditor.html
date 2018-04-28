@@ -348,9 +348,7 @@ def Main():
                 //console.log(localStorage.getItem('avmFile').charCodeAt(2));
                 //$("#btn_download")[0].style = "";
 
-                var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexcodeavm)));
-                var chash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
-                $("#contracthash")[0].value = chash;
+                $("#contracthash")[0].value = getScriptHashFromAVM(hexcodeavm);
                 $("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
 

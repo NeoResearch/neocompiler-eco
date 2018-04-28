@@ -150,8 +150,7 @@
             e.preventDefault(); // Prevents the page from refreshing
             var hexavm = $("#avmcode")[0].value;
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
-            var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
+            var shash = getScriptHashFromAVM(hexavm);
             $("#scripthash")[0].value = shash;
             $("#address58")[0].value = toBase58(shash);
             $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");

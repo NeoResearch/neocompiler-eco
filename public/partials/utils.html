@@ -179,6 +179,7 @@
             var shash = getScriptHashFromAVM(hexavm);
             $("#scripthash")[0].value = shash;
             $("#address58")[0].value = toBase58(shash);
+            console.log(Neon.wallet.getScriptHashFromAddress(shash));
             $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
             printOpcode(hexavm, $("#opcodes"));
         });

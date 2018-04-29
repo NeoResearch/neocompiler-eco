@@ -151,6 +151,12 @@
         </div>
     </div>
     <script>
+        $(document).ready(function(){
+            setInterval(function() {
+                populateWalletData();
+            }, 30000); // 30000 milsec
+            console.log("checking wallets");
+        });
         function populateWalletData()
         {
             var url_w1 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";

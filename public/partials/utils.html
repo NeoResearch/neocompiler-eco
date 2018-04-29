@@ -226,14 +226,15 @@
 
         function address2scripthash()
         {
-          console.log(fromBase58($("#address").val()));
+          if( $("#address").val() == "" ) return;
           $("#scripthash").val( fromBase58($("#address").val()) );
         }
 
         function scripthash2address()
         {
-          console.log(toBase58($("#address").val()));
+          if( $("#scripthash").val() == "" ) return;
           $("#address").val( toBase58($("#scripthash").val()) );
+          //CreateRawTx();
         }
     </script>
 </div>

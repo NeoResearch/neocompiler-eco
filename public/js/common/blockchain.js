@@ -1,3 +1,16 @@
+function addPrivateNet()
+{
+  const config = {
+    name: 'PrivateNet',
+    extra: {
+      neoscan: NEOSCAN_PATH + '/api/main_net'
+    }
+  }
+  const privateNet = new Neon.rpc.Network(config)
+  Neon.default.add.network(privateNet)
+  console.log(Neon.settings.networks['PrivateNet'])
+}
+
 // =============================================
 //First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
 function neonJSPlayground(){
@@ -11,15 +24,6 @@ function neonJSPlayground(){
   let tx2 = Neon.default.create.tx({type: 128})
   console.log("tx2: " + tx2)
 
-  const config = {
-    name: 'PrivateNet',
-    extra: {
-      neoscan: NEOSCAN_PATH + '/api/main_net'
-    }
-  }
-  const privateNet = new Neon.rpc.Network(config)
-  Neon.default.add.network(privateNet)
-  console.log(Neon.settings.networks['PrivateNet'])
   balance = Neon.api.neoscan.getBalance('PrivateNet', "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
   .then(res => console.log(res))
 
@@ -50,15 +54,6 @@ function neonJSPlayground(){
 // =============================================
 
 function CreateTx( from, fromPrivateKey, to, neo, gas ){
-    const config = {
-        name: 'PrivateNet',
-        extra: {
-        neoscan: NEOSCAN_PATH + '/api/main_net'
-        }
-    }
-    const privateNet = new Neon.rpc.Network(config)
-    Neon.default.add.network(privateNet)
-    console.log(Neon.settings.networks['PrivateNet'])
     balance = Neon.api.neoscan.getBalance('PrivateNet', from)
     .then(res => console.log(res))
 

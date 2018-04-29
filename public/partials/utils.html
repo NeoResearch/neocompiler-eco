@@ -20,7 +20,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="conversor">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Convert String to Hex</div>
+                        <div class="panel-heading">String to Hex</div>
                         <div class="panel-body">
                             <form id="str2hash" action="">
                                 <input id="stringtohash" placeholder="String to Hash" style="width: 40%"/>
@@ -36,6 +36,17 @@
                                 <input id="hexstring" placeholder="Hex String to Reverse" style="width: 40%"/>
                                 <button type="submit" id="doreverse" style="margin-left: 1%; width: 15%;" class="btn btn-info btn-sm">Reverse Hex String</button>
                                 <input id="reversehexstring" style="background-color:#eeeeee; margin-left: 1%; width: 41%" readonly="readonly"/>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Address <-> ScriptHash</div>
+                        <div class="panel-body">
+                            <form id="addressscripthash" action="">
+                                <input id="address" placeholder="Address" style="width: 100%"/>
+                                <button onClick="address2scripthash()" style="margin-bottom: 10px; margin-top: 10px; margin-left: 35%; width: 10%;" class="btn btn-info btn-sm">to ScriptHash</button>
+                                <button onClick="scripthash2address()" style="margin-bottom: 10px; margin-top: 10px; margin-right: 35%; width: 10%;" class="btn btn-info btn-sm">to Address</button>
+                                <input id="scripthash" placeholder="ScriptHash" style="width: 100%"/>
                             </form>
                         </div>
                     </div>
@@ -70,8 +81,8 @@
                                 <input id="createtx_from" placeholder="From" style="width: 45%; margin-right: 10px;" required/>
                                 <input id="createtx_from_privatek" placeholder="Private Key" style="width: 47%; margin-top: 10px;" required/>
                                 <input id="createtx_to" placeholder="To" style="width:45%; margin-top: 10px;" required/><br>
-                                <input id="createtx_NEO" placeholder="NEO" style="width: 45%; margin-top: 10px;" required/>
-                                <input id="createtx_GAS" placeholder="GAS" style="width: 47%; margin-left: 10px; margin-bottom: 10px;" required/><br>
+                                <input type="number" id="createtx_NEO" placeholder="NEO" style="width: 45%; margin-top: 10px;" required/>
+                                <input type="number" id="createtx_GAS" placeholder="GAS" style="width: 47%; margin-left: 10px; margin-bottom: 10px;" required/><br>
                                 <button type="submit" id="txcreate" class="btn btn-info btn-sm">Create</button>
                             </form>
                         </div>
@@ -179,7 +190,6 @@
             var shash = getScriptHashFromAVM(hexavm);
             $("#scripthash")[0].value = shash;
             $("#address58")[0].value = toBase58(shash);
-            console.log(Neon.wallet.getScriptHashFromAddress(shash));
             $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
             printOpcode(hexavm, $("#opcodes"));
         });
@@ -207,37 +217,17 @@
             e.preventDefault(); // Prevents the page from refreshing
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
         });
-        function CreateTx( from, fromPrivateKey, to, neo, gas ){
-            const config = {
-                name: 'PrivateNet',
-                extra: {
-                neoscan: NEOSCAN_PATH + '/api/main_net'
-                }
-            }
-            const privateNet = new Neon.rpc.Network(config)
-            Neon.default.add.network(privateNet)
-            console.log(Neon.settings.networks['PrivateNet'])
-            balance = Neon.api.neoscan.getBalance('PrivateNet', from)
-            .then(res => console.log(res))
 
+        function address2scripthash()
+        {
+          console.log(fromBase58($("#address").val()));
+          $("#scripthash").val( fromBase58($("#address").val()) );
+        }
 
-            const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
-            console.log(intent) // This is an array of 2 Intent objects, one for each asset
-            const configTest = {
-                net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-                url: NODES_CSHARP_PATH,
-                address: from,  // This is the address which the assets come from.
-                privateKey: fromPrivateKey,
-                intents: intent
-            }
-
-            Neon.default.sendAsset(configTest)
-            .then(res => {
-                console.log(res.response)
-            })
-            .catch(e => {
-                console.log(e)
-            })
+        function scripthash2address()
+        {
+          console.log(toBase58($("#address").val()));
+          $("#address").val( toBase58($("#scripthash").val()) );
         }
     </script>
 </div>

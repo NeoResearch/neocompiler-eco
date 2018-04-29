@@ -48,3 +48,36 @@ function neonJSPlayground(){
   //const tx3 = Neon.default.create.invocationTx('KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', {}, {}, sb.str, 0)
 }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
 // =============================================
+
+function CreateTx( from, fromPrivateKey, to, neo, gas ){
+    const config = {
+        name: 'PrivateNet',
+        extra: {
+        neoscan: NEOSCAN_PATH + '/api/main_net'
+        }
+    }
+    const privateNet = new Neon.rpc.Network(config)
+    Neon.default.add.network(privateNet)
+    console.log(Neon.settings.networks['PrivateNet'])
+    balance = Neon.api.neoscan.getBalance('PrivateNet', from)
+    .then(res => console.log(res))
+
+
+    const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+    console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    const configTest = {
+        net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
+        url: NODES_CSHARP_PATH,
+        address: from,  // This is the address which the assets come from.
+        privateKey: fromPrivateKey,
+        intents: intent
+    }
+
+    Neon.default.sendAsset(configTest)
+    .then(res => {
+        console.log(res.response)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+}

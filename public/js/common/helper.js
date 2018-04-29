@@ -49,8 +49,14 @@ function hex2int(hex) {
 }
 
 function revertHexString(hex) {
+    return Neon.u.reverseHex(hex);
+}
+
+/*
+function revertHexString(hex) {
     var reverthex = "";
     for (var i = 0; i < hex.length - 1; i += 2)
         reverthex = "" + hex.substr(i, 2) + reverthex;
     return reverthex;
 }
+*/

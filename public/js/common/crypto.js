@@ -5,7 +5,17 @@ function getScriptHashFromAVM(avm)
     return hash;
 }
 
+function toBase58(address)
+{
+    return Neon.wallet.getAddressFromScriptHash(address);
+}
 
+function fromBase58(scripthash)
+{
+    return Neon.wallet.getScriptHashFromAddress(scripthash);
+}
+
+/*
 function toBase58(data)
 {
     var hexdata = "17" + Neon.u.reverseHex(data);
@@ -35,3 +45,4 @@ function Base58Encode(input)
     }
     return sb;
 }
+*/

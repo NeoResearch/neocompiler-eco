@@ -12,10 +12,10 @@ function neonJSPlayground(){
   console.log("tx2: " + tx2)
 
   const config = {
-name: 'PrivateNet',
-extra: {
-  neoscan: NEOSCAN_PATH + '/api/main_net'
-}
+    name: 'PrivateNet',
+    extra: {
+      neoscan: NEOSCAN_PATH + '/api/main_net'
+    }
   }
   const privateNet = new Neon.rpc.Network(config)
   Neon.default.add.network(privateNet)
@@ -27,19 +27,19 @@ extra: {
   const intent = Neon.api.makeIntent({NEO:1,GAS:500}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
   console.log(intent) // This is an array of 2 Intent objects, one for each asset
   const configTest = {
-net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-url: NODES_CSHARP_PATH,
-address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
-privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
-intents: intent
+    net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
+    url: NODES_CSHARP_PATH,
+    address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
+    privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
+    intents: intent
   }
 
   Neon.default.sendAsset(configTest)
   .then(res => {
-console.log(res.response)
+    console.log(res.response)
   })
   .catch(e => {
-console.log(e)
+    console.log(e)
   })
 
   const sb = Neon.default.create.scriptBuilder()

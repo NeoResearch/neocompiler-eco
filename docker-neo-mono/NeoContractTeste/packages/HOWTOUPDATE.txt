@@ -1,0 +1,6 @@
+- Clone Neo DevPack Framework project from github
+- Open monodevelop (I use flatpak version...)
+- Change file: neo-devpack-dotnet/Neo.SmartContract.Framework/Neo.SmartContract.Framework.csproj 
+- Go to line <TargetFrameworks>netstandard1.6;net40</TargetFrameworks> e leave only net40.
+- Build dll and copy it to lib directory
+- Don't know if nupkg is needed... if needed, just click Create NuPkg in monodevelop (should test this and remove if useless)

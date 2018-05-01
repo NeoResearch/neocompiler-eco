@@ -87,3 +87,25 @@ function CreateRawTx( rawData ){
   response = query.execute(getPrivateNetPath());
   console.log(response);
 }
+
+function Invoke(wallet_address, wallet_privatekey, gasvalue, contract_scripthash, contract_operation, contract_args){
+  const config = {
+    net: 'PrivateNet',
+    script: Neon.default.create.script({
+      scriptHash: contract_scripthash,
+      operation: contract_operation,
+      args: [contract_args]
+    }),
+    address: wallet_address,
+    privateKey: wallet_privatekey,
+    gas: gasvalue
+  }
+
+  Neon.default.doInvoke(config).then(res => {
+    console.log(res)
+  })
+}
+
+function Deploy(contract_scripthash, return_value, storage, dynamic_invoke, wallet_address, wallet_privatekey){
+  
+}

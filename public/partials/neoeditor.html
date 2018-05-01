@@ -432,8 +432,8 @@ def Main():
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
 
-        // invoke test
-        //Invoke('AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a', 0, $("#invokehash").val(), 'Main', '');
+        //test invoke
+        //Invoke('AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', $("#invokehash").val(), 'Main');
 
         $.ajax({
          cache:false,
@@ -520,6 +520,9 @@ def Main():
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $('#formdeploy, #formCompile').serialize();
+
+        //teste deploy
+        //Deploy();
 
         //TODO NEOCOMPILER - This ajax is for Jquery 1.8+
         //Current, it seems to be the most suitable  template for this project

@@ -63,7 +63,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas ){
 
     const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
     console.log(intent) // This is an array of 2 Intent objects, one for each asset
-    const configTest = {
+    const config = {
         net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
         url: NODES_CSHARP_PATH,
         address: from,  // This is the address which the assets come from.
@@ -71,7 +71,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas ){
         intents: intent
     }
 
-    Neon.default.sendAsset(configTest)
+    Neon.default.sendAsset(config)
     .then(res => {
         console.log(res.response)
     })
@@ -88,24 +88,41 @@ function CreateRawTx( rawData ){
   console.log(response);
 }
 
-function Invoke(wallet_address, wallet_privatekey, gasvalue, contract_scripthash, contract_operation, contract_args){
-  const config = {
-    net: 'PrivateNet',
-    script: Neon.default.create.script({
-      scriptHash: contract_scripthash,
-      operation: contract_operation,
-      args: [contract_args]
-    }),
-    address: wallet_address,
-    privateKey: wallet_privatekey,
-    gas: gasvalue
-  }
+function Invoke(publicKey, contract_scripthash, contract_operation){
+  const sb = Neon.default.create.scriptBuilder();
+  sb.emitAppCall(contract_scripthash, contract_operation);
 
-  Neon.default.doInvoke(config).then(res => {
-    console.log(res)
-  })
+  Neon.rpc.Query.invokeScript(sb.str).execute(NODES_CSHARP_PATH);
+
+  const tx = Neon.default.create.invocationTx(publicKey, {}, {}, sb.str, 0);
+
+  console.log(tx);
+
+  query = Neon.rpc.Query.sendRawTransaction(tx.serialize());
+  response = query.execute(getPrivateNetPath());
+  console.log(response);
 }
 
-function Deploy(contract_scripthash, return_value, storage, dynamic_invoke, wallet_address, wallet_privatekey){
-  
+function Deploy(publicKey, avm, contract_scripthash, return_type, storage){
+  const sb = new ScriptBuilder();
+    sb.emitPush(str2hexstring('desc'))
+      .emitPush(str2hexstring('email'))
+      .emitPush(str2hexstring('author'))
+      .emitPush(str2hexstring('version'))
+      .emitPush(str2hexstring('name'))
+      .emitPush(storage)
+      .emitPush(return_type)
+      .emitPush('')
+      .emitPush(avm)
+      .emitSysCall('Neo.Contract.Create');
+
+  Neon.rpc.Query.invokeScript(sb.str).execute(NODES_CSHARP_PATH);
+
+  const tx = Neon.default.create.invocationTx(publicKey, {}, {}, sb.str, 0);
+
+  console.log(tx);
+
+  query = Neon.rpc.Query.sendRawTransaction(tx.serialize());
+  response = query.execute(getPrivateNetPath());
+  console.log(response);
 }

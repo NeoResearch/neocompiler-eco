@@ -88,8 +88,16 @@
                         </div>
                     </div>
                 </div>
+                <ul class="list-inline">
+                    <li>
+                        <button type="button" onClick="showPersistWallet()" id="btnNewWallet" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-success btn-sm">Add Wallet</button><br>
+                    </li>
+                    <li>
+                        <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
+                    </li>
+                </ul>
                 <div class="tab-pane fade" id="wallet">
-                    <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
+
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
@@ -150,6 +158,32 @@
             </div>
         </div>
     </div>
+
+    <div id="persistWallet" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Wallet</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="persistWalletName">Name</label>
+                        <input type="text" id="persistWalletName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="persistWalletHash">Hash</label>
+                        <input type="text" id="persistWalletHash" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitPersistWallet">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function(){
             setInterval(function() {
@@ -157,6 +191,67 @@
             }, 30000); // 30000 milsec
             console.log("checking wallets");
         });
+
+        function showPersistWallet() {
+          $('#persistWallet').modal('show')
+        }
+
+        function closePersistWallet() {
+          $('#persistWalletName').val('')
+          $('#persistWalletHash').val('')
+          $('#persistWallet').modal('hide')
+        }
+
+        function persistWallet()
+        {
+          // TODO: persist into Webserver
+          var name = $('#persistWalletName').val()
+          var hash = $('#persistWalletHash').val()
+
+          var html = '<div class="panel panel-primary">' +
+            '<div class="panel-heading">'
+
+          html += name + ': ' + hash
+
+          html += '<br>' +
+            '</div>' +
+            '<div class="panel-body">' +
+            '  <textarea class="wallet-view" id="'
+
+          html += hash
+
+          html += '" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>' +
+            '  <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/'
+
+          html += hash
+
+          html += '"' +
+            '  target="popup"' +
+            '  onclick="window.open(NEOSCAN_PATH + \'/api/main_net/v1/get_balance/'
+
+          html += hash
+
+          html += '\',\'popup\',\'width=600,height=600\'); return false;">' +
+            '  more details' +
+            '</a></div></div>'
+
+          $('#wallet').prepend(html)
+          closePersistWallet()
+
+          populatePersistedWalletData(hash)
+        }
+
+        function populatePersistedWalletData(hash) {
+          console.log(hash)
+          url = NEOSCAN_PATH + "/api/main_net/v1/get_balance/" + hash
+          $.getJSON(url, function(result) {
+            var data = "";
+            data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
+            data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
+            $("#" + hash).val(data);
+          });
+        }
+
         function populateWalletData()
         {
             var url_w1 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
@@ -222,6 +317,10 @@
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
+        });
+
+        $('#submitPersistWallet').click(function (e) {
+          persistWallet();
         });
 
         function address2scripthash()

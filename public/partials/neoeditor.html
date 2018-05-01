@@ -159,34 +159,66 @@ def Main():
         <div class="panel-heading">Deploy contract to private net</div>
         <div class="panel-body">
             <form id="formdeploy" action="/deployx" method="post">
-                <div class="form-group">
-                    <input id="contracthash" name="contracthash" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
-                    <input id="contractparams" name="contractparams" value='""' placeholder="&quot;Parameters (in quotes)&quot;" style="width: 100%">
+                <div class="row">
+                  <div class="col-md-6">
                     <div class="form-group">
-                        <select name="contractreturn" id="contractreturn" class="custom-select" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
-                            <option>00</option>
-                            <option>01</option>
-                            <option>02</option>
-                            <option>03</option>
-                            <option>04</option>
-                            <option>05</option>
-                            <option>06</option>
-                            <option>07</option>
-                            <option>10</option>
-                            <option>f0</option>
-                            <option>ff</option>
-                        </select>
-                        <select name="wallet_deploy" class="custom-select" style="margin-top: 10px;">
-                            <option>w1.wallet</option>
-                            <option>w2.wallet</option>
-                            <option>w3.wallet</option>
-                            <option>w4.wallet</option>
-                        </select>
-                        <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
-                        <input type="checkbox" name="cbx_storage" id="cbx_storage" checked/>Storage
-                        <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke"/>Dynamic Invoke
+                      <label for="contracthash">Contract</label>
+                      <input id="contracthash" name="contracthash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
                     </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="contractparams">Params</label>
+                      <input id="contractparams" name="contractparams" value='""' class="form-control" placeholder="&quot;Parameters (in quotes)&quot;" style="width: 100%">
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                    <div class="form-group">
+                      <select name="contractreturn" id="contractreturn" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
+                        <option>00</option>
+                        <option>01</option>
+                        <option>02</option>
+                        <option>03</option>
+                        <option>04</option>
+                        <option>05</option>
+                        <option>06</option>
+                        <option>07</option>
+                        <option>10</option>
+                        <option>f0</option>
+                        <option>ff</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <select name="wallet_deploy" class="custom-select form-control">
+                        <option>w1.wallet</option>
+                        <option>w2.wallet</option>
+                        <option>w3.wallet</option>
+                        <option>w4.wallet</option>
+                      </select>
+                      <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
+                    </div>
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" name="cbx_storage" id="cbx_storage" checked/> Storage
+                        </label>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox" style="margin: 0" name="cbx_dynamicinvoke" class="form-control" id="cbx_dynamicinvoke"/> Dynamic Invoke
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
                     <button type="submit" id="deploybtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
+                  </div>
+
                 </div>
             </form>
         </div>
@@ -196,22 +228,45 @@ def Main():
         <div class="panel-heading">Invoke contract in private net</div>
         <div class="panel-body">
             <form id="forminvoke" action="/invokex" method="post">
-                <div class="form-group">
-                    <div class="form-group">
-                            Contract:<input id="invokehash" name="invokehash" placeholder="Script Hash" style="width: 100%"/>
-                            Params:<input id="invokeparams" name="invokeparams" value='""' placeholder="Script Params" style="width: 100%"/>
+                <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="invokehash">Contract</label>
+                        <input id="invokehash" name="invokehash" class="form-control" placeholder="Script Hash"/>
+                      </div>
                     </div>
-                    <div class="form-group">
-                            NEO: <input id="attachneo" name="attachneo" value="0" placeholder="Send NEO"/>
-                            <select name="wallet_invoke" class="custom-select">
-                                <option>w1.wallet</option>
-                                <option>w2.wallet</option>
-                                <option>w3.wallet</option>
-                                <option>w4.wallet</option>
-                            </select>
-                            <input type="checkbox" name="cbx_invokeonly" id="cbx_invokeonly" style="margin-left: 10px;"/>TestInvokeOnly
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="invokeparams">Params</label>
+                        <input id="invokeparams" name="invokeparams" class="form-control" value='""' placeholder="Script Params"/>
+                      </div>
                     </div>
-                    <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+
+                    <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                      <div class="form-group">
+                        <label for="attachneo">NEO</label>
+                        <input id="attachneo" name="attachneo" class="form-control" value="0" placeholder="Send NEO"/>
+                      </div>
+                      <div class="form-group">
+                          <select name="wallet_invoke" class="custom-select form-control">
+                              <option>w1.wallet</option>
+                              <option>w2.wallet</option>
+                              <option>w3.wallet</option>
+                              <option>w4.wallet</option>
+                          </select>
+                      </div>
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" class="form-control" name="cbx_invokeonly" id="cbx_invokeonly" style="margin: 0"/> Test Invoke Only
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                    </div>
                 </div>
             </form>
         </div>

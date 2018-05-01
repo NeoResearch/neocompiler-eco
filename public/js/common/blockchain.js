@@ -31,7 +31,7 @@ function neonJSPlayground(){
   .then(res => console.log(res))
 
 
-  const intent = Neon.api.makeIntent({NEO:1,GAS:500}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
+  const intent = Neon.api.makeIntent({NEO:1,GAS:1000}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
   console.log(intent) // This is an array of 2 Intent objects, one for each asset
   const configTest = {
     net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
@@ -84,45 +84,52 @@ function CreateRawTx( rawData ){
   // just for test
   //query = Neon.rpc.Query.sendRawTransaction(rawData);
   query = Neon.rpc.Query.sendRawTransaction('800000014BFA9098EC9C5B95E4EC3045A2A2D04A10F12228A3267A3AC65265428ABDC1D3010002E72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000E1F505000000004E75C523C4D431DAFED515E5E230F11A4DB5A80FE72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000EF54A91C000000 513FF03F3A5648BE47CC82F6571251F57173CF8601060004303231347755C56B6C766B00527AC46C766B51527AC4616168164E656F2E52756E74696D652E47657454726967676572009C6C766B52527AC46C766B52C3642A00616C766B00C30430323134876C766B53527AC46C766B53C3640E00516C766B54527AC4620F0061006C766B54527AC46203006C766B54C3616C7566');
-  response = query.execute(getPrivateNetPath());
+  response = query.execute(NODES_CSHARP_PATH);
   console.log(response);
 }
 
 function Invoke(publicKey, contract_scripthash, contract_operation){
-  const sb = Neon.default.create.scriptBuilder();
-  sb.emitAppCall(contract_scripthash, contract_operation);
+  const config = {
+    net: 'PrivateNet',
+    url: NODES_CSHARP_PATH,
+    script: Neon.default.create.script({
+      scriptHash: contract_scripthash,
+      operation: contract_operation,
+      args: []
+    }),
+    address: 'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
+    privateKey: '4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
+    gas: 0
+  }
 
-  Neon.rpc.Query.invokeScript(sb.str).execute(NODES_CSHARP_PATH);
-
-  const tx = Neon.default.create.invocationTx(publicKey, {}, {}, sb.str, 0);
-
-  console.log(tx);
-
-  query = Neon.rpc.Query.sendRawTransaction(tx.serialize());
-  response = query.execute(getPrivateNetPath());
-  console.log(response);
+  Neon.default.doInvoke(config).then(res => {
+    console.log(res);
+  });
 }
 
-function Deploy(publicKey, avm, contract_scripthash, return_type, storage){
-  const sb = new ScriptBuilder();
-    sb.emitPush(str2hexstring('desc'))
-      .emitPush(str2hexstring('email'))
-      .emitPush(str2hexstring('author'))
-      .emitPush(str2hexstring('version'))
-      .emitPush(str2hexstring('name'))
-      .emitPush(storage)
-      .emitPush(return_type)
-      .emitPush('')
-      .emitPush(avm)
+function Deploy(){
+  const sb = Neon.default.create.scriptBuilder();
+    sb.emitPush(Neon.u.str2hexstring('desc'))
+      .emitPush(Neon.u.str2hexstring('email'))
+      .emitPush(Neon.u.str2hexstring('author'))
+      .emitPush(Neon.u.str2hexstring('version'))
+      .emitPush(Neon.u.str2hexstring('name'))
+      .emitPush(true)//storage
+      .emitPush('ff')//return type
+      .emitPush('')//par
+      .emitPush('cd3937b97103fc3b8e427f186eadf186229c5f3c')//script
       .emitSysCall('Neo.Contract.Create');
 
-  Neon.rpc.Query.invokeScript(sb.str).execute(NODES_CSHARP_PATH);
+    const config = {
+      net: 'PrivateNet',
+      url: NODES_CSHARP_PATH,
+      script: sb.str,
+      address: 'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
+      privateKey: '4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
+      gas: 0
+    }
 
-  const tx = Neon.default.create.invocationTx(publicKey, {}, {}, sb.str, 0);
-
-  console.log(tx);
-
-  query = Neon.rpc.Query.sendRawTransaction(tx.serialize());
-  response = query.execute(getPrivateNetPath());
-  console.log(response);
+    Neon.default.doInvoke(config).then(res => {
+      console.log(res);
+    });
 }

@@ -193,7 +193,7 @@ def Main():
     </div>
 
     <div class="panel panel-warning">
-        <div class="panel-heading">Invoke contract in private net</div>
+        <div class="panel-heading">Invoke contract in private net (Eco backend only)</div>
         <div class="panel-body">
             <form id="forminvoke" action="/invokex" method="post">
                 <div class="form-group">
@@ -215,6 +215,32 @@ def Main():
                 </div>
             </form>
         </div>
+        <div class="panel-heading">Invoke contract in private/testnets</div>
+        <div class="panel-body">
+            <form id="forminvokejs" method="post">
+                <select name="invokenetworkjs" class="custom-select">
+                  <option>Eco-privatenet</option>
+                  <option>NEO-testnet</option>
+                </select>
+                <div class="form-group">
+                    <div class="form-group">
+                            Contract:<input id="invokehashjs" name="invokehashjs" placeholder="Script Hash" style="width: 100%"/>
+                            Params:<input id="invokeparamsjs" name="invokeparamsjs" value='""' placeholder="Script Params" style="width: 100%"/>
+                    </div>
+                    <div class="form-group">
+                            NEO: <input id="attachneojs" name="attachneojs" value="0" placeholder="Send NEO"/>
+                            <select name="wallet_invokejs" class="custom-select">
+                                <option>w1.wallet</option>
+                                <option>w2.wallet</option>
+                                <option>w3.wallet</option>
+                                <option>w4.wallet</option>
+                            </select>
+                    </div>
+                    <button type="submit" id="invokebtnjs" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <!-- div class="panel panel-info">

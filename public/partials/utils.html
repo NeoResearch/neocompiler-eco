@@ -93,7 +93,12 @@
                         <button type="button" onClick="showPersistWallet()" id="btnNewWallet" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-success btn-sm">Add Wallet</button><br>
                     </li>
                     <li>
-                        <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
+                        <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button>
+                        <select name="walletnetworkjs" class="custom-select form-control">
+                          <option>Eco-privatenet</option>
+                          <!-- <option>NEO-testnet</option> TODO! --> 
+                        </select>
+                        <br>
                     </li>
                 </ul>
                 <div class="tab-pane fade" id="wallet">

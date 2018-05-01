@@ -23,9 +23,23 @@
                         <div class="panel-heading">String to Hex</div>
                         <div class="panel-body">
                             <form id="str2hash" action="">
-                                <input id="stringtohash" placeholder="String to Hash" style="width: 42%"/>
-                                <button type="submit" id="strtohash" style="margin-left: 1%;" class="btn btn-info btn-sm">to hash</button>
-                                <input id="stringtohash2" style="background-color:#eeeeee; margin-left: 1%; width: 42%" readonly="readonly"/>
+                              <div class="row">
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="stringtohash">String</label>
+                                    <input id="stringtohash" class="form-control" placeholder="String to Hash"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <button type="submit" id="strtohash" class="btn btn-info btn-sm">to hash</button>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="stringtohash2">Hash</label>
+                                    <input id="stringtohash2" class="form-control" readonly/>
+                                  </div>
+                                </div>
+                              </div>
                             </form>
                         </div>
                     </div>
@@ -33,9 +47,23 @@
                         <div class="panel-heading">Revert Hex String</div>
                         <div class="panel-body">
                             <form id="frmreverse" action="">
-                                <input id="hexstring" placeholder="Hex String to Reverse" style="width: 42%"/>
-                                <button type="submit" id="doreverse" style="margin-left: 1%;" class="btn btn-info btn-sm">Reverse</button>
-                                <input id="reversehexstring" style="background-color:#eeeeee; margin-left: 1%; width: 42%" readonly="readonly"/>
+                              <div class="row">
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="hexstring">Input</label>
+                                    <input id="hexstring" class="form-control" placeholder="Hex String to Reverse"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <button type="submit" id="doreverse" class="btn btn-info btn-sm">Reverse</button>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="reversehexstring">Output</label>
+                                    <input id="reversehexstring" class="form-control" readonly/>
+                                  </div>
+                                </div>
+                              </div>
                             </form>
                         </div>
                     </div>
@@ -43,10 +71,26 @@
                         <div class="panel-heading">Address <-> ScriptHash</div>
                         <div class="panel-body">
                             <form id="addressscripthash" action="">
-                                <input id="address" placeholder="Address" style="width: 100%"/>
-                                <button onClick="address2scripthash()" style="margin-bottom: 10px; margin-top: 10px; margin-left: 35%;" class="btn btn-info btn-sm">to ScriptHash</button>
-                                <button onClick="scripthash2address()" style="margin-bottom: 10px; margin-top: 10px; margin-right: 35%;" class="btn btn-info btn-sm">to Address</button>
-                                <input id="scripthash" placeholder="ScriptHash" style="width: 100%"/>
+                              <div class="row">
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input id="address" class="form-control" placeholder="Address"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="form-group">
+                                    <button onClick="address2scripthash()" class="btn btn-info btn-sm" style="margin-bottom: 10px; width: 100%">to ScriptHash</button>
+                                    <button onClick="scripthash2address()" class="btn btn-info btn-sm" style="width: 100%">to Address</button>
+                                  </div>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="scripthash">ScriptHash</label>
+                                    <input id="scripthash" class="form-control" placeholder="ScriptHash"/>
+                                  </div>
+                                </div>
+                              </div>
                             </form>
                         </div>
                     </div>
@@ -54,11 +98,31 @@
                         <div class="panel-heading">Disassembly opcodes</div>
                         <div class="panel-body">
                             <form id="disassembly" action="">
-                                <textarea id="avmcode" placeholder="AVM code" style="width: 100%"></textarea><br>
-                                <button type="submit" id="btnDisassembly" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Disassembly</button><br>
-                                <input type="text" id="scripthash" placeholder="Script Hash" style="width: 48%"></input>
-                                <input type="text" id="address58" placeholder="Address (Base58)" style="width: 48%; margin-left: 1%"></input><br>
-                                <textarea id="opcodes" rows="5" cols="100" style="background-color:#eeeeee; width: 100%; margin-top: 1%" readonly="readonly"></textarea>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label for="avmcode">AVM hex</label>
+                                    <textarea id="avmcode" class="form-control" placeholder="AVM code"></textarea>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <button type="submit" id="btnDisassembly" class="btn btn-info btn-sm">Disassembly</button>
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="scripthash">ScriptHash</label>
+                                  <input type="text" id="scripthash" class="form-control" placeholder="Script Hash"></input>
+                                </div>
+                                <div class="col-md-6">
+                                  <label for="address58">Address</label>
+                                  <input type="text" id="address58" class="form-control" placeholder="Address (Base58)"></input>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label for="opcodes">OpCodes</label>
+                                    <textarea id="opcodes" class="form-control" rows="5" cols="100" readonly></textarea>
+                                  </div>
+                                </div>
+                              </div>
                             </form>
                         </div>
                     </div>
@@ -66,9 +130,23 @@
                         <div class="panel-heading">Convert Number into Fixed8 Hex</div>
                         <div class="panel-body">
                             <form id="num2fixed8" action="">
-                                <input type="number" id="num2convert" placeholder="number" style="width: 40%"/>
-                                <button type="submit" id="num2fixed8btn" style="margin-left: 1%;" class="btn btn-info btn-sm">Convert</button>
-                                <input id="numconverted" style="background-color:#eeeeee; margin-left: 1%; width: 41%" readonly="readonly"/>
+                              <div class="row">
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="num2convert">Number</label>
+                                    <input type="number" id="num2convert" class="form-control" placeholder="number"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <button type="submit" id="num2fixed8btn"class="btn btn-info btn-sm">Convert</button>
+                                </div>
+                                <div class="col-md-5">
+                                  <div class="form-group">
+                                    <label for="numconverted">Fixed8</label>
+                                    <input id="numconverted" class="form-control"readonly/>
+                                  </div>
+                                </div>
+                              </div>
                             </form>
                         </div>
                     </div>
@@ -78,38 +156,72 @@
                         <div class="panel-heading">Create TX</div>
                         <div class="panel-body">
                             <form id="createtx" action="">
-                                <input id="createtx_from" placeholder="From" style="width: 45%; margin-right: 10px;" required/>
-                                <input id="createtx_from_privatek" placeholder="Private Key" style="width: 47%; margin-top: 10px;" required/>
-                                <input id="createtx_to" placeholder="To" style="width:45%; margin-top: 10px;" required/><br>
-                                <input type="number" id="createtx_NEO" placeholder="NEO" style="width: 45%; margin-top: 10px;" required/>
-                                <input type="number" id="createtx_GAS" placeholder="GAS" style="width: 47%; margin-left: 10px; margin-bottom: 10px;" required/><br>
-                                <button type="submit" id="txcreate" class="btn btn-info btn-sm">Create</button>
-                            </form>
-                        </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_from">From(Address)</label>
+                                    <input id="createtx_from" class="form-control" placeholder="From" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_from_privatek">From (Private Key)</label>
+                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_to">To (Address)</label>
+                                    <input id="createtx_to" class="form-control" placeholder="To" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="createtx_NEO">NEO</label>
+                                    <input type="number" id="createtx_NEO" class="form-control" placeholder="NEO" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="createtx_GAS">GAS</label>
+                                    <input type="number" id="createtx_GAS" class="form-control" placeholder="GAS" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <button type="submit" id="txcreate" class="btn btn-info btn-sm">Create</button>
+                                </div>
+                              </div>
+                           </form>
+                         </div>
                     </div>
                 </div>
-                <ul class="list-inline">
-                    <li>
-                        <button type="button" onClick="showPersistWallet()" id="btnNewWallet" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-success btn-sm">Add Wallet</button><br>
-                    </li>
-                    <li>
-                        <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
-                    </li>
-                </ul>
                 <div class="tab-pane fade" id="wallet">
-
+                    <ul class="list-inline">
+                        <li>
+                            <button type="button" onClick="showPersistWallet()" id="btnNewWallet" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-success btn-sm">Add Wallet</button><br>
+                        </li>
+                        <li>
+                            <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-top: 1%; margin-bottom: 1%;" class="btn btn-info btn-sm">Reload All</button><br>
+                        </li>
+                    </ul>
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             w1: AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y<br>
                                 031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a
                         </div>
                         <div class="panel-body">
-                                <textarea id="w1Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
-                                    target="popup"
-                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
-                                    more details
-                                </a>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <textarea id="w1Data" class="form-control" readonly></textarea>
+                            </div>
+                            <div class="col-md-12">
+                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
+                                target="popup"
+                                onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
+                                more details
+                              </a>
+                            </div>
+                          </div>
                         </div>
                     </div>
                     <div class="panel panel-primary">
@@ -118,12 +230,18 @@
                                 036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb<br>
                         </div>
                         <div class="panel-body">
-                                <textarea id="w2Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
-                                    target="popup"
-                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
-                                    more details
-                                </a>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <textarea id="w2Data" class="form-control" readonly></textarea>
+                            </div>
+                            <div class="col-md-12">
+                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
+                                  target="popup"
+                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
+                                  more details
+                              </a>
+                            </div>
+                          </div>
                         </div>
                     </div>
                     <div class="panel panel-primary">
@@ -132,12 +250,18 @@
                                 0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d<br>
                         </div>
                         <div class="panel-body">
-                                <textarea id="w3Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
-                                    target="popup"
-                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
-                                    more details
-                                </a>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <textarea id="w3Data" class="form-control" readonly></textarea>
+                            </div>
+                            <div class="col-md-12">
+                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
+                                  target="popup"
+                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
+                                  more details
+                              </a>
+                            </div>
+                          </div>
                         </div>
                     </div>
                     <div class="panel panel-primary">
@@ -146,12 +270,18 @@
                                 02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4<br>
                         </div>
                         <div class="panel-body">
-                                <textarea id="w4Data" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>
-                                <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
-                                    target="popup"
-                                    onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
-                                    more details
-                                </a>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <textarea id="w4Data" class="form-control" readonly></textarea>
+                            </div>
+                            <div class="col-md-12">
+                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
+                                  target="popup"
+                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
+                                  more details
+                              </a>
+                            </div>
+                          </div>
                         </div>
                     </div>
                 </div>

@@ -16,13 +16,13 @@ In the first moment, we started with C# and Python.
 Our next steps are moving us towards Java and Solidity (through NeoSol initiative).
 
 ### What does it currently do
-* Compile input C# or Python code using reliable and safe servers (backend) compilers;
+* Compile input C#, Python or Go code using reliable and safe servers (backend) compilers;
 * Return AVM and ABI codes (more precise of C# compiler);
 * Deploy and invoke code to private net (Current in the back);
 * Tests with different wallets, synced and with able to provide historic data our activity.
 
 ### Next steps
-* Integrate with Go
+* Integrate with testnet invokes
 * Integrate with Java
 * Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable).
@@ -42,32 +42,51 @@ For Debian-based systems:
 
 # Build everything
 
-The online commando required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
+The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
 
 This will call a docker-compose with NeoCompiler Private Net+NeoScan.
-Furthermore, it will set all available compilers and open the fron/backend interface and server, respectively.
+Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
 
 `./build_everything.sh`
 
 # Developers guidelines
 
-## Docker-neo csharp and neo-python compilers backend
+## Building compiling backends (C#, Python and Go)
 
-### Building docker-neo csharp backend
+Docker technology is essential for sandboxing all compilers in different environments (for different languages).
+For Ubuntu releases, we recommend package docker.io: `# apt install docker.io`.
+
+### Building docker-neo-mono backend
+The backend for C# is provided by mono, only two steps are necessary to build and tag image `docker-mono-neo-compiler`:
 
 `cd docker-neo-mono`
 
-`docker build .`
+`docker_build.sh`
 
-Get latest docker image id and set environment variable:
+### Building docker-neo-boa backend
+The backend for Python is provided by neo-boa compiler, only two steps are necessary to build and tag image `docker-neo-boa`:
 
-`export DOCKERNEOCOMPILER=$(docker images | awk 'NR==2{print $3}')`
+`cd docker-neo-boa`
 
-### Running node server
+`docker_build.sh`
+
+### Building docker-neo-go backend
+The backend for Go is provided by neo-go team, only two steps are necessary to build and tag image `docker-neo-go`:
+
+`cd docker-neo-go`
+
+`docker_build.sh`
+
+
+## Running node server
+
+After building the compilers (without privatenet) you can run the front/backend node server (at port 8000 by default):
 
 `./run.sh`
 
 ### Building and running node server
+
+This script already builds the compilers and starts the server:
 
 `./buildRun_WebInterface_CSharpCompiler`
 
@@ -80,6 +99,17 @@ In order to use deploy and invoke (also testinvoke, if you want to quicker on yo
 ## Privanet backend with NeoScan lightwallet funtionalities
 
 In order to add NeoScan `light wallet` (more is comming...) functionalities, run docker-compose.
+
+### Installing docker-compose 1.19.0+
+
+We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:
+
+`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o` `/usr/local/bin/docker-compose`
+`chmod +x /usr/local/bin/docker-compose`
+`echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
+`source ~/.bashrc`
+
+### Starting the privatenet container
 
 Start up the container, checking the messages and following warnings
 
@@ -152,7 +182,7 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 LICENSE MIT
 
 
-This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io). 
+This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io).
 The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.
 Questions regarding the webserver may be directed to [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho).
 

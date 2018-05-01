@@ -55,7 +55,6 @@ body {
 }
 
 .footer {
-    padding-top: 2%;
     background-color: #337ab7;
     color: white;
 }
@@ -88,11 +87,15 @@ hr2 {
     border-width: 3px;
     border-color: white;
 }
-  
+
+.sectionHome {
+  height: 300px;
+}
+
 .bg-dark {
     background-color: #337ab7;
 }
-  
+
 .bg-light {
     background-color: white;
 }
@@ -108,18 +111,6 @@ hr2 {
 .text-default {
     color: #337ab7;
 }
-  
-section {
-    padding: 8rem 0;
-}
-
-.section-heading {
-    margin-top: 0;
-}
-
-.service-box {
-    max-width: 400px;
-}
 
 .btn-home {
     font-weight: 700;
@@ -127,11 +118,33 @@ section {
     border: none;
     border-radius: 300px;
 }
-  
+
 .btn-xl {
     padding: 1rem 2rem;
  }
-  
+
+ .btn-home-dark{
+   background-color: #337ab7;
+   color: white;
+ }
+
+ .btn-home-light{
+   background-color: lightgray;
+   color: black;
+ }
+
+.photo1 {
+   background-image: url("../images/code.png");
+
+   height: 450px;
+
+   /* Create the parallax scrolling effect */
+   background-attachment: fixed;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
     .sidenav {

@@ -273,26 +273,47 @@ def Main():
         <div class="panel-heading">Invoke contract in private/testnets</div>
         <div class="panel-body">
             <form id="forminvokejs" method="post">
-                <select name="invokenetworkjs" class="custom-select">
-                  <option>Eco-privatenet</option>
-                  <option>NEO-testnet</option>
-                </select>
-                <div class="form-group">
+              <div class="row">
+                  <div class="col-md-12">
                     <div class="form-group">
-                            Contract:<input id="invokehashjs" name="invokehashjs" placeholder="Script Hash" style="width: 100%"/>
-                            Params:<input id="invokeparamsjs" name="invokeparamsjs" value='""' placeholder="Script Params" style="width: 100%"/>
+                      <select name="invokenetworkjs" class="custom-select form-control">
+                        <option>Eco-privatenet</option>
+                        <option>NEO-testnet</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="invokehashjs">Contract</label>
+                      <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash"/>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="invokeparamsjs">Params</label>
+                      <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='""' placeholder="Script Params"/>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                    <div class="form-group">
+                      <label for="attachneojs">NEO</label>
+                      <input id="attachneojs" name="attachneojs" class="form-control" value="0" placeholder="Send NEO"/>
                     </div>
                     <div class="form-group">
-                            NEO: <input id="attachneojs" name="attachneojs" value="0" placeholder="Send NEO"/>
-                            <select name="wallet_invokejs" class="custom-select">
-                                <option>w1.wallet</option>
-                                <option>w2.wallet</option>
-                                <option>w3.wallet</option>
-                                <option>w4.wallet</option>
-                            </select>
+                      <select name="wallet_invokejs" class="custom-select form-control">
+                          <option>w1.wallet</option>
+                          <option>w2.wallet</option>
+                          <option>w3.wallet</option>
+                          <option>w4.wallet</option>
+                      </select>
                     </div>
-                    <button type="submit" id="invokebtnjs" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
-                </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <button type="submit" id="invokebtnjs"class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                  </div>
+              </div>
             </form>
         </div>
 

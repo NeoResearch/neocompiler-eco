@@ -54,11 +54,6 @@ body {
     font-size: 8em;
 }
 
-.footer {
-    background-color: #337ab7;
-    color: white;
-}
-
 /* nav bar */
 .navbar-default .navbar-brand {
     color:#337ab7
@@ -89,7 +84,7 @@ hr2 {
 }
 
 .sectionHome {
-  height: 300px;
+    padding: 3em 0 4em 0;
 }
 
 .bg-dark {
@@ -125,7 +120,7 @@ hr2 {
 
  .btn-home-dark{
    background-color: #337ab7;
-   color: white;
+   color: white !important;
  }
 
  .btn-home-light{
@@ -163,4 +158,46 @@ hr2 {
         height: 80px;
         text-align: center;
     }
+}
+
+.form-control[readonly] {
+    cursor: default;
+}
+
+.navbar-brand {
+}
+
+.navbar-brand>img {
+    display: inline-block;
+}
+
+.nav-tabs li {
+    cursor: pointer;
+}
+
+footer {
+    padding: 3em 0 0 0;
+    letter-spacing: 1px;
+    font-weight: 300;
+    font-size: 15px;
+    background-color: #3A3F44;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+footer a {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+footer .copyright {
+    margin-top: 1em;
+    padding: 1em 0 1em 0;
+    font-size: 13px;
+    text-align: right;
+    border-top: solid 2px rgba(255, 255, 255, 0.2);
+    background: rgba(0,0,0, 0.1);
+}
+
+footer .copyright span {
+    margin: 0 8px;
 }

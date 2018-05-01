@@ -84,7 +84,7 @@ hr2 {
 }
 
 .sectionHome {
-  height: 300px;
+    padding: 3em 0 4em 0;
 }
 
 .bg-dark {
@@ -120,7 +120,7 @@ hr2 {
 
  .btn-home-dark{
    background-color: #337ab7;
-   color: white;
+   color: white !important;
  }
 
  .btn-home-light{
@@ -165,8 +165,6 @@ hr2 {
 }
 
 .navbar-brand {
-    color: white !important;
-    padding: 10px;
 }
 
 .navbar-brand>img {
@@ -175,10 +173,6 @@ hr2 {
 
 .nav-tabs li {
     cursor: pointer;
-}
-
-.breadcrumb {
-   border-radius: 0 0 10px 10px;
 }
 
 footer {

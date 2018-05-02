@@ -12,4 +12,4 @@ if [ -n "$CONTAINER" ]; then
 fi
 
 echo "Starting container..."
-docker run -d --name $CONTAINER_NAME --rm -p 20333-20336:20333-20336/tcp -p 30333-30336:30333-30336/tcp $CONTAINER_NAME
+docker run -d --name $CONTAINER_NAME --rm -p 30337:30337/tcp -p 38088:38088/tcp -h $CONTAINER_NAME $CONTAINER_NAME

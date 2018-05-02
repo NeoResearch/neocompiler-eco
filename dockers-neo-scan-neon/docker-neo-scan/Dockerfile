@@ -17,7 +17,7 @@ ENV NEO_SEED_1="http://neo-csharp-nodes:30333"
 ENV NEO_SEED_2="http://neo-csharp-nodes:30334"
 ENV NEO_SEED_3="http://neo-csharp-nodes:30335"
 ENV NEO_SEED_4="http://neo-csharp-nodes:30336"
-ENV NEO_PYTHON_SEED_1="http://neo-csharp-nodes:38088/v1"
+ENV NEO_PYTHON_SEED_1="http://neo-python:38088/v1"
 
 EXPOSE 4000
 

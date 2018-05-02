@@ -225,9 +225,18 @@ def Main():
     </div>
 
     <div class="panel panel-warning">
-        <div class="panel-heading">Invoke contract in private net (Eco backend only)</div>
+        <div class="panel-heading">Invoke contract in private/testnet</div>
         <div class="panel-body">
-            <form id="forminvoke" action="/invokex" method="post">
+
+          <div class="tab-container">
+              <ul class="nav nav-tabs">
+                  <li class="active"><a data-target="#tabinvokepy" data-toggle="tab">Invoke via Eco + neo-python</a></li>
+                  <li><a data-target="#tabinvokejs" data-toggle="tab">Invoke via neon-js</a></li>
+              </ul>
+
+            <div class="tab-content">
+             <div class="tab-pane active cont" id="tabinvokepy">
+              <form id="forminvoke" action="/invokex" method="post">
                 <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -268,10 +277,10 @@ def Main():
                       <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="panel-heading">Invoke contract in private/testnets</div>
-        <div class="panel-body">
+              </form>
+           </div> <!-- tab-pane tabinvokepy -->
+
+           <div class="tab-pane cont" id="tabinvokejs">
             <form id="forminvokejs" method="post">
               <div class="row">
                   <div class="col-md-12">
@@ -315,9 +324,10 @@ def Main():
                   </div>
               </div>
             </form>
-        </div>
-
-    </div>
+          </div> <!-- tab-pane -->
+        </div> <!-- tab-content -->
+      </div> <!-- tab-container -->
+    </div> <!-- panel -->
 
     <!-- div class="panel panel-info">
         <div class="panel-heading">Search contract in private net</div>

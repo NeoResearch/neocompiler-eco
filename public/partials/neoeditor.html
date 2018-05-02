@@ -287,7 +287,7 @@ def Main():
                     <div class="form-group">
                       <select name="invokenetworkjs" class="custom-select form-control">
                         <option>Eco-privatenet</option>
-                        <option>NEO-testnet</option>
+                        <!-- <option>NEO-testnet</option> -->
                       </select>
                     </div>
                   </div>
@@ -300,7 +300,7 @@ def Main():
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="invokeparamsjs">Params</label>
-                      <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='""' placeholder="Script Params"/>
+                      <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
                     </div>
                   </div>
 
@@ -430,6 +430,7 @@ def Main():
                 $("#contracthash")[0].value = getScriptHashFromAVM(hexcodeavm);
                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
+                $("#invokehashjs")[0].value = $("#contracthash")[0].value;
 
                 var codeabi = atob(data.abi);
                 console.log(codeabi);
@@ -617,6 +618,21 @@ def Main():
             },
             "json" // The format the response should be in
         ); */
+    });//End of invoke function
+    //===============================================================
+
+    $("#forminvokejs").submit(function (e) {
+      //$("#deploybtn")[0].disabled = true;
+      //$("#invokebtn")[0].disabled = true;
+        $("#contractmessages").text("");
+        $("#contractmessagesnotify").text("");
+        e.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+
+        //test invoke
+        console.log("invoking contract '"+$("#invokehashjs").val()+"' with params '"+$("#invokeparamsjs").val()+"'");
+        Invoke('', $("#invokehashjs").val(), $("#invokeparamsjs").val());
     });//End of invoke function
     //===============================================================
 

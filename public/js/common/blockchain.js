@@ -103,7 +103,10 @@ function Invoke(publicKey, contract_scripthash, contract_operation){
   }
 
   Neon.default.doInvoke(config).then(res => {
+    console.log("all output:");
     console.log(res);
+    console.log("response:");
+    console.log(res.response);
   });
 }
 

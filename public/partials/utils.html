@@ -97,7 +97,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Disassembly opcodes</div>
                         <div class="panel-body">
-                            <form id="disassembly" action="">
+                            <form id="frm_disassembly" action="">
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="form-group">
@@ -109,12 +109,12 @@
                                   <button type="submit" id="btnDisassembly" class="btn btn-info btn-sm">Disassembly</button>
                                 </div>
                                 <div class="col-md-6">
-                                  <label for="scripthash">ScriptHash</label>
-                                  <input type="text" id="scripthash" class="form-control" placeholder="Script Hash"></input>
+                                  <label for="sc_scripthash">ScriptHash</label>
+                                  <input type="text" id="sc_scripthash" class="form-control" placeholder="Script Hash"></input>
                                 </div>
                                 <div class="col-md-6">
-                                  <label for="address58">Address</label>
-                                  <input type="text" id="address58" class="form-control" placeholder="Address (Base58)"></input>
+                                  <label for="sc_address58">Address</label>
+                                  <input type="text" id="sc_address58" class="form-control" placeholder="Address (Base58)"></input>
                                 </div>
                                 <div class="col-md-12">
                                   <div class="form-group">
@@ -420,13 +420,13 @@
             });
         }
 
-        $("#disassembly").submit(function (e) {
+        $("#frm_disassembly").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             var hexavm = $("#avmcode")[0].value;
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
             var shash = getScriptHashFromAVM(hexavm);
-            $("#scripthash")[0].value = shash;
-            $("#address58")[0].value = toBase58(shash);
+            $("#sc_scripthash")[0].value = shash;
+            $("#sc_address58")[0].value = toBase58(shash);
             $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
             printOpcode(hexavm, $("#opcodes"));
         });

@@ -1,0 +1,18 @@
+﻿{
+  "ApplicationConfiguration": {
+    "Paths": {
+      "Chain": "Chain",
+      "Notifications": "Notifications"
+    },
+    "P2P": {
+      "Port": 20333,
+      "WsPort": 10333
+    },
+    "RPC": {
+      "Port": 30333,
+      "SslCert": "",
+      "SslCertPassword": ""
+    }
+  }
+}
+

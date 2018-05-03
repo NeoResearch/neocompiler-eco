@@ -284,27 +284,36 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_from_contract">From: Wallet/Verification contract (in hex)</label>
+                                <label for="createtx_from_contract">From: Verification contract (Wallet Script) in hex</label>
                                 <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
                                 <label for="createtx_from_scripthash">Scripthash (readonly)</label>
                                 <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
                                 <label for="createtx_from_address">Address (readonly)</label>
                                 <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
-                                <label for="createtx_from_verification">Verification/Withdraw script (in hex)</label>
+                                <label for="createtx_from_verification">Verification (Withdraw Script) in hex</label>
                                 <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
-                                <label for="createtx_from_verification_opcodes">Verification/Withdraw script (opcodes)</label>
+                                <label for="createtx_from_verification_opcodes">Verification/Withdraw script opcodes (readonly)</label>
                                 <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
-                                <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
-                                <label for="createtx_input_utxo">Input UTXO Asset. Click to get value</label>
+                                <label for="createtx_selRPCNetwork">Network</label>
+                                <select id="createtx_selRPCNetwork">
+                                  <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                                  <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                                  <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
+                                  <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
+                                </select><br/>
+                                <label for="createtx_input_utxo">Input UTXO Asset</label>
                                 <select id="createtx_input_assetid" required>
+                                  <option value="">Select to get value</option>
                                   <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
                                   <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
                                 </select><br/>
+                                <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
+                                <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
+                                <br/>
                                 <label for="createtx_input_utxo_value">Input UTXO Value</label>
                                 <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
                               </div>

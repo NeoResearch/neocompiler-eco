@@ -234,7 +234,7 @@
                   </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Create TX</div>
+                        <div class="panel-heading">Create TX: Transfer UTXO Assets</div>
                         <div class="panel-body">
                             <form id="createtx" action="">
                               <div class="row">
@@ -276,6 +276,60 @@
                          </div>
                     </div>
                 </div>
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
+                    <div class="panel-body">
+                        <form id="createtx_contract" action="">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="createtx_from_contract">From: contract hex opcodes</label>
+                                <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
+                                <label for="createtx_from_scripthash">Scripthash (readonly)</label>
+                                <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
+                                <label for="createtx_from_address">Address (readonly)</label>
+                                <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="createtx_from_verification">verification script (in hex)</label>
+                                <textarea id="createtx_from_verification" class="form-control" placeholder="Verification Hex Script" required/>
+                                <label for="createtx_from_verification">verification script (in hex)</label>
+                                <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification Hex Script Opcodes" readonly/>
+
+                                <label for="createtx_from_privatek">From (Private Key)</label>
+                                <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="createtx_to">To (Address)</label>
+                                <input id="createtx_to" class="form-control" placeholder="To" required/>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="createtx_NEO">NEO</label>
+                                <input type="number" id="createtx_NEO" class="form-control" placeholder="NEO" required/>
+                              </div>
+                            </div>
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="createtx_GAS">GAS</label>
+                                <input type="number" id="createtx_GAS" class="form-control" placeholder="GAS" required/>
+                              </div>
+                            </div>
+                            <div class="col-md-12">
+                              <button type="submit" id="txcreatess" class="btn btn-info btn-sm">Create (TODO)</button>
+                            </div>
+                          </div>
+                       </form>
+                     </div>
+                   </div>
+                </div>
+
                 <div class="tab-pane fade" id="wallet">
                     <div class="row">
                         <div class="col-md-3">
@@ -513,7 +567,7 @@
             var shash = getScriptHashFromAVM(hexavm);
             $("#sc_scripthash")[0].value = shash;
             $("#sc_address58")[0].value = toBase58(shash);
-            $("#opcodes").text("" + (hexavm.length/2) + "bytes\n");
+            $("#opcodes").text("" + (hexavm.length/2) + " bytes\n");
             printOpcode(hexavm, $("#opcodes"));
         });
 
@@ -564,6 +618,22 @@
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
+        });
+
+        $("#createtx_from_contract").on('keyup', function () {
+            var hexavm = $("#createtx_from_contract").val();
+            hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+            var shash = getScriptHashFromAVM(hexavm);
+            $("#createtx_from_scripthash")[0].value = shash;
+            $("#createtx_from_address")[0].value = toBase58(shash);
+        });
+
+        $("#createtx_from_verification").on('keyup', function () {
+            var hexavm = $("#createtx_from_verification").val();
+            hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+            $("#createtx_from_verification_opcodes").val("");
+            $("#createtx_from_verification_opcodes").text("" + (hexavm.length/2) + " bytes\n");
+            printOpcode(hexavm, $("#createtx_from_verification_opcodes"));
         });
 
         $('#submitPersistWallet').click(function (e) {

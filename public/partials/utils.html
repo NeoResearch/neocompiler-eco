@@ -284,41 +284,43 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_from_contract">From: contract hex opcodes</label>
+                                <label for="createtx_from_contract">From: Wallet/Verification contract (in hex)</label>
                                 <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
                                 <label for="createtx_from_scripthash">Scripthash (readonly)</label>
                                 <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
                                 <label for="createtx_from_address">Address (readonly)</label>
                                 <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                <label for="createtx_from_verification">Verification/Withdraw script (in hex)</label>
+                                <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
+                                <label for="createtx_from_verification_opcodes">Verification/Withdraw script (opcodes)</label>
+                                <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_from_verification">verification script (in hex)</label>
-                                <textarea id="createtx_from_verification" class="form-control" placeholder="Verification Hex Script" required/>
-                                <label for="createtx_from_verification">verification script (in hex)</label>
-                                <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification Hex Script Opcodes" readonly/>
-
-                                <label for="createtx_from_privatek">From (Private Key)</label>
-                                <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                                <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
+                                <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
+                                <label for="createtx_input_utxo">Input UTXO Asset. Click to get value</label>
+                                <select id="createtx_input_assetid" required>
+                                  <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
+                                  <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
+                                </select><br/>
+                                <label for="createtx_input_utxo_value">Input UTXO Value</label>
+                                <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_to">To (Address)</label>
-                                <input id="createtx_to" class="form-control" placeholder="To" required/>
+                                <label for="createtx_output_addresses">Output/To Addresses (One per line)</label>
+                                <textarea id="createtx_output_addresses" class="form-control" placeholder="Address1 \n Address2 \n OriginalAddress (For Change)" required/>
+                                <label for="createtx_output_addresses">Output/To Values (One per line. Don't forget the change back!)</label>
+                                <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
                               </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_NEO">NEO</label>
-                                <input type="number" id="createtx_NEO" class="form-control" placeholder="NEO" required/>
-                              </div>
-                            </div>
-                            <div class="col-md-3">
-                              <div class="form-group">
-                                <label for="createtx_GAS">GAS</label>
-                                <input type="number" id="createtx_GAS" class="form-control" placeholder="GAS" required/>
+                                <label for="createtx_signature">Signature (Optional)</label>
+                                <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
                               </div>
                             </div>
                             <div class="col-md-12">

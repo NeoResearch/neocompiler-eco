@@ -300,14 +300,12 @@
                               <div class="form-group">
                                 <label for="createtx_selRPCNetwork">Network</label>
                                 <select id="createtx_selRPCNetwork">
-                                  <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
-                                  <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
-                                  <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
-                                  <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
+                                  <option title="PrivateNet" value="PrivateNet">PrivateNet</option>
+                                  <option title="TestNet" value="TestNet">NEO TestNet</option>
+                                  <option title="MainNet" value="MainNet">NEO MainNet</option>
                                 </select><br/>
-                                <label for="createtx_input_utxo">Input UTXO Asset</label>
+                                <label for="createtx_input_utxo">Input UTXO Asset (select to update value)</label>
                                 <select id="createtx_input_assetid" required>
-                                  <option value="">Select to get value</option>
                                   <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
                                   <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
                                 </select><br/>
@@ -609,6 +607,22 @@
         $("#selRPCNetwork").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
         });
+
+        var createtx_balance = null;
+
+        $("#createtx_selRPCNetwork").on('change', function() {
+            mynetwork = $("#createtx_selRPCNetwork")[0].value;
+            myaddress = $("#createtx_from_address")[0].value;
+            if(myaddress != "") {
+               createtx_balance = Neon.api.neonDB.getBalance(mynetwork,myaddress);
+               console.log('getBalance: '+mynetwork+' for: '+myaddress);
+            }
+
+
+            //$("#createtx_input_utxo")[0].value = this.value;
+        });
+
+
 
         $("#frmRPCJson2").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing

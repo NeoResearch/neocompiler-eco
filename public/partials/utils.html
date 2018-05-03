@@ -284,7 +284,7 @@
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_from_contract">From: Verification contract (Wallet Script) in hex</label>
+                                <label for="createtx_from_contract">From: Wallet Script (Verification contract) in hex</label>
                                 <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
                                 <label for="createtx_from_scripthash">Scripthash (readonly)</label>
                                 <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
@@ -318,14 +318,15 @@
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="createtx_output_addresses">Output/To Addresses (One per line)</label>
-                                <textarea id="createtx_output_addresses" class="form-control" placeholder="Address1 \n Address2 \n OriginalAddress (For Change)" required/>
+                                <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
+                                <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)" required/>
                                 <label for="createtx_output_addresses">Output/To Values (One per line. Don't forget the change back!)</label>
                                 <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
                               </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
+                                <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
                                 <label for="createtx_signature">Signature (Optional)</label>
                                 <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
                               </div>
@@ -631,6 +632,11 @@
                $("#createtx_input_utxo")[0].value = createtx_balance.assets.NEO.unspent[0].txid;
                $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.NEO.unspent[0].value;
             }
+
+            $("#createtx_output_addresses").val("");
+            $("#createtx_output_values").val("");
+            $("#createtx_output_addresses").val($("#createtx_from_scripthash")[0].value+"\n");
+            $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
         });
 
         $("#frmRPCJson2").submit(function (e) {
@@ -661,6 +667,23 @@
             $("#createtx_from_scripthash")[0].value = shash;
             $("#createtx_from_address")[0].value = toBase58(shash);
         });
+
+        $("#createtx_output_values").on('keyup', function () {
+            console.log("going");
+            outtxvalues = $("#createtx_output_values").val();
+            outtxlist = outtxvalues.split("\n");
+            outtotal = 0;
+
+            for(var i = 0, size = outtxlist.length; i < size ; i++){
+               var item = outtxlist[i];
+               if(item != "")
+                  outtotal += Number(item);
+            }
+            //console.log("outtotal: "+outtotal);
+            outexpected = Number($("#createtx_input_utxo_value")[0].value);
+            $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?"(expected "+ outexpected + ")":""));
+        });
+
 
         $("#createtx_from_verification").on('keyup', function () {
             var hexavm = $("#createtx_from_verification").val();

@@ -199,8 +199,8 @@
                               </div>
                               <div class="col-md-5">
                                 <div class="form-group">
-                                  <label for="txtRPCJson">RPC Json Model (readonly)</label>
-                                  <textarea id="txtRPCJson" class="form-control" readonly/>
+                                  <label for="txtRPCJson">RPC Json Model</label>
+                                  <textarea id="txtRPCJson" class="form-control"/>
                                 </div>
                               </div>
                             </div>
@@ -210,8 +210,13 @@
                               <div class="col-md-5">
                                 <div class="form-group">
                                   <label for="neonodeurl">Neo node URL (ex: http://localhost:30335)</label>
-                                  <input type="text" id="neonodeurl" class="form-control" placeholder="http://localhost:30335 or https://node1.neocompiler.io" value="https://node1.neocompiler.io"/>
-                                  <textarea id="txtRPCJson2" class="form-control"/>
+                                  <select id="selRPCNetwork">
+                                    <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                                    <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                                    <option title="http://test1.cityofzion.io:8880" value="http://test1.cityofzion.io:8880">NEO TestNet</option>
+                                    <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO MainNet</option>
+                                  </select>
+                                  <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io"/>
                                 </div>
                               </div>
                               <div class="col-md-2">
@@ -534,20 +539,26 @@
         $("#frmRPCJson").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
-            $("#txtRPCJson2").val($("#txtRPCJson").val());
+        });
+
+        $("#selRPCNetwork").on('change', function() {
+            $("#neonodeurl")[0].value = this.value;
         });
 
         $("#frmRPCJson2").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
+            $("#txtRPCJsonOut").val("");
             //curl -s -X POST http://localhost:30335 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "dumpprivkey", "params": ["AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17"] }'
             $.post(
                 $("#neonodeurl")[0].value, // Gets the URL to sent the post to
-                $("#txtRPCJson2").val(), // Serializes form data in standard format
+                $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
                   $("#txtRPCJsonOut").val(JSON.stringify(data));
                 },
                 "json" // The format the response should be in
-            ); //End of POST for search
+            ).fail(function() {
+                $("#txtRPCJsonOut").val("failed to invoke network!");
+            }); //End of POST for search
         });
 
         $("#createtx").submit(function (e) {

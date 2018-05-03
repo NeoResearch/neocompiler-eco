@@ -161,7 +161,7 @@
                                 <div class="form-group">
                                   <label for="rpcMethod">Method (view <a href="http://docs.neo.org/en-us/node/api.html" target="_blank">Official API</a> or put cursor on top for tooltip)</label>
                                   <select name="rpcMethod" id="rpcMethod" class="custom-select form-control">
-                                    <option></option>
+                                    <option title=":Gets the number of blocks in the main chain">getblockcount</option>
                                     <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
                                     <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
                                     <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging)">getapplicationlog</option>
@@ -170,7 +170,6 @@
                                     <option title=": Gets the hash of the tallest block in the main chain">getbestblockhash</option>
                                     <option title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value">getblock</option>
                                     <option title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index">getblock</option>
-                                    <option title=":Gets the number of blocks in the main chain">getblockcount</option>
                                     <option title="<index>: 	Returns the hash value of the corresponding block based on the specified index">getblockhash</option>
                                     <option title="<index>: 	Returns the system fees before the block according to the specified index">getblocksysfee</option>
                                     <option title=": Gets the current number of connections for the node">getconnectioncount</option>
@@ -191,6 +190,7 @@
                                     <option title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">sendmany</option>
                                     <option title="<hex>: 	Submit new blocks (Needs to be a consensus node)">submitblock</option>
                                     <option title="<address>:	Verify that the address is a correct NEO address 	">validateaddress</option>
+                                    <option title=": create your invoke function manually!"></option>
                                   </select>
                                 </div>
                               </div>
@@ -209,8 +209,8 @@
                             <div class="row">
                               <div class="col-md-5">
                                 <div class="form-group">
-                                  <label for="neonodeurl">Neo node URL</label>
-                                  <input type="text" id="neonodeurl" class="form-control" placeholder="http://localhost:30335 or https://node1.neocompiler.io"/>
+                                  <label for="neonodeurl">Neo node URL (ex: http://localhost:30335)</label>
+                                  <input type="text" id="neonodeurl" class="form-control" placeholder="http://localhost:30335 or https://node1.neocompiler.io" value="https://node1.neocompiler.io"/>
                                   <textarea id="txtRPCJson2" class="form-control"/>
                                 </div>
                               </div>

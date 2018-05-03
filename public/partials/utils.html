@@ -614,15 +614,24 @@
             mynetwork = $("#createtx_selRPCNetwork")[0].value;
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
-               createtx_balance = Neon.api.neonDB.getBalance(mynetwork,myaddress);
+               //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));
+               Neon.api.neoscan.getBalance(mynetwork,myaddress).then(res => createtx_balance = res);
                console.log('getBalance: '+mynetwork+' for: '+myaddress);
             }
-
-
-            //$("#createtx_input_utxo")[0].value = this.value;
         });
 
-
+        $("#createtx_input_assetid").on('change', function() {
+            asset = this.options[this.selectedIndex].text;
+            //alert("asset:"+this.value+asset);
+            if(asset == "GAS") {
+               $("#createtx_input_utxo")[0].value = createtx_balance.assets.GAS.unspent[0].txid;
+               $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.GAS.unspent[0].value;
+            }
+            if(asset == "NEO") {
+               $("#createtx_input_utxo")[0].value = createtx_balance.assets.NEO.unspent[0].txid;
+               $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.NEO.unspent[0].value;
+            }
+        });
 
         $("#frmRPCJson2").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing

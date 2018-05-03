@@ -152,6 +152,54 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="transaction">
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
+                      <div class="panel-body">
+                          <form id="frmRPCJson" action="">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="rpcMethod">Method</label>
+                                  <select name="rpcMethod" id="rpcMethod" class="custom-select form-control">
+                                    <option></option>
+                                    <option>dumpprivkey</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                <button type="submit" id="btnGenerateJsonRPC"class="btn btn-info btn-sm">Generate JSON</button>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="txtRPCJson">RPC Json Model (readonly)</label>
+                                  <textarea id="txtRPCJson" class="form-control" readonly/>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                          <form id="frmRPCJson2" action="">
+                            <div class="row">
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="neonodeurl">Neo node URL</label>
+                                  <input type="text" id="neonodeurl" class="form-control" placeholder="http://localhost:30335 or https://node1.neocompiler.io"/>
+                                  <textarea id="txtRPCJson2" class="form-control"/>
+                                </div>
+                              </div>
+                              <div class="col-md-2">
+                                <button type="submit" id="btnCallJsonRPC"class="btn btn-info btn-sm">RPC Call JSON</button>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="txtRPCJsonOut">Output RPC</label>
+                                  <textarea id="txtRPCJsonOut" class="form-control" readonly/>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                      </div>
+                  </div>
+
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX</div>
                         <div class="panel-body">
@@ -453,6 +501,25 @@
             e.preventDefault(); // Prevents the page from refreshing
             const a = new Neon.u.Fixed8(parseInt($("#num2convert").val()));
             $("#numconverted").val(a.toHex());
+        });
+
+        $("#frmRPCJson").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
+            $("#txtRPCJson2").val($("#txtRPCJson").val());
+        });
+
+        $("#frmRPCJson2").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            //curl -s -X POST http://localhost:30335 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "dumpprivkey", "params": ["AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17"] }'
+            $.post(
+                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                $("#txtRPCJson2").val(), // Serializes form data in standard format
+                function (data) {
+                  $("#txtRPCJsonOut").val(JSON.stringify(data));
+                },
+                "json" // The format the response should be in
+            ); //End of POST for search
         });
 
         $("#createtx").submit(function (e) {

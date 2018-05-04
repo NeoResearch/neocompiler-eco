@@ -22,18 +22,15 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">String to Hex</div>
                         <div class="panel-body">
-                            <form id="str2hash" action="">
+                            <form id="str2hash">
                               <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="stringtohash">String</label>
-                                    <input id="stringtohash" class="form-control" placeholder="String to Hash"/>
+                                    <input id="stringtohash" class="form-control" placeholder="String to Hash" oninput="str2hash()"/>
                                   </div>
                                 </div>
-                                <div class="col-md-2">
-                                  <button type="submit" id="strtohash" class="btn btn-info btn-sm">to hash</button>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="stringtohash2">Hash</label>
                                     <input id="stringtohash2" class="form-control" readonly/>
@@ -46,18 +43,15 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Revert Hex String</div>
                         <div class="panel-body">
-                            <form id="frmreverse" action="">
+                            <form id="frmreverse">
                               <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="hexstring">Input</label>
-                                    <input id="hexstring" class="form-control" placeholder="Hex String to Reverse"/>
+                                    <input id="hexstring" class="form-control" placeholder="Hex String to Reverse" oninput="frmreverse()"/>
                                   </div>
                                 </div>
-                                <div class="col-md-2">
-                                  <button type="submit" id="doreverse" class="btn btn-info btn-sm">Reverse</button>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="reversehexstring">Output</label>
                                     <input id="reversehexstring" class="form-control" readonly/>
@@ -70,24 +64,18 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Address <-> ScriptHash</div>
                         <div class="panel-body">
-                            <form id="addressscripthash" action="">
+                            <form id="addressscripthash">
                               <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="address">Address</label>
-                                    <input id="address" class="form-control" placeholder="Address"/>
+                                    <input id="address" class="form-control" placeholder="Address" oninput="address2scripthash()"/>
                                   </div>
                                 </div>
-                                <div class="col-md-2">
-                                  <div class="form-group">
-                                    <button onClick="address2scripthash()" class="btn btn-info btn-sm" style="margin-bottom: 10px; width: 100%">to ScriptHash</button>
-                                    <button onClick="scripthash2address()" class="btn btn-info btn-sm" style="width: 100%">to Address</button>
-                                  </div>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="scripthash">ScriptHash</label>
-                                    <input id="scripthash" class="form-control" placeholder="ScriptHash"/>
+                                    <input id="scripthash" class="form-control" placeholder="ScriptHash" oninput="scripthash2address()"/>
                                   </div>
                                 </div>
                               </div>
@@ -97,24 +85,21 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">Disassembly opcodes</div>
                         <div class="panel-body">
-                            <form id="frm_disassembly" action="">
+                            <form id="frm_disassembly">
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="form-group">
                                     <label for="avmcode">AVM hex</label>
-                                    <textarea id="avmcode" class="form-control" placeholder="AVM code"></textarea>
+                                    <textarea id="avmcode" class="form-control" placeholder="AVM code" oninput="Disassembly()"></textarea>
                                   </div>
-                                </div>
-                                <div class="col-md-12">
-                                  <button type="submit" id="btnDisassembly" class="btn btn-info btn-sm">Disassembly</button>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="sc_scripthash">ScriptHash</label>
-                                  <input type="text" id="sc_scripthash" class="form-control" placeholder="Script Hash"></input>
+                                  <input type="text" id="sc_scripthash" class="form-control" placeholder="Script Hash" readonly></input>
                                 </div>
                                 <div class="col-md-6">
                                   <label for="sc_address58">Address</label>
-                                  <input type="text" id="sc_address58" class="form-control" placeholder="Address (Base58)"></input>
+                                  <input type="text" id="sc_address58" class="form-control" placeholder="Address (Base58)" readonly></input>
                                 </div>
                                 <div class="col-md-12">
                                   <div class="form-group">
@@ -131,16 +116,13 @@
                         <div class="panel-body">
                             <form id="num2fixed8" action="">
                               <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="num2convert">Number</label>
-                                    <input type="number" id="num2convert" class="form-control" placeholder="number"/>
+                                    <input type="number" id="num2convert" class="form-control" placeholder="number" oninput="num2fixed8()"/>
                                   </div>
                                 </div>
-                                <div class="col-md-2">
-                                  <button type="submit" id="num2fixed8btn"class="btn btn-info btn-sm">Convert</button>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="numconverted">Fixed8</label>
                                     <input id="numconverted" class="form-control"readonly/>
@@ -157,10 +139,10 @@
                       <div class="panel-body">
                           <form id="frmRPCJson" action="">
                             <div class="row">
-                              <div class="col-md-5">
+                              <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="rpcMethod">Method (view <a href="http://docs.neo.org/en-us/node/api.html" target="_blank">Official API</a> or put cursor on top for tooltip)</label>
-                                  <select name="rpcMethod" id="rpcMethod" class="custom-select form-control">
+                                  <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
                                     <option title=":Gets the number of blocks in the main chain">getblockcount</option>
                                     <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
                                     <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
@@ -194,10 +176,7 @@
                                   </select>
                                 </div>
                               </div>
-                              <div class="col-md-2">
-                                <button type="submit" id="btnGenerateJsonRPC"class="btn btn-info btn-sm">Generate JSON</button>
-                              </div>
-                              <div class="col-md-5">
+                              <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="txtRPCJson">RPC Json Model</label>
                                   <textarea id="txtRPCJson" class="form-control"/>
@@ -207,7 +186,7 @@
                           </form>
                           <form id="frmRPCJson2" action="">
                             <div class="row">
-                              <div class="col-md-5">
+                              <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="neonodeurl">Neo node URL (ex: http://localhost:30335)</label>
                                   <select id="selRPCNetwork">
@@ -216,17 +195,17 @@
                                     <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
                                     <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
                                   </select>
-                                  <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io"/>
+                                  <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io" readonly/>
                                 </div>
                               </div>
-                              <div class="col-md-2">
-                                <button type="submit" id="btnCallJsonRPC"class="btn btn-info btn-sm">RPC Call JSON</button>
-                              </div>
-                              <div class="col-md-5">
+                              <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="txtRPCJsonOut">Output RPC</label>
                                   <textarea id="txtRPCJsonOut" class="form-control" readonly/>
                                 </div>
+                              </div>
+                              <div class="col-md-12">
+                                <button type="submit" id="btnCallJsonRPC"class="btn btn-info btn-sm">RPC Call JSON</button>
                               </div>
                             </div>
                           </form>
@@ -567,8 +546,7 @@
             });
         }
 
-        $("#frm_disassembly").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        function Disassembly() {
             var hexavm = $("#avmcode")[0].value;
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
             var shash = getScriptHashFromAVM(hexavm);
@@ -576,31 +554,27 @@
             $("#sc_address58")[0].value = toBase58(shash);
             $("#opcodes").text("" + (hexavm.length/2) + " bytes\n");
             printOpcode(hexavm, $("#opcodes"));
-        });
+        };
 
-        $("#str2hash").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        function str2hash() {
             var i = 0;
             $("#stringtohash2").val("");
             for (i = 0; i < $("#stringtohash").val().length; i++) {
                 $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
             }
-        });
-        $("#frmreverse").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        };
+        function frmreverse() {
             $("#reversehexstring").val( revertHexString($("#hexstring").val()) );
-        });
+        };
 
-        $("#num2fixed8").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        function num2fixed8() {
             const a = new Neon.u.Fixed8(parseInt($("#num2convert").val()));
             $("#numconverted").val(a.toHex());
-        });
+        };
 
-        $("#frmRPCJson").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        function frmRPCJson() {
             $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
-        });
+        };
 
         $("#selRPCNetwork").on('change', function() {
             $("#neonodeurl")[0].value = this.value;

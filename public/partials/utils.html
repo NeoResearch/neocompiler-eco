@@ -277,7 +277,8 @@
                                   <div class="form-group">
                                     <label for="createtx_selRPCNetwork">Network</label>
                                     <select id="createtx_selRPCNetwork">
-                                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">PrivateNet</option>
+                                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                                      <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
                                       <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">TestNet</option>
                                       <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">MainNet</option>
                                     </select><br/>
@@ -585,6 +586,9 @@
         $("#createtx_selRPCNetwork").on('change', function() {
             selBox = $("#createtx_selRPCNetwork")[0];
             mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
+            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
+               mynetwork = "PrivateNet";
+
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
                //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));

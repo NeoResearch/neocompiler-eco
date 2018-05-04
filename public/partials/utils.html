@@ -280,7 +280,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
                     <div class="panel-body">
-                        <form id="createtx_contract" action="">
+                        <form id="frm_createtx_withdraw" action="">
                           <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
@@ -332,7 +332,7 @@
                               </div>
                             </div>
                             <div class="col-md-12">
-                              <button type="submit" id="txcreatess" class="btn btn-info btn-sm">Create (TODO)</button>
+                              <button type="submit" id="txcreate_withdraw" class="btn btn-info btn-sm">Create Withdraw Transaction</button>
                             </div>
                           </div>
                        </form>
@@ -655,6 +655,73 @@
             }); //End of POST for search
         });
 
+        $("#frm_createtx_withdraw").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            wtx = "80";
+            wtx += "000001"; // ?
+            wtx += revertHexString($("#createtx_input_utxo")[0].value);
+            wtx += "01"; // ?
+            wtx += "000"; // ?
+            outtxvalues = $("#createtx_output_values").val();
+            outtxlist = outtxvalues.split("\n");
+            outtxlist = outtxlist.filter(function(n){ return n != "" });
+            outtxaddr = $("#createtx_output_addresses").val();
+            outtxlist2 = outtxaddr.split("\n");
+            outtxlist2 = outtxlist2.filter(function(n){ return n != "" });
+            outtotal = 0;
+            for(var i = 0, size = outtxlist.length; i < size ; i++){
+               var item = outtxlist[i];
+               outtotal += Number(item);
+            }
+            outexpected = Number($("#createtx_input_utxo_value")[0].value);
+            console.log(wtx);
+            console.log(outtxlist);
+            console.log(outtxlist2);
+            console.log(outtotal);
+            console.log(outexpected);
+            if((outtxlist.length <= 0) || (outtxlist.length != outtxlist2.length) || (outtotal != outexpected))
+            {
+               alert("error building withdraw transaction. verify inputs and outputs.");
+               return;
+            }
+            wtx += ""+outtxlist.length;
+            console.log("will add outputs");
+            for(var i = 0, size = outtxlist.length; i < size ; i++){
+               wtx += revertHexString($("#createtx_input_assetid")[0].value);
+               const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
+               wtx += revertHexString(txvalue.toHex());
+               wtx += revertHexString(outtxlist2[i]);
+            }
+            console.log(wtx);
+            console.log("will finish verification");
+            wtx += "01"; //?
+            var hexavmverif = $("#createtx_from_verification").val();
+            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
+            hexavmverifsize = hexavmverif.length/2;
+            wtx += hexavmverifsize.toString(16);
+            wtx += hexavmverif;
+            var hexavm = $("#createtx_from_contract").val();
+            hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+            hexavmsize = hexavm.length/2;
+            wtx += hexavmsize.toString(16);
+            wtx += hexavm;
+            console.log(wtx);
+            console.log("");
+
+            console.log("SENDING TO"+$("#neonodeurl")[0].value);
+            $.post(
+                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                wtx, // Serializes form data in standard format
+                function (data) {
+                  alert("ok!");
+                  console.log(data);
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+                alert("failed to pass transaction to network!");
+            }); //End of POST for search
+        });
+
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
@@ -672,12 +739,12 @@
             console.log("going");
             outtxvalues = $("#createtx_output_values").val();
             outtxlist = outtxvalues.split("\n");
+            outtxlist = outtxlist.filter(function(n){ return n != "" });
             outtotal = 0;
 
             for(var i = 0, size = outtxlist.length; i < size ; i++){
                var item = outtxlist[i];
-               if(item != "")
-                  outtotal += Number(item);
+               outtotal += Number(item);
             }
             //console.log("outtotal: "+outtotal);
             outexpected = Number($("#createtx_input_utxo_value")[0].value);

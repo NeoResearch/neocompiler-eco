@@ -613,6 +613,7 @@
             $("#createtx_output_values").val("");
             $("#createtx_output_addresses").val($("#createtx_from_scripthash")[0].value+"\n");
             $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
+            updateOutputValues();
         });
 
         $("#frmRPCJson2").submit(function (e) {
@@ -695,6 +696,7 @@
             if(wtx.length%2 == 1)
                return;
 
+
             wtx = wtx.toLowerCase();
             console.log(wtx);
             console.log(wtx.length);
@@ -734,20 +736,25 @@
             $("#createtx_from_address")[0].value = toBase58(shash);
         });
 
-        $("#createtx_output_values").on('keyup', function () {
-            console.log("going");
-            outtxvalues = $("#createtx_output_values").val();
-            outtxlist = outtxvalues.split("\n");
-            outtxlist = outtxlist.filter(function(n){ return n != "" });
-            outtotal = 0;
+        function updateOutputValues()
+        {
+          console.log("going");
+          outtxvalues = $("#createtx_output_values").val();
+          outtxlist = outtxvalues.split("\n");
+          outtxlist = outtxlist.filter(function(n){ return n != "" });
+          outtotal = 0;
 
-            for(var i = 0, size = outtxlist.length; i < size ; i++){
-               var item = outtxlist[i];
-               outtotal += Number(item);
-            }
-            //console.log("outtotal: "+outtotal);
-            outexpected = Number($("#createtx_input_utxo_value")[0].value);
-            $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?"(expected "+ outexpected + ")":""));
+          for(var i = 0, size = outtxlist.length; i < size ; i++){
+             var item = outtxlist[i];
+             outtotal += Number(item);
+          }
+          //console.log("outtotal: "+outtotal);
+          outexpected = Number($("#createtx_input_utxo_value")[0].value);
+          $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?"(expected "+ outexpected + ")":""));
+        }
+
+        $("#createtx_output_values").on('keyup', function () {
+          updateOutputValues();
         });
 
 

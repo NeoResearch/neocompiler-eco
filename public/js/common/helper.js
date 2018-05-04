@@ -17,6 +17,16 @@ function download(file, ext){
     }
 }
 
+function int2hex(intvalue) {
+  if(intvalue < 0)
+     intvalue = 0;
+  hval = "";
+  if(intvalue <= 9)
+     hval = "0";
+  hval += intvalue.toString(16);
+  return hval;
+}
+
 function hex2bin(hex) {
     var bytes = [];
     for (var i = 0; i < hex.length - 1; i += 2)

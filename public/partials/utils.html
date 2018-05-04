@@ -685,28 +685,47 @@
                return;
             }
             wtx += ""+outtxlist.length;
+            if(wtx.length%2 == 1)
+               return;
+
             console.log("will add outputs");
             for(var i = 0, size = outtxlist.length; i < size ; i++){
+               console.log("adding output "+i);
                wtx += revertHexString($("#createtx_input_assetid")[0].value);
                const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
                wtx += revertHexString(txvalue.toHex());
                wtx += revertHexString(outtxlist2[i]);
+               if(wtx.length%2 == 1)
+                  return;
             }
             console.log(wtx);
+            if(wtx.length%2 == 1)
+               return;
+
             console.log("will finish verification");
             wtx += "01"; //?
             var hexavmverif = $("#createtx_from_verification").val();
             hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            hexavmverifsize = hexavmverif.length/2;
-            wtx += hexavmverifsize.toString(16);
+            wtx += int2hex(hexavmverif.length/2);
             wtx += hexavmverif;
+            console.log(int2hex(hexavmverif.length/2)+hexavmverif);
+            if(wtx.length%2 == 1)
+               return;
+            console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            hexavmsize = hexavm.length/2;
-            wtx += hexavmsize.toString(16);
+            wtx += int2hex(hexavm.length/2);
             wtx += hexavm;
+            if(wtx.length%2 == 1)
+               return;
+
+            wtx = wtx.toLowerCase();
             console.log(wtx);
+            console.log(wtx.length);
             console.log("");
+            if(wtx.length%2 == 1)
+               return;
+            console.log(wtx.length/2 + " bytes");
 
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";

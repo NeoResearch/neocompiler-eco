@@ -579,11 +579,13 @@
 
         $("#selRPCNetwork").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
+            $("#createtx_selRPCNetwork")[0].selectedIndex = $("#selRPCNetwork")[0].selectedIndex;
         });
 
         var createtx_balance = null;
 
-        $("#createtx_selRPCNetwork").on('change', function() {
+        function verifyRPCNetworkForWithdrawUTXO()
+        {
             selBox = $("#createtx_selRPCNetwork")[0];
             mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
             if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
@@ -592,13 +594,20 @@
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
                //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));
-               Neon.api.neoscan.getBalance(mynetwork,myaddress).then(res => createtx_balance = res);
+               Neon.api.neoscan.getBalance(mynetwork,myaddress)
+               .then(res => updateUTXOSCapture(res) );
                console.log('getBalance: '+mynetwork+' for: '+myaddress);
             }
+        }
+
+        $("#createtx_selRPCNetwork").on('change', function() {
+            verifyRPCNetworkForWithdrawUTXO();
         });
 
-        $("#createtx_input_assetid").on('change', function() {
-            asset = this.options[this.selectedIndex].text;
+        function updateUTXOSCapture(res){
+            createtx_balance = res;
+            assetBox = $("#createtx_input_assetid")[0];
+            asset = assetBox.options[assetBox.selectedIndex].text;
             //alert("asset:"+this.value+asset);
             if(asset == "GAS") {
                $("#createtx_input_utxo")[0].value = createtx_balance.assets.GAS.unspent[0].txid;
@@ -614,6 +623,10 @@
             $("#createtx_output_addresses").val($("#createtx_from_scripthash")[0].value+"\n");
             $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
             updateOutputValues();
+        }
+
+        $("#createtx_input_assetid").on('change', function() {
+            verifyRPCNetworkForWithdrawUTXO();
         });
 
         $("#frmRPCJson2").submit(function (e) {

@@ -708,10 +708,14 @@
             console.log(wtx);
             console.log("");
 
+            console.log("formating as json for RPC request...");
+            wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
+            console.log(wtxjson);
+
             console.log("SENDING TO"+$("#neonodeurl")[0].value);
             $.post(
                 $("#neonodeurl")[0].value, // Gets the URL to sent the post to
-                wtx, // Serializes form data in standard format
+                wtxjson, // Serializes form data in standard format
                 function (data) {
                   alert("ok!");
                   console.log(data);

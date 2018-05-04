@@ -275,71 +275,68 @@
                            </form>
                          </div>
                     </div>
-                </div>
-
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
-                    <div class="panel-body">
-                        <form id="frm_createtx_withdraw" action="">
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="createtx_from_contract">From: Wallet Script (Verification contract) in hex</label>
-                                <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
-                                <label for="createtx_from_scripthash">Scripthash (readonly)</label>
-                                <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
-                                <label for="createtx_from_address">Address (readonly)</label>
-                                <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
-                                <label for="createtx_from_verification">Verification (Withdraw Script) in hex</label>
-                                <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
-                                <label for="createtx_from_verification_opcodes">Verification/Withdraw script opcodes (readonly)</label>
-                                <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
+                        <div class="panel-body">
+                            <form id="frm_createtx_withdraw" action="">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_from_contract">From: Wallet Script (Verification contract) in hex</label>
+                                    <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
+                                    <label for="createtx_from_scripthash">Scripthash (readonly)</label>
+                                    <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
+                                    <label for="createtx_from_address">Address (readonly)</label>
+                                    <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                    <label for="createtx_from_verification">Verification (Withdraw Script) in hex</label>
+                                    <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
+                                    <label for="createtx_from_verification_opcodes">Verification/Withdraw script opcodes (readonly)</label>
+                                    <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_selRPCNetwork">Network</label>
+                                    <select id="createtx_selRPCNetwork">
+                                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">PrivateNet</option>
+                                      <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">TestNet</option>
+                                      <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">MainNet</option>
+                                    </select><br/>
+                                    <label for="createtx_input_utxo">Input UTXO Asset (select to update value)</label>
+                                    <select id="createtx_input_assetid" required>
+                                      <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
+                                      <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
+                                    </select><br/>
+                                    <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
+                                    <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
+                                    <br/>
+                                    <label for="createtx_input_utxo_value">Input UTXO Value</label>
+                                    <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)" required/>
+                                    <label for="createtx_output_addresses">Output/To Values (One per line. Don't forget the change back!)</label>
+                                    <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
+                                    <label for="createtx_signature">Signature (Optional)</label>
+                                    <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <button type="submit" id="txcreate_withdraw" class="btn btn-info btn-sm">Create Withdraw Transaction</button>
+                                </div>
                               </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="createtx_selRPCNetwork">Network</label>
-                                <select id="createtx_selRPCNetwork">
-                                  <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">PrivateNet</option>
-                                  <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">TestNet</option>
-                                  <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">MainNet</option>
-                                </select><br/>
-                                <label for="createtx_input_utxo">Input UTXO Asset (select to update value)</label>
-                                <select id="createtx_input_assetid" required>
-                                  <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
-                                  <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
-                                </select><br/>
-                                <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
-                                <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
-                                <br/>
-                                <label for="createtx_input_utxo_value">Input UTXO Value</label>
-                                <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
-                                <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)" required/>
-                                <label for="createtx_output_addresses">Output/To Values (One per line. Don't forget the change back!)</label>
-                                <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
-                                <label for="createtx_signature">Signature (Optional)</label>
-                                <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
-                              </div>
-                            </div>
-                            <div class="col-md-12">
-                              <button type="submit" id="txcreate_withdraw" class="btn btn-info btn-sm">Create Withdraw Transaction</button>
-                            </div>
-                          </div>
-                       </form>
-                     </div>
-                   </div>
-                </div>
-
+                           </form>
+                         </div>
+                       </div>
+                    </div>
                 <div class="tab-pane fade" id="wallet">
                     <div class="row">
                         <div class="col-md-3">

@@ -300,9 +300,9 @@
                               <div class="form-group">
                                 <label for="createtx_selRPCNetwork">Network</label>
                                 <select id="createtx_selRPCNetwork">
-                                  <option title="PrivateNet" value="PrivateNet">PrivateNet</option>
-                                  <option title="TestNet" value="TestNet">NEO TestNet</option>
-                                  <option title="MainNet" value="MainNet">NEO MainNet</option>
+                                  <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">PrivateNet</option>
+                                  <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">TestNet</option>
+                                  <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">MainNet</option>
                                 </select><br/>
                                 <label for="createtx_input_utxo">Input UTXO Asset (select to update value)</label>
                                 <select id="createtx_input_assetid" required>
@@ -612,7 +612,8 @@
         var createtx_balance = null;
 
         $("#createtx_selRPCNetwork").on('change', function() {
-            mynetwork = $("#createtx_selRPCNetwork")[0].value;
+            selBox = $("#createtx_selRPCNetwork")[0];
+            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
                //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));
@@ -733,7 +734,7 @@
 
             console.log("SENDING TO"+$("#neonodeurl")[0].value);
             $.post(
-                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                $("#createtx_selRPCNetwork")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (data) {
                   alert("ok!");

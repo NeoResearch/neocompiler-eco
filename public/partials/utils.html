@@ -288,8 +288,8 @@
                                       <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
                                       <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
                                     </select><br/>
-                                    <label for="createtx_input_utxo">Input UTXO (TODO: include more)</label>
-                                    <input id="createtx_input_utxo" class="form-control" placeholder="Input UTXO" required/>
+                                    <label for="createtx_input_utxo">Input UTXO</label>
+                                    <select id="createtx_input_utxo" required/></select>
                                     <br/>
                                     <label for="createtx_input_utxo_value">Input UTXO Value</label>
                                     <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
@@ -613,12 +613,29 @@
             assetBox = $("#createtx_input_assetid")[0];
             asset = assetBox.options[assetBox.selectedIndex].text;
             //alert("asset:"+this.value+asset);
+
+            inputbox = document.getElementById("createtx_input_utxo");
+            for(i = inputbox.options.length - 1 ; i >= 0 ; i--)
+              inputbox.remove(i);
+
             if(asset == "GAS") {
-               $("#createtx_input_utxo")[0].value = createtx_balance.assets.GAS.unspent[0].txid;
+               for( i = 0; i < createtx_balance.assets.GAS.unspent.length; ++i)
+               {
+                 option = document.createElement("option");
+                 option.text = createtx_balance.assets.GAS.unspent[i].txid;
+                 option.value = createtx_balance.assets.GAS.unspent[i].value;
+                 inputbox.add(option);
+               }
                $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.GAS.unspent[0].value;
             }
             if(asset == "NEO") {
-               $("#createtx_input_utxo")[0].value = createtx_balance.assets.NEO.unspent[0].txid;
+               for( i = 0; i < createtx_balance.assets.NEO.unspent.length; ++i)
+               {
+                 option = document.createElement("option");
+                 option.text = createtx_balance.assets.NEO.unspent[i].txid;
+                 option.value = createtx_balance.assets.NEO.unspent[i].value;
+                 inputbox.add(option);
+               }
                $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.NEO.unspent[0].value;
             }
 
@@ -628,6 +645,14 @@
             $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
             updateOutputValues();
         }
+
+        $("#createtx_input_utxo").on('change', function() {
+          inputbox = document.getElementById("createtx_input_utxo");
+          value = inputbox.options[inputbox.selectedIndex].value;
+          $("#createtx_input_utxo_value")[0].value = value;
+          $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
+          updateOutputValues();
+        })
 
         $("#createtx_input_assetid").on('change', function() {
             verifyRPCNetworkForWithdrawUTXO();

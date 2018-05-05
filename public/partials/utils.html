@@ -676,9 +676,12 @@
 
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
+            inputbox = document.getElementById("createtx_input_utxo");
+            inputUTXO = inputbox.options[inputbox.selectedIndex].text;
             wtx = "80";
             wtx += "000001"; // ?
-            wtx += revertHexString($("#createtx_input_utxo")[0].value);
+            console.log(inputUTXO);
+            wtx += revertHexString(inputUTXO);
             wtx += "01"; // ?
             wtx += "000"; // ?
             outtxvalues = $("#createtx_output_values").val();
@@ -751,7 +754,8 @@
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
 
-            console.log("SENDING TO"+$("#neonodeurl")[0].value);
+            console.log("SENDING TO"+$("#createtx_selRPCNetwork")[0].value);
+            console.log($("#createtx_selRPCNetwork")[0].value);
             $.post(
                 $("#createtx_selRPCNetwork")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format

@@ -760,7 +760,7 @@
                 $("#createtx_selRPCNetwork")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (data) {
-                  alert("ok!");
+                  alert(data.result);
                   console.log(data);
                 },
                 "json" // The format the response should be in

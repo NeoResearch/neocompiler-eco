@@ -143,6 +143,7 @@
                                 <div class="form-group">
                                   <label for="rpcMethod">Method (view <a href="http://docs.neo.org/en-us/node/api.html" target="_blank">Official API</a> or put cursor on top for tooltip)</label>
                                   <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
+                                    <option title="select">Select a method</option>
                                     <option title=":Gets the number of blocks in the main chain">getblockcount</option>
                                     <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
                                     <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
@@ -574,7 +575,10 @@
         };
 
         function frmRPCJson() {
-            $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
+            if( $("#txtRPCJson").val() == "Select a method" )
+              $("#txtRPCJson").val("");
+            else
+              $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
         };
 
         $("#selRPCNetwork").on('change', function() {

@@ -583,7 +583,7 @@
 
         $("#selRPCNetwork").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
-            $("#createtx_selRPCNetwork")[0].selectedIndex = $("#selRPCNetwork")[0].selectedIndex;
+            $("#createtx_selRPCNetwork")[0].selectedIndex = $("#selRPCNetwork")[0].selectedIndex + 1;
         });
 
         var createtx_balance = null;

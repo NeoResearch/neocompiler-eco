@@ -707,10 +707,10 @@
             inputUTXO = inputbox.options[inputbox.selectedIndex].text;
             /*block 0*/wtx = "80"; // tx type (1 byte)
             /*block 1*/wtx += "00"; //tx version (1 byte)
-            /*block 2*/wtx += "00"; // number of attributes
-            /*block 3*/wtx += "01"; // number of inputs (4bytes) TODO: calculate if it start receive more than one input
+            /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
+            /*block 3*/wtx += "01"; // number of inputs (4bytes) can be reduced TODO: calculate if it start receive more than one input
             /*block 4*/wtx += revertHexString(inputUTXO); //input hash(32 bytes)
-            /*block 5*/wtx += "0000"; //input index (2 bytes) TODO: calculate it
+            /*block 5*/wtx += "0000"; //input index (2 bytes) TODO: calculate it and it is fixed 4 bytes
 
             outtxvalues = $("#createtx_output_values").val();
             outtxlist = outtxvalues.split("\n");
@@ -730,7 +730,7 @@
                return;
             }
 
-            /*block 6*/wtx += "02"; // number of outputs (4 bytes) TODO: wtx += ""+outtxlist.length; using the right format
+            /*block 6*/wtx += "02"; // number of outputs (4 bytes) can be reduced TODO: wtx += ""+outtxlist.length; using the right format
             if(wtx.length%2 == 1)
                return;
 
@@ -746,7 +746,7 @@
             if(wtx.length%2 == 1)
                return;
 
-            /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) TODO: calculate it
+            /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();
             hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
             /*block 11*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)

@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-sm-3 sidenav">
-            <ul class="nav nav-pills nav-stacked">
+            <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
@@ -450,11 +450,29 @@
 
     <script>
         $(document).ready(function(){
+          console.log("checking wallets");
             setInterval(function() {
                 populateWalletData();
             }, 30000); // 30000 milsec
-            console.log("checking wallets");
+
+            recoveringPageData();
         });
+        window.onbeforeunload = function(event){
+          storePageData();
+          return confirm("Confirm refresh");
+        }
+
+        function recoveringPageData(){
+          if( checkCookie("utilstab") ){
+            index = getCookie("utilstab");
+            console.log("recovering utils tab");
+            $("#pillstab").children().eq(index).find('a').tab('show');
+          }
+        }
+
+        function storePageData(){
+          setCookie("utilstab", $("ul#pillstab li.active").index(), 1);
+        }
 
         function showPersistWallet() {
           $('#persistWallet').modal('show')

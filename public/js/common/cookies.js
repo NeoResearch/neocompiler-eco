@@ -23,6 +23,6 @@ function getCookie(cname) {
 function checkCookie(came) {
     var result = getCookie(came);
     if (result != "")
-        return false;
-    return true;
+        return true;
+    return false;
 }

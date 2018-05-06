@@ -707,9 +707,10 @@
             inputUTXO = inputbox.options[inputbox.selectedIndex].text;
             /*block 0*/wtx = "80"; // tx type (1 byte)
             /*block 1*/wtx += "00"; //tx version (1 byte)
-            /*block 2*/wtx += "0001"; // number of inputs (4bytes) TODO: calculate if it start receive more than one input
-            /*block 3*/wtx += revertHexString(inputUTXO); //input hash(32 bytes)
-            /*block 4*/wtx += "00"; //input index (2 bytes) TODO: calculate it
+            /*block 2*/wtx += "00"; // number of attributes
+            /*block 3*/wtx += "01"; // number of inputs (4bytes) TODO: calculate if it start receive more than one input
+            /*block 4*/wtx += revertHexString(inputUTXO); //input hash(32 bytes)
+            /*block 5*/wtx += "0000"; //input index (2 bytes) TODO: calculate it
 
             outtxvalues = $("#createtx_output_values").val();
             outtxlist = outtxvalues.split("\n");
@@ -729,15 +730,15 @@
                return;
             }
 
-            /*block 5*/wtx += "0002"; // number of outputs (4 bytes) TODO: wtx += ""+outtxlist.length; using the right format
+            /*block 6*/wtx += "02"; // number of outputs (4 bytes) TODO: wtx += ""+outtxlist.length; using the right format
             if(wtx.length%2 == 1)
                return;
 
             for(var i = 0, size = outtxlist.length; i < size ; i++){
-               /*block 6*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
+               /*block 7*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
                const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
-               /*block 7*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
-               /*block 8*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
+               /*block 8*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
+               /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
                if(wtx.length%2 == 1)
                   return;
             }
@@ -745,19 +746,19 @@
             if(wtx.length%2 == 1)
                return;
 
-            /*block 9*/wtx += "01"; //witness count ( number of scripts) (8 bytes) TODO: calculate it
+            /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();
             hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 10*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
-            /*block 11*/wtx += hexavmverif; // invocation script
+            /*block 11*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
+            /*block 12*/wtx += hexavmverif; // invocation script
             console.log(int2hex(hexavmverif.length/2)+hexavmverif);
             if(wtx.length%2 == 1)
                return;
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 12*/wtx += int2hex(hexavm.length/2);// size of verification script (8 bytes)
-            /*block 13*/wtx += hexavm;// verification script
+            /*block 13*/wtx += int2hex(hexavm.length/2);// size of verification script (8 bytes)
+            /*block 14*/wtx += hexavm;// verification script
             if(wtx.length%2 == 1)
                return;
 

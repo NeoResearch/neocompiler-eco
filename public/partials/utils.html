@@ -694,14 +694,23 @@
 
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
+
+            /*
+             TODO: all the blocks that doesn't match with the expected size must do what is defined below:
+             if (value > 0xffffffff) write 8 bytes hex
+            else if (value > 0xffff) write 4 bytes hex
+            else if (value > 0xfc) write 2 bytes hex
+            else write 1 byte hex
+            */
+
             inputbox = document.getElementById("createtx_input_utxo");
             inputUTXO = inputbox.options[inputbox.selectedIndex].text;
-            wtx = "80";
-            wtx += "000001"; // ?
-            console.log(inputUTXO);
-            wtx += revertHexString(inputUTXO);
-            wtx += "01"; // ?
-            wtx += "000"; // ?
+            /*block 0*/wtx = "80"; // tx type (1 byte)
+            /*block 1*/wtx += "00"; //tx version (1 byte)
+            /*block 2*/wtx += "0001"; // number of inputs (4bytes) TODO: calculate if it start receive more than one input
+            /*block 3*/wtx += revertHexString(inputUTXO); //input hash(32 bytes)
+            /*block 4*/wtx += "00"; //input index (2 bytes) TODO: calculate it
+
             outtxvalues = $("#createtx_output_values").val();
             outtxlist = outtxvalues.split("\n");
             outtxlist = outtxlist.filter(function(n){ return n != "" });
@@ -714,27 +723,21 @@
                outtotal += Number(item);
             }
             outexpected = Number($("#createtx_input_utxo_value")[0].value);
-            console.log(wtx);
-            console.log(outtxlist);
-            console.log(outtxlist2);
-            console.log(outtotal);
-            console.log(outexpected);
             if((outtxlist.length <= 0) || (outtxlist.length != outtxlist2.length) || (outtotal != outexpected))
             {
                alert("error building withdraw transaction. verify inputs and outputs.");
                return;
             }
-            wtx += ""+outtxlist.length;
+
+            /*block 5*/wtx += "0002"; // number of outputs (4 bytes) TODO: wtx += ""+outtxlist.length; using the right format
             if(wtx.length%2 == 1)
                return;
 
-            console.log("will add outputs");
             for(var i = 0, size = outtxlist.length; i < size ; i++){
-               console.log("adding output "+i);
-               wtx += revertHexString($("#createtx_input_assetid")[0].value);
+               /*block 6*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
                const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
-               wtx += revertHexString(txvalue.toHex());
-               wtx += revertHexString(outtxlist2[i]);
+               /*block 7*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
+               /*block 8*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
                if(wtx.length%2 == 1)
                   return;
             }
@@ -742,38 +745,33 @@
             if(wtx.length%2 == 1)
                return;
 
-            console.log("will finish verification");
-            wtx += "01"; //?
+            /*block 9*/wtx += "01"; //witness count ( number of scripts) (8 bytes) TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();
             hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            wtx += int2hex(hexavmverif.length/2);
-            wtx += hexavmverif;
+            /*block 10*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
+            /*block 11*/wtx += hexavmverif; // invocation script
             console.log(int2hex(hexavmverif.length/2)+hexavmverif);
             if(wtx.length%2 == 1)
                return;
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            wtx += int2hex(hexavm.length/2);
-            wtx += hexavm;
+            /*block 12*/wtx += int2hex(hexavm.length/2);// size of verification script (8 bytes)
+            /*block 13*/wtx += hexavm;// verification script
             if(wtx.length%2 == 1)
                return;
 
 
-            wtx = wtx.toLowerCase();
+            /*block end*/wtx = wtx.toLowerCase();
             console.log(wtx);
-            console.log(wtx.length);
-            console.log("");
             if(wtx.length%2 == 1)
                return;
             console.log(wtx.length/2 + " bytes");
-
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
 
             console.log("SENDING TO"+$("#createtx_selRPCNetwork")[0].value);
-            console.log($("#createtx_selRPCNetwork")[0].value);
             $.post(
                 $("#createtx_selRPCNetwork")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format

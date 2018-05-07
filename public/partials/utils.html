@@ -262,15 +262,15 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_from_contract">From: Wallet Script (Verification contract) in hex</label>
+                                    <label for="createtx_from_contract">From: Wallet/Verification Script in hex</label>
                                     <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
                                     <label for="createtx_from_scripthash">Scripthash (readonly)</label>
                                     <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
                                     <label for="createtx_from_address">Address (readonly)</label>
                                     <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
-                                    <label for="createtx_from_verification">Verification (Withdraw Script) in hex</label>
+                                    <label for="createtx_from_verification">Invocation in hex</label>
                                     <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
-                                    <label for="createtx_from_verification_opcodes">Verification/Withdraw script opcodes (readonly)</label>
+                                    <label for="createtx_from_verification_opcodes">Invocation script opcodes (readonly)</label>
                                     <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
                                   </div>
                                 </div>
@@ -288,23 +288,21 @@
                                       <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
                                       <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
                                     </select><br/>
-                                    <label for="createtx_input_utxo">Input UTXO</label>
-                                    <select id="createtx_input_utxo" required/></select>
-                                    <br/>
-                                    <label for="createtx_input_utxo_value">Input UTXO Value</label>
-                                    <input id="createtx_input_utxo_value" class="form-control" placeholder="Input UTXO value" required readonly/>
+                                    <label for="createtx_input_utxo2">Input UTXO</label><br/>
+                                    <select id="createtx_input_utxo2" name="createtx_input_utxo2" required multiple></select>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
                                     <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)" required/>
-                                    <label for="createtx_output_addresses">Output/To Values (One per line. Don't forget the change back!)</label>
+                                    <label for="createtx_output_addresses">Output/To Values (One per line)</label>
                                     <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
+                                    <input type="checkbox" id="createtx_cbx_change" checked>Add change</input><br/>
                                     <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
                                     <label for="createtx_signature">Signature (Optional)</label>
                                     <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
@@ -632,37 +630,44 @@
             asset = assetBox.options[assetBox.selectedIndex].text;
             //alert("asset:"+this.value+asset);
 
-            inputbox = document.getElementById("createtx_input_utxo");
-            for(i = inputbox.options.length - 1 ; i >= 0 ; i--)
-              inputbox.remove(i);
+            //inputbox = document.getElementById("createtx_input_utxo");
+            //for(i = inputbox.options.length - 1 ; i >= 0 ; i--)
+            //  inputbox.remove(i);
+
+            inputbox2 = document.getElementById("createtx_input_utxo2");
+            while(inputbox2.options.length > 0)
+               inputbox2.remove(0);
+
+            //console.log(createtx_balance);
 
             if(asset == "GAS") {
                for( i = 0; i < createtx_balance.assets.GAS.unspent.length; ++i)
                {
                  option = document.createElement("option");
-                 option.text = createtx_balance.assets.GAS.unspent[i].txid;
-                 option.value = createtx_balance.assets.GAS.unspent[i].value;
-                 inputbox.add(option);
+                 option.text = "utxo: " + elipsisMiddle(createtx_balance.assets.GAS.unspent[i].txid) + " #"+createtx_balance.assets.GAS.unspent[i].index + " GAS: "+createtx_balance.assets.GAS.unspent[i].value;
+                 option.value = JSON.stringify(createtx_balance.assets.GAS.unspent[i]);
+                 //console.log(JSON.parse(option.value).txid);
+                 //console.log(JSON.parse(option.value).index);
+                 //console.log(JSON.parse(option.value).value);
+                 inputbox2.add(option);
                }
-               $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.GAS.unspent[0].value;
             }
             if(asset == "NEO") {
                for( i = 0; i < createtx_balance.assets.NEO.unspent.length; ++i)
                {
                  option = document.createElement("option");
-                 option.text = createtx_balance.assets.NEO.unspent[i].txid;
-                 option.value = createtx_balance.assets.NEO.unspent[i].value;
-                 inputbox.add(option);
+                 option.text = "utxo: " + elipsisMiddle(createtx_balance.assets.NEO.unspent[i].txid) + " #"+createtx_balance.assets.NEO.unspent[i].index + " NEO: "+createtx_balance.assets.NEO.unspent[i].value;
+                 option.value = JSON.stringify(createtx_balance.assets.NEO.unspent[i]);
+                 //inputbox.add(option);
+                 inputbox2.add(option);
                }
-               $("#createtx_input_utxo_value")[0].value = createtx_balance.assets.NEO.unspent[0].value;
             }
 
             $("#createtx_output_addresses").val("");
             $("#createtx_output_values").val("");
-            $("#createtx_output_addresses").val($("#createtx_from_scripthash")[0].value+"\n");
-            $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
             updateOutputValues();
         }
+
 
         $("#createtx_input_utxo").on('change', function() {
           inputbox = document.getElementById("createtx_input_utxo");
@@ -801,7 +806,6 @@
 
         function updateOutputValues()
         {
-          console.log("going");
           outtxvalues = $("#createtx_output_values").val();
           outtxlist = outtxvalues.split("\n");
           outtxlist = outtxlist.filter(function(n){ return n != "" });
@@ -812,7 +816,14 @@
              outtotal += Number(item);
           }
           //console.log("outtotal: "+outtotal);
-          outexpected = Number($("#createtx_input_utxo_value")[0].value);
+
+          outexpected = 0;
+          intxlist = $("#createtx_input_utxo2").val();
+          for(var i = 0, size = intxlist.length; i < size ; i++){
+             var item = JSON.parse(intxlist[i]).value;
+             outexpected += Number(item);
+          }
+
           $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?"(expected "+ outexpected + ")":""));
         }
 

@@ -698,6 +698,10 @@
             }); //End of POST for search
         });
 
+
+        // ==================================================================================
+        // ================== CREATE RAW UTXO WITHDRAW TRANSACTION BEGINS ===================
+        // 14 blocks
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
 
@@ -712,6 +716,7 @@
             /*block 0*/wtx = "80"; // tx type (1 byte)
             /*block 1*/wtx += "00"; //tx version (1 byte)
             /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
+            //TODO: attributes was 0001 (thus, was reduced!?)
 
             outexpected = 0;
             intxlist = $("#createtx_input_utxo2").val();
@@ -781,7 +786,10 @@
                /*block 8*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
                /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
                if(wtx.length%2 == 1)
+               {
+                  console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
                   return;
+               }
             }
             if(change > 0){
               wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
@@ -791,7 +799,10 @@
             }
             console.log(wtx);
             if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
                return;
+            }
 
             /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();
@@ -800,7 +811,10 @@
             /*block 12*/wtx += hexavmverif; // invocation script
             console.log(int2hex(hexavmverif.length/2)+hexavmverif);
             if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
                return;
+            }
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
@@ -813,7 +827,10 @@
             /*block end*/wtx = wtx.toLowerCase();
             console.log(wtx);
             if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
                return;
+            }
             console.log(wtx.length/2 + " bytes");
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
@@ -832,6 +849,8 @@
                 alert("failed to pass transaction to network!");
             }); //End of POST for search
         });
+        // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
+        // ==================================================================================
 
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing

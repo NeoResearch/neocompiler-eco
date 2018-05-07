@@ -17,13 +17,12 @@ function download(file, ext){
     }
 }
 
-function int2hex(intvalue) {
+function int2hex(intvalue, mindigits = 2) {
   if(intvalue < 0)
      intvalue = 0;
-  hval = "";
-  if(intvalue <= 9)
-     hval = "0";
-  hval += intvalue.toString(16);
+  hval = intvalue.toString(16);
+  while(hval.length < mindigits)
+     hval = "0"+hval;  
   return hval;
 }
 

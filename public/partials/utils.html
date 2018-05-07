@@ -813,7 +813,12 @@
 
           for(var i = 0, size = outtxlist.length; i < size ; i++){
              var item = outtxlist[i];
-             outtotal += Number(item);
+             num = Number(item);
+             if(num < 0) {
+                console.log("warning; negative number not allowed as output! "+num+ " will become zero!");
+                num = 0;
+             }
+             outtotal += num;
           }
           //console.log("outtotal: "+outtotal);
 
@@ -824,7 +829,14 @@
              outexpected += Number(item);
           }
 
-          $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?"(expected "+ outexpected + ")":""));
+          if(outtotal > outexpected)
+            $("#createtx_output_total").text("Total: "+ outtotal + " (OUTPUT EXCEEDED: "+ outexpected + ")");
+          else {
+            if($("#createtx_cbx_change")[0].checked)
+              $("#createtx_output_total").text("Total OK: "+ outtotal + " (CHANGE: "+ (outexpected-outtotal) + ")");
+            else
+              $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?" (ERROR EXPECTED: "+ outexpected + ")":" (OK)"));
+          }
         }
 
         $("#createtx_output_values").on('keyup', function () {

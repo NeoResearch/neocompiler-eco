@@ -295,14 +295,14 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)" required/>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)"/>
                                     <label for="createtx_output_addresses">Output/To Values (One per line)</label>
-                                    <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3" required/>
+                                    <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <input type="checkbox" id="createtx_cbx_change" checked>Add change</input><br/>
+                                    <input type="checkbox" id="createtx_cbx_change" checked>Add change automatically</input><br/>
                                     <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
                                     <label for="createtx_signature">Signature (Optional)</label>
                                     <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
@@ -668,7 +668,7 @@
             updateOutputValues();
         }
 
-
+      /*
         $("#createtx_input_utxo").on('change', function() {
           inputbox = document.getElementById("createtx_input_utxo");
           value = inputbox.options[inputbox.selectedIndex].value;
@@ -676,6 +676,7 @@
           $("#createtx_output_values").val($("#createtx_input_utxo_value")[0].value+"\n");
           updateOutputValues();
         })
+      */
 
         $("#createtx_input_assetid").on('change', function() {
             verifyRPCNetworkForWithdrawUTXO();
@@ -708,14 +709,38 @@
             else write 1 byte hex
             */
 
-            inputbox = document.getElementById("createtx_input_utxo");
-            inputUTXO = inputbox.options[inputbox.selectedIndex].text;
             /*block 0*/wtx = "80"; // tx type (1 byte)
             /*block 1*/wtx += "00"; //tx version (1 byte)
             /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
-            /*block 3*/wtx += "01"; // number of inputs (4bytes) can be reduced TODO: calculate if it start receive more than one input
-            /*block 4*/wtx += revertHexString(inputUTXO); //input hash(32 bytes)
-            /*block 5*/wtx += "0000"; //input index (2 bytes) TODO: calculate it and it is fixed 4 bytes
+
+            outexpected = 0;
+            intxlist = $("#createtx_input_utxo2").val();
+            for(var i = 0, size = intxlist.length; i < size ; i++){
+               var item = JSON.parse(intxlist[i]).value;
+               outexpected += Number(item);
+            }
+
+            console.log(intxlist.length+" inputs");
+            /*block 3*/wtx += int2hex(intxlist.length); // number of inputs (1 byte)
+            for(i = 0; i<intxlist.length; i++) {
+            /*block 4*/wtx += revertHexString(JSON.parse(intxlist[i]).txid); //input hash (32 bytes)
+            /*block 5*/wtx += int2hex(JSON.parse(intxlist[i]).index, 4); //input index (2 bytes)
+            }
+
+            outtxvalues = $("#createtx_output_values").val();
+            outtxlist = outtxvalues.split("\n");
+            outtxlist = outtxlist.filter(function(n){ return n != "" });
+            outtotal = 0;
+            for(var i = 0, size = outtxlist.length; i < size ; i++){
+               var item = outtxlist[i];
+               num = Number(item);
+               if(num < 0) {
+                  console.log("warning; negative number not allowed as output! "+num+ " will become zero! abort...");
+                  num = 0;
+               }
+               outtotal += num;
+            }
+            //console.log("outtotal: "+outtotal);
 
             outtxvalues = $("#createtx_output_values").val();
             outtxlist = outtxvalues.split("\n");
@@ -726,16 +751,27 @@
             outtotal = 0;
             for(var i = 0, size = outtxlist.length; i < size ; i++){
                var item = outtxlist[i];
-               outtotal += Number(item);
+               num = Number(item);
+               if(num <= 0)
+               {
+                 console.log("output value must be positive! got "+num+ "... aborting!");
+                 return;
+               }
+               outtotal += num;
             }
-            outexpected = Number($("#createtx_input_utxo_value")[0].value);
-            if((outtxlist.length <= 0) || (outtxlist.length != outtxlist2.length) || (outtotal != outexpected))
+
+            change = 0;
+            if($("#createtx_cbx_change")[0].checked)
+                change = outexpected - outtotal;
+
+            if((outtxlist.length != outtxlist2.length) || (outtotal+change != outexpected))
             {
                alert("error building withdraw transaction. verify inputs and outputs.");
                return;
             }
 
-            /*block 6*/wtx += "02"; // number of outputs (4 bytes) can be reduced TODO: wtx += ""+outtxlist.length; using the right format
+            console.log(outtxlist.length+(change>0)+" outputs");
+            /*block 6*/wtx += int2hex(outtxlist.length+(change>0)); // number of outputs (including extra one for change) (1 byte)
             if(wtx.length%2 == 1)
                return;
 
@@ -746,6 +782,12 @@
                /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
                if(wtx.length%2 == 1)
                   return;
+            }
+            if(change > 0){
+              wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
+              const txvalue = new Neon.u.Fixed8(Number(change));
+              wtx += revertHexString(txvalue.toHex());
+              wtx += revertHexString($("#createtx_from_scripthash")[0].value);
             }
             console.log(wtx);
             if(wtx.length%2 == 1)

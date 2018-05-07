@@ -5,15 +5,11 @@
 #
 
 if (( $# != 0 )); then
-	sed -i '/SecondsPerBlock/a"SecondsPerBlock": '$1',' /opt/node1/neo-cli/protocol.json
-	sed -i '/SecondsPerBlock/a"SecondsPerBlock": '$1',' /opt/node1/neo-cli/protocol.json
-	sed -i '/SecondsPerBlock/a"SecondsPerBlock": '$1',' /opt/node1/neo-cli/protocol.json
-	sed -i '/SecondsPerBlock/a"SecondsPerBlock": '$1',' /opt/node1/neo-cli/protocol.json
-
-	screen -X -S node1
-	screen -X -S node2
-	screen -X -S node3
-	screen -X -S node4
+	for i in `seq 1 4`
+	do
+	    screen -X -S node$i quit
+	    sed -i '/SecondsPerBlock/c\\t"SecondsPerBlock": '$1',' /opt/node$i/neo-cli/protocol.json
+	done
 
 	screen -dmS node1 expect /opt/start_consensus_node.sh /opt/node1/neo-cli/ wallet1.json one
 	screen -dmS node2 expect /opt/start_consensus_node.sh /opt/node2/neo-cli/ wallet2.json two

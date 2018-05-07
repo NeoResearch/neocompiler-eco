@@ -66,7 +66,7 @@ ADD ./scripts/run.sh /opt/
 ADD ./scripts/start_consensus_node.sh /opt/
 
 #Script used to modify neo-csharp-nodes characteristcs and parameters
-ADD ./scripts/updateConsensusCharacteristics.sh.sh /opt/
+ADD ./scripts/updateConsensusCharacteristics.sh /opt/
 
 # Inform Docker what ports to expose
 # Neo-cli ports

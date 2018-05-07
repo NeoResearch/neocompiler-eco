@@ -15,9 +15,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     xxd \
+    screen \	
     man
-
-#nano and xxd required by NeoCompiler
 
 # APT cleanup to reduce image size
 RUN rm -rf /var/lib/apt/lists/*

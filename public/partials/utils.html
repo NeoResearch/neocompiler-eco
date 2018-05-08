@@ -729,7 +729,7 @@
             /*block 3*/wtx += int2hex(intxlist.length); // number of inputs (1 byte)
             for(i = 0; i<intxlist.length; i++) {
             /*block 4*/wtx += revertHexString(JSON.parse(intxlist[i]).txid); //input hash (32 bytes)
-            /*block 5*/wtx += int2hex(JSON.parse(intxlist[i]).index, 4); //input index (2 bytes)
+            /*block 5*/wtx += revertHexString(int2hex(JSON.parse(intxlist[i]).index, 4)); //input index (2 bytes) (TODO:perhaps reverse is the missing magic?)
             }
 
             outtxvalues = $("#createtx_output_values").val();

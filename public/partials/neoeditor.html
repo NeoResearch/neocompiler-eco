@@ -773,6 +773,7 @@ def Main():
 
                  var hexavm = hex;
                  hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+                 //var shash = getScriptHashFromAVM(hexavm);
                  var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
                  var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
                  printOpcode(hexavm, $("#opcodes"));

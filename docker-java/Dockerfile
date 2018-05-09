@@ -11,6 +11,9 @@ RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft
 RUN apt-get install -y apt-transport-https
 RUN apt-get update && apt-get install -y dotnet-sdk-2.1.4 openjdk-9-jdk
 
+#TODO - MOVE UP
+RUN apt-get -y install mono-complete
+
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
 #Adding pre-compiled .dll files
 ADD Neoj/ /tmp/Neoj
@@ -21,7 +24,7 @@ RUN git clone https://github.com/neo-project/neo-compiler.git
 RUN mkdir -p neo-compiler/neoj/bin/Debug/netcoreapp1.1
 
 #Adding pre-compiled .dll files
-ADD Neon/ neo-compiler/neoj/bin/Debug/netcoreapp1.1
+ADD Neoj/ neo-compiler/neoj/bin/Debug/netcoreapp1.1
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh

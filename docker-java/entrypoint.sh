@@ -1,6 +1,7 @@
 #!/bin/bash
-export PATH=$PATH:/neo-compiler/neoj/bin/Release/netcoreapp1.1/
+export PATH=$PATH:/neo-compiler/neoj/bin/Debug/netcoreapp1.1/
 echo $COMPILECODE | base64 --decode > /tmp/Neoj/JavaContract.java
+cp /usr/lib/mono/4.5/mscorlib.dll /tmp/Neoj/
 echo -n "{ \"output\": \""
 #xbuild /p:Configuration=Release | base64 -w 0
 javac /tmp/Neoj/JavaContract.java -cp /tmp/Neoj/org.neo.smartcontract.framework.jar > /tmp/out.txt

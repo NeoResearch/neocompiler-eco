@@ -32,7 +32,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="stringtohash2">Hash</label>
+                                    <label for="stringtohash2">Hex</label>
                                     <input id="stringtohash2" class="form-control" readonly/>
                                   </div>
                                 </div>
@@ -40,6 +40,28 @@
                             </form>
                         </div>
                     </div>
+                    <div class="tab-pane fade in active" id="conversor">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Hex to String</div>
+                            <div class="panel-body">
+                                <form id="str2hash">
+                                  <div class="row">
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="hextostring">Hex</label>
+                                        <input id="hextostring" class="form-control" placeholder="String to Hash" oninput="hex2string()"/>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                      <div class="form-group">
+                                        <label for="hextostring2">String</label>
+                                        <input id="hextostring2" class="form-control" readonly/>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                            </div>
+                        </div>
                     <div class="panel panel-primary">
                         <div class="panel-heading">Revert Hex String</div>
                         <div class="panel-body">
@@ -580,6 +602,14 @@
             for (i = 0; i < $("#stringtohash").val().length; i++) {
                 $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
             }
+        };
+        function hex2string() {
+          $("#hextostring2").val("");
+          var hex = $("#hextostring").val();
+          var str = '';
+          for (var i = 0; i < hex.length; i += 2)
+              str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+          $("#hextostring2").val(str);
         };
         function frmreverse() {
             $("#reversehexstring").val( revertHexString($("#hexstring").val()) );

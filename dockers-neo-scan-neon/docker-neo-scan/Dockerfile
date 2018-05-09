@@ -5,8 +5,9 @@ RUN apk update && apk upgrade && \
 
 RUN git clone https://github.com/CityOfZion/neo-scan.git /data
 WORKDIR /data
-# Last checked commit: d30cd38 
 RUN git checkout master
+# TODO - NeoCompiler ECO - Last checked commit: e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178 
+RUN git checkout e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178
 
 # Here are the default environment variables you can override.
 ENV POSTGRES_USERNAME='postgres'
@@ -17,7 +18,7 @@ ENV NEO_SEED_1="http://neo-csharp-nodes:30333"
 ENV NEO_SEED_2="http://neo-csharp-nodes:30334"
 ENV NEO_SEED_3="http://neo-csharp-nodes:30335"
 ENV NEO_SEED_4="http://neo-csharp-nodes:30336"
-ENV NEO_PYTHON_SEED_1="http://neo-python:38088/v1"
+ENV NEO_PYTHON_SEED_1="http://neo-python-all-in-one:38088/v1"
 
 EXPOSE 4000
 

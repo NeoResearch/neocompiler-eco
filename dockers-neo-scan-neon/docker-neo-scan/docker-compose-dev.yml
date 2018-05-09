@@ -1,33 +1,8 @@
 version: "3"
 services:
-  neo-csharp-nodes:
-    image: neo-csharp-nodes:latest  #neo-compiler-privnet-with-gas:1.2 
-    container_name: "neo-compiler-csharp-nodes"
-    ports:
-      - 20333:20333
-      - 20334:20334
-      - 20335:20335
-      - 20336:20336
-      - 30333:30333
-      - 30334:30334
-      - 30335:30335
-      - 30336:30336
-  neo-python-rpc-rest:
-    image: neo-python-rpc-rest:latest 
-    container_name: "neo-python-rpc-rest"
-    ports:
-      - 30337:30337
-      - 38088:38088
-  postgresql:
-    image: postgres:10.1
-    ports:
-      - 5432:5432
-    environment:
-      POSTGRES_USER: postgres 
-      POSTGRES_PASSWORD: postgres
   neo-scan:
     build: .
-    image: neo-scan:latest # slipoh/neo-scan #vncoelho/neo-compiler-neo-scan:1.2 #slipoh/neo-scan
+    image: neo-scan-neo-compiler:latest
     container_name: "neo-scan"
     ports:
       - 4000:4000
@@ -37,9 +12,32 @@ services:
       - neo-csharp-nodes:30334
       - neo-csharp-nodes:30335
       - neo-csharp-nodes:30336
-      - neo-python-rpc-rest:30337
-      - neo-python-rpc-rest:38088
-    depends_on:
-      - postgresql
+      - neo-python-all-in-one:30337
+      - neo-python-all-in-one:38088
+  postgresql:
+    image: postgres:10.1
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres 
+      POSTGRES_PASSWORD: postgres
+  neo-python-all-in-one:
+    image: neo-compiler-neo-python:latest
+    container_name: "neo-python-all-in-one"  
+    ports:
+      - 30337:30337
+      - 38088:38088
+    links:
       - neo-csharp-nodes
-      - neo-python-rpc-rest
+  neo-csharp-nodes:
+    image: neo-compiler-csharp-nodes:latest  
+    container_name: "neo-csharp-nodes" 
+    ports:
+      - "127.0.0.1:20333:20333"
+      - "127.0.0.1:20334:20334"
+      - "127.0.0.1:20335:20335"
+      - "127.0.0.1:20336:20336"
+      - "127.0.0.1:30333:30333"
+      - "127.0.0.1:30334:30334"
+      - "127.0.0.1:30335:30335"
+      - "127.0.0.1:30336:30336"

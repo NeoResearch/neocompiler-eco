@@ -16,15 +16,17 @@ RUN apt-get -y install mono-complete
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
 #Adding pre-compiled .dll files
-ADD Neoj/ /tmp/Neoj
-ADD examples-java-master/ /tmp/
+#ADD Neoj/ /tmp/Neoj
+#ADD examples-java-master/ /tmp/
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
 RUN git clone https://github.com/neo-project/neo-compiler.git
 RUN mkdir -p neo-compiler/neoj/bin/Debug/netcoreapp1.1
 
 #Adding pre-compiled .dll files
-ADD Neoj/ neo-compiler/neoj/bin/Debug/netcoreapp1.1
+ADD Neoj/ neo-compiler/neoj/bin/Debug/netcoreapp1.1/
+
+
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh

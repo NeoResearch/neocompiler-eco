@@ -28,6 +28,8 @@ WORKDIR neo-python
 # Branch can be overwritten with --build-arg, eg: `--build-arg branch=development`
 ARG branch=master
 RUN git checkout $branch
+#TODO - Neocompiler last working version is
+RUN git checkout 2053f1119cfadcc9becbb7827c4ad64c35eeff2d
 
 # Install the dependencies
 RUN pip3 install -e .
@@ -87,6 +89,11 @@ ADD neo-python-neo-compiler-eco/commands/execTransferFundsAtTheBegin.sh /neo-pyt
 #ADD neo-python-neo-compiler-eco/commands/run.sh /opt/
 ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-python
 #==========================================================================
+
+
+#COPY protocol.privnet.json /neo-python/neo/data/protocol.privnet.json
+ENV NEO_PYTHON_RPC_1="http://neo-csharp-nodes:30333"
+RUN printf '%s\n' /127.0.0.1:30333/c '     "'$NEO_PYTHON_RPC_1'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 
 # Example run command
 # CMD /bin/bash

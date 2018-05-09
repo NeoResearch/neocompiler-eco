@@ -5,4 +5,4 @@ rm -rf /root/.neopythonrestrpc/Chains/*
 rm -rf /root/.neopythonrestrpc/*
 rm -rf /root/.neopython/Chains/*
 rm -rf /root/.neopython/*
-./api_server.py --datadir /root/.neopythonrestrpcc/Chains --privnet --port-rpc 30337 --port-rest 38088 
+./api_server.py --datadir /root/.neopythonrestrpcc/Chains --privnet --port-rpc 30337 --port-rest 38088

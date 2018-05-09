@@ -108,6 +108,7 @@ app.post('/compilex', function(req, res, next) {
   {
     var code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-java-neo-compiler";
+    console.log(cmddocker);
     var outp = "";
     var child = require('child_process').exec(cmddocker, optionsDefault);
     child.on('exit', function(code, signal) {

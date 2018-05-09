@@ -1,0 +1,77 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v1.1",
+    "signature": "3b256eefa3d997b620c3a9e5bab760ac780710ce"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v1.1": {
+      "neoj/2.0.3": {
+        "dependencies": {
+          "Neo.VM": "2.0.3",
+          "SharpZipLib.NETStandard": "0.86.0.1"
+        },
+        "runtime": {
+          "neoj.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
+        "runtime": {
+          "lib/netstandard1.0/System.ComponentModel.DataAnnotations.dll": {},
+          "lib/netstandard1.0/System.Core.dll": {},
+          "lib/netstandard1.0/System.Net.dll": {},
+          "lib/netstandard1.0/System.Numerics.dll": {},
+          "lib/netstandard1.0/System.Runtime.Serialization.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.Web.dll": {},
+          "lib/netstandard1.0/System.ServiceModel.dll": {},
+          "lib/netstandard1.0/System.Windows.dll": {},
+          "lib/netstandard1.0/System.Xml.Linq.dll": {},
+          "lib/netstandard1.0/System.Xml.Serialization.dll": {},
+          "lib/netstandard1.0/System.Xml.dll": {},
+          "lib/netstandard1.0/System.dll": {}
+        }
+      },
+      "Neo.VM/2.0.3": {
+        "runtime": {
+          "lib/netstandard1.6/Neo.VM.dll": {}
+        }
+      },
+      "SharpZipLib.NETStandard/0.86.0.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Portable.Compatibility": "1.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.3/SharpZipLib.NETStandard.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "neoj/2.0.3": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Portable.Compatibility/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Vd+lvLcGwvkedxtKn0U8s9uR4p0Lm+0U2QvDsLaw7g4S1W4KfPDbaW+ROhhLCSOx/gMYC72/b+z+o4fqS/oxVg==",
+      "path": "microsoft.netcore.portable.compatibility/1.0.1",
+      "hashPath": "microsoft.netcore.portable.compatibility.1.0.1.nupkg.sha512"
+    },
+    "Neo.VM/2.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RHwmtXI3luISmHlMR3Hnm8hm+SPwQc4K8LV1MlSr6iszszFefM/xpn79lkJuRg99kvM/BaKv0TfE1iU7drPyeg==",
+      "path": "neo.vm/2.0.3",
+      "hashPath": "neo.vm.2.0.3.nupkg.sha512"
+    },
+    "SharpZipLib.NETStandard/0.86.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UswJqRfvjMzqe02iCnfAe4nkCrCSpV2WrTyMlkytEM8cBIAyarggVv75WGR1OxxwIQdEDJafj8HjD93Mr/Yq1w==",
+      "path": "sharpziplib.netstandard/0.86.0.1",
+      "hashPath": "sharpziplib.netstandard.0.86.0.1.nupkg.sha512"
+    }
+  }
+}

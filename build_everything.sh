@@ -5,9 +5,9 @@ echo "Ensuring that any docker-composes is down (no reestart will be possible)";
 ./stop-all-docker-compose.sh
 
 if (( $# != 0 )); then
-	echo "(DEV MOD) BUILDING docker-compiler-privnet (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
-	(cd docker-privnet; ./docker_build.sh)
-	echo "PROCEEDING. docker-compiler-privnet was BUILT (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
+	echo "(DEV MOD) BUILDING docker-compiler-csharpnodes (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
+	(cd docker-docker-neo-csharp-nodes; ./docker_build.sh)
+	echo "PROCEEDING. docker-compiler-csharpnodes was BUILT (OPTIONAL - normally used during developing, provide any additional parameter to this script file)";
 
 	echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker direct from local dockerfile";
 	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker-dev.sh)

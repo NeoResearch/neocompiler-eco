@@ -103,6 +103,32 @@ app.post('/compilex', function(req, res, next) {
     });
   } // Golang
 
+  // Java
+  if(req.body.codesend_java)
+  {
+    var code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
+    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-go";
+    var outp = "";
+    var child = require('child_process').exec(cmddocker, optionsDefault);
+    child.on('exit', function(code, signal) {
+      console.log("JAVA: calling compile function");
+      if( signal == 'SIGKILL' )
+      {
+        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+        res.send(msgret);
+      }
+      else
+        res.send(outp);
+    });
+    child.stdout.on('data', function (data) {
+      //console.log(data);
+      outp = outp+data;
+    });
+  } // Java
+
+
+
   if(req.body.codesend) { // C#
 
     if(!process.env.DOCKERNEOCOMPILER) {

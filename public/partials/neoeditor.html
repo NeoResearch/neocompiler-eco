@@ -17,7 +17,7 @@
                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
                         <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
                         <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
-                        <li class="disabled"><a data-target="#javacode">Java ( not yet )</a></li> <!--- <li><a data-target="#javacode" data-toggle="tab">Java ( not yet )</a></li> -->
+                        <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
                         <li class="disabled"><a data-target="#soliditycode">Solidity ( not yet )</a></li> <!--- <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li> -->
                     </ul>
 
@@ -60,6 +60,50 @@ namespace NeoContract1
                         <!-- end csharpcode -->
 
                         <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- java div -->
+                        <div class="tab-pane cont" id="javacode">
+                            <input type="hidden" id="code_java" name="codesend_java"/>
+                            <pre id="editorJava">
+package teste;
+
+import org.neo.smartcontract.framework.services.neo.TriggerType;
+import org.neo.smartcontract.framework.services.system.ExecutionEngine;
+
+import java.math.BigInteger;
+
+import org.neo.smartcontract.framework.Helper;
+import org.neo.smartcontract.framework.SmartContract;
+import org.neo.smartcontract.framework.services.neo.Runtime;
+import org.neo.smartcontract.framework.services.neo.Storage;
+import org.neo.smartcontract.framework.services.neo.Transaction;
+import org.neo.smartcontract.framework.services.neo.TransactionOutput;
+
+public class JavaContract extends SmartContract {
+
+	public static Object Main(String operation, Object[] args) {
+		TriggerType trigger = Runtime.trigger();
+
+		if (trigger == TriggerType.Verification) {
+
+			return true;
+
+		} else if (trigger == TriggerType.Application) {
+
+			
+		}
+
+		return false;
+	}
+
+	
+
+}
+                            </pre>
+                        </div>
+                        <!-- /////////////////////////////////////////////////////////////////// -->
+                        <!-- end java -->
+
+                        <!-- /////////////////////////////////////////////////////////////////// -->
                         <!-- golang div -->
                         <div class="tab-pane cont" id="golangcode">
                             <input type="hidden" id="code_golang" name="codesend_golang"/>
@@ -73,7 +117,7 @@ func Main() int {
                             </pre>
                         </div>
                         <!-- /////////////////////////////////////////////////////////////////// -->
-                        <!-- end golang -->
+                        <!-- golang java -->
 
                         <!-- /////////////////////////////////////////////////////////////////// -->
                         <!-- python div -->
@@ -91,10 +135,7 @@ def Main():
     return False
                             </pre>
                         </div>
-                        <div class="tab-pane" id="javacode">
-                            <input type="hidden" id="code_java" name="codesend_java"/>
-                            <pre id="editorJava">Java</pre>
-                        </div>
+
                         <div class="tab-pane" id="soliditycode">
                             <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
                             <pre id="editorSolidity">Solidity</pre>
@@ -366,6 +407,7 @@ def Main():
         $("#code").val("");
         $("#code_python").val("");
         $("#code_golang").val("");
+        $("#code_java").val("");
         if($("#csharpcode.tab-pane.active.cont").length != 0) {
             $("#code").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("C# Compile");
@@ -377,6 +419,10 @@ def Main():
         if($("#golangcode.tab-pane.active.cont").length != 0) {
             $("#code_golang").val(ace.edit("editorGolang").getSession().getValue());
             console.log("Golang Compile");
+        }
+        if($("#javacode.tab-pane.active.cont").length != 0) {
+            $("#code_java").val(ace.edit("editorJava").getSession().getValue());
+            console.log("Java Compile");
         }
         $("#codewarnerr").val("");
         $("#codeavm").val("");
@@ -738,6 +784,7 @@ def Main():
     var editorPython = createEditor("editorPython", "ace/mode/python");
     var editorGolang = createEditor("editorGolang", "ace/mode/golang");
     var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+    var editorJava = createEditor("editorJava", "ace/mode/java");
     var cSharpFiles = [
         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
         ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],

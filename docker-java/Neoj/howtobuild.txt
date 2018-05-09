@@ -1,0 +1,2 @@
+javac ICOTemplate.java ../token/*.java -cp /med
+ia/vitor/DadosEXT4/A_NeoChain/A_neocompiler.io/A-neocompiler.io-NeoResearch/docker-java-mono/Neoj/org.neo.smartcontract.framework.jar

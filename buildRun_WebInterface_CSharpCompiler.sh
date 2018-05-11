@@ -14,8 +14,11 @@ echo "BUILDING neo-java-compiler";
 echo "STOPING server doors";
 ./stop.sh
 
+echo "PRUNING any useless NPM dep";
+npm prune
+
 echo "INSTALLING with NPM";
-./npm-packages.sh
+npm install
 
 echo "SLEEP 5 seconds. Waiting some couple of seconds until everything is processed...";
 sleep 5

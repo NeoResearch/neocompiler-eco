@@ -192,7 +192,7 @@ app.post('/compilex', function(req, res, next) {
       //res.send(outp);
   } // C#
 
-});
+}); // End of compilex
 
 app.post('/deployx', function(req, res) {
   console.log("Calling app.post route /deployx. Import contract!\n");
@@ -393,9 +393,6 @@ app.post('/searchx', function(req, res) {
     //console.log("MORE DATA ON DEPLOY:"+data);
   });
 });
-
-
-//docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK" > saida.log
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

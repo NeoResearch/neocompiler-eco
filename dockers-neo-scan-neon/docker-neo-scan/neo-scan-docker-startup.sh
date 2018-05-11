@@ -15,5 +15,5 @@ mix ecto.create && mix ecto.migrate
 echo "RUNNING npm install..."
 (cd ./apps/neoscan_web/assets; npm install)
 
-echo "RUNNING mix phx.server..."
-mix phx.server
+echo "CHECKING Nodes and Rest and RUNNING mix phx.server..."
+/opt/init-neo-scan.sh

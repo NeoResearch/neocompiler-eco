@@ -91,13 +91,22 @@ ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-pytho
 #==========================================================================
 
 
-#COPY protocol.privnet.json /neo-python/neo/data/protocol.privnet.json
+#TODO - Perhaps, change this to only localhost or a function that adds by hand
 ENV NEO_PYTHON_RPC_1="http://neo-csharp-nodes:30333"
+ENV NEO_PYTHON_NODE_1="neo-csharp-nodes:20333"
+ENV NEO_PYTHON_NODE_2="neo-csharp-nodes:20334"
+ENV NEO_PYTHON_NODE_3="neo-csharp-nodes:20335"
+ENV NEO_PYTHON_NODE_4="neo-csharp-nodes:20336"
 RUN printf '%s\n' /127.0.0.1:30333/c '     "'$NEO_PYTHON_RPC_1'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
+RUN printf '%s\n' /127.0.0.1:20333/c '     "'$NEO_PYTHON_NODE_1'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
+RUN printf '%s\n' /127.0.0.1:20334/c '     "'$NEO_PYTHON_NODE_2'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
+RUN printf '%s\n' /127.0.0.1:20335/c '     "'$NEO_PYTHON_NODE_3'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
+RUN printf '%s\n' /127.0.0.1:20336/c '     "'$NEO_PYTHON_NODE_4'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 
 # Example run command
 # CMD /bin/bash
 
+ADD callGenesisBlockCreation.sh /opt/
 ADD run-all.sh /opt/
 
 # On docker run, start the rpc-rest node

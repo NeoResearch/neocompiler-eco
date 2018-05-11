@@ -4,10 +4,14 @@
 # In the current version of this script, only the expected time between can be modified
 #
 
+#TODO - change  kill all nodes from the vector
+#vecNodesNames and #vecNodesPasswords
+
+
 if (( $# != 0 )); then
 	for i in `seq 1 4`
 	do
-	    screen -X -S node$i quit
+	    screen -X -S node$i quit 
 	    sed -i '/SecondsPerBlock/c\\t"SecondsPerBlock": '$1',' /opt/node$i/neo-cli/protocol.json
 	done
 

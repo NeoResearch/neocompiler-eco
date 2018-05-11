@@ -1,5 +1,3 @@
-#echo "docker run -e COMPILECODE=$COMPILECODE -it --rm $DOCKERNEOCOMPILER"
-#docker run -e COMPILECODE=$COMPILECODE -it --rm $DOCKERNEOCOMPILER
 #!/bin/bash
 #
 # Start a Docker container which runs the four consensus nodes. If it is
@@ -15,4 +13,3 @@ fi
 
 echo "Starting container..."
 docker run -r --name $CONTAINER_NAME -it -rm $CONTAINER_NAME
-

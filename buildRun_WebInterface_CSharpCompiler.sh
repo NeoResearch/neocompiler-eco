@@ -11,18 +11,11 @@ echo "BUILDING neo-go-compiler";
 echo "BUILDING neo-java-compiler";
 (cd docker-java; ./docker_build.sh)
 
-#export DOCKERNEOCOMPILER=$((cd docker-neo-mono; docker build -t docker-mono-neo-compiler . | tail -n 1 ) | awk 'NR==1{print $3}')
-
-export DOCKERNEOCOMPILER=$(docker images -aq "docker-mono-neo-compiler")
-
 echo "STOPING server doors";
 ./stop.sh
 
-echo "PRUNING any useless NPM dep";
-npm prune
-
 echo "INSTALLING with NPM";
-#npm install
+./npm-packages.sh
 
 echo "SLEEP 5 seconds. Waiting some couple of seconds until everything is processed...";
 sleep 5

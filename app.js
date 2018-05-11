@@ -131,20 +131,11 @@ app.post('/compilex', function(req, res, next) {
 
 
   if(req.body.codesend) { // C#
-
-    if(!process.env.DOCKERNEOCOMPILER) {
-      console.log("Error! No DOCKERNEOCOMPILER variable is set!\n");
-      var msg64 = new Buffer("Unable to communicate with backend compiler. Please try again later.",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-      //console.log("output is: '"+msgret+"'");
-      res.send(msgret);
-    }
-    else {
       console.log("Begin C# compile");
 
 
       var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
-      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";//$DOCKERNEOCOMPILER";
+      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";
       var outp = "";
 
       var child = require('child_process').exec(cmddocker, optionsDefault);
@@ -199,7 +190,6 @@ app.post('/compilex', function(req, res, next) {
       ////console.log("output is: '"+outp+"'");
       ////res.send(JSON.stringify(outp));
       //res.send(outp);
-    }
   } // C#
 
 });

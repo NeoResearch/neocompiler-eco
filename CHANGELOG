@@ -2,14 +2,19 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+- It is becomming hard to explain all changes. Next version is already deserved! 
+
 ### Changed
-- 
+- Neo csharp nodes and neo-python decentralized in different dockers. It was confuse for everyone. Still not in web.
+- Neo-scan updated
+
 
 ### Added
-- 
+- Several new Util features, transactions for NEP 10 and 11.
+- Java compiler
+- Neo-opt-tests merged inside the ecosystem, as well as the first netoork competition.
 
 ### Fixed
-- 
 
 
 ### [1.0] - 2018-04-10

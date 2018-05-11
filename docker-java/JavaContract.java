@@ -33,3 +33,6 @@ public class JavaContract extends SmartContract {
 
 }
                             
+
+
+//javac /neo-compiler/neoj/bin/Debug/netcoreapp1.1/JavaContract.java -cp /neo-compiler/neoj/bin/Debug/netcoreapp1.1/org.neo.smartcontract.framework.jar > /tmp/out.txt

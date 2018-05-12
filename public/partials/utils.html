@@ -823,16 +823,25 @@
             console.log(int2hex(hexavmverif.length/2)+hexavmverif);
             if(wtx.length%2 == 1)
             {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 11/12");
                return;
             }
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
             /*block 13*/wtx += int2hex(hexavm.length/2);// size of verification script (8 bytes)
+            console.log("hexavm is:"+hexavm.length/2);
+            if(hexavm.length/2 >= 256)
+            {
+               console.log("Problems were detected with hexavm lenght, pehaps, it should be lower than 256");
+               return;
+            }
             /*block 14*/wtx += hexavm;// verification script
             if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 13/14");
                return;
+            }
 
 
             /*block end*/wtx = wtx.toLowerCase();
@@ -865,7 +874,11 @@
 
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val());
+            selBox = $("#createtx_selRPCNetwork")[0];
+            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
+            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
+               mynetwork = "PrivateNet";
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), mynetwork);
         });
 
         $("#createtx_from_contract").on('keyup', function () {

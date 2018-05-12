@@ -57,9 +57,7 @@ function neonJSPlayground(){
 // =============================================
 
 function CreateTx( from, fromPrivateKey, to, neo, gas, networkToCall = "PrivateNet", nodeToCall = NODES_CSHARP_PATH, ){
-    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
-
-
+    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))	
     var intent;
     if(neo > 0 && gas > 0)
         intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)

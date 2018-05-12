@@ -20,62 +20,62 @@
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="conversor">
                     <div class="panel panel-primary">
-                        <div class="panel-heading">String to Hex</div>
+                        <div class="panel-heading">String <-> Hex</div>
                         <div class="panel-body">
                             <form id="str2hash">
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="stringtohash">String</label>
-                                    <input id="stringtohash" class="form-control" placeholder="String to Hash" oninput="str2hash()"/>
+                                    <label for="strhex_str">String</label>
+                                    <input id="strhex_str" class="form-control" placeholder="String" oninput="str2hex()"/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="stringtohash2">Hex</label>
-                                    <input id="stringtohash2" class="form-control" readonly/>
+                                    <label for="strhex_hex">Hex</label>
+                                    <input id="strhex_hex" class="form-control" placeholder="Hex" oninput="hex2str()"/>
                                   </div>
                                 </div>
                               </div>
                             </form>
                         </div>
                     </div>
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">Hex to String</div>
-                            <div class="panel-body">
-                                <form id="str2hash">
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label for="hextostring">Hex</label>
-                                        <input id="hextostring" class="form-control" placeholder="String to Hash" oninput="hex2string()"/>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label for="hextostring2">String</label>
-                                        <input id="hextostring2" class="form-control" readonly/>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </form>
-                            </div> <!-- body -->
-                        </div>
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Revert Hex String</div>
+                        <div class="panel-heading">Hex <-> xeH</div>
                         <div class="panel-body">
                             <form id="frmreverse">
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="hexstring">Input</label>
-                                    <input id="hexstring" class="form-control" placeholder="Hex String to Reverse" oninput="frmreverse()"/>
+                                    <label for="hexxeh_hex">Hex</label>
+                                    <input id="hexxeh_hex" class="form-control" placeholder="Hex" oninput="hex2xeh()"/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="reversehexstring">Output</label>
-                                    <input id="reversehexstring" class="form-control" readonly/>
+                                    <label for="hexxeh_xeh">xeH</label>
+                                    <input id="hexxeh_xeh" class="form-control" placeholder="xeH" oninput="xeh2hex()"/>
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Number <-> Fixed8 Hex</div>
+                        <div class="panel-body">
+                            <form id="num2fixed8">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="fx8_number">Number</label>
+                                    <input type="number" id="fx8_number" class="form-control" placeholder="Number" oninput="num2fixed8()"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="fx8_hex">Fixed8</label>
+                                    <input id="fx8_hex" class="form-control" placeholder="Fixed8 hex" oninput="fixed82num()"/>
                                   </div>
                                 </div>
                               </div>
@@ -126,27 +126,6 @@
                                   <div class="form-group">
                                     <label for="opcodes">OpCodes</label>
                                     <textarea id="opcodes" class="form-control" rows="5" cols="100" readonly></textarea>
-                                  </div>
-                                </div>
-                              </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Convert Number into Fixed8 Hex</div>
-                        <div class="panel-body">
-                            <form id="num2fixed8" action="">
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label for="num2convert">Number</label>
-                                    <input type="number" id="num2convert" class="form-control" placeholder="number" oninput="num2fixed8()"/>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label for="numconverted">Fixed8</label>
-                                    <input id="numconverted" class="form-control"readonly/>
                                   </div>
                                 </div>
                               </div>
@@ -595,28 +574,31 @@
             printOpcode(hexavm, $("#opcodes"));
         };
 
-        function str2hash() {
+        function str2hex() {
             var i = 0;
-            $("#stringtohash2").val("");
-            for (i = 0; i < $("#stringtohash").val().length; i++) {
-                $("#stringtohash2").val($("#stringtohash2").val() + $("#stringtohash").val().charCodeAt(i).toString(16));
-            }
+            $("#strhex_hex").val(Neon.u.str2hexstring($("#strhex_str").val()));
         };
-        function hex2string() {
-          $("#hextostring2").val("");
-          var hex = $("#hextostring").val();
-          var str = '';
-          for (var i = 0; i < hex.length; i += 2)
-              str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-          $("#hextostring2").val(str);
+
+        function hex2str() {
+            $("#strhex_str").val(Neon.u.hexstring2str($("#strhex_hex").val()));
         };
-        function frmreverse() {
-            $("#reversehexstring").val( revertHexString($("#hexstring").val()) );
+
+        function hex2xeh() {
+            $("#hexxeh_xeh").val( revertHexString($("#hexxeh_hex").val()) );
+        };
+
+        function xeh2hex() {
+            $("#hexxeh_hex").val( revertHexString($("#hexxeh_xeh").val()) );
         };
 
         function num2fixed8() {
-            const a = new Neon.u.Fixed8(parseInt($("#num2convert").val()));
-            $("#numconverted").val(a.toHex());
+            const a = new Neon.u.Fixed8(parseInt($("#fx8_number").val()));
+            $("#fx8_hex").val(a.toHex());
+        };
+
+        function fixed82num() {
+            const a = new Neon.u.Fixed8.fromHex($("#fx8_hex").val());
+            $("#fx8_number").val(a);
         };
 
         function frmRPCJson() {

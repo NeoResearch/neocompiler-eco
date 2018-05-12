@@ -11,19 +11,17 @@
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
-In particular, we provide simple interact and didactic interfaces for allowing online compiling.
-In the first moment, we started with C# and Python.
-Our next steps are moving us towards Java and Solidity (through NeoSol initiative).
+In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.
+Our next steps are moving us towards Solidity (through NeoSol initiative).
 
 ### What does it currently do
-* Compile input C#, Python or Go code using reliable and safe servers (backend) compilers;
+* Compile input C#, Python, Go or Java code using reliable and safe servers (backend) compilers;
 * Return AVM and ABI codes (more precise of C# compiler);
 * Deploy and invoke code to private net (Current in the back);
 * Tests with different wallets, synced and with able to provide historic data our activity.
 
 ### Next steps
 * Integrate with testnet invokes
-* Integrate with Java
 * Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
@@ -74,6 +72,13 @@ The backend for Python is provided by neo-boa compiler, only two steps are neces
 The backend for Go is provided by neo-go team, only two steps are necessary to build and tag image `docker-neo-go`:
 
 `cd docker-neo-go`
+
+`docker_build.sh`
+
+### Building docker-java backend
+The backend for Java is provided by neoj compiler (in mono), only two steps are necessary to build and tag image `docker-neo-java-compiler`:
+
+`cd docker-java`
 
 `docker_build.sh`
 

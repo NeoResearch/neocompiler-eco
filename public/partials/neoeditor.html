@@ -18,6 +18,8 @@
                         <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
                         <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
                         <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
+                        <li class="disabled"><a data-target="#jscode">JavaScript ( not yet )</a></li>
+                        <li class="disabled"><a data-target="#tscode">TypeScript ( not yet )</a></li>
                         <li class="disabled"><a data-target="#soliditycode">Solidity ( not yet )</a></li> <!--- <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li> -->
                     </ul>
 
@@ -89,13 +91,13 @@ public class JavaContract extends SmartContract {
 
 		} else if (trigger == TriggerType.Application) {
 
-			
+
 		}
 
 		return false;
 	}
 
-	
+
 
 }
                             </pre>
@@ -136,6 +138,14 @@ def Main():
                             </pre>
                         </div>
 
+                        <div class="tab-pane" id="jscode">
+                            <input type="hidden" id="code_js" name="codesend_js" rows="15" cols="100"/>
+                            <pre id="editorJS">JavaScript</pre>
+                        </div>
+                        <div class="tab-pane" id="tscode">
+                            <input type="hidden" id="code_ts" name="codesend_ts" rows="15" cols="100"/>
+                            <pre id="editorTS">TypeScript</pre>
+                        </div>
                         <div class="tab-pane" id="soliditycode">
                             <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
                             <pre id="editorSolidity">Solidity</pre>

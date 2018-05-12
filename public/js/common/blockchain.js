@@ -168,3 +168,11 @@ function Deploy(){
       console.log(res);
     });
 }
+
+function getStorage( scripthashContext, key, url )
+{
+  query = Neon.rpc.Query.getStorage( scripthashContext, key );
+  response = query.execute(url);
+  console.log(response);
+  return response;
+}

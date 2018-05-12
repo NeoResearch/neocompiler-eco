@@ -33,6 +33,31 @@ function int2hex(intvalue, mindigits = 2) {
   return hval;
 }
 
+function uint2bytes(intvalue) {
+  if(intvalue < 0)
+     intvalue = 0;
+
+  if(intvalue <= 252)
+  {
+	  hval = intvalue.toString(16);
+	  while(hval.length < 2)
+	     hval = "0"+hval;
+	
+	  return hval;
+  }
+
+  if(intvalue > 252)
+  {
+	  hval = intvalue.toString(16);
+	  while(hval.length < 4)
+	     hval = "0"+hval;
+          hval=revertHexString(hval);
+          
+	  return "fd" + hval;
+  }
+
+}
+
 function hex2bin(hex) {
     var bytes = [];
     for (var i = 0; i < hex.length - 1; i += 2)

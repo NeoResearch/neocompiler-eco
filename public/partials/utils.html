@@ -789,7 +789,10 @@
             console.log(outtxlist.length+(change>0)+" outputs");
             /*block 6*/wtx += int2hex(outtxlist.length+(change>0)); // number of outputs (including extra one for change) (1 byte)
             if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
                return;
+            }
 
             for(var i = 0, size = outtxlist.length; i < size ; i++){
                /*block 7*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
@@ -829,13 +832,8 @@
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 13*/wtx += int2hex(hexavm.length/2);// size of verification script (8 bytes)
-            console.log("hexavm is:"+hexavm.length/2);
-            if(hexavm.length/2 >= 256)
-            {
-               console.log("Problems were detected with hexavm lenght, pehaps, it should be lower than 256");
-               return;
-            }
+            /*block 13*/wtx += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
+            console.log("hexavm is:"+hexavm.length/2 + " with last length:" + uint2bytes(hexavm.length/2));
             /*block 14*/wtx += hexavm;// verification script
             if(wtx.length%2 == 1)
             {

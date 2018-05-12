@@ -394,6 +394,32 @@ def Main():
         </div>
     </div>
 
+    <div class="panel panel-info">
+        <div class="panel-heading">Read Contract Storage</div>
+        <div class="panel-body">
+            <form id="formgetstorage" method="post">
+                <label for="gsf_contracthash">ScriptHash</label>
+                <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash"/>
+                <label for="selRPCNetworkStorage">Neo node URL</label>
+                <select id="selRPCNetworkStorage">
+                  <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                  <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                  <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
+                  <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
+                </select>
+                <select name="getStorageFormat" id="getStorageFormat" class="custom-select form-control">
+                  <option title="gsf_string" selected>String (no quotes)</option>
+                  <option title="gsf_hex">Hex</option>
+                </select>
+                <label for="gsf_contractkey">Key</label>
+                <input id="gsf_contractkey" class="form-control" placeholder="Storage Key"/>
+                <label for="gsf_contractvalue">Value</label>
+                <input id="gsf_contractvalue" class="form-control" placeholder="Storage Value" readonly/>
+                <button type="submit" id="gsfsubmit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Get Storage Value</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 <script>
     $(document).ready(function(){
@@ -471,6 +497,7 @@ def Main():
                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
                 $("#invokehashjs")[0].value = $("#contracthash")[0].value;
+                $("#gsf_contracthash")[0].value = $("#contracthash")[0].value;
 
                 var codeabi = atob(data.abi);
                 console.log(codeabi);
@@ -674,6 +701,19 @@ def Main():
         console.log("invoking contract '"+$("#invokehashjs").val()+"' with params '"+$("#invokeparamsjs").val()+"'");
         Invoke('', $("#invokehashjs").val(), $("#invokeparamsjs").val());
     });//End of invoke function
+    //===============================================================
+
+    $("#formgetstorage").submit(function (e) {
+        e.preventDefault(); // Prevents the page from refreshing
+
+        sthash = $("#gsf_contracthash")[0].value;
+        stkey = $("#gsf_contractkey")[0].value;
+        if($("#getStorageFormat")[0].value == "String (no quotes)")
+           stkey = Neon.u.str2hexstring(stkey);
+        //test invoke
+        console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'");
+        getStorage(sthash, stkey, $("#selRPCNetworkStorage")[0].value).then(function(data){ $("#gsf_contractvalue")[0].value = data; });
+    });//End of storage read function
     //===============================================================
 
     //===============================================================

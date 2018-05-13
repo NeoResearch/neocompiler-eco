@@ -176,7 +176,7 @@ def Main():
                         <li><a onclick="downloadAVM('1')">hex code</a></li>
                     </ul>
                 </div>
-                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info">AVM OPCODES</button>
+                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button>
                 <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br>
                 <div id="opcodesDiv" class="collapse">
                     <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
@@ -482,7 +482,7 @@ def Main():
                 $("#codeavm").val(hexcodeavm);
                 hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
                 $("#opcodes").val("");
-                printOpcode(hexcodeavm, $("#opcodes"));
+                //printOpcode(hexcodeavm, $("#opcodes"));
                 //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
                 localStorage.setItem('avmFile', hexcodeavm);//, {type: 'application/octet-stream'});
                 //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
@@ -873,7 +873,7 @@ def Main():
                  //var shash = getScriptHashFromAVM(hexavm);
                  var bitshash160 = sjcl.hash.ripemd160.hash(sjcl.hash.sha256.hash(sjcl.codec.hex.toBits(hexavm)));
                  var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
-                 printOpcode(hexavm, $("#opcodes"));
+                 //printOpcode(hexavm, $("#opcodes"));
 
                  $("#contracthash")[0].value = shash;
                  //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
@@ -886,7 +886,16 @@ def Main():
     }
     //===============================================================
 
+    function GetOpcodes() {
+         console.log("disassembly opcodes");
+         $("#opcodes").text("");
+         var hexavm = $("#codeavm").val();
+         hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+         printOpcode(hexavm, $("#opcodes"));
+    }
+
     //===============================================================
+
     function setExample( selected_index ){
         console.log(selected_index);
 

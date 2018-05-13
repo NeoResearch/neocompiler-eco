@@ -414,7 +414,14 @@ def Main():
                 <label for="gsf_contractkey">Key</label>
                 <input id="gsf_contractkey" class="form-control" placeholder="Storage Key"/>
                 <label for="gsf_contractvalue">Value</label>
-                <input id="gsf_contractvalue" class="form-control" placeholder="Storage Value" readonly/>
+                <div class="row">
+                  <div class="col-md-6">
+                      <input id="gsf_contractvaluehex" class="form-control" placeholder="Storage Value (Hex)" readonly/>
+                  </div>
+                  <div class="col-md-6">
+                      <input id="gsf_contractvaluestr" class="form-control" placeholder="Storage Value (String)" readonly/>
+                  </div>
+                </div>
                 <button type="submit" id="gsfsubmit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Get Storage Value</button>
             </form>
         </div>
@@ -712,7 +719,7 @@ def Main():
            stkey = Neon.u.str2hexstring(stkey);
         //test invoke
         console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'");
-        getStorage(sthash, stkey, $("#selRPCNetworkStorage")[0].value).then(function(data){ $("#gsf_contractvalue")[0].value = JSON.stringify(data); });
+        getStorage(sthash, stkey, $("#selRPCNetworkStorage")[0].value).then(function(data){ $("#gsf_contractvaluehex")[0].value = data.result; $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);  });
     });//End of storage read function
     //===============================================================
 

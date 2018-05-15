@@ -40,7 +40,7 @@
                                         <li><a onclick="setExample('4')">StructExample.cs</a></li>
                                     </ul>
                                 </div>
-                                <input type="hidden" id="code" name="codesend"/>
+                                <input type="hidden" id="code_cs" name="codesend_cs"/>
                                 <pre id="editorCSharp">
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
@@ -447,12 +447,12 @@ def Main():
     //===============================================================
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;
-        $("#code").val("");
+        $("#code_cs").val("");
         $("#code_python").val("");
         $("#code_golang").val("");
         $("#code_java").val("");
         if($("#csharpcode.tab-pane.active.cont").length != 0) {
-            $("#code").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code_cs").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("C# Compile");
         }
         if($("#pythoncode.tab-pane.active.cont").length != 0) {

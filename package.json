@@ -7,13 +7,14 @@
     "stop": "node stop-app.js"
   },
   "dependencies": {
-    "body-parser": "~1.18.2",
+    "babel-polyfill": "^6.26.0",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "method-override": "~2.1.2",
     "morgan": "~1.9.0",
-    "npm": "^5.7.1",
+    "npm": "^5.10.0",
     "serve-favicon": "~2.4.5",
     "socket.io": "^2.0.4"
   }

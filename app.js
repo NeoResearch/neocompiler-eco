@@ -32,6 +32,11 @@ app.use(methodOverride());
 app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
+var optionsCompile = {
+  timeout: 5000, // 5 seconds is already a lot...
+  killSignal: 'SIGKILL'
+}
+
 var optionsDefault = {
   timeout: 120000,
   killSignal: 'SIGKILL'
@@ -43,27 +48,35 @@ var optionsDeploy = {
 }
 
 
+/*
 function promiseFromChildProcess(child) {
     return new Promise(function (resolve, reject) {
         child.addListener("error", reject);
         child.addListener("exit", resolve);
     });
 }
+*/
 
-app.post('/compilex', function(req, res, next) {
+app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for
   // req.body -- contains form data
-  //console.log("req.body.codesend='"+req.body.codesend+"'");
+
+  //console.log("python: "+req.body.codesend_python);
+  //console.log("cs: "+req.body.codesend_cs);
+  //console.log("go: "+req.body.codesend_golang);
+  //console.log("java: "+req.body.codesend_java);
 
   // Python
   if(req.body.codesend_python)
   {
+    console.log("Python compile");
     var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
     var outp = "";
-    var child = require('child_process').exec(cmddocker, optionsDefault);
+    //console.log("Calling Python docker: "+cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsCompile);
     child.on('exit', function(code, signal) {
-      console.log("calling compile function");
+      //console.log("calling compile function");
       if( signal == 'SIGKILL' )
       {
         var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
@@ -78,16 +91,16 @@ app.post('/compilex', function(req, res, next) {
       outp = outp+data;
     });
   } // Python
-
-  // Golang
-  if(req.body.codesend_golang)
+  else if(req.body.codesend_golang) // Golang
   {
+    console.log("Golang compile");
     var code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-go";
     var outp = "";
-    var child = require('child_process').exec(cmddocker, optionsDefault);
+    //console.log("Calling Go docker: "+cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsCompile);
     child.on('exit', function(code, signal) {
-      console.log("GOLANG: calling compile function");
+      //console.log("GOLANG: calling compile function");
       if( signal == 'SIGKILL' )
       {
         var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
@@ -102,17 +115,17 @@ app.post('/compilex', function(req, res, next) {
       outp = outp+data;
     });
   } // Golang
-
-  // Java
-  if(req.body.codesend_java)
+  else if(req.body.codesend_java) // Java
   {
+    console.log("Java compile");
     var code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
     var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-java-neo-compiler";
-    console.log(cmddocker);
+    //console.log(cmddocker);
     var outp = "";
-    var child = require('child_process').exec(cmddocker, optionsDefault);
+    //console.log("Calling Java docker: "+cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsCompile);
     child.on('exit', function(code, signal) {
-      console.log("JAVA: calling compile function");
+      //console.log("JAVA: calling compile function");
       if( signal == 'SIGKILL' )
       {
         var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
@@ -124,23 +137,22 @@ app.post('/compilex', function(req, res, next) {
     });
     child.stdout.on('data', function (data) {
       //console.log(data);
+      //console.log("JAVA data:"+data);
       outp = outp+data;
     });
   } // Java
-
-
-
-  if(req.body.codesend) { // C#
-      console.log("Begin C# compile");
-
-
-      var code64 = new Buffer(req.body.codesend, 'ascii').toString('base64');
-      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler";
+  else if(req.body.codesend_cs) // C#
+  {
+      console.log("C# compile");
+      var code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
+      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler"; // mono
       var outp = "";
+      //console.log("Calling C# docker: "+cmddocker);
 
-      var child = require('child_process').exec(cmddocker, optionsDefault);
+      var child = require('child_process').exec(cmddocker, optionsCompile);
+      //console.log("executing docker-mono-neo-compiler:"+JSON.stringify(child));
       child.on('exit', function(code, signal) {
-        console.log("exit compile docker");
+        //console.log("exit compile docker");
         if( signal == 'SIGKILL' )
         {
           var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
@@ -152,44 +164,11 @@ app.post('/compilex', function(req, res, next) {
       });
       child.stdout.on('data', function (data) {
         //console.log(data);
+        //console.log("MORE DATA:'"+data+"'");
         outp = outp+data;
       });
-      /*
-      var exec = require('child_process').exec;
 
-
-      console.log("cmd: "+cmddocker);
-      var child = exec(cmddocker);
-
-      console.log("child: "+child);
-
-      child.stdout.on('data', function (data) {
-        console.log('stdout: ' + data);
-        console.log('send data');
-        res.send('{"output":"oi","avm":"oi2","abi":"abi2"}');
-      });
-      child.stderr.on('data', function (data) {
-        console.log('stderr: ' + data);
-      });
-      child.on('close', function (code) {
-        console.log('closing code: ' + code);
-      });
-
-      promiseFromChildProcess(child).then(function (result) {
-        console.log('promise complete: ' + result);
-        outp = (result).toString();
-        res.send(outp);
-        }, function (err) {
-          console.log('promise rejected: ' + err);
-      });
-      */
-
-      console.log("End C# compile");
-      //console.log("calling compile function");
-      ////console.log("returning json..."+outp);
-      ////console.log("output is: '"+outp+"'");
-      ////res.send(JSON.stringify(outp));
-      //res.send(outp);
+      //console.log("End C# compile");
   } // C#
 
 }); // End of compilex

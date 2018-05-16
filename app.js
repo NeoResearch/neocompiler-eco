@@ -33,7 +33,7 @@ app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
 var optionsCompile = {
-  timeout: 5000, // 5 seconds is already a lot...
+  timeout: 7000, // 7 seconds is already a lot...
   killSignal: 'SIGKILL'
 }
 
@@ -66,110 +66,50 @@ app.post('/compilex', function(req, res) {
   //console.log("go: "+req.body.codesend_golang);
   //console.log("java: "+req.body.codesend_java);
 
-  // Python
-  if(req.body.codesend_python)
-  {
-    console.log("Python compile");
-    var code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
-    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-boa";
-    var outp = "";
-    //console.log("Calling Python docker: "+cmddocker);
-    var child = require('child_process').exec(cmddocker, optionsCompile);
-    child.on('exit', function(code, signal) {
-      //console.log("calling compile function");
-      if( signal == 'SIGKILL' )
-      {
-        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-        res.send(msgret);
-      }
-      else
-        res.send(outp);
-    });
-    child.stdout.on('data', function (data) {
-      //console.log(data);
-      outp = outp+data;
-    });
-  } // Python
-  else if(req.body.codesend_golang) // Golang
-  {
-    console.log("Golang compile");
-    var code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
-    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-neo-go";
-    var outp = "";
-    //console.log("Calling Go docker: "+cmddocker);
-    var child = require('child_process').exec(cmddocker, optionsCompile);
-    child.on('exit', function(code, signal) {
-      //console.log("GOLANG: calling compile function");
-      if( signal == 'SIGKILL' )
-      {
-        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-        res.send(msgret);
-      }
-      else
-        res.send(outp);
-    });
-    child.stdout.on('data', function (data) {
-      //console.log(data);
-      outp = outp+data;
-    });
-  } // Golang
-  else if(req.body.codesend_java) // Java
-  {
-    console.log("Java compile");
-    var code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
-    var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-java-neo-compiler";
-    //console.log(cmddocker);
-    var outp = "";
-    //console.log("Calling Java docker: "+cmddocker);
-    var child = require('child_process').exec(cmddocker, optionsCompile);
-    child.on('exit', function(code, signal) {
-      //console.log("JAVA: calling compile function");
-      if( signal == 'SIGKILL' )
-      {
-        var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-        res.send(msgret);
-      }
-      else
-        res.send(outp);
-    });
-    child.stdout.on('data', function (data) {
-      //console.log(data);
-      //console.log("JAVA data:"+data);
-      outp = outp+data;
-    });
-  } // Java
-  else if(req.body.codesend_cs) // C#
-  {
-      console.log("C# compile");
-      var code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
-      var cmddocker = "docker run -e COMPILECODE="+code64+" -t --rm docker-mono-neo-compiler"; // mono
-      var outp = "";
-      //console.log("Calling C# docker: "+cmddocker);
+  var imagename = "";
+  var code64 = "";
 
-      var child = require('child_process').exec(cmddocker, optionsCompile);
-      //console.log("executing docker-mono-neo-compiler:"+JSON.stringify(child));
-      child.on('exit', function(code, signal) {
-        //console.log("exit compile docker");
-        if( signal == 'SIGKILL' )
-        {
-          var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-          var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-          res.send(msgret);
-        }
-        else
-          res.send(outp);
-      });
-      child.stdout.on('data', function (data) {
-        //console.log(data);
-        //console.log("MORE DATA:'"+data+"'");
-        outp = outp+data;
-      });
+  if(req.body.codesend_python) { // Python
+    imagename = "docker-neo-boa";
+    code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
+  }
+  else if(req.body.codesend_golang) { // Golang
+    imagename = "docker-neo-go";
+    code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
+  }
+  else if(req.body.codesend_java) { // Java
+    imagename = "docker-java-neo-compiler";
+    code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
+  }
+  else if(req.body.codesend_cs) { // C#
+    imagename = "docker-mono-neo-compiler";
+    code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
+  }
 
-      //console.log("End C# compile");
-  } // C#
+  if(imagename != "")
+  {
+      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
+
+      if (e instanceof Error) {
+        console.error(e);
+        var msg64 = new Buffer("Internal Error:\n"+e,'ascii').toString('base64');
+        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+        res.send(msgret);
+        //throw e;
+      }
+      else {
+        //console.log('stdout ', stdout);
+        //console.log('stderr ', stderr);
+        res.send(stdout);
+      }
+    }); // child
+  } // if
+  else {
+    var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
+    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+    res.send(msgret);
+  }
 
 }); // End of compilex
 

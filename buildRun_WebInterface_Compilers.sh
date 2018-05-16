@@ -23,5 +23,5 @@ npm install
 echo "SLEEP 5 seconds. Waiting some couple of seconds until everything is processed...";
 sleep 5
 
-echo "RUNNING NeoCompiler.io server (sponsored by NeoResearch)";
+echo "RUNNING NeoCompiler Eco server (sponsored by NeoResearch)";
 ./run.sh

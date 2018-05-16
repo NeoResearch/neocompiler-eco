@@ -18,8 +18,8 @@ fi
 
 echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
 
-echo "BUILDING/RUNNING web interface and csharp compiler";
-./buildRun_WebInterface_CSharpCompiler.sh
+echo "BUILDING/RUNNING web interface and compilers";
+./buildRun_WebInterface_Compilers.sh
 
 # Old command that was used before our private Hub-docker images
 #echo "EXECUTE TransferScript on PrivateNet";

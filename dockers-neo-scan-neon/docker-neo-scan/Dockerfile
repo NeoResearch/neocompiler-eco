@@ -30,7 +30,7 @@ COPY neo-scan/neoscan_sync_config.exs /data/apps/neoscan_sync/config/config.exs
 
 # We have to do all this in the command because otherwise the environment variables don't work.
 # The sleep is here to make sure postgres is fully started first.
-ADD neo-scan-docker-startup.sh /opt
-ADD init-neo-scan.sh /opt
+ADD neo-scan/neo-scan-docker-startup.sh /opt
+ADD neo-scan/init-neo-scan.sh /opt
 
 CMD /opt/neo-scan-docker-startup.sh

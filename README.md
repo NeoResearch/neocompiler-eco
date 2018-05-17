@@ -166,6 +166,27 @@ After that, considering your modified `docker_build.sh` you gonna be able to mod
 
 Check out Neo-Scan + Neon-Db, for instance.
 
+## Usefull Commands
+
+# Open docker of python
+`docker exec -it neo-python-all-in-one bash`
+
+`screen -ls`
+There are 3 screen as soon as it starts:
+pythonSyncing (NeoCompiling Eco Deploy and Invoke)
+pythonRPCAndRestfull (Restfull API used by the NeoScan Notifications)
+pythonGenesis (Runs for some couple of minutes in order to generate the first NEO-GAS and transfer to a wallet)
+
+use `screen -dr pythonXXX`, ex:
+screen -dr pythonSyn or pythonRPC or pythonGen
+
+# open csharpnodes
+
+`docker exec -it neo-csharp-nodes bash`
+`screen -ls` will show the csharop nodes
+Currently, there are 4 and some scripts for adding new ones
+
+
 ## Contributing
 
 * If you have ideas or issues, you can inform directly at github or contact us directly

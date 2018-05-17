@@ -265,6 +265,14 @@ class PrivnetClaimall(object):
 
         self.quit()
 
+    def start_wallet_loop(self):
+        self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
+        self._walletdb_loop.start(1)
+
+    def stop_wallet_loop(self):
+        self._walletdb_loop.stop()
+        self._walletdb_loop = None
+        
     def claim_initial_neo(self, target_address):
         wallets = []
         i = 0

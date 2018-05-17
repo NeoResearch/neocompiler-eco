@@ -214,7 +214,9 @@
                   </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Create TX: Transfer UTXO Assets</div>
+                        <div class="panel-heading">Create TX: Transfer UTXO Assets
+                        <button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">fill all Neo</button>
+                        </div>
                         <div class="panel-body">
                             <form id="createtx" action="">
                               <div class="row">
@@ -562,6 +564,31 @@
             $("#" + hash).val(data);
           });
         }
+
+        function fillAllNeo()
+        {
+          addressToFill = $("#createtx_from").val()
+          if(!addressToFill)
+          {
+            console.log("One address should be provided");
+            return
+          }  
+          var url_toFill = NEOSCAN_PATH + "/api/main_net/v1/get_balance/" + addressToFill;
+          console.log("url_toFill:" + url_toFill);
+          $.getJSON(url_toFill, function(result) {
+            if(result.balance)
+            {
+              console.log(result.balance);
+              for( i = 0; i < result.balance.length; ++i)
+                  if(result.balance[i].asset == "NEO")
+                  {
+                      console.log("NEO balance is:" + result.balance[i].amount);
+                      $("#createtx_NEO").val(result.balance[i].amount);
+                  }
+            }
+          });
+        }
+
 
         function fillWalletInfo(result)
         {

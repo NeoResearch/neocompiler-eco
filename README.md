@@ -93,7 +93,7 @@ After building the compilers (without privatenet) you can run the front/backend 
 
 This script already builds the compilers and starts the server:
 
-`./buildRun_WebInterface_CSharpCompiler`
+`./buildRun_WebInterface_Compilers.sh`
 
 ## Alone and solitary private net backend: Building and running private net server
 
@@ -189,7 +189,6 @@ LICENSE MIT
 
 This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io).
 The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.
-Questions regarding the webserver may be directed to [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho).
 
 *NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho),[@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
 

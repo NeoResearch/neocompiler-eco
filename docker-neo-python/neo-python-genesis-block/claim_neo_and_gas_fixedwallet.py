@@ -82,7 +82,7 @@ from neo.SmartContract.ContractParameterContext import ContractParametersContext
 
 WALLET_PATH = "/tmp/privnet1"
 WALLET_PWD = "neo"
-MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 1
+MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 0.1
 
 # default multi-sig contract from the neo-privatenet-docker image. If you are using a different private net
 # configuration, you'll need to add all your node keys and multi-sig address in place of the ones below
@@ -248,8 +248,9 @@ class PrivnetClaimall(object):
         claim_tx, relayed = ClaimGas(self.wallet, require_password=False)
         self.wait_for_tx(claim_tx)
 
+        print("\nAll done! Rebuild wallet.")
         # Finally, need to rebuild the wallet
-        self.Wallet.Rebuild()
+        # self.Wallet.Rebuild()
 
         print("\nAll done!")
         print("- Wallet file: %s" % self.wallet_fn)
@@ -259,6 +260,7 @@ class PrivnetClaimall(object):
             with open(self.wif_fn, "w") as f:
                 f.write("KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr")
 
+        time.sleep(5) # -consolidate chain
         self.quit()
 
     def start_wallet_loop(self):

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import datetime
@@ -7,6 +7,9 @@ import os
 import psutil
 import traceback
 import logging
+import sys
+from time import sleep
+from logzero import logger
 
 from prompt_toolkit import prompt
 from prompt_toolkit.contrib.completers import WordCompleter
@@ -37,7 +40,7 @@ from neo.Prompt.Commands.Tokens import token_approve_allowance, token_get_allowa
     token_mint, token_crowdsale_register
 from neo.Prompt.Commands.Wallet import DeleteAddress, ImportWatchAddr, ImportToken, ClaimGas, DeleteToken, AddAlias, \
     ShowUnspentCoins
-from neo.Prompt.Utils import get_arg
+from neo.Prompt.Utils import get_arg, get_from_addr
 from neo.Prompt.InputParser import InputParser
 from neo.Settings import settings, PrivnetConnectionError, PATH_USER_DATA
 from neo.UserPreferences import preferences
@@ -60,10 +63,39 @@ settings.set_logfile(LOGFILE_FN, LOGFILE_MAX_BYTES, LOGFILE_BACKUP_COUNT)
 FILENAME_PROMPT_HISTORY = os.path.join(PATH_USER_DATA, '.prompt.py.history')
 
 
+class PromptFileHistory(FileHistory):
+    def append(self, string):
+        string = self.redact_command(string)
+        if len(string) == 0:
+            return
+        self.strings.append(string)
+
+        # Save to file.
+        with open(self.filename, 'ab') as f:
+            def write(t):
+                f.write(t.encode('utf-8'))
+
+            write('\n# %s\n' % datetime.datetime.now())
+            for line in string.split('\n'):
+                write('+%s\n' % line)
+
+    def redact_command(self, string):
+        if len(string) == 0:
+            return string
+        command = [comm for comm in ['import wif', 'export wif', 'import nep2', 'export nep2'] if comm in string]
+        if len(command) > 0:
+            command = command[0]
+            # only redacts command if wif/nep2 keys are in the command, not if the argument is left empty.
+            if command in string and len(command + " ") < len(string):
+                # example: import wif 5HueCGU8  -->  import wif <wif>
+                return command + " <" + command.split(" ")[1] + ">"
+            else:
+                return string
+
+        return string
+
+
 class PromptInterface(object):
-
-    mycommands = []
-
     go_on = True
 
     _walletdb_loop = None
@@ -71,6 +103,9 @@ class PromptInterface(object):
     Wallet = None
 
     _known_things = []
+
+    #TODO - NeoCompiler Eco variable
+    mycommands = []
 
     commands = ['quit',
                 'help',
@@ -93,6 +128,7 @@ class PromptInterface(object):
                 'import nep2 {nep2_encrypted_key}',
                 'import contract {path/to/file.avm} {params} {returntype} {needs_storage} {needs_dynamic_invoke}',
                 'import contract_addr {contract_hash} {pubkey}',
+                'import multisig_addr {pubkey in wallet} {minimum # of signatures required} {signing pubkey 1} {signing pubkey 2}...',
                 'import watch_addr {address}',
                 'import token {token_contract_hash}',
                 'export wif {address}',
@@ -104,12 +140,14 @@ class PromptInterface(object):
                 'wallet migrate',
                 'wallet rebuild {start block}',
                 'wallet delete_addr {addr}',
+                'wallet delete_token {token_contract_hash}',
                 'wallet alias {addr} {title}',
                 'wallet tkn_send {token symbol} {address_from} {address to} {amount} ',
                 'wallet tkn_send_from {token symbol} {address_from} {address to} {amount}',
                 'wallet tkn_approve {token symbol} {address_from} {address to} {amount}',
                 'wallet tkn_allowance {token symbol} {address_from} {address to}',
                 'wallet tkn_mint {token symbol} {mint_to_addr} (--attach-neo={amount}, --attach-gas={amount})',
+                'wallet tkn_register {addr} ({addr}...) (--from-addr={addr})',
                 'wallet unspent',
                 'wallet close',
                 'withdraw_request {asset_name} {contract_hash} {to_addr} {amount}',
@@ -121,11 +159,11 @@ class PromptInterface(object):
                 'withdraw all # withdraw all holds available',
                 'send {assetId or name} {address} {amount} (--from-addr={addr})',
                 'sign {transaction in JSON format}',
-                'testinvoke {contract hash} {params} (--attach-neo={amount}, --attach-gas={amount})',
+                'testinvoke {contract hash} {params} (--attach-neo={amount}, --attach-gas={amount}) (--from-addr={addr})',
                 'debugstorage {on/off/reset}'
                 ]
 
-    history = FileHistory(FILENAME_PROMPT_HISTORY)
+    history = PromptFileHistory(FILENAME_PROMPT_HISTORY)
 
     token_style = None
     start_height = None
@@ -147,9 +185,9 @@ class PromptInterface(object):
         out = []
         try:
             out = [(Token.Command, '[%s] Progress: ' % settings.net_name),
-                   (Token.Number, str(Blockchain.Default().Height)),
+                   (Token.Number, str(Blockchain.Default().Height + 1)),
                    (Token.Neo, '/'),
-                   (Token.Number, str(Blockchain.Default().HeaderHeight))]
+                   (Token.Number, str(Blockchain.Default().HeaderHeight + 1))]
         except Exception as e:
             pass
 
@@ -163,7 +201,7 @@ class PromptInterface(object):
                                 'wallet', 'contract', 'asset', 'wif',
                                 'watch_addr', 'contract_addr', 'testinvoke', 'tkn_send',
                                 'tkn_mint', 'tkn_send_from', 'tkn_approve', 'tkn_allowance',
-                                'build', 'notifications', ]
+                                'tkn_register', 'build', 'notifications', ]
 
         if self.Wallet:
             for addr in self.Wallet.Addresses:
@@ -197,12 +235,15 @@ class PromptInterface(object):
     def do_open(self, arguments):
         if self.Wallet:
             self.do_close_wallet()
+
         item = get_arg(arguments)
 
         if item and item == 'wallet':
+
             path = get_arg(arguments, 1)
 
             if path:
+
                 if not os.path.exists(path):
                     print("Wallet file not found")
                     return
@@ -212,9 +253,8 @@ class PromptInterface(object):
 
                 try:
                     self.Wallet = UserWallet.Open(path, to_aes_key("coz"))
+                    self.start_wallet_loop()
                     self.Wallet.ProcessBlocks()
-                    self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
-                    self._walletdb_loop.start(1)
 
                     #print("\n\nWallet current height is: %s" % self.Wallet.WalletHeight)
                     #print("\nWait %s seconds after openning wallet..." % 3)
@@ -292,6 +332,14 @@ class PromptInterface(object):
 
             else:
                 print("Please specify a path")
+
+    def start_wallet_loop(self):
+        self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
+        self._walletdb_loop.start(1)
+
+    def stop_wallet_loop(self):
+        self._walletdb_loop.stop()
+        self._walletdb_loop = None
 
     def do_close_wallet(self):
         if self.Wallet:
@@ -650,7 +698,8 @@ class PromptInterface(object):
                 if height > -1:
                     jsn = tx.ToJson()
                     jsn['height'] = height
-                    jsn['unspents'] = [uns.ToJson(tx.outputs.index(uns)) for uns in Blockchain.Default().GetAllUnspent(txid)]
+                    jsn['unspents'] = [uns.ToJson(tx.outputs.index(uns)) for uns in
+                                       Blockchain.Default().GetAllUnspent(txid)]
                     tokens = [(Token.Command, json.dumps(jsn, indent=4))]
                     print_tokens(tokens, self.token_style)
                     print('\n')
@@ -743,8 +792,10 @@ class PromptInterface(object):
             print("Please open a wallet")
             return
 
+        args, from_addr = get_from_addr(args)
+
         if args and len(args) > 0:
-            tx, fee, results, num_ops = TestInvokeContract(self.Wallet, args)
+            tx, fee, results, num_ops = TestInvokeContract(self.Wallet, args, from_addr=from_addr)
 
             if tx is not None and results is not None:
                 print(
@@ -764,7 +815,7 @@ class PromptInterface(object):
 
                 result = False
                 if onlyinvoke is False:
-                    result = InvokeContract(self.Wallet, tx, fee)
+                    result = InvokeContract(self.Wallet, tx, fee, from_addr=from_addr)
 
                 if result is False:
                     return None
@@ -781,6 +832,8 @@ class PromptInterface(object):
             print("Please open a wallet")
             return
 
+        args, from_addr = get_from_addr(args)
+
         function_code = LoadContract(args[1:])
 
         if function_code:
@@ -789,7 +842,7 @@ class PromptInterface(object):
 
             if contract_script is not None:
 
-                tx, fee, results, num_ops = test_invoke(contract_script, self.Wallet, [])
+                tx, fee, results, num_ops = test_invoke(contract_script, self.Wallet, [], from_addr=from_addr)
 
                 if tx is not None and results is not None:
                     print(
@@ -808,7 +861,7 @@ class PromptInterface(object):
                     if not self.Wallet.ValidatePassword("coz"):
                         return print("Incorrect password")
 
-                    result = InvokeContract(self.Wallet, tx, Fixed8.Zero())
+                    result = InvokeContract(self.Wallet, tx, Fixed8.Zero(), from_addr=from_addr)
 
                     if result is False:
                         return None
@@ -871,8 +924,35 @@ class PromptInterface(object):
             else:
                 print("Cannot configure log. Please specify on|off")
 
+        elif what == 'sc-debug-notify':
+            c1 = get_arg(args, 1).lower()
+            if c1 is not None:
+                if c1 == 'on' or c1 == '1':
+                    print("Smart contract emit Notify events on execution failure is now enabled")
+                    settings.set_emit_notify_events_on_sc_execution_error(True)
+                if c1 == 'off' or c1 == '0':
+                    print("Smart contract emit Notify events on execution failure is now disabled")
+                    settings.set_emit_notify_events_on_sc_execution_error(False)
+
+            else:
+                print("Cannot configure log. Please specify on|off")
+
+        elif what == 'vm-log':
+            c1 = get_arg(args, 1).lower()
+            if c1 is not None:
+                if c1 == 'on' or c1 == '1':
+                    print("VM instruction execution logging is now enabled")
+                    settings.set_log_vm_instruction(True)
+                if c1 == 'off' or c1 == '0':
+                    print("VM instruction execution logging is now disabled")
+                    settings.set_log_vm_instruction(False)
+
+            else:
+                print("Cannot configure VM instruction logging. Please specify on|off")
+
         else:
-            print("Cannot configure %s try 'config sc-events on|off' or 'config debug on|off'", what)
+            print(
+                "Cannot configure %s try 'config sc-events on|off', 'config debug on|off', 'config sc-debug-notify on|off' or 'config vm-log on|off'" % what)
 
     #TODO NeoCompiler parse_result function -- BEGINS
     def parse_result(self, result):
@@ -1048,20 +1128,34 @@ class PromptInterface(object):
 def main():
     parser = argparse.ArgumentParser()
 
+    # Network group
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-m", "--mainnet", action="store_true", default=False,
                        help="Use MainNet instead of the default TestNet")
-    group.add_argument("-p", "--privnet", action="store_true", default=False,
-                       help="Use PrivNet instead of the default TestNet")
+    group.add_argument("-p", "--privnet", nargs="?", metavar="host", const=True, default=False,
+                       help="Use a private net instead of the default TestNet, optionally using a custom host (default: 127.0.0.1)")
     group.add_argument("--coznet", action="store_true", default=False,
                        help="Use the CoZ network instead of the default TestNet")
     group.add_argument("-c", "--config", action="store", help="Use a specific config file")
 
+    # Theme
     parser.add_argument("-t", "--set-default-theme", dest="theme",
                         choices=["dark", "light"],
                         help="Set the default theme to be loaded from the config file. Default: 'dark'")
+
+    # Verbose
+    parser.add_argument("-v", "--verbose", action="store_true", default=False,
+                        help="Show smart-contract events by default")
+
+    # Where to store stuff
+    parser.add_argument("--datadir", action="store",
+                        help="Absolute path to use for database directories")
+
+    # Show the neo-python version
     parser.add_argument("--version", action="version",
                         version="neo-python v{version}".format(version=__version__))
+
+    #TODO - NeoCompiler Eco Parser
     parser.add_argument("-e", "--exec_command", action="store", help="Use a specific commands")
 
     args = parser.parse_args()
@@ -1072,7 +1166,11 @@ def main():
     elif args.mainnet:
         settings.setup_mainnet()
     elif args.privnet:
-        settings.setup_privnet()
+        try:
+            settings.setup_privnet(args.privnet)
+        except PrivnetConnectionError as e:
+            logger.error(str(e))
+            return
     elif args.coznet:
         settings.setup_coznet()
 
@@ -1086,8 +1184,14 @@ def main():
     if args.theme:
         preferences.set_theme(args.theme)
 
+    if args.verbose:
+        settings.set_log_smart_contract_events(True)
+
+    if args.datadir:
+        settings.set_data_dir(args.datadir)
+
     # Instantiate the blockchain and subscribe to notifications
-    blockchain = LevelDBBlockchain(settings.LEVELDB_PATH)
+    blockchain = LevelDBBlockchain(settings.chain_leveldb_path)
     Blockchain.RegisterBlockchain(blockchain)
 
     # Try to set up a notification db

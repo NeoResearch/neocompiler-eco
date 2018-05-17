@@ -26,34 +26,63 @@ There are several parameters you can configure with cli args. Take a look at the
 This script takes several minutes to complete. Be patient!
 """
 
-import os
-import sys
-import json
 import time
-import datetime
 import argparse
+import datetime
+import json
+import os
+import psutil
+import traceback
+import logging
+import sys
+from time import sleep
+from logzero import logger
+from prompt_toolkit import prompt
+from prompt_toolkit.contrib.completers import WordCompleter
+from prompt_toolkit.history import FileHistory
+from prompt_toolkit.shortcuts import print_tokens
+from prompt_toolkit.styles import style_from_dict
+from prompt_toolkit.token import Token
+from twisted.internet import reactor, task
 
 from tempfile import NamedTemporaryFile
 from Crypto import Random
 
-from neo.Wallets.utils import to_aes_key
-from neo.Implementations.Wallets.peewee.UserWallet import UserWallet
-from neo.Implementations.Blockchains.LevelDB.LevelDBBlockchain import LevelDBBlockchain
-from neocore.KeyPair import KeyPair
-from neo.Prompt.Commands.LoadSmartContract import ImportMultiSigContractAddr
+from neo import __version__
 from neo.Core.Blockchain import Blockchain
 from neocore.Fixed8 import Fixed8
-from neo.Prompt.Commands.Send import construct_and_send
-from neo.Prompt.Commands.Wallet import ClaimGas
+from neo.IO.MemoryStream import StreamManager
+from neo.Wallets.utils import to_aes_key
+from neo.Implementations.Blockchains.LevelDB.LevelDBBlockchain import LevelDBBlockchain
+from neo.Implementations.Blockchains.LevelDB.DebugStorage import DebugStorage
+from neo.Implementations.Wallets.peewee.UserWallet import UserWallet
+from neo.Implementations.Notifications.LevelDB.NotificationDB import NotificationDB
+from neo.Network.NodeLeader import NodeLeader
+from neo.Prompt.Commands.BuildNRun import BuildAndRun, LoadAndRun
+from neo.Prompt.Commands.Invoke import InvokeContract, TestInvokeContract, test_invoke
+from neo.Prompt.Commands.LoadSmartContract import LoadContract, GatherContractDetails, ImportContractAddr, \
+    ImportMultiSigContractAddr
+from neo.Prompt.Commands.Send import construct_and_send, parse_and_sign
+from neo.contrib.nex.withdraw import RequestWithdrawFrom, PrintHolds, DeleteHolds, WithdrawOne, WithdrawAll, \
+    CancelWithdrawalHolds, ShowCompletedHolds, CleanupCompletedHolds
+from neo.Prompt.Commands.Tokens import token_approve_allowance, token_get_allowance, token_send, token_send_from, \
+    token_mint, token_crowdsale_register
+from neo.Prompt.Commands.Wallet import DeleteAddress, ImportWatchAddr, ImportToken, ClaimGas, DeleteToken, AddAlias, \
+    ShowUnspentCoins
+from neo.Prompt.Utils import get_arg, get_from_addr
+from neo.Prompt.InputParser import InputParser
+from neo.Settings import settings, PrivnetConnectionError, PATH_USER_DATA
+from neo.UserPreferences import preferences
+from neocore.KeyPair import KeyPair
+from neocore.UInt256 import UInt256
+
+#TODO Scripts used for this script
 from neo.Core.TX.Transaction import TransactionOutput, ContractTransaction
 from neo.SmartContract.ContractParameterContext import ContractParametersContext
-from neo.Network.NodeLeader import NodeLeader
-from twisted.internet import reactor, task
-from neo.Settings import settings
 
 WALLET_PATH = "/tmp/privnet1"
 WALLET_PWD = "neo"
-MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 1
+MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 0.5
 
 # default multi-sig contract from the neo-privatenet-docker image. If you are using a different private net
 # configuration, you'll need to add all your node keys and multi-sig address in place of the ones below
@@ -277,19 +306,39 @@ class PrivnetClaimall(object):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    # parser.add_argument("-o", "--output", action="store", help="Filename of wallet that will be created (default: %s)" % WALLET_PATH, default=WALLET_PATH)
-    # parser.add_argument("-p", "--password", action="store", help="Wallet password (default: %s)" % WALLET_PWD, default=WALLET_PWD)
+
+    # Network group
+    group = parser.add_mutually_exclusive_group()
+
+    group.add_argument("-p", "--privnet", nargs="?", metavar="host", const=True, default=False,
+                       help="Use a private net instead of the default TestNet, optionally using a custom host (default: 127.0.0.1)")
+
     parser.add_argument("-t", "--time", action="store", help="Minutes to wait for the NEO to generate GAS (default: %s)" % MINUTES_TO_WAIT_UNTIL_GAS_CLAIM, default=MINUTES_TO_WAIT_UNTIL_GAS_CLAIM)
-    # parser.add_argument("-w", "--save-privnet-wif", action="store", help="Filename to store created privnet wif key")
+
+    # Where to store stuff
+    parser.add_argument("--datadir", action="store",
+                        help="Absolute path to use for database directories")
+
     args = parser.parse_args()
 
-    settings.setup_privnet()
+    try:
+        settings.setup_privnet(args.privnet)
+    except PrivnetConnectionError as e:
+        logger.error(str(e))
+
+    if args.datadir:
+        settings.set_data_dir(args.datadir)
+
     print("Blockchain DB path:", settings.chain_leveldb_path)
     if os.path.exists(settings.chain_leveldb_path):
         print("Warning: Chain database already exists. If this is from a previous private network, you need to delete %s" % settings.chain_leveldb_path)
 
     blockchain = LevelDBBlockchain(settings.chain_leveldb_path)
     Blockchain.RegisterBlockchain(blockchain)
+
+    # Try to set up a notification db
+    if NotificationDB.instance():
+        NotificationDB.instance().start()
 
     reactor.suggestThreadPoolSize(15)
     NodeLeader.Instance().Start()

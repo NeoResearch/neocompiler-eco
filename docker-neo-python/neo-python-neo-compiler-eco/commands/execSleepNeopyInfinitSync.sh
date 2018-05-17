@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#Delete all previous data
+rm -rf /root/.neopython/Chains/*
+rm -rf /root/.neopython
+
 cd /neo-python/ 
 
 stropen[1]=`echo "open wallet w1.wallet" | xxd -p`

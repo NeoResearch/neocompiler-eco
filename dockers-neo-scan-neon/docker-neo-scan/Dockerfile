@@ -22,6 +22,8 @@ ENV NEO_PYTHON_SEED_1="http://neo-python-all-in-one:38088/v1"
 
 EXPOSE 4000
 
+RUN mix deps.get
+
 COPY neo-scan/neoscan_dev.exs /data/apps/neoscan/config/dev.exs
 COPY neo-scan/neoscan_monitor_config.exs /data/apps/neoscan_monitor/config/config.exs
 COPY neo-scan/neoscan_sync_config.exs /data/apps/neoscan_sync/config/config.exs

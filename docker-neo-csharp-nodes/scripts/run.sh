@@ -11,4 +11,3 @@ screen -dmS node4 expect /opt/start_consensus_node.sh /opt/node4/neo-cli/ wallet
 screen -dmS pythonRestRPC /opt/start_neopython_rpc_rest.sh
 
 sleep infinity
-

@@ -281,11 +281,79 @@ def Main():
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="invokeparams">Params</label>
+                        <label for="invokeparams">Invoke Params</label>
                         <input id="invokeparams" name="invokeparams" class="form-control" value='""' placeholder="Script Params"/>
                       </div>
                     </div>
-
+                </div>
+                <div class="row">
+                      <div class="col-md-3">
+                        <div class="form-group">
+                          <label for="invokefunctionpy">Function to Invoke</label>
+                          <select id="invokefunctionpy" class="custom-select form-control">
+                              <option>Main</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- Param 1 -->
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select id="invokeparampybox1" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                              <option>None</option>
+                              <option>String</option>
+                              <option>Address</option>
+                              <option>Hex</option>
+                              <option>Integer</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Param 1: </label> <input type="checkbox" id="cbx_inarray_py1" checked/> in array<br/>
+                          <input id="invokeparamspy1" class="form-control" value='' placeholder="Script Param 1" onchange="updateInvokeParamsPy()"/>
+                        </div>
+                      </div>
+                      <!-- Param 2 -->
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select id="invokeparampybox2" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                              <option>None</option>
+                              <option>String</option>
+                              <option>Address</option>
+                              <option>Hex</option>
+                              <option>Integer</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Param 2</label> <input type="checkbox" id="cbx_inarray_py2" checked/> in array<br/>
+                          <input id="invokeparamspy2" class="form-control" value='' placeholder="Script Param 2" onchange="updateInvokeParamsPy()"/>
+                        </div>
+                      </div>
+                      <!-- Param 3 -->
+                      <div class="col-md-1">
+                        <div class="form-group">
+                          <label>Type</label>
+                          <select id="invokeparampybox3" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                              <option>None</option>
+                              <option>String</option>
+                              <option>Address</option>
+                              <option>Hex</option>
+                              <option>Integer</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Param 3</label> <input type="checkbox" id="cbx_inarray_py3" checked/> in array<br/>
+                          <input id="invokeparamspy3" class="form-control" value='' placeholder="Script Param 3" onchange="updateInvokeParamsPy()"/>
+                        </div>
+                      </div>
+                </div> <!-- row -->
+                <div class="row">
                     <div class="col-md-12 form-inline" style="margin-bottom: 10px">
                       <div class="form-group">
                         <label for="attachneo">NEO</label>
@@ -482,6 +550,7 @@ def Main():
             BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
+                console.log("finished compiling");
                 $("#compilebtn")[0].disabled = false;
                 var coderr = atob(data.output);
                 $("#codewarnerr").val(coderr);
@@ -508,17 +577,36 @@ def Main():
 
                 var codeabi = atob(data.abi);
                 console.log(codeabi);
-                if( codeabi.length != 0 ) {
+
+                inputbox2 = document.getElementById("invokefunctionpy");
+                while(inputbox2.options.length > 0)
+                   inputbox2.remove(0);
+                if( codeabi.length == 0)
+                {
+                    option = document.createElement("option");
+                    option.text = "Main";
+                    option.value = "Main";
+                    inputbox2.add(option);
+                }
+                else
+                {
                     jsonABI = JSON.parse(codeabi);
 
                     var textAbi = "Hash: " + jsonABI["hash"] + "\n";
                     textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
                     textAbi += "Functions:" + "\n";
+
                     for (var i = 0; i < jsonABI["functions"].length; i++)
                     {
                         textAbi += "\t" +
                             jsonABI["functions"][i]["returntype"] + " " +
                             jsonABI["functions"][i]["name"] + "(";
+
+                        option = document.createElement("option");
+                        option.text  = jsonABI["functions"][i]["name"];
+                        option.value = jsonABI["functions"][i]["name"];
+                        inputbox2.add(option);
+
                         for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
                         {
                             textAbi += jsonABI["functions"][i]["parameters"][f]["type"] + " " +
@@ -605,6 +693,8 @@ def Main():
         ); //End of POST for search
 
     }); //End of form Compile function */
+
+
 
     //===============================================================
     $("#forminvoke").submit(function (e) {
@@ -1066,5 +1156,67 @@ def Main():
      }
    }
    //===============================================================
+
+   function convertParam(type, value) {
+     if(type == "String")
+        return "\""+value+"\"";
+     if(type == "Address")
+        return "\""+value+"\"";
+     if(type == "Hex")
+        return "b'"+Neon.u.str2hexstring(Neon.u.hexstring2str(value))+"'";
+     if(type == "Integer")
+        return ""+Number(value);
+     return "";
+   }
+
+   function updateInvokeParamsPy() {
+     invokecmd = "";
+     if($("#invokefunctionpy")[0].value != "Main")
+        invokecmd += Neon.u.str2hexstring($("#invokefunctionpy")[0].value)+" ";
+
+     countparam = 0;
+     par1 = "";
+     if($("#invokeparampybox1")[0].value != "None") {
+        par1 = convertParam($("#invokeparampybox1")[0].value, $("#invokeparamspy1")[0].value);
+        countparam++;
+     }
+     par2 = "";
+     if($("#invokeparampybox2")[0].value != "None") {
+        par2 = convertParam($("#invokeparampybox2")[0].value, $("#invokeparamspy2")[0].value);
+        countparam++;
+     }
+     par3 = "";
+     if($("#invokeparampybox3")[0].value != "None") {
+        par3 = convertParam($("#invokeparampybox3")[0].value, $("#invokeparamspy3")[0].value);
+        countparam++;
+     }
+
+     // put non-array values
+     //if(!$("#cbx_inarray_py1")[0].checked)
+
+      invokecmd += "[";
+      if(par1 != "") {
+         invokecmd += par1;
+         countparam--;
+      }
+      if(countparam > 0)
+         invokecmd += ",";
+      if(par2 != "") {
+         invokecmd += par2;
+         countparam--;
+      }
+      if(countparam > 0)
+         invokecmd += ",";
+      if(par3 != "") {
+         invokecmd += par3;
+         countparam--;
+      }
+      invokecmd += "]";
+
+      $("#invokeparams")[0].value = invokecmd;
+   }
+
+
+   // ==============================================================
 
 </script>

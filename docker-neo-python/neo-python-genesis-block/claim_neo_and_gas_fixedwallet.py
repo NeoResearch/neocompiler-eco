@@ -249,11 +249,7 @@ class PrivnetClaimall(object):
         self.wait_for_tx(claim_tx)
 
         # Finally, need to rebuild the wallet
-        self.stop_wallet_loop()
-        try:
-            self.Wallet.Rebuild()
-        finally:
-            self.start_wallet_loop()
+        self.Wallet.Rebuild()
 
         print("\nAll done!")
         print("- Wallet file: %s" % self.wallet_fn)
@@ -272,7 +268,7 @@ class PrivnetClaimall(object):
     def stop_wallet_loop(self):
         self._walletdb_loop.stop()
         self._walletdb_loop = None
-        
+
     def claim_initial_neo(self, target_address):
         wallets = []
         i = 0

@@ -2,7 +2,7 @@ version: "3"
 services:
   neo-scan:
     build: .
-    image: neo-scan-neo-compiler:latest
+    image: neo-compiler-neoscan:latest
     container_name: "neo-scan"
     ports:
       - 4000:4000

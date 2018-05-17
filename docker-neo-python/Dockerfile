@@ -48,6 +48,8 @@ ADD ./neo-python-genesis-block/neo-privnet.python-wallet /tmp/wallet
 #Problems with the chain with there are less than 2000 blocks
 #ADD ./neo-python-genesis-block/LevelDBBlockchain.py /neo-python/neo/Implementations/Blockchains/LevelDB
 
+ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
+
 # Some .bashrc helpers: 'neopy', and a welcome message for bash users
 RUN echo "alias neopy=\"cd /neo-python && np-prompt -p\"" >> /root/.bashrc
 RUN echo "printf \"\n* Consensus nodes are running in screen sessions, check 'screen -ls'\"" >> /root/.bashrc
@@ -109,7 +111,6 @@ RUN printf '%s\n' /127.0.0.1:20336/c '     "'$NEO_PYTHON_NODE_4'"' . w q | ex -s
 # Example run command
 # CMD /bin/bash
 
-ADD callGenesisBlockCreation.sh /opt/
 ADD run-all.sh /opt/
 
 # On docker run, start the rpc-rest node

@@ -22,5 +22,3 @@ if (( $# != 0 )); then
 else
 	echo "Please, provide, at least: * [integer]the new (expected) consensus time between blocks ";
 fi
-
-

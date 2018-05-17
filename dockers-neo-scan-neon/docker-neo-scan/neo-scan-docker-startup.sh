@@ -6,8 +6,8 @@ sleep 10
 echo "ENTERING into /data"
 cd /data
 
-echo "RUNNING mix deps.get..."
-mix deps.get
+#echo "RUNNING mix deps.get..."
+#mix deps.get
 
 echo "RUNNING mix ecto.create and migrate..."
 mix ecto.create && mix ecto.migrate

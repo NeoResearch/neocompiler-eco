@@ -56,6 +56,24 @@ function neonJSPlayground(){
 }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
 // =============================================
 
+function CreateClaimGasTX( from, fromPrivateKey, networkToCall = "PrivateNet", nodeToCall = NODES_CSHARP_PATH, ){
+    const config = {
+        net: networkToCall, // The network to perform the action, MainNet or TestNet.
+        url: nodeToCall,
+        address: from,  // This is the address which the assets come from.
+        privateKey: fromPrivateKey,
+    }
+
+    Neon.default.claimGas(config)
+    .then(res => {
+        console.log(res.response)
+    })
+    .catch(e => {
+        console.log(e)
+    })
+}
+
+
 function CreateTx( from, fromPrivateKey, to, neo, gas, networkToCall = "PrivateNet", nodeToCall = NODES_CSHARP_PATH, ){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))	
     var intent;

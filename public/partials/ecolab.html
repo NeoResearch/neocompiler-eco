@@ -256,6 +256,30 @@
                          </div>
                     </div>
                     <div class="panel panel-primary">
+                        <div class="panel-heading">Create TX: Claim GAS</div>
+                        <div class="panel-body">
+                            <form id="createtxgas" action="">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtxgas_from">From(Address)</label>
+                                    <input id="createtx_from" class="form-control" placeholder="From" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="createtxgas_from_privatek">From (Private Key)</label>
+                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <button type="submit" id="txcreategas" class="btn btn-info btn-sm">Create</button>
+                                </div>
+                              </div>
+                           </form>
+                         </div>
+                    </div>
+                    <div class="panel panel-primary">
                         <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
                         <div class="panel-body">
                             <form id="frm_createtx_withdraw" action="">
@@ -877,6 +901,15 @@
             if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
                mynetwork = "PrivateNet";
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), mynetwork);
+        });
+
+        $("#createtxgas").submit(function (e) {
+            e.preventDefault(); // Prevents the page from refreshing
+            selBox = $("#createtx_selRPCNetwork")[0];
+            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
+            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
+               mynetwork = "PrivateNet";
+            CreateClaimGasTX($("#createtx_from").val(), $("#createtx_from_privatek").val(), mynetwork);
         });
 
         $("#createtx_from_contract").on('keyup', function () {

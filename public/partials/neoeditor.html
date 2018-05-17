@@ -581,14 +581,13 @@ def Main():
                 inputbox2 = document.getElementById("invokefunctionpy");
                 while(inputbox2.options.length > 0)
                    inputbox2.remove(0);
-                if( codeabi.length == 0)
-                {
-                    option = document.createElement("option");
-                    option.text = "Main";
-                    option.value = "Main";
-                    inputbox2.add(option);
-                }
-                else
+
+                option = document.createElement("option");
+                option.text = "Main";
+                option.value = "Main";
+                inputbox2.add(option);
+
+                if( codeabi.length != 0)
                 {
                     jsonABI = JSON.parse(codeabi);
 
@@ -602,10 +601,12 @@ def Main():
                             jsonABI["functions"][i]["returntype"] + " " +
                             jsonABI["functions"][i]["name"] + "(";
 
-                        option = document.createElement("option");
-                        option.text  = jsonABI["functions"][i]["name"];
-                        option.value = jsonABI["functions"][i]["name"];
-                        inputbox2.add(option);
+                        if(jsonABI["functions"][i]["name"] != "Main") {
+                            option = document.createElement("option");
+                            option.text  = jsonABI["functions"][i]["name"];
+                            option.value = jsonABI["functions"][i]["name"];
+                            inputbox2.add(option);
+                        }
 
                         for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
                         {

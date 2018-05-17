@@ -263,13 +263,13 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtxgas_from">From(Address)</label>
-                                    <input id="createtx_from" class="form-control" placeholder="From" required/>
+                                    <input id="createtxgas_from" class="form-control" placeholder="From" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtxgas_from_privatek">From (Private Key)</label>
-                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                                    <input id="createtxgas_from_privatek" class="form-control" placeholder="Private Key" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-12">
@@ -471,6 +471,13 @@
     </div>
 
     <script>
+        //Check current webpage and starts with localhost or neocompiler public website
+        if(this.window.location.href.indexOf("localhost")  != -1)
+        {
+	          $("#createtx_selRPCNetwork")[0].selectedIndex = 2;
+            $("#selRPCNetwork")[0].selectedIndex = 1;
+        }
+
         $(document).ready(function(){
           console.log("checking wallets");
             setInterval(function() {
@@ -908,7 +915,7 @@
             mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
             if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
                mynetwork = "PrivateNet";
-            CreateClaimGasTX($("#createtx_from").val(), $("#createtx_from_privatek").val(), mynetwork);
+            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), mynetwork);
         });
 
         $("#createtx_from_contract").on('keyup', function () {

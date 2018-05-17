@@ -22,7 +22,7 @@ A didactic and, hopefully, simple guidelines will be provided in order to motiva
 Basically, the competition will run in two different rounds:
 
 * R1) 1st Round - Time to be creative:
-  - Participants are encouraged to use [NeoResearch/NeoOptTests](https://github.com/NeoResearch/neo-opt-tests) framework for playing with proof-of-bullets tests and report their finding. However, other types of analyses are welcomed;
+  - Participants are encouraged to use [NeoResearch/NeoCompiler Eco(system)](https://github.com/NeoResearch) framework for playing with proof-of-bullets tests and report their finding. However, other types of analyses are welcomed;
   - 2 NEO will be awarded to the best 50 reports.
 * R2) 2nd Round - The power of replications
   - Our team will revise all entries and forward crossed experiments to be replicated by participants. At least, two different batches of experiments may reach each participant;

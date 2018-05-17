@@ -2,7 +2,6 @@
 FROM ubuntu:17.10
 
 LABEL maintainer="City of Zion, NeoResearch"
-LABEL authors="metachris, ashant, hal0x2328, phetter, vncoelho"
 
 ENV DEBIAN_FRONTEND noninteractive
 

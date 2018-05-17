@@ -556,6 +556,17 @@
           });
         }
 
+        function fillWalletInfo(result)
+        {
+            var data = "";
+            if(result.balance)
+            {
+              for( i = 0; i < result.balance.length; ++i)
+                  data += result.balance[i].amount + " " + result.balance[i].asset + "\n";
+            }
+            return data;
+        }
+
         function populateWalletData()
         {
             var url_w1 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
@@ -563,28 +574,16 @@
             var url_w3 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx";
             var url_w4 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
             $.getJSON(url_w1, function(result) {
-                var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
-                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
-                $("#w1Data")[0].value = data;
+                $("#w1Data")[0].value = fillWalletInfo(result);
             });
             $.getJSON(url_w2, function(result) {
-                var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
-                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
-                $("#w2Data")[0].value = data;
+                $("#w2Data")[0].value = fillWalletInfo(result);
             });
             $.getJSON(url_w3, function(result) {
-                var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
-                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
-                $("#w3Data")[0].value = data;
+                $("#w3Data")[0].value = fillWalletInfo(result);
             });
             $.getJSON(url_w4, function(result) {
-                var data = "";
-                data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
-                data += result.balance[1].amount + " " + result.balance[1].asset + "\n";
-                $("#w4Data")[0].value = data;
+                $("#w4Data")[0].value = fillWalletInfo(result);
             });
         }
 

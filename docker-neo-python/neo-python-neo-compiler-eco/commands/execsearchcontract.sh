@@ -26,11 +26,12 @@ if (( $# == 1 )); then
 #   rm -rf Chains/privnet/*
 #   rm -rf Chains/*
 
-   python3 unsafeprompt.py -p -e $strexit,$strsearch,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
+   python3 unsafeprompt.py -p --datadir /root/.$randomFolder/Chains -e $strexit,$strsearch,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
 
 
    echo "Time to delete folder"
    rm -rf /neo-python$randomFolder/
+   rm -rf /root/.$randomFolder
    echo "Bye bye... :D"
 fi
 

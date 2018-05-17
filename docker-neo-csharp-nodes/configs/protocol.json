@@ -16,10 +16,10 @@
             "127.0.0.1:20336"
         ],
         "SystemFee": {
-            "EnrollmentTransaction": 1,
-            "IssueTransaction": 1,
-            "PublishTransaction": 1,
-            "RegisterTransaction": 1
+            "EnrollmentTransaction": 1000,
+            "IssueTransaction": 500,
+            "PublishTransaction": 500,
+            "RegisterTransaction": 10000
         }
     }
 }

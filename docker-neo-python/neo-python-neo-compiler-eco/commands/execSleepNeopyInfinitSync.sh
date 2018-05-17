@@ -10,12 +10,13 @@ stropen[1]=`echo "open wallet w1.wallet" | xxd -p`
 stropen[2]=`echo "open wallet w2.wallet" | xxd -p`
 stropen[3]=`echo "open wallet w3.wallet" | xxd -p`
 stropen[4]=`echo "open wallet w4.wallet" | xxd -p`
-strrebuild=`echo "wallet rebuild" | xxd -p`
+strrebuild=`echo "wallet rebuild 1" | xxd -p`
 strexit=`echo "exit" | xxd -p`
 strstate=`echo "state" | xxd -p`
 
 for i in `seq 1 4`
 do
+    rm -rf /root/.neopython
     python3.6 unsafeprompt.py -p -e $strexit,$strrebuild,${stropen[i]}
     sleep 2
 done
@@ -33,6 +34,7 @@ do
 
 	for i in `seq 1 4`
 	do
+	    rm -rf /root/.neopython
 	    python3.6 unsafeprompt.py -p -e $strexit,$strstate,${stropen[i]},$strstate
 	    sleep 3
 	done

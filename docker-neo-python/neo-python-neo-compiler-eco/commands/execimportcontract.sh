@@ -38,10 +38,11 @@ if (( $# == 7 )); then
    #rm $lhash.import
    echo "calling python for deploy"
 #   python3.6 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
-   python3.6 unsafeprompt.py -p -e $strexit,$strimport,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
+   python3.6 unsafeprompt.py -p --datadir /root/.$randomFolder/Chains -e $strexit,$strimport,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
 
 #   echo "Time to delete folder"
    rm -rf /neo-python$randomFolder/
+   rm -rf /root/.$randomFolder
    echo "Bye bye - deploy script :D"
 fi
 

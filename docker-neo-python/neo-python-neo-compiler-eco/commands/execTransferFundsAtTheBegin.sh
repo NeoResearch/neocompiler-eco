@@ -14,6 +14,6 @@ strrebuild=`echo "wallet rebuild" | xxd -p`
 strexit=`echo "exit" | xxd -p`
 
 #python3 unsafeprompt.py -p -e $strexit,$strrebuild,$send1,$strrebuild,$send2,$strrebuild,$send3,$strrebuild,$send4,$strrebuild,$send5,$strrebuild,$send6,$strrebuild,$stropen
-python3.6 unsafeprompt.py -p -e $strexit,$send1,$send2,$send3,$send4,$send5,$send6,$strshowwallet,$stropen
+python3.6 unsafeprompt.py -p --datadir /root/.neo-pythonTemp/Chains -e $strexit,$send1,$send2,$send3,$send4,$send5,$send6,$strshowwallet,$stropen
 
 rm -rf /neo-pythonTemp/

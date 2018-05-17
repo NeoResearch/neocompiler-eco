@@ -254,7 +254,7 @@ class PromptInterface(object):
                 try:
                     self.Wallet = UserWallet.Open(path, to_aes_key("coz"))
                     self.start_wallet_loop()
-                    self.Wallet.ProcessBlocks()
+                    #self.Wallet.ProcessBlocks()
 
                     #print("\n\nWallet current height is: %s" % self.Wallet.WalletHeight)
                     #print("\nWait %s seconds after openning wallet..." % 3)
@@ -327,8 +327,7 @@ class PromptInterface(object):
                     return
 
                 if self.Wallet:
-                    self._walletdb_loop = task.LoopingCall(self.Wallet.ProcessBlocks)
-                    self._walletdb_loop.start(1)
+                    self.start_wallet_loop()
 
             else:
                 print("Please specify a path")
@@ -344,8 +343,7 @@ class PromptInterface(object):
     def do_close_wallet(self):
         if self.Wallet:
             path = self.Wallet._path
-            self._walletdb_loop.stop()
-            self._walletdb_loop = None
+            self.stop_wallet_loop()
             self.Wallet.Close()
             self.Wallet = None
             print("Closed wallet %s" % path)
@@ -424,7 +422,9 @@ class PromptInterface(object):
             print("Import of '%s' not implemented" % item)
 
     def do_build(self, arguments):
+        Blockchain.Default().Pause()
         BuildAndRun(arguments, self.Wallet)
+        Blockchain.Default().Resume()
 
     def do_load_n_run(self, arguments):
         LoadAndRun(arguments, self.Wallet)
@@ -573,10 +573,14 @@ class PromptInterface(object):
         elif item == 'claim':
             ClaimGas(self.Wallet, True, arguments[1:])
         elif item == 'rebuild':
-            self.Wallet.Rebuild()
+            self.stop_wallet_loop()
+            try:
+                self.Wallet.Rebuild()
+            finally:
+                self.start_wallet_loop()
             try:
                 item2 = int(get_arg(arguments, 1))
-                item2 = Blockchain.Default().Height
+
                 if item2 and item2 > 0:
                     print("Restarting at %s" % item2)
                     self.Wallet._current_height = item2
@@ -995,11 +999,8 @@ class PromptInterface(object):
     def run(self):
         dbloop = task.LoopingCall(Blockchain.Default().PersistBlocks)
         dbloop.start(.1)
-        Blockchain.Default().PersistBlocks()
 
-        while Blockchain.Default().Height < 2:
-            print("Waiting for prompt to sync...")
-            time.sleep(1)
+#        Blockchain.Default().PersistBlocks()
 
         tokens = [(Token.Neo, 'NEO'), (Token.Default, ' cli. Type '),
                   (Token.Command, '\'help\' '), (Token.Default, 'to get started')]
@@ -1008,6 +1009,11 @@ class PromptInterface(object):
         print('\n')
 
         timebase = time.time()
+
+        #TODO - NeoCompiler Eco syncing
+        while Blockchain.Default().Height < 2:
+            print("Waiting for neo-python local blockchain to sync...")
+            time.sleep(1)
 
         while self.go_on:
 

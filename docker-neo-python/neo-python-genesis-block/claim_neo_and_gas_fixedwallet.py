@@ -82,7 +82,7 @@ from neo.SmartContract.ContractParameterContext import ContractParametersContext
 
 WALLET_PATH = "/tmp/privnet1"
 WALLET_PWD = "neo"
-MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 0.5
+MINUTES_TO_WAIT_UNTIL_GAS_CLAIM = 1
 
 # default multi-sig contract from the neo-privatenet-docker image. If you are using a different private net
 # configuration, you'll need to add all your node keys and multi-sig address in place of the ones below
@@ -215,7 +215,7 @@ class PrivnetClaimall(object):
         Blockchain.Default().PersistBlocks()
 
         while Blockchain.Default().Height < 2:
-            print("Waiting for chain to sync...")
+            print("Waiting for neo-python-genesis-block local blockchain to sync...")
             time.sleep(1)
 
         # Claim initial NEO
@@ -249,7 +249,11 @@ class PrivnetClaimall(object):
         self.wait_for_tx(claim_tx)
 
         # Finally, need to rebuild the wallet
-        self.wallet.Rebuild()
+        self.stop_wallet_loop()
+        try:
+            self.Wallet.Rebuild()
+        finally:
+            self.start_wallet_loop()
 
         print("\nAll done!")
         print("- Wallet file: %s" % self.wallet_fn)
@@ -337,8 +341,8 @@ if __name__ == "__main__":
     Blockchain.RegisterBlockchain(blockchain)
 
     # Try to set up a notification db
-    if NotificationDB.instance():
-        NotificationDB.instance().start()
+    #if NotificationDB.instance():
+    #    NotificationDB.instance().start()
 
     reactor.suggestThreadPoolSize(15)
     NodeLeader.Instance().Start()

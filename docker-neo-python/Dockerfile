@@ -45,6 +45,9 @@ ADD ./neo-python-genesis-block/claim_neo_and_gas_fixedwallet.py /neo-python/
 ADD ./neo-python-genesis-block/claim_gas_fixedwallet.py /neo-python/
 ADD ./neo-python-genesis-block/neo-privnet.python-wallet /tmp/wallet
 
+#Problems with the chain with there are less than 2000 blocks
+#ADD ./neo-python-genesis-block/LevelDBBlockchain.py /neo-python/neo/Implementations/Blockchains/LevelDB
+
 # Some .bashrc helpers: 'neopy', and a welcome message for bash users
 RUN echo "alias neopy=\"cd /neo-python && np-prompt -p\"" >> /root/.bashrc
 RUN echo "printf \"\n* Consensus nodes are running in screen sessions, check 'screen -ls'\"" >> /root/.bashrc

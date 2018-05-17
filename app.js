@@ -133,7 +133,7 @@ app.post('/deployx', function(req, res) {
     cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execimportcontract.sh '+
+  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./execimportcontract.sh '+
        contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '"'; //'" | base64';
   var outp = "";
   //Tail option -- | tail -n +175 | base64';
@@ -232,7 +232,7 @@ app.post('/invokex', function(req, res) {
   if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./exectestinvokecontract.sh '+
+  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./exectestinvokecontract.sh '+
        invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 
@@ -282,7 +282,7 @@ app.post('/invokex', function(req, res) {
 
 app.post('/searchx', function(req, res) {
   var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
-  var cmddocker = 'docker exec -t neo-compiler-privnet-with-gas dash -i -c "./execsearchcontract.sh '+
+  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./execsearchcontract.sh '+
        contracthash_search +'" '; //'" | base64';
   var outp = "";
 

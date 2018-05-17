@@ -45,10 +45,11 @@ if (( $# == 5 )); then
    
    echo "calling python for invoke"
 #   python3.6 unsafeprompt.py -p -e $strexit,$strinvoke,$strsceventsON,$strshowwallet,$strrebuild,$stropen,$strsceventsOFF
-   python3.6 unsafeprompt.py -p -e $strexit,$strinvoke,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
+   python3.6 unsafeprompt.py -p --datadir /root/.$randomFolder/Chains -e $strexit,$strinvoke,$strsceventsON,$strshowwallet,$stropen,$strsceventsOFF
 
 #   echo "Time to delete folder"
    rm -rf /neo-python$randomFolder/
+   rm -rf /root/.$randomFolder
    echo "Bye bye - invoke script :D"
 fi
 

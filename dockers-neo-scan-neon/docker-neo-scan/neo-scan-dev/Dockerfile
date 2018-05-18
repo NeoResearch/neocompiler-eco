@@ -16,26 +16,28 @@ ENV NEO_PYTHON_SEED_1="http://neo-python-all-in-one:38088/v1"
 
 EXPOSE 4000
 
-# TODO - NeoCompiler ECO - Last checked commit: e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178 - newer
-RUN git clone https://github.com/CityOfZion/neo-scan.git /data && cd /data && git checkout e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178
+RUN mkdir /neoscan
+WORKDIR /neoscan
 
-WORKDIR /data
+# NeoCompiler ECO - Last checked commit: e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178 - newer
+RUN git clone https://github.com/CityOfZion/neo-scan.git /neoscan && git checkout master && git checkout e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178
 
-#RUN mix deps.get
+RUN mix deps.get
+RUN cd /neoscan/apps/neoscan_web/assets && npm install
 
-COPY neo-scan/neoscan_dev.exs /data/apps/neoscan/config/dev.exs
+#Basic configurations of postgress db
+COPY neoscan_dev.exs /neoscan/apps/neoscan/config/dev.exs
 
 #This both files will be removed - TODO
-COPY neo-scan/neoscan_sync_config.exs /data/apps/neoscan_sync/config/config.exs
-COPY neo-scan/neoscan_monitor_config.exs /data/apps/neoscan_monitor/config/config.exs
+COPY neoscan_sync_config.exs /neoscan/apps/neoscan_sync/config/config.exs
+COPY neoscan_monitor_config.exs /neoscan/apps/neoscan_monitor/config/config.exs
 
 #TODO Preparing for the newest vesions
-#COPY neo-scan/neoscan_node_config.exs /data/apps/neoscan_node/config/config.exs
-
+#COPY neoscan_node_config.exs /data/apps/neoscan_node/config/config.exs
 
 # We have to do all this in the command because otherwise the environment variables don't work.
 # The sleep is here to make sure postgres is fully started first.
-ADD neo-scan/neo-scan-docker-startup.sh /opt
-ADD neo-scan/init-neo-scan.sh /opt
+ADD neo-scan-docker-startup.sh /opt
+ADD init-neo-scan.sh /opt
 
 CMD /opt/neo-scan-docker-startup.sh

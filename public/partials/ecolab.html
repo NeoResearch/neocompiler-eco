@@ -596,7 +596,7 @@
             if(result.balance)
             {
               for( i = 0; i < result.balance.length; ++i)
-                  data += result.balance[i].amount + " " + result.balance[i].asset + "\n";
+                  data += result.balance[i].amount + " " + result.balance[i].asset + "\t";
             }
             return data;
         }
@@ -604,20 +604,20 @@
         function fillWalletWithClaimAndUnclaims(result)
         {
             var data = "";
-            console.log(result.unclaimed);
-            console.log(result.claimable);
 
             if(result.unclaimed)
-              data += "Unclaimed:"+result.unclaimed+"\t";
+              data += "Unclaimed(GAS): " + result.unclaimed + "\t";
 
             //Claimable
             claimable = 0;
             if(result.claimable)
             {
-              for( i = 0; i < result.claimable.length; ++i)
+              for(i = 0; i < result.claimable.length; ++i)
                 claimable += result.claimable[i].unclaimed;
+
+              data += "Claimable(GAS): " + claimable;
             }
-            data += "Claimable:" + claimable;
+
             return data;
         }
 

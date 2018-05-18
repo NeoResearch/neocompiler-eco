@@ -572,7 +572,7 @@
           {
             console.log("One address should be provided");
             return
-          }  
+          }
           var url_toFill = NEOSCAN_PATH + "/api/main_net/v1/get_balance/" + addressToFill;
           console.log("url_toFill:" + url_toFill);
           $.getJSON(url_toFill, function(result) {
@@ -603,21 +603,43 @@
 
         function populateWalletData()
         {
-            var url_w1 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y";
-            var url_w2 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL";
-            var url_w3 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx";
-            var url_w4 = NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9";
-            $.getJSON(url_w1, function(result) {
+            var url_base = NEOSCAN_PATH + "/api/main_net/v1/get_balance/";
+            var url_claim = NEOSCAN_PATH + "/api/main_net/v1/get_claimable/";
+            $.getJSON(url_base+"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", function(result) {
                 $("#w1Data")[0].value = fillWalletInfo(result);
+                $.getJSON(url_claim+"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", function(result2) {
+                  if(result2.unclaimed)
+                    $("#w1Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
+                  if(result2.claimable)
+                    $("#w1Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
+                });
             });
-            $.getJSON(url_w2, function(result) {
+            $.getJSON(url_base+"APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL", function(result) {
                 $("#w2Data")[0].value = fillWalletInfo(result);
+                $.getJSON(url_claim+"APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL", function(result2) {
+                  if(result2.unclaimed)
+                    $("#w2Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
+                  if(result2.claimable)
+                    $("#w2Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
+                });
             });
-            $.getJSON(url_w3, function(result) {
+            $.getJSON(url_base+"AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx", function(result) {
                 $("#w3Data")[0].value = fillWalletInfo(result);
+                $.getJSON(url_claim+"AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx", function(result2) {
+                  if(result2.unclaimed)
+                    $("#w3Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
+                  if(result2.claimable)
+                    $("#w3Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
+                });
             });
-            $.getJSON(url_w4, function(result) {
+            $.getJSON(url_base+"AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9", function(result) {
                 $("#w4Data")[0].value = fillWalletInfo(result);
+                $.getJSON(url_claim+"AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9", function(result2) {
+                  if(result2.unclaimed)
+                    $("#w4Data")[0].value += "Unclaimed:"+result2.unclaimed+"\n";
+                  if(result2.claimable)
+                    $("#w4Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
+                });
             });
         }
 

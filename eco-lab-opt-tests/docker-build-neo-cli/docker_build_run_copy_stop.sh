@@ -9,7 +9,7 @@ CONTAINER_NAME="neo-build-neo-cli-with-new-blockchain-csharp"
 
 echo "RUNNING container:"
 echo $CONTAINER_NAME
-docker run -d --name $CONTAINER_NAME --rm $CONTAINER_NAME
+docker run -d --name $CONTAINER_NAME --rm -h $CONTAINER_NAME $CONTAINER_NAME
 
 #copy neo-cli-built.zip
 echo "COPYING published zip file from container..."

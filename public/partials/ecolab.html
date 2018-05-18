@@ -612,6 +612,8 @@
             {
               for( i = 0; i < result.balance.length; ++i)
                   data += result.balance[i].amount + " " + result.balance[i].asset + "\t";
+            }else {
+              data += "This address seems to not have any fund."
             }
             return data;
         }

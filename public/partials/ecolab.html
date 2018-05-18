@@ -17,6 +17,19 @@
             </ul>
         </div>
         <div class="col-sm-9">
+            <div class="row">
+                <div class="col-md-3">
+                    <select id="ecolabnetworkurlselection" class="custom-select form-control">
+                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                      <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                      <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
+                      <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io" readonly/>
+                </div>
+            </div>
             <div class="tab-content">
                 <div class="tab-pane fade in active" id="conversor">
                     <div class="panel panel-primary">
@@ -189,18 +202,6 @@
                             <div class="row">
                               <div class="col-md-12">
                                 <div class="form-group">
-                                  <label for="neonodeurl">Neo node URL (ex: http://localhost:30335)</label>
-                                  <select id="selRPCNetwork">
-                                    <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
-                                    <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
-                                    <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
-                                    <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
-                                  </select>
-                                  <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io" readonly/>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
                                   <label for="txtRPCJsonOut">Output RPC</label>
                                   <textarea id="txtRPCJsonOut" class="form-control" readonly/>
                                 </div>
@@ -302,13 +303,6 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <select id="createtx_selRPCNetwork">
-                                      <option>Select a Network</option>
-                                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
-                                      <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
-                                      <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">TestNet</option>
-                                      <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">MainNet</option>
-                                    </select>
                                     <select id="createtx_input_assetid" required>
                                       <option>Select an asset</option>
                                       <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
@@ -344,12 +338,6 @@
                     </div>
                 <div class="tab-pane fade" id="wallet">
                     <div class="row">
-                        <div class="col-md-3">
-                            <select name="walletnetworkjs" class="custom-select form-control">
-                              <option>Eco-privatenet</option>
-                              <!-- <option>NEO-testnet</option> TODO! -->
-                            </select>
-                        </div>
                         <div class="col-md-2">
                             <button type="button" onClick="showPersistWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                         </div>
@@ -476,8 +464,35 @@
         //Check current webpage and starts with localhost or neocompiler public website
         if(this.window.location.href.indexOf("localhost")  != -1)
         {
-	          $("#createtx_selRPCNetwork")[0].selectedIndex = 2;
-            $("#selRPCNetwork")[0].selectedIndex = 1;
+	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+            $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
+
+            NEOSCAN_PATH = getNEOSCANPATH();
+        }
+
+        $("#ecolabnetworkurlselection").on('change', function() {
+            $("#neonodeurl")[0].value = this.value;
+            NEOSCAN_PATH = getNEOSCANPATH();
+        });
+
+        function getNEOSCANPATH()
+        {
+            selBox = $("#ecolabnetworkurlselection")[0];
+            mynetwork = selBox.options[selBox.selectedIndex].text;
+            if(mynetwork == "localhost (privatenet)")
+              return "http://localhost:4000";
+            if(mynetwork == "neocompiler.io (shared privatenet)")
+              return "https://neoscan.neocompiler.io";
+        }
+
+        function getCurrentNetwork()
+        {
+          selBox = $("#ecolabnetworkurlselection")[0];
+          mynetwork = selBox.options[selBox.selectedIndex].text;
+          if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
+             mynetwork = "PrivateNet";
+
+          return mynetwork;
         }
 
         $(document).ready(function(){
@@ -695,19 +710,11 @@
               $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \""+$("#rpcMethod").val()+"\", \"params\": [\"\"] }");
         };
 
-        $("#selRPCNetwork").on('change', function() {
-            $("#neonodeurl")[0].value = this.value;
-            $("#createtx_selRPCNetwork")[0].selectedIndex = $("#selRPCNetwork")[0].selectedIndex + 1;
-        });
-
         var createtx_balance = null;
 
         function verifyRPCNetworkForWithdrawUTXO()
         {
-            selBox = $("#createtx_selRPCNetwork")[0];
-            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
-            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
-               mynetwork = "PrivateNet";
+            mynetwork = getCurrentNetwork();
 
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
@@ -718,9 +725,9 @@
             }
         }
 
-        $("#createtx_selRPCNetwork").on('change', function() {
-            verifyRPCNetworkForWithdrawUTXO();
-        });
+        //$("#createtx_selRPCNetwork").on('change', function() {
+        //    verifyRPCNetworkForWithdrawUTXO();
+        //});
 
         function updateUTXOSCapture(res){
             createtx_balance = res;
@@ -785,7 +792,7 @@
             $("#txtRPCJsonOut").val("");
             //curl -s -X POST http://localhost:30335 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "dumpprivkey", "params": ["AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17"] }'
             $.post(
-                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                $("#ecolabnetworkurlselection")[0].value, // Gets the URL to sent the post to
                 $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
                   $("#txtRPCJsonOut").val(JSON.stringify(data));
@@ -941,9 +948,9 @@
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
 
-            console.log("SENDING TO"+$("#createtx_selRPCNetwork")[0].value);
+            console.log("SENDING TO"+$("#ecolabnetworkurlselection")[0].value);
             $.post(
-                $("#createtx_selRPCNetwork")[0].value, // Gets the URL to sent the post to
+                $("#ecolabnetworkurlselection")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (data) {
                   alert(data.result);
@@ -956,22 +963,15 @@
         });
         // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
         // ==================================================================================
-
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            selBox = $("#createtx_selRPCNetwork")[0];
-            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
-            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
-               mynetwork = "PrivateNet";
+            mynetwork = getCurrentNetwork();
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), mynetwork);
         });
 
         $("#createtxgas").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            selBox = $("#createtx_selRPCNetwork")[0];
-            mynetwork = selBox.options[selBox.selectedIndex].text; //$("#createtx_selRPCNetwork")[0].value;
-            if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
-               mynetwork = "PrivateNet";
+            mynetwork = getCurrentNetwork();
             CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), mynetwork);
         });
 

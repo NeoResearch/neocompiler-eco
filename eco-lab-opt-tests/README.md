@@ -4,12 +4,14 @@
       width="125px;">
 </p>
 
-<h1 align="center">neo-opt-tests</h1>
+<h1 align="center">ecolab-opt-tests</h1>
 
 ## What is it
 
 This project has its main focus on establishing a set of parameters that will be subjected to optimization and statical analyses in order to check csharp [neo-cli](https://github.com/neo-project/neo-cli) consensus capabilities, or other client implemented in any other languages.
-In this sense, this repository comprises a set of scripts and docker containers to build and publish a [private network](https://github.com/NeoResearch/neo-privatenet-docker.git), along with a set of python tests to run through.
+In this sense, this repository comprises a set of scripts and docker containers to build a modified neo-cli and integrate it
+with all tools available in the [NeoCompiler Eco(system)](https://github.com/NeoResearch/neocompiler-eco).
+
 It posses the potential of improving performance of the Neo blockchain and finding optimization opportunities.
 
 Furthermore, the scope of this project is to engage Neo community into this topic.
@@ -37,34 +39,23 @@ This is a work in progress, areas to be improved:
   - Investigate using docker compose and improve the image build process so it's more suitable for CI;
   - Improve speed of build process, suspect we can use cache a little more for our containers.
 
-## How to build and Run a `neo-privatenet-neoresearch-integrations` image
+## How to build and Run
 
-### Simple and easy
+### Simple and easy - Build everything and generated a personalized NeoCompiler Ecosystem
 
 This procedure requires two steps (A1 and -A2 or A3-), all of them described below.
 
-#### A1 - Build everything and generated a personalized image of the desired private blockchain ecosystem
-
-1. Run `commit_modified_privatenet.sh`
-
-Basically, this step commits an image with all nodes already running with a genesis wallet.
-
-Jump to step 2 or 3.
-
-#### A2 - Execute a personalized privatenet
-
-1. After going to the root folder of this project, run the new committed `neo-privatenet-opt-tests` with  `docker_run_integrations_privatenet.sh`
-1. Access the Docker virtual environment with `bash-priv_integrations_privatenet.sh`
-1. Currently, inside the docker container, you can monitor the blockchain accessing `/neo-python` and typing `neopy`, as well as checking neo-cli nodes (currently, static set to 4) in its attached screens.
-
-#### A3 - Execute all master functionalities (neo-scan + debugging private net)
-
-1. After going to the root folder of this project, simply run `build_everything.sh`
-
-### Other additional possibilities and features
-
-#### F1 - Only create a modified neo-cli with modified neo-blockchain or neo-cli files
+#### A1 - Create a modified neo-cli with modified neo-blockchain or neo-cli files
 
 1. Go to `docker-build-neo-cli` folder
 1. Execute the script `docker_build_run_copy_stop`
   - As result, a new `neo-cli-built` will be copied to this folder
+
+#### A2 - Modify the neo-cli csharp nodes of the ecosystem
+
+1. Run `build_neo_csharp_nodes_with_builtNeoCli.sh`
+
+
+#### A3 - Start the NeoCompiler Eco as usual
+
+1. Come one folder back and execute the `build_everything.sh`

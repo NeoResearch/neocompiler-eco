@@ -610,7 +610,7 @@
                 $.getJSON(url_claim+"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", function(result2) {
                   if(result2.unclaimed)
                     $("#w1Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
-                  if(result2.claimable)
+                  if(result2.claimable && result2.claimable.length > 0)
                     $("#w1Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
                 });
             });
@@ -619,7 +619,7 @@
                 $.getJSON(url_claim+"APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL", function(result2) {
                   if(result2.unclaimed)
                     $("#w2Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
-                  if(result2.claimable)
+                  if(result2.claimable && result2.claimable.length > 0)
                     $("#w2Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
                 });
             });
@@ -628,7 +628,7 @@
                 $.getJSON(url_claim+"AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx", function(result2) {
                   if(result2.unclaimed)
                     $("#w3Data")[0].value += "Unclaimed:"+result2.unclaimed+"\t";
-                  if(result2.claimable)
+                  if(result2.claimable && result2.claimable.length > 0)
                     $("#w3Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
                 });
             });
@@ -637,7 +637,7 @@
                 $.getJSON(url_claim+"AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9", function(result2) {
                   if(result2.unclaimed)
                     $("#w4Data")[0].value += "Unclaimed:"+result2.unclaimed+"\n";
-                  if(result2.claimable)
+                  if(result2.claimable && result2.claimable.length > 0)
                     $("#w4Data")[0].value += "Claimable:"+result2.claimable[0].unclaimed;
                 });
             });

@@ -28,8 +28,8 @@ WORKDIR neo-python
 # Branch can be overwritten with --build-arg, eg: `--build-arg branch=development`
 ARG branch=master
 RUN git checkout $branch
-#TODO - Neocompiler last working version is
-RUN git checkout 2053f1119cfadcc9becbb7827c4ad64c35eeff2d
+#TODO - Neocompiler last working version is 2053f1119cfadcc9becbb7827c4ad64c35eeff2d or 42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22 (newer)
+RUN git checkout 42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22
 
 # Install the dependencies
 RUN pip3 install -e .

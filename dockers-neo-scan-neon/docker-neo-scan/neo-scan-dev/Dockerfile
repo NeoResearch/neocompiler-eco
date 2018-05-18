@@ -19,8 +19,8 @@ EXPOSE 4000
 RUN mkdir /neoscan
 WORKDIR /neoscan
 
-# NeoCompiler ECO - Last checked commit: e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178 - newer
-RUN git clone https://github.com/CityOfZion/neo-scan.git /neoscan && git checkout master && git checkout e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178
+# NeoCompiler ECO - Last checked commit: e41af7a31ff47b3aa2fbfc7e30f19a79e11ae178 - 4f1d2e6a9dc908673bf02e80c2b0d983f39c5c66
+RUN git clone https://github.com/CityOfZion/neo-scan.git /neoscan && git checkout master && git checkout 4f1d2e6a9dc908673bf02e80c2b0d983f39c5c66
 
 RUN mix deps.get
 RUN cd /neoscan/apps/neoscan_web/assets && npm install
@@ -28,12 +28,11 @@ RUN cd /neoscan/apps/neoscan_web/assets && npm install
 #Basic configurations of postgress db
 COPY neoscan_dev.exs /neoscan/apps/neoscan/config/dev.exs
 
-#This both files will be removed - TODO
-COPY neoscan_sync_config.exs /neoscan/apps/neoscan_sync/config/config.exs
-COPY neoscan_monitor_config.exs /neoscan/apps/neoscan_monitor/config/config.exs
+#Neo scan nodes - csharp and python for notifications
+COPY neoscan_node_config.exs /neoscan/apps/neoscan_node/config/config.exs
 
-#TODO Preparing for the newest vesions
-#COPY neoscan_node_config.exs /data/apps/neoscan_node/config/config.exs
+#RUN mix ecto.create 
+#RUN mix ecto.migrate
 
 # We have to do all this in the command because otherwise the environment variables don't work.
 # The sleep is here to make sure postgres is fully started first.

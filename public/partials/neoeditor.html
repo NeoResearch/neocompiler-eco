@@ -1173,7 +1173,7 @@ def Main():
    function updateInvokeParamsPy() {
      invokecmd = "";
      if($("#invokefunctionpy")[0].value != "Main")
-        invokecmd += Neon.u.str2hexstring($("#invokefunctionpy")[0].value)+" ";
+        invokecmd += $("#invokefunctionpy")[0].value +" "; // method or "abcdef01" (method in hex with double slashes using Neon.u.str2hexstring...)
 
      countparam = 0;
      par1 = "";

@@ -27,7 +27,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io" readonly/>
+                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io"/>
                 </div>
             </div>
             <div class="tab-content">
@@ -483,6 +483,10 @@
               return "http://localhost:4000";
             if(mynetwork == "neocompiler.io (shared privatenet)")
               return "https://neoscan.neocompiler.io";
+            if(mynetwork == "NEO MainNet")
+              return "https://neoscan.io";
+            if(mynetwork == "NEO TestNet")
+              return "https://neoscan-testnet.io/";
         }
 
         function getCurrentNetwork()
@@ -794,7 +798,7 @@
             $("#txtRPCJsonOut").val("");
             //curl -s -X POST http://localhost:30335 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "dumpprivkey", "params": ["AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17"] }'
             $.post(
-                $("#ecolabnetworkurlselection")[0].value, // Gets the URL to sent the post to
+                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
                 $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
                   $("#txtRPCJsonOut").val(JSON.stringify(data));
@@ -950,9 +954,9 @@
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
 
-            console.log("SENDING TO"+$("#ecolabnetworkurlselection")[0].value);
+            console.log("SENDING TO"+$("#neonodeurl")[0].value);
             $.post(
-                $("#ecolabnetworkurlselection")[0].value, // Gets the URL to sent the post to
+                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (data) {
                   alert(data.result);

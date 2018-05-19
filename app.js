@@ -33,7 +33,7 @@ app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
 var optionsCompile = {
-  timeout: 7000, // 7 seconds is already a lot...
+  timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!
   killSignal: 'SIGKILL'
 }
 

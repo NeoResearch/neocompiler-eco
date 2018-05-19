@@ -8,6 +8,7 @@ screen -dmS node2 expect /opt/start_consensus_node.sh /opt/node2/neo-cli/ wallet
 screen -dmS node3 expect /opt/start_consensus_node.sh /opt/node3/neo-cli/ wallet3.json three
 screen -dmS node4 expect /opt/start_consensus_node.sh /opt/node4/neo-cli/ wallet4.json four
 
-screen -dmS pythonRestRPC /opt/start_neopython_rpc_rest.sh
+
+# (cd /opt/node1/neo-cli/; dotnet neo-cli.dll --rpc)
 
 sleep infinity

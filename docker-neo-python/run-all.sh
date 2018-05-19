@@ -7,7 +7,7 @@
 #/opt/callGenesisBlockCreation.sh
 screen -dmS pythonGenesisBlock /opt/callGenesisBlockCreation.sh
 
-#Current on 30337 and 38088
+#Current on 30337 and 38088 - Current, only 38088 is being used
 screen -dmS pythonRestRPC /opt/start_neopython_rpc_rest.sh
 
 #This screen keeps neo-python open after rebuild on w1.wallet

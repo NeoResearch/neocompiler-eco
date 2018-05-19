@@ -1,17 +1,32 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
 
 RUN apt-get update \
     && apt-get install -y nodejs --no-install-recommends
-RUN apt-get -y install mono-complete
+RUN apt-get install -y gnupg2 gnupg gnupg1
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+RUN apt-get update && apt-get install -y mono-complete
+#RUN apt-get -y install mono-complete
 RUN apt-get -y install git nano curl
-RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-artful-prod artful main" > /etc/apt/sources.list.d/dotnetdev.list'
-RUN apt-get install -y apt-transport-https
-RUN apt-get update && apt-get install -y dotnet-sdk-2.1.4
+
+#RUN apt-get -y install apt-utils
+RUN apt-get -y install wget
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg
+RUN mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+RUN mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+
+#RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+#RUN mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+#RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-artful-prod artful main" > /etc/apt/sources.list.d/dotnetdev.list'
+
+RUN apt-get update && apt-get install -y apt-transport-https
+RUN apt-get update && apt-get install -y dotnet-sdk-2.1.300*
+
+RUN apt-get update && apt-get install -y msbuild
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
 RUN git clone https://github.com/neo-project/neo-compiler.git
@@ -28,7 +43,6 @@ COPY NeoContractTeste buildtmp/
 RUN apt-get -y install xxd
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh
-
 
 #Other testing commands
 #RUN sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-zesty-prod zesty main" > /etc/apt/sources.list.d/dotnetdev.list'

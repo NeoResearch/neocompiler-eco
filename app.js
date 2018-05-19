@@ -163,7 +163,7 @@ app.post('/deployx', function(req, res) {
     console.log("\n[app-js] - exiting deploy docker...");
     if( signal != null ) {
       console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
-      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msg64 = new Buffer(outp+"\nTimeout. Please try again later.\n",'ascii').toString('base64');
       var msgret = "{\"output\":\""+msg64+"\"}";
       res.send(JSON.parse(msgret));
     }
@@ -261,7 +261,7 @@ app.post('/invokex', function(req, res) {
     console.log("\n[app-js] -  exiting invokex docker");
     if( signal == 'SIGKILL' ) {
       console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
-      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
+      var msg64 = new Buffer(outp+"\nTimeout. Please try again later.\n",'ascii').toString('base64');
       var msgret = "{\"output\":\""+msg64+"\"}";
       res.send(msgret);
     }

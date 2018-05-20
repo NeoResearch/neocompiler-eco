@@ -57,6 +57,64 @@ function promiseFromChildProcess(child) {
 }
 */
 
+app.get('/statusnode1', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print1.sh"';
+  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.send(x);
+    }
+  });
+});
+app.get('/statusnode2', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print2.sh"';
+  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.send(x);
+    }
+  });
+});
+app.get('/statusnode3', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print3.sh"';
+  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.send(x);
+    }
+  });
+});
+app.get('/statusnode4.txt', function(req, res) {
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print4.sh"';
+  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      x += stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.send(x);
+    }
+  });
+});
+
+
 app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for
   // req.body -- contains form data

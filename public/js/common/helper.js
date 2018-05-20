@@ -42,7 +42,7 @@ function uint2bytes(intvalue) {
 	  hval = intvalue.toString(16);
 	  while(hval.length < 2)
 	     hval = "0"+hval;
-	
+
 	  return hval;
   }
 
@@ -52,7 +52,7 @@ function uint2bytes(intvalue) {
 	  while(hval.length < 4)
 	     hval = "0"+hval;
           hval=revertHexString(hval);
-          
+
 	  return "fd" + hval;
   }
 
@@ -93,6 +93,16 @@ function revertHexString(hex) {
     return Neon.u.reverseHex(hex);
 }
 
+
+function statusnode1() {
+  $.post(
+               'http://localhost:8000/statusnode1', // Gets the URL to sent the post to
+                function (data) {
+                  alert(data.result);
+                  console.log(data);
+                }
+            );
+}
 /*
 function revertHexString(hex) {
     var reverthex = "";

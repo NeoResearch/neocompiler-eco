@@ -1,4 +1,4 @@
-CONTAINER_NAME="neo-compiler-neo-python"
+CONTAINER_NAME="eco-neo-python-running"
 DOCKERPRIV=$(docker ps -aqf name=$CONTAINER_NAME)
 
 if [ -z ${DOCKERPRIV+x} ]; then 

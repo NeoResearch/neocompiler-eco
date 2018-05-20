@@ -3,7 +3,7 @@ set -e
 
 # To use a newer neo-cli version, just update this variable:
 NEO_CLI_VERSION="2.7.4"
-CONTAINER_NAME="neo-compiler-csharp-nodes"
+IMAGE_NAME="eco-neo-csharp-nodes:$NEO_CLI_VERSION"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"
@@ -57,8 +57,8 @@ else
 fi
 
 if [ -z "$DISABLE_CACHE" ]; then
-  docker build -t $CONTAINER_NAME .
+  docker build -t $IMAGE_NAME .
 else
   echo "docker build no cache"
-  docker build --no-cache -t $CONTAINER_NAME .
+  docker build --no-cache -t $IMAGE_NAME .
 fi

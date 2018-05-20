@@ -1,4 +1,4 @@
-CONTAINER_NAME="neo-csharp-nodes"
+CONTAINER_NAME="eco-neo-csharp-nodes-running"
 DOCKERPRIV=$(docker ps -aqf name=$CONTAINER_NAME)
 
 if [ -z ${DOCKERPRIV+x} ]; then 

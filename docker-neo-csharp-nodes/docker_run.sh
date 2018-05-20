@@ -3,8 +3,8 @@
 # Start a Docker container which runs the four consensus nodes. If it is
 # already running, it will be destroyed first.
 #
-IMAGE_NAME="neo-compiler-csharp-nodes"
-CONTAINER_NAME="neo-csharp-nodes"
+IMAGE_NAME="eco-neo-csharp-nodes:2.7.4"
+CONTAINER_NAME="eco-neo-csharp-nodes-running"
 CONTAINER=$(docker ps -aqf name=$CONTAINER_NAME)
 
 if [ -n "$CONTAINER" ]; then

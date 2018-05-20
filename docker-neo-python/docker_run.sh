@@ -3,7 +3,7 @@
 # Start a Docker container which runs the four consensus nodes. If it is
 # already running, it will be destroyed first.
 #
-CONTAINER_NAME="neo-compiler-neo-python"
+CONTAINER_NAME="eco-neo-python-running"
 CONTAINER=$(docker ps -aqf name=$CONTAINER_NAME)
 
 if [ -n "$CONTAINER" ]; then

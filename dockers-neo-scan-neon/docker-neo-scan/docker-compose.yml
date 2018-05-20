@@ -7,12 +7,12 @@ services:
       - 4000:4000
     links:
       - postgresql:postgres
-      - neo-csharp-nodes:30333
-      - neo-csharp-nodes:30334
-      - neo-csharp-nodes:30335
-      - neo-csharp-nodes:30336
-      - neo-python-all-in-one:30337
-      - neo-python-all-in-one:38088
+      - eco-neo-csharp-nodes-running:30333
+      - eco-neo-csharp-nodes-running:30334
+      - eco-neo-csharp-nodes-running:30335
+      - eco-neo-csharp-nodes-running:30336
+      - eco-neo-python-running:30337
+      - eco-neo-python-running:38088
   postgresql:
     image: postgres:10.1
     ports:
@@ -20,17 +20,17 @@ services:
     environment:
       POSTGRES_USER: postgres 
       POSTGRES_PASSWORD: postgres
-  neo-python-all-in-one:
-    image: neo-compiler-neo-python:latest
-    container_name: "neo-python-all-in-one"  
+  eco-neo-python-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-running"  
     ports:
       - 30337:30337
       - 38088:38088
     links:
-      - neo-csharp-nodes
-  neo-csharp-nodes:
-    image: neo-compiler-csharp-nodes:latest  
-    container_name: "neo-csharp-nodes" 
+      - eco-neo-csharp-nodes-running
+  eco-neo-csharp-nodes-running:
+    image: eco-neo-csharp-nodes:2.7.4  
+    container_name: "eco-neo-csharp-nodes-running" 
     ports:
       - "20333:20333"
       - "20334:20334"

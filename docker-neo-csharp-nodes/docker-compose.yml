@@ -2,7 +2,7 @@ version: '3'
 services:
   neo-privnet:
     build: .
-    container_name: neo-csharp-nodes
+    container_name: eco-neo-csharp-nodes-running
     ports:
       - 10333-10336:10333-10336
       - 20333-20336:20333-20336

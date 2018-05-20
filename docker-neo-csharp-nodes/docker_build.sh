@@ -2,7 +2,7 @@
 set -e
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="2.7.5"
+NEO_CLI_VERSION="2.7.4"
 CONTAINER_NAME="neo-compiler-csharp-nodes"
 
 function usage {

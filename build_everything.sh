@@ -43,8 +43,7 @@ if ((!$DISABLE_BUILD)); then
 fi
 
 if (($DEV_MODE)); then
-	echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker direct from local dockerfile";
-	(cd dockers-neo-scan-neon; ./dev-buildRun_Compose_PrivateNet_NeoScanDocker.sh)
+	echo "(DEV MOD) ......";
 else
 	echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
 	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)

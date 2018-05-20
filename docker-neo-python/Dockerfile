@@ -42,11 +42,7 @@ RUN pip3 install -e .
 #Scripts used in order to perform some actions for the genesis block
 RUN wget https://s3.amazonaws.com/neo-experiments/neo-privnet.wallet
 ADD ./neo-python-genesis-block/claim_neo_and_gas_fixedwallet.py /neo-python/
-ADD ./neo-python-genesis-block/claim_gas_fixedwallet.py /neo-python/
 ADD ./neo-python-genesis-block/neo-privnet.python-wallet /tmp/wallet
-
-#Problems with the chain with there are less than 2000 blocks
-#ADD ./neo-python-genesis-block/LevelDBBlockchain.py /neo-python/neo/Implementations/Blockchains/LevelDB
 
 ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
 

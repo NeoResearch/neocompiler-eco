@@ -212,15 +212,21 @@ class PrivnetClaimall(object):
     def run(self):
         dbloop = task.LoopingCall(Blockchain.Default().PersistBlocks)
         dbloop.start(.1)
-        Blockchain.Default().PersistBlocks()
+        #Blockchain.Default().PersistBlocks()
 
-        while Blockchain.Default().Height < 2:
+        while Blockchain.Default().Height <= 1:
             print("Waiting for neo-python-genesis-block local blockchain to sync...")
             time.sleep(1)
 
         # Claim initial NEO
         address = "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
         self.claim_initial_neo(address)
+
+        #=====================================================
+        #There is no NEED of Python Claim
+        # MOVING TO Neon-js
+        '''
+
 
         # Open wallet again
         print("Opening wallet %s" % self.wallet_fn)
@@ -231,6 +237,7 @@ class PrivnetClaimall(object):
         # self.wallet.Rebuild()
         # print("\nOpened wallet. Rebuilding...")
         # time.sleep(10)
+
 
         print("\nWait %s min before claiming GAS." % self.min_wait)
         time.sleep(60 * self.min_wait)
@@ -247,8 +254,13 @@ class PrivnetClaimall(object):
         print("Claiming the GAS...")
         claim_tx, relayed = ClaimGas(self.wallet, require_password=False)
         self.wait_for_tx(claim_tx)
+        '''
+        #=====================================================
 
-        print("\nAll done! Rebuild wallet.")
+
+
+        #Some Error here
+        #print("\nAll done! Rebuild wallet.")
         # Finally, need to rebuild the wallet
         # self.Wallet.Rebuild()
 

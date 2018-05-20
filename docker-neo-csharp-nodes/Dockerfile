@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     vim \
     nano \
+    cron \
     man
 
 # Setup microsoft repositories
@@ -41,8 +42,6 @@ RUN unzip -q -d /opt/node2 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node3 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node4 /opt/neo-cli.zip
 
-# TODO, MOVE UP, By recommendation of Docker, all apt should be made once
-RUN apt-get update && apt-get install cron
 ADD ./scripts/taillogs.cron /opt/taillogs.cron
 ADD ./scripts/taillogs.sh /opt/taillogs.sh
 RUN crontab /opt/taillogs.cron

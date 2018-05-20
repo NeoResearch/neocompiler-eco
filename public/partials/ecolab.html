@@ -443,7 +443,7 @@
             <div class="tab-pane fade" id="nodeinfo">
                 <div class="row">
                     <div class="col-md-2 pull-left">
-                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm">Reload All</button>
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm">Reload Nodes Report</button>
                     </div>
                 </div>
                 <div class="panel panel-primary">
@@ -1129,6 +1129,11 @@
            $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
            $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
            $.get(net+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
+
+           $("#node1data").scrollTop($("#node1data")[0].scrollHeight);
+           $("#node2data").scrollTop($("#node2data")[0].scrollHeight);
+           $("#node3data").scrollTop($("#node3data")[0].scrollHeight);
+           $("#node4data").scrollTop($("#node4data")[0].scrollHeight);
         }
     </script>
 </div>

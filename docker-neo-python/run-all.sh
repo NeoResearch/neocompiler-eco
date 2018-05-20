@@ -13,6 +13,7 @@ screen -dmS pythonRestRPC /opt/start_neopython_rpc_rest.sh
 #This screen keeps neo-python open after rebuild on w1.wallet
 #TODO - Improve this to be called on NeoCompiler. Then, different wallets could be sync when users fell that they are not.
 # DEPRECATED - IT IS NOT NEEDED ANY - PYTHON HAS A BUG WHEN BLOCKS ARE LOWER THAN 2000
-# screen -dmS pythonSyncing /neo-python/execSleepNeopyInfinitSync.sh
+# Only USED FOR rebuilding all 4 wallets of neoEco
+screen -dmS pythonSyncing /neo-python/execSleepNeopyInfinitSync.sh
 
 sleep infinity

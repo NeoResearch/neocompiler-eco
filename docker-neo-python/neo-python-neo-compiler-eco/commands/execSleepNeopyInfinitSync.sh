@@ -21,6 +21,7 @@ do
     sleep 2
 done
 
+<<"COMMENT"
 callTransfer=true
 while [ 1 ]
 do
@@ -39,3 +40,4 @@ do
 	    sleep 3
 	done
 done
+COMMENT

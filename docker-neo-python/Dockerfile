@@ -81,13 +81,8 @@ ADD neo-python-neo-compiler-eco/LoadSmartContract.py /neo-python/neo/Prompt/Comm
 #Scripts called by the javascript interface
 ADD neo-python-neo-compiler-eco/commands/execimportcontract.sh /neo-python
 ADD neo-python-neo-compiler-eco/commands/exectestinvokecontract.sh /neo-python
-ADD neo-python-neo-compiler-eco/commands/execsearchcontract.sh /neo-python
-
-#Optional script to send funds to all other 3 wallets
-ADD neo-python-neo-compiler-eco/commands/execTransferFundsAtTheBegin.sh /neo-python
 
 #Starts screen for python wallets syncing, spped up neo-privatenet online acess
-#ADD neo-python-neo-compiler-eco/commands/run.sh /opt/
 ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-python
 #==========================================================================
 

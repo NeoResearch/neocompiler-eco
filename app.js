@@ -59,7 +59,7 @@ function promiseFromChildProcess(child) {
 
 app.get('/statusnode1', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print1.sh"';
+  var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print1.sh"';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -73,7 +73,7 @@ app.get('/statusnode1', function(req, res) {
 });
 app.get('/statusnode2', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print2.sh"';
+  var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print2.sh"';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -87,7 +87,7 @@ app.get('/statusnode2', function(req, res) {
 });
 app.get('/statusnode3', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print3.sh"';
+  var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print3.sh"';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -101,7 +101,7 @@ app.get('/statusnode3', function(req, res) {
 });
 app.get('/statusnode4', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print4.sh"';
+  var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print4.sh"';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -191,7 +191,7 @@ app.post('/deployx', function(req, res) {
     cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./execimportcontract.sh '+
+  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./execimportcontract.sh '+
        contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '"'; //'" | base64';
   var outp = "";
   //Tail option -- | tail -n +175 | base64';
@@ -290,7 +290,7 @@ app.post('/invokex', function(req, res) {
   if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
      wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./exectestinvokecontract.sh '+
+  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./exectestinvokecontract.sh '+
        invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 
@@ -334,40 +334,6 @@ app.post('/invokex', function(req, res) {
   child.stdout.on('data', function (data) {
     outp = outp+data;
     console.log("MORE DATA ON INVOKE:"+data);
-  });
-});
-
-
-app.post('/searchx', function(req, res) {
-  var contracthash_search = new Buffer(req.body.contracthash_search, 'ascii').toString('base64');
-  var cmddocker = 'docker exec -t neo-python-all-in-one dash -i -c "./execsearchcontract.sh '+
-       contracthash_search +'" '; //'" | base64';
-  var outp = "";
-
-  console.log("calling search");
-
-  //outp = require('child_process').execSync(cmddocker).toString();
-  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  //outp = '{"output":"'+outp+'"}';
-  //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker, optionsDefault);
-  child.on('exit', function(code, signal) {
-    console.log("exit compile docker");
-    if( signal == 'SIGKILL' ) {
-      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(msgret);
-    }
-    else {
-      outp = new Buffer(outp).toString('base64');
-      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-      outp = '{"output":"'+outp+'"}';
-      res.send(JSON.parse(outp));
-    }
-  });
-  child.stdout.on('data', function (data) {
-    outp = outp+data;
-    //console.log("MORE DATA ON DEPLOY:"+data);
   });
 });
 

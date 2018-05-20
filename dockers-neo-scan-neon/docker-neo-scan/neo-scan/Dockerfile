@@ -8,11 +8,11 @@ ENV POSTGRES_USERNAME='postgres'
 ENV POSTGRES_PASSWORD='postgres'
 ENV POSTGRES_DATABASE='neoscan_dev'
 ENV POSTGRES_HOSTNAME='postgres'
-ENV NEO_SEED_1="http://neo-csharp-nodes:30333"
-ENV NEO_SEED_2="http://neo-csharp-nodes:30334"
-ENV NEO_SEED_3="http://neo-csharp-nodes:30335"
-ENV NEO_SEED_4="http://neo-csharp-nodes:30336"
-ENV NEO_PYTHON_SEED_1="http://neo-python-all-in-one:38088/v1"
+ENV NEO_SEED_1="http://eco-neo-csharp-nodes-running:30333"
+ENV NEO_SEED_2="http://eco-neo-csharp-nodes-running:30334"
+ENV NEO_SEED_3="http://eco-neo-csharp-nodes-running:30335"
+ENV NEO_SEED_4="http://eco-neo-csharp-nodes-running:30336"
+ENV NEO_PYTHON_SEED_1="http://eco-neo-python-running:38088/v1"
 
 EXPOSE 4000
 

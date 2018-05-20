@@ -88,11 +88,11 @@ ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-pytho
 
 
 #TODO - Perhaps, change this to only localhost or a function that adds by hand
-ENV NEO_PYTHON_RPC_1="http://neo-csharp-nodes:30333"
-ENV NEO_PYTHON_NODE_1="neo-csharp-nodes:20333"
-ENV NEO_PYTHON_NODE_2="neo-csharp-nodes:20334"
-ENV NEO_PYTHON_NODE_3="neo-csharp-nodes:20335"
-ENV NEO_PYTHON_NODE_4="neo-csharp-nodes:20336"
+ENV NEO_PYTHON_RPC_1="http://eco-neo-csharp-nodes-running:30333"
+ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20333"
+ENV NEO_PYTHON_NODE_2="eco-neo-csharp-nodes-running:20334"
+ENV NEO_PYTHON_NODE_3="eco-neo-csharp-nodes-running:20335"
+ENV NEO_PYTHON_NODE_4="eco-neo-csharp-nodes-running:20336"
 RUN printf '%s\n' /127.0.0.1:30333/c '     "'$NEO_PYTHON_RPC_1'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 RUN printf '%s\n' /127.0.0.1:20333/c '     "'$NEO_PYTHON_NODE_1'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 RUN printf '%s\n' /127.0.0.1:20334/c '     "'$NEO_PYTHON_NODE_2'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 

@@ -14,6 +14,7 @@
               <li class="active"><a data-target="#conversor" data-toggle="tab">Utils (Conversors)</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
+              <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
             </ul>
         </div>
         <div class="col-sm-9">
@@ -146,6 +147,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- begin transaction -->
                 <div class="tab-pane fade" id="transaction">
                   <div class="panel panel-primary">
                       <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
@@ -336,6 +339,9 @@
                          </div>
                        </div>
                     </div>
+                    <!-- end transaction -->
+
+                    <!-- begin wallet -->
                 <div class="tab-pane fade" id="wallet">
                     <div class="row">
                         <div class="col-md-2">
@@ -431,9 +437,69 @@
                         </div>
                     </div>
                 </div>
+                <!-- end wallet -->
+
+                <!-- begin nodeinfo -->
+            <div class="tab-pane fade" id="nodeinfo">
+                <div class="row">
+                    <div class="col-md-2 pull-left">
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm">Reload All</button>
+                    </div>
+                </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Node1
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <textarea id="node1data" class="form-control" style="font-size: 12px;" rows=15 readonly></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div> <!-- node1 end -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Node2
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <textarea id="node2data" class="form-control"  style="font-size: 12px;" rows=15 readonly></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div> <!-- node2 end -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Node3
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <textarea id="node3data" class="form-control"  style="font-size: 12px;" rows=15 readonly></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div> <!-- node3 end -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        Node4
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <textarea id="node4data" class="form-control"  style="font-size: 12px;" rows=15 readonly></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div> <!-- node4 end -->
             </div>
-        </div>
-    </div>
+            <!-- end nodes -->
+
+          </div> <!-- end tab pane -->
+        </div> <!-- end col -->
+    </div> <!-- end row -->
 
     <div id="persistWallet" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -1052,6 +1118,17 @@
           if( $("#scripthash").val() == "" ) return;
           $("#address").val( toBase58($("#scripthash").val()) );
           //CreateRawTx();
+        }
+
+        function getNodeInfo()
+        {
+           var net = "https://neocompiler.io";
+           if($("#ecolabnetworkurlselection")[0].value == "http://localhost:30335")
+               net = "http://localhost:8000";
+           $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
+           $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
+           $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
+           $.get(net+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
         }
     </script>
 </div>

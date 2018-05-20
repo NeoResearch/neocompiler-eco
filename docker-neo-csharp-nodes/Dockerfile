@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     wget \
     curl \
     vim \
-    nano \	
+    nano \
     man
 
 # Setup microsoft repositories
@@ -40,6 +40,16 @@ RUN unzip -q -d /opt/node1 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node2 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node3 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node4 /opt/neo-cli.zip
+
+RUN apt-get update && apt-get install cron
+ADD ./scripts/taillogs.cron /opt/taillogs.cron
+ADD ./scripts/taillogs.sh /opt/taillogs.sh
+RUN crontab /opt/taillogs.cron
+
+ADD ./scripts/print1.sh /usr/local/bin/
+ADD ./scripts/print2.sh /usr/local/bin/
+ADD ./scripts/print3.sh /usr/local/bin/
+ADD ./scripts/print4.sh /usr/local/bin/
 
 # Add config files
 ADD ./configs/config1.json /opt/node1/neo-cli/config.json

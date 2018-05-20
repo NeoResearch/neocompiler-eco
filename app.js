@@ -99,7 +99,7 @@ app.get('/statusnode3', function(req, res) {
     }
   });
 });
-app.get('/statusnode4.txt', function(req, res) {
+app.get('/statusnode4', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   var cmddocker = 'docker exec -t neo-csharp-nodes dash -i -c "print4.sh"';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {

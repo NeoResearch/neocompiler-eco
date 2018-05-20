@@ -2,8 +2,8 @@ version: "3"
 services:
   neo-scan-running:
     build: ./neo-scan
-    image: "neo-scan-running"
-    container_name: "neo-scan-running"
+    image: eco-neo-scan:latest
+    container_name: "eco-neo-scan-running"
     ports:
       - 4000:4000
     links:

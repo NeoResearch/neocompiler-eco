@@ -16,6 +16,7 @@ services:
       - eco-neo-python-running:38088
   postgresql:
     image: postgres:10.1
+    container_name: "postgresql-running"
     ports:
       - 5432:5432
     environment:

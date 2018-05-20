@@ -38,12 +38,12 @@ var optionsCompile = {
 }
 
 var optionsDefault = {
-  timeout: 180000, // 180 seconds is a lot already!
+  timeout: 300000, // 5 min is a lot already!
   killSignal: 'SIGKILL'
 }
 
 var optionsDeploy = {
-  timeout: 180000, // 180 seconds is a lot already!
+  timeout: 300000, // 5 min is a lot already!
   killSignal: 'SIGKILL'
 }
 

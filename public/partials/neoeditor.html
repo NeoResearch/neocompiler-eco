@@ -724,7 +724,7 @@ def Main():
          //contentType: "application/json",
          dataType: "json",
          data:indata,
-        timeout:180000  // we chose 3 min secs for kicks on invokes - Current nodes with 15s sync
+        timeout:300000  // we chose 3 min secs for kicks on invokes - Current nodes with 15s sync
         }).done(function(data){
            //alert( "Always of invoke!");
            $("#deploybtn")[0].disabled = false;
@@ -843,7 +843,7 @@ def Main():
          //contentType: "application/json",
          dataType: "json",
          data:indata,
-         timeout:180000 // we chose 3 min secs for kicks on deploy - Current nodes with 15s sync
+         timeout:300000 // we chose 3 min secs for kicks on deploy - Current nodes with 15s sync
         }).done(function(data){
            //alert( "Always of deploy!");
            $("#deploybtn")[0].disabled = false;

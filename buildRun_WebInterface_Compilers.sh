@@ -1,15 +1,15 @@
 #!/bin/bash
 echo "BUILDING mono-neo-compiler";
-(cd docker-neo-mono; ./docker_build.sh)
+(cd docker-compiler-csharp; ./docker_build.sh)
 
 echo "BUILDING neo-boa-compiler";
-(cd docker-neo-boa; ./docker_build.sh)
+(cd docker-compiler-python; ./docker_build.sh)
 
 echo "BUILDING neo-go-compiler";
-(cd docker-neo-go; ./docker_build.sh)
+(cd docker-compiler-go; ./docker_build.sh)
 
 echo "BUILDING neo-java-compiler";
-(cd docker-java; ./docker_build.sh)
+(cd docker-compiler-java; ./docker_build.sh)
 
 echo "STOPING server doors";
 ./stop.sh

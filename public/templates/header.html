@@ -38,6 +38,7 @@
 </nav>
 
 <script>
+    updateHeaderNetworkInfo();
     function updateHeaderNetworkInfo()
     {
         $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {

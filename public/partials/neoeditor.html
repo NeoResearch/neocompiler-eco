@@ -1132,7 +1132,9 @@ def Main():
         basepathcli = "http://localhost:30335";
       }
      $.getJSON(basepathpy+"/v1/status", function(result) {
-            $("#headernodeinfo")[0].innerHTML=result.version;
+
+            $("#headernodeinfo")[0].innerHTML="<a href='"+basepathpy+"'>"+result.version+"</a>";
+
             $.post(basepathcli, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
                    $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
             });

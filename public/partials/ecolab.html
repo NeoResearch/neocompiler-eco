@@ -28,7 +28,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value=BASE_PATH_CLI/>
+                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io">
                 </div>
             </div>
             <div class="tab-content">
@@ -545,7 +545,7 @@
         function updatePATHS()
         {
             mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
-            
+
             if(mynetwork == "localhost (privatenet)")
             {
               BASE_PATH_NEOSCAN = "http://localhost:4000";

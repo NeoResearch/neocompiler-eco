@@ -52,7 +52,21 @@ Furthermore, it will set all available compilers and open the front/backend inte
 ## Building compiling backends (C#, Python and Go)
 
 Docker technology is essential for sandboxing all compilers in different environments (for different languages).
-For Ubuntu releases, we recommend package docker.io: `# apt install docker.io`.
+
+We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker docker-engine docker.io`.
+
+
+* Ubuntu-based distributions (https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository)[guidelines]:
+
+`sudo apt-get install apt-transport-https ca-certificates curl software-properties-common gnupg2`
+`curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
+`sudo apt-key fingerprint 0EBFCD88`
+`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`
+`sudo apt update`
+`sudo apt install docker-ce`
+
+* Deepin users can follow Ubuntu instructions and use `artful` (Ubuntu 17.10) repository:
+`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"`
 
 ### Building docker-neo-mono backend
 The backend for C# is provided by mono, only two steps are necessary to build and tag image `docker-mono-neo-compiler`:

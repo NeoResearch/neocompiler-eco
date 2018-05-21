@@ -584,13 +584,14 @@
         }
 
         $(document).ready(function(){
-          console.log("checking wallets");
+            //console.log("checking wallets");
             setInterval(function() {
                 populateWalletData();
             }, 30000); // 30000 milsec
 
             recoveringPageData();
         });
+        
         window.onbeforeunload = function(event){
           storePageData();
           return confirm("Confirm refresh");
@@ -599,7 +600,7 @@
         function recoveringPageData(){
           if( checkCookie("utilstab") ){
             index = getCookie("utilstab");
-            console.log("recovering utils tab");
+            console.log("Cookie tests. Recovering utils tab....");
             $("#pillstab").children().eq(index).find('a').tab('show');
           }
         }
@@ -677,7 +678,7 @@
             return
           }
           var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + addressToFill;
-          console.log("url_toFill:" + url_toFill);
+          //console.log("url_toFill:" + url_toFill);
           $.getJSON(url_toFill, function(result) {
             if(result.balance)
             {

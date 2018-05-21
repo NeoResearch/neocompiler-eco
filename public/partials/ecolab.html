@@ -567,7 +567,6 @@
             }
         }
 
-
         function getCurrentNetwork()
         {
           selBox = $("#ecolabnetworkurlselection")[0];
@@ -1051,13 +1050,13 @@
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             mynetwork = getCurrentNetwork();
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), mynetwork);
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, mynetwork);
         });
 
         $("#createtxgas").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             mynetwork = getCurrentNetwork();
-            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), mynetwork);
+            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, mynetwork);
         });
 
         $("#createtx_from_contract").on('keyup', function () {

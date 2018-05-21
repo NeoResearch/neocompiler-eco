@@ -1,18 +1,27 @@
-function getPrivateNetPath(){
-  return BASE_PATH_NEOSCAN + '/api/main_net';
-}
-
-function addPrivateNet(){
+function addLocalPrivateNet(){
   const config = {
-    name: 'PrivateNet',
+    name: 'LocalPrivateNet',
     extra: {
-      neoscan: getPrivateNetPath()
+      neoscan: FIXED_NEOSCAN_LOCALHOST + "/api/main_net"
     }
   }
-  const privateNet = new Neon.rpc.Network(config)
-  Neon.default.add.network(privateNet)
-  console.log(Neon.settings.networks['PrivateNet'])
+  const localprivateNet = new Neon.rpc.Network(config)
+  Neon.default.add.network(localprivateNet)
+  console.log(Neon.settings.networks['LocalPrivateNet'])
 }
+
+function addSharedPrivateNet(){
+  const config = {
+    name: 'SharedPrivateNet',
+    extra: {
+      neoscan: FIXED_NEOSCAN_NEOCOMPILER + "/api/main_net"
+    }
+  }
+  const sharedprivateNet = new Neon.rpc.Network(config)
+  Neon.default.add.network(sharedprivateNet)
+  console.log(Neon.settings.networks['SharedPrivateNet'])
+}
+
 
 function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))	

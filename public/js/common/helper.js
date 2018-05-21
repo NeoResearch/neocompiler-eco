@@ -94,15 +94,6 @@ function revertHexString(hex) {
 }
 
 
-function statusnode1() {
-  $.post(
-               'http://localhost:8000/statusnode1', // Gets the URL to sent the post to
-                function (data) {
-                  alert(data.result);
-                  console.log(data);
-                }
-            );
-}
 /*
 function revertHexString(hex) {
     var reverthex = "";

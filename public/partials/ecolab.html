@@ -574,7 +574,7 @@
               BASE_PATH_CLI = "https://seed1.neo.org:20331";
             }
 
-            updateHeaderNetworkInfo();
+            // updateHeaderNetworkInfo();
         }
 
         function getCurrentNetworkNickname()
@@ -888,6 +888,13 @@
         $("#createtx_input_assetid").on('change', function() {
             verifyRPCNetworkForWithdrawUTXO();
         });
+
+        $("#createtx_input_utxo2").on('change', function() {
+            console.log("input UTXO tx ID is: " + JSON.parse($("#createtx_input_utxo2").val()).txid);
+        });
+
+
+
 
         $("#frmRPCJson2").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing

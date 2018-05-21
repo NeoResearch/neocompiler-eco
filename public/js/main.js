@@ -2,7 +2,7 @@
 var FIXED_NEOSCAN_NEOCOMPILER = "https://neoscan.neocompiler.io";
 var FIXED_NEOSCAN_LOCALHOST = "http://localhost:4000";
 var FIXED_NEOSCAN_MAINNET = "https://neoscan.io";
-var FIXED_NEOSCAN_TESTNET = "http://localhost:4000";
+var FIXED_NEOSCAN_TESTNET = "https://neoscan-testnet.io/";
 
 
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;

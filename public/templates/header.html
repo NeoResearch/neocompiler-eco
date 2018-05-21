@@ -38,6 +38,15 @@
 </nav>
 
 <script>
-   document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
-   document.getElementById("headerNeoScanLink").setAttribute("href",NEOSCAN_PATH);
+    $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
+
+           $("#headernodeinfo")[0].innerHTML="<a href='"+BASE_PATH_PY+"'>"+result.version+"</a>";
+
+           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
+                  $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
+           });
+    });
+
+    document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
+    document.getElementById("headerNeoScanLink").setAttribute("href",NEOSCAN_PATH);
 </script>

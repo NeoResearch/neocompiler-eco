@@ -1,3 +1,19 @@
+var BASE_PATH_NEOSCAN = "https://neoscan.neocompiler.io";
+var BASE_PATH_PY = "https://rest.neocompiler.io";
+var BASE_PATH_CLI = "https://node1.neocompiler.io";
+
+var BASE_ANGULARJS_PATH = "";
+
+var LOCAL_DEVELOPMENT = false;
+if(this.window.location.href.indexOf("localhost")  != -1)
+	LOCAL_DEVELOPMENT = true;
+
+if(LOCAL_DEVELOPMENT){
+	BASE_PATH_NEOSCAN = "http://localhost:4000";
+        BASE_PATH_PY = "http://localhost:38088";
+        BASE_PATH_CLI = "http://localhost:30335";
+}
+
 function getPrivateNetPath(){
   return NEOSCAN_PATH + '/api/main_net';
 }
@@ -35,7 +51,7 @@ function neonJSPlayground(){
   console.log(intent) // This is an array of 2 Intent objects, one for each asset
   const configTest = {
     net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-    url: NODES_CSHARP_PATH,
+    url: BASE_PATH_CLI,
     address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
     privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
     intents: intent
@@ -56,7 +72,7 @@ function neonJSPlayground(){
 }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
 // =============================================
 
-function CreateClaimGasTX( from, fromPrivateKey, networkToCall = "PrivateNet", nodeToCall = NODES_CSHARP_PATH, ){
+function CreateClaimGasTX( from, fromPrivateKey, networkToCall = "PrivateNet", nodeToCall = BASE_PATH_CLI, ){
     const config = {
         net: networkToCall, // The network to perform the action, MainNet or TestNet.
         url: nodeToCall,
@@ -74,7 +90,7 @@ function CreateClaimGasTX( from, fromPrivateKey, networkToCall = "PrivateNet", n
 }
 
 
-function CreateTx( from, fromPrivateKey, to, neo, gas, networkToCall = "PrivateNet", nodeToCall = NODES_CSHARP_PATH, ){
+function CreateTx( from, fromPrivateKey, to, neo, gas, networkToCall = "PrivateNet", nodeToCall = BASE_PATH_CLI, ){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))	
     var intent;
     if(neo > 0 && gas > 0)
@@ -109,14 +125,14 @@ function CreateRawTx( rawData ){
   // just for test
   //query = Neon.rpc.Query.sendRawTransaction(rawData);
   query = Neon.rpc.Query.sendRawTransaction('800000014BFA9098EC9C5B95E4EC3045A2A2D04A10F12228A3267A3AC65265428ABDC1D3010002E72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000E1F505000000004E75C523C4D431DAFED515E5E230F11A4DB5A80FE72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000EF54A91C000000 513FF03F3A5648BE47CC82F6571251F57173CF8601060004303231347755C56B6C766B00527AC46C766B51527AC4616168164E656F2E52756E74696D652E47657454726967676572009C6C766B52527AC46C766B52C3642A00616C766B00C30430323134876C766B53527AC46C766B53C3640E00516C766B54527AC4620F0061006C766B54527AC46203006C766B54C3616C7566');
-  response = query.execute(NODES_CSHARP_PATH);
+  response = query.execute(BASE_PATH_CLI);
   console.log(response);
 }
 
 function Invoke(publicKey, contract_scripthash, contract_operation){
   const config = {
     net: 'PrivateNet',
-    url: NODES_CSHARP_PATH,
+    url: BASE_PATH_CLI,
     script: Neon.default.create.script({
       scriptHash: contract_scripthash,
       operation: contract_operation,
@@ -173,7 +189,7 @@ function Deploy(){
 
     const config = {
       net: 'PrivateNet',
-      url: NODES_CSHARP_PATH,
+      url: BASE_PATH_CLI,
       script: sb.str,
       address: 'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
       privateKey: '4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',

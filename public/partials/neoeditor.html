@@ -510,13 +510,13 @@ def Main():
         console.log("checking txs");
     });
 
-    var neoScanTXBaseURL = NEOSCAN_PATH + "/api/main_net/v1/get_transaction/";
+    var neoScanTXBaseURL = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/";
 
     var vecRelayedTXs = [];
     drawRelayedTXs();
 
-    //Call neonJSPlayground function
-    neonJSPlayground();
+    // Call neonJSPlayground function -- DEPRECATED
+    // neonJSPlayground();
 
     //===============================================================
     $("#formCompile").submit(function (e) {
@@ -1125,21 +1125,6 @@ def Main():
   //===============================================================
    //This function tries to search and verify for all relayed TXs that were, possible, broadcasted and included in the blockchain
    function searchForTXs(){
-     var basepathpy = "https://rest.neocompiler.io";
-     var basepathcli = "https://node1.neocompiler.io";
-     if(NEOSCAN_PATH == "http://localhost:4000") {
-        basepathpy = "http://localhost:38088";
-        basepathcli = "http://localhost:30335";
-      }
-     $.getJSON(basepathpy+"/v1/status", function(result) {
-
-            $("#headernodeinfo")[0].innerHTML="<a href='"+basepathpy+"'>"+result.version+"</a>";
-
-            $.post(basepathcli, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
-                   $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
-            });
-     });
-
      //console.log("Searching tx's");
      for (i = 0; i < vecRelayedTXs.length; i++)
       searchForTX(i);

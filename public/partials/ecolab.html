@@ -364,9 +364,9 @@
                               <textarea id="w1Data" class="form-control" readonly></textarea>
                             </div>
                             <div class="col-md-12">
-                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
+                              <a href=BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y"
                                 target="popup"
-                                onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
+                                onclick="window.open(BASE_PATH_NEOSCAN + '/api/main_net/v1/get_balance/AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y','popup','width=600,height=600'); return false;">
                                 more details
                               </a>
                             </div>
@@ -385,9 +385,9 @@
                               <textarea id="w2Data" class="form-control" readonly></textarea>
                             </div>
                             <div class="col-md-12">
-                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
+                              <a href=BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL"
                                   target="popup"
-                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
+                                  onclick="window.open(BASE_PATH_NEOSCAN + '/api/main_net/v1/get_balance/APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL','popup','width=600,height=600'); return false;">
                                   more details
                               </a>
                             </div>
@@ -406,9 +406,9 @@
                               <textarea id="w3Data" class="form-control" readonly></textarea>
                             </div>
                             <div class="col-md-12">
-                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
+                              <a href=BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx"
                                   target="popup"
-                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
+                                  onclick="window.open(BASE_PATH_NEOSCAN + '/api/main_net/v1/get_balance/AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx','popup','width=600,height=600'); return false;">
                                   more details
                               </a>
                             </div>
@@ -427,9 +427,9 @@
                               <textarea id="w4Data" class="form-control" readonly></textarea>
                             </div>
                             <div class="col-md-12">
-                              <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
+                              <a href=BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9"
                                   target="popup"
-                                  onclick="window.open(NEOSCAN_PATH + '/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
+                                  onclick="window.open(BASE_PATH_NEOSCAN + '/api/main_net/v1/get_balance/AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9','popup','width=600,height=600'); return false;">
                                   more details
                               </a>
                             </div>
@@ -533,27 +533,40 @@
 	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
             $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
 
-            NEOSCAN_PATH = getNEOSCANPATH();
+            updatePATHS();
         }
 
         $("#ecolabnetworkurlselection").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
-            NEOSCAN_PATH = getNEOSCANPATH();
+            updatePATHS();
         });
 
-        function getNEOSCANPATH()
+        function updatePATHS()
         {
             selBox = $("#ecolabnetworkurlselection")[0];
             mynetwork = selBox.options[selBox.selectedIndex].text;
             if(mynetwork == "localhost (privatenet)")
-              return "http://localhost:4000";
+            {
+              BASE_PATH_NEOSCAN = "http://localhost:4000";
+              BASE_PATH_PY = "http://localhost:38088";
+              BASE_PATH_CLI = "http://localhost:30335";
+            }
             if(mynetwork == "neocompiler.io (shared privatenet)")
-              return "https://neoscan.neocompiler.io";
+            {
+              BASE_PATH_NEOSCAN = "https://neoscan.neocompiler.io";
+              BASE_PATH_PY = "https://rest.neocompiler.io";
+              BASE_PATH_CLI = "https://node1.neocompiler.io";
+            }
             if(mynetwork == "NEO MainNet")
-              return "https://neoscan.io";
+            {
+              BASE_PATH_NEOSCAN = "https://neoscan.io";
+            }
             if(mynetwork == "NEO TestNet")
-              return "https://neoscan-testnet.io/";
+            {
+              BASE_PATH_NEOSCAN = "https://neoscan-testnet.io/";
+            }
         }
+
 
         function getCurrentNetwork()
         {
@@ -619,13 +632,13 @@
           html += hash
 
           html += '" style="width: 100%; height: 50px;" readonly="readonly"></textarea><br>' +
-            '  <a href=NEOSCAN_PATH + "/api/main_net/v1/get_balance/'
+            '  <a href=BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/'
 
           html += hash
 
           html += '"' +
             '  target="popup"' +
-            '  onclick="window.open(NEOSCAN_PATH + \'/api/main_net/v1/get_balance/'
+            '  onclick="window.open(BASE_PATH_NEOSCAN + \'/api/main_net/v1/get_balance/'
 
           html += hash
 
@@ -641,7 +654,7 @@
 
         function populatePersistedWalletData(hash) {
           console.log(hash)
-          url = NEOSCAN_PATH + "/api/main_net/v1/get_balance/" + hash
+          url = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + hash
           $.getJSON(url, function(result) {
             var data = "";
             data += result.balance[0].amount + " " + result.balance[0].asset + "\n";
@@ -658,7 +671,7 @@
             console.log("One address should be provided");
             return
           }
-          var url_toFill = NEOSCAN_PATH + "/api/main_net/v1/get_balance/" + addressToFill;
+          var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + addressToFill;
           console.log("url_toFill:" + url_toFill);
           $.getJSON(url_toFill, function(result) {
             if(result.balance)
@@ -710,8 +723,8 @@
 
         function populateWalletData()
         {
-            var url_base = NEOSCAN_PATH + "/api/main_net/v1/get_balance/";
-            var url_claim = NEOSCAN_PATH + "/api/main_net/v1/get_claimable/";
+            var url_base = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/";
+            var url_claim = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_claimable/";
             $.getJSON(url_base+"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", function(result) {
                 $("#w1Data")[0].value = fillWalletInfo(result);
                 $.getJSON(url_claim+"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", function(result2) {

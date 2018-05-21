@@ -1125,6 +1125,16 @@ def Main():
   //===============================================================
    //This function tries to search and verify for all relayed TXs that were, possible, broadcasted and included in the blockchain
    function searchForTXs(){
+     var basepath = "https://neocompiler.io";
+     if(NEOSCAN_PATH == "http://localhost:4000")
+        basepath = "http://localhost";
+     $.getJSON(basepath+":38088/v1/status", function(result) {
+            $("#headernodeinfo")[0].innerHTML=result.version;
+            $.post(basepath+":30335", '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
+                   $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
+            });
+     });
+
      //console.log("Searching tx's");
      for (i = 0; i < vecRelayedTXs.length; i++)
       searchForTX(i);

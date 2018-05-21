@@ -43,7 +43,6 @@
     {
         $("#headernodeinfo")[0].innerHTML="";
         $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-              console.log("BASE_PATH_PY is " + BASE_PATH_PY);
                $("#headernodeinfo")[0].innerHTML="<a href='"+BASE_PATH_PY+"'>"+result.version+"</a> H:"+result.current_height+" ";
 
                $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {

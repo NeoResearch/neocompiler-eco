@@ -28,7 +28,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io"/>
+                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value=BASE_PATH_CLI/>
                 </div>
             </div>
             <div class="tab-content">
@@ -245,13 +245,13 @@
                                 <div class="col-md-3">
                                   <div class="form-group">
                                     <label for="createtx_NEO">NEO</label>
-                                    <input type="number" id="createtx_NEO" class="form-control" placeholder="NEO" required/>
+                                    <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-3">
                                   <div class="form-group">
                                     <label for="createtx_GAS">GAS</label>
-                                    <input type="number" id="createtx_GAS" class="form-control" placeholder="GAS" required/>
+                                    <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-12">
@@ -528,6 +528,7 @@
 
     <script>
         //Check current webpage and starts with localhost or neocompiler public website
+
         if(this.window.location.href.indexOf("localhost")  != -1)
         {
 	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
@@ -543,8 +544,7 @@
 
         function updatePATHS()
         {
-            selBox = $("#ecolabnetworkurlselection")[0];
-            mynetwork = selBox.options[selBox.selectedIndex].text;
+            mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
             if(mynetwork == "localhost (privatenet)")
             {
               BASE_PATH_NEOSCAN = "http://localhost:4000";
@@ -565,16 +565,22 @@
             {
               BASE_PATH_NEOSCAN = "https://neoscan-testnet.io/";
             }
+
+            updateHeaderNetworkInfo();
         }
 
-        function getCurrentNetwork()
+        function getCurrentNetworkNickname()
         {
-          selBox = $("#ecolabnetworkurlselection")[0];
-          mynetwork = selBox.options[selBox.selectedIndex].text;
-          if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
-             mynetwork = "PrivateNet";
+          mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
 
-          return mynetwork;
+          if(mynetwork == "neocompiler.io (shared privatenet)" || mynetwork == "localhost (privatenet)")
+             return "PrivateNet";
+
+          if(mynetwork == "NEO MainNet")
+             return "MainNet";
+
+          if(mynetwork == "NEO TestNet")
+             return "TestNet";
         }
 
         $(document).ready(function(){
@@ -798,7 +804,7 @@
 
         function verifyRPCNetworkForWithdrawUTXO()
         {
-            mynetwork = getCurrentNetwork();
+            mynetwork = getCurrentNetworkNickname();
 
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
@@ -1049,14 +1055,12 @@
         // ==================================================================================
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            mynetwork = getCurrentNetwork();
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, mynetwork);
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
         });
 
         $("#createtxgas").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            mynetwork = getCurrentNetwork();
-            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, mynetwork);
+            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
         });
 
         $("#createtx_from_contract").on('keyup', function () {
@@ -1132,11 +1136,13 @@
           //CreateRawTx();
         }
 
+        //This uses local routes
         function getNodeInfo()
         {
            var net = "https://neocompiler.io";
            if($("#ecolabnetworkurlselection")[0].value == "http://localhost:30335")
                net = "http://localhost:8000";
+
            $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
            $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
            $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); } );

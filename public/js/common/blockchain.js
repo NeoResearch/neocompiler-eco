@@ -15,7 +15,7 @@ if(LOCAL_DEVELOPMENT){
 }
 
 function getPrivateNetPath(){
-  return NEOSCAN_PATH + '/api/main_net';
+  return BASE_PATH_NEOSCAN + '/api/main_net';
 }
 
 function addPrivateNet(){

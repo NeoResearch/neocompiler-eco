@@ -17,7 +17,7 @@ else
 	rv=`echo $5 | base64 --decode`
 	op1=`echo $6 | base64 --decode`
 	op2=`echo $7 | base64 --decode`
-	strimport="import contract $lhash.avm $parm $rv $op1 $op2^M"
+	strimport="import contract $lhash.avm $parm $rv $op1 $op2"
 
 	cp $lhash.avm /$PYTHON_PATH
 
@@ -31,7 +31,7 @@ else
 
 	#============================================================================================
 	echo "calling python for deploy with " + $strimport
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport"	
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport^M"	
 	sleep 0.5
 
 	#name, version, author, email, description
@@ -43,12 +43,16 @@ else
 
 	#password for broadcasting tx
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+
+	#Cleaning and processing to LOG
+	sleep 0.5
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
 	#============================================================================================
 
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
-	sleep 2
+	sleep 5
 	#============================================================================================
 
 	cat /$PYTHON_PATH/pythonScreen.log

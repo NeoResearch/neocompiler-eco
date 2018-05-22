@@ -23,10 +23,10 @@ else
   	 
    	if [ "$neo" -eq "0" ]; then
    	   echo "$invokeCall $lhash $parm";
-   	   strinvoke="$invokeCall $lhash $parm^M"
+   	   strinvoke="$invokeCall $lhash $parm"
   	else
     	  echo "$invokeCall $lhash $parm --attach-neo=$neo";
-    	  strinvoke="$invokeCall $lhash $parm --attach-neo=$neo^M"
+    	  strinvoke="$invokeCall $lhash $parm --attach-neo=$neo"
         fi
 
 	#============================================================================================
@@ -38,7 +38,7 @@ else
 
 	#============================================================================================
 	echo "calling python for invoking with " + $strinvoke
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strinvoke"
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strinvoke^M"
 	sleep 0.5
 
 	#password for broadcasting tx (or not, in case of testinvokeonly)
@@ -47,13 +47,17 @@ else
   	else
   	    screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
   	fi
+
+	#Cleaning and processing to LOG
+	sleep 0.5
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
 	#============================================================================================
 
 
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
-	sleep 2
+	sleep 5
 	#============================================================================================
 
 	cat /$PYTHON_PATH/pythonScreen.log

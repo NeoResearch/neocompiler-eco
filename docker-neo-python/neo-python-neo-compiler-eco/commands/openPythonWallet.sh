@@ -13,11 +13,11 @@ else
 
 	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off^M"
-	sleep 1
+	sleep 2
 	screen -S $PYTHON_PATH -p 0 -X stuff "open wallet $2^M"
-	sleep 1
+	sleep 2
 	screen -S $PYTHON_PATH -p 0 -X stuff "$3^M"
-	sleep 1
+	sleep 2
 	screen -S $PYTHON_PATH -p 0 -X stuff "wallet rebuild^M"
 fi
 

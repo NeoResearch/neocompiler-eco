@@ -35,7 +35,6 @@ $("#formdeploy").submit(function (e) {
            //alert(textStatus);
            //alert(jqXHR);
            $("#deploybtn")[0].disabled = false;
-           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            $("#contractmessages").text("Some unexpected error happened when calling POST for deploying!\n" + textStatus + "\n" + jqXHR);
         }); //End of ajax for POST deploy
@@ -81,13 +80,11 @@ $("#forminvoke").submit(function (e) {
          data:indata,
         timeout:300000  // we chose 3 min secs for kicks on invokes - Current nodes with 15s sync
         }).done(function(data){
-           //alert( "Always of invoke!");
-           $("#deploybtn")[0].disabled = false;
-           //$("#searchbtn")[0].disabled = false;
-           $("#invokebtn")[0].disabled = false;
-             //console.log("output="+data);
-             var invokemsg = atob(data.output);
-             $("#contractmessages").text(invokemsg);
+             $("#deploybtn")[0].disabled = false;
+             $("#invokebtn")[0].disabled = false;
+
+
+             $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));    
 
              //----------------------------------------------------
              //Procedure for filtering notify messages and showing on events specify textnofity box
@@ -111,9 +108,8 @@ $("#forminvoke").submit(function (e) {
              updateTXTable($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
-           //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
-           $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n");
+           $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n" + textStatus + "\n" + jqXHR);
         }); //End of ajax for POST invoke
 
         /*

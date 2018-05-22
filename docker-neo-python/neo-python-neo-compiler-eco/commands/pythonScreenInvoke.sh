@@ -13,20 +13,20 @@ else
 	neo=`echo "$4" | base64 --decode`
   	onlyinvoke=`echo "$5" | base64 --decode`
 
-	echo "Path is " + $1 + " or : " + $PYTHON_PATH
+	#echo "Python path is:" + $PYTHON_PATH
 
   	if [ "$onlyinvoke" -eq "0" ]; then
-      	    invokeCall=`echo "testinvoke"`
+      		invokeCall=`echo "testinvoke"`
   	else
-  	    invokeCall=`echo "testinvokeonly"`
+  		invokeCall=`echo "testinvokeonly"`
   	fi
   	 
    	if [ "$neo" -eq "0" ]; then
-   	   echo "$invokeCall $lhash $parm";
-   	   strinvoke="$invokeCall $lhash $parm"
+   		echo "$invokeCall $lhash $parm";
+   		strinvoke="$invokeCall $lhash $parm"
   	else
-    	  echo "$invokeCall $lhash $parm --attach-neo=$neo";
-    	  strinvoke="$invokeCall $lhash $parm --attach-neo=$neo"
+    		echo "$invokeCall $lhash $parm --attach-neo=$neo";
+    		strinvoke="$invokeCall $lhash $parm --attach-neo=$neo"
         fi
 
 	#============================================================================================
@@ -43,9 +43,9 @@ else
 
 	#password for broadcasting tx (or not, in case of testinvokeonly)
 	if [ "$onlyinvoke" -eq "0" ]; then
-      	    screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+      		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
   	else
-  	    screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
+  		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
   	fi
 
 	#Cleaning and processing to LOG

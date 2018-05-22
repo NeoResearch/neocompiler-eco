@@ -196,7 +196,7 @@ app.post('/deployx', function(req, res) {
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
   var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenDeploy.sh '+
-       pythonScreenName+' '+contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + '"';
+       pythonScreenName + ' ' + contracthash + ' ' + codeavm + ' ' + contractparams + ' ' + contractreturn + ' ' + cbx_storage + ' ' + cbx_dynamicinvoke + '"';
 
   console.log("SC Deploy: import contract");
   console.log(cmddocker);
@@ -210,19 +210,10 @@ app.post('/deployx', function(req, res) {
     }
     else {
       x = stdout1.replace(/[^\x00-\x7F]/g, "");
-      console.log(x);	
-      //outp = new Buffer(outp).toString('base64');
-      //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-      x = x.replace(/(\r\n|\n|\r)/gm,"");
-      console.log("TimeToFinish");
-      x = '{"output":"'+x+'"}';
       console.log(x);
-      res.send(JSON.parse(x));
-      
-      //res.send(x);
 
-      
-      //res.send(JSON.parse(x));
+      console.log("TimeToFinish");
+      res.send(x); 
     }
   });
 

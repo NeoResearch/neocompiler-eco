@@ -29,16 +29,25 @@ else
         fi
 
 	cp $lhash.avm /$PYTHON_PATH
-
 	rm /$PYTHON_PATH/pythonScreen.log
 
 	echo "calling python for invoking with " + $strinvoke
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff $strinvoke
 	sleep 0.5
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+
+
+	if [ "$onlyinvoke" -eq "0" ]; then
+      	    screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+  	else
+  	    screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
+  	fi
 
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
 	sleep 2
 	cat /$PYTHON_PATH/pythonScreen.log
+
+	echo "Removing any remaining data from this invoke"
+	rm $lhash.avm
+	rm /$PYTHON_PATH/pythonScreen.log
 fi

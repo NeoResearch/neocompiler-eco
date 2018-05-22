@@ -14,7 +14,6 @@ else
 	echo "$3" | base64 --decode | xxd -p -r > $lhash.avm
 	parm=`echo $4 | base64 --decode`
 	rv=`echo $5 | base64 --decode`
-	rv=`echo \"$rv\"`
 	op1=`echo $6 | base64 --decode`
 	op2=`echo $7 | base64 --decode`
 	strimport="import contract $lhash.avm $parm $rv $op1 $op2^M"
@@ -22,15 +21,26 @@ else
 	cp $lhash.avm /$PYTHON_PATH
 
 	rm /$PYTHON_PATH/pythonScreen.log
-	echo "calling python for deploy with " + $strimport
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport"
-	sleep 0.5
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
 
-	#screen -L -Logfile /pythonW1/pythonScreen.log -S pythonW1 -p 0 -X stuff "wallet^M"
+	echo "calling python for deploy with " + $strimport
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport"	
+	sleep 0.5
+
+	#name, version, author, email, description
+	for i in `seq 1 5`
+	do
+		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
+		sleep 0.1
+	done
+
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
 
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
 	sleep 2
 	cat /$PYTHON_PATH/pythonScreen.log
+
+	echo "Removing any remaining data from this deploy"
+	rm $lhash.avm
+	rm /$PYTHON_PATH/pythonScreen.log
 fi

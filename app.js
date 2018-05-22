@@ -197,7 +197,7 @@ app.post('/deployx', function(req, res) {
   console.log(cmddocker);
 
 
-  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  //res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   var child = require('child_process').exec(cmddocker, optionsPythonDeployAndInvoke, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);

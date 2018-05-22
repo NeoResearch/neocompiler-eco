@@ -22,6 +22,9 @@ else
 
 	cp $lhash.avm /$PYTHON_PATH
 
+	# cleaning screen
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
+	sleep 0.5
 	rm /$PYTHON_PATH/pythonScreen.log
 
 	echo "calling python for deploy with " + $strimport
@@ -41,8 +44,4 @@ else
 	echo "Maybe remove this sleep"
 	sleep 2
 	cat /$PYTHON_PATH/pythonScreen.log
-
-	echo "Removing any remaining data from this deploy"
-	rm $lhash.avm
-	rm /$PYTHON_PATH/pythonScreen.log
 fi

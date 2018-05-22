@@ -31,34 +31,34 @@ else
 
 	#============================================================================================
 	# cleaning screen
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
-	sleep 0.5
 	rm /$PYTHON_PATH/pythonScreen.log
 	#============================================================================================
 
 	#============================================================================================
 	echo "calling python for invoking with " + $strinvoke
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strinvoke^M"
+	screen -S $PYTHON_PATH -p 0 -X stuff "$strinvoke^M"
 	sleep 0.5
 
 	#password for broadcasting tx (or not, in case of testinvokeonly)
 	if [ "$onlyinvoke" -eq "0" ]; then
-      		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+      		screen -S $PYTHON_PATH -p 0 -X stuff "coz^M"
   	else
-  		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
+  		screen -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
   	fi
-
-	#Cleaning and processing to LOG
-	sleep 0.5
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
-	#============================================================================================
-
 
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
-	sleep 5
+	sleep 3
 	#============================================================================================
 
+	#============================================================================================
+	#Printing the log, hopefully, already flushed by the screen
 	cat /$PYTHON_PATH/pythonScreen.log
+	#============================================================================================
+
+	#============================================================================================
+	# cleaning screen
+	rm /$PYTHON_PATH/pythonScreen.log
+	#============================================================================================
 fi

@@ -22,37 +22,38 @@ else
 
 	#============================================================================================
 	# cleaning screen
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
-	sleep 0.5
 	rm /$PYTHON_PATH/pythonScreen.log
 	#============================================================================================
 
-
 	#============================================================================================
 	echo "calling python for deploy with " + $strimport
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport^M"	
+	screen -S $PYTHON_PATH -p 0 -X stuff "$strimport^M"	
 	sleep 0.5
 
 	#name, version, author, email, description
 	for i in `seq 1 5`
 	do
-		screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
+		screen -S $PYTHON_PATH -p 0 -X stuff "^M"
 		sleep 0.1
 	done
 
 	#password for broadcasting tx
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
-
-	#Cleaning and processing to LOG
-	sleep 0.5
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
+	screen -S $PYTHON_PATH -p 0 -X stuff "coz^M"
 	#============================================================================================
 
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
-	sleep 5
+	sleep 3
 	#============================================================================================
 
+	#============================================================================================
+	#Printing the log, hopefully, already flushed by the screen
 	cat /$PYTHON_PATH/pythonScreen.log
+	#============================================================================================
+
+	#============================================================================================
+	# cleaning screen
+	rm /$PYTHON_PATH/pythonScreen.log
+	#============================================================================================
 fi

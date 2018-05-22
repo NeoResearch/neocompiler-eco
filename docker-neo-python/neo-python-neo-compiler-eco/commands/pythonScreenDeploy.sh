@@ -8,19 +8,17 @@ if (( $# != 7 )); then
 
 else
 	PYTHON_PATH=`echo "$1" | base64 --decode`
-	echo "Python path is:" + $PYTHON_PATH
-
+	echo "Path is: " + $PYTHON_PATH
+	cd /$PYTHON_PATH
 	lhash=`echo "$2" | base64 --decode`
 	echo "HASH: $lhash"
 	echo "code: $3"
-	echo "$3" | base64 --decode | xxd -p -r > $lhash.avm
+	echo "$3" | base64 --decode | xxd -p -r > /$PYTHON_PATH/$lhash.avm
 	parm=`echo $4 | base64 --decode`
 	rv=`echo $5 | base64 --decode`
 	op1=`echo $6 | base64 --decode`
 	op2=`echo $7 | base64 --decode`
-	strimport="import contract $lhash.avm $parm $rv $op1 $op2"
-
-	mv $lhash.avm /$PYTHON_PATH
+	strimport="import contract /$PYTHON_PATH/$lhash.avm $parm $rv $op1 $op2"
 
 	#============================================================================================
 	# cleaning screen

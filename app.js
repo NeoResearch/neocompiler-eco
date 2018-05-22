@@ -173,12 +173,13 @@ app.post('/deployx', function(req, res) {
   var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
-  var wallet_deploy = "";
+
   if(req.body.wallet_deploy == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 
   if(req.body.wallet_deploy == "w2.wallet")
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
+
 
   var cbx_storage = "False";
   if(req.body["cbx_storage"])
@@ -231,11 +232,12 @@ app.post('/invokex', function(req, res) {
 
   console.log("invokeonly is :" + cbx_invokeonly)
   
-  if(req.body.wallet_deploy == "w1.wallet")
+  if(req.body.wallet_invoke == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 
-  if(req.body.wallet_deploy == "w2.wallet")
+  if(req.body.wallet_invoke == "w2.wallet")
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
+
 
   var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenInvoke.sh '+
        pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + cbx_invokeonly + '"';//'" | base64';

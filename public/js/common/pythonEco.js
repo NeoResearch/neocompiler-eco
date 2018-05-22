@@ -76,13 +76,11 @@ $("#forminvoke").submit(function (e) {
          cache:false,
          type:"POST",
          url:BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
-         dataType: "json",
          data:indata,
         timeout:300000  // we chose 3 min secs for kicks on invokes - Current nodes with 15s sync
         }).done(function(data){
              $("#deploybtn")[0].disabled = false;
              $("#invokebtn")[0].disabled = false;
-
 
              $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));    
 

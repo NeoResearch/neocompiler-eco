@@ -108,7 +108,7 @@ app.get('/statusnode4', function(req, res) {
       console.error(e);
     }
     else {
-      x += stdout1.replace(/[^\x00-\x7F]/g, "");
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
       res.send(x);
     }
   });
@@ -213,7 +213,7 @@ app.post('/deployx', function(req, res) {
       console.log(x);
 
       console.log("TimeToFinish");
-      res.send(x); 
+      res.send(x);
     }
   });
 
@@ -233,7 +233,7 @@ app.post('/invokex', function(req, res) {
   cbx_invokeonly=new Buffer(cbx_invokeonly, 'ascii').toString('base64');
 
   console.log("invokeonly is :" + cbx_invokeonly)
-  
+
   if(req.body.wallet_deploy == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 

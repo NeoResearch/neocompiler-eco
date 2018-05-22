@@ -8,12 +8,12 @@ if (( $# != 5 )); then
 
 else
 	PYTHON_PATH=`echo "$1" | base64 --decode`
+	echo "Path is: " + $PYTHON_PATH
+	cd /$PYTHON_PATH
 	lhash=`echo "$2" | base64 --decode`
 	parm=`echo $3 | base64 --decode`
 	neo=`echo "$4" | base64 --decode`
   	onlyinvoke=`echo "$5" | base64 --decode`
-
-	#echo "Python path is:" + $PYTHON_PATH
 
   	if [ "$onlyinvoke" -eq "0" ]; then
       		invokeCall=`echo "testinvoke"`

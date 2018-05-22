@@ -207,6 +207,8 @@ app.post('/deployx', function(req, res) {
       x = stdout1.replace(/[^\x00-\x7F]/g, "");
       console.log(x);
 
+      x = x.replace(/(\r\n|\n|\r)/gm,"");
+
       console.log("TimeToFinish");
       res.send(x); 
     }
@@ -251,6 +253,12 @@ app.post('/invokex', function(req, res) {
     else {
       x = stdout1.replace(/[^\x00-\x7F]/g, "");
       console.log(x);
+
+      x = x.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = require('child_process').execSync(cmddocker).toString();
+  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+  //outp = '{"output":"'+outp+'"}';
+  //res.send(JSON.parse(outp));
 
       console.log("TimeToFinish Invoke");
       res.send(x); 

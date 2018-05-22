@@ -22,7 +22,7 @@ $("#formdeploy").submit(function (e) {
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
 
-           $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));         
+           $("#contractmessages").val(data);         
 
            //Let's try to get the last relayed TX hash
            updateTXTable($("#contractmessages").text());
@@ -82,7 +82,7 @@ $("#forminvoke").submit(function (e) {
              $("#deploybtn")[0].disabled = false;
              $("#invokebtn")[0].disabled = false;
 
-             $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));    
+             $("#contractmessages").val(data);    
 
              //----------------------------------------------------
              //Procedure for filtering notify messages and showing on events specify textnofity box

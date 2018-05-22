@@ -35,6 +35,12 @@ else
 	#============================================================================================
 
 	#============================================================================================
+	# event on - otherwise notify would not be reported
+	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events on ^M"
+	sleep 0.5
+	#============================================================================================
+
+	#============================================================================================
 	echo "calling python for invoking with " + $strinvoke
 	screen -S $PYTHON_PATH -p 0 -X stuff "$strinvoke^M"
 	sleep 0.5
@@ -45,6 +51,12 @@ else
   	else
   		screen -S $PYTHON_PATH -p 0 -X stuff "hehehehe^M"
   	fi
+
+	#============================================================================================
+	# event off - otherwise the screen would receive everything
+	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off ^M"
+	sleep 0.5
+	#============================================================================================
 
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists

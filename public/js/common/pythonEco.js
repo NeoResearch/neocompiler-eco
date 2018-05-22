@@ -83,27 +83,11 @@ $("#forminvoke").submit(function (e) {
              $("#deploybtn")[0].disabled = false;
              $("#invokebtn")[0].disabled = false;
 
-             //$("#contractmessages").val(data);    
 
 	     $("#contractmessages").text(data);
 
-             //----------------------------------------------------
-             //Procedure for filtering notify messages and showing on events specify textnofity box
-             $("#contractmessagesnotify").text("");
-             var indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify");
-             while (indexNotify != -1) {
-                 var i = 0;
-                 var snotify = "";
-                 //console.log("found Notiy at "+indexNotify);
-                 while ($("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
-                     snotify += $("#contractmessages").text()[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
-                     i++;
-                 }
-                 //console.log("NOTIFY:"+snotify);
-                 $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
-                 indexNotify = $("#contractmessages").text().indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
-             }
-             //----------------------------------------------------
+	     //TODO - FIX NOTIFY LOOP
+	     //updateNotifyReports($("#contractmessages").text());
 
              //Let's try to get the last relayed TX hash
              updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
@@ -144,6 +128,29 @@ $("#forminvoke").submit(function (e) {
 });//End of invoke function
 //===============================================================
 
+//===============================================================
+function updateNotifyReports(contractMessagesBox){
+             //----------------------------------------------------
+             //Procedure for filtering notify messages and showing on events specify textnofity box
+             $("#contractmessagesnotify").text("");
+             var indexNotify = contractMessagesBox.indexOf("SmartContract.Runtime.Notify");
+             while (indexNotify != -1) {
+                 var i = 0;
+                 var snotify = "";
+                 //console.log("found Notiy at "+indexNotify);
+                 while (contractMessagesBox[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
+                     snotify += contractMessagesBox[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
+                     i++;
+                 }
+                 //console.log("NOTIFY:"+snotify);
+                 $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+                 indexNotify = contractMessagesBox.indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
+             }
+
+             //----------------------------------------------------
+}
+//===============================================================
+
 
 //===============================================================
 function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
@@ -152,7 +159,7 @@ function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
      if(indexRelayedTx != -1)
      {
            //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
-           for(var i = 0; i<=64; i++)
+           for(var i = 0; i<= 65; i++)
                  relayedTX += contractMessagesBox[indexRelayedTx + 11 + i];
            //console.log("Relayed tx is:"+relayedTX);
            //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);

@@ -37,12 +37,7 @@ var optionsCompile = {
   killSignal: 'SIGKILL'
 }
 
-var optionsDefault = {
-  timeout: 300000, // 5 min is a lot already!
-  killSignal: 'SIGKILL'
-}
-
-var optionsDeploy = {
+var optionsPythonDeployAndInvoke = {
   timeout: 300000, // 5 min is a lot already!
   killSignal: 'SIGKILL'
 }
@@ -108,7 +103,8 @@ app.get('/statusnode4', function(req, res) {
       console.error(e);
     }
     else {
-      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      // TODO - Check why it is += here	
+      x += stdout1.replace(/[^\x00-\x7F]/g, "");
       res.send(x);
     }
   });
@@ -203,7 +199,7 @@ app.post('/deployx', function(req, res) {
 
 
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var child = require('child_process').exec(cmddocker, optionsDeploy, (e, stdout1, stderr)=> {
+  var child = require('child_process').exec(cmddocker, optionsPythonDeployAndInvoke, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
       console.error(e);
@@ -213,7 +209,7 @@ app.post('/deployx', function(req, res) {
       console.log(x);
 
       console.log("TimeToFinish");
-      res.send(x);
+      res.send(x); 
     }
   });
 
@@ -233,7 +229,7 @@ app.post('/invokex', function(req, res) {
   cbx_invokeonly=new Buffer(cbx_invokeonly, 'ascii').toString('base64');
 
   console.log("invokeonly is :" + cbx_invokeonly)
-
+  
   if(req.body.wallet_deploy == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 
@@ -247,44 +243,21 @@ app.post('/invokex', function(req, res) {
   console.log(cmddocker);
   console.log("calling testinvoke");
 
-  //outp = require('child_process').execSync(cmddocker).toString();
-  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  //outp = '{"output":"'+outp+'"}';
-  //res.send(JSON.parse(outp));
-  var child = require('child_process').exec(cmddocker, optionsDefault);
-
-  var child_process = require('child_process');
-  var exec = child_process.exec;
-
-  child = exec(cmddocker, optionsDefault, function(err,stdout,stderr) {
-	if (err) {
-		console.log('Child process exited with error code!!', err.code);
-		return
-	}
-	//console.log("\n \n\n Finishing here: " + err + "\n stdout" + stdout + "\nstderr" + stderr + "\n\n\n\n");
-  });
-
-
-  child.on('exit', function(code, signal) {
-    console.log("\n[app-js] -  exiting invokex docker");
-    if( signal == 'SIGKILL' ) {
-      console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
-      var msg64 = new Buffer(outp+"\nTimeout. Please try again later.\n",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(msgret);
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var child = require('child_process').exec(cmddocker, optionsPythonDeployAndInvoke, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
     }
     else {
-      console.log("Bye bye invoke!!!");
-      outp = new Buffer(outp).toString('base64');
-      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-      outp = '{"output":"'+outp+'"}';
-      res.send(JSON.parse(outp));
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      console.log(x);
+
+      console.log("TimeToFinish");
+      res.send(x); 
     }
   });
-  child.stdout.on('data', function (data) {
-    outp = outp+data;
-    console.log("MORE DATA ON INVOKE:"+data);
-  });
+
 });
 
 // catch 404 and forward to error handler

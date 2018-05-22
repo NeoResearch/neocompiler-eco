@@ -14,7 +14,7 @@
         <!-- <div id="ecoinfo" style="position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000; background-color:#dddddd"><b>Important information:</b> Eco "TestNet" (Shared PrivateNet https://neocompiler.io) is reset every 12-hours (UTC). Do not keep any valuable information there, as the server will be fully erased periodically. (<a href="javascript:$('#ecoinfo')[0].style.display = 'none';void(0);">dismiss</a>)</div> -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav">
-            <li><b>Network Information (<a href="javascript:updateHeaderNetworkInfo();void(0);">refresh</a>):</b><div id="headernodeinfo"></div><div id="headerrpcinfo"></div></li>
+            <li>&nbsp;&nbsp;&nbsp;&nbsp;<b>Network Information (<a href="javascript:updateHeaderNetworkInfo();void(0);">refresh</a>):</b><div id="headernodeinfo"></div><div id="headerrpcinfo"></div></li>
           </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#/neoeditor">Neo Editor</a>
@@ -43,9 +43,9 @@
     function updateHeaderNetworkInfo()
     {
      	$("#headernodeinfo")[0].innerHTML="";
-      $("#headerrpcinfo")[0].innerHTML="RPC node: <i>"+BASE_PATH_CLI+"</i>";
+      $("#headerrpcinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>";
     	$.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#headernodeinfo")[0].innerHTML="<a href='"+BASE_PATH_PY+"'>"+result.version+"</a> H:"+result.current_height+" ";
+                $("#headernodeinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"'>"+result.version+"</a> H:"+result.current_height+" ";
 
                 $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
     	            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;

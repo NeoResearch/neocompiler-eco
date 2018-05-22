@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Calling python invoke procedures..."
+
 if (( $# != 6 )); then
 	echo "WRONG Parameter. Pass: [1 - Screen name]"
 	echo "2 - HASH, import contract 3-7. Example: testinvoke(only) --attach-neo testInvolyOnly "

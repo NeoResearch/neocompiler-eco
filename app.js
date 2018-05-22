@@ -103,8 +103,7 @@ app.get('/statusnode4', function(req, res) {
       console.error(e);
     }
     else {
-      // TODO - Check why it is += here	
-      x += stdout1.replace(/[^\x00-\x7F]/g, "");
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
       res.send(x);
     }
   });
@@ -236,7 +235,7 @@ app.post('/invokex', function(req, res) {
   if(req.body.wallet_deploy == "w2.wallet")
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./pythonScreenInvoke.sh '+
+  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenInvoke.sh '+
        pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "Calling python deploy procedures..."
+
 if (( $# != 7 )); then
 	echo "WRONG Parameter. Pass: [1 - Screen name]"
 	echo "2 - HASH, import contract 3-7. Example: import contract hash.avm params 01 False False"

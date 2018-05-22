@@ -22,10 +22,11 @@ $("#formdeploy").submit(function (e) {
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
 
-           $("#contractmessages").val(data);         
+           //$("#contractmessages").val(data);         
+           $("#contractmessages").text(data);
 
            //Let's try to get the last relayed TX hash
-           updateTXTable($("#contractmessages").text());
+           updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            //if(textStatus === 'timeout')
            //{
@@ -82,7 +83,9 @@ $("#forminvoke").submit(function (e) {
              $("#deploybtn")[0].disabled = false;
              $("#invokebtn")[0].disabled = false;
 
-             $("#contractmessages").val(data);    
+             //$("#contractmessages").val(data);    
+
+	     $("#contractmessages").text(data);
 
              //----------------------------------------------------
              //Procedure for filtering notify messages and showing on events specify textnofity box
@@ -103,7 +106,7 @@ $("#forminvoke").submit(function (e) {
              //----------------------------------------------------
 
              //Let's try to get the last relayed TX hash
-             updateTXTable($("#contractmessages").text());
+             updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
@@ -139,5 +142,23 @@ $("#forminvoke").submit(function (e) {
             "json" // The format the response should be in
         ); */
 });//End of invoke function
+//===============================================================
+
+
+//===============================================================
+function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
+     var indexRelayedTx = contractMessagesBox.indexOf("Relayed Tx");
+     var relayedTX = "";
+     if(indexRelayedTx != -1)
+     {
+           //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
+           for(var i = 0; i<=64; i++)
+                 relayedTX += contractMessagesBox[indexRelayedTx + 11 + i];
+           //console.log("Relayed tx is:"+relayedTX);
+           //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
+           vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
+           drawRelayedTXs();
+     }
+}
 //===============================================================
 

@@ -34,7 +34,7 @@ else
 	for i in `seq 1 5`
 	do
 		screen -S $PYTHON_PATH -p 0 -X stuff "^M"
-		sleep 0.1
+		sleep 0.5
 	done
 
 	#password for broadcasting tx
@@ -44,7 +44,7 @@ else
 	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
-	sleep 3
+	sleep 2
 	#============================================================================================
 
 	#============================================================================================

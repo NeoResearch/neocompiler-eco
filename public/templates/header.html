@@ -44,17 +44,17 @@
     {
      	$("#headernodeinfo")[0].innerHTML="";
       $("#headerrpcinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>";
-      textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>";
+      textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>";
       $("#headerrpcinfo")[0].innerHTML=textRPC;
       if(BASE_PATH_CLI == "https://node1.neocompiler.io") {
         $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_block/1", function(result) {
-           textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>&nbsp;&nbsp;&nbsp;&nbsp;Expires in ";
+           textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>&nbsp;&nbsp;&nbsp;&nbsp;Expires in ";
            dtExpire = result.time+(12*60*60);
            dtDiff = (dtExpire*1000 - Date.now())/1000;
            if(dtDiff < 60*30)
-              $("#headerrpcinfo")[0].innerHTML=textRPC+"<div style='color:#ff0000'>"+(dtDiff/60).toFixed(1)+" minutes</div>";
+              $("#headerrpcinfo")[0].innerHTML=textRPC+"<div style='color:#ff0000'>"+(dtDiff/60).toFixed(1)+" min</div>";
            else
-              $("#headerrpcinfo")[0].innerHTML=textRPC+(dtDiff/(60*60)).toFixed(1)+" hours";
+              $("#headerrpcinfo")[0].innerHTML=textRPC+(dtDiff/(60*60)).toFixed(1)+" hrs";
         });
       }
 

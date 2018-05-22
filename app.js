@@ -252,7 +252,7 @@ app.post('/invokex', function(req, res) {
       x = stdout1.replace(/[^\x00-\x7F]/g, "");
       console.log(x);
 
-      console.log("TimeToFinish");
+      console.log("TimeToFinish Invoke");
       res.send(x); 
     }
   });

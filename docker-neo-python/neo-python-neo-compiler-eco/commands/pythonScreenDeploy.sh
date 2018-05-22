@@ -9,7 +9,6 @@ if (( $# != 7 )); then
 else
 	PYTHON_PATH=`echo "$1" | base64 --decode`
 	echo "Path is " + $1 + " or : " + $PYTHON_PATH
-	
 	lhash=`echo "$2" | base64 --decode`
 	echo "HASH: $lhash"
 	echo "code: $3"
@@ -22,11 +21,15 @@ else
 
 	cp $lhash.avm /$PYTHON_PATH
 
+	#============================================================================================
 	# cleaning screen
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "^M"
 	sleep 0.5
 	rm /$PYTHON_PATH/pythonScreen.log
+	#============================================================================================
 
+
+	#============================================================================================
 	echo "calling python for deploy with " + $strimport
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport"	
 	sleep 0.5
@@ -38,10 +41,15 @@ else
 		sleep 0.1
 	done
 
+	#password for broadcasting tx
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+	#============================================================================================
 
+	#============================================================================================
         #TODO - MAYBE Run a WHILE that checks if file exists
 	echo "Maybe remove this sleep"
 	sleep 2
+	#============================================================================================
+
 	cat /$PYTHON_PATH/pythonScreen.log
 fi

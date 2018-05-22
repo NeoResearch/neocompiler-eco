@@ -48,10 +48,13 @@
 
                 $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
     	            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
+                  $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result3) {
+                    $("#headernodeinfo")[0].innerHTML+=" mempool:"+result3.result.length;
+                  });
                 });
     	});
     }
-    
+
     document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
     document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);
 </script>

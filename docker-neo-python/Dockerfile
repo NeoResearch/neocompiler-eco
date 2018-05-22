@@ -74,24 +74,13 @@ ADD neo-python-neo-compiler-eco/w2.wallet /neo-python/
 ADD neo-python-neo-compiler-eco/w3.wallet /neo-python/
 ADD neo-python-neo-compiler-eco/w4.wallet /neo-python/
 
-#Add files that are used by the compiler and backend communication
-ADD neo-python-neo-compiler-eco/unsafeprompt.py /neo-python/
-ADD neo-python-neo-compiler-eco/LoadSmartContract.py /neo-python/neo/Prompt/Commands/
-
 #Scripts called by the javascript interface
-ADD neo-python-neo-compiler-eco/commands/execimportcontract.sh /neo-python
-ADD neo-python-neo-compiler-eco/commands/exectestinvokecontract.sh /neo-python
-
 ADD neo-python-neo-compiler-eco/commands/pythonScreenDeploy.sh /opt
 ADD neo-python-neo-compiler-eco/commands/pythonScreenInvoke.sh /opt
 
-#Starts screen for python wallets syncing, spped up neo-privatenet online acess
-#ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-python
+#Starts screen for python wallets pre-syncing
 ADD neo-python-neo-compiler-eco/commands/openPythonWallet.sh /opt
 ADD neo-python-neo-compiler-eco/commands/callPythonInfinitySync.sh /opt
-
-
-
 #==========================================================================
 
 

@@ -850,9 +850,10 @@ def Main():
            //$("#searchbtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
            // console.log("output="+data);
-           var deploymsg = atob(data.output);
-           $("#contractmessages").text(deploymsg);
-
+           //var deploymsg = atob(data.output);
+           //$("#contractmessages").text(deploymsg);
+           $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));
+           
            //Let's try to get the last relayed TX hash
            updateTXTable($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){

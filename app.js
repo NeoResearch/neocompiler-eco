@@ -173,13 +173,17 @@ app.post('/compilex', function(req, res) {
 
 app.post('/deployx', function(req, res) {
   console.log("Calling app.post route /deployx. Import contract!\n");
+
   var codeavm = new Buffer(req.body.codeavm, 'ascii').toString('base64');
   var contracthash = new Buffer(req.body.contracthash, 'ascii').toString('base64');
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
   var wallet_deploy = "";
-  if((req.body.wallet_deploy == "w1.wallet")||(req.body.wallet_deploy == "w2.wallet")||(req.body.wallet_deploy == "w3.wallet")||(req.body.wallet_deploy == "w4.wallet"))
-    wallet_deploy = new Buffer(req.body.wallet_deploy, 'ascii').toString('base64');
+  if(req.body.wallet_deploy == "w1.wallet")
+    pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
+
+  if(req.body.wallet_deploy == "w2.wallet")
+    pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
 
   var cbx_storage = "False";
   if(req.body["cbx_storage"])
@@ -191,91 +195,43 @@ app.post('/deployx', function(req, res) {
     cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./execimportcontract.sh '+
-       contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + ' ' + wallet_deploy + '"'; //'" | base64';
-  var outp = "";
-  //Tail option -- | tail -n +175 | base64';
-
+  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenDeploy.sh '+
+       pythonScreenName+' '+contracthash+' '+codeavm+' '+ contractparams + ' ' +contractreturn + ' ' +cbx_storage + ' ' +cbx_dynamicinvoke + '"';
 
   console.log("SC Deploy: import contract");
   console.log(cmddocker);
 
-  //outp = require('child_process').execSync(cmddocker).toString();
-  //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-  //outp = '{"output":"'+outp+'"}';
-  //res.send(JSON.parse(outp));
 
-  var child_process = require('child_process');
-  var exec = child_process.exec;
-
-  child = exec(cmddocker, optionsDeploy, function(err,stdout,stderr) {
-	if (err) {
-		console.log('Child process exited with error code!!', err.code);
-		console.log(err)
-		return
-	}
-	//console.log("\n \n\n Finishing here: " + err + "\n stdout" + stdout + "\nstderr" + stderr + "\n\n\n\n");
-  });
-
-  child.on('exit', function(code, signal) {
-    console.log("\n[app-js] - exiting deploy docker...");
-    if( signal != null ) {
-      console.log("[app-js] - "+signal+" was detected. Timeout. Please try again later.");
-      var msg64 = new Buffer(outp+"\nTimeout. Please try again later.\n",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(JSON.parse(msgret));
+  res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+  var child = require('child_process').exec(cmddocker, optionsDeploy, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
     }
     else {
-      outp = new Buffer(outp).toString('base64');
-      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-      outp = '{"output":"'+outp+'"}';
-      res.send(JSON.parse(outp));
+      x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      console.log(x);	
+      //outp = new Buffer(outp).toString('base64');
+      //outp = outp.replace(/(\r\n|\n|\r)/gm,"");
+      x = x.replace(/(\r\n|\n|\r)/gm,"");
+      console.log("TimeToFinish");
+      x = '{"output":"'+x+'"}';
+      console.log(x);
+      res.send(JSON.parse(x));
+      
+      //res.send(x);
+
+      
+      //res.send(JSON.parse(x));
     }
   });
-
-  child.stdout.on('data', function (data, signal) {
-    outp = outp+data;
-    console.log("MORE DATA ON DEPLOY:"+data);
-  });
-
-/*
-  var child = require('child_process').exec(cmddocker, optionsDeploy);
-
-
-  child.on('exit', function(code, signal) {
-    console.log("\n [app-js] - exit compile docker");
-    if( signal == 'SIGKILL' ) {
-      console.log("[app-js] - SIGKILL was detected");
-      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(JSON.parse(msgret));
-    }
-    else {
-      outp = new Buffer(outp).toString('base64');
-      outp = outp.replace(/(\r\n|\n|\r)/gm,"");
-      outp = '{"output":"'+outp+'"}';
-      res.send(JSON.parse(outp));
-    }
-  });
-
-  child.stdout.on('data', function (data, signal) {
-    if( signal == 'SIGKILL' ) {
-      console.log("[app-js] - stdout.on stdout.on KILLING process on POST due to Timeout!!!");
-      var msg64 = new Buffer("Timeout. Please try again later.",'ascii').toString('base64');
-      var msgret = "{\"output\":\""+msg64+"\"}";
-      res.send(JSON.parse(msgret));
-    }
-
-    outp = outp+data;
-    console.log("MORE DATA ON DEPLOY:"+data);
-  });
-*/
 
 });
 
 app.post('/invokex', function(req, res) {
   console.log("hash:"+req.body.invokehash+" params:"+req.body.invokeparams);
   console.log("wallet:"+req.body.wallet_invoke);
+
   var invokehash = new Buffer(req.body.invokehash, 'ascii').toString('base64');
   var invokeparams = new Buffer(req.body.invokeparams, 'ascii').toString('base64');
   var attachneo = new Buffer(req.body.attachneo, 'ascii').toString('base64');
@@ -286,12 +242,15 @@ app.post('/invokex', function(req, res) {
   cbx_invokeonly=new Buffer(cbx_invokeonly, 'ascii').toString('base64');
 
   console.log("invokeonly is :" + cbx_invokeonly)
-  var wallet_invoke = "";
-  if((req.body.wallet_invoke == "w1.wallet")||(req.body.wallet_invoke == "w2.wallet")||(req.body.wallet_invoke == "w3.wallet")||(req.body.wallet_invoke == "w4.wallet"))
-     wallet_invoke = new Buffer(req.body.wallet_invoke, 'ascii').toString('base64');
+  
+  if(req.body.wallet_deploy == "w1.wallet")
+    pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./exectestinvokecontract.sh '+
-       invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + wallet_invoke + ' ' + cbx_invokeonly + '"';//'" | base64';
+  if(req.body.wallet_deploy == "w2.wallet")
+    pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
+
+  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "./pythonScreenInvoke.sh '+
+       pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 
   console.log(cmddocker);

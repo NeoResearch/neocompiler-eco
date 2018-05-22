@@ -1,12 +1,7 @@
 #!/bin/bash
 
-# $1 == HASH
-# import contract $2 $3 $4 $5 $6
-# import contract hash.avm "params" 01 False False
-
-
 if (( $# != 7 )); then
-	echo "WRONG Parameter. Pass: [1 - Screen name]";
+	echo "WRONG Parameter. Pass: [1 - Screen name]"
 	echo "2 - HASH, import contract 3-7. Example: import contract hash.avm params 01 False False"
 
 else
@@ -22,11 +17,20 @@ else
 	rv=`echo \"$rv\"`
 	op1=`echo $6 | base64 --decode`
 	op2=`echo $7 | base64 --decode`
-	strimport=`echo "import contract $lhash.avm $parm $rv $op1 $op2^M"
+	strimport="import contract $lhash.avm $parm $rv $op1 $op2^M"
 
+	cp $lhash.avm /$PYTHON_PATH
+
+	rm /$PYTHON_PATH/pythonScreen.log
 	echo "calling python for deploy with " + $strimport
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_SCREEN -p 0 -X stuff $strimport
-fi
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "$strimport"
+	sleep 0.5
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
 
-#example: ./pythonScreenDeploy.sh SCREEN M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK
-#outside: docker exec -t neo-privnet-with-gas dash -i -c "./execimportcontract.sh M2ZlMTY2ZTczMzIwYTVlZDNmZTg0YTFkNjhlMmRlMmE2YTk1YmJiZAo= MDBjNTZiNjE2Yzc1NjYK IiIK MDEK RmFsc2UK RmFsc2UK" > saida.log
+	#screen -L -Logfile /pythonW1/pythonScreen.log -S pythonW1 -p 0 -X stuff "wallet^M"
+
+        #TODO - MAYBE Run a WHILE that checks if file exists
+	echo "Maybe remove this sleep"
+	sleep 2
+	cat /$PYTHON_PATH/pythonScreen.log
+fi

@@ -1,12 +1,7 @@
 #!/bin/bash
 
-# $1 == HASH
-# import contract $2 $3 $4 $5 $6
-# import contract hash.avm "params" 01 False False
-
-
 if (( $# != 6 )); then
-	echo "WRONG Parameter. Pass: [1 - Screen name]";
+	echo "WRONG Parameter. Pass: [1 - Screen name]"
 	echo "2 - HASH, import contract 3-7. Example: testinvoke(only) --attach-neo testInvolyOnly "
 
 else
@@ -27,12 +22,23 @@ else
   	 
    	if [ "$neo" -eq "0" ]; then
    	   echo "$invokeCall $lhash $parm";
-   	   strinvoke=`echo "$invokeCall $lhash $parm^M" | xxd -p -c 256`
+   	   strinvoke="$invokeCall $lhash $parm^M"
   	else
     	  echo "$invokeCall $lhash $parm --attach-neo=$neo";
-    	  strinvoke=`echo "$invokeCall $lhash $parm --attach-neo=$neo^M" | xxd -p -c 256`
+    	  strinvoke="$invokeCall $lhash $parm --attach-neo=$neo^M"
         fi
 
+	cp $lhash.avm /$PYTHON_PATH
+
+	rm /$PYTHON_PATH/pythonScreen.log
+
 	echo "calling python for invoking with " + $strinvoke
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_SCREEN -p 0 -X stuff $strinvoke
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff $strinvoke
+	sleep 0.5
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+
+        #TODO - MAYBE Run a WHILE that checks if file exists
+	echo "Maybe remove this sleep"
+	sleep 2
+	cat /$PYTHON_PATH/pythonScreen.log
 fi

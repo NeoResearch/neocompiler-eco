@@ -82,10 +82,16 @@ ADD neo-python-neo-compiler-eco/LoadSmartContract.py /neo-python/neo/Prompt/Comm
 ADD neo-python-neo-compiler-eco/commands/execimportcontract.sh /neo-python
 ADD neo-python-neo-compiler-eco/commands/exectestinvokecontract.sh /neo-python
 
+ADD neo-python-neo-compiler-eco/commands/pythonScreenDeploy.sh /opt
+ADD neo-python-neo-compiler-eco/commands/pythonScreenInvoke.sh /opt
+
 #Starts screen for python wallets syncing, spped up neo-privatenet online acess
 #ADD neo-python-neo-compiler-eco/commands/execSleepNeopyInfinitSync.sh /neo-python
 ADD neo-python-neo-compiler-eco/commands/openPythonWallet.sh /opt
 ADD neo-python-neo-compiler-eco/commands/callPythonInfinitySync.sh /opt
+
+
+
 #==========================================================================
 
 

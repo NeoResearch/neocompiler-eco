@@ -24,7 +24,7 @@ function addSharedPrivateNet(){
 
 
 function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall){
-    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))	
+    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent;
     if(neo > 0 && gas > 0)
         intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
@@ -47,6 +47,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
 
     Neon.default.sendAsset(config)
     .then(res => {
+        console.log("network:"+networkToCall);
         console.log(res.response)
     })
     .catch(e => {
@@ -65,6 +66,7 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 
     Neon.default.claimGas(config)
     .then(res => {
+        console.log("network:"+networkToCall);
         console.log(res.response)
     })
     .catch(e => {
@@ -204,4 +206,3 @@ function neonJSPlayground(){
   //const tx3 = Neon.default.create.invocationTx('KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', {}, {}, sb.str, 0)
 }//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
 // =============================================
-

@@ -1,5 +1,4 @@
 #!/bin/bash
-
 PYTHON_RPC_FOLDER=neo-python-rpc-rest
 rm -rf /root/.$PYTHON_RPC_FOLDER
 rm -rf /$PYTHON_RPC_FOLDER

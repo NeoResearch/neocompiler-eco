@@ -729,6 +729,27 @@
             return data;
         }
 
+        function searchIndexOfAllKnownWallets(addressToTryToGet)
+        {
+          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+              if(KNOWN_ADDRESSES[ka].publicKey == addressToTryToGet)
+                return ka;
+          return -1;
+        }
+
+        function fillPrivateKeyIfKnown(boxPublicFrom,boxPrivateTo)
+        {
+          console.log("public plubic is "+ $(boxPublicFrom).val())
+
+          var index = searchIndexOfAllKnownWallets($(boxPublicFrom).val());
+          if (index != -1)
+              $(boxPrivateTo).val(KNOWN_ADDRESSES[index].privateKey);
+        }
+
+        $("#createtx_from").on('change', function() {
+            fillPrivateKeyIfKnown("#createtx_from","#createtx_from_privatek")
+        });
+
         function fillWalletWithClaimAndUnclaims(result)
         {
             var data = "";

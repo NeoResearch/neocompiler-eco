@@ -832,21 +832,25 @@
               var walletNeo = document.createElement('input');
               walletNeo.setAttribute('id', "walletNeo"+i);
               walletNeo.setAttribute("value", "-");
+              walletNeo.setAttribute("readonly","true");
               txRow.insertCell(-1).appendChild(walletNeo);
 
               var walletGas = document.createElement('input');
               walletGas.setAttribute('id', "walletGas"+i);
               walletGas.setAttribute("value", "-");
+              walletGas.setAttribute("readonly","true");
               txRow.insertCell(-1).appendChild(walletGas);
 
               var walletClaim = document.createElement('input');
               walletClaim.setAttribute('id', "walletClaim"+i);
               walletClaim.setAttribute("value", "-");
+              walletClaim.setAttribute("readonly","true");
               txRow.insertCell(-1).appendChild(walletClaim);
 
               var walletUnclaim = document.createElement('input');
               walletUnclaim.setAttribute('id', "walletUnclaim"+i);
               walletUnclaim.setAttribute("value", "-");
+              walletUnclaim.setAttribute("readonly","true");
               txRow.insertCell(-1).appendChild(walletUnclaim);
 
               //Check activation status

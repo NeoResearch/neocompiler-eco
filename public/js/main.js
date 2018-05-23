@@ -8,7 +8,12 @@ var FIXED_NEOSCAN_TESTNET = "https://neoscan-testnet.io/";
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
 var BASE_PATH_PY = "https://rest.neocompiler.io";
 var BASE_PATH_CLI = "https://node1.neocompiler.io";
-
+var KNOWN_ADDRESSES = [];
+KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr' });
+KNOWN_ADDRESSES.push({ publicKey: 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL', privateKey: 'L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA' });
+KNOWN_ADDRESSES.push({ publicKey: 'AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx', privateKey: 'KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p' });
+KNOWN_ADDRESSES.push({ publicKey: 'AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9', privateKey: 'KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV' });
+var ADDRESSES_TO_CLAIM = new Array(0);
 
 var BASE_ANGULARJS_PATH = "";
 

@@ -22,6 +22,8 @@ if(LOCAL_DEVELOPMENT){
         BASE_PATH_CLI = "http://localhost:30335";
 }
 
+var ENV_VARS = "";
+
 /* Main  */
 var app = angular.module('neoCompilerIoWebApp', [
   'ngRoute'
@@ -45,6 +47,14 @@ app.config(['$routeProvider', function ($routeProvider) {
 
 /* Controls all other Pages */
 app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
+	// TODO: improve! do we need a post for this?? it seems unlikely...
+	$http({ method: 'POST',
+            url: '/getvars'
+         }).then(function (response){
+						ENV_VARS = response.data;
+						$("#footerversion")[0].innerHTML='<a href="https://github.com/neoresearch/neocompiler-eco/commits/'+ENV_VARS.commit+'">Get on GitHub</a>';
+         }, function (error) {console.log("ENV_VARS error:"+JSON.stringify(error));});
+
   // Activates Tooltips for Social Links
   //$('.tooltip-social').tooltip({
   //  selector: "a[data-toggle=tooltip]"

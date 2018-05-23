@@ -52,6 +52,11 @@ function promiseFromChildProcess(child) {
 }
 */
 
+app.post('/getvars', function(req, res){
+  res.setHeader('Content-Type', 'text/json; charset="utf-8"');
+  res.send('{"commit":"'+process.env.COMMIT_GIT_VERSION+'"}');
+});
+
 app.get('/statusnode1', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print1.sh"';
@@ -211,7 +216,7 @@ app.post('/deployx', function(req, res) {
       x = x.replace(/(\r\n|\n|\r)/gm,"");
 
       console.log("TimeToFinish");
-      res.send(x); 
+      res.send(x);
     }
   });
 
@@ -231,7 +236,7 @@ app.post('/invokex', function(req, res) {
   cbx_invokeonly=new Buffer(cbx_invokeonly, 'ascii').toString('base64');
 
   console.log("invokeonly is :" + cbx_invokeonly)
-  
+
   if(req.body.wallet_invoke == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 
@@ -263,7 +268,7 @@ app.post('/invokex', function(req, res) {
   //res.send(JSON.parse(outp));
 
       console.log("TimeToFinish Invoke");
-      res.send(x); 
+      res.send(x);
     }
   });
 

@@ -712,7 +712,7 @@
         function fillAllNeo()
         {
           addressToFill = $("#createtx_from").val()
-          getAllNeoFrom(addressToFill,false,"#createtx_NEO");
+          getAllNeoFrom(addressToFill,"#createtx_NEO");
         }
 
 
@@ -746,15 +746,16 @@
               if(claimable>0)
               {
                 console.log("there is something to claim on: " + result.address)
-                ADDRESSES_TO_CLAIM.push(result.address);
+                if (ADDRESSES_TO_CLAIM.indexOf(result.address) == -1)
+                    ADDRESSES_TO_CLAIM.push(result.address);
                 console.log("addresses pending claim are " + ADDRESSES_TO_CLAIM)
+              }else{
+                if (ADDRESSES_TO_CLAIM.indexOf(result.address) > -1) {
+                  ADDRESSES_TO_CLAIM.splice(index, 1);
+                }
               }
+
               data += "Claimable(GAS): " + claimable;
-            }else {
-              var index = ADDRESSES_TO_CLAIM.indexOf(result.address);
-              if (index > -1) {
-                ADDRESSES_TO_CLAIM.splice(index, 1);
-              }
             }
 
             return data;

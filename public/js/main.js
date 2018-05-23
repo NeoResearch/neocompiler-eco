@@ -52,7 +52,7 @@ app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
             url: '/getvars'
          }).then(function (response){
 						ENV_VARS = response.data;
-						$("#footerversion")[0].innerHTML='<a href="https://github.com/neoresearch/neocompiler-eco/commits/'+ENV_VARS.commit+'">Get on GitHub</a>';
+						$("#footerversion")[0].innerHTML='<a href="https://github.com/neoresearch/neocompiler-eco/commit/'+ENV_VARS.commit+'">Get on GitHub</a>';
          }, function (error) {console.log("ENV_VARS error:"+JSON.stringify(error));});
 
   // Activates Tooltips for Social Links

@@ -1,24 +1,18 @@
 version: "3"
 services:
   neo-scan-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan"
+    build: ./neo-scan
+    image: eco-neo-scan:latest
     container_name: "eco-neo-scan-running"
     ports:
       - 4000:4000
-    environment:
-      PORT: 4000
-      HOST: ${HOST_NAME}
-      NEO_SEED_1: "http://${SEED_SERVER}:30333"
-      NEO_SEED_2: "http://${SEED_SERVER}:30334"
-      NEO_SEED_3: "http://${SEED_SERVER}:30335"
-      NEO_SEED_4: "http://${SEED_SERVER}:30336"
-      NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:38088/v1"
     links:
       - postgresql:postgres
       - eco-neo-csharp-nodes-running:30333
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
+      - eco-neo-python-running:30337
       - eco-neo-python-running:38088
   postgresql:
     image: postgres:10.1
@@ -26,8 +20,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: neoscan_prodv
-      POSTGRES_USER: postgres
+      POSTGRES_USER: postgres 
       POSTGRES_PASSWORD: postgres
   eco-neo-python-running:
     image: eco-neo-python:latest

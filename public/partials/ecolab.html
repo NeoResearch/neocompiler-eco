@@ -244,7 +244,6 @@
 
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX: Transfer UTXO Assets
-                        <button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">fill all Neo</button>
                         </div>
                         <div class="panel-body">
                             <form id="createtx" action="">
@@ -267,7 +266,11 @@
                                     <input id="createtx_to" class="form-control" placeholder="To" required/>
                                   </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-1">
+                                  <label for="txcreatesendallneo"></label>
+                                  <button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">fill all Neo</button>
+                                </div>
+                                <div class="col-md-2">
                                   <div class="form-group">
                                     <label for="createtx_NEO">NEO</label>
                                     <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
@@ -1493,6 +1496,7 @@ def Main():
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
             CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+            updateHeaderNetworkInfo();
         });
 
         $("#createtxgas").submit(function (e) {

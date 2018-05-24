@@ -23,24 +23,31 @@ RUN apt-get update && apt-get install -y dotnet-sdk-2.1.4
 RUN rm -rf /var/lib/apt/lists/*
 
 # get repo, the arguments should be supplied when building using this Dockerfile
-ARG NEO_HTTPS_REPO=https://github.com/neo-project/neo.git
-ARG NEO_BRANCH=master
-RUN git clone https://github.com/neo-project/neo-cli.git /opt/neo-cli
-RUN git clone $NEO_HTTPS_REPO /opt/neo
-RUN cd /opt/neo && git checkout $NEO_BRANCH
+ARG NEO_BRANCH=b0b0646  
+ARG NEO_CLI_BRANCH=5eb133e
+RUN git clone https://github.com/neo-project/neo-cli.git /opt/neo-cli && cd /opt/neo-cli && git checkout $NEO_CLI_BRANCH
+RUN git clone https://github.com/neo-project/neo.git /opt/neo && cd /opt/neo && git checkout $NEO_BRANCH
+
+
+COPY neo /opt/neo
+
+#ADD files/ReportNeoBlockchain.cs /opt/neo/neo/
+
+ADD debugs/ /opt/debugs
+#RUN sed -i -e '/bool result;/r /opt/debugs/debugCheckWitness_StateReader.cs' /opt/neo/neo/SmartContract/StateReader.cs
+
 
 # Add modified files to the local neo-blockchain library
 #COPY neo-blockchain/ /opt/neo/neo/
-COPY neo-blockchain/Settings.cs /opt/neo/neo/Settings.cs
-COPY neo-blockchain/SmartContract/ /opt/neo/neo/SmartContract/
-COPY neo-blockchain/Consensus/ /opt/neo/neo/Consensus/
+
+# COPY neo-blockchain/Consensus/ /opt/neo/neo/Consensus/
 
 
 # Add modified files to the local neo-cli clients
 #COPY neo-cli/ /opt/neo-cli/neo-cli/
-COPY neo-cli/Network/ /opt/neo-cli/neo-cli/Network/
-COPY neo-cli/Program.cs /opt/neo-cli/neo-cli/Program.cs
-COPY neo-cli/Consensus/ /opt/neo-cli/Consensus/
+#COPY neo-cli/Network/ /opt/neo-cli/neo-cli/Network/
+#COPY neo-cli/Program.cs /opt/neo-cli/neo-cli/Program.cs
+#COPY neo-cli/Consensus/ /opt/neo-cli/Consensus/
 
 
 # remove neo-cli package and reference to local neo

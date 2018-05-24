@@ -18,7 +18,7 @@ echo "PRUNING any useless NPM dep";
 npm prune
 
 echo "INSTALLING with NPM";
-#npm install
+npm install
 
 echo "SLEEP 3 seconds. Waiting some couple of seconds until everything is processed...";
 sleep 3

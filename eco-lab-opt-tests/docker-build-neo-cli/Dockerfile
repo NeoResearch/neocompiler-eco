@@ -28,27 +28,28 @@ ARG NEO_CLI_BRANCH=5eb133e
 RUN git clone https://github.com/neo-project/neo-cli.git /opt/neo-cli && cd /opt/neo-cli && git checkout $NEO_CLI_BRANCH
 RUN git clone https://github.com/neo-project/neo.git /opt/neo && cd /opt/neo && git checkout $NEO_BRANCH
 
+#The next line copies the whole local folder neo to the new one - replacing all files
+COPY neo/ /opt/neo/neo
 
-COPY neo /opt/neo
 
+#==========================================================================
+#====================== NEO BLOCKCHAIN ============================================
+#Scripts for copying only specific files
 #ADD files/ReportNeoBlockchain.cs /opt/neo/neo/
 
-ADD debugs/ /opt/debugs
+#ADD debugs/ /opt/debugs
 #RUN sed -i -e '/bool result;/r /opt/debugs/debugCheckWitness_StateReader.cs' /opt/neo/neo/SmartContract/StateReader.cs
-
-
 # Add modified files to the local neo-blockchain library
 #COPY neo-blockchain/ /opt/neo/neo/
 
 # COPY neo-blockchain/Consensus/ /opt/neo/neo/Consensus/
-
-
+#====================== NEO-CLI ============================================
 # Add modified files to the local neo-cli clients
 #COPY neo-cli/ /opt/neo-cli/neo-cli/
 #COPY neo-cli/Network/ /opt/neo-cli/neo-cli/Network/
 #COPY neo-cli/Program.cs /opt/neo-cli/neo-cli/Program.cs
 #COPY neo-cli/Consensus/ /opt/neo-cli/Consensus/
-
+#==========================================================================
 
 # remove neo-cli package and reference to local neo
 RUN dotnet remove /opt/neo-cli/neo-cli/neo-cli.csproj package neo

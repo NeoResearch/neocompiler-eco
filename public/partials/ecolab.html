@@ -8,16 +8,29 @@
             </ol>
         </div>
     </div>
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+    <!-- BEGIN DIV MAIN CONTENTS - MENU AND CONTENT -->
     <div class="row">
-        <div class="col-sm-3 sidenav">
+        <div class="col-sm-2 sidenav">
             <ul class="nav nav-pills nav-stacked" id="pillstab">
-              <li class="active"><a data-target="#conversor" data-toggle="tab">Utils (Conversors)</a></li>
+              <li class="active"><a data-target="#compilers" data-toggle="tab">Compilers</a></li>
+              <li><a data-target="#network" data-toggle="tab">Network</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateWalletData()">Wallets</a></li>
+              <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
             </ul>
         </div>
-        <div class="col-sm-9">
+
+        <!-- ======================================================== -->
+        <!-- BEGIN DIV MAIN CONTENTS - EVERYTHING IS HERE - I -->
+        <div class="col-sm-10">
+
+            <!-- ======================================================== -->
+            <!-- BEGIN FIXED DIV OF NETWORKS -->
             <div class="row">
                 <div class="col-md-3">
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
@@ -31,8 +44,17 @@
                     <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io">
                 </div>
             </div>
+            <!-- END FIXED DIV OF NETWORKS -->
+            <!-- ======================================================== -->
+
+
+            <!-- ======================================================== -->
+            <!-- ======================================================== -->
+            <!-- BEGIN DIV MAIN CONTENTS - EVERYTHING IS HERE - II -->
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="conversor">
+                <!-- ======================================================== -->
+                <!-- BEGIN DIV CONVERSIONS -->
+                <div class="tab-pane fade" id="conversor">
                     <div class="panel panel-primary">
                         <div class="panel-heading">String <-> Hex</div>
                         <div class="panel-body">
@@ -147,8 +169,11 @@
                         </div>
                     </div>
                 </div>
+                <!-- END DIV CONVERSIONS -->
+                <!-- ======================================================== -->
 
-                <!-- begin transaction -->
+                <!-- ======================================================== -->
+                <!-- BEGIN DIV TRANSACTION -->
                 <div class="tab-pane fade" id="transaction">
                   <div class="panel panel-primary">
                       <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
@@ -338,10 +363,12 @@
                            </form>
                          </div>
                        </div>
-                    </div>
-                    <!-- end transaction -->
+                </div>
+                <!-- END DIV TRANSACTION -->
+                <!-- ======================================================== -->
 
-                    <!-- begin wallet -->
+                <!-- ======================================================== -->
+                <!-- BEGIN DIV WALLETS INFO -->
                 <div class="tab-pane fade" id="wallet">
                     <div class="row">
                         <div class="col-md-2 pull-right">
@@ -382,10 +409,12 @@
                                 WIF: KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV
                         </div>
                     </div>
-                </div>
-                <!-- end wallet -->
+           </div>
+           <!-- END DIV WALLETS INFO -->
+           <!-- ======================================================== -->
 
-                <!-- begin nodeinfo -->
+           <!-- ======================================================== -->
+           <!-- BEGIN DIV NODEINFO -->
             <div class="tab-pane fade" id="nodeinfo">
                 <div class="row">
                     <div class="col-md-2 pull-left">
@@ -441,11 +470,515 @@
                     </div>
                 </div> <!-- node4 end -->
             </div>
-            <!-- end nodes -->
+          <!-- END DIV NODES INFO -->
+          <!-- ======================================================== -->
 
-          </div> <!-- end tab pane -->
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+
+          <!-- ======================================================== -->
+          <!-- BEGIN DIV COMPILERS -->
+          <div class="tab-pane fade in active" id="compilers">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">Compile</div>
+                        <div class="panel-body">
+                            <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
+                                <div class="tab-container">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
+                                        <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
+                                        <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
+                                        <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
+                                        <li class="disabled"><a data-target="#jscode">JavaScript</a></li>
+                                        <li class="disabled"><a data-target="#tscode">TypeScript</a></li>
+                                        <li class="disabled"><a data-target="#soliditycode">Solidity</a></li> <!--- <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li> -->
+                                    </ul>
+
+                                    <!-- /////////////////////////////////////////////////////////////////// -->
+                                    <!-- csharpcode -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active cont" id="csharpcode">
+                                                <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                                    <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                                        Select Example
+                                                        <span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu" id="ExampleList">
+                                                        <li><a onclick="setExample('0')">HelloWorld.cs</a></li>
+                                                        <li><a onclick="setExample('1')">ICO_Template.cs</a></li>
+                                                        <li><a onclick="setExample('2')">MyCheckWitness.cs</a></li>
+                                                        <li><a onclick="setExample('3')">Lock.cs</a></li>
+                                                        <li><a onclick="setExample('4')">StructExample.cs</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="hidden" id="code_cs" name="codesend_cs"/>
+                                                <pre id="editorCSharp">
+                using Neo.SmartContract.Framework;
+                using Neo.SmartContract.Framework.Services.Neo;
+                using System;
+                using System.Numerics;
+                namespace NeoContract1
+                {
+                    public class Contract1 : SmartContract
+                    {
+                        public static void Main()
+                        {
+                            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+                        }
+                    }
+                }
+                                                </pre>
+                                        </div>
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- end csharpcode -->
+
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- java div -->
+                                        <div class="tab-pane cont" id="javacode">
+                                            <input type="hidden" id="code_java" name="codesend_java"/>
+                                            <pre id="editorJava">
+                package teste;
+
+                import org.neo.smartcontract.framework.services.neo.TriggerType;
+                import org.neo.smartcontract.framework.services.system.ExecutionEngine;
+
+                import java.math.BigInteger;
+
+                import org.neo.smartcontract.framework.Helper;
+                import org.neo.smartcontract.framework.SmartContract;
+                import org.neo.smartcontract.framework.services.neo.Runtime;
+                import org.neo.smartcontract.framework.services.neo.Storage;
+                import org.neo.smartcontract.framework.services.neo.Transaction;
+                import org.neo.smartcontract.framework.services.neo.TransactionOutput;
+
+                public class JavaContract extends SmartContract {
+
+                	public static Object Main(String operation, Object[] args) {
+                		TriggerType trigger = Runtime.trigger();
+
+                		if (trigger == TriggerType.Verification) {
+
+                			return true;
+
+                		} else if (trigger == TriggerType.Application) {
+
+
+                		}
+
+                		return false;
+                	}
+
+
+
+                }
+                                            </pre>
+                                        </div>
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- end java -->
+
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- golang div -->
+                                        <div class="tab-pane cont" id="golangcode">
+                                            <input type="hidden" id="code_golang" name="codesend_golang"/>
+                                            <pre id="editorGolang">
+                package main
+
+                func Main() int {
+                	x := 10
+                	return x
+                }
+                                            </pre>
+                                        </div>
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- golang java -->
+
+                                        <!-- /////////////////////////////////////////////////////////////////// -->
+                                        <!-- python div -->
+                                        <div class="tab-pane cont" id="pythoncode">
+                                            <input type="hidden" id="code_python" name="codesend_python"/>
+                                            <pre id="editorPython">
+                from boa.interop.Neo.Runtime import Notify, CheckWitness
+
+                def Main():
+                    OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
+                    result = CheckWitness(OWNER)
+                    if result:
+                        print(&quot;OWNER is caller&quot;)
+                        return True
+                    return False
+                                            </pre>
+                                        </div>
+
+                                        <div class="tab-pane" id="jscode">
+                                            <input type="hidden" id="code_js" name="codesend_js" rows="15" cols="100"/>
+                                            <pre id="editorJS">JavaScript</pre>
+                                        </div>
+                                        <div class="tab-pane" id="tscode">
+                                            <input type="hidden" id="code_ts" name="codesend_ts" rows="15" cols="100"/>
+                                            <pre id="editorTS">TypeScript</pre>
+                                        </div>
+                                        <div class="tab-pane" id="soliditycode">
+                                            <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
+                                            <pre id="editorSolidity">Solidity</pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end python div -->
+                                <!-- /////////////////////////////////////////////////////////////////// -->
+
+                                <!-- /////////////////////////////////////////////////////////////////// -->
+                                <!-- common submit button -->
+                                <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
+                                <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p>
+                                <h4>Compile Warning/Errors:</h4>
+                                <!-- end common submit button -->
+                                <!-- /////////////////////////////////////////////////////////////////// -->
+
+                                <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
+                                <h4>AVM (in hex):</h4>
+                                <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
+                                <div class="dropdown btn-group">
+                                    <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                        Download AVM
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" id="downloadMenu">
+                                        <li><a onclick="downloadAVM('0')">binary file</a></li>
+                                        <li><a onclick="downloadAVM('1')">hex code</a></li>
+                                    </ul>
+                                </div>
+                                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button>
+                                <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br>
+                                <div id="opcodesDiv" class="collapse">
+                                    <textarea id="opcodes" readonly="readonly" rows="5" cols="100" placeholder="AVM OPCODES" class="form-control"></textarea>
+                                    <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
+                                </div>
+                                <h4>ABI:</h4>
+                                <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
+                            </form>
+                            <!-- end of compilex form -->
+                            <!-- /////////////////////////////////////////////////////////////////// -->
+                        </div>
+                    </div>
+          </div>
+          <!-- end compilers -->
+
+          <!-- begin network -->
+        <div class="tab-pane fade" id="network">
+          <div class="panel panel-warning">
+              <div class="panel-heading">Deploy contract to private net</div>
+              <div class="panel-body">
+                  <form id="formdeploy" action="/deployx" method="post">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="contracthash">Contract ScriptHash</label>
+                            <input id="contracthash" readonly="readonly" name="contracthash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="contractparams">Params</label>
+                            <input id="contractparams" name="contractparams" value='""' class="form-control" placeholder="&quot;Parameters (in quotes)&quot;" style="width: 100%">
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                          <div class="form-group">
+                            <select name="contractreturn" id="contractreturn" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
+                              <option>00</option>
+                              <option>01</option>
+                              <option>02</option>
+                              <option>03</option>
+                              <option>04</option>
+                              <option>05</option>
+                              <option>06</option>
+                              <option>07</option>
+                              <option>10</option>
+                              <option>f0</option>
+                              <option>ff</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <select name="wallet_deploy" class="custom-select form-control">
+                              <option>w1.wallet</option>
+                              <option>w2.wallet</option>
+                              <option>w3.wallet</option>
+                              <option>w4.wallet</option>
+                            </select>
+                            <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
+                          </div>
+                          <div class="form-group" style="margin-right: 8px">
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" name="cbx_storage" id="cbx_storage" checked/> Storage
+                              </label>
+                            </div>
+                          </div>
+                          <div class="form-group" style="margin-right: 8px">
+                            <div class="checkbox">
+                              <label>
+                                <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke"/> Dynamic Invoke
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <button type="submit" id="deploybtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy</button>
+                        </div>
+
+                      </div>
+                  </form>
+              </div>
+          </div>
+
+
+          <div class="panel panel-warning">
+              <div class="panel-heading">Invoke contract in private/testnet</div>
+              <div class="panel-body">
+
+                <div class="tab-container">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-target="#tabinvokepy" data-toggle="tab">Invoke via Eco + neo-python</a></li>
+                        <li><a data-target="#tabinvokejs" data-toggle="tab">Invoke via neon-js</a></li>
+                    </ul>
+
+                  <div class="tab-content">
+                   <div class="tab-pane active cont" id="tabinvokepy">
+                    <form id="forminvoke" action="/invokex" method="post">
+                      <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="invokehash">Contract</label>
+                              <input id="invokehash" name="invokehash" class="form-control" placeholder="Script Hash"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="invokeparams">Invoke Params</label>
+                              <input id="invokeparams" name="invokeparams" class="form-control" value='""' placeholder="Script Params"/>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                            <div class="col-md-3">
+                              <div class="form-group">
+                                <label for="invokefunctionpy">Function to Invoke</label>
+                                <select id="invokefunctionpy" class="custom-select form-control">
+                                    <option>Main</option>
+                                </select>
+                              </div>
+                            </div>
+                            <!-- Param 1 -->
+                            <div class="col-md-1">
+                              <div class="form-group">
+                                <label>Type</label>
+                                <select id="invokeparampybox1" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                    <option>None</option>
+                                    <option>String</option>
+                                    <option>Address</option>
+                                    <option>Hex</option>
+                                    <option>Integer</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-group">
+                                <label>Param 1: </label> <input type="checkbox" id="cbx_inarray_py1" checked/> in array<br/>
+                                <input id="invokeparamspy1" class="form-control" value='' placeholder="Script Param 1" onchange="updateInvokeParamsPy()"/>
+                              </div>
+                            </div>
+                            <!-- Param 2 -->
+                            <div class="col-md-1">
+                              <div class="form-group">
+                                <label>Type</label>
+                                <select id="invokeparampybox2" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                    <option>None</option>
+                                    <option>String</option>
+                                    <option>Address</option>
+                                    <option>Hex</option>
+                                    <option>Integer</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-group">
+                                <label>Param 2</label> <input type="checkbox" id="cbx_inarray_py2" checked/> in array<br/>
+                                <input id="invokeparamspy2" class="form-control" value='' placeholder="Script Param 2" onchange="updateInvokeParamsPy()"/>
+                              </div>
+                            </div>
+                            <!-- Param 3 -->
+                            <div class="col-md-1">
+                              <div class="form-group">
+                                <label>Type</label>
+                                <select id="invokeparampybox3" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                    <option>None</option>
+                                    <option>String</option>
+                                    <option>Address</option>
+                                    <option>Hex</option>
+                                    <option>Integer</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div class="col-md-2">
+                              <div class="form-group">
+                                <label>Param 3</label> <input type="checkbox" id="cbx_inarray_py3" checked/> in array<br/>
+                                <input id="invokeparamspy3" class="form-control" value='' placeholder="Script Param 3" onchange="updateInvokeParamsPy()"/>
+                              </div>
+                            </div>
+                      </div> <!-- row -->
+                      <div class="row">
+                          <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                            <div class="form-group">
+                              <label for="attachneo">NEO</label>
+                              <input id="attachneo" name="attachneo" class="form-control" value="0" placeholder="Send NEO"/>
+                            </div>
+                            <div class="form-group">
+                                <select name="wallet_invoke" class="custom-select form-control">
+                                    <option>w1.wallet</option>
+                                    <option>w2.wallet</option>
+                                    <option>w3.wallet</option>
+                                    <option>w4.wallet</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                              <div class="checkbox">
+                                <label>
+                                  <input type="checkbox" name="cbx_invokeonly" id="cbx_invokeonly"/> Test Invoke Only
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                          </div>
+                      </div>
+                    </form>
+                 </div> <!-- tab-pane tabinvokepy -->
+                 <!-- begin invokejs -->
+                 <div class="tab-pane cont" id="tabinvokejs">
+                  <form id="forminvokejs" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <select name="invokenetworkjs" class="custom-select form-control">
+                              <option>Eco-privatenet</option>
+                              <!-- <option>NEO-testnet</option> -->
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="invokehashjs">Contract</label>
+                            <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash"/>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="invokeparamsjs">Params</label>
+                            <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                          <div class="form-group">
+                            <label for="attachneojs">NEO</label>
+                            <input id="attachneojs" name="attachneojs" class="form-control" value="0" placeholder="Send NEO"/>
+                          </div>
+                          <div class="form-group">
+                            <select name="wallet_invokejs" class="custom-select form-control">
+                                <option>w1.wallet</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-md-12">
+                          <button type="submit" id="invokebtnjs"class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                        </div>
+                    </div>
+                  </form>
+                </div> <!-- tab-pane -->
+              </div> <!-- tab-content -->
+            </div> <!-- tab-container -->
+          </div> <!-- body -->
+        </div> <!-- panel warning -->
+
+
+          <div class="panel panel-info">
+              <div class="panel-heading">Private Net TX's</div>
+              <div class="panel-body">
+                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 10px;" class="btn btn-success btn-sm">Check TXs status</button><br>
+                  <div id="divRelayedTXs" class="table-responsive"></div>
+              </div>
+          </div>
+
+          <div class="panel panel-info">
+              <div class="panel-heading">Private Net Messages</div>
+              <div class="panel-body">
+                  <form id="formprivatenet" method="post">
+                      <textarea id="contractmessages" readonly="readonly" style="font-size: 12px;" rows="15" cols="100" placeholder="Contract messages..." class="form-control"></textarea><br>
+                      <textarea id="contractmessagesnotify" readonly="readonly" style="font-size: 12px;" rows="5" cols="100" placeholder="Contract messages Notify..." class="form-control"></textarea><br>
+                  </form>
+              </div>
+          </div>
+
+
+          <div class="panel panel-info">
+              <div class="panel-heading">Read Contract Storage</div>
+              <div class="panel-body">
+                  <form id="formgetstorage" method="post">
+                      <label for="gsf_contracthash">ScriptHash</label>
+                      <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash"/>
+                      <label for="selRPCNetworkStorage">Select Neo Network:</label>
+                      <select id="selRPCNetworkStorage">
+                        <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">Eco "TestNet" (shared privatenet)</option>
+                        <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                        <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
+                        <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
+                      </select><br/>
+                      <label for="getStorageFormat">Input Key</label>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <input id="gsf_contractkey" class="form-control" placeholder="Storage Key"/>
+                        </div>
+                        <div class="col-md-6">
+                          <select name="getStorageFormat" id="getStorageFormat" class="custom-select form-control">
+                            <option title="gsf_string" selected>String (no quotes)</option>
+                            <option title="gsf_hex">Hex</option>
+                          </select>
+                        </div>
+                      </div>
+                      <label for="gsf_contractvalue">Output Value</label>
+                      <div class="row">
+                        <div class="col-md-6">
+                            <input id="gsf_contractvaluehex" class="form-control" placeholder="Storage Value (Hex)" readonly/>
+                        </div>
+                        <div class="col-md-6">
+                            <input id="gsf_contractvaluestr" class="form-control" placeholder="Storage Value (String)" readonly/>
+                        </div>
+                      </div>
+                      <button type="submit" id="gsfsubmit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Get Storage Value</button>
+                  </form>
+              </div>
+          </div>
+        </div>
+
+      </div> <!-- TAB PANNEL -->
+      <!-- END DIV MAIN CONTENTS - EVERYTHING WAS INSIDE HERE - II-->
+      <!-- ======================================================== -->
+      <!-- ======================================================== -->
+
+  </div> <!-- end col -->
+  <!-- END DIV MAIN CONTENTS - EVERYTHING WAS INSIDE HERE - I -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+
+  </div> <!-- end row -->
+  <!-- BEGIN DIV MAIN CONTENTS - MENU AND CONTENT -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
 
     <div id="persistWallet" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -471,6 +1004,9 @@
             </div>
         </div>
     </div>
+
+<script type="text/javascript" src="js/common/pythonEco.js"></script>
+<script type="text/javascript" src="js/common/neoEditorScripts.js"></script>
 
     <script>
         //Check current webpage and starts with localhost or neocompiler public website
@@ -752,13 +1288,13 @@
 
         function callFromAllKnownThatHasClaimable()
         {
-          console.log("ADDRESSES_TO_CLAIM.length is:" + ADDRESSES_TO_CLAIM.length);
+          //console.log("ADDRESSES_TO_CLAIM.length is:" + ADDRESSES_TO_CLAIM.length);
           if(ADDRESSES_TO_CLAIM.length>0)
           {
             for(i = 0; i < ADDRESSES_TO_CLAIM.length; ++i)
             {
-              console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL KNOWN_ADDRESSES are:")
-              console.log(KNOWN_ADDRESSES)
+              //console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL KNOWN_ADDRESSES are:")
+              //console.log(KNOWN_ADDRESSES)
               var index = -1;
               for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
                   if(KNOWN_ADDRESSES[ka].publicKey == ADDRESSES_TO_CLAIM[i])

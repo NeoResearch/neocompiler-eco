@@ -1120,18 +1120,24 @@ def Main():
              return "TestNet";
         }
 
+
+        // =======================================================================
+        // ======================= COOKIES TEST ==================================
         function recoveringPageData(){
-          if( checkCookie("utilstab") ){
-            index = getCookie("utilstab");
-            //console.log("Cookie tests. Recovering utils tab....");
+          if( checkCookie("lastactivetab") ){
+            index = getCookie("lastactivetab");
+            //console.log("Cookie tests. Recovering active tab....");
             //$("#pillstab").children().eq(index).find('a').tab('show');
           }
         }
 
         function storePageData(){
-          setCookie("utilstab", $("ul#pillstab li.active").index(), 1);
+          setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
         }
+        // =======================================================================
 
+        // =======================================================================
+        // ================ BEGIN ADD NEW WALLET =================================
         function showPersistWallet() {
           $('#persistWallet').modal('show')
         }
@@ -1191,43 +1197,8 @@ def Main():
             $("#" + hash).val(data);
           });
         }
-
-        function fillAllNeo()
-        {
-          addressToFill = $("#createtx_from").val()
-          getAllNeoOrGasOrClaimsFrom(addressToFill,true,"#createtx_NEO");
-        }
-
-
-        function fillWalletInfo(result)
-        {
-            var data = "";
-            if(result.balance)
-            {
-              for( i = 0; i < result.balance.length; ++i)
-                  data += result.balance[i].amount + " " + result.balance[i].asset + "\t";
-            }else {
-              data += "This address seems to not have any fund."
-            }
-            return data;
-        }
-
-
-
-        function populateWalletData()
-        {
-            drawWalletsStatus();
-
-            for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            {
-              addressToGet = KNOWN_ADDRESSES[ka].publicKey;
-              walletIndex = searchIndexOfAllKnownWallets(addressToGet);
-              getAllNeoOrGasOrClaimsFrom(addressToGet,true,"#walletNeo" + walletIndex);
-              getAllNeoOrGasOrClaimsFrom(addressToGet,false,"#walletGas" + walletIndex);
-              callClaimableNeonQuery(addressToGet,"#walletClaim" + walletIndex);
-              callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + walletIndex);
-            }
-        }
+        // ================ BEGIN ADD NEW WALLET =================================
+        // =======================================================================
 
         function Disassembly() {
             var hexavm = $("#avmcode")[0].value;

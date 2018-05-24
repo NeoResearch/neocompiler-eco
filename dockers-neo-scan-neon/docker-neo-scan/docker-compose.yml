@@ -12,14 +12,14 @@ services:
       NEO_SEED_2: "http://${SEED_SERVER}:30334"
       NEO_SEED_3: "http://${SEED_SERVER}:30335"
       NEO_SEED_4: "http://${SEED_SERVER}:30336"
-      NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:38088/v1"
+      NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
     links:
       - postgresql:postgres
       - eco-neo-csharp-nodes-running:30333
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
-      - eco-neo-python-running:38088
+      - eco-neo-python-running:8080
   postgresql:
     image: postgres:10.1
     container_name: "postgresql-running"
@@ -33,8 +33,7 @@ services:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-running"  
     ports:
-      - 30337:30337
-      - 38088:38088
+      - 8080:8080
     links:
       - eco-neo-csharp-nodes-running
   eco-neo-csharp-nodes-running:

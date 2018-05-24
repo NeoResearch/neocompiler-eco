@@ -47,12 +47,11 @@ if (($DEV_MODE)); then
 	(cd eco-lab-opt-tests; ./build_neo_csharp_nodes_with_builtNeoCli.sh)
 fi
 
-echo "Ensuring that any docker-composes is down (no reestart will be possible)";
-./stop-all-docker-compose.sh
+# dockerCompose script already puts down
+# echo "Ensuring that any docker-composes is down (no reestart will be possible)";
+# ./stop-all-docker-compose.sh
 
 if (($DEV_MODE)); then
-	echo "(DEV MOD) ......";
-
 	echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
 	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 
@@ -61,11 +60,7 @@ else
 	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 fi
 
-echo "PROCEEDING. NeoScan-Docker Built with BUILT and, probably, RUNNING. You will probably need to wait some time until NeoScan is fully sync.";
+echo "PROCEEDING. NeoCompiler Eco(system) has been built!";
 
 echo "BUILDING/RUNNING web interface and compilers";
 ./buildRun_WebInterface_Compilers.sh
-
-# Old command that was used before our private Hub-docker images
-#echo "EXECUTE TransferScript on PrivateNet";
-#docker exec -d -t neo-compiler-privnet-with-gas dash -i -c "./execTransferFundsAtTheBegin.sh"

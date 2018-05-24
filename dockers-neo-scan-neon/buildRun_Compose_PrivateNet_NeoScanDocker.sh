@@ -2,8 +2,11 @@
 if (( $# == 0 )); then
 	echo "Ensuring docker compose neo-scan is down";
 	(cd ./docker-neo-scan; docker-compose down)
-	echo "Building docker compose neo-scan";
-	(cd ./docker-neo-scan; docker-compose build)
+
+	# No more build is needded because of neoscan pre-image
+	# echo "Building docker compose neo-scan";
+	# (cd ./docker-neo-scan; docker-compose build)
+
 	echo "Calling docker compose for building privnet with neoscan";
 	(cd ./docker-neo-scan; docker-compose up -d)
 else

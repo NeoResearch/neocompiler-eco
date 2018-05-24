@@ -86,14 +86,11 @@ function callUnclaimedNeonQuery(adddressToGet,boxToFill="")
 }
 
 
-function getAllNeoOrGasOrClaimsFrom(adddressToGet,flagNeoOrGas,boxToFill="")
+function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="")
 {
   var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
   //console.log("url_toFill:" + url_toFill);
   $.getJSON(url_toFill, function(result) {
-    assetToGet = "NEO";
-    if(flagNeoOrGas == false)
-      assetToGet = "GAS";
     if(result.balance)
     {
       //console.log(result.balance);
@@ -115,6 +112,41 @@ function getAllNeoOrGasOrClaimsFrom(adddressToGet,flagNeoOrGas,boxToFill="")
       return 0;
     }
   });
+}
+
+function fillAllNeo()
+{
+  getAllNeoOrGasFrom($("#createtx_from").val(),"NEO","#createtx_NEO");
+}
+
+
+function fillWalletInfo(result)
+{
+    var data = "";
+    if(result.balance)
+    {
+      for( i = 0; i < result.balance.length; ++i)
+  	data += result.balance[i].amount + " " + result.balance[i].asset + "\t";
+    }else {
+      data += "This address seems to not have any fund."
+    }
+    return data;
+}
+
+
+function populateWalletData()
+{
+    drawWalletsStatus();
+
+    for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+    {
+      addressToGet = KNOWN_ADDRESSES[ka].publicKey;
+      walletIndex = searchIndexOfAllKnownWallets(addressToGet);
+      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + walletIndex);
+      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + walletIndex);
+      callClaimableNeonQuery(addressToGet,"#walletClaim" + walletIndex);
+      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + walletIndex);
+    }
 }
 
 

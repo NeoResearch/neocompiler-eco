@@ -162,7 +162,6 @@ function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
            for(var i = 0; i<= 64; i++)
                  relayedTX += contractMessagesBox[indexRelayedTx + 12 + i];
            //console.log("Relayed tx is:"+relayedTX);
-           //document.getElementById("link2").setAttribute("href",neoScanTXBaseURL + relayedTX);
            vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});
            drawRelayedTXs();
      }

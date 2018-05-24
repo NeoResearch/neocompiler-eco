@@ -1010,6 +1010,21 @@
 
     <script>
         //Check current webpage and starts with localhost or neocompiler public website
+        $(document).ready(function(){
+            //console.log("checking wallets");
+            setInterval(function() {
+                populateWalletData();
+                callFromAllKnownThatHasClaimable();
+                searchForTXs();
+            }, 30000); // 30000 milsec
+
+            recoveringPageData();
+        });
+
+        window.onbeforeunload = function(event){
+          storePageData();
+          return confirm("Confirm refresh");
+        }
 
         if(this.window.location.href.indexOf("localhost")  != -1)
         {
@@ -1074,21 +1089,6 @@
 
           if(mynetwork == "NEO TestNet")
              return "TestNet";
-        }
-
-        $(document).ready(function(){
-            //console.log("checking wallets");
-            setInterval(function() {
-                populateWalletData();
-                callFromAllKnownThatHasClaimable();
-            }, 30000); // 30000 milsec
-
-            recoveringPageData();
-        });
-
-        window.onbeforeunload = function(event){
-          storePageData();
-          return confirm("Confirm refresh");
         }
 
         function recoveringPageData(){

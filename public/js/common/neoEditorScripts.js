@@ -1,19 +1,5 @@
-$(document).ready(function(){
-        setInterval(function() {
-            searchForTXs();
-        }, 30000); // 30000 milsec
-        console.log("checking txs");
-    });
-
-    var neoScanTXBaseURL = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/";
-
     var vecRelayedTXs = [];
     drawRelayedTXs();
-
-
-
-    // Call neonJSPlayground function -- DEPRECATED
-    // neonJSPlayground();
 
     //===============================================================
     $("#formCompile").submit(function (e) {
@@ -375,7 +361,7 @@ $(document).ready(function(){
           txRow.insertCell(-1).appendChild(b);
 
           var link = document.createElement("a");
-          var urlToGet = neoScanTXBaseURL + vecRelayedTXs[i].tx;
+          var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
           link.appendChild(document.createTextNode(vecRelayedTXs[i].tx));
           link.href = urlToGet;
           link.target = '_blank';
@@ -426,7 +412,7 @@ $(document).ready(function(){
    //===============================================================
    //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
    function searchForTX(indexToUpdate){
-          $.getJSON(neoScanTXBaseURL + vecRelayedTXs[indexToUpdate].tx, function(result) {
+          $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[indexToUpdate].tx, function(result) {
               //console.log("div is activationStatus"+indexToUpdate);
               if(result.txid == "not found" || result.vin == null){
                 document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"blue\">PENDING</font>";

@@ -39,6 +39,15 @@ else
 
 	#password for broadcasting tx
 	screen -S $PYTHON_PATH -p 0 -X stuff "coz^M"
+	sleep 0.5
+
+	#name, version, author, email, description
+	for i in `seq 1 2`
+	do
+		screen -S $PYTHON_PATH -p 0 -X stuff "^M"
+		sleep 0.5
+	done
+
 	#============================================================================================
 
 	#============================================================================================

@@ -36,7 +36,7 @@ else
 
 	#============================================================================================
 	# event on - otherwise notify would not be reported
-	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events on ^M"
+	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events on^M"
 	sleep 0.5
 	#============================================================================================
 
@@ -54,8 +54,15 @@ else
 
 	#============================================================================================
 	# event off - otherwise the screen would receive everything
-	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off ^M"
+	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off^M"
 	sleep 0.5
+
+	#name, version, author, email, description
+	for i in `seq 1 2`
+	do
+		screen -S $PYTHON_PATH -p 0 -X stuff "^M"
+		sleep 0.5
+	done
 	#============================================================================================
 
 	#============================================================================================

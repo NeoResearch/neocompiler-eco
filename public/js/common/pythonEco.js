@@ -22,7 +22,7 @@ $("#formdeploy").submit(function (e) {
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
 
-           //$("#contractmessages").val(data);         
+           //$("#contractmessages").val(data);
            $("#contractmessages").text(data);
 
            //Let's try to get the last relayed TX hash
@@ -47,7 +47,7 @@ $("#formdeploy").submit(function (e) {
             function (data) {
                $("#deploybtn")[0].disabled = false;
                $("#invokebtn")[0].disabled = false;
-	       $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));         
+	       $("#contractmessages").val(data.replace(/[^\x00-\x7F]/g, ""));
                //Let's try to get the last relayed TX hash
                updateTXTable($("#contractmessages").text());
             },
@@ -84,10 +84,10 @@ $("#forminvoke").submit(function (e) {
              $("#invokebtn")[0].disabled = false;
 
 
-	     $("#contractmessages").text(data);
+	         $("#contractmessages").text(data);
 
-	     //TODO - FIX NOTIFY LOOP
-	     //updateNotifyReports($("#contractmessages").text());
+	         //TODO - FIX NOTIFY LOOP
+	         updateNotifyReports($("#contractmessages").text());
 
              //Let's try to get the last relayed TX hash
              updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
@@ -138,7 +138,7 @@ function updateNotifyReports(contractMessagesBox){
                  var i = 0;
                  var snotify = "";
                  //console.log("found Notiy at "+indexNotify);
-                 while (contractMessagesBox[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != '\n') {
+                 while (contractMessagesBox[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i] != ']') {
                      snotify += contractMessagesBox[indexNotify + "SmartContract.Runtime.Notify".length + 40 + 6 + i];
                      i++;
                  }
@@ -167,4 +167,3 @@ function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
      }
 }
 //===============================================================
-

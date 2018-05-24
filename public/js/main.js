@@ -4,10 +4,14 @@ var FIXED_NEOSCAN_LOCALHOST = "http://localhost:4000";
 var FIXED_NEOSCAN_MAINNET = "https://neoscan.io";
 var FIXED_NEOSCAN_TESTNET = "https://neoscan-testnet.io/";
 
+var FIXED_NEOPY_NOTIFICATION_LOCALHOST = "http://localhost:8080";
+var FIXED_NEOPY_NOTIFICATION_NEOCOMPILER = "https://rest.neocompiler.io";
+
 
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
-var BASE_PATH_PY = "https://rest.neocompiler.io";
+var BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
 var BASE_PATH_CLI = "https://node1.neocompiler.io";
+
 var KNOWN_ADDRESSES = [];
 KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr' });
 KNOWN_ADDRESSES.push({ publicKey: 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL', privateKey: 'L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA' });
@@ -23,7 +27,7 @@ if(this.window.location.href.indexOf("localhost")  != -1)
 
 if(LOCAL_DEVELOPMENT){
 	BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
-        BASE_PATH_PY = "http://localhost:38088";
+        BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
         BASE_PATH_CLI = "http://localhost:30335";
 }
 

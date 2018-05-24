@@ -21,21 +21,15 @@ RUN apt-get update && apt-get install -y \
 # APT cleanup to reduce image size
 RUN rm -rf /var/lib/apt/lists/*
 
-# Clone and setup
-RUN git clone https://github.com/CityOfZion/neo-python.git
-WORKDIR neo-python
+RUN mkdir neo-python
+WORKDIR /neo-python
 
-# Branch can be overwritten with --build-arg, eg: `--build-arg branch=development`
-ARG branch=master
-RUN git checkout $branch
-#TODO - Neocompiler last working version is 2053f1119cfadcc9becbb7827c4ad64c35eeff2d or 42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22 (newer)
-RUN git checkout 42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22
+# Everything should be in the same line, then, clone happens again, if necessary
+RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python && git checkout development && git checkout 794afccd6ef4f3328267e869745a6bfc06ed9002
+###### INFO ABOUT THE LAST WORKING VERSION. master:42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22 0.6.9 and development:794afccd6ef4f3328267e869745a6bfc06ed9002
 
 # Install the dependencies
 RUN pip3 install -e .
-
-# Download the privnet wallet, to have it handy for easy experimenting
-# RUN wget https://s3.amazonaws.com/neo-experiments/neo-privnet.wallet
 
 #==========================================================================
 #==================== genesis block emulator scripts ======================
@@ -45,13 +39,6 @@ ADD ./neo-python-genesis-block/claim_neo_and_gas_fixedwallet.py /neo-python/
 ADD ./neo-python-genesis-block/neo-privnet.python-wallet /tmp/wallet
 
 ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
-
-# Some .bashrc helpers: 'neopy', and a welcome message for bash users
-RUN echo "alias neopy=\"cd /neo-python && np-prompt -p\"" >> /root/.bashrc
-RUN echo "printf \"\n* Consensus nodes are running in screen sessions, check 'screen -ls'\"" >> /root/.bashrc
-RUN echo "printf \"\n* neo-python is installed in /neo-python, with a neo-privnet.wallet file in place\"" >> /root/.bashrc
-RUN echo "printf \"\n* You can use the alias 'neopy' in the shell to start neo-python's prompt.py with privnet settings\"" >> /root/.bashrc
-RUN echo "printf \"\n* Please report issues to https://github.com/CityOfZion/neo-privatenet-docker\n\n\"" >> /root/.bashrc
 #==========================================================================
 
 #==========================================================================
@@ -59,11 +46,11 @@ RUN echo "printf \"\n* Please report issues to https://github.com/CityOfZion/neo
 #Script used to start  neopy 
 ADD ./neo-python-rpc-rest/start_neopython_rpc_rest.sh /opt/
 
-# Neo-python REST ports
-EXPOSE 38088
+# Neo-python REST port
+EXPOSE 8080
 
-# Neo-python RPC ports
-EXPOSE 30337
+# Neo-python RPC port -- This door is not being used
+# EXPOSE 30337
 #==========================================================================
 
 #==========================================================================
@@ -96,9 +83,7 @@ RUN printf '%s\n' /127.0.0.1:20334/c '     "'$NEO_PYTHON_NODE_2'",' . w q | ex -
 RUN printf '%s\n' /127.0.0.1:20335/c '     "'$NEO_PYTHON_NODE_3'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 RUN printf '%s\n' /127.0.0.1:20336/c '     "'$NEO_PYTHON_NODE_4'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json 
 
-# Example run command
-# CMD /bin/bash
-
+# ADD scripts that initializes everything needed by the NeoCompiler Eco
 ADD run-all.sh /opt/
 
 # On docker run, start the rpc-rest node

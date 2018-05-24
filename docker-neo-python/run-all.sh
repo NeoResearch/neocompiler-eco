@@ -16,6 +16,7 @@ screen -dmS pythonRestRPC /opt/start_neopython_rpc_rest.sh
 # Only USED FOR rebuilding all 4 wallets of neoEco
 #screen -dmS pythonSyncing /neo-python/execSleepNeopyInfinitSync.sh
 
+# Script that initializes two different screens for W1 and W2
 /opt/callPythonInfinitySync.sh
 
 sleep infinity

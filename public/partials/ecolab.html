@@ -370,12 +370,13 @@
                 <!-- ======================================================== -->
                 <!-- BEGIN DIV WALLETS INFO -->
                 <div class="tab-pane fade" id="wallet">
-                    <div class="row">
-                        <div class="col-md-2 pull-right">
-                            <button type="submit" onClick="populateWalletData()" id="btnReloadall" class="btn btn-info btn-sm">Reload All</button>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Known addresses</div>
+                        <div class="panel-body">
+                            <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check addresses</button>
+                            <div id="divWalletsStatus" class="table-responsive"></div>
                         </div>
                     </div>
-                    <div id="divWalletsStatus" class="table-responsive"></div>
                     <div class="row">
                         <button type="button" onClick="showPersistWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                     </div>

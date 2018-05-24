@@ -4,7 +4,7 @@ services:
     image: "registry.gitlab.com/cityofzion/neo-scan:22520645-master"
     container_name: "eco-neo-scan-running"
     ports:
-      - 4000:4000
+      - "4000:4000"
     environment:
       PORT: 4000
       HOST: ${HOST_NAME}
@@ -24,7 +24,7 @@ services:
     image: postgres:10.1
     container_name: "postgresql-running"
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_DB: neoscan_prodv
       POSTGRES_USER: postgres
@@ -33,7 +33,7 @@ services:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-running"  
     ports:
-      - 8080:8080
+      - "8080:8080"
     links:
       - eco-neo-csharp-nodes-running
   eco-neo-csharp-nodes-running:

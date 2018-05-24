@@ -511,99 +511,97 @@
                                                 </div>
                                                 <input type="hidden" id="code_cs" name="codesend_cs"/>
                                                 <pre id="editorCSharp">
-                using Neo.SmartContract.Framework;
-                using Neo.SmartContract.Framework.Services.Neo;
-                using System;
-                using System.Numerics;
-                namespace NeoContract1
-                {
-                    public class Contract1 : SmartContract
-                    {
-                        public static void Main()
-                        {
-                            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
-                        }
-                    }
-                }
-                                                </pre>
-                                        </div>
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- end csharpcode -->
+using Neo.SmartContract.Framework;
+using Neo.SmartContract.Framework.Services.Neo;
+using System;
+using System.Numerics;
+namespace NeoContract1
+{
+    public class Contract1 : SmartContract
+    {
+        public static void Main()
+        {
+            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+        }
+    }
+}
+                                      </pre>
+                                    </div>
+                                    <!-- /////////////////////////////////////////////////////////////////// -->
+                                    <!-- end csharpcode -->
 
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- java div -->
-                                        <div class="tab-pane cont" id="javacode">
-                                            <input type="hidden" id="code_java" name="codesend_java"/>
-                                            <pre id="editorJava">
-                package teste;
+                                    <!-- /////////////////////////////////////////////////////////////////// -->
+                                    <!-- java div -->
+                                    <div class="tab-pane cont" id="javacode">
+                                        <input type="hidden" id="code_java" name="codesend_java"/>
+                                        <pre id="editorJava">
+package teste;
 
-                import org.neo.smartcontract.framework.services.neo.TriggerType;
-                import org.neo.smartcontract.framework.services.system.ExecutionEngine;
+import org.neo.smartcontract.framework.services.neo.TriggerType;
+import org.neo.smartcontract.framework.services.system.ExecutionEngine;
 
-                import java.math.BigInteger;
+import java.math.BigInteger;
 
-                import org.neo.smartcontract.framework.Helper;
-                import org.neo.smartcontract.framework.SmartContract;
-                import org.neo.smartcontract.framework.services.neo.Runtime;
-                import org.neo.smartcontract.framework.services.neo.Storage;
-                import org.neo.smartcontract.framework.services.neo.Transaction;
-                import org.neo.smartcontract.framework.services.neo.TransactionOutput;
+import org.neo.smartcontract.framework.Helper;
+import org.neo.smartcontract.framework.SmartContract;
+import org.neo.smartcontract.framework.services.neo.Runtime;
+import org.neo.smartcontract.framework.services.neo.Storage;
+import org.neo.smartcontract.framework.services.neo.Transaction;
+import org.neo.smartcontract.framework.services.neo.TransactionOutput;
 
-                public class JavaContract extends SmartContract {
+public class JavaContract extends SmartContract {
 
-                	public static Object Main(String operation, Object[] args) {
-                		TriggerType trigger = Runtime.trigger();
+	public static Object Main(String operation, Object[] args) {
+		TriggerType trigger = Runtime.trigger();
 
-                		if (trigger == TriggerType.Verification) {
+		if (trigger == TriggerType.Verification) {
 
-                			return true;
+			return true;
 
-                		} else if (trigger == TriggerType.Application) {
-
-
-                		}
-
-                		return false;
-                	}
+		} else if (trigger == TriggerType.Application) {
 
 
+		}
 
-                }
+		return false;
+	}
+
+}
                                             </pre>
-                                        </div>
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- end java -->
+                                          </div>
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- end java -->
 
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- golang div -->
-                                        <div class="tab-pane cont" id="golangcode">
-                                            <input type="hidden" id="code_golang" name="codesend_golang"/>
-                                            <pre id="editorGolang">
-                package main
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- golang div -->
+                                          <div class="tab-pane cont" id="golangcode">
+                                              <input type="hidden" id="code_golang" name="codesend_golang"/>
+                                              <pre id="editorGolang">
+package main
 
-                func Main() int {
-                	x := 10
-                	return x
-                }
+func Main() int {
+	x := 10
+	return x
+}
                                             </pre>
-                                        </div>
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- golang java -->
+                                          </div>
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- golang java -->
 
-                                        <!-- /////////////////////////////////////////////////////////////////// -->
-                                        <!-- python div -->
-                                        <div class="tab-pane cont" id="pythoncode">
-                                            <input type="hidden" id="code_python" name="codesend_python"/>
-                                            <pre id="editorPython">
-                from boa.interop.Neo.Runtime import Notify, CheckWitness
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- python div -->
+                                          <div class="tab-pane cont" id="pythoncode">
+                                              <input type="hidden" id="code_python" name="codesend_python"/>
+                                              <pre id="editorPython">
+from boa.interop.Neo.Runtime import Notify, CheckWitness
 
-                def Main():
-                    OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
-                    result = CheckWitness(OWNER)
-                    if result:
-                        print(&quot;OWNER is caller&quot;)
-                        return True
-                    return False
+def Main():
+    OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
+    result = CheckWitness(OWNER)
+    if result:
+        print(&quot;OWNER is caller&quot;)
+        return True
+    return False
                                             </pre>
                                         </div>
 

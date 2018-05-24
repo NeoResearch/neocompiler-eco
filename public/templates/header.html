@@ -66,7 +66,11 @@
                     $("#headernodeinfo")[0].innerHTML+=" H:"+result3.result;
 
                     $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-                      $("#headernodeinfo")[0].innerHTML+=" mempool:"+result4.result.length;
+                      $("#headernodeinfo")[0].innerHTML+=" MP:"+result4.result.length;
+
+                      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
+                        $("#headernodeinfo")[0].innerHTML+=" H':"+result5.index;
+                      }); // neoscan top block
                     }); // mempool
                   }); // NEO block count
                 }); // NEO useragent

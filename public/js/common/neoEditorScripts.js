@@ -182,7 +182,7 @@
         if($("#getStorageFormat")[0].value == "String (no quotes)")
            stkey = Neon.u.str2hexstring(stkey);
         //test invoke
-        console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#selRPCNetworkStorage")[0].value);
+        console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#neonodeurl")[0].value);
         getStorage(sthash, stkey, $("#neonodeurl")[0].value).then(function(data){ $("#gsf_contractvaluehex")[0].value = data.result; $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);  });
     });//End of storage read function
     //===============================================================

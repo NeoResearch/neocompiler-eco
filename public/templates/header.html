@@ -61,11 +61,16 @@
 
                 $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
     	            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
-                  $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result3) {
-                    $("#headernodeinfo")[0].innerHTML+=" mempool:"+result3.result.length;
-                  });
-                });
-    	});
+
+                  $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
+                    $("#headernodeinfo")[0].innerHTML+=" H:"+result3.result;
+
+                    $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
+                      $("#headernodeinfo")[0].innerHTML+=" mempool:"+result4.result.length;
+                    }); // mempool
+                  }); // NEO block count
+                }); // NEO useragent
+    	}); // Python user agent + block count
     }
 
     document.getElementById("headerNeoScanLink").setAttribute("target","_blank");

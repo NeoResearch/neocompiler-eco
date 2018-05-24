@@ -6,6 +6,8 @@ var FIXED_NEOSCAN_TESTNET = "https://neoscan-testnet.io/";
 
 var FIXED_NEOPY_NOTIFICATION_LOCALHOST = "http://localhost:8080";
 var FIXED_NEOPY_NOTIFICATION_NEOCOMPILER = "https://rest.neocompiler.io";
+var FIXED_NEOPY_NOTIFICATION_MAINNET =  "http://notifications2.neeeo.org/";
+var FIXED_NEOPY_NOTIFICATION_TESTNET =  "http://notifications2.neeeo.org/"; // fix for testnet
 
 
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;

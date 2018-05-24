@@ -1075,28 +1075,28 @@ def Main():
             if(mynetwork == "localhost (privatenet)")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
-              BASE_PATH_PY = "http://localhost:38088";
+              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
               BASE_PATH_CLI = "http://localhost:30335";
             }
 
             if(mynetwork == "neocompiler.io (shared privatenet)")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
-              BASE_PATH_PY = "https://rest.neocompiler.io";
+              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
               BASE_PATH_CLI = "https://node1.neocompiler.io";
             }
 
             if(mynetwork == "NEO MainNet")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_MAINNET;
-              BASE_PATH_PY = "http://notifications2.neeeo.org/";
+              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_MAINNET;
               BASE_PATH_CLI = "https://seed1.neo.org:10331";
             }
 
             if(mynetwork == "NEO TestNet")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET;
-              BASE_PATH_PY = "http://notifications2.neeeo.org/";
+              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;
               BASE_PATH_CLI = "https://seed1.neo.org:20331";
             }
 

@@ -25,9 +25,13 @@ else
 	rm /$PYTHON_PATH/pythonScreen.log
 	#============================================================================================
 
+	# ========================================= DISPLAY WALLET BALANCE ==========================
+	screen -S $PYTHON_PATH -p 0 -X stuff "wallet^M"
+	sleep 0.5
+
 	#============================================================================================
 	echo "calling python for deploy with " + $strimport
-	screen -S $PYTHON_PATH -p 0 -X stuff "$strimport^M"	
+	screen -S $PYTHON_PATH -p 0 -X stuff "$strimport^M"
 	sleep 0.5
 
 	#name, version, author, email, description
@@ -58,7 +62,8 @@ else
 
 	#============================================================================================
 	#Printing the log, hopefully, already flushed by the screen
-	cat /$PYTHON_PATH/pythonScreen.log
+	# Drastic solution to unicode problems... removing all control chars! (TODO: keep line break)
+	cat /$PYTHON_PATH/pythonScreen.log | tr -d '[:cntrl:]'
 	#============================================================================================
 
 	#============================================================================================

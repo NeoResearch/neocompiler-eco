@@ -20,7 +20,7 @@ else
   	else
   		invokeCall=`echo "testinvokeonly"`
   	fi
-  	 
+
    	if [ "$neo" -eq "0" ]; then
    		echo "$invokeCall $lhash $parm";
    		strinvoke="$invokeCall $lhash $parm"
@@ -39,6 +39,10 @@ else
 	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events on^M"
 	sleep 0.5
 	#============================================================================================
+
+  # ========================================= DISPLAY WALLET BALANCE ==========================
+	screen -S $PYTHON_PATH -p 0 -X stuff "wallet^M"
+	sleep 0.5
 
 	#============================================================================================
 	echo "calling python for invoking with " + $strinvoke
@@ -73,7 +77,8 @@ else
 
 	#============================================================================================
 	#Printing the log, hopefully, already flushed by the screen
-	cat /$PYTHON_PATH/pythonScreen.log
+	# Drastic solution to unicode problems... removing all control chars! (TODO: keep line break)
+	cat /$PYTHON_PATH/pythonScreen.log | tr -d '[:cntrl:]'
 	#============================================================================================
 
 	#============================================================================================

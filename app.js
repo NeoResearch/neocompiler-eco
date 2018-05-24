@@ -179,6 +179,7 @@ app.post('/deployx', function(req, res) {
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
 
+  pythonScreenName = "";
   if(req.body.wallet_deploy == "w1.wallet")
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
 

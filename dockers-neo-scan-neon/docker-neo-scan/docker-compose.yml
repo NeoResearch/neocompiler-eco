@@ -33,6 +33,10 @@ services:
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
       - eco-neo-python-rest-running:8080
+    depends_on:
+      - postgresql
+      - eco-neo-python-rest-running
+      - eco-neo-csharp-nodes-running
 
   postgresql:
     image: postgres:10.1
@@ -52,6 +56,8 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/start_neopython_rpc_rest.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
 
   eco-neo-python-genesis-running:
     image: eco-neo-python:latest
@@ -59,6 +65,8 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callGenesisBlockCreation.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
 
   eco-neo-python-w1-running:
     image: eco-neo-python:latest
@@ -70,6 +78,8 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callPythonInfinitySync.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
 
   eco-neo-python-w2-running:
     image: eco-neo-python:latest
@@ -81,3 +91,5 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running

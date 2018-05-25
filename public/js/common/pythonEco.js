@@ -25,6 +25,9 @@ $("#formdeploy").submit(function (e) {
            //$("#contractmessages").val(data);
            $("#contractmessages").text(data);
 
+           if($("#contractmessages").text().indexOf("insufficient funds for asset id") != -1)
+              alert("Not enough GAS in wallet to perform deploy!");
+
            //Let's try to get the last relayed TX hash
            updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
         }).fail(function(jqXHR, textStatus){

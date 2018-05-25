@@ -9,7 +9,7 @@ else
 	cp -r /neo-python /$PYTHON_PATH
 	rm -rf /root/.$PYTHON_PATH
 
-	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -dmS $PYTHON_PATH python3.6  /$PYTHON_PATH/neo/bin/prompt.py -p --datadir /root/.$PYTHON_PATH/Chains
+	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -dmS $PYTHON_PATH python3.6  /$PYTHON_PATH/neo/bin/prompt.py -p --datadir /root/.$PYTHON_PATH/
 	sleep 3
 	screen -r $PYTHON_PATH -X colon "logfile flush 2^M"
 

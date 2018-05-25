@@ -106,6 +106,32 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
 
+  eco-neo-python-w3-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-w3-running"
+    environment:
+      - PYTHON_WALLET=w3.wallet
+      - PYTHON_NAME=pythonW3
+      - PYTHON_PWD=coz
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonInfinitySync.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+
+  eco-neo-python-w4-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-w4-running"
+    environment:
+      - PYTHON_WALLET=w4.wallet
+      - PYTHON_NAME=pythonW4
+      - PYTHON_PWD=coz
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+
   eco-neo-python-logger-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-logger-running"

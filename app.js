@@ -200,10 +200,17 @@ app.post('/deployx', function(req, res) {
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
     pythonContName = "w1";
   }
-
   if(req.body.wallet_deploy == "w2.wallet") {
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
     pythonContName = "w2";
+  }
+  if(req.body.wallet_invoke == "w3.wallet") {
+    pythonScreenName = new Buffer("pythonW3", 'ascii').toString('base64');
+    pythonContName = "w3";
+  }
+  if(req.body.wallet_invoke == "w4.wallet") {
+    pythonScreenName = new Buffer("pythonW4", 'ascii').toString('base64');
+    pythonContName = "w4";
   }
 
   var cbx_storage = "False";
@@ -263,10 +270,17 @@ app.post('/invokex', function(req, res) {
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
     pythonContName = "w1";
   }
-
   if(req.body.wallet_invoke == "w2.wallet") {
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
     pythonContName = "w2";
+  }
+  if(req.body.wallet_invoke == "w3.wallet") {
+    pythonScreenName = new Buffer("pythonW3", 'ascii').toString('base64');
+    pythonContName = "w3";
+  }
+  if(req.body.wallet_invoke == "w4.wallet") {
+    pythonScreenName = new Buffer("pythonW4", 'ascii').toString('base64');
+    pythonContName = "w4";
   }
 
 

@@ -201,8 +201,6 @@ app.post('/deployx', function(req, res) {
     cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
-  //var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenDeploy.sh '+
-  //     pythonScreenName + ' ' + contracthash + ' ' + codeavm + ' ' + contractparams + ' ' + contractreturn + ' ' + cbx_storage + ' ' + cbx_dynamicinvoke + '"';
   var cmddocker = 'docker exec -t eco-neo-python-'+pythonContName+'-running dash -i -c "/opt/pythonScreenDeploy.sh '+
        pythonScreenName + ' ' + contracthash + ' ' + codeavm + ' ' + contractparams + ' ' + contractreturn + ' ' + cbx_storage + ' ' + cbx_dynamicinvoke + '"';
 
@@ -244,14 +242,20 @@ app.post('/invokex', function(req, res) {
 
   console.log("invokeonly is :" + cbx_invokeonly)
 
-  if(req.body.wallet_invoke == "w1.wallet")
+  pythonScreenName = ""; // screen name inside container
+  pythonContName = "";   // container name
+  if(req.body.wallet_invoke == "w1.wallet") {
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
+    pythonContName = "w1";
+  }
 
-  if(req.body.wallet_invoke == "w2.wallet")
+  if(req.body.wallet_invoke == "w2.wallet") {
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
+    pythonContName = "w2";
+  }
 
 
-  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenInvoke.sh '+
+  var cmddocker = 'docker exec -t eco-neo-python-'+pythonContName+'-running dash -i -c "/opt/pythonScreenInvoke.sh '+
        pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 

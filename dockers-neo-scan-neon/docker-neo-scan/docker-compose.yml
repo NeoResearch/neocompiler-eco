@@ -27,20 +27,20 @@ services:
       NEO_SEED_4: "http://${SEED_SERVER}:30336"
       NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
     links:
-      - postgresql:postgres
+      - eco-neoscan-postgresql-running:postgres
       - eco-neo-csharp-nodes-running:30333
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
       - eco-neo-python-rest-running:8080
     depends_on:
-      - postgresql
+      - eco-neoscan-postgresql-running
       - eco-neo-python-rest-running
       - eco-neo-csharp-nodes-running
 
-  postgresql:
+  eco-neoscan-postgresql-running:
     image: postgres:10.1
-    container_name: "postgresql-running"
+    container_name: "eco-neoscan-postgresql-running"
     ports:
       - "5432:5432"
     environment:

@@ -38,6 +38,17 @@ services:
       - eco-neo-python-rest-running
       - eco-neo-csharp-nodes-running
 
+#  notifications-server:
+#    container_name: "notifications-server"
+#    image: "cityofzion/neo-python"
+#    depends_on:
+#      - eco-neo-csharp-nodes-running
+#    volumes:
+#      - ./custom-config.json:/neo-python/custom-config.json
+#    command: "/usr/bin/python3 /neo-python/neo/bin/api_server.py --config /neo-python/custom-config.json --port-rest 8090"
+#    ports:
+#      - 9000:8090
+
   eco-neoscan-postgresql-running:
     image: postgres:10.1
     container_name: "eco-neoscan-postgresql-running"
@@ -53,6 +64,7 @@ services:
     container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
+      - "10332:10332"
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/start_neopython_rpc_rest.sh

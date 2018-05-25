@@ -1,5 +1,18 @@
 version: "3"
 services:
+  eco-neo-csharp-nodes-running:
+    image: eco-neo-csharp-nodes:2.7.4
+    container_name: "eco-neo-csharp-nodes-running"
+    ports:
+      - "20333:20333"
+      - "20334:20334"
+      - "20335:20335"
+      - "20336:20336"
+      - "30333:30333"
+      - "30334:30334"
+      - "30335:30335"
+      - "30336:30336"
+
   neo-scan-running:
     image: "registry.gitlab.com/cityofzion/neo-scan:22520645-master"
     container_name: "eco-neo-scan-running"
@@ -19,7 +32,8 @@ services:
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
-      - eco-neo-python-running:8080
+      - eco-neo-python-rest-running:8080
+
   postgresql:
     image: postgres:10.1
     container_name: "postgresql-running"
@@ -29,22 +43,41 @@ services:
       POSTGRES_DB: neoscan_prodv
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-  eco-neo-python-running:
+
+  eco-neo-python-rest-running:
     image: eco-neo-python:latest
-    container_name: "eco-neo-python-running"  
+    container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
     links:
       - eco-neo-csharp-nodes-running
-  eco-neo-csharp-nodes-running:
-    image: eco-neo-csharp-nodes:2.7.4  
-    container_name: "eco-neo-csharp-nodes-running" 
-    ports:
-      - "20333:20333"
-      - "20334:20334"
-      - "20335:20335"
-      - "20336:20336"
-      - "30333:30333"
-      - "30334:30334"
-      - "30335:30335"
-      - "30336:30336"
+    command: /bin/bash /opt/start_neopython_rpc_rest.sh
+
+  eco-neo-python-genesis-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-genesis-running"
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callGenesisBlockCreation.sh
+
+  eco-neo-python-w1-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-w1-running"
+    environment:
+      - PYTHON_WALLET=w1.wallet
+      - PYTHON_NAME=pythonW1
+      - PYTHON_PWD=coz
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonInfinitySync.sh
+
+  eco-neo-python-w2-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-w2-running"
+    environment:
+      - PYTHON_WALLET=w2.wallet
+      - PYTHON_NAME=pythonW2
+      - PYTHON_PWD=coz
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh

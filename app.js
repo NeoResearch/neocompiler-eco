@@ -179,13 +179,17 @@ app.post('/deployx', function(req, res) {
   var contractparams = new Buffer(req.body.contractparams, 'ascii').toString('base64');
   var contractreturn = new Buffer(req.body.contractreturn, 'ascii').toString('base64');
 
-  pythonScreenName = "";
-  if(req.body.wallet_deploy == "w1.wallet")
+  pythonScreenName = ""; // screen name inside container
+  pythonContName = "";   // container name
+  if(req.body.wallet_deploy == "w1.wallet") {
     pythonScreenName = new Buffer("pythonW1", 'ascii').toString('base64');
+    pythonContName = "w1";
+  }
 
-  if(req.body.wallet_deploy == "w2.wallet")
+  if(req.body.wallet_deploy == "w2.wallet") {
     pythonScreenName = new Buffer("pythonW2", 'ascii').toString('base64');
-
+    pythonContName = "w2";
+  }
 
   var cbx_storage = "False";
   if(req.body["cbx_storage"])
@@ -197,7 +201,9 @@ app.post('/deployx', function(req, res) {
     cbx_dynamicinvoke = "True";
   cbx_dynamicinvoke=new Buffer(cbx_dynamicinvoke, 'ascii').toString('base64');
 
-  var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenDeploy.sh '+
+  //var cmddocker = 'docker exec -t eco-neo-python-running dash -i -c "/opt/pythonScreenDeploy.sh '+
+  //     pythonScreenName + ' ' + contracthash + ' ' + codeavm + ' ' + contractparams + ' ' + contractreturn + ' ' + cbx_storage + ' ' + cbx_dynamicinvoke + '"';
+  var cmddocker = 'docker exec -t eco-neo-python-'+pythonContName+'-running dash -i -c "/opt/pythonScreenDeploy.sh '+
        pythonScreenName + ' ' + contracthash + ' ' + codeavm + ' ' + contractparams + ' ' + contractreturn + ' ' + cbx_storage + ' ' + cbx_dynamicinvoke + '"';
 
   console.log("SC Deploy: import contract");

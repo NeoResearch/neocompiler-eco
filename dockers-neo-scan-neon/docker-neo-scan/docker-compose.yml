@@ -64,7 +64,7 @@ services:
     container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
-      - "10332:10332"
+#      - "10332:10332"
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/start_neopython_rpc_rest.sh

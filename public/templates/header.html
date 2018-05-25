@@ -57,7 +57,7 @@
       }
 
     	$.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#headernodeinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"'>"+result.version+"</a> H:"+result.current_height+" ";
+                $("#headernodeinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"' target='_blank'>"+result.version+" H:"+result.current_height+" </a>";
 
                 $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
     	            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
@@ -69,7 +69,7 @@
                       $("#headernodeinfo")[0].innerHTML+=" MP:"+result4.result.length;
 
                       $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-                        $("#headernodeinfo")[0].innerHTML+=" H':"+result5.index;
+                        $("#headernodeinfo")[0].innerHTML+=" <a href='"+BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block"+"' target='_blank'> H':"+result5.index+"</a>";
                       }); // neoscan top block
                     }); // mempool
                   }); // NEO block count

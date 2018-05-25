@@ -105,3 +105,12 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+
+  eco-neo-python-logger-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-logger-running"
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running

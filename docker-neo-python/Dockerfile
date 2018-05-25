@@ -68,6 +68,7 @@ ADD neo-python-wallet-sync/commands/pythonScreenInvoke.sh /opt
 #Starts screen for python wallets pre-syncing
 ADD neo-python-wallet-sync/commands/openPythonWallet.sh /opt
 ADD neo-python-wallet-sync/commands/callPythonInfinitySync.sh /opt
+ADD callPythonLogger.sh /opt
 #==========================================================================
 
 

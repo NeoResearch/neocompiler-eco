@@ -56,25 +56,28 @@
         });
       }
 
+      $("#headernodeinfo")[0].innerHTML = "";
+
     	$.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#headernodeinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"' target='_blank'>"+result.version+" H:"+result.current_height+" </a>";
-
-                $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
-    	            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
-
-                  $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
-                    $("#headernodeinfo")[0].innerHTML+=" H:"+result3.result;
-
-                    $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-                      $("#headernodeinfo")[0].innerHTML+=" MP:"+result4.result.length;
-
-                      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-                        $("#headernodeinfo")[0].innerHTML+=" <a href='"+BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block"+"' target='_blank'> H':"+result5.index+"</a>";
-                      }); // neoscan top block
-                    }); // mempool
-                  }); // NEO block count
-                }); // NEO useragent
+                $("#headernodeinfo")[0].innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"' target='_blank'>"+result.version+" H:"+result.current_height+" </a>";
     	}); // Python user agent + block count
+
+      $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
+        $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
+
+        $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
+          $("#headernodeinfo")[0].innerHTML+=" H:"+result3.result;
+
+          $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
+            $("#headernodeinfo")[0].innerHTML+=" MP:"+result4.result.length;
+          }); // mempool
+        }); // NEO block count
+      }); // NEO useragent
+
+      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
+        $("#headernodeinfo")[0].innerHTML+=" <a href='"+BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block"+"' target='_blank'> H':"+result5.index+"</a>";
+      }); // neoscan top block
+
     }
 
     document.getElementById("headerNeoScanLink").setAttribute("target","_blank");

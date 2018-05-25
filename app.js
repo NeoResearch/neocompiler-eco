@@ -124,7 +124,7 @@ app.get('/notifications', function(req, res) {
     else {
       //x = stdout1.replace(/[^\x00-\x7F]/g, "");
       res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-      res.send(x);
+      res.send(stdout1);
     }
   });
 });

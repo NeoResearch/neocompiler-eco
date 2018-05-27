@@ -69,16 +69,31 @@ services:
     container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
-      - "10332:10332"
     links:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-genesis-running
-    command: /bin/bash /opt/start_neopython_rpc_rest.sh
+    command: /bin/bash /opt/start_neopython_rest.sh
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-genesis-running
     volumes:
       - /var/log/neopython-rest-rpc/:/neo-python/logs
+
+  eco-neo-python-rpc-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-rpc-running"
+    ports:
+      - "10332:10332"
+    links:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-genesis-running
+    command: /bin/bash /opt/start_neopython_rpc.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-genesis-running
+    volumes:
+      - /var/log/neopython-rest-rpc/:/neo-python/logs
+
 
   eco-neo-python-genesis-running:
     image: eco-neo-python:latest

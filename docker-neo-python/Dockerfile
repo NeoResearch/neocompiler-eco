@@ -44,7 +44,8 @@ ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
 #==========================================================================
 #====================== RPC and RESTFULL API interface ====================
 #Script used to start  neopy
-ADD ./neo-python-rpc-rest/start_neopython_rpc_rest.sh /opt/
+ADD ./neo-python-rpc-rest/start_neopython_rest.sh /opt/
+ADD ./neo-python-rpc-rest/start_neopython_rpc.sh /opt/
 
 RUN mkdir /root/.neopython
 RUN touch /root/.neopython/prompt.log

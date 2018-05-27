@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ln -s /root/.neopython/prompt.log /neo-pythons/logs2/prompt.log
+
 screen -L -Logfile /neo-python/pythonScreen.log -dmS neolog python3.6  /neo-python/neo/bin/prompt.py -p --datadir /root/.neo-python/
 sleep 3
 screen -r neolog -X colon "logfile flush 2^M"

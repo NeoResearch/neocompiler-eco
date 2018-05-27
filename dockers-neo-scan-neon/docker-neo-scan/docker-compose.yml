@@ -72,9 +72,11 @@ services:
       - "10332:10332"
     links:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-genesis-running
     command: /bin/bash /opt/start_neopython_rpc_rest.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-w4-running
     volumes:
       - /var/log/neopython-rest-rpc/:/neo-python/logs
 
@@ -99,6 +101,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-genesis-running
 
   eco-neo-python-w2-running:
     image: eco-neo-python:latest
@@ -112,6 +115,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-w1-running
 
   eco-neo-python-w3-running:
     image: eco-neo-python:latest
@@ -125,6 +129,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-w2-running
 
   eco-neo-python-w4-running:
     image: eco-neo-python:latest
@@ -138,6 +143,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-w3-running
 
   eco-neo-python-logger-running:
     image: eco-neo-python:latest
@@ -147,5 +153,6 @@ services:
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-genesis-running
     volumes:
       - /var/log/neopython-logger/prompt.log:/root/.neopython/prompt.log

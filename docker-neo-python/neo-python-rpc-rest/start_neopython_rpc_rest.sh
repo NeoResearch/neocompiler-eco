@@ -5,6 +5,7 @@
 #cp -r /neo-python/ /$PYTHON_RPC_FOLDER
 
 mkdir /neo-python/logs
+rm -f /neo-python/logs/*.log
 
 ##/$PYTHON_RPC_FOLDER/neo/bin/api_server.py --datadir /root/.$PYTHON_RPC_FOLDER/Chains --privnet --port-rpc 30337 --port-rest 38088
 

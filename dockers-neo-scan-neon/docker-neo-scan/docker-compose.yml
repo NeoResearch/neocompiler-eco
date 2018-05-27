@@ -12,6 +12,11 @@ services:
       - "30334:30334"
       - "30335:30335"
       - "30336:30336"
+    volumes:
+      - /var/log/neocli-node1:/opt/node1/neo-cli/Logs
+      - /var/log/neocli-node2:/opt/node2/neo-cli/Logs
+      - /var/log/neocli-node3:/opt/node3/neo-cli/Logs
+      - /var/log/neocli-node4:/opt/node4/neo-cli/Logs
 
   neo-scan-running:
     image: "registry.gitlab.com/cityofzion/neo-scan:22520645-master"
@@ -64,12 +69,14 @@ services:
     container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
-#      - "10332:10332"
+      - "10332:10332"
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/start_neopython_rpc_rest.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+    volumes:
+      - /var/log/neopython-rest-rpc/:/neo-python/logs
 
   eco-neo-python-genesis-running:
     image: eco-neo-python:latest
@@ -140,3 +147,5 @@ services:
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+    volumes:
+      - /var/log/neopython-logger/prompt.log:/root/.neopython/prompt.log

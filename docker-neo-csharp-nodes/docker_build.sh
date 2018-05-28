@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# usage: ./docker_build.sh --neo-cli ./neo-cli-built.zip
+# or: ./docker_build.sh (will use pre-built version 2.7.4 for now)
+
 # To use a newer neo-cli version, just update this variable:
 NEO_CLI_VERSION="2.7.4"
 IMAGE_NAME="eco-neo-csharp-nodes:$NEO_CLI_VERSION"

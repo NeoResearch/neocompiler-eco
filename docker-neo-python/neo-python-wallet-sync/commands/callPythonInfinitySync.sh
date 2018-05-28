@@ -2,7 +2,7 @@
 
 rm -rf /root/.neopython/
 
-/opt/openPythonWallet.sh #pythonW1 w1.wallet coz
+/opt/openPythonWallet.sh
 
 sleep infinity
 

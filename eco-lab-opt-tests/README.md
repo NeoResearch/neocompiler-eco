@@ -12,15 +12,18 @@ This project has its main focus on establishing a set of parameters that will be
 In this sense, this repository comprises a set of scripts and docker containers to build a modified neo-cli and integrate it
 with all tools available in the [NeoCompiler Eco(system)](https://github.com/NeoResearch/neocompiler-eco).
 
+
+In particular, this private network is usually created with new modified characteristics from [neo blockchain](https://github.com/neo-project/neo/), with assist of the procedures inside folder `docker-build-neo-cli`.
+
+### Goal
+
 It posses the potential of improving performance of the Neo blockchain and finding optimization opportunities.
 
 Furthermore, the scope of this project is to engage Neo community into this topic.
 Thus, competitions will be promote and their calls will be available at the folder `competition`.
 Our focus is to engage a wide public, from developers to advanced users.
 
-In particular, this private network is usually created with new modified characteristics from [neo blockchain](https://github.com/neo-project/neo/), with assist of the procedures inside folder `docker-build-neo-cli`.
-
-This is a work in progress, areas to be improved:
+## Possible improvements
 
 * Identify parameters that could be optimized and their impact on consensus behavior:
   - Check bottlenecks: on opcodes (.avm) readings execution; decoding transactions; communicating; changing view; broadcasting; among other.
@@ -40,6 +43,8 @@ This is a work in progress, areas to be improved:
   - Improve speed of build process, suspect we can use cache a little more for our containers.
 
 ## How to build and Run
+
+TODO - UPDATE DESCRIPTION
 
 ### Simple and easy - Build everything and generated a personalized NeoCompiler Ecosystem
 

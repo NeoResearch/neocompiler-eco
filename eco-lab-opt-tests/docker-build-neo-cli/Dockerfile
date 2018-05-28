@@ -1,7 +1,7 @@
-# NEO publish Dockerfile
+# Neo-Cli builder with with modified Neo-Core libraries
 
 FROM ubuntu:17.10
-LABEL maintainer="AshRolls, vncoelho and imcoelho"
+LABEL maintainer="NeoResearch"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -30,7 +30,6 @@ RUN git clone https://github.com/neo-project/neo.git /opt/neo && cd /opt/neo && 
 
 #The next line copies the whole local folder neo to the new one - replacing all files
 COPY neo/ /opt/neo/neo
-
 
 #==========================================================================
 #====================== NEO BLOCKCHAIN ============================================

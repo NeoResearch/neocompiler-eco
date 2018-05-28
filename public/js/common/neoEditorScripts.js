@@ -178,7 +178,7 @@
         e.preventDefault(); // Prevents the page from refreshing
 	//Clean previous storage values
         $("#gsf_contractvaluehex")[0].value = "";
-	$("#gsf_contractvaluestr")[0].value = "";
+	       $("#gsf_contractvaluestr")[0].value = "";
 
 	//Get the hash and key
         sthash = $("#gsf_contracthash")[0].value;
@@ -187,7 +187,31 @@
            stkey = Neon.u.str2hexstring(stkey);
 
         console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#neonodeurl")[0].value);
-        getStorage(sthash, stkey, $("#neonodeurl")[0].value).then(function(data){ $("#gsf_contractvaluehex")[0].value = data.result; $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);  });
+        getStorage(sthash, stkey, $("#neonodeurl")[0].value).then(function(data){
+            $("#gsf_contractvaluehex")[0].value = data.result;
+            if(data.result != null)
+              $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);
+            else
+            {
+                $.post(
+                    $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                    '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["'+sthash+'"] }', // Serializes form data in standard format
+                    function (data2) {
+                      if(data2.result)
+                        $("#gsf_contractvaluehex")[0].value = "contract exists!";
+                      else if(data2.error.code == -100)
+                        $("#gsf_contractvaluehex")[0].value = "contract does not exist!";
+                      else {
+                        $("#gsf_contractvaluehex")[0].value = "some strange error happened!";
+                        console.log(data2);
+                      }
+                    },
+                    "json" // The format the response should be in
+                    ).fail(function() {
+                      $("#gsf_contractvaluehex")[0].value = "failed to invoke network!";
+                    }); //End of POST for search
+            }
+        });
     });//End of storage read function
     //===============================================================
 

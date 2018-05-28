@@ -196,8 +196,9 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
-    volumes:
-      - /var/log/neopython-logger:/neo-python/logs2
+#    volumes:
+#      - /var/log/neopython-logger:/neo-python/logs2
+
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
 # ================================================================================
 

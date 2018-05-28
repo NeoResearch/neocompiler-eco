@@ -47,11 +47,11 @@ ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
 ADD ./neo-python-rpc-rest/start_neopython_rest.sh /opt/
 ADD ./neo-python-rpc-rest/start_neopython_rpc.sh /opt/
 
-RUN mkdir /root/.neopython
-RUN touch /root/.neopython/prompt.log
-RUN mkdir /neo-python/logs
-RUN mkdir /neo-python/logs2
-RUN ln -s /root/.neopython/prompt.log /neo-python/logs2/prompt.log
+#RUN mkdir /root/.neopython
+#RUN touch /root/.neopython/prompt.log
+#RUN mkdir /neo-python/logs
+#RUN mkdir /neo-python/logs2
+#RUN ln -s /root/.neopython/prompt.log /neo-python/logs2/prompt.log
 
 # Neo-python REST port
 #EXPOSE 8080

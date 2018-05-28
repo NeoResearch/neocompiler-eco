@@ -54,7 +54,7 @@ RUN mkdir /neo-python/logs2
 RUN ln -s /root/.neopython/prompt.log /neo-python/logs2/prompt.log
 
 # Neo-python REST port
-EXPOSE 8080
+#EXPOSE 8080
 
 # Neo-python RPC port -- This door is not being used
 # EXPOSE 30337

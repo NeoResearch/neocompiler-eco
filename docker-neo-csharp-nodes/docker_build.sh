@@ -6,7 +6,6 @@ set -e
 
 # To use a newer neo-cli version, just update this variable:
 NEO_CLI_VERSION="2.7.4"
-IMAGE_NAME="eco-neo-csharp-nodes:$NEO_CLI_VERSION"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"
@@ -24,6 +23,7 @@ while [[ "$#" > 0 ]]; do case $1 in
     --neo-cli)
         # Custom neo-cli zip filename
         NEO_CLI_CUSTOM_ZIPFN=$2
+        NEO_CLI_VERSION="custom"
         if [[ -z $NEO_CLI_CUSTOM_ZIPFN ]]; then
             echo "Error: Please specify a neo-cli zip file"
             usage
@@ -38,6 +38,8 @@ while [[ "$#" > 0 ]]; do case $1 in
         ;;
   esac;
 done
+
+IMAGE_NAME="eco-neo-csharp-nodes:$NEO_CLI_VERSION"
 
 # Definition of standard neo-cli filenames and URL based on the version
 NEO_CLI_ZIPFN="neo-release-${NEO_CLI_VERSION}.zip"

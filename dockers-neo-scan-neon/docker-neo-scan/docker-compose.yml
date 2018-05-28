@@ -9,6 +9,7 @@ services:
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
   eco-neo-csharp-nodes-running:
     image: eco-neo-csharp-nodes:2.7.4
+    #image: eco-neo-csharp-nodes:custom
     container_name: "eco-neo-csharp-nodes-running"
     ports:
       - "20333:20333"

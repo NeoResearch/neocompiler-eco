@@ -176,12 +176,16 @@
 
     $("#formgetstorage").submit(function (e) {
         e.preventDefault(); // Prevents the page from refreshing
+	//Clean previous storage values
+        $("#gsf_contractvaluehex")[0].value = "";
+	$("#gsf_contractvaluestr")[0].value = "";
 
+	//Get the hash and key
         sthash = $("#gsf_contracthash")[0].value;
         stkey = $("#gsf_contractkey")[0].value;
         if($("#getStorageFormat")[0].value == "String (no quotes)")
            stkey = Neon.u.str2hexstring(stkey);
-        //test invoke
+
         console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#neonodeurl")[0].value);
         getStorage(sthash, stkey, $("#neonodeurl")[0].value).then(function(data){ $("#gsf_contractvaluehex")[0].value = data.result; $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);  });
     });//End of storage read function

@@ -1,5 +1,12 @@
+# ================================================================================
+# ========== WELCOME TO THE NEOCOMPILER ECO NEO BLOCKCHAIN MICROSERVICE  =========
+# ================================================================================
+
 version: "3"
 services:
+
+# ================================================================================
+# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
   eco-neo-csharp-nodes-running:
     image: eco-neo-csharp-nodes:2.7.4
     container_name: "eco-neo-csharp-nodes-running"
@@ -17,7 +24,11 @@ services:
       - /var/log/neocli-node2:/opt/node2/neo-cli/Logs
       - /var/log/neocli-node3:/opt/node3/neo-cli/Logs
       - /var/log/neocli-node4:/opt/node4/neo-cli/Logs
+# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
+# ================================================================================
 
+# ================================================================================
+# ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   neo-scan-running:
     image: "registry.gitlab.com/cityofzion/neo-scan:22520645-master"
     container_name: "eco-neo-scan-running"
@@ -32,16 +43,60 @@ services:
       NEO_SEED_4: "http://${SEED_SERVER}:30336"
       NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
     links:
-      - eco-neoscan-postgresql-running:postgres
+      - eco-neo-scan-postgresql-running:postgres
       - eco-neo-csharp-nodes-running:30333
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
       - eco-neo-python-rest-running:8080
     depends_on:
-      - eco-neoscan-postgresql-running
-      - eco-neo-python-rest-running
       - eco-neo-csharp-nodes-running
+      - eco-neo-scan-postgresql-running
+      - eco-neo-python-rest-running
+
+  eco-neo-scan-postgresql-running:
+    image: postgres:10.1
+    container_name: "eco-neo-scan-postgresql-running"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: neoscan_prodv
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+# ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
+# ================================================================================
+
+# ================================================================================
+# ================== BEGIN OF PYTHON CLIENT FOR RPC AND RESTFULL =================
+  eco-neo-python-rest-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-rest-running"
+    ports:
+      - "8080:8080"
+    links:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    command: /bin/bash /opt/start_neopython_rest.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - /var/log/neopython-rest-rpc/:/neo-python/logs
+
+  eco-neo-python-rpc-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-rpc-running"
+    ports:
+      - "10332:10332"
+    links:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    command: /bin/bash /opt/start_neopython_rpc.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - /var/log/neopython-rest-rpc/:/neo-python/logs
 
 #  notifications-server:
 #    container_name: "notifications-server"
@@ -54,56 +109,24 @@ services:
 #    ports:
 #      - 9000:8090
 
-  eco-neoscan-postgresql-running:
-    image: postgres:10.1
-    container_name: "eco-neoscan-postgresql-running"
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: neoscan_prodv
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+# ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
+# ================================================================================
 
-  eco-neo-python-rest-running:
+# ================================================================================
+# ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
+  eco-neo-python-first-multisig-transfer-running:
     image: eco-neo-python:latest
-    container_name: "eco-neo-python-rest-running"
-    ports:
-      - "8080:8080"
-    links:
-      - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
-    command: /bin/bash /opt/start_neopython_rest.sh
-    depends_on:
-      - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
-    volumes:
-      - /var/log/neopython-rest-rpc/:/neo-python/logs
-
-  eco-neo-python-rpc-running:
-    image: eco-neo-python:latest
-    container_name: "eco-neo-python-rpc-running"
-    ports:
-      - "10332:10332"
-    links:
-      - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
-    command: /bin/bash /opt/start_neopython_rpc.sh
-    depends_on:
-      - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
-    volumes:
-      - /var/log/neopython-rest-rpc/:/neo-python/logs
-
-
-  eco-neo-python-genesis-running:
-    image: eco-neo-python:latest
-    container_name: "eco-neo-python-genesis-running"
+    container_name: "eco-neo-python-first-multisig-transfer-running"
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callGenesisBlockCreation.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+# ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
+# ================================================================================
 
+# ================================================================================
+# ===================== BEGIN ECO PRE-SYNCED WALLETS =============================
   eco-neo-python-w1-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-w1-running"
@@ -116,7 +139,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh
     depends_on:
       - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
+      - eco-neo-python-first-multisig-transfer-running
 
   eco-neo-python-w2-running:
     image: eco-neo-python:latest
@@ -130,7 +153,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
+      - eco-neo-python-first-multisig-transfer-running
 
   eco-neo-python-w3-running:
     image: eco-neo-python:latest
@@ -144,7 +167,7 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh
     depends_on:
       - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
+      - eco-neo-python-first-multisig-transfer-running
 
   eco-neo-python-w4-running:
     image: eco-neo-python:latest
@@ -158,8 +181,12 @@ services:
     command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
+      - eco-neo-python-first-multisig-transfer-running
+# ===================== END ECO PRE-SYNCED WALLETS ===============================
+# ================================================================================
 
+# ================================================================================
+# ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
   eco-neo-python-logger-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-logger-running"
@@ -168,6 +195,13 @@ services:
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
-      - eco-neo-python-genesis-running
+      - eco-neo-python-first-multisig-transfer-running
     volumes:
       - /var/log/neopython-logger:/neo-python/logs2
+# ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
+# ================================================================================
+
+
+# ================================================================================
+# ======================= THANKS FOR CREATING ME =================================
+# ================================================================================

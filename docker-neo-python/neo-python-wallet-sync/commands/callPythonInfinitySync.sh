@@ -1,6 +1,6 @@
 #!/bin/bash
-
-rm -rf /root/.neopython/
+echo "(PYTHON-ECO WALLETS SYNCING) - WAITING 3 seconds to let consensus nodes start..."
+sleep 3
 
 /opt/openPythonWallet.sh
 

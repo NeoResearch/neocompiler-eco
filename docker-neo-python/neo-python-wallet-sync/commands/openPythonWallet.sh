@@ -1,6 +1,6 @@
 #!/bin/bash
 
-  echo "Expects three parameters: PYTHON_WALLET=w1.wallet, PYTHON_NAME=pythonW1, PYTHON_PWD=coz"
+  	echo "Expects three parameters: PYTHON_WALLET=w1.wallet, PYTHON_NAME=pythonW1, PYTHON_PWD=coz"
 #if (( $# != 3 )); then
 #	echo "WRONG Parameter. Pass: [Screen name] [wallet] [password]";
 #else
@@ -8,19 +8,21 @@
 	echo "A syncronous wallet will be oppened at:" + $PYTHON_PATH
 
 	cp -r /neo-python /$PYTHON_PATH
+	rm -rf /root/.neopython/
 	rm -rf /root/.$PYTHON_PATH
 
 	screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -dmS $PYTHON_PATH python3.6  /$PYTHON_PATH/neo/bin/prompt.py -p --datadir /root/.$PYTHON_PATH/
-	sleep 3
+	sleep 6
+
 	screen -r $PYTHON_PATH -X colon "logfile flush 2^M"
 
-	sleep 5
+	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off^M"
-	sleep 5
+	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "open wallet $PYTHON_WALLET^M"
-	sleep 5
+	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "$PYTHON_PWD^M"
-	sleep 5
+	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "wallet rebuild^M"
 #fi
 

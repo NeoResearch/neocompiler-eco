@@ -5,10 +5,14 @@
 $("#getnep5balance").submit(function (e) {
     e.preventDefault(); // Prevents the page from refreshing
     $("#output_getnep5").val("");
+    strrequest = '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+$("#getnep5_address")[0].value+'"]}';
+    //console.log($("#neonodeurl")[0].value);
+    //console.log(strrequest);
     $.post(
         $("#neonodeurl")[0].value, // Gets the URL to sent the post to
-        '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+$("#getnep5_address")[0].value+"]}",
+        strrequest,
         function (data) {
+          //console.log(data);
           valfixed8 = data.result;
           const a = new Neon.u.Fixed8.fromHex(revertHexString(valfixed8));
           $("#output_getnep5").val(a);

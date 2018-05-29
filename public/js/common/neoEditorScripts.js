@@ -1,6 +1,25 @@
     var vecRelayedTXs = [];
     drawRelayedTXs();
 
+
+$("#getnep5balance").submit(function (e) {
+    e.preventDefault(); // Prevents the page from refreshing
+    $("#output_getnep5").val("");
+    $.post(
+        $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+        '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+$("#getnep5_address")[0].value+"]}",
+        function (data) {
+          valfixed8 = data.result;
+          const a = new Neon.u.Fixed8.fromHex(revertHexString(valfixed8));
+          $("#output_getnep5").val(a);
+        },
+        "json" // The format the response should be in
+    ).fail(function() {
+        $("#output_getnep5").val("failed to invoke network!");
+    }); //End of POST for search
+});
+
+
     //===============================================================
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;

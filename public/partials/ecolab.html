@@ -242,6 +242,41 @@
                       </div>
                   </div>
 
+
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">NEP5 Balance</div>
+                      <div class="panel-body">
+                          <form id="getnep5balance" action="">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="getnep5_scripthash">Contract (scripthash)</label>
+                                  <input id="getnep5_scripthash" class="form-control" placeholder="Contract" required/>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="getnep5_address">Address (base58)</label>
+                                  <input id="getnep5_address" class="form-control" placeholder="Address" required/>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <button type="submit" id="txgetnep5balance" class="btn btn-info btn-sm">Get</button>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label for="output_getnep5">Output</label>
+                                  <input id="output_getnep5" class="form-control" placeholder="NEP5 balance" readonly required/>
+                                </div>
+                              </div>
+                            </div>
+                         </form>
+                       </div>
+                  </div>
+
+
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX: Transfer UTXO Assets
                         </div>

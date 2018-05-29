@@ -4,7 +4,7 @@ set wallet [lindex $argv 1]
 set password [lindex $argv 2]
 set timeout -1
 cd $dnpath
-spawn dotnet neo-cli.dll --rpc
+spawn dotnet neo-cli.dll --rpc --log
 expect "neo>"
 send "open wallet $wallet\n"
 expect "password:"

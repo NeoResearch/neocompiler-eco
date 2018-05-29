@@ -27,7 +27,7 @@ $("#getnep5balance").submit(function (e) {
                 //console.log(data);
                 blockheight = data2.result;
                 addr = toBase58($("#getnep5_address")[0].value);
-                $("#output_getnep5").val(addr + " / H:"+blockheight);
+                $("#output_getnep5_extra").val(addr + " / H:"+blockheight);
               },
               "json" // The format the response should be in
           ).fail(function() {

@@ -14,14 +14,14 @@ echo "BUILDING neo-java-compiler";
 echo "STOPING server doors";
 ./stop.sh
 
-echo "PRUNING any useless NPM dep";
-npm prune
+#echo "PRUNING any useless NPM dep";
+#npm prune
 
-echo "INSTALLING with NPM";
-npm install
+#echo "INSTALLING with NPM";
+#npm install
 
-echo "SLEEP 3 seconds. Waiting some couple of seconds until everything is processed...";
-sleep 3
+#echo "SLEEP 3 seconds. Waiting some couple of seconds until everything is processed...";
+#sleep 3
 
 echo "RUNNING NeoCompiler Eco server (sponsored by NeoResearch)";
 ./run.sh

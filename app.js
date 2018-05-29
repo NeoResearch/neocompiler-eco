@@ -60,7 +60,7 @@ app.post('/getvars', function(req, res){
 app.get('/statusnode1', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   //var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print1.sh"';
-  var cmddocker = 'cat /var/log/neocli-node1/*.log | tail';
+  var cmddocker = 'cat /var/log/neocli-node1/*.log | tail -n 50';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -75,7 +75,7 @@ app.get('/statusnode1', function(req, res) {
 app.get('/statusnode2', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   //var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print2.sh"';
-  var cmddocker = 'cat /var/log/neocli-node2/*.log | tail';
+  var cmddocker = 'cat /var/log/neocli-node2/*.log | tail -n 50';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -90,7 +90,7 @@ app.get('/statusnode2', function(req, res) {
 app.get('/statusnode3', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   //var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print3.sh"';
-  var cmddocker = 'cat /var/log/neocli-node3/*.log | tail';
+  var cmddocker = 'cat /var/log/neocli-node3/*.log | tail -n 50';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
@@ -105,7 +105,7 @@ app.get('/statusnode3', function(req, res) {
 app.get('/statusnode4', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   //var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running dash -i -c "print4.sh"';
-  var cmddocker = 'cat /var/log/neocli-node4/*.log | tail';
+  var cmddocker = 'cat /var/log/neocli-node4/*.log | tail -n 50';
   var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);

@@ -150,6 +150,39 @@ function updateNotifyReports(contractMessagesBox){
                  indexNotify = contractMessagesBox.indexOf("SmartContract.Runtime.Notify", indexNotify + 1);
              }
 
+             var indexNotify = contractMessagesBox.indexOf("SmartContract.Runtime.Log");
+             while (indexNotify != -1) {
+                 var i = 0;
+                 var snotify = "";
+                 //console.log("found Notiy at "+indexNotify);
+                 while (contractMessagesBox[indexNotify + "SmartContract.Runtime.Log".length + 40 + 6 + i] != ']') {
+                     snotify += contractMessagesBox[indexNotify + "SmartContract.Runtime.Log".length + 40 + 6 + i];
+                     i++;
+                 }
+                 //console.log("NOTIFY:"+snotify);
+                 $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+                 indexNotify = contractMessagesBox.indexOf("SmartContract.Runtime.Log", indexNotify + 1);
+             }
+
+             var indexNotify = contractMessagesBox.indexOf("SmartContract.Storage.Put");
+             while (indexNotify != -1) {
+                 var i = 0;
+                 var snotify = "";
+                 //console.log("found Notiy at "+indexNotify);
+                 snotify += "Storage.Put: ";
+                 while (contractMessagesBox[indexNotify + "SmartContract.Storage.Put".length + 40 + 6 + i] != ']') {
+                     snotify += contractMessagesBox[indexNotify + "SmartContract.Storage.Put".length + 40 + 6 + i];
+                     i++;
+                 }
+                 //console.log("NOTIFY:"+snotify);
+                 $("#contractmessagesnotify").text($("#contractmessagesnotify").text() + snotify + "\n");
+                 indexNotify = contractMessagesBox.indexOf("SmartContract.Storage.Put", indexNotify + 1);
+             }
+
+
+
+
+
              //----------------------------------------------------
 }
 //===============================================================

@@ -293,6 +293,7 @@ app.post('/invokex', function(req, res) {
   var invokehash = new Buffer(req.body.invokehash, 'ascii').toString('base64');
   var invokeparams = new Buffer(req.body.invokeparams, 'ascii').toString('base64');
   var attachneo = new Buffer(req.body.attachneo, 'ascii').toString('base64');
+  var attachgas = new Buffer(req.body.attachgas, 'ascii').toString('base64');
 
   var cbx_invokeonly = "0";
   if(req.body["cbx_invokeonly"])
@@ -322,7 +323,7 @@ app.post('/invokex', function(req, res) {
 
 
   var cmddocker = 'docker exec -t eco-neo-python-'+pythonContName+'-running dash -i -c "/opt/pythonScreenInvoke.sh '+
-       pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + cbx_invokeonly + '"';//'" | base64';
+       pythonScreenName+' '+ invokehash+' '+ invokeparams + ' ' + attachneo + ' ' + attachgas + ' ' + cbx_invokeonly + '"';//'" | base64';
   var outp = "";
 
   console.log(cmddocker);

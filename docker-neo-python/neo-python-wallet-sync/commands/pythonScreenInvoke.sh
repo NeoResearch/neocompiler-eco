@@ -2,9 +2,9 @@
 
 echo "Calling python invoke procedures..."
 
-if (( $# != 5 )); then
+if (( $# != 6 )); then
 	echo "WRONG Parameter. Pass: [1 - Screen name]"
-	echo "2 - HASH, import contract 3-5. Example: param --attach-neo testInvolyOnly "
+	echo "2 - HASH, import contract 3-5. Example: param --attach-neo --attach-gas testInvolyOnly "
 
 else
 	PYTHON_PATH=`echo "$1" | base64 --decode`
@@ -13,7 +13,8 @@ else
 	lhash=`echo "$2" | base64 --decode`
 	parm=`echo $3 | base64 --decode`
 	neo=`echo "$4" | base64 --decode`
-  	onlyinvoke=`echo "$5" | base64 --decode`
+	gas=`echo "$5" | base64 --decode`
+  	onlyinvoke=`echo "$6" | base64 --decode`
 
   	if [ "$onlyinvoke" -eq "0" ]; then
       		invokeCall=`echo "testinvoke"`
@@ -21,13 +22,18 @@ else
   		invokeCall=`echo "testinvokeonly"`
   	fi
 
+    attachneo="--attach-neo=$neo"
    	if [ "$neo" -eq "0" ]; then
-   		echo "$invokeCall $lhash $parm";
-   		strinvoke="$invokeCall $lhash $parm"
-  	else
-    		echo "$invokeCall $lhash $parm --attach-neo=$neo";
-    		strinvoke="$invokeCall $lhash $parm --attach-neo=$neo"
-        fi
+   		attachneo=""
+  	fi
+
+		attachgas="--attach-gas=$gas"
+   	if [ "$gas" -eq "0" ]; then
+   		attachgas=""
+  	fi
+
+		echo "$invokeCall $lhash $parm $attachneo $attachgas"
+    strinvoke="$invokeCall $lhash $parm $attachneo $attachgas"
 
 	#============================================================================================
 	# cleaning screen

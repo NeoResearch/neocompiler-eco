@@ -351,9 +351,9 @@ function printOpcode(hexavm, target) {
         return; // string is empty
     if (hexavm.length % 2 == 1)
         return; // must be even pairs
-    var code = "" + hexavm[0] + hexavm[1];
+    var firstOpcode = "" + hexavm[0] + hexavm[1];
     hexavm = hexavm.substr(2, hexavm.length);
     //console.log("code ("+code+")");
-    hexavm = parseOpcode(code, hexavm, target);
+    hexavm = parseOpcode(firstOpcode, hexavm, target);
     printOpcode(hexavm, target);
 }

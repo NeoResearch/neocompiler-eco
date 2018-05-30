@@ -338,11 +338,11 @@ $("#getnep5balance").submit(function (e) {
     //===============================================================
 
     function GetOpcodes() {
-         console.log("disassembly opcodes");
-         $("#opcodes").text("");
-         var hexavm = $("#codeavm").val();
+         console.log("disassembly opcodes...");
+         $("#txt_opcodes").val("");
+         hexavm = $("#codeavm").val();
          hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-         printOpcode(hexavm, $("#opcodes"));
+         printOpcode(hexavm, $("#txt_opcodes"));
     }
 
     //===============================================================

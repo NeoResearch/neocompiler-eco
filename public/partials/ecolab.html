@@ -354,6 +354,8 @@
                            </form>
                          </div>
                     </div>
+
+                    <!-- BEGIN Create TX Withdraw -->
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
                         <div class="panel-body">
@@ -375,7 +377,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <select id="createtx_input_assetid" required>
+                                    <select id="createtx_input_assetid" onchange="verifyRPCNetworkForWithdrawUTXO();" required>
                                       <option>Select an asset</option>
                                       <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
                                       <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
@@ -407,6 +409,7 @@
                            </form>
                          </div>
                        </div>
+                       <!-- END Create TX Withdraw -->
                 </div>
                 <!-- END DIV TRANSACTION -->
                 <!-- ======================================================== -->
@@ -1071,9 +1074,11 @@ def Main():
             fillPrivateKeyIfKnown("#createtx_from","#createtx_from_privatek")
         });
 
+/*
         $("#createtx_input_assetid").on('change', function() {
             verifyRPCNetworkForWithdrawUTXO();
         });
+*/
 
         $("#createtx_input_utxo2").on('change', function() {
             console.log("input UTXO tx ID is: " + JSON.parse($("#createtx_input_utxo2").val()).txid);
@@ -1295,13 +1300,17 @@ def Main():
             myaddress = $("#createtx_from_address")[0].value;
             if(myaddress != "") {
                //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));
-               Neon.api.neoscan.getBalance(mynetwork,myaddress)
-               .then(res => updateUTXOSCapture(res) );
+               Neon.api.neoscan.getBalance(mynetwork, myaddress).then(res => updateUTXOSCapture(res) );
                console.log('getBalance: '+mynetwork+' for: '+myaddress);
             }
         }
 
-        function updateUTXOSCapture(res){
+        function updateUTXOSCapture(res) {
+            if(res.address == "not found") {
+              alert("address not found!");
+              console.log(JSON.stringify(res));
+              return;
+            }
             createtx_balance = res;
             assetBox = $("#createtx_input_assetid")[0];
             asset = assetBox.options[assetBox.selectedIndex].text;

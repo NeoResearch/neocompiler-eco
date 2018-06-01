@@ -75,40 +75,13 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 }
 
 
-function CreateRawTx( rawData ){
-  // just for test
-  //query = Neon.rpc.Query.sendRawTransaction(rawData);
-  query = Neon.rpc.Query.sendRawTransaction('800000014BFA9098EC9C5B95E4EC3045A2A2D04A10F12228A3267A3AC65265428ABDC1D3010002E72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000E1F505000000004E75C523C4D431DAFED515E5E230F11A4DB5A80FE72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000EF54A91C000000 513FF03F3A5648BE47CC82F6571251F57173CF8601060004303231347755C56B6C766B00527AC46C766B51527AC4616168164E656F2E52756E74696D652E47657454726967676572009C6C766B52527AC46C766B52C3642A00616C766B00C30430323134876C766B53527AC46C766B53C3640E00516C766B54527AC4620F0061006C766B54527AC46203006C766B54C3616C7566');
-  response = query.execute(BASE_PATH_CLI);
-  console.log(response);
-}
+//Example of invoke
+//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "", BASE_PATH_CLI, getCurrentNetworkNickname())
 
-function Invoke(publicKey, contract_scripthash, contract_operation){
+function Invoke(myaddress, myprivatekey, mygas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
   const config = {
-    net: 'PrivateNet',
-    url: BASE_PATH_CLI,
-    script: Neon.default.create.script({
-      scriptHash: contract_scripthash,
-      operation: contract_operation,
-      args: []
-    }),
-    address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
-    privateKey: '1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
-    gas: 0
-  }
-
-  Neon.default.doInvoke(config).then(res => {
-    console.log("all output:");
-    console.log(res);
-    console.log("response:");
-    console.log(res.response);
-  });
-}
-
-function InvokeWithMoreParams(mynet, myneturl, myaddress, myprivatekey, mygas, contract_scripthash, contract_operation){
-  const config = {
-    net: mynet,
-    url: myneturl,
+    net: networkToCall,
+    url: nodeToCall,
     script: Neon.default.create.script({
       scriptHash: contract_scripthash,
       operation: contract_operation,
@@ -164,6 +137,15 @@ function getStorage( scripthashContext, key, url )
 }
 
 
+/*
+function CreateRawTx( rawData ){
+  // just for test
+  //query = Neon.rpc.Query.sendRawTransaction(rawData);
+  query = Neon.rpc.Query.sendRawTransaction('800000014BFA9098EC9C5B95E4EC3045A2A2D04A10F12228A3267A3AC65265428ABDC1D3010002E72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000E1F505000000004E75C523C4D431DAFED515E5E230F11A4DB5A80FE72D286979EE6CB1B7E65DFDDFB2E384100B8D148E7758DE42E4168B71792C6000EF54A91C000000 513FF03F3A5648BE47CC82F6571251F57173CF8601060004303231347755C56B6C766B00527AC46C766B51527AC4616168164E656F2E52756E74696D652E47657454726967676572009C6C766B52527AC46C766B52C3642A00616C766B00C30430323134876C766B53527AC46C766B53C3640E00516C766B54527AC4620F0061006C766B54527AC46203006C766B54C3616C7566');
+  response = query.execute(BASE_PATH_CLI);
+  console.log(response);
+}
+*/
 
 // =============================================
 //First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients

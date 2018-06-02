@@ -163,6 +163,7 @@ function drawWalletsStatus(){
   var headers3 = document.createElement('div');
   var headers4 = document.createElement('div');
   var headers5 = document.createElement('div');
+  var headers6 = document.createElement('div');
   var headersDetails = document.createElement('div');
   headers1.innerHTML = "<b> ID </b>";
   row.insertCell(-1).appendChild(headers1);
@@ -174,8 +175,10 @@ function drawWalletsStatus(){
   row.insertCell(-1).appendChild(headers3);
   headers4.innerHTML = "<b> CLAIMABLE </b>";
   row.insertCell(-1).appendChild(headers4);
-  headers5.innerHTML = "<b> UNCLAIMABLE </b>";
+  headers5.innerHTML = "<b> </b>";
   row.insertCell(-1).appendChild(headers5);
+  headers6.innerHTML = "<b> UNCLAIMABLE </b>";
+  row.insertCell(-1).appendChild(headers6);
 
   for (i = 0; i < KNOWN_ADDRESSES.length; i++) {
       var txRow = table.insertRow(-1);
@@ -219,6 +222,18 @@ function drawWalletsStatus(){
       walletClaim.setAttribute("readonly","true");
       txRow.insertCell(-1).appendChild(walletClaim);
 
+      var b = document.createElement('button');
+      b.setAttribute('content', 'test content');
+      b.setAttribute('class', 'btn btn-warning');
+      b.setAttribute('value', i);
+      //b.onclick = function () {buttonRemoveRule();};
+      //b.onclick = function () {alert(this.value);};
+      b.onclick = function () {selfTransfer(this.value);};
+      b.innerHTML = '<-';
+
+      txRow.insertCell(-1).appendChild(b);
+
+
       var walletUnclaim = document.createElement('input');
       walletUnclaim.setAttribute('id', "walletUnclaim"+i);
       walletUnclaim.setAttribute("value", "-");
@@ -243,3 +258,12 @@ function buttonKnownAddress(idToRemove){
   }
 }
 //===============================================================
+function selfTransfer(idToTransfer){
+  if(idToTransfer < KNOWN_ADDRESSES.length && idToTransfer > -1)
+  {
+      alert(KNOWN_ADDRESSES[idToTransfer]);
+      //drawWalletsStatus();
+  }else{
+      alert("Cannot remove TX with ID " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
+  }
+}

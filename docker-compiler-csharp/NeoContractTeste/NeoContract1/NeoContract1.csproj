@@ -41,7 +41,7 @@
     <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Neo.SmartContract.Framework">
-      <HintPath>..\packages\Neo.SmartContract.Framework.2.7.3\lib\net40\Neo.SmartContract.Framework.dll</HintPath>
+      <HintPath>..\packages\Neo.SmartContract.Framework-latest\lib\net40\Neo.SmartContract.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

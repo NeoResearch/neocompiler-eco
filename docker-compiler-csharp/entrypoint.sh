@@ -5,8 +5,13 @@ rm -f /tmp/NeoContract1/bin/Release/NeoContract1.*
 cd /tmp
 cp /usr/lib/mono/4.5/mscorlib.dll /tmp/NeoContract1/bin/Release # needed for Actions in ICO_Template
 echo -n "{ \"output\": \""
+echo "Neo compiler version (latest): " >> /tmp/output.txt
+cat /neo-compiler/neon/*.csproj | grep "<Version>" >> /tmp/output.txt
+echo "Smart Contract Framework version (latest): " >> /tmp/output.txt
+cat /neo-devpack-dotnet/Neo.SmartContract.Framework/*.csproj | grep "<Version>" >> /tmp/output.txt
 #xbuild /p:Configuration=Release | base64 -w 0
-msbuild /p:Configuration=Release | base64 -w 0
+msbuild /p:Configuration=Release >> /tmp/output.txt
+cat /tmp/output.txt | base64 -w 0
 echo -n "\", \"avm\": \""
 if [ -f /tmp/NeoContract1/bin/Release/NeoContract1.avm ]; then
    cat /tmp/NeoContract1/bin/Release/NeoContract1.avm | xxd -p | base64 -w 0

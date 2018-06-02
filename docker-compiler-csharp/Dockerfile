@@ -48,6 +48,14 @@ COPY NeoContractTeste /tmp/
 #ADD Neon/ neo-compiler/neon/bin/Release/netcoreapp1.0/
 RUN cp /neo-compiler/neon/bin/Release/netcoreapp2.0/* /tmp/NeoContract1/bin/Release/
 
+#Adding latest Neo.SmartContract.TargetFramework
+RUN git clone https://github.com/neo-project/neo-devpack-dotnet.git
+RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && dotnet restore)
+RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && msbuild /p:Configuration=Release)
+RUN mkdir -p /tmp/packages/Neo.SmartContract.Framework-latest/lib/net40
+RUN cp /neo-devpack-dotnet/Neo.SmartContract.Framework/bin/Release/net40/* /tmp/packages/Neo.SmartContract.Framework-latest/lib/net40
+
+
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh
 

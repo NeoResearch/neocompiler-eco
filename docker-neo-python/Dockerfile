@@ -26,9 +26,9 @@ WORKDIR /neo-python
 
 # Everything should be in the same line, then, clone happens again, if necessary
 
-RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python && git checkout 47d23c3357462bf505b3b55f1fbdc635cf6205b3 # v0.7.0
+#RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python && git checkout 47d23c3357462bf505b3b55f1fbdc635cf6205b3 # v0.7.0
 #RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python && git checkout development && git checkout 794afccd6ef4f3328267e869745a6bfc06ed9002
-#RUN git clone https://github.com/igormcoelho/neo-python.git /neo-python && git checkout remove_flexible_checkwitness
+RUN git clone https://github.com/igormcoelho/neo-python.git /neo-python && git checkout bugfix_neopython_prompt_return_value
 ###### INFO ABOUT THE LAST WORKING VERSION. master:42e0bb41866d0b2c7aa3ee460a8f8ce3ae2f1f22 0.6.9 and development:794afccd6ef4f3328267e869745a6bfc06ed9002
 
 # Install the dependencies

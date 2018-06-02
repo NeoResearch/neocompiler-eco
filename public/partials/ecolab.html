@@ -421,6 +421,7 @@
                         <div class="panel-heading">Known addresses</div>
                         <div class="panel-body">
                             <button type="submit" onClick="populateWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check addresses</button>
+                            <i>If you want to access UNCLAIMABLE gas, you need to transfer NEO (to yourself) using Transaction Build: Transfer UTXO Assets</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
                         </div>
                     </div>
@@ -535,9 +536,6 @@
                                         <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
                                         <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
                                         <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
-                                        <li class="disabled"><a data-target="#jscode">JavaScript</a></li>
-                                        <li class="disabled"><a data-target="#tscode">TypeScript</a></li>
-                                        <li class="disabled"><a data-target="#soliditycode">Solidity</a></li> <!--- <li><a data-target="#soliditycode" data-toggle="tab">Solidity ( not yet )</a></li> -->
                                     </ul>
 
                                     <!-- /////////////////////////////////////////////////////////////////// -->
@@ -652,19 +650,6 @@ def Main():
         return True
     return False
                                             </pre>
-                                        </div>
-
-                                        <div class="tab-pane" id="jscode">
-                                            <input type="hidden" id="code_js" name="codesend_js" rows="15" cols="100"/>
-                                            <pre id="editorJS">JavaScript</pre>
-                                        </div>
-                                        <div class="tab-pane" id="tscode">
-                                            <input type="hidden" id="code_ts" name="codesend_ts" rows="15" cols="100"/>
-                                            <pre id="editorTS">TypeScript</pre>
-                                        </div>
-                                        <div class="tab-pane" id="soliditycode">
-                                            <input type="hidden" id="code_sol" name="codesend_sol" rows="15" cols="100"/>
-                                            <pre id="editorSolidity">Solidity</pre>
                                         </div>
                                     </div>
                                 </div>

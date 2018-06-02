@@ -44,7 +44,7 @@
       $("#headerrpcinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>";
       textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>";
       $("#headerrpcinfo")[0].innerHTML=textRPC;
-      if(BASE_PATH_CLI == "https://node1.neocompiler.io") {
+      if(BASE_PATH_CLI.indexOf("neocompiler.io") != -1) {
         $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_block/1", function(result) {
            textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>&nbsp;&nbsp;&nbsp;&nbsp;Expires in ";
            dtExpire = result.time+(12*60*60);

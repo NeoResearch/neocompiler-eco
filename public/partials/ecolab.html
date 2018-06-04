@@ -399,7 +399,11 @@
                                     <input type="checkbox" id="createtx_cbx_change" checked>Add change automatically</input><br/>
                                     <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
                                     <label for="createtx_signature">Signature (Optional)</label>
-                                    <input id="createtx_signature" class="form-control" placeholder="Signature" required readonly/>
+                                    <input id="createtx_signature" class="form-control" placeholder="Signature" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
+                                    <!-- document.getElementById("createtx_signature").checkValidity() -->
+                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();">Sign</button>
+                                    <!-- Neon.wallet.generateSignature -->
+                                    <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
                                   </div>
                                 </div>
                                 <div class="col-md-12">
@@ -1368,6 +1372,120 @@ def Main():
         // ==================================================================================
         // ================== CREATE RAW UTXO WITHDRAW TRANSACTION BEGINS ===================
         // 14 blocks
+
+        function createtx_sign() {
+          //if(!document.getElementById("createtx_signature").checkValidity()) { // allow zero or 32 bytes
+          if(document.getElementById("createtx_signature").value.length != 64) {
+            alert("signature must be hex string of 32 bytes");
+            return;
+          }
+          if(!$("#frm_createtx_withdraw")[0].checkValidity()) {
+            $("#frm_createtx_withdraw").find(':submit').click(); // invoke form validation (to display messages)
+            return;
+          }
+
+          wtx = createtx_getWithoutWitness();
+          //alert('oi'+wtx);
+          $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
+        }
+
+        function createtx_getWithoutWitness() {
+          /*block 0*/wtx = "80"; // tx type (1 byte)
+          /*block 1*/wtx += "00"; //tx version (1 byte)
+          /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
+          //TODO: attributes was 0001 (thus, was reduced!?)
+
+          outexpected = 0;
+          intxlist = $("#createtx_input_utxo2").val();
+          for(var i = 0, size = intxlist.length; i < size ; i++){
+             var item = JSON.parse(intxlist[i]).value;
+             outexpected += Number(item);
+          }
+
+          console.log(intxlist.length+" inputs");
+          /*block 3*/wtx += int2hex(intxlist.length); // number of inputs (1 byte)
+          for(i = 0; i<intxlist.length; i++) {
+          /*block 4*/wtx += revertHexString(JSON.parse(intxlist[i]).txid); //input hash (32 bytes)
+          /*block 5*/wtx += revertHexString(int2hex(JSON.parse(intxlist[i]).index, 4)); //input index (2 bytes) (TODO:perhaps reverse is the missing magic?)
+          }
+
+          outtxvalues = $("#createtx_output_values").val();
+          outtxlist = outtxvalues.split("\n");
+          outtxlist = outtxlist.filter(function(n){ return n != "" });
+          outtotal = 0;
+          for(var i = 0, size = outtxlist.length; i < size ; i++){
+             var item = outtxlist[i];
+             num = Number(item);
+             if(num < 0) {
+                console.log("warning; negative number not allowed as output! "+num+ " will become zero! abort...");
+                num = 0;
+             }
+             outtotal += num;
+          }
+          //console.log("outtotal: "+outtotal);
+
+          outtxvalues = $("#createtx_output_values").val();
+          outtxlist = outtxvalues.split("\n");
+          outtxlist = outtxlist.filter(function(n){ return n != "" });
+          outtxaddr = $("#createtx_output_addresses").val();
+          outtxlist2 = outtxaddr.split("\n");
+          outtxlist2 = outtxlist2.filter(function(n){ return n != "" });
+          outtotal = 0;
+          for(var i = 0, size = outtxlist.length; i < size ; i++){
+             var item = outtxlist[i];
+             num = Number(item);
+             if(num <= 0)
+             {
+               console.log("output value must be positive! got "+num+ "... aborting!");
+               return;
+             }
+             outtotal += num;
+          }
+
+          change = 0;
+          if($("#createtx_cbx_change")[0].checked)
+              change = outexpected - outtotal;
+
+          if((outtxlist.length != outtxlist2.length) || (outtotal+change != outexpected))
+          {
+             alert("error building withdraw transaction. verify inputs and outputs.");
+             return;
+          }
+
+          console.log(outtxlist.length+(change>0)+" outputs");
+          /*block 6*/wtx += int2hex(outtxlist.length+(change>0)); // number of outputs (including extra one for change) (1 byte)
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+             return;
+          }
+
+          for(var i = 0, size = outtxlist.length; i < size ; i++){
+             /*block 7*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
+             const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
+             /*block 8*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
+             /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
+             if(wtx.length%2 == 1)
+             {
+                console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+                return;
+             }
+          }
+          if(change > 0){
+            wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
+            const txvalue = new Neon.u.Fixed8(Number(change));
+            wtx += revertHexString(txvalue.toHex());
+            wtx += revertHexString($("#createtx_from_scripthash")[0].value);
+          }
+          console.log(wtx);
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+             return;
+          }
+          return wtx;
+        }
+
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
 
@@ -1379,99 +1497,8 @@ def Main():
             else write 1 byte hex
             */
 
-            /*block 0*/wtx = "80"; // tx type (1 byte)
-            /*block 1*/wtx += "00"; //tx version (1 byte)
-            /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
-            //TODO: attributes was 0001 (thus, was reduced!?)
+            wtx = createtx_getWithoutWitness();
 
-            outexpected = 0;
-            intxlist = $("#createtx_input_utxo2").val();
-            for(var i = 0, size = intxlist.length; i < size ; i++){
-               var item = JSON.parse(intxlist[i]).value;
-               outexpected += Number(item);
-            }
-
-            console.log(intxlist.length+" inputs");
-            /*block 3*/wtx += int2hex(intxlist.length); // number of inputs (1 byte)
-            for(i = 0; i<intxlist.length; i++) {
-            /*block 4*/wtx += revertHexString(JSON.parse(intxlist[i]).txid); //input hash (32 bytes)
-            /*block 5*/wtx += revertHexString(int2hex(JSON.parse(intxlist[i]).index, 4)); //input index (2 bytes) (TODO:perhaps reverse is the missing magic?)
-            }
-
-            outtxvalues = $("#createtx_output_values").val();
-            outtxlist = outtxvalues.split("\n");
-            outtxlist = outtxlist.filter(function(n){ return n != "" });
-            outtotal = 0;
-            for(var i = 0, size = outtxlist.length; i < size ; i++){
-               var item = outtxlist[i];
-               num = Number(item);
-               if(num < 0) {
-                  console.log("warning; negative number not allowed as output! "+num+ " will become zero! abort...");
-                  num = 0;
-               }
-               outtotal += num;
-            }
-            //console.log("outtotal: "+outtotal);
-
-            outtxvalues = $("#createtx_output_values").val();
-            outtxlist = outtxvalues.split("\n");
-            outtxlist = outtxlist.filter(function(n){ return n != "" });
-            outtxaddr = $("#createtx_output_addresses").val();
-            outtxlist2 = outtxaddr.split("\n");
-            outtxlist2 = outtxlist2.filter(function(n){ return n != "" });
-            outtotal = 0;
-            for(var i = 0, size = outtxlist.length; i < size ; i++){
-               var item = outtxlist[i];
-               num = Number(item);
-               if(num <= 0)
-               {
-                 console.log("output value must be positive! got "+num+ "... aborting!");
-                 return;
-               }
-               outtotal += num;
-            }
-
-            change = 0;
-            if($("#createtx_cbx_change")[0].checked)
-                change = outexpected - outtotal;
-
-            if((outtxlist.length != outtxlist2.length) || (outtotal+change != outexpected))
-            {
-               alert("error building withdraw transaction. verify inputs and outputs.");
-               return;
-            }
-
-            console.log(outtxlist.length+(change>0)+" outputs");
-            /*block 6*/wtx += int2hex(outtxlist.length+(change>0)); // number of outputs (including extra one for change) (1 byte)
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
-               return;
-            }
-
-            for(var i = 0, size = outtxlist.length; i < size ; i++){
-               /*block 7*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
-               const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
-               /*block 8*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
-               /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
-               if(wtx.length%2 == 1)
-               {
-                  console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
-                  return;
-               }
-            }
-            if(change > 0){
-              wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
-              const txvalue = new Neon.u.Fixed8(Number(change));
-              wtx += revertHexString(txvalue.toHex());
-              wtx += revertHexString($("#createtx_from_scripthash")[0].value);
-            }
-            console.log(wtx);
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
-               return;
-            }
 
             /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();

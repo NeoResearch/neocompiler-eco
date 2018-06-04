@@ -40,25 +40,13 @@ if ((!$DISABLE_BUILD)); then
 fi
 
 if (($DEV_MODE)); then
-	echo "(DEV MODE) BUILDING modified neo-cli";
-	(cd eco-lab-opt-tests/docker-build-neo-cli; ./docker_build_run_copy_stop.sh)
-
 	echo "(DEV MODE) BUILDING docker-compiler-csharpnodes with modified neo-cli";
-	(cd eco-lab-opt-tests; ./build_neo_csharp_nodes_with_builtNeoCli.sh)
+	(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
 fi
 
-# dockerCompose script already puts down
-# echo "Ensuring that any docker-composes is down (no reestart will be possible)";
-# ./stop-all-docker-compose.sh
+echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
+(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 
-if (($DEV_MODE)); then
-	echo "(DEV MOD) BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
-	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-
-else
-	echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
-	(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-fi
 
 echo "PROCEEDING. NeoCompiler Eco(system) has been built!";
 

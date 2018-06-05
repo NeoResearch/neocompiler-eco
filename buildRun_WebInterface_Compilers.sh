@@ -1,4 +1,6 @@
 #!/bin/bash
+#================================================
+#Building last version of online compiler
 echo "BUILDING mono-neo-compiler";
 (cd docker-compiler-csharp; ./docker_build.sh)
 
@@ -10,18 +12,10 @@ echo "BUILDING neo-go-compiler";
 
 echo "BUILDING neo-java-compiler";
 (cd docker-compiler-java; ./docker_build.sh)
+#================================================
 
 echo "STOPING server doors";
 ./stop.sh
-
-#echo "PRUNING any useless NPM dep";
-#npm prune
-
-#echo "INSTALLING with NPM";
-#npm install
-
-#echo "SLEEP 3 seconds. Waiting some couple of seconds until everything is processed...";
-#sleep 3
 
 echo "RUNNING NeoCompiler Eco server (sponsored by NeoResearch)";
 ./run.sh

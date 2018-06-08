@@ -39,7 +39,8 @@ while [[ "$#" > 0 ]]; do case $1 in
   esac;
 done
 
-IMAGE_NAME="eco-neo-csharp-nodes:$NEO_CLI_VERSION"
+BASE_NAME="eco-neo-csharp-nodes"
+IMAGE_NAME="$BASE_NAME:$NEO_CLI_VERSION"
 
 # Definition of standard neo-cli filenames and URL based on the version
 NEO_CLI_ZIPFN="neo-release-${NEO_CLI_VERSION}.zip"
@@ -67,3 +68,5 @@ else
   echo "docker build no cache"
   docker build --no-cache -t $IMAGE_NAME .
 fi
+
+docker tag $IMAGE_NAME "$BASE_NAME:latest"

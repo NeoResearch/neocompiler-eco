@@ -121,7 +121,7 @@ $("#getnep5balance").submit(function (e) {
                 {
                     jsonABI = JSON.parse(codeabi);
 
-                    var textAbi = "Hash: " + jsonABI["hash"] + "\n";
+                    var textAbi = "ScriptHash (reversed): " + jsonABI["hash"] + "\n";
                     textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
                     textAbi += "Functions:" + "\n";
 

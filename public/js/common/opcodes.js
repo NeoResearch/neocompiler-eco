@@ -149,20 +149,20 @@ function parseOpcode(opcode, hexavm, target) {
         target.val(target.val() + opcode + "\tNOP\t# Does nothing.\n");
     else if (opcode == "62") {
         target.val(target.val() + opcode + "\tJMP\t# ");
-        var nparfunc = "" + hexavm[0] + hexavm[1];
-        hexavm = hexavm.substr(2, hexavm.length);
+        var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
+        hexavm = hexavm.substr(4, hexavm.length);
         target.val(target.val() + nparfunc + "\n");
     }
     else if (opcode == "63") {
         target.val(target.val() + opcode + "\tJMPIF\t# ");
-        var nparfunc = "" + hexavm[0] + hexavm[1];
-        hexavm = hexavm.substr(2, hexavm.length);
+        var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
+        hexavm = hexavm.substr(4, hexavm.length);
         target.val(target.val() + nparfunc + "\n");
     }
     else if (opcode == "64") {
         target.val(target.val() + opcode + "\tJMPIFNOT\t# ");
-        var nparfunc = "" + hexavm[0] + hexavm[1];
-        hexavm = hexavm.substr(2, hexavm.length);
+        var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
+        hexavm = hexavm.substr(4, hexavm.length);
         target.val(target.val() + nparfunc + "\n");
     }
     else if (opcode == "65")

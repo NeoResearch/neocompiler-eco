@@ -1448,8 +1448,10 @@ def Main():
 
           if((outtxlist.length != outtxlist2.length) || (outtotal+change != outexpected))
           {
-             alert("error building withdraw transaction. verify inputs and outputs.");
-             return;
+             //alert("error building withdraw transaction. verify inputs and outputs.");
+             //return;
+             if(!window.confirm("inputs and outputs dont match! may become network fee"))
+               return;
           }
 
           console.log(outtxlist.length+(change>0)+" outputs");
@@ -1499,6 +1501,12 @@ def Main():
 
             wtx = createtx_getWithoutWitness();
 
+            if(wtx.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes (input/output part): ?/12");
+               console.log("length: "+wtx.length);
+               return;
+            }
 
             /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
             var hexavmverif = $("#createtx_from_verification").val();

@@ -1104,14 +1104,14 @@ def Main():
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
-              BASE_PATH_CLI = "http://localhost:30335";
+              BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST; //deprecated - $("#neonodeurl")[0].value is being used
             }
 
             if(mynetwork == "neocompiler.io (shared privatenet)")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
-              BASE_PATH_CLI = "https://node1.neocompiler.io";
+              BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_NEOCOMPILER;
             }
 
             if(mynetwork == "NEO MainNet")
@@ -1556,13 +1556,13 @@ def Main():
         // ==================================================================================
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), $("#neonodeurl")[0].value, getCurrentNetworkNickname());
             updateHeaderNetworkInfo();
         });
 
         $("#createtxgas").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), $("#neonodeurl")[0].value, getCurrentNetworkNickname());
         });
 
         $("#createtx_from_contract").on('keyup', function () {

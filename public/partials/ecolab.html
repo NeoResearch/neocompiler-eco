@@ -1509,6 +1509,7 @@ def Main():
             if(wtx.length%2 == 1)
             {
                console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 11/12");
+               console.log("length: "+wtx.length);
                return;
             }
             console.log("will finish wallet script");
@@ -1520,6 +1521,7 @@ def Main():
             if(wtx.length%2 == 1)
             {
                console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 13/14");
+               console.log("length: "+wtx.length);
                return;
             }
 
@@ -1529,6 +1531,7 @@ def Main():
             if(wtx.length%2 == 1)
             {
                console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+               console.log("length: "+wtx.length);
                return;
             }
             console.log(wtx.length/2 + " bytes");

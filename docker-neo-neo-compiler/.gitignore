@@ -1,6 +1,0 @@
-*.log
-.vs/
-neo-code
-Neo.dll
-Neo.deps.json
-protocol.json

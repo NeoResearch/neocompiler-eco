@@ -69,4 +69,6 @@ else
   docker build --no-cache -t $IMAGE_NAME .
 fi
 
+echo "docker tag $IMAGE_NAME $BASE_NAME:latest"
+
 docker tag $IMAGE_NAME "$BASE_NAME:latest"

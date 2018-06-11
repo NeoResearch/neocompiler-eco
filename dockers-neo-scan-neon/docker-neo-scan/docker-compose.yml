@@ -81,7 +81,7 @@ services:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
-      - ./log/neopython-rest-rpc/:/neo-python/logs
+      - ./logs-neopython-rest-rpc/:/neo-python/logs
 
   eco-neo-python-rpc-running:
     image: eco-neo-python:latest
@@ -96,7 +96,7 @@ services:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
-      - ./log/neopython-rest-rpc/:/neo-python/logs
+      - ./logs-neopython-rest-rpc/:/neo-python/logs
 
 #  notifications-server:
 #    container_name: "notifications-server"
@@ -197,7 +197,7 @@ services:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
 #    volumes:
-#      - ./log/neopython-logger:/neo-python/logs2
+#      - ./logs-neopython-logger:/neo-python/logs2
 
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
 # ================================================================================

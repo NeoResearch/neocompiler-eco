@@ -137,18 +137,21 @@ class NeonOpt
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
+           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
            oplist.push(new NeonOpcode(opcode, "JMP", strcomment, nparfunc));
        }
        else if (opcode == "63") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
+           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
            oplist.push(new NeonOpcode(opcode, "JMPIF", strcomment, nparfunc));
        }
        else if (opcode == "64") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
+           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
            oplist.push(new NeonOpcode(opcode, "JMPIFNOT", strcomment, nparfunc));
        }
        else if (opcode == "65")
@@ -383,7 +386,7 @@ class NeonOpt
          bba.push(Number('0x'+lhs4[0]+lhs4[1]));
          lhs4 = lhs4.substr(2, lhs4.length);
       }
-      bba.reverse(); // little endian to big endian
+      bba.reverse(); // little endian to big endian // TODO: Why not needed?
       return bba;
    }
 
@@ -399,7 +402,7 @@ class NeonOpt
          var sbyte = bba2[i].toString(16);
          if(sbyte.length == 1)
             sbyte = '0'+sbyte; // ensure 2 char byte
-         lhs4 = lhs4 + sbyte; // back to little endian
+         lhs4 = sbyte + lhs4; // back to little endian
       }
       return lhs4;
    }
@@ -409,6 +412,8 @@ class NeonOpt
    {
       //console.log("Removing NOP from oplist(size="+oplist.length+")");
       var countnop = 0;
+      var count_jmp_fwd_adjust = 0; // forward jumps
+      var count_jmp_bwd_adjust = 0; // backward jumps
       var i = 0;
       while(i < oplist.length)
       {
@@ -416,22 +421,37 @@ class NeonOpt
          //console.log("checking opcode at i="+i+" opcode="+oplist[i].hexcode);
          if(oplist[i].hexcode == "61")
          {
-            //console.log("found NOP at "+i+"\n\n");
+            console.log("found NOP at i="+i+" oplist="+oplist.length+"\n");
             countnop++;
             // found NOP!
             // Step 0: remove NOP
+            console.log("removing: "+JSON.stringify(oplist[i]));
             oplist.splice(i, 1);
-            // Step 1: remove backwards jumps
+            console.log("next i: "+JSON.stringify(oplist[i]));
+
+            // Step 1: remove forward jumps
             var j = i - 1;
+            var count_dist = 1; // 1 byte
             while(j > 0) {
                if(oplist[j].opname[0] == 'J') { // JUMP
-                  // TODO: create code!
-                  console.log("TODO: create code for backwards jumps!");
-                  return;
+                  var jmp = NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(oplist[j].args));
+                  if(count_dist <= jmp) // jump (-3 bytes) after or equals to NOP position
+                  {
+                     console.log("Jumping "+jmp+"positions forward at j="+j+ " (nop at i="+i+")");
+                     console.log("count_dist "+count_dist+"<= jmp="+jmp);
+                     count_jmp_fwd_adjust++;
+                     jmp -= 1;
+                     var ba_jmp = NeonOpt.bigByteArray2TolittleHexString(NeonOpt.int16ToByteArray2(jmp));
+                     //console.log("next jump value="+jmp+" ba="+ba_jmp);
+                     oplist[j].args = ba_jmp;
+                     oplist[j].comment = "# "+jmp;
+                  }
                }
+               count_dist += oplist[j].size; // add size of current opcode
                j--;
-            }
-            // Step 2: remove forward jumps
+            } // end while step 1
+
+            // Step 2: remove backward jumps
             var j = i;
             var count_dist = 1; // 1 byte
             while(j < oplist.length) {
@@ -443,22 +463,25 @@ class NeonOpt
                   if(jmp <= -count_dist) // jump (-3 bytes) before or equals to NOP position
                   {
                      // adjust jump value (+1)
+                     count_jmp_bwd_adjust++;
                      jmp += 1;
                      var ba_jmp = NeonOpt.bigByteArray2TolittleHexString(NeonOpt.int16ToByteArray2(jmp));
                      //console.log("next jump value="+jmp+" ba="+ba_jmp);
                      oplist[j].args = ba_jmp;
+                     oplist[j].comment = "# "+jmp;
                   }
                }
                count_dist += oplist[j].size; // add size of current opcode
                j++;
-            } // jump search
+            } // finish step 2 jump search
 
-         } // if NOP found
-         else
+            // no more optimizations for NOP
+         }
+         else // if NOP not found
             i++;
       }
 
-      console.log("removed NOPs: "+countnop);
+      console.log("removed NOPs: "+countnop+" Adjusted "+count_jmp_fwd_adjust+" fwd jumps and "+count_jmp_bwd_adjust+" bwd jumps.");
       return countnop;
    } // removeNOP
 

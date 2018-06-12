@@ -35,14 +35,14 @@
                 <div class="col-md-3">
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
                       <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
-                      <option title="http://localhost:30335" value="http://localhost:30335">localhost (privatenet)</option>
+                      <option title="http://localhost:30333" value="http://localhost:30333">localhost (privatenet)</option>
                       <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
                       <option title="http://188.68.34.29:10004" value="http://188.68.34.29:10004">CoZ TestNet</option>
                       <option title="https://seed1.neo.org:10331" value="https://seed1.neo.org:10331">NEO MainNet</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30335" value="https://node1.neocompiler.io">
+                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">
                 </div>
             </div>
             <!-- END FIXED DIV OF NETWORKS -->
@@ -1638,7 +1638,7 @@ def Main():
         function getNodeInfo()
         {
            var net = "https://neocompiler.io";
-           if($("#ecolabnetworkurlselection")[0].value == "http://localhost:30335")
+           if($("#ecolabnetworkurlselection")[0].value == "http://localhost:30333")
                net = "http://localhost:8000";
 
            $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); } );

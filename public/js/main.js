@@ -14,7 +14,7 @@ var FIXED_NEOPY_NOTIFICATION_TESTNET =  "http://notifications2.neeeo.org/"; // f
 
 //Fixed known paths for neo-cli RPC
 var FIXED_NEOCLI_RPC_BASE_PATH_NEOCOMPILER =  "https://node1.neocompiler.io/";
-var FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST =  "http://localhost:30335";
+var FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST =  "http://localhost:30333"; // node1
 
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
 var BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;

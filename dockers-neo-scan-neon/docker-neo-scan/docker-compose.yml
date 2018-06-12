@@ -34,6 +34,7 @@ services:
     container_name: "eco-neo-scan-running"
     ports:
       - "4000:4000"
+    #command: /bin/true #disable neo-scan
     environment:
       PORT: 4000
       HOST: ${HOST_NAME}

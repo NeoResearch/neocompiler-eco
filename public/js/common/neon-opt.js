@@ -334,4 +334,140 @@ class NeonOpt
        }
        return hexavm;
    }
+
+   // expects big endian byte array and converts to signed int16
+   static byteArray2ToInt16(v)
+   {
+      if(v.length != 2)
+         return 0;
+      return  (((v[0] << 8) | v[1]) << 16) >> 16;
+   }
+
+   // expects signed int16 -> returns byte array with length 2
+   static int16ToByteArray2(i16)
+   {
+      var vhex = (i16 >>> 0).toString(16);
+      while(vhex.length < 4)
+         vhex = '0'+vhex;
+      while(vhex.length > 4)
+         vhex = vhex.substr(1, vhex.length);
+      var v = [];
+      while(v.length < 2)
+      {
+         v.push(Number('0x'+vhex[0]+vhex[1]));
+         vhex = vhex.substr(2, vhex.length);
+      }
+      return v;
+
+      /*
+      var bin = Number(i16).toString(2);
+      while(bin.length < 16)
+         bin = '0'+bin;
+      var v = [];
+      v.push(Number('0x'+)) // ...........
+      if(v.length != 2)
+         return 0;
+      return  (((v[0] << 8) | v[1]) << 16) >> 16;
+      */
+   }
+
+   // convert little endian hexstring (4 chars) to big endian bytearray (2 bytes)
+   static littleHexStringToBigByteArray(lhs4)
+   {
+      if(lhs4.length != 4)
+         return [];
+
+      var bba = [];
+      while(lhs4.length > 0)
+      {
+         bba.push(Number('0x'+lhs4[0]+lhs4[1]));
+         lhs4 = lhs4.substr(2, lhs4.length);
+      }
+      bba.reverse(); // little endian to big endian
+      return bba;
+   }
+
+   static bigByteArray2TolittleHexString(bba2)
+   {
+      if(bba2.length != 2)
+         return "";
+
+      var lhs4 = "";
+      var i = 0;
+      for(i=0; i<bba2.length; i++)
+      {
+         var sbyte = bba2[i].toString(16);
+         if(sbyte.length == 1)
+            sbyte = '0'+sbyte; // ensure 2 char byte
+         lhs4 = lhs4 + sbyte; // back to little endian
+      }
+      return lhs4;
+   }
+
+
+   static removeNOP(oplist)
+   {
+      //console.log("Removing NOP from oplist(size="+oplist.length+")");
+      var countnop = 0;
+      var i = 0;
+      while(i < oplist.length)
+      {
+         //console.log("scanning "+oplist[i].hexcode+" i="+i+"/"+oplist.length);
+         //console.log("checking opcode at i="+i+" opcode="+oplist[i].hexcode);
+         if(oplist[i].hexcode == "61")
+         {
+            //console.log("found NOP at "+i+"\n\n");
+            countnop++;
+            // found NOP!
+            // Step 0: remove NOP
+            oplist.splice(i, 1);
+            // Step 1: remove backwards jumps
+            var j = i - 1;
+            while(j > 0) {
+               if(oplist[j].opname[0] == 'J') { // JUMP
+                  // TODO: create code!
+                  console.log("TODO: create code for backwards jumps!");
+                  return;
+               }
+               j--;
+            }
+            // Step 2: remove forward jumps
+            var j = i;
+            var count_dist = 1; // 1 byte
+            while(j < oplist.length) {
+               // if jump! check if nop removal the jump (must add 1).
+               if(oplist[j].opname[0] == 'J') { // JUMP
+                  //console.log("FOUND JUMP AT j="+j+" count_dist="+count_dist);
+                  var jmp = NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(oplist[j].args));
+                  //console.log("initial jump value="+jmp+" ba="+oplist[j].args);
+                  if(jmp <= -count_dist) // jump (-3 bytes) before or equals to NOP position
+                  {
+                     // adjust jump value (+1)
+                     jmp += 1;
+                     var ba_jmp = NeonOpt.bigByteArray2TolittleHexString(NeonOpt.int16ToByteArray2(jmp));
+                     //console.log("next jump value="+jmp+" ba="+ba_jmp);
+                     oplist[j].args = ba_jmp;
+                  }
+               }
+               count_dist += oplist[j].size; // add size of current opcode
+               j++;
+            } // jump search
+
+         } // if NOP found
+         else
+            i++;
+      }
+
+      console.log("removed NOPs: "+countnop);
+      return countnop;
+   } // removeNOP
+
+   static getAVMFromList(oplist) {
+      var avm = "";
+      var i = 0;
+      for(i = 0; i<oplist.length; i++)
+         avm += oplist[i].hexcode + oplist[i].args;
+      return avm;
+   }
+
 }

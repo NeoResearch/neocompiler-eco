@@ -1,5 +1,6 @@
 // https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
 // https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
+
 function getHexForType(stype) {
     if (stype == "Signature")
         return '00';
@@ -346,6 +347,7 @@ function parseOpcode(opcode, hexavm, target) {
     return hexavm;
 }
 
+/*
 function printOpcode(hexavm, target) {
     if (hexavm.length == 0)
         return; // string is empty
@@ -356,4 +358,39 @@ function printOpcode(hexavm, target) {
     //console.log("code ("+code+")");
     hexavm = parseOpcode(firstOpcode, hexavm, target);
     printOpcode(hexavm, target);
+}
+*/
+
+function printOpcode(hexavm, target) {
+    //console.log("printOpcode (target='"+target+"')");
+    if (hexavm.length == 0)
+        return; // string is empty
+    if (hexavm.length % 2 == 1)
+        return; // must be even pairs
+    var firstOpcode = "" + hexavm[0] + hexavm[1];
+    hexavm = hexavm.substr(2, hexavm.length);
+
+    oplist = [];
+    //console.log("code ("+code+")");
+    hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
+    printOpcodeList(hexavm, oplist);
+
+    target.val("");
+    var i = 0;
+    for(i = 0; i<oplist.length; i++)
+      target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
+    //target.val(oplist);
+    //console.log("oplist: "+JSON.stringify(oplist));
+}
+
+function printOpcodeList(hexavm, oplist) {
+    if (hexavm.length == 0)
+        return; // string is empty
+    if (hexavm.length % 2 == 1)
+        return; // must be even pairs
+    var firstOpcode = "" + hexavm[0] + hexavm[1];
+    hexavm = hexavm.substr(2, hexavm.length);
+    //console.log("code ("+code+")");
+    hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
+    printOpcodeList(hexavm, oplist);
 }

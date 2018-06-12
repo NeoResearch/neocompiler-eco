@@ -42,7 +42,7 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <input type="text" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">
+                    <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">
                 </div>
             </div>
             <!-- END FIXED DIV OF NETWORKS -->
@@ -1052,11 +1052,11 @@ def Main():
           return confirm("Confirm refresh");
         }
 
+        //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if(this.window.location.href.indexOf("localhost")  != -1)
         {
-	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
             $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
-
             updatePATHS();
         }
 
@@ -1105,28 +1105,28 @@ def Main():
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
-              BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST; //deprecated - $("#neonodeurl")[0].value is being used
+              BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
             }
 
             if(mynetwork == "neocompiler.io (shared privatenet)")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
-              BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_NEOCOMPILER;
+              BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
             if(mynetwork == "NEO MainNet")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_MAINNET;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_MAINNET;
-              BASE_PATH_CLI = "https://seed1.neo.org:10331";
+              BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
             if(mynetwork == "NEO TestNet")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;
-              BASE_PATH_CLI = "https://seed1.neo.org:20331";
+              BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
             // updateHeaderNetworkInfo();
@@ -1358,7 +1358,7 @@ def Main():
             $("#txtRPCJsonOut").val("");
             //curl -s -X POST http://localhost:30335 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "dumpprivkey", "params": ["AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17"] }'
             $.post(
-                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                BASE_PATH_CLI, // Gets the URL to sent the post to
                 $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
                   $("#txtRPCJsonOut").val(JSON.stringify(data));
@@ -1548,9 +1548,9 @@ def Main():
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
 
-            console.log("SENDING TO"+$("#neonodeurl")[0].value);
+            console.log("SENDING TO"+BASE_PATH_CLI);
             $.post(
-                $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                BASE_PATH_CLI, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (data) {
                   alert(data.result);
@@ -1565,13 +1565,13 @@ def Main():
         // ==================================================================================
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), $("#neonodeurl")[0].value, getCurrentNetworkNickname());
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
             updateHeaderNetworkInfo();
         });
 
         $("#createtxgas").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), $("#neonodeurl")[0].value, getCurrentNetworkNickname());
+            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
         });
 
         $("#createtx_from_contract").on('keyup', function () {

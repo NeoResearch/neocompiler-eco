@@ -331,6 +331,7 @@ $("#getnep5balance").submit(function (e) {
                  $("#invokehash")[0].value = $("#contracthash")[0].value;
 
                  console.log(toBase58(shash));//address
+                 alert("scripthash "+shash+" imported successfully!");
              };
              reader.readAsBinaryString(file);
          }

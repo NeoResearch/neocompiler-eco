@@ -391,7 +391,8 @@ function printOpcode(hexavm, target) {
 
     var finalavm = NeonOpt.getAVMFromList(oplist);
     var avmsizefinalbytes = finalavm.length/2;
-    target.val(target.val()+"\n#FINAL AVM: "+avmsizefinalbytes+" bytes ("+oplist.length+" ops) byte compression "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n"+finalavm);
+    target.val(target.val()+"\n#FINAL AVM: "+avmsizefinalbytes+" bytes ("+oplist.length+" ops) byte compression "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n"+finalavm+"\n");
+    target.val(target.val()+"#OPTIMIZED AVM USING neon-opt: "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n");
 
     //target.val(oplist);
     //console.log("oplist: "+JSON.stringify(oplist));

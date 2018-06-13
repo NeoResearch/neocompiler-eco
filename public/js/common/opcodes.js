@@ -384,7 +384,7 @@ function printOpcode(hexavm, target) {
     console.log("will remove NOPs");
     var nop_rem = NeonOpt.removeNOP(oplist);
     var count_ops2 = oplist.length;
-    target.val(target.val()+"\n#AFTER NOP REMOVAL: "+count_ops2+" ("+count_ops+"-"+nop_rem+")\n");
+    target.val(target.val()+"\n#AFTER NOP REMOVAL: "+count_ops2+" ("+count_ops+"-"+nop_rem+")="+100.0*nop_rem/count_ops+"%\n");
     for(i = 0; i<oplist.length; i++)
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
 

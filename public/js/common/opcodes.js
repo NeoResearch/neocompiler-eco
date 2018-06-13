@@ -376,7 +376,7 @@ function printOpcode(hexavm, target) {
     hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
     printOpcodeList(hexavm, oplist);
 
-    target.val("");
+    target.val("#"+avmsizebytes+" bytes\n");
     var i = 0;
     for(i = 0; i<oplist.length; i++)
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");

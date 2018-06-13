@@ -42,6 +42,10 @@ RUN unzip -q -d /opt/node2 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node3 /opt/neo-cli.zip
 RUN unzip -q -d /opt/node4 /opt/neo-cli.zip
 
+# Extract and prepare one RPC node
+RUN unzip -q -d /opt/node1RPC /opt/neo-cli.zip
+RUN unzip -q -d /opt/node2RPC /opt/neo-cli.zip
+
 ADD ./scripts/taillogs.cron /opt/taillogs.cron
 ADD ./scripts/taillogs.sh /opt/taillogs.sh
 RUN crontab /opt/taillogs.cron
@@ -68,11 +72,18 @@ ADD ./configs/config4.json /opt/node4/neo-cli/config.json
 ADD ./configs/protocol.json /opt/node4/neo-cli/protocol.json
 ADD ./wallets/wallet4.json /opt/node4/neo-cli/
 
+ADD ./configs/config1RPC.json /opt/node1RPC/neo-cli/config.json
+ADD ./configs/protocol.json /opt/node1RPC/neo-cli/protocol.json
+
+ADD ./configs/config2RPC.json /opt/node2RPC/neo-cli/config.json
+ADD ./configs/protocol.json /opt/node2RPC/neo-cli/protocol.json
+
 #Script used to start nodes on screen sessions
 ADD ./scripts/run.sh /opt/
 
 #Script used to open a wallet and start a neo-cli consensus
 ADD ./scripts/start_consensus_node.sh /opt/
+ADD ./scripts/start_rpc_node.sh /opt/
 
 #Script used to modify neo-csharp-nodes characteristcs and parameters
 ADD ./scripts/updateConsensusCharacteristics.sh /opt/
@@ -88,6 +99,7 @@ EXPOSE 30333
 EXPOSE 30334
 EXPOSE 30335
 EXPOSE 30336
+EXPOSE 30337
 
 # On docker run, start the consensus nodes
 CMD ["/bin/bash", "/opt/run.sh"]

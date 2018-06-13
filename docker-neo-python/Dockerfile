@@ -83,8 +83,8 @@ ADD getNotificationLogs.sh /opt
 
 
 #TODO - Perhaps, change this to only localhost or a function that adds by hand
-ENV NEO_PYTHON_RPC_1="http://eco-neo-csharp-nodes-running:30333"
-ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20333"
+ENV NEO_PYTHON_RPC_1="http://eco-neo-csharp-nodes-running:30337"
+ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20337"
 ENV NEO_PYTHON_NODE_2="eco-neo-csharp-nodes-running:20334"
 ENV NEO_PYTHON_NODE_3="eco-neo-csharp-nodes-running:20335"
 ENV NEO_PYTHON_NODE_4="eco-neo-csharp-nodes-running:20336"

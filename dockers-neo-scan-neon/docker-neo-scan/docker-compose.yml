@@ -15,10 +15,13 @@ services:
       - "20334:20334"
       - "20335:20335"
       - "20336:20336"
+      - "20337:20337"
       - "30333:30333"
       - "30334:30334"
       - "30335:30335"
       - "30336:30336"
+      - "30337:30337"
+      - "30338:30338"
     volumes:
       - ./logs-neocli-node1:/opt/node1/neo-cli/Logs
       - ./logs-neocli-node2:/opt/node2/neo-cli/Logs
@@ -30,25 +33,26 @@ services:
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   neo-scan-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan:23095872-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan:23748259-master"
     container_name: "eco-neo-scan-running"
     ports:
       - "4000:4000"
     #command: /bin/true #disable neo-scan
     environment:
       PORT: 4000
-      HOST: ${HOST_NAME}
-      NEO_SEED_1: "http://${SEED_SERVER}:30333"
-      NEO_SEED_2: "http://${SEED_SERVER}:30334"
-      NEO_SEED_3: "http://${SEED_SERVER}:30335"
-      NEO_SEED_4: "http://${SEED_SERVER}:30336"
-      NEO_NOTIFICATIONS_SERVER: "http://${NOTIFICATIONS_SERVER}:8080/v1"
+      HOST: localhost
+      NEO_SEED_1: "http://eco-neo-csharp-nodes-running:30333"
+      NEO_SEED_2: "http://eco-neo-csharp-nodes-running:30337"
+      NEO_SEED_3: "http://eco-neo-csharp-nodes-running:30337"
+      NEO_SEED_4: "http://eco-neo-csharp-nodes-running:30333"
+      NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
     links:
       - eco-neo-scan-postgresql-running:postgres
       - eco-neo-csharp-nodes-running:30333
       - eco-neo-csharp-nodes-running:30334
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
+      - eco-neo-csharp-nodes-running:30337
       - eco-neo-python-rest-running:8080
     depends_on:
       - eco-neo-csharp-nodes-running

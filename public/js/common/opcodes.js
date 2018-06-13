@@ -362,6 +362,7 @@ function printOpcode(hexavm, target) {
 */
 
 function printOpcode(hexavm, target) {
+    var avmsizebytes = hexavm.length/2;
     //console.log("printOpcode (target='"+target+"')");
     if (hexavm.length == 0)
         return; // string is empty
@@ -375,18 +376,23 @@ function printOpcode(hexavm, target) {
     hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
     printOpcodeList(hexavm, oplist);
 
-    target.val("");
+    target.val("#"+avmsizebytes+" bytes\n");
     var i = 0;
     for(i = 0; i<oplist.length; i++)
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
+    var count_ops = oplist.length;
 
     console.log("will remove NOPs");
     var nop_rem = NeonOpt.removeNOP(oplist);
-    target.val(target.val()+"\n#AFTER NOP REMOVAL: "+nop_rem+"\n");
+    var count_ops2 = oplist.length;
+    target.val(target.val()+"\n#AFTER NOP REMOVAL: "+count_ops2+" ("+count_ops+"-"+nop_rem+")="+parseFloat(100.0*nop_rem/count_ops).toFixed(2)+"%\n");
     for(i = 0; i<oplist.length; i++)
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
 
-    target.val(target.val()+"\n#FINAL AVM: "+NeonOpt.getAVMFromList(oplist)+"\n");
+    var finalavm = NeonOpt.getAVMFromList(oplist);
+    var avmsizefinalbytes = finalavm.length/2;
+    target.val(target.val()+"\n#FINAL AVM: "+avmsizefinalbytes+" bytes ("+oplist.length+" ops) byte compression "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n"+finalavm+"\n");
+    target.val(target.val()+"#OPTIMIZED AVM USING neon-opt: "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n");
 
     //target.val(oplist);
     //console.log("oplist: "+JSON.stringify(oplist));

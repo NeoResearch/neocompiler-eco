@@ -38,11 +38,21 @@ For Debian-based systems:
 
 `npm install`
 
+### Installing docker-compose 1.19.0+
+
+We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:
+
+`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o` `/usr/local/bin/docker-compose`
+`chmod +x /usr/local/bin/docker-compose`
+`echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
+`source ~/.bashrc`
+
+
 # Build everything
 
 The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
 
-This will call a docker-compose with NeoCompiler Private Net+NeoScan.
+This will call a docker-compose with NeoCompiler Private Net (Eco)+NeoScan.
 Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
 
 `./build_everything.sh`
@@ -119,20 +129,12 @@ In order to use deploy and invoke (also testinvoke, if you want to quicker on yo
 
 In order to add NeoScan `light wallet` (more is comming...) functionalities, run docker-compose.
 
-### Installing docker-compose 1.19.0+
-
-We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:
-
-`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o` `/usr/local/bin/docker-compose`
-`chmod +x /usr/local/bin/docker-compose`
-`echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
-`source ~/.bashrc`
 
 ### Starting the privatenet container
 
 Start up the container, checking the messages and following warnings
 
-`cd ./javascript-tools/docker-neo-scan`
+`cd ./dockers-neo-scan/docker-neo-scan`
 
 ```
 docker-compose up
@@ -143,7 +145,7 @@ Start up the container in a detached mode
 docker-compose up -d
 ```
 
-Fell free to take is down
+Feel free to take is down
 ```
 docker-compose down
 ```

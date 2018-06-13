@@ -12,17 +12,17 @@
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
 In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.
-Our next steps are moving us towards Solidity (through NeoSol initiative).
+
 
 ### What does it currently do
 * Compile input C#, Python, Go or Java code using reliable and safe servers (backend) compilers;
 * Return AVM and ABI codes (more precise of C# compiler);
 * Deploy and invoke code to private net (Current in the back);
-* Tests with different wallets, synced and with able to provide historic data our activity.
+* Tests with different wallets, synced and with able to provide historic data our activity;
+* Perform different types of blockchain invocations and RPC calls.
 
 ### Next steps
 * Integrate with testnet invokes
-* Integrate with neo-solidity (project in early phases);
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
     - It has not been easy, still, to accomplish all necessary invocatations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those intesred on Neo's multi-language programming interface.
@@ -119,15 +119,25 @@ This script already builds the compilers and starts the server:
 
 `./buildRun_WebInterface_Compilers.sh`
 
-## Alone and solitary private net backend: Building and running private net server
+## (Shared) Privanet backend funtionalities
 
-In order to use deploy and invoke (also testinvoke, if you want to quicker on your verifications) functionalities, build and run a docker private (namely, docker-privanet).
+In order to add NeoScan `light wallet` functionalities, run docker-compose.
 
-`(cd docker-privnet; ./buildRun_NeoCompiler_PrivateNet.sh)`
+This scripts will start all necessary backend functionalities, neo-csharp-nodes, neo-python and neo-scan.
 
-## Privanet backend with NeoScan lightwallet funtionalities
+In particular, we currently have:
 
-In order to add NeoScan `light wallet` (more is comming...) functionalities, run docker-compose.
+* csharp nodes are with TCP at 2033x and RPC at 3033X, websocket is not being used
+  * 4 csharp consensus node, one of then is also a RPC at port 30333
+  * 2 csharp pure RPC nodes, 30337 and 30338
+  * Thus, in summary, 3 csharp RPC nodes.
+* 7 python containers
+  * 4 wallets pre-synced
+  * 1 python REST api at 8080
+  * 1 python RPC api 10032
+  * 1 python for creating the genesis block and performing a first transaction
+* postgress container with a pre-compiled neo-scan image for fast startup  
+
 
 
 ### Starting the privatenet container

@@ -313,7 +313,15 @@ $("#getnep5balance").submit(function (e) {
          if (file) {
              var reader = new FileReader();
              reader.onloadend = function () {
-                 var hex = bin2hex(this.result);
+                 var hex;
+
+                 //Check if it is binary result
+                 if (/[\x00-\x1F\x80-\xFF]/.test(this.result)) {
+                   hex = bin2hex(this.result);
+                 } else {
+                   hex = this.result;
+                 }
+
                  $("#codeavm").val(hex);
                  $("#opcodes").text("");
                  $("#codeabi").text("");

@@ -36,7 +36,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
         intent = Neon.api.makeIntent({NEO:neo}, to)
 
 
-    console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    //console.log(intent) // This is an array of 2 Intent objects, one for each asset
     const config = {
         net: networkToCall, // The network to perform the action, MainNet or TestNet.
         url: nodeToCall,
@@ -47,7 +47,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
 
     Neon.default.sendAsset(config)
     .then(res => {
-        console.log("network:"+networkToCall);
+        //console.log("network:"+networkToCall);
         console.log(res.response)
     })
     .catch(e => {

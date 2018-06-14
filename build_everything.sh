@@ -9,6 +9,7 @@ function usage {
 
 DISABLE_BUILD=0
 DEV_MODE=0
+SERVER_MODE=0
 
 while [[ "$#" > 0 ]]; do case $1 in
     -h)
@@ -17,6 +18,10 @@ while [[ "$#" > 0 ]]; do case $1 in
         ;;
     --no-build)
         DISABLE_BUILD=1
+        shift
+        ;;
+    --server)
+        SERVER_MODE=1
         shift
         ;;
     --dev)
@@ -30,6 +35,11 @@ while [[ "$#" > 0 ]]; do case $1 in
   esac;
 done
 
+if (($SERVER_MODE)); then
+	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io"' ./.env )
+else
+	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=localhost"' ./.env )
+fi
 
 if ((!$DISABLE_BUILD)); then
 	echo "BUILDING docker-compiler-csharpnodes";

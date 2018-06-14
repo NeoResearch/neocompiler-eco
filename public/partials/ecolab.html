@@ -1029,10 +1029,13 @@ def Main():
             </div>
         </div>
     </div>
-
-<script type="text/javascript" src="js/common/pythonEco.js"></script>
-<script type="text/javascript" src="js/common/neoEditorScripts.js"></script>
-<script type="text/javascript" src="js/common/wallet_AutomaticClaimAndSend.js"></script>
+    
+    <script>
+    //Script should be loaded with JQuery for avoiding Sync calls
+    $.getScript("js/common/pythonEco.js");
+    $.getScript("js/common/neoEditorScripts.js");
+    $.getScript("js/common/wallet_AutomaticClaimAndSend.js");
+    </script>
 
     <script>
         //Check current webpage and starts with localhost or neocompiler public website

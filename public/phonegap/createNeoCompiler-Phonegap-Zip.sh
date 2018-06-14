@@ -25,6 +25,6 @@ echo "COPYING config.xml configurations and permissions"
 cp config.xml ./publicTemp/
 
 echo "ZIPPING front-end and config.xml"
-zip -r ./NeoCompiler-Phonegap-Android-v1.3.1-Apk.zip ./publicTemp
+zip -r ./NeoCompiler-Phonegap-Android-v1.5-Apk.zip ./publicTemp
 
 rm -rf ./publicTemp/

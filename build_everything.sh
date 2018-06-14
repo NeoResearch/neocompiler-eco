@@ -4,7 +4,7 @@
 set -e
 
 function usage {
-    echo "Usage: $0 [--no-build] [--dev]"
+    echo "Usage: $0 [--no-build] [--dev] [--server-mode]"
 }
 
 DISABLE_BUILD=0
@@ -20,7 +20,7 @@ while [[ "$#" > 0 ]]; do case $1 in
         DISABLE_BUILD=1
         shift
         ;;
-    --server)
+    --server-mode)
         SERVER_MODE=1
         shift
         ;;
@@ -36,9 +36,9 @@ while [[ "$#" > 0 ]]; do case $1 in
 done
 
 if (($SERVER_MODE)); then
-	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io"' ./.env )
+	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io' ./.env )
 else
-	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=localhost"' ./.env )
+	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=localhost' ./.env )
 fi
 
 if ((!$DISABLE_BUILD)); then

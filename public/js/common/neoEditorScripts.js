@@ -1,45 +1,41 @@
-    var vecRelayedTXs = [];
-    drawRelayedTXs();
+	$("#getnep5balance").submit(function (e) {
+	    e.preventDefault(); // Prevents the page from refreshing
+	    $("#output_getnep5").val("");
+	    $("#output_getnep5_extra").val("");
 
+	    strrequest = '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+$("#getnep5_address")[0].value+'"]}';
+	    //console.log($("#neonodeurl")[0].value);
+	    //console.log(strrequest);
+	    $.post(
+		$("#neonodeurl")[0].value, // Gets the URL to sent the post to
+		strrequest,
+		function (data) {
+		  //console.log(data);
+		  valfixed8 = data.result;
+		  const a = new Neon.u.Fixed8.fromHex(revertHexString(valfixed8));
+		  $("#output_getnep5").val(a);
 
-$("#getnep5balance").submit(function (e) {
-    e.preventDefault(); // Prevents the page from refreshing
-    $("#output_getnep5").val("");
-    $("#output_getnep5_extra").val("");
+		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
+		  $.post(
+		      $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+		      strgetblock,
+		      function (data2) {
+		        //console.log(data);
+		        blockheight = data2.result;
+		        addr = toBase58($("#getnep5_address")[0].value);
+		        $("#output_getnep5_extra").val(addr + " / H:"+blockheight);
+		      },
+		      "json" // The format the response should be in
+		  ).fail(function() {
+		      $("#output_getnep5_extra").val("failed to invoke network!");
+		  }); //End of POST for search
 
-    strrequest = '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+$("#getnep5_address")[0].value+'"]}';
-    //console.log($("#neonodeurl")[0].value);
-    //console.log(strrequest);
-    $.post(
-        $("#neonodeurl")[0].value, // Gets the URL to sent the post to
-        strrequest,
-        function (data) {
-          //console.log(data);
-          valfixed8 = data.result;
-          const a = new Neon.u.Fixed8.fromHex(revertHexString(valfixed8));
-          $("#output_getnep5").val(a);
-
-          strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
-          $.post(
-              $("#neonodeurl")[0].value, // Gets the URL to sent the post to
-              strgetblock,
-              function (data2) {
-                //console.log(data);
-                blockheight = data2.result;
-                addr = toBase58($("#getnep5_address")[0].value);
-                $("#output_getnep5_extra").val(addr + " / H:"+blockheight);
-              },
-              "json" // The format the response should be in
-          ).fail(function() {
-              $("#output_getnep5_extra").val("failed to invoke network!");
-          }); //End of POST for search
-
-        },
-        "json" // The format the response should be in
-    ).fail(function() {
-        $("#output_getnep5").val("failed to invoke network!");
-    }); //End of POST for search
-});
+		},
+		"json" // The format the response should be in
+	    ).fail(function() {
+		$("#output_getnep5").val("failed to invoke network!");
+	    }); //End of POST for search
+	});
 
 
     //===============================================================
@@ -282,20 +278,7 @@ $("#getnep5balance").submit(function (e) {
         })
         return editor
     }
-    var editorPython = createEditor("editorPython", "ace/mode/python");
-    var editorGolang = createEditor("editorGolang", "ace/mode/golang");
-    var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
-    var editorJava = createEditor("editorJava", "ace/mode/java");
-    var cSharpFiles = [
-        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],
-        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs"],
-        ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs"],
-        [
-            "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs",
-            "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs"
-        ]
-    ];
+
     //===============================================================
 
     //===============================================================

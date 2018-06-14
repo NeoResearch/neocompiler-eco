@@ -1029,15 +1029,27 @@ def Main():
             </div>
         </div>
     </div>
-    
-    <script>
-    //Script should be loaded with JQuery for avoiding Sync calls
-    $.getScript("js/common/pythonEco.js");
-    $.getScript("js/common/neoEditorScripts.js");
-    $.getScript("js/common/wallet_AutomaticClaimAndSend.js");
-    </script>
+
+
 
     <script>
+        var editorPython = createEditor("editorPython", "ace/mode/python");
+        var editorGolang = createEditor("editorGolang", "ace/mode/golang");
+        var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+        var editorJava = createEditor("editorJava", "ace/mode/java");
+        var cSharpFiles = [
+            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],
+            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs"],
+            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs"],
+            [
+                "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/Point.cs",
+                "https://raw.githubusercontent.com/NeoResearch/examples-csharp/fix_struct_example/StructExample/StructExample.cs"
+            ]
+        ];
+
+        var vecRelayedTXs = [];
+        drawRelayedTXs();
         //Check current webpage and starts with localhost or neocompiler public website
         $(document).ready(function(){
             //console.log("checking wallets");

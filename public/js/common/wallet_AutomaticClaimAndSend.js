@@ -86,7 +86,7 @@ function callUnclaimedNeonQuery(adddressToGet,boxToFill="")
 }
 
 
-function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="")
+function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer = false)
 {
   var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
   //console.log("url_toFill:" + url_toFill);
@@ -101,7 +101,13 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="")
     	      //console.log(assetToGet + " balance is:" + result.balance[i].amount);
     	      if(boxToFill!="")
     		      $(boxToFill).val(result.balance[i].amount);
-
+	      if(selfTransfer)
+	      {
+		 var idToTransfer = searchIndexOfAllKnownWallets(adddressToGet);
+		 if (idToTransfer != -1)
+		 	CreateTx(KNOWN_ADDRESSES[idToTransfer].publicKey,KNOWN_ADDRESSES[idToTransfer].privateKey,KNOWN_ADDRESSES[idToTransfer].publicKey, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+	      }      
+	
     	      return result.balance[i].amount;
     	  }
        }
@@ -261,9 +267,8 @@ function buttonKnownAddress(idToRemove){
 function selfTransfer(idToTransfer){
   if(idToTransfer < KNOWN_ADDRESSES.length && idToTransfer > -1)
   {
-      alert(KNOWN_ADDRESSES[idToTransfer]);
-      //drawWalletsStatus();
+      getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].publicKey,"NEO","",true);
   }else{
-      alert("Cannot remove TX with ID " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
+      alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
   }
 }

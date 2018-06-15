@@ -56,10 +56,9 @@ ADD ./neo-python-rpc-rest/start_neopython_rpc.sh /opt/
 #RUN ln -s /root/.neopython/prompt.log /neo-python/logs2/prompt.log
 
 # Neo-python REST port
-#EXPOSE 8080
+EXPOSE 8080
 # Neo-python RPC port
-#EXPOSE 10332
-
+EXPOSE 10332
 #==========================================================================
 
 #==========================================================================
@@ -80,19 +79,6 @@ ADD neo-python-wallet-sync/commands/callPythonInfinitySync.sh /opt
 ADD callPythonLogger.sh /opt
 ADD getNotificationLogs.sh /opt
 #==========================================================================
-
-
-#TODO - Perhaps, change this to only localhost or a function that adds by hand
-ENV NEO_PYTHON_RPC_1="http://eco-neo-csharp-nodes-running:30337"
-ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20333"
-ENV NEO_PYTHON_NODE_2="eco-neo-csharp-nodes-running:20334"
-ENV NEO_PYTHON_NODE_3="eco-neo-csharp-nodes-running:20335"
-ENV NEO_PYTHON_NODE_4="eco-neo-csharp-nodes-running:20336"
-RUN printf '%s\n' /127.0.0.1:30333/c '     "'$NEO_PYTHON_RPC_1'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json
-RUN printf '%s\n' /127.0.0.1:20333/c '     "'$NEO_PYTHON_NODE_1'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json
-RUN printf '%s\n' /127.0.0.1:20334/c '     "'$NEO_PYTHON_NODE_2'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json
-RUN printf '%s\n' /127.0.0.1:20335/c '     "'$NEO_PYTHON_NODE_3'",' . w q | ex -s /neo-python/neo/data/protocol.privnet.json
-RUN printf '%s\n' /127.0.0.1:20336/c '     "'$NEO_PYTHON_NODE_4'"' . w q | ex -s /neo-python/neo/data/protocol.privnet.json
 
 # ADD scripts that initializes everything needed by the NeoCompiler Eco
 #ADD run-all.sh /opt/

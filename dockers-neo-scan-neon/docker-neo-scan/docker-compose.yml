@@ -16,6 +16,7 @@ services:
       - "20335:20335"
       - "20336:20336"
       - "20337:20337"
+      - "20338:20338"
       - "30333:30333"
       - "30334:30334"
       - "30335:30335"
@@ -43,7 +44,7 @@ services:
       HOST: ${HOST_NAME}
       NEO_SEED_1: "http://eco-neo-csharp-nodes-running:30333"
       NEO_SEED_2: "http://eco-neo-csharp-nodes-running:30337"
-      NEO_SEED_3: "http://eco-neo-csharp-nodes-running:30337"
+      NEO_SEED_3: "http://eco-neo-csharp-nodes-running:30338"
       NEO_SEED_4: "http://eco-neo-csharp-nodes-running:30333"
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
     links:
@@ -53,6 +54,7 @@ services:
       - eco-neo-csharp-nodes-running:30335
       - eco-neo-csharp-nodes-running:30336
       - eco-neo-csharp-nodes-running:30337
+      - eco-neo-csharp-nodes-running:30338
       - eco-neo-python-rest-running:8080
     depends_on:
       - eco-neo-csharp-nodes-running
@@ -87,6 +89,7 @@ services:
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
   eco-neo-python-rpc-running:
     image: eco-neo-python:latest
@@ -102,6 +105,7 @@ services:
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
 #  notifications-server:
 #    container_name: "notifications-server"
@@ -113,6 +117,8 @@ services:
 #    command: "/usr/bin/python3 /neo-python/neo/bin/api_server.py --config /neo-python/custom-config.json --port-rest 8090"
 #    ports:
 #      - 9000:8090
+
+
 
 # ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
 # ================================================================================
@@ -127,6 +133,8 @@ services:
     command: /bin/bash /opt/callGenesisBlockCreation.sh
     depends_on:
       - eco-neo-csharp-nodes-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 # ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
 # ================================================================================
 
@@ -145,6 +153,8 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
   eco-neo-python-w2-running:
     image: eco-neo-python:latest
@@ -159,6 +169,8 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
   eco-neo-python-w3-running:
     image: eco-neo-python:latest
@@ -173,6 +185,8 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
   eco-neo-python-w4-running:
     image: eco-neo-python:latest
@@ -187,6 +201,9 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+
 # ===================== END ECO PRE-SYNCED WALLETS ===============================
 # ================================================================================
 
@@ -201,6 +218,9 @@ services:
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+
 #    volumes:
 #      - ./logs-neopython-logger:/neo-python/logs2
 

@@ -49,16 +49,11 @@ services:
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
     links:
       - eco-neo-scan-postgresql-running:postgres
-      - eco-neo-csharp-nodes-running:30333
-      - eco-neo-csharp-nodes-running:30334
-      - eco-neo-csharp-nodes-running:30335
-      - eco-neo-csharp-nodes-running:30336
-      - eco-neo-csharp-nodes-running:30337
-      - eco-neo-csharp-nodes-running:30338
-      - eco-neo-python-rest-running:8080
-    depends_on:
       - eco-neo-csharp-nodes-running
+      - eco-neo-python-rest-running
+    depends_on:
       - eco-neo-scan-postgresql-running
+      - eco-neo-csharp-nodes-running
       - eco-neo-python-rest-running
 
   eco-neo-scan-postgresql-running:
@@ -149,7 +144,7 @@ services:
       - PYTHON_PWD=coz
     links:
       - eco-neo-csharp-nodes-running
-    command: /bin/bash /opt/callPythonInfinitySync.sh
+    command: /bin/bash /opt/openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
@@ -165,7 +160,7 @@ services:
       - PYTHON_PWD=coz
     links:
       - eco-neo-csharp-nodes-running
-    command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
+    command: /bin/bash /opt/openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
@@ -181,7 +176,7 @@ services:
       - PYTHON_PWD=coz
     links:
       - eco-neo-csharp-nodes-running
-    command: /bin/bash /opt/callPythonInfinitySync.sh
+    command: /bin/bash /opt/openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
@@ -197,7 +192,7 @@ services:
       - PYTHON_PWD=coz
     links:
       - eco-neo-csharp-nodes-running
-    command: /bin/bash /opt/callPythonInfinitySync.sh  #openPythonWallet.sh
+    command: /bin/bash /opt/openPythonWallet.sh
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running

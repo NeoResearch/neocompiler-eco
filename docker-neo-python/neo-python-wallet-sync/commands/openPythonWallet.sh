@@ -1,6 +1,9 @@
 #!/bin/bash
+echo "Expects three parameters: PYTHON_WALLET=w1.wallet, PYTHON_NAME=pythonW1, PYTHON_PWD=coz"
+echo "(PYTHON-ECO WALLETS SYNCING) - WAITING 4 seconds to let consensus nodes start..."
+sleep 4
 
-  	echo "Expects three parameters: PYTHON_WALLET=w1.wallet, PYTHON_NAME=pythonW1, PYTHON_PWD=coz"
+
 #if (( $# != 3 )); then
 #	echo "WRONG Parameter. Pass: [Screen name] [wallet] [password]";
 #else
@@ -24,6 +27,9 @@
 	screen -S $PYTHON_PATH -p 0 -X stuff "$PYTHON_PWD^M"
 	sleep 3
 	screen -S $PYTHON_PATH -p 0 -X stuff "wallet rebuild^M"
+
+sleep infinity
+
 #fi
 
 #screen -L -Logfile /$PYTHON_PATH/pythonScreen.log -dmS $PYTHON_SCREEN python3.6  /$PYTHON_PATH/neo/bin/prompt.py -p --datadir /root/.$PYTHON_PATH/Chains

@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "(PYTHON-REST SCRIPT) - WAITING 3 seconds to let consensus nodes start..."
-sleep 3
+echo "(PYTHON-REST SCRIPT) - WAITING 4 seconds to let consensus nodes start..."
+sleep 4
 
 
 #PYTHON_RPC_FOLDER=neo-python-rpc-rest

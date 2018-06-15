@@ -35,6 +35,7 @@ while [[ "$#" > 0 ]]; do case $1 in
   esac;
 done
 
+# Flag for changing neo-scan host variable - However, neoscan frontpage is still not working properly
 if (($SERVER_MODE)); then
 	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io' ./.env )
 else
@@ -54,11 +55,8 @@ if (($DEV_MODE)); then
 	(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
 fi
 
-echo "BUILDING/RUNNING Neo-CSharp-Nodes with NeoScan-Docker (docker-compose with images from hub.docker)";
+echo "BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
 (cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-
-
-echo "PROCEEDING. NeoCompiler Eco(system) has been built!";
 
 echo "BUILDING/RUNNING web interface and compilers";
 ./buildRun_WebInterface_Compilers.sh

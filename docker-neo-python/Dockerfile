@@ -57,9 +57,9 @@ ADD ./neo-python-rpc-rest/start_neopython_rpc.sh /opt/
 
 # Neo-python REST port
 #EXPOSE 8080
+# Neo-python RPC port
+#EXPOSE 10332
 
-# Neo-python RPC port -- This door is not being used
-# EXPOSE 30337
 #==========================================================================
 
 #==========================================================================
@@ -84,7 +84,7 @@ ADD getNotificationLogs.sh /opt
 
 #TODO - Perhaps, change this to only localhost or a function that adds by hand
 ENV NEO_PYTHON_RPC_1="http://eco-neo-csharp-nodes-running:30337"
-ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20337"
+ENV NEO_PYTHON_NODE_1="eco-neo-csharp-nodes-running:20333"
 ENV NEO_PYTHON_NODE_2="eco-neo-csharp-nodes-running:20334"
 ENV NEO_PYTHON_NODE_3="eco-neo-csharp-nodes-running:20335"
 ENV NEO_PYTHON_NODE_4="eco-neo-csharp-nodes-running:20336"

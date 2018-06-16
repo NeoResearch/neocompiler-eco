@@ -1,0 +1,3 @@
+[submodule "public/js/common/neon-opt"]
+	path = public/js/common/neon-opt
+	url = git@github.com:NeoResearch/neon-opt.git

@@ -384,15 +384,18 @@ function printOpcode(hexavm, target) {
 
     console.log("will remove NOPs");
     var nop_rem = NeonOpt.removeNOP(oplist);
+    console.log("will detectDUPFROMALTSTACK");
+    var op_dup = NeonOpt.detectDUPFROMALTSTACK(oplist);
+
     var count_ops2 = oplist.length;
-    target.val(target.val()+"\n#AFTER NOP REMOVAL: "+count_ops2+" ("+count_ops+"-"+nop_rem+")="+parseFloat(100.0*nop_rem/count_ops).toFixed(2)+"%\n");
+    target.val(target.val()+"\n#AFTER OPTIMIZATIONS: ops "+count_ops+"=>"+count_ops2+" op_reduction:"+parseFloat(100.0*(count_ops-count_ops2)/count_ops).toFixed(2)+"%\n");
     for(i = 0; i<oplist.length; i++)
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
 
     var finalavm = NeonOpt.getAVMFromList(oplist);
     var avmsizefinalbytes = finalavm.length/2;
-    target.val(target.val()+"\n#FINAL AVM: "+avmsizefinalbytes+" bytes ("+oplist.length+" ops) byte compression "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n"+finalavm+"\n");
-    target.val(target.val()+"#OPTIMIZED AVM USING neon-opt: "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n");
+    target.val(target.val()+"\n#FINAL AVM: "+avmsizefinalbytes+" bytes ("+oplist.length+" ops) byte compression " + parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"%\n"+finalavm+"\n");
+    target.val(target.val()+"#OPTIMIZED AVM USING neon-opt: bytes "+parseFloat(100.0*(avmsizebytes-avmsizefinalbytes)/avmsizebytes).toFixed(2)+"% | ops "+parseFloat(100.0*(count_ops-count_ops2)/count_ops).toFixed(2)+"%\n");
 
     //target.val(oplist);
     //console.log("oplist: "+JSON.stringify(oplist));

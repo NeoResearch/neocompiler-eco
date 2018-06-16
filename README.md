@@ -21,8 +21,9 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Tests with different wallets, synced and with able to provide historic data our activity;
 * Perform different types of blockchain invocations and RPC calls.
 
-### Next steps
+### Roadmap
 * Integrate with testnet invokes
+* Integrate with `neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
     - It has not been easy, still, to accomplish all necessary invocatations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those intesred on Neo's multi-language programming interface.

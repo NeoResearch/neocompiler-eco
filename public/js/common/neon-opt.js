@@ -154,8 +154,14 @@ class NeonOpt
            strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
            oplist.push(new NeonOpcode(opcode, "JMPIFNOT", strcomment, nparfunc));
        }
-       else if (opcode == "65")
-           oplist.push(new NeonOpcode(opcode, "CALL", "#"));
+       else if (opcode == "65") {
+          strcomment = "# ";
+          var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
+          hexavm = hexavm.substr(4, hexavm.length);
+          strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
+          oplist.push(new NeonOpcode(opcode, "CALL", strcomment, nparfunc));
+          //oplist.push(new NeonOpcode(opcode, "CALL", "#"));
+       }
        else if (opcode == "66")
            oplist.push(new NeonOpcode(opcode, "RET", "#"));
        else if (opcode == "68") {

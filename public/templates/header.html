@@ -35,10 +35,17 @@
                 <li>
                   <div class="col-sm-1 sidenav">
                     <div class="row">
-                      <span id="online" class="label label-success">Online</span>
+                      <span id="timeleft" class="label label-info"></span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="col-sm-1 sidenav">
+                    <div class="row">
+                      <span id="online" class="label label-success"></span>
                     </div>
                     <div class="row">
-                      <span id="connecedSince" class="label label-primary">Connected</span>
+                      <span id="connecedSince" class="label label-primary"></span>
                     </div>
                   </div>
                 </li>
@@ -54,6 +61,12 @@
     socket.on('userconnected', function (data) {
       $("#online")[0].innerHTML="Online: " + data['online'];
       $("#connecedSince")[0].innerHTML="Connected: " + data['since'];
+    });
+    socket.on('timeleft', function (data) {
+      var date = new Date(data['timeleft']);
+      var tLeft = date.toTimeString();
+      var output = "Time Left: " + tLeft.substring(0, 8);
+      $("#timeleft")[0].innerHTML=output;
     });
     updateHeaderNetworkInfo();
 

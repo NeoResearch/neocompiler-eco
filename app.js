@@ -45,6 +45,11 @@ server.listen(8000 || process.env.PORT, (err) => {
 //app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
 
+var timeleft = (12*60*60*1000);
+setInterval(function() {
+  timeleft -= 1000;
+  io.emit('timeleft', { timeleft: timeleft });
+}, 1000);
 
 io.on('connection', function(socket){
   conn.addConnection();

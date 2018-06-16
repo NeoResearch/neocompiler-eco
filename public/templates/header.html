@@ -17,16 +17,30 @@
             <li>&nbsp;&nbsp;&nbsp;&nbsp;<b>Network Information (<a href="javascript:updateHeaderNetworkInfo();void(0);">refresh</a>):</b><div id="headernodeinfo"></div><div id="headerrpcinfo"></div></li>
           </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#/ecolab" target="_blank">EcoLab</a>
+                <li>
+                  <a ref="#/ecolab" target="_blank">
+                    <i class="fa fa-flask" aria-hidden="true"></i> EcoLab
+                  </a>
                 </li>
                 <li>
-                    <a id="headerNeoScanLink" >
-                        NeoScan-PrivateNet
-                    </a>
+                  <a id="headerNeoScanLink">
+                    <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
+                  </a>
                 </li>
-                <li><a href="https://github.com/NeoResearch/neocompiler-eco" target="_blank">GitHub</a>
+                <li>
+                  <a href="#/about" target="_blank">
+                    <i class="fa fa-info" aria-hidden="true"></i> About
+                  </a>
                 </li>
-                <li><a href="#/about" target="_blank">About</a>
+                <li>
+                  <div class="col-sm-1 sidenav">
+                    <div class="row">
+                      <span id="online" class="label label-success">Online</span>
+                    </div>
+                    <div class="row">
+                      <span id="connecedSince" class="label label-primary">Connected</span>
+                    </div>
+                  </div>
                 </li>
             </ul>
         </div>
@@ -36,6 +50,11 @@
 </nav>
 
 <script>
+    var socket = io().connect(window.location.hostname);
+    socket.on('userconnected', function (data) {
+      $("#online")[0].innerHTML="Online: " + data['online'];
+      $("#connecedSince")[0].innerHTML="Connected: " + data['since'];
+    });
     updateHeaderNetworkInfo();
 
     function updateHeaderNetworkInfo()

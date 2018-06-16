@@ -1,4 +1,8 @@
+const Connections = require('./js/connections.js');
+let conn = new Connections();
+
 var express  = require('express');
+var http = require('http');
 var logger = require('morgan');             // log requests to the console (express4)
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
@@ -29,8 +33,26 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
-app.listen(8000 || process.env.PORT);
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(8000 || process.env.PORT, (err) => {
+  if (err) {
+    return console.log('something bad happened', err)
+  }
+  console.log('server is up')
+})
+//app.listen(8000 || process.env.PORT);
 //app.set('port', 8000 || process.env.PORT);
+
+
+io.on('connection', function(socket){
+  conn.addConnection();
+  io.emit('userconnected', { online: conn.connections, since: conn.connectionsSince });
+  socket.on('disconnect', function(){
+    conn.removeConnection();
+  });
+});
 
 var optionsCompile = {
   timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!

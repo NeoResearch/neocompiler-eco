@@ -22,6 +22,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Perform different types of blockchain invocations and RPC calls.
 
 ### Roadmap
+* Using websockets to accelerate responses (more fluid)
 * Integrate with testnet invokes
 * Integrate with `neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).

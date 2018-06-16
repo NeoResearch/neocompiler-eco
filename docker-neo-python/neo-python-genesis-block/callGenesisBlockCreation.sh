@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "WAITING 3 seconds to let consensus nodes start..."
-sleep 3
+echo "WAITING 10 seconds to let consensus nodes start..."
+sleep 10
 
 GENESIS_BLOCK_DIR=neo-python-genesis-creation
 

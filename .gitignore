@@ -6,3 +6,4 @@ node_modules
 .fuse*
 package-lock.json
 *.DS_Store
+connections.json

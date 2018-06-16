@@ -13,9 +13,6 @@
         </div>
         <!-- <div id="ecoinfo" style="position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000; background-color:#dddddd"><b>Important information:</b> Eco "TestNet" (Shared PrivateNet https://neocompiler.io) is reset every 12-hours (UTC). Do not keep any valuable information there, as the server will be fully erased periodically. (<a href="javascript:$('#ecoinfo')[0].style.display = 'none';void(0);">dismiss</a>)</div> -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-          <ul class="nav navbar-nav">
-            <li>&nbsp;&nbsp;&nbsp;&nbsp;<b>Network Information (<a href="javascript:updateHeaderNetworkInfo();void(0);">refresh</a>):</b><div id="headernodeinfo"></div><div id="headerrpcinfo"></div></li>
-          </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
                   <a ref="#/ecolab" target="_blank">
@@ -37,6 +34,14 @@
                     <div class="row">
                       <span id="timeleft" class="label label-info"></span>
                     </div>
+                    <div class="row">
+                      <span id="rpc" class="label label-info"></span>
+                    </div>
+                    <div class="row">
+                      <span data-toggle="collapse" data-target="#netInfo" type="button"
+                              class="label label-info">Network Info
+                      </span>
+                    </div>
                   </div>
                 </li>
                 <li>
@@ -52,10 +57,27 @@
             </ul>
         </div>
         <!-- /.navbar-collapse -->
+        <ul class="nav navbar-nav navbar-right">
+          <div class="collapse" id="netInfo">
+            <div class="card card-body">
+              <div class="row">
+                <span id="nodeStatus" class="label label-info"></span>
+              </div>
+              <div class="row">
+                <span id="Version" class="label label-info"></span>
+              </div>
+              <div class="row">
+                <span id="BlockHeight" class="label label-info"></span>
+              </div>
+              <div class="row">
+                <span id="MemPool" class="label label-info"></span>
+              </div>
+            </div>
+          </div>
+        </ul>
     </div>
     <!-- /.container -->
 </nav>
-
 <script>
     var socket = io().connect(window.location.hostname);
     socket.on('userconnected', function (data) {
@@ -68,48 +90,27 @@
       var tLeft = dateGMT0.toTimeString();
       var output = "Time Left: " + tLeft.substring(0, 8);
       $("#timeleft")[0].innerHTML=output;
-    });
-    updateHeaderNetworkInfo();
 
-    function updateHeaderNetworkInfo()
-    {
-     	$("#headernodeinfo")[0].innerHTML="";
-      $("#headerrpcinfo")[0].innerHTML="&nbsp;&nbsp;&nbsp;&nbsp;RPC node: <i>"+BASE_PATH_CLI+"</i>";
-      textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>";
-      $("#headerrpcinfo")[0].innerHTML=textRPC;
-      if(BASE_PATH_CLI.indexOf("neocompiler.io") != -1) {
-        $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_block/1", function(result) {
-           textRPC = "&nbsp;&nbsp;&nbsp;&nbsp;RPC: <i>"+BASE_PATH_CLI+"</i>&nbsp;&nbsp;&nbsp;&nbsp;Expires in ";
-           dtExpire = result.time+(12*60*60);
-           dtDiff = (dtExpire*1000 - Date.now())/1000;
-           if(dtDiff < 60*30)
-              $("#headerrpcinfo")[0].innerHTML=textRPC+"<div style='color:#ff0000'>"+(dtDiff/60).toFixed(1)+" min</div>";
-           else
-              $("#headerrpcinfo")[0].innerHTML=textRPC+(dtDiff/(60*60)).toFixed(1)+" hrs";
-        });
-      }
+      $("#rpc")[0].innerHTML= "RPC: " + BASE_PATH_CLI;
 
-      $("#headernodeinfo")[0].innerHTML = "";
-
-    	$.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#headernodeinfo")[0].innerHTML+="&nbsp;&nbsp;&nbsp;&nbsp;<a href='"+BASE_PATH_PY+"' target='_blank'>"+result.version+" H:"+result.current_height+" </a>";
-    	}); // Python user agent + block count
+      $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
+                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" H:"+result.current_height;
+      }); // Python user agent + block count
 
       $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-            $("#headernodeinfo")[0].innerHTML+=" "+result2.result.useragent;
-            $("#headernodeinfo")[0].innerHTML+=" H:"+result3.result;
-            $("#headernodeinfo")[0].innerHTML+=" MP:"+result4.result.length;
+            $("#Version")[0].innerHTML = "Version: " + result2.result.useragent;
+            $("#BlockHeight")[0].innerHTML = " H:" + result3.result;
+            $("#MemPool")[0].innerHTML = " MP:" + result4.result.length;
           }); // mempool
         }); // NEO block count
       }); // NEO useragent
 
       $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-        $("#headernodeinfo")[0].innerHTML+=" <a href='"+BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block"+"' target='_blank'> H':"+result5.index+"</a>";
+        $("#nodeinfo")[0].innerHTML += BASE_PATH_NEOSCAN + "H':"+result5.index;
       }); // neoscan top block
-
-    }
+    });
 
     document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
     document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);

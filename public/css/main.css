@@ -55,6 +55,12 @@ body {
 }
 
 /* nav bar */
+.container{
+    margin-left: 10px;
+    margin-right: 10px;
+    width:98%;
+    position:relative;
+}
 .navbar-default .navbar-brand {
     color:#337ab7
 }
@@ -64,7 +70,6 @@ body {
 .navbar-default .navbar-brand:focus {
     color:#337ab7;
 }
-
 .nav.navbar-nav.navbar-right li a {
     color:#337ab7;
 }
@@ -173,6 +178,29 @@ hr2 {
 
 .nav-tabs li {
     cursor: pointer;
+}
+
+.nav-pills li {
+    cursor: pointer;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card-container {
+    padding: 10px 16px;
+}
+
+.tabu {
+  margin-left:3em;
 }
 
 footer {

@@ -1,10 +1,10 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav class="navbar  navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
-                <img src="images/prototype-icon-eco.png" width="20px"/>&nbsp;NeoCompiler Eco
+                <img src="images/prototype-icon-eco.png" width="25px"/>&nbsp;NeoCompiler Eco
             </a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -12,66 +12,63 @@
             </button>
         </div>
         <!-- <div id="ecoinfo" style="position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000; background-color:#dddddd"><b>Important information:</b> Eco "TestNet" (Shared PrivateNet https://neocompiler.io) is reset every 12-hours (UTC). Do not keep any valuable information there, as the server will be fully erased periodically. (<a href="javascript:$('#ecoinfo')[0].style.display = 'none';void(0);">dismiss</a>)</div> -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <a href="#/ecolab">
-                    <i class="fa fa-flask" aria-hidden="true"></i> EcoLab
-                  </a>
-                </li>
-                <li>
-                  <a id="headerNeoScanLink">
-                    <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
-                  </a>
-                </li>
-                <li>
-                  <a href="#/about" target="_blank">
-                    <i class="fa fa-info" aria-hidden="true"></i> About
-                  </a>
-                </li>
-                <li>
-                  <div class="col-sm-1 sidenav">
-                    <div class="row">
-                      <span id="timeleft" class="label label-info"></span>
-                    </div>
-                    <div class="row">
-                      <span id="rpc" class="label label-info"></span>
-                    </div>
-                    <div class="row">
-                      <span data-toggle="collapse" data-target="#netInfo" type="button"
-                              class="label label-info">Network Info
-                      </span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="col-sm-1 sidenav">
-                    <div class="row">
-                      <span id="online" class="label label-success"></span>
-                    </div>
-                    <div class="row">
-                      <span id="connecedSince" class="label label-primary"></span>
-                    </div>
-                  </div>
-                </li>
-            </ul>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <div class="col-sm-1">
+                <div class="row">
+                  <span id="timeleft" class="label label-info"></span>
+                </div>
+                <div class="row">
+                  <span data-toggle="collapse" data-target="#netInfo" type="button"
+                          class="label label-info">Network Info
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="col-sm-1">
+                <div class="row">
+                  <span id="online" class="label label-success"></span>
+                </div>
+                <div class="row">
+                  <span id="connecedSince" class="label label-primary"></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav">
+              <li>
+                <a href="#/ecolab">
+                  <i class="fa fa-flask" aria-hidden="true"></i> EcoLab
+                </a>
+              </li>
+              <li>
+                <a id="headerNeoScanLink">
+                  <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
+                </a>
+              </li>
+              <li>
+                <a href="#/about">
+                  <i class="fa fa-info" aria-hidden="true"></i> About
+                </a>
+              </li>
+          </ul>
         </div>
         <!-- /.navbar-collapse -->
         <ul class="nav navbar-nav navbar-right">
           <div class="collapse" id="netInfo">
-            <div class="card card-body">
-              <div class="row">
-                <span id="nodeStatus" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="Version" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="BlockHeight" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="MemPool" class="label label-info"></span>
-              </div>
+            <div class="row">
+              <span id="rpc" class="label label-info"></span>
+            </div>
+            <div class="row">
+              <span id="nodeStatus" class="label label-info"></span>
+            </div>
+            <div class="row">
+              <span id="Version" class="label label-info"></span>
+            </div>
+            <div class="row">
+              <span id="nodehighestblock" class="label label-info"></span>
             </div>
           </div>
         </ul>
@@ -82,7 +79,7 @@
     var socket = io().connect(window.location.hostname);
     socket.on('userconnected', function (data) {
       $("#online")[0].innerHTML="Online: " + data['online'];
-      $("#connecedSince")[0].innerHTML="Connected: " + data['since'];
+      $("#connecedSince")[0].innerHTML="Access: " + data['since'];
     });
     socket.on('timeleft', function (data) {
       var date = new Date(data['timeleft']);
@@ -94,21 +91,21 @@
       $("#rpc")[0].innerHTML= "RPC: " + BASE_PATH_CLI;
 
       $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" H:"+result.current_height;
+                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" -> H:"+result.current_height;
       }); // Python user agent + block count
 
       $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
             $("#Version")[0].innerHTML = "Version: " + result2.result.useragent;
-            $("#BlockHeight")[0].innerHTML = " H:" + result3.result;
-            $("#MemPool")[0].innerHTML = " MP:" + result4.result.length;
+            $("#Version")[0].innerHTML += " -> H:" + result3.result;
+            $("#Version")[0].innerHTML += " -> MP:" + result4.result.length;
           }); // mempool
         }); // NEO block count
       }); // NEO useragent
 
       $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-        $("#nodeinfo")[0].innerHTML += BASE_PATH_NEOSCAN + "H':"+result5.index;
+        $("#nodehighestblock")[0].innerHTML = BASE_PATH_NEOSCAN + " -> H':"+result5.index;
       }); // neoscan top block
     });
 

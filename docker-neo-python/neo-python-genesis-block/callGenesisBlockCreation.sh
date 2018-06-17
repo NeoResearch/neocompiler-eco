@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "WAITING 10 seconds to let consensus nodes start..."
-sleep 10
+echo "WAITING until consensus nodes can send respond an API/RPC call (i. e. consensus nodes already started)"
+/opt/waitNodes.sh
 
 GENESIS_BLOCK_DIR=neo-python-genesis-creation
 

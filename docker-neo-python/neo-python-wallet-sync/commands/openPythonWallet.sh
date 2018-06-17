@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Expects three parameters: PYTHON_WALLET=w1.wallet, PYTHON_NAME=pythonW1, PYTHON_PWD=coz"
-echo "(PYTHON-ECO WALLETS SYNCING) - WAITING 4 seconds to let consensus nodes start..."
-sleep 4
+echo "(PYTHON-ECO WALLETS SYNCING) WAITING until consensus nodes can send respond an API/RPC call (i. e. consensus nodes already started)"
+/opt/waitNodes.sh
 
 
 #if (( $# != 3 )); then

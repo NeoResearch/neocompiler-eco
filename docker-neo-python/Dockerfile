@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     nano \
     xxd \
     screen \
-    man
+    man \
+    curl
 
 # APT cleanup to reduce image size
 RUN rm -rf /var/lib/apt/lists/*
@@ -73,6 +74,9 @@ ADD neo-python-wallet-sync/commands/pythonScreenInvoke.sh /opt
 ADD callPythonLogger.sh /opt
 ADD getNotificationLogs.sh /opt
 #==========================================================================
+
+#Loop that forces python clients to wait for csharp nodes
+ADD waitNodes.sh /opt
 
 # ADD scripts that initializes everything needed by the NeoCompiler Eco
 #ADD run-all.sh /opt/

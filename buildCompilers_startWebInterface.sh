@@ -14,7 +14,7 @@ echo "BUILDING neo-java-compiler";
 (cd docker-compiler-java; ./docker_build.sh)
 #================================================
 
-echo "STOPING server doors";
+echo "STOPPING server doors";
 ./stop.sh
 
 echo "RUNNING NeoCompiler Eco server (sponsored by NeoResearch)";

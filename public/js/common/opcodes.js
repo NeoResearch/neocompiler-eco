@@ -386,6 +386,8 @@ function printOpcode(hexavm, target) {
     var nop_rem = NeonOpt.removeNOP(oplist);
     console.log("will detectDUPFROMALTSTACK");
     var op_dup = NeonOpt.detectDUPFROMALTSTACK(oplist);
+    console.log("will inline SWAP");
+    var op_inlineswap = NeonOpt.inlineSWAP(oplist);
 
     var count_ops2 = oplist.length;
     target.val(target.val()+"\n#AFTER OPTIMIZATIONS: ops "+count_ops+"=>"+count_ops2+" op_reduction:"+parseFloat(100.0*(count_ops-count_ops2)/count_ops).toFixed(2)+"%\n");

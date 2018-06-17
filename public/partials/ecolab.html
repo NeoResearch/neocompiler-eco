@@ -1195,8 +1195,8 @@ def Main():
         function recoveringPageData(){
           if( checkCookie("lastactivetab") ){
             index = getCookie("lastactivetab");
-            //console.log("Cookie tests. Recovering active tab....");
-            //$("#pillstab").children().eq(index).find('a').tab('show');
+            console.log("Cookie tests. Recovering active tab....");
+            $("#pillstab").children().eq(index).find('a').tab('show');
           }
         }
 

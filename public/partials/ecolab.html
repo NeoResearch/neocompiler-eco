@@ -299,29 +299,33 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_from_privatek">From (Private Key)</label>
-                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
+                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" oninput="fillPrivateKeyIfKnown('#createtx_from', '#createtx_from_privatek')" required/>
                                   </div>
                                 </div>
+                              </div>
+                              <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_to">To (Address)</label>
                                     <input id="createtx_to" class="form-control" placeholder="To" required/>
                                   </div>
                                 </div>
-                                <div class="col-md-1">
-                                  <label for="txcreatesendallneo"></label>
-                                  <button type=button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">fill all Neo</button>
-                                </div>
-                                <div class="col-md-2">
-                                  <div class="form-group">
-                                    <label for="createtx_NEO">NEO</label>
-                                    <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
+                                <div class="col-md-6">
+                                  <div class="col-md-2">
+                                    <label for="txcreatesendallneo"></label>
+                                    <button type=button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">Fill Neo</button>
                                   </div>
-                                </div>
-                                <div class="col-md-3">
-                                  <div class="form-group">
-                                    <label for="createtx_GAS">GAS</label>
-                                    <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
+                                  <div class="col-md-5">
+                                    <div class="form-group">
+                                      <label for="createtx_NEO">NEO</label>
+                                      <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <div class="form-group">
+                                      <label for="createtx_GAS">GAS</label>
+                                      <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
+                                    </div>
                                   </div>
                                 </div>
                                 <div class="col-md-12">
@@ -339,7 +343,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtxgas_from">From(Address)</label>
-                                    <input id="createtxgas_from" class="form-control" placeholder="From" required/>
+                                    <input id="createtxgas_from" class="form-control" placeholder="From" oninput="fillPrivateKeyIfKnown('#createtxgas_from', '#createtxgas_from_privatek')" required/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -1106,10 +1110,6 @@ def Main():
         $("#ecolabnetworkurlselection").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
             updatePATHS();
-        });
-
-        $("#createtx_from").on('change', function() {
-            fillPrivateKeyIfKnown("#createtx_from","#createtx_from_privatek")
         });
 
 /*

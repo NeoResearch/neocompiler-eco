@@ -55,6 +55,12 @@ body {
 }
 
 /* nav bar */
+.container{
+    margin-left: 10px;
+    margin-right: 10px;
+    width:98%;
+    position:relative;
+}
 .navbar-default .navbar-brand {
     color:#337ab7
 }
@@ -64,7 +70,6 @@ body {
 .navbar-default .navbar-brand:focus {
     color:#337ab7;
 }
-
 .nav.navbar-nav.navbar-right li a {
     color:#337ab7;
 }

@@ -13,48 +13,50 @@
         </div>
         <!-- <div id="ecoinfo" style="position: fixed; top: 0px; left: 0px; width: 100%; z-index: 1000; background-color:#dddddd"><b>Important information:</b> Eco "TestNet" (Shared PrivateNet https://neocompiler.io) is reset every 12-hours (UTC). Do not keep any valuable information there, as the server will be fully erased periodically. (<a href="javascript:$('#ecoinfo')[0].style.display = 'none';void(0);">dismiss</a>)</div> -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                  <a href="#/ecolab">
-                    <i class="fa fa-flask" aria-hidden="true"></i> EcoLab
-                  </a>
-                </li>
-                <li>
-                  <a id="headerNeoScanLink">
-                    <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
-                  </a>
-                </li>
-                <li>
-                  <a href="#/about" target="_blank">
-                    <i class="fa fa-info" aria-hidden="true"></i> About
-                  </a>
-                </li>
-                <li>
-                  <div class="col-sm-1 sidenav">
-                    <div class="row">
-                      <span id="timeleft" class="label label-info"></span>
-                    </div>
-                    <div class="row">
-                      <span id="rpc" class="label label-info"></span>
-                    </div>
-                    <div class="row">
-                      <span data-toggle="collapse" data-target="#netInfo" type="button"
-                              class="label label-info">Network Info
-                      </span>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="col-sm-1 sidenav">
-                    <div class="row">
-                      <span id="online" class="label label-success"></span>
-                    </div>
-                    <div class="row">
-                      <span id="connecedSince" class="label label-primary"></span>
-                    </div>
-                  </div>
-                </li>
-            </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <div class="col-sm-1 sidenav">
+                <div class="row">
+                  <span id="timeleft" class="label label-info"></span>
+                </div>
+                <div class="row">
+                  <span id="rpc" class="label label-info"></span>
+                </div>
+                <div class="row">
+                  <span data-toggle="collapse" data-target="#netInfo" type="button"
+                          class="label label-info">Network Info
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="col-sm-1 sidenav">
+                <div class="row">
+                  <span id="online" class="label label-success"></span>
+                </div>
+                <div class="row">
+                  <span id="connecedSince" class="label label-primary"></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav">
+              <li>
+                <a href="#/ecolab">
+                  <i class="fa fa-flask" aria-hidden="true"></i> EcoLab
+                </a>
+              </li>
+              <li>
+                <a id="headerNeoScanLink">
+                  <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
+                </a>
+              </li>
+              <li>
+                <a href="#/about" target="_blank">
+                  <i class="fa fa-info" aria-hidden="true"></i> About
+                </a>
+              </li>
+          </ul>
         </div>
         <!-- /.navbar-collapse -->
         <ul class="nav navbar-nav navbar-right">
@@ -82,7 +84,7 @@
     var socket = io().connect(window.location.hostname);
     socket.on('userconnected', function (data) {
       $("#online")[0].innerHTML="Online: " + data['online'];
-      $("#connecedSince")[0].innerHTML="Connected: " + data['since'];
+      $("#connecedSince")[0].innerHTML="Access: " + data['since'];
     });
     socket.on('timeleft', function (data) {
       var date = new Date(data['timeleft']);

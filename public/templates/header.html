@@ -61,19 +61,14 @@
         <!-- /.navbar-collapse -->
         <ul class="nav navbar-nav navbar-right">
           <div class="collapse" id="netInfo">
-            <div class="card card-body">
-              <div class="row">
-                <span id="nodeStatus" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="Version" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="BlockHeight" class="label label-info"></span>
-              </div>
-              <div class="row">
-                <span id="MemPool" class="label label-info"></span>
-              </div>
+            <div class="row">
+              <span id="nodeStatus" class="label label-info"></span>
+            </div>
+            <div class="row">
+              <span id="Version" class="label label-info"></span>
+            </div>
+            <div class="row">
+              <span id="nodehighestblock" class="label label-info"></span>
             </div>
           </div>
         </ul>
@@ -96,21 +91,21 @@
       $("#rpc")[0].innerHTML= "RPC: " + BASE_PATH_CLI;
 
       $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" H:"+result.current_height;
+                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" -> H:"+result.current_height;
       }); // Python user agent + block count
 
       $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
             $("#Version")[0].innerHTML = "Version: " + result2.result.useragent;
-            $("#BlockHeight")[0].innerHTML = " H:" + result3.result;
-            $("#MemPool")[0].innerHTML = " MP:" + result4.result.length;
+            $("#Version")[0].innerHTML += " -> H:" + result3.result;
+            $("#Version")[0].innerHTML += " -> MP:" + result4.result.length;
           }); // mempool
         }); // NEO block count
       }); // NEO useragent
 
       $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-        $("#nodeinfo")[0].innerHTML += BASE_PATH_NEOSCAN + "H':"+result5.index;
+        $("#nodehighestblock")[0].innerHTML = BASE_PATH_NEOSCAN + " -> H':"+result5.index;
       }); // neoscan top block
     });
 

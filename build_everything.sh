@@ -59,4 +59,4 @@ echo "BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes
 (cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
 
 echo "BUILDING/RUNNING web interface and compilers";
-./buildRun_WebInterface_Compilers.sh
+./buildCompilers_startWebInterface.sh

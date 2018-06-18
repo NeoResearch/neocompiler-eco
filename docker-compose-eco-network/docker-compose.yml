@@ -102,19 +102,6 @@ services:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
       - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
-#  notifications-server:
-#    container_name: "notifications-server"
-#    image: "cityofzion/neo-python"
-#    depends_on:
-#      - eco-neo-csharp-nodes-running
-#    volumes:
-#      - ./custom-config.json:/neo-python/custom-config.json
-#    command: "/usr/bin/python3 /neo-python/neo/bin/api_server.py --config /neo-python/custom-config.json --port-rest 8090"
-#    ports:
-#      - 9000:8090
-
-
-
 # ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
 # ================================================================================
 
@@ -215,8 +202,6 @@ services:
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
-
-#    volumes:
 #      - ./logs-neopython-logger:/neo-python/logs2
 
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================

@@ -66,7 +66,7 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 
     Neon.default.claimGas(config)
     .then(res => {
-        console.log("network:"+networkToCall);
+        //console.log("network:"+networkToCall);
         console.log(res.response)
     })
     .catch(e => {
@@ -76,9 +76,12 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 
 
 //Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "", BASE_PATH_CLI, getCurrentNetworkNickname())
+//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "", BASE_PATH_CLI, getCurrentNetworkNickname())
 
-function Invoke(myaddress, myprivatekey, mygas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
+function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
+
+  const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, contract_scripthash)
+
   const config = {
     net: networkToCall,
     url: nodeToCall,
@@ -87,9 +90,10 @@ function Invoke(myaddress, myprivatekey, mygas, contract_scripthash, contract_op
       operation: contract_operation,
       args: []
     }),
+    intents: intent,
     address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
     privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
-    gas: mygas //0
+    gas: mygasfee //0
   }
 
   Neon.default.doInvoke(config).then(res => {

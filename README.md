@@ -34,6 +34,8 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 For Debian-based systems:
 
+Start any recursive submodule: `git submodule update --recursive --remote`
+
 `apt install npm`
 
 `apt install nodejs-legacy`

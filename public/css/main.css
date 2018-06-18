@@ -56,11 +56,12 @@ body {
 
 /* nav bar */
 .container{
+    /* position: relative; */
     margin-left: 10px;
     margin-right: 10px;
     width:98%;
-    position:relative;
 }
+
 .navbar-default .navbar-brand {
     color:#337ab7
 }

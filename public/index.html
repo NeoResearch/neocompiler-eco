@@ -14,16 +14,16 @@
     <!--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
     -->
     <link rel="stylesheet" href="css/bootstrap-3.2.0.min.css">
     <link rel="stylesheet" href="css/bootwatch-theme.min.css">
 
+    <!-- Last fontawesome is 5.0.13 - Rember to updated webfonts folder -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
 
-    <!-- CSS Styles -->
+    <!-- CSS NeoCompiler personalized styles -->
     <link rel="stylesheet" href="css/main.css">
-
 </head>
 <body ng-app="neoCompilerIoWebApp">
 
@@ -34,8 +34,11 @@
 <div ng-include='"templates/footer.html"'></div>
 
 <!-- Javascripts -->
+<!-- JQuery TODO UPDATE -->
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
 <script src="js/jquery-3.3.1.min.js"></script>
+
+<!-- Bootstrap -->
 <script src="js/bootstrap-3.2.0.min.js"></script>
 
 <!-- Angular, followed by our custom Javascripts -->
@@ -53,6 +56,7 @@
 <script type="text/javascript" src="https://ace.c9.io/build/src/ace.js"></script>
 <script type="text/javascript" src="https://ace.c9.io/build/src/ext-language_tools.js"></script>
 -->
+
 <!-- ace 26.03.18 -->
 <script type="text/javascript" src="js/ace-v133-min-noconflict/ace.js"></script>
 <script type="text/javascript" src="js/ace-v133-min-noconflict/ext-language_tools.js"></script>
@@ -61,12 +65,29 @@
 <script src="js/main.js"></script>
 
 <script src="js/neon-js-browser-3.8.1-095f787.js"></script>
+<!-- Load Neon-JS Blockchain calls and initialize privatenet-->
+<script src="js/common/blockchain.js"></script>
+<script>
+  addLocalPrivateNet();
+  addSharedPrivateNet();
+</script>
+
+<!-- Load socket-io-->
+<script src="js/socket.io-2.0.4.js"></script>
+
 <script src="js/common/helper.js"></script>
 <script src="js/common/neon-opt/neon-opt.js"></script>
 <script src="js/common/opcodes.js"></script>
 <script src="js/common/crypto.js"></script>
-<script src="js/common/blockchain.js"></script>
+<!-- Load Tests on Cookies for a better user experience-->
 <script src="js/common/cookies.js"></script>
+
+<!-- Other usefull scripts: Used in TODO -->
+<script type="text/javascript" src="js/rawgit/sjcl.js"></script>
+<script type="text/javascript" src="js/rawgit/sha256.js"></script>
+<script type="text/javascript" src="js/rawgit/ripemd160.js"></script>
+<script type="text/javascript" src="js/rawgit/biginteger.js"></script>
+
 
 
 <!-- crypto libs -->
@@ -80,15 +101,8 @@
 <script type="text/javascript" src="js/rawgit/sha256.js"></script>
 <script type="text/javascript" src="js/rawgit/ripemd160.js"></script>
 -->
-<script type="text/javascript" src="js/rawgit/sjcl.js"></script>
-<script type="text/javascript" src="js/rawgit/sha256.js"></script>
-<script type="text/javascript" src="js/rawgit/ripemd160.js"></script>
-<script type="text/javascript" src="js/rawgit/biginteger.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
-<script>
-  addLocalPrivateNet();
-  addSharedPrivateNet();
-</script>
+
+
 
 <!--
 <script language="javascript" type="text/javascript">

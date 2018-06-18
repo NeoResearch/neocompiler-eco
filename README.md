@@ -51,24 +51,11 @@ We need docker-compose version 1.19.0 (or more), so we recommend the following s
 `echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
 `source ~/.bashrc`
 
-
-# Build everything
-
-The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
-
-This will call a docker-compose with NeoCompiler Private Net (Eco)+NeoScan.
-Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
-
-`./build_everything.sh`
-
-# Developers guidelines
-
-## Building compiling backends (C#, Python and Go)
+### Docker recommendations
 
 Docker technology is essential for sandboxing all compilers in different environments (for different languages).
 
 We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker docker-engine docker.io`.
-
 
 * Ubuntu-based distributions (https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository)[guidelines]:
 
@@ -82,28 +69,50 @@ We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker doc
 * Deepin users can follow Ubuntu instructions and use `artful` (Ubuntu 17.10) repository:
 `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"`
 
-### Building docker-neo-mono backend
+# Build everything
+
+The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
+
+This will call a docker-compose with NeoCompiler Private Net (Eco)+NeoScan.
+Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
+
+`./build_everything.sh`
+
+# Developers guidelines
+
+Basically, two steps are required: A1 and A2.
+Both are described below.
+
+## A1) Building compilers and running node server
+
+This script already builds the compilers and starts the server:
+
+`./buildCompilers_startWebInterface.sh`
+
+### Building compiling backends (C#, Python, Java and Go)
+
+#### Building docker-neo-mono backend
 The backend for C# is provided by mono, only two steps are necessary to build and tag image `docker-mono-neo-compiler`:
 
 `cd docker-neo-mono`
 
 `docker_build.sh`
 
-### Building docker-neo-boa backend
+#### Building docker-neo-boa backend
 The backend for Python is provided by neo-boa compiler, only two steps are necessary to build and tag image `docker-neo-boa`:
 
 `cd docker-neo-boa`
 
 `docker_build.sh`
 
-### Building docker-neo-go backend
+#### Building docker-neo-go backend
 The backend for Go is provided by neo-go team, only two steps are necessary to build and tag image `docker-neo-go`:
 
 `cd docker-neo-go`
 
 `docker_build.sh`
 
-### Building docker-java backend
+#### Building docker-java backend
 The backend for Java is provided by neoj compiler (in mono), only two steps are necessary to build and tag image `docker-neo-java-compiler`:
 
 `cd docker-java`
@@ -111,23 +120,17 @@ The backend for Java is provided by neoj compiler (in mono), only two steps are 
 `docker_build.sh`
 
 
-## Running node server
+### Running node server
 
 After building the compilers (without privatenet) you can run the front/backend node server (at port 8000 by default):
 
 `./run.sh`
 
-### Building and running node server
+## A2) Eco Network Funtionalities
 
-This script already builds the compilers and starts the server:
+In order to add NeoScan `light wallet` functionalities, docker-compose is the main tools that acts for the creation of our micro-service .
 
-`./buildRun_WebInterface_Compilers.sh`
-
-## (Shared) Privanet backend funtionalities
-
-In order to add NeoScan `light wallet` functionalities, run docker-compose.
-
-This scripts will start all necessary backend functionalities, neo-csharp-nodes, neo-python and neo-scan.
+This script will start all necessary backend functionalities, neo-csharp-nodes, neo-python and neo-scan.
 
 In particular, we currently have:
 
@@ -142,13 +145,11 @@ In particular, we currently have:
   * 1 python for creating the genesis block and performing a first transaction
 * postgress container with a pre-compiled neo-scan image for fast startup  
 
-
-
-### Starting the privatenet container
+### Dealing with docker-compose swarm of containers
 
 Start up the container, checking the messages and following warnings
 
-`cd ./dockers-neo-scan/docker-neo-scan`
+`cd ./docker-compose-eco-network`
 
 ```
 docker-compose up
@@ -170,51 +171,32 @@ docker-compose stop
 docker-compose start
 ```
 
-Or, simply run:
+### NeoCompiler Eco useful commands and ideas
 
-```
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh stop)
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh start)
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh down)
-```
-### Other functionalities and integrations are possible and some are implemented
+#### Other functionalities and integrations are possible and some are implemented
 
-Check out Neo-Scan + Neon-Db, for instance.
+It is also possible to integrate the Eco Network with Neondb and NeoTracker.
+
+#### Other parameters
+
+One could check docker docker-compose.yml, picking up a combination of your choice from `docker-compose-eco-network` folder.
+This can be done for locally modifying some characteristic of NeoCompiler.
+
+Run `build_everything.sh` with an additional parameter `--no-build` and your modified files of the private net will be called.
 
 
-
-## NeoCompiler dockers tips
-
-Nowadays, you should check docker docker-compose.yml (pick up a combination of your choice, from `dockers-neo-scan-neon` folder, for locally modifying some characteristic of NeoCompiler.
-
-Run `build_everything.sh` with an additional parameter (any of your choice) is going to build/call your modified files of the private net (i.e. call `(cd docker-privnet; ./buildRun_NeoCompiler_PrivateNet.sh)`).
-
-After that, considering your modified `docker_build.sh` you gonna be able to modify the aforementioned docker-compose. Then, any modification that is felt to be good should be communicated as an Issue or Pull Request.
-
-## Other functionalities and integrations are possible and some are implemented
-
-Check out Neo-Scan + Neon-Db, for instance.
-
-## Usefull Commands
+#### Useful Commands
 
 # Open docker of python
-`docker exec -it neo-python-all-in-one bash`
+`docker exec -it eco-neo-python-first-multisig-transfer-running bash
+`
 
 `screen -ls`
-There are 3 screen as soon as it starts:
-pythonSyncing (NeoCompiling Eco Deploy and Invoke)
-pythonRPCAndRestfull (Restfull API used by the NeoScan Notifications)
-pythonGenesis (Runs for some couple of minutes in order to generate the first NEO-GAS and transfer to a wallet)
-
-use `screen -dr pythonXXX`, ex:
-screen -dr pythonSyn or pythonRPC or pythonGen
 
 # open csharpnodes
 
-`docker exec -it neo-csharp-nodes bash`
-`screen -ls` will show the csharop nodes
-Currently, there are 4 and some scripts for adding new ones
+`docker exec -it eco-neo-csharp-nodes-running bash`
+`screen -ls` will show 4 consensus nodes and 2 pure RPCs nodes.
 
 
 ## Contributing
@@ -235,8 +217,7 @@ Currently, there are 4 and some scripts for adding new ones
 __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 
 
-LICENSE MIT
-
+**LICENSE MIT**
 
 This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io).
 The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.

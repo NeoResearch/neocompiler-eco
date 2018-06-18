@@ -293,13 +293,13 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
-                                    <input id="createtx_from" class="form-control" placeholder="From" required/>
+                                    <input id="createtx_from" class="form-control" placeholder="From" oninput="fillPrivateKeyIfKnown('#createtx_from', '#createtx_from_privatek')"  required/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_from_privatek">From (Private Key)</label>
-                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" oninput="fillPrivateKeyIfKnown('#createtx_from', '#createtx_from_privatek')" required/>
+                                    <input id="createtx_from_privatek" class="form-control" placeholder="Private Key" required/>
                                   </div>
                                 </div>
                               </div>
@@ -315,13 +315,19 @@
                                     <label for="txcreatesendallneo"></label>
                                     <button type=button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">Fill Neo</button>
                                   </div>
-                                  <div class="col-md-5">
+                                  <div class="col-md-2">
+                                    <div class="form-group">
+                                      <label for="createtx_SendFromSC">SendFromSC</label>
+                                      <input type="checkbox" id="createtx_SendFromSC"/>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
                                     <div class="form-group">
                                       <label for="createtx_NEO">NEO</label>
                                       <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
                                     </div>
                                   </div>
-                                  <div class="col-md-5">
+                                  <div class="col-md-4">
                                     <div class="form-group">
                                       <label for="createtx_GAS">GAS</label>
                                       <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
@@ -1606,8 +1612,15 @@ def Main():
         // ==================================================================================
         $("#createtx").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
-            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
-            updateHeaderNetworkInfo();
+
+            var createtx_SendFromSCBox = document.getElementById('createtx_SendFromSC');
+            if(createtx_SendFromSCBox.checked){
+                   sendFromSC = true;
+            }else{
+                   sendFromSC = false;
+            }
+            CreateTx($("#createtx_from").val(), $("#createtx_from_privatek").val(), $("#createtx_to").val(), $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname(), sendFromSC);
+            //updateHeaderNetworkInfo();
         });
 
         $("#createtxgas").submit(function (e) {

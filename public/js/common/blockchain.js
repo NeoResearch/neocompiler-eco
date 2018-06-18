@@ -23,7 +23,7 @@ function addSharedPrivateNet(){
 }
 
 
-function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall){
+function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent;
     if(neo > 0 && gas > 0)
@@ -41,6 +41,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
         net: networkToCall, // The network to perform the action, MainNet or TestNet.
         url: nodeToCall,
         address: from,  // This is the address which the assets come from.
+	sendingFromSmartContract: sendingFromSCFlag,
         privateKey: fromPrivateKey,
         intents: intent
     }

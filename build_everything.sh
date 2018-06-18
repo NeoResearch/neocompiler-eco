@@ -20,10 +20,6 @@ while [[ "$#" > 0 ]]; do case $1 in
         DISABLE_BUILD=1
         shift
         ;;
-    --server-mode)
-        SERVER_MODE=1
-        shift
-        ;;
     --dev)
         DEV_MODE=1
         shift
@@ -34,13 +30,6 @@ while [[ "$#" > 0 ]]; do case $1 in
         ;;
   esac;
 done
-
-# Flag for changing neo-scan host variable - However, neoscan frontpage is still not working properly
-if (($SERVER_MODE)); then
-	(cd docker-compose-eco-network; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io' ./.env )
-else
-	(cd docker-compose-eco-network; sed -i '/HOST_NAME/c\HOST_NAME=localhost' ./.env )
-fi
 
 if ((!$DISABLE_BUILD)); then
 	echo "BUILDING docker-compiler-csharpnodes";

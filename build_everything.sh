@@ -37,9 +37,9 @@ done
 
 # Flag for changing neo-scan host variable - However, neoscan frontpage is still not working properly
 if (($SERVER_MODE)); then
-	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io' ./.env )
+	(cd docker-compose-eco-network; sed -i '/HOST_NAME/c\HOST_NAME=https://neoscan.neocompiler.io' ./.env )
 else
-	(cd dockers-neo-scan-neon/docker-neo-scan; sed -i '/HOST_NAME/c\HOST_NAME=localhost' ./.env )
+	(cd docker-compose-eco-network; sed -i '/HOST_NAME/c\HOST_NAME=localhost' ./.env )
 fi
 
 if ((!$DISABLE_BUILD)); then
@@ -55,8 +55,9 @@ if (($DEV_MODE)); then
 	(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
 fi
 
-echo "BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
+echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
+./stopEco_network.sh
+./runEco_network.sh
 
 echo "BUILDING/RUNNING web interface and compilers";
 ./buildCompilers_startWebInterface.sh

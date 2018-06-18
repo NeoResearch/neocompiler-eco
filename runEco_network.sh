@@ -1,2 +1,2 @@
 #!/bin/bash
-(cd dockers-neo-scan-neon; ./buildRun_Compose_PrivateNet_NeoScanDocker.sh)
+(cd docker-compose-eco-network; docker-compose up -d)

@@ -1088,7 +1088,7 @@ def Main():
         //Check current webpage and starts with localhost or neocompiler public website
         $(document).ready(function(){
             //console.log("checking wallets");
-            setInterval(function() {
+            refreshIntervalId = setInterval(function() {
                 populateWalletData();
                 callFromAllKnownThatHasClaimable();
                 searchForTXs();

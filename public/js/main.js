@@ -1,5 +1,6 @@
 /* Some Global Variables  */
 
+var refreshIntervalId = 0;
 //Fixed known paths for NeoScan
 var FIXED_NEOSCAN_NEOCOMPILER = "https://neoscan.neocompiler.io";
 var FIXED_NEOSCAN_LOCALHOST = "http://localhost:4000";

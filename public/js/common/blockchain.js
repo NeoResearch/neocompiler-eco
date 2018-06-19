@@ -115,26 +115,30 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 }
 
 
-function Deploy(){
+//Example of Deploy checkwitness
+
+
+//Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
+function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,contract_script, storage, returntype, par = undefined){
   const sb = Neon.default.create.scriptBuilder();
-    sb.emitPush(Neon.u.str2hexstring('desc'))
-      .emitPush(Neon.u.str2hexstring('email'))
-      .emitPush(Neon.u.str2hexstring('author'))
-      .emitPush(Neon.u.str2hexstring('version'))
-      .emitPush(Neon.u.str2hexstring('name'))
-      .emitPush(true)//storage
-      .emitPush('ff')//return type
-      .emitPush('')//par
-      .emitPush('cd3937b97103fc3b8e427f186eadf186229c5f3c')//script
+    sb.emitPush(Neon.u.str2hexstring(''))
+      .emitPush(Neon.u.str2hexstring(''))
+      .emitPush(Neon.u.str2hexstring(''))
+      .emitPush(Neon.u.str2hexstring(''))
+      .emitPush(Neon.u.str2hexstring(''))
+      .emitPush(storage)//storage
+      .emitPush(returntype)//return type
+      .emitPush(par)//par
+      .emitPush(contract_script)//script
       .emitSysCall('Neo.Contract.Create');
 
     const config = {
-      net: 'PrivateNet',
-      url: BASE_PATH_CLI,
+      net: networkToCall,
+      url: nodeToCall,
       script: sb.str,
-      address: 'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
-      privateKey: '4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
-      gas: 0
+      address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
+      privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
+      gas: mygasfee //0
     }
 
     Neon.default.doInvoke(config).then(res => {

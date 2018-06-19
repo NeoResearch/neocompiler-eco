@@ -93,6 +93,9 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
   $.getJSON(url_toFill, function(result) {
     if(result.balance)
     {
+      if(boxToFill!="")
+ 	     $(boxToFill).val(0);
+
       //console.log(result.balance);
       for( i = 0; i < result.balance.length; ++i)
       {
@@ -232,8 +235,6 @@ function drawWalletsStatus(){
       b.setAttribute('content', 'test content');
       b.setAttribute('class', 'btn btn-warning');
       b.setAttribute('value', i);
-      //b.onclick = function () {buttonRemoveRule();};
-      //b.onclick = function () {alert(this.value);};
       b.onclick = function () {selfTransfer(this.value);};
       b.innerHTML = '<-';
 

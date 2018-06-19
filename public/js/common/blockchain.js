@@ -81,7 +81,16 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 
 function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
 
-  const intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, contract_scripthash)
+  var intent;
+  if(neo > 0 && gas > 0)
+  	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+
+  if(neo == 0 && gas > 0)
+  	intent = Neon.api.makeIntent({GAS:gas}, to)
+
+  if(neo > 0 && gas == 0)
+  	intent = Neon.api.makeIntent({NEO:neo}, to)
+  
 
   const config = {
     net: networkToCall,

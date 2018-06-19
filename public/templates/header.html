@@ -17,22 +17,42 @@
             <li>
               <div class="col-sm-1">
                 <div class="row">
-                  <span id="timeleft" class="label label-info"></span>
+                  <span id="online" class="label label-success"></span>
                 </div>
                 <div class="row">
-                  <span data-toggle="collapse" data-target="#netInfo" type="button"
-                          class="label label-info">Network Info
-                  </span>
+                  <span id="connecedSince" class="label label-primary"></span>
                 </div>
               </div>
             </li>
             <li>
               <div class="col-sm-1">
                 <div class="row">
-                  <span id="online" class="label label-success"></span>
+                  <span id="timeleft" class="label label-info"></span>
+                </div>
+                <!--
+                <div class="row">
+                  <span data-toggle="collapse" data-target="#netInfo" type="button"
+                          class="label label-info">Network Info
+                  </span>
+                </div>
+                -->
+                <div class="col-sm-1">
+                  <div class="row">
+                    <span id="postgreshighestblock" class="label label-info"></span>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="col-sm-1">
+                <div class="row">
+                  <span id="neoscanurl" class="label label-info"></span>
                 </div>
                 <div class="row">
-                  <span id="connecedSince" class="label label-primary"></span>
+                  <span id="nodeStatus" class="label label-info"></span>
+                </div>
+                <div class="row">
+                  <span id="Version" class="label label-info"></span>
                 </div>
               </div>
             </li>
@@ -56,22 +76,13 @@
           </ul>
         </div>
         <!-- /.navbar-collapse -->
+        <!--
         <ul class="nav navbar-nav navbar-right">
           <div class="collapse" id="netInfo">
-            <div class="row">
-              <span id="rpc" class="label label-info"></span>
-            </div>
-            <div class="row">
-              <span id="nodeStatus" class="label label-info"></span>
-            </div>
-            <div class="row">
-              <span id="Version" class="label label-info"></span>
-            </div>
-            <div class="row">
-              <span id="nodehighestblock" class="label label-info"></span>
-            </div>
+
           </div>
         </ul>
+        -->
     </div>
     <!-- /.container -->
 </nav>
@@ -81,6 +92,7 @@
       $("#online")[0].innerHTML="Online: " + data['online'];
       $("#connecedSince")[0].innerHTML="Access: " + data['since'];
     });
+
     socket.on('timeleft', function (data) {
       var date = new Date(data['timeleft']);
       var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
@@ -88,24 +100,22 @@
       var output = "Time Left: " + tLeft.substring(0, 8);
       $("#timeleft")[0].innerHTML=output;
 
-      $("#rpc")[0].innerHTML= "RPC: " + BASE_PATH_CLI;
-
-      $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#nodeStatus")[0].innerHTML = "Status: " + BASE_PATH_PY + result.version+" -> H:"+result.current_height;
-      }); // Python user agent + block count
-
       $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-            $("#Version")[0].innerHTML = "Version: " + result2.result.useragent;
-            $("#Version")[0].innerHTML += " -> H:" + result3.result;
-            $("#Version")[0].innerHTML += " -> MP:" + result4.result.length;
+            $("#Version")[0].innerHTML = "<b>RPC_C#:</b>" + BASE_PATH_CLI + " -> " + result2.result.useragent;
+            $("#Version")[0].innerHTML += " -> <b>H1:</b>" + result3.result;
+            $("#Version")[0].innerHTML += " -> <b>MP:<b>" + result4.result.length;
           }); // mempool
         }); // NEO block count
       }); // NEO useragent
 
+      $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
+                $("#nodeStatus")[0].innerHTML = "RPC_PY:" + BASE_PATH_PY + " -> " + result.version+" -> H2:"+result.current_height;
+      }); // Python user agent + block count
+
       $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-        $("#nodehighestblock")[0].innerHTML = BASE_PATH_NEOSCAN + " -> H':"+result5.index;
+        $("#postgreshighestblock")[0].innerHTML = BASE_PATH_NEOSCAN  +" -> H3:"+result5.index;
       }); // neoscan top block
     });
 

@@ -91,11 +91,11 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
   var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
   //console.log("url_toFill:" + url_toFill);
   $.getJSON(url_toFill, function(result) {
+    if(boxToFill!="")
+	    $(boxToFill).val(0);
+
     if(result.balance)
     {
-      if(boxToFill!="")
- 	     $(boxToFill).val(0);
-
       //console.log(result.balance);
       for( i = 0; i < result.balance.length; ++i)
       {
@@ -114,12 +114,9 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
     	      return result.balance[i].amount;
     	  }
        }
-    }else{
-      if(boxToFill!="")
-	     $(boxToFill).val(0);
-
+    }else
       return 0;
-    }
+    
   });
 }
 

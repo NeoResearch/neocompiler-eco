@@ -806,12 +806,54 @@ def Main():
 
                 <div class="tab-container">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-target="#tabinvokepy" data-toggle="tab">Invoke via Eco + neo-python</a></li>
-                        <li><a data-target="#tabinvokejs" data-toggle="tab">Invoke via neon-js</a></li>
+                        <li class="active"><a data-target="#tabinvokejs" data-toggle="tab">Invoke via neon-js</a></li>
+                        <li><a data-target="#tabinvokepy" data-toggle="tab">Invoke via Eco + neo-python</a></li>
                     </ul>
-
                   <div class="tab-content">
-                   <div class="tab-pane active cont" id="tabinvokepy">
+                    <!-- begin invokejs -->
+                    <div class="tab-pane active cont" id="tabinvokejs">
+                     <form id="forminvokejs" method="post">
+                       <div class="row">
+                           <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                             <div class="form-group">
+                                 <label for="attachgasfeejs">System fee (in GAS)</label>
+                                 <input id="attachgasfeejs" name="attachgasfeejs" class="form-control" value="0" placeholder="Send GAS"/>
+                             </div>
+                             <div class="form-group">
+                               <label for="attachneojs">Attach NEO</label>
+                               <input id="attachneojs" name="attachneojs" class="form-control" value="0" placeholder="Attach NEO"/>
+                             </div>
+                             <div class="form-group">
+                                 <label for="attachgas">GAS</label>
+                                 <input id="attachgas" name="attachgasjs" class="form-control" value="0" placeholder="Attach GAS"/>
+                             </div>
+                             <div class="form-group">
+                               <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
+                             </div>
+                           </div>
+                           <div class="col-md-6">
+                             <div class="form-group">
+                               <label for="invokehashjs">Contract</label>
+                               <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash"/>
+                             </div>
+                           </div>
+                           <div class="col-md-6">
+                             <div class="form-group">
+                               <label for="invokeparamsjs">Params</label>
+                               <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
+                             </div>
+                           </div>
+
+                           <div class="col-md-12">
+                             <button type="submit" id="invokebtnjs"class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                           </div>
+                       </div>
+                     </form>
+                   </div> <!-- tab-pane -->
+                   <!-- end invokejs -->
+
+
+                   <div class="tab-pane cont" id="tabinvokepy">
                     <form id="forminvoke" action="/invokex" method="post">
                       <div class="row">
                           <div class="col-md-6">
@@ -927,41 +969,8 @@ def Main():
                       </div>
                     </form>
                  </div> <!-- tab-pane tabinvokepy -->
-                 <!-- begin invokejs -->
-                 <div class="tab-pane cont" id="tabinvokejs">
-                  <form id="forminvokejs" method="post">
-                    <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="invokehashjs">Contract</label>
-                            <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash"/>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group">
-                            <label for="invokeparamsjs">Params</label>
-                            <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
-                          </div>
-                        </div>
 
-                        <div class="col-md-12 form-inline" style="margin-bottom: 10px">
-                          <div class="form-group">
-                            <label for="attachneojs">NEO</label>
-                            <input id="attachneojs" name="attachneojs" class="form-control" value="0" placeholder="Send NEO"/>
-                          </div>
-                          <div class="form-group">
-                            <select name="wallet_invokejs" class="custom-select form-control">
-                                <option>w1.wallet</option>
-                            </select>
-                          </div>
-                        </div>
 
-                        <div class="col-md-12">
-                          <button type="submit" id="invokebtnjs"class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
-                        </div>
-                    </div>
-                  </form>
-                </div> <!-- tab-pane -->
               </div> <!-- tab-content -->
             </div> <!-- tab-container -->
           </div> <!-- body -->
@@ -1068,6 +1077,23 @@ def Main():
     <script src="js/common/pythonEco.js"></script>
 
     <script>
+        //Adding all known address to NeonInvokeSelectionBox
+        addAllKnownAddressesToSelectionBox("wallet_invokejs");
+        function addAllKnownAddressesToSelectionBox(walletSelectionBox){
+          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+            addOptionToWalletToInvoke("wallet_"+ka,"wallet_"+ka,walletSelectionBox);
+        }
+
+        function addOptionToWalletToInvoke(textToOption,valueToOption,walletSelectionBox){
+          var option = document.createElement("option");
+          option.text = textToOption;
+          option.value = valueToOption;
+          var select = document.getElementById("wallet_invokejs");
+          select.appendChild(option);
+        }
+
+
+
         var editorPython = createEditor("editorPython", "ace/mode/python");
         var editorGolang = createEditor("editorGolang", "ace/mode/golang");
         var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");

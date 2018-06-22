@@ -368,13 +368,13 @@ function printOpcode(hexavm, target) {
         return; // string is empty
     if (hexavm.length % 2 == 1)
         return; // must be even pairs
-    var firstOpcode = "" + hexavm[0] + hexavm[1];
-    hexavm = hexavm.substr(2, hexavm.length);
+    //var firstOpcode = "" + hexavm[0] + hexavm[1];
+    //hexavm = hexavm.substr(2, hexavm.length);
 
-    oplist = [];
+    var oplist = [];
     //console.log("code ("+code+")");
-    hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
-    printOpcodeList(hexavm, oplist);
+    //hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
+    NeonOpt.parseOpcodeList(hexavm, oplist);
 
     target.val("#"+avmsizebytes+" bytes\n");
     var i = 0;
@@ -382,12 +382,15 @@ function printOpcode(hexavm, target) {
       target.val(target.val() + oplist[i].hexcode + " "+ oplist[i].opname + " " +oplist[i].args + " " + oplist[i].comment + "\n");
     var count_ops = oplist.length;
 
+    /*
     console.log("will remove NOPs");
     var nop_rem = NeonOpt.removeNOP(oplist);
     console.log("will detectDUPFROMALTSTACK");
     var op_dup = NeonOpt.detectDUPFROMALTSTACK(oplist);
     console.log("will inline SWAP");
     var op_inlineswap = NeonOpt.inlineSWAP(oplist);
+    */
+    var rem_ops = NeonOpt.optimizeAVM(oplist);
 
     var count_ops2 = oplist.length;
     target.val(target.val()+"\n#AFTER OPTIMIZATIONS: ops "+count_ops+"=>"+count_ops2+" op_reduction:"+parseFloat(100.0*(count_ops-count_ops2)/count_ops).toFixed(2)+"%\n");
@@ -403,7 +406,8 @@ function printOpcode(hexavm, target) {
     //console.log("oplist: "+JSON.stringify(oplist));
 }
 
-function printOpcodeList(hexavm, oplist) {
+/*
+function parseOpcodeList(hexavm, oplist) {
     if (hexavm.length == 0)
         return; // string is empty
     if (hexavm.length % 2 == 1)
@@ -412,5 +416,6 @@ function printOpcodeList(hexavm, oplist) {
     hexavm = hexavm.substr(2, hexavm.length);
     //console.log("code ("+code+")");
     hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
-    printOpcodeList(hexavm, oplist);
+    parseOpcodeList(hexavm, oplist);
 }
+*/

@@ -161,6 +161,44 @@ app.get('/notifications', function(req, res) {
   });
 });
 
+app.get('/txnotifications', function(req, res) {
+   var txid = "";
+   //console.log(req);
+   //console.log(JSON.stringify(req));
+   if(req.query.txid) { // txid
+      txid = req.query.txid;
+      console.log(txid);
+      if(txid.length != 64)
+         txid = "";
+      // sanitize hex chars (only lower case)
+      var re = /[0-9a-f]{6}/g;
+      if(re.test(txid)) {
+         //alert('valid hex');
+      } else {
+         //alert('invalid');
+         txid = "";
+      }
+      re.lastIndex = 0;
+  }
+  if(txid == "")
+    return;
+
+  var cmddocker = 'docker exec -t eco-neo-csharp-nodes-running cat opt/node1/neo-cli/ApplicationLogs_0000DDB1/0x'+txid+".json";
+
+  //var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-logger/prompt.log';
+  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+      res.send(stdout1);
+    }
+  });
+});
+
 app.get('/restlog', function(req, res) {
   //var cmddocker = 'docker exec -t eco-neo-python-logger-running dash -i -c "/opt/getNotificationLogs.sh"';
   var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-rest-rpc/saida.log';

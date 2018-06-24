@@ -229,14 +229,18 @@
         var indata = $(this).serialize();
 
 
-        console.log("Deploying contract: '"+$("#codeavm").val()+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
+
 	var contractGasCost = 90;
 	var wI = $("#wallet_deployjs")[0].selectedOptions[0].index;
 	var storage = false;
-	var rT=Number($("#contractreturnjs").val());
+	var rT=00;
+	if($("#contractreturnjs").val()!="f0" && $("#contractreturnjs").val()!="ff")
+		rT=Number($("#contractreturnjs").val());
 	var params='';
 	var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
 	
+
+        console.log("Deploying contract: '"+script+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
 
 	if($("#cbx_storagejs")[0].checked)
         {

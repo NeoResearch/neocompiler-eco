@@ -96,6 +96,7 @@
                 //$("#btn_download")[0].style = "";
 
                 $("#contracthash")[0].value = getScriptHashFromAVM(hexcodeavm);
+		$("#contracthashjs")[0].value = getScriptHashFromAVM(hexcodeavm);
                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
                 $("#invokehash")[0].value = $("#contracthash")[0].value;
                 $("#invokehashjs")[0].value = $("#contracthash")[0].value;
@@ -188,6 +189,7 @@
                     // get return hexcode
                     rettype = jsonABI["functions"][i]["returntype"];
                     $("#contractreturn")[0].value = getHexForType(rettype);
+                    $("#contractreturnjs")[0].value = getHexForType(rettype);
                 }
             },
             "json" // The format the response should be in
@@ -196,9 +198,9 @@
     }); //End of form Compile function
     //===============================================================
 
+    //===============================================================
+    //Invoke JS
     $("#forminvokejs").submit(function (e) {
-      //$("#deploybtn")[0].disabled = true;
-      //$("#invokebtn")[0].disabled = true;
         $("#contractmessages").text("");
         $("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
@@ -210,6 +212,42 @@
         Invoke('', $("#invokehashjs").val(), $("#invokeparamsjs").val());
     });//End of invoke function
     //===============================================================
+
+    //===============================================================
+    //Deploy JS
+    $("#formdeployjs").submit(function (e) {
+        $("#contractmessages").text("");
+        $("#contractmessagesnotify").text("");
+        e.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+
+
+        console.log("Deploying contract: '"+$("#codeavm").val()+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
+	var contractGasCost = 90;
+	var wI = $("#wallet_deployjs")[0].selectedOptions[0].index;
+	var storage = false;
+	var rT=Number($("#contractreturnjs").val());
+	var params='';
+	var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
+	
+
+
+	if($("#cbx_storagejs")[0].checked)
+        {
+		contractGasCost+=500;
+		storage = true;
+	}
+	if($("#cbx_dynamicinvokejs")[0].checked)
+		contractGasCost+=500;
+
+	console.log("Final attached gas should be:"+contractGasCost)
+
+
+        Deploy(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
+    });//End of invoke function
+    //===============================================================
+
 
     $("#formgetstorage").submit(function (e) {
         e.preventDefault(); // Prevents the page from refreshing

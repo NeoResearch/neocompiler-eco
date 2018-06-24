@@ -207,9 +207,15 @@
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
 
-        //test invoke
+	var wI = $("#wallet_invokejs")[0].selectedOptions[0].index;
+	var attachgasfeejs = Number($("#attachgasfeejs").val());
+	var attachneojs = Number($("#attachneojs").val());
+	var attachgasjs = Number($("#attachgasjs").val());
+	var invokeScripthash = $("#invokehashjs").val();
+
         console.log("invoking contract '"+$("#invokehashjs").val()+"' with params '"+$("#invokeparamsjs").val()+"'");
-        Invoke('', $("#invokehashjs").val(), $("#invokeparamsjs").val());
+	Invoke(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, "", BASE_PATH_CLI, getCurrentNetworkNickname())
+
     });//End of invoke function
     //===============================================================
 
@@ -232,17 +238,16 @@
 	var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
 	
 
-
 	if($("#cbx_storagejs")[0].checked)
         {
-		contractGasCost+=500;
+		contractGasCost=490;
 		storage = true;
 	}
+
 	if($("#cbx_dynamicinvokejs")[0].checked)
-		contractGasCost+=500;
+		contractGasCost=990; //TODO case with dynamic invoke and no storage (perhaps, never)
 
 	console.log("Final attached gas should be:"+contractGasCost)
-
 
         Deploy(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
     });//End of invoke function

@@ -159,6 +159,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
     }).catch(err => { 
      	alert(err);
      	console.log(err);
+	createNotification("Deploy ERR","Response: " + err, 2000);
   });
 }
 
@@ -166,14 +167,19 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 
 function createNotification(notifyTitle, notifyBody, notifyTime)
 {
-	if (!("Notification" in window)) {
-		alert("This browser does not support system notifications");
-	}
-	if (Notification.permission !== 'denied' && Notification.permission !== 'granted')
-		Notification.requestPermission();
+          if (Notification.permission !== "granted")
+          {
+            Notification.requestPermission();
+          }
+          else {
+           var notification = new Notification(notifyTitle, {
+             icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+             body: notifyBody,
+           });
+          }
 
-    	var notificationInvoke = new Notification(notifyTitle, {body:notifyBody});
-    	setTimeout(function() {notificationInvoke.close()}, notifyTime);
+    	//var notificationInvoke = new Notification(notifyTitle, {body:notifyBody});
+    	//setTimeout(function() {notificationInvoke.close()}, notifyTime);
 }
 
 

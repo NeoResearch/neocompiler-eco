@@ -110,11 +110,17 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     console.log(res);
     console.log(res.response);
 
-    alert("Invoke TX status: " + res.response.result)
+    var notificationInvoke = new Notification("Invoke", {body: "Response: " + res.response.result + " of " + contract_scripthash});
+    setTimeout(function() {notificationInvoke.close()}, 2000);
 
     if(res.response.result)
-    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ")
+    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
+
+  }).catch(err => { 
+     alert(err);
+     console.log(err);
   });
+
 }
 
 
@@ -145,11 +151,17 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
-	alert("Deploy TX status: " + res.response.result)
+	//alert("Deploy TX status: " + res.response.result)
+
+    	var notificationInvoke = new Notification("Deploy", {body: "Response: " + res.response.result});
+    	setTimeout(function() {notificationInvoke.close()}, 2000);
 
 	if(res.response.result)
-		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy")	
-    });
+		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
+    }).catch(err => { 
+     	alert(err);
+     	console.log(err);
+  });
 }
 
 function updateVecRelayedTXsAndDraw(relayedTXID, personalNote)

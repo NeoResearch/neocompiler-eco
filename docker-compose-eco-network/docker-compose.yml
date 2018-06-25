@@ -34,7 +34,7 @@ services:
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   neo-scan-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan:23748259-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan:24322839-master"
     container_name: "eco-neo-scan-running"
     ports:
       - "4000:4000"

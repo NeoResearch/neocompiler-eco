@@ -110,8 +110,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     console.log(res);
     console.log(res.response);
 
-    var notificationInvoke = new Notification("Invoke", {body: "Response: " + res.response.result + " of " + contract_scripthash});
-    setTimeout(function() {notificationInvoke.close()}, 2000);
+    createNotification("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
 
     if(res.response.result)
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
@@ -153,8 +152,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
       	console.log(res);
 	//alert("Deploy TX status: " + res.response.result)
 
-    	var notificationInvoke = new Notification("Deploy", {body: "Response: " + res.response.result});
-    	setTimeout(function() {notificationInvoke.close()}, 2000);
+	createNotification("Deploy","Response: " + res.response.result, 2000);
 
 	if(res.response.result)
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
@@ -163,6 +161,21 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
      	console.log(err);
   });
 }
+
+
+
+function createNotification(notifyTitle, notifyBody, notifyTime)
+{
+	if (!("Notification" in window)) {
+		alert("This browser does not support system notifications");
+	}
+	if (Notification.permission !== 'denied' && Notification.permission !== 'granted')
+		Notification.requestPermission();
+
+    	var notificationInvoke = new Notification(notifyTitle, {body:notifyBody});
+    	setTimeout(function() {notificationInvoke.close()}, notifyTime);
+}
+
 
 function updateVecRelayedTXsAndDraw(relayedTXID, personalNote)
 {

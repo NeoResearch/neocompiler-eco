@@ -116,7 +116,6 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
 
   }).catch(err => { 
-     //alert(err);
      console.log(err);
      createNotification("Invoke ERR","Response: " + err, 2000);
   });
@@ -151,14 +150,12 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
-	//alert("Deploy TX status: " + res.response.result)
 
 	createNotification("Deploy","Response: " + res.response.result, 2000);
 
 	if(res.response.result)
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
     }).catch(err => { 
-     	//alert(err);
      	console.log(err);
 	createNotification("Deploy ERR","Response: " + err, 2000);
   });
@@ -166,19 +163,19 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 
 function createNotification(notifyTitle, notifyBody, notifyTime)
 {
-          if (Notification.permission !== "granted")
-          {
-            Notification.requestPermission();
-          }
-          else {
-           var notification = new Notification(notifyTitle, {
-             icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-             body: notifyBody,
-           });
-          }
+	  var permission = (Notification.permission === "denied");
+          if (permission)
+	  	Notification.requestPermission();
 
-    	//var notificationInvoke = new Notification(notifyTitle, {body:notifyBody});
-    	//setTimeout(function() {notificationInvoke.close()}, notifyTime);
+	  if(!permission){
+		var notification = new Notification(notifyTitle, {
+			icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+		  	body: notifyBody,
+	  	});
+	 	setTimeout(function() {notification.close()}, notifyTime);
+	  }else{
+		alert(notifyTitle + " : " + notifyBody);
+	  }
 }
 
 

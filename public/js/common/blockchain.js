@@ -116,8 +116,9 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
 
   }).catch(err => { 
-     alert(err);
+     //alert(err);
      console.log(err);
+     createNotification("Invoke ERR","Response: " + err, 2000);
   });
 
 }
@@ -157,13 +158,11 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 	if(res.response.result)
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
     }).catch(err => { 
-     	alert(err);
+     	//alert(err);
      	console.log(err);
 	createNotification("Deploy ERR","Response: " + err, 2000);
   });
 }
-
-
 
 function createNotification(notifyTitle, notifyBody, notifyTime)
 {

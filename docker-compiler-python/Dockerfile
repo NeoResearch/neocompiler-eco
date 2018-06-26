@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get -y install xxd python3-dev python3-pip
 

@@ -1,5 +1,5 @@
 # Dockerfile to create images running some services offered by neo-python
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 LABEL maintainer="NeoResearch"
 
 # Install dependencies

@@ -27,7 +27,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Integrate with `neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
-    - It has not been easy, still, to accomplish all necessary invocatations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those intesred on Neo's multi-language programming interface.
+    - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on Neo's multi-language programming interface.
 * Ideas? Collaborations are welcome :) The goal is to be didactic and bring it close to citizens and users: Smart Cities, Smart Governance and Smart Blockchain Technologies :P
 
 ### Dependencies
@@ -46,6 +46,8 @@ Start any recursive submodule: `git submodule update --recursive --remote`
 
 We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:
 
+* Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
+
 `curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o` `/usr/local/bin/docker-compose`
 `chmod +x /usr/local/bin/docker-compose`
 `echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
@@ -57,7 +59,7 @@ Docker technology is essential for sandboxing all compilers in different environ
 
 We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker docker-engine docker.io`.
 
-* Ubuntu-based distributions (https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository)[guidelines]:
+* Ubuntu-based distributions [guidelines](https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository):
 
 `sudo apt-get install apt-transport-https ca-certificates curl software-properties-common gnupg2`
 `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
@@ -222,6 +224,6 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io).
 The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.
 
-*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho),[@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
+*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho), [@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
 
 Copyleft 2017-2018

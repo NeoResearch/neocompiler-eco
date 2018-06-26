@@ -80,7 +80,6 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 //Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "", BASE_PATH_CLI, getCurrentNetworkNickname())
 
 function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
-
   var intent;
   if(neo > 0 && gas > 0)
   	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
@@ -91,6 +90,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
   if(neo > 0 && gas == 0)
   	intent = Neon.api.makeIntent({NEO:neo}, to)
   
+  //TODO Check if scriptHash is Hex
 
   const config = {
     net: networkToCall,
@@ -110,14 +110,14 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     console.log(res);
     console.log(res.response);
 
-    createNotification("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
+    createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
 
     if(res.response.result)
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
 
   }).catch(err => { 
      console.log(err);
-     createNotification("Invoke ERR","Response: " + err, 2000);
+     createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
   });
 
 }
@@ -151,29 +151,33 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
 
-	createNotification("Deploy","Response: " + res.response.result, 2000);
+	createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
 
 	if(res.response.result)
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
     }).catch(err => { 
      	console.log(err);
-	createNotification("Deploy ERR","Response: " + err, 2000);
+	createNotificationOrAlert("Deploy ERROR","Response: " + err, 2000);
   });
 }
 
-function createNotification(notifyTitle, notifyBody, notifyTime)
+function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 {
-	  var permission = (Notification.permission === "denied");
-          if (permission)
+	  var permission = (Notification.permission === "granted");
+          if (!permission)
+	  {
+          	alert(Notification.permission);
 	  	Notification.requestPermission();
+	  }	
 
-	  if(!permission){
+	  if(Notification.permission === "granted"){
 		var notification = new Notification(notifyTitle, {
 			icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
 		  	body: notifyBody,
 	  	});
 	 	setTimeout(function() {notification.close()}, notifyTime);
 	  }else{
+		//For browser that do not allow notifications
 		alert(notifyTitle + " : " + notifyBody);
 	  }
 }

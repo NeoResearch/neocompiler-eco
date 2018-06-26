@@ -17,23 +17,8 @@ RUN apt-get update && apt-get install -y apt-transport-https dotnet-sdk-2.1.200
 
 RUN apt-get update && apt-get install -y openjdk-8-jdk
 
-#TODO - MOVE UP
-#RUN apt-get -y install mono-complete
-
-#Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
-#Adding pre-compiled .dll files
-#ADD Neoj/ /tmp/Neoj
-#ADD examples-java-master/ /tmp/
-
-#Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
-#RUN git clone https://github.com/neo-project/neo-compiler.git
-#RUN mkdir -p neo-compiler/neoj/bin/Debug/netcoreapp1.1
-
-#Adding pre-compiled .dll files
-#ADD Neoj/ neo-compiler/neoj/bin/Debug/netcoreapp1.1/
 ADD Neoj /tmp/
 ADD Neoj/org.neo.smartcontract.framework.jar  /usr/share/dotnet/org.neo.smartcontract.framework.jar
-
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh

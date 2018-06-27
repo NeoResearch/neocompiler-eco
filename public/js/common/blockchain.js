@@ -75,20 +75,84 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
     })
 }
 
+//ICO TEMPLATE EXAMPLE:
+/*
+Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+{
+  "jsonrpc": "2.0",
+  "method": "invokefunction",
+  "params": [
+    "e096710ef8012b83677b039ec0ee6871868bfcf9",
+    "balanceOf",
+    [
+      {
+        "type": "Hash160",
+        "value": "e9eed8dc39332032dc22e5d6e86332c50327ba23"
+      }
+    ]
+  ],
+  "id": 3
+}
+
+
+var neonJSParams = [];
+pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
+pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
+pushParams(neonJSParams, 'Integer', Neon.u.str2hexstring("100"));
+Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,0,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
+
+
+{
+  "jsonrpc": "2.0",
+  "method": "invokefunction",
+  "params": [
+    "e096710ef8012b83677b039ec0ee6871868bfcf9",
+    "balanceOf",
+    [
+      {
+        "type": "Hash160",
+        "value": "0f2b7a6ee34db32d9151c6028960ab2a8babea52"
+      }
+    ]
+  ],
+  "id": 3
+}
+
+*/
+
+function pushParams(neonJSParams, type, value){
+	if(type == 'String')
+		neonJSParams.push(Neon.default.create.contractParam(type, value));
+	else if(type == 'Address')
+		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'address'));
+	else if(type == 'Hex')
+		neonJSParams.push(Neon.default.create.contractParam(type, value)); 
+	else if(type == 'Integer')
+		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'integer'));
+	else if(type == 'BigInteger')
+		neonJSParams.push(Neon.default.create.contractParam(type, value));
+	else
+		alert("You are trying to push a wrong invoke param type: " + type + "with value : " + value);
+}
 
 //Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "", BASE_PATH_CLI, getCurrentNetworkNickname())
+//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
+  if(contract_scripthash == "")
+  {
+	alert("empty scripthash");
+	return;
+  }
 
-function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall){
   var intent;
   if(neo > 0 && gas > 0)
-  	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+  	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, contract_scripthash)
 
   if(neo == 0 && gas > 0)
-  	intent = Neon.api.makeIntent({GAS:gas}, to)
+  	intent = Neon.api.makeIntent({GAS:gas}, contract_scripthash)
 
   if(neo > 0 && gas == 0)
-  	intent = Neon.api.makeIntent({NEO:neo}, to)
+  	intent = Neon.api.makeIntent({NEO:neo}, contract_scripthash)
   
   //TODO Check if scriptHash is Hex
 
@@ -98,7 +162,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     script: Neon.default.create.script({
       scriptHash: contract_scripthash,
       operation: contract_operation,
-      args: []
+      args: neonJSParams
     }),
     intents: intent,
     address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',

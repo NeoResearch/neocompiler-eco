@@ -78,7 +78,10 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 
 //ICO TEMPLATE EXAMPLE:
 /*
+//Invoke mintToken from wallet of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+
+//Check Balance of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 {
   "jsonrpc": "2.0",
   "method": "invokefunction",
@@ -95,14 +98,14 @@ Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,10,0, "e0967
   "id": 3
 }
 
-
+//Transfer some NEP-5 Tokens from AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y to APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
 pushParams(neonJSParams, 'Integer', Neon.u.str2hexstring("100"));
 Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,0,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
-
+//Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 {
   "jsonrpc": "2.0",
   "method": "invokefunction",

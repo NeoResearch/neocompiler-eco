@@ -174,18 +174,24 @@
                         }
                     // get parameters
                     $("#contractparams")[0].value = "\"";
+						  $("#contractparamsjs")[0].value = "\"";
                     var j = 0;
                     console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
                     for (j = 0; j < jsonABI["functions"][i]["parameters"].length; j++) {
                         var phex = getHexForType(jsonABI["functions"][i]["parameters"][j]["type"]);
                         console.log("parameter[" + j + "]: " + jsonABI["functions"][i]["parameters"][j]["type"] + " -> hex(" + phex + ")");
                         $("#contractparams")[0].value += phex;
+								$("#contractparamsjs")[0].value += phex;
                     }
                     $("#contractparams")[0].value += "\"";
+						  $("#contractparamsjs")[0].value += "\"";
                     // set invoke params to many empty strings (at least one is desirable for now)
                     $("#invokeparams")[0].value = "\"\"";
-                    for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++)
+						  $("#invokeparamsjs")[0].value = "\"\"";
+                    for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++) {
                         $("#invokeparams")[0].value += " \"\"";
+								$("#invokeparamsjs")[0].value += " \"\"";
+						  }
                     // get return hexcode
                     rettype = jsonABI["functions"][i]["returntype"];
                     $("#contractreturn")[0].value = getHexForType(rettype);
@@ -238,7 +244,7 @@
 		rT=Number($("#contractreturnjs").val());
 	var params='';
 	var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
-	
+
 
         console.log("Deploying contract: '"+script+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
 

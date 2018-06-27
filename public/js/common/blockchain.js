@@ -194,19 +194,23 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 //Example of Deploy checkwitness
 //Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 //Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
-function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,contract_script, storage, returntype, par = undefined){
+function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '') {
 
-  const sb = Neon.default.create.scriptBuilder();
+    if(returntype.length == 1)
+       returntype = returntype[0]; // remove array if single element
+
+    const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring('appdescription')) // description
       .emitPush(Neon.u.str2hexstring('email')) // email
       .emitPush(Neon.u.str2hexstring('author')) // author
       .emitPush(Neon.u.str2hexstring('v1.0')) // code_version
       .emitPush(Neon.u.str2hexstring('appname')) // name
-      .emitPush(storage)//storage
-      .emitPush(returntype)//return type
-      .emitPush(par)//par
-      .emitPush(contract_script)//script
+      .emitPush(storage) // storage: {none: 0x00, storage: 0x01, dynamic: 0x02, storage+dynamic:0x03}
+      .emitPush(returntype) // expects hexstring  (_emitString) // usually '05'
+      .emitPush(par) // expects hexstring  (_emitString) // usually '0710'
+      .emitPush(contract_script) //script
       .emitSysCall('Neo.Contract.Create');
+
 
     const config = {
       net: networkToCall,

@@ -174,7 +174,7 @@
                         }
                     // get parameters
                     $("#contractparams")[0].value = "\"\"";
-						  $("#contractparamsjs")[0].value = "\"\"";
+						  $("#contractparamsjs")[0].value = "";
                     var j = 0;
                     console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
 						  var paramhex = "";
@@ -240,26 +240,32 @@
 
 	var contractGasCost = 90;
 	var wI = $("#wallet_deployjs")[0].selectedOptions[0].index;
-	var storage = false;
-	var rT=00;
-	if($("#contractreturnjs").val()!="f0" && $("#contractreturnjs").val()!="ff")
-		rT=Number($("#contractreturnjs").val());
-	var params='';
+	var storage = 0;
+
+	var rT = $("#contractreturnjs").val();
+	if($("#contractreturnjs").val()=="f0" || $("#contractreturnjs").val()=="ff")
+		rT += "00"; // ff becomes 'ff00' (biginteger representation)
+
+	var params = $("#contractparamsjs").val();
+
+	//console.log("Parameter list: "+params);
+	//console.log("Return type: "+rT);
+
 	var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
 
+   console.log("Deploying contract: '"+script+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
 
-        console.log("Deploying contract: '"+script+"' scripthash: '"+$("#contracthashjs").val()+"' storage: '"+$("#cbx_storagejs").val()+"' di: '"+$("#cbx_dynamicinvokejs").val()+"' RT: '"+$("#contractreturnjs").val()+"' RT: '"+$("#contractreturnjs").val()+"' with params '"+$("#contractparamsjs").val()+"'");
-
-	if($("#cbx_storagejs")[0].checked)
-        {
-		contractGasCost=490;
-		storage = true;
+	if($("#cbx_storagejs")[0].checked) {
+		contractGasCost += 400;
+		storage += 1;
 	}
 
-	if($("#cbx_dynamicinvokejs")[0].checked)
-		contractGasCost=990; //TODO case with dynamic invoke and no storage (perhaps, never)
+	if($("#cbx_dynamicinvokejs")[0].checked) {
+		contractGasCost += 500;
+		storage += 2;
+	}
 
-	console.log("Final attached gas should be:"+contractGasCost)
+	console.log("Final attached gas should be:" + contractGasCost)
 
         Deploy(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
     });//End of invoke function

@@ -49,7 +49,8 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
     Neon.default.sendAsset(config)
     .then(res => {
         //console.log("network:"+networkToCall);
-        console.log(res.response)
+        console.log(res.response);
+        createNotificationOrAlert("CreateTx", res.response.result, 2000);
     })
     .catch(e => {
         console.log(e)
@@ -192,11 +193,11 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 //Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
 function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,contract_script, storage, returntype, par = undefined){
   const sb = Neon.default.create.scriptBuilder();
-    sb.emitPush(Neon.u.str2hexstring(''))
-      .emitPush(Neon.u.str2hexstring(''))
-      .emitPush(Neon.u.str2hexstring(''))
-      .emitPush(Neon.u.str2hexstring(''))
-      .emitPush(Neon.u.str2hexstring(''))
+    sb.emitPush(Neon.u.str2hexstring('appdescription')) // description
+      .emitPush(Neon.u.str2hexstring('email')) // email
+      .emitPush(Neon.u.str2hexstring('author')) // author
+      .emitPush(Neon.u.str2hexstring('v1.0')) // code_version
+      .emitPush(Neon.u.str2hexstring('appname')) // name
       .emitPush(storage)//storage
       .emitPush(returntype)//return type
       .emitPush(par)//par

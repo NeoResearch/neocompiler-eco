@@ -192,6 +192,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 //Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 //Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
 function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,contract_script, storage, returntype, par = undefined){
+
   const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring('appdescription')) // description
       .emitPush(Neon.u.str2hexstring('email')) // email

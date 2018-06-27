@@ -18,14 +18,13 @@ echo "(PYTHON-ECO WALLETS SYNCING) WAITING until consensus nodes can send respon
 	sleep 6
 
 	screen -r $PYTHON_PATH -X colon "logfile flush 2^M"
-
-	sleep 3
+	sleep 4
 	screen -S $PYTHON_PATH -p 0 -X stuff "config sc-events off^M"
-	sleep 3
+	sleep 4
 	screen -S $PYTHON_PATH -p 0 -X stuff "open wallet $PYTHON_WALLET^M"
-	sleep 3
+	sleep 2
 	screen -S $PYTHON_PATH -p 0 -X stuff "$PYTHON_PWD^M"
-	sleep 3
+	sleep 2
 	screen -S $PYTHON_PATH -p 0 -X stuff "wallet rebuild^M"
 
 sleep infinity

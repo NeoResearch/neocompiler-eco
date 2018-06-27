@@ -126,7 +126,7 @@ function pushParams(neonJSParams, type, value){
 	else if(type == 'Address')
 		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'address'));
 	else if(type == 'Hex')
-		neonJSParams.push(Neon.default.create.contractParam(type, value)); 
+		neonJSParams.push(Neon.default.create.contractParam(type, value));
 	else if(type == 'Integer')
 		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'integer'));
 	else if(type == 'BigInteger')
@@ -153,7 +153,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 
   if(neo > 0 && gas == 0)
   	intent = Neon.api.makeIntent({NEO:neo}, contract_scripthash)
-  
+
   //TODO Check if scriptHash is Hex
 
   const config = {
@@ -179,7 +179,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     if(res.response.result)
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
 
-  }).catch(err => { 
+  }).catch(err => {
      console.log(err);
      createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
   });
@@ -219,7 +219,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 
 	if(res.response.result)
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
-    }).catch(err => { 
+    }).catch(err => {
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 2000);
   });
@@ -228,11 +228,11 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall,con
 function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 {
 	  var permission = (Notification.permission === "granted");
-          if (!permission)
-	  {
-          	alert(Notification.permission);
-	  	Notification.requestPermission();
-	  }	
+     if (!permission) {
+          	//alert(Notification.permission);
+            //console.log(Notification.permission);
+	  	      Notification.requestPermission();
+	  }
 
 	  if(Notification.permission === "granted"){
 		var notification = new Notification(notifyTitle, {
@@ -240,9 +240,10 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 		  	body: notifyBody,
 	  	});
 	 	setTimeout(function() {notification.close()}, notifyTime);
-	  }else{
+	  } else {
 		//For browser that do not allow notifications
-		alert(notifyTitle + " : " + notifyBody);
+		  //alert(notifyTitle + " : " + notifyBody);
+        alert(notifyTitle + " : " + notifyBody);
 	  }
 }
 

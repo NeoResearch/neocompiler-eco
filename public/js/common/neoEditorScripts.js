@@ -108,11 +108,19 @@
                 inputbox2 = document.getElementById("invokefunctionpy");
                 while(inputbox2.options.length > 0)
                    inputbox2.remove(0);
+                inputboxjs2 = document.getElementById("invokefunctionjs");
+                while(inputboxjs2.options.length > 0)
+                   inputboxjs2.remove(0);
 
                 option = document.createElement("option");
                 option.text = "Main";
                 option.value = "Main";
                 inputbox2.add(option);
+
+                option2 = document.createElement("option");
+                option2.text = "Main";
+                option2.value = "Main";
+                inputboxjs2.add(option2);
 
                 if( codeabi.length != 0)
                 {
@@ -133,6 +141,10 @@
                             option.text  = jsonABI["functions"][i]["name"];
                             option.value = jsonABI["functions"][i]["name"];
                             inputbox2.add(option);
+                            option2 = document.createElement("option");
+                            option2.text  = jsonABI["functions"][i]["name"];
+                            option2.value = jsonABI["functions"][i]["name"];
+                            inputboxjs2.add(option2);
                         }
 
                         for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
@@ -172,6 +184,7 @@
                             console.log("Found function 'Main' with id=" + i);
                             break;
                         }
+
                     // get parameters
                     $("#contractparams")[0].value = "\"\"";
 						  $("#contractparamsjs")[0].value = "";

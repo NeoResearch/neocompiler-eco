@@ -929,8 +929,8 @@ def Main():
                         <div class="row">
                                  <div class="col-md-3">
                                    <div class="form-group">
-                                     <label for="invokefunctionpy">Function to Invoke</label>
-                                     <select id="invokefunctionpy" class="custom-select form-control">
+                                     <label for="invokefunctionjs">Function to Invoke</label>
+                                     <select id="invokefunctionjs" class="custom-select form-control">
                                          <option>Main</option>
                                      </select>
                                    </div>
@@ -939,7 +939,7 @@ def Main():
                                  <div class="col-md-1">
                                    <div class="form-group">
                                      <label>Type</label>
-                                     <select id="invokeparampybox1" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                     <select id="invokeparampybox1" class="custom-select form-control" onchange="updateInvokeParamsJs()">
                                          <option>None</option>
                                          <option>String</option>
                                          <option>Address</option>
@@ -950,15 +950,15 @@ def Main():
                                  </div>
                                  <div class="col-md-2">
                                    <div class="form-group">
-                                     <label>Param 1: </label> <input type="checkbox" id="cbx_inarray_py1" checked/> in array<br/>
-                                     <input id="invokeparamspy1" class="form-control" value='' placeholder="Script Param 1" onchange="updateInvokeParamsPy()"/>
+                                     <label>Param 1: </label> <input type="checkbox" id="cbx_inarray_js1" checked/> in array<br/>
+                                     <input id="invokeparamsjsy1" class="form-control" value='' placeholder="Script Param 1" onchange="updateInvokeParamsJs()"/>
                                    </div>
                                  </div>
                                  <!-- Param 2 -->
                                  <div class="col-md-1">
                                    <div class="form-group">
                                      <label>Type</label>
-                                     <select id="invokeparampybox2" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                     <select id="invokeparamjsbox2" class="custom-select form-control" onchange="updateInvokeParamsJs()">
                                          <option>None</option>
                                          <option>String</option>
                                          <option>Address</option>
@@ -969,15 +969,15 @@ def Main():
                                  </div>
                                  <div class="col-md-2">
                                    <div class="form-group">
-                                     <label>Param 2</label> <input type="checkbox" id="cbx_inarray_py2" checked/> in array<br/>
-                                     <input id="invokeparamspy2" class="form-control" value='' placeholder="Script Param 2" onchange="updateInvokeParamsPy()"/>
+                                     <label>Param 2</label> <input type="checkbox" id="cbx_inarray_js2" checked/> in array<br/>
+                                     <input id="invokeparamsjs2" class="form-control" value='' placeholder="Script Param 2" onchange="updateInvokeParamsJs()"/>
                                    </div>
                                  </div>
                                  <!-- Param 3 -->
                                  <div class="col-md-1">
                                    <div class="form-group">
                                      <label>Type</label>
-                                     <select id="invokeparampybox3" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                     <select id="invokeparamjsbox3" class="custom-select form-control" onchange="updateInvokeParamsJs()">
                                          <option>None</option>
                                          <option>String</option>
                                          <option>Address</option>
@@ -988,8 +988,8 @@ def Main():
                                  </div>
                                  <div class="col-md-2">
                                    <div class="form-group">
-                                     <label>Param 3</label> <input type="checkbox" id="cbx_inarray_py3" checked/> in array<br/>
-                                     <input id="invokeparamspy3" class="form-control" value='' placeholder="Script Param 3" onchange="updateInvokeParamsPy()"/>
+                                     <label>Param 3</label> <input type="checkbox" id="cbx_inarray_js3" checked/> in array<br/>
+                                     <input id="invokeparamsjs3" class="form-control" value='' placeholder="Script Param 3" onchange="updateInvokeParamsJs()"/>
                                    </div>
                                  </div>
                            </div> <!-- row -->
@@ -1001,6 +1001,7 @@ def Main():
                      </form>
                    </div> <!-- end invokejs -->
 
+                   <!-- end invokepy -->
                    <div class="tab-pane cont" id="tabinvokepy">
                     <form id="forminvoke" action="/invokex" method="post">
                       <div class="row">

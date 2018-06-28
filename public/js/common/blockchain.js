@@ -186,7 +186,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
 
     if(res.response.result)
-    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: TODO ");
+    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: " + neonJSParams);
 
   }).catch(err => {
      console.log(err);

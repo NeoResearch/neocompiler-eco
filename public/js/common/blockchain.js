@@ -142,6 +142,9 @@ function pushParams(neonJSParams, type, value){
 //Example of invoke
 //Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
+  console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
+  console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
+
   if(contract_scripthash == "")
   {
 	alert("empty scripthash");
@@ -150,13 +153,15 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 
   var intent;
   if(neo > 0 && gas > 0)
-  	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, contract_scripthash)
+  	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, toBase58(contract_scripthash))
 
   if(neo == 0 && gas > 0)
-  	intent = Neon.api.makeIntent({GAS:gas}, contract_scripthash)
+  	intent = Neon.api.makeIntent({GAS:gas}, toBase58(contract_scripthash))
 
   if(neo > 0 && gas == 0)
-  	intent = Neon.api.makeIntent({NEO:neo}, contract_scripthash)
+  	intent = Neon.api.makeIntent({NEO:neo}, toBase58(contract_scripthash))
+
+   console.log(intent);
 
   //TODO Check if scriptHash is Hex
 

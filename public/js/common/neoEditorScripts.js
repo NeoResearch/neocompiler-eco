@@ -233,13 +233,14 @@
 	var attachneojs = Number($("#attachneojs").val());
 	var attachgasjs = Number($("#attachgasjs").val());
 	var invokeScripthash = $("#invokehashjs").val();
-
-        console.log("invoking contract '"+$("#invokehashjs").val()+"' with params '"+$("#invokeparamsjs").val()+"'");
+     
 	var invokefunc = "";
 	if($("#invokefunctionjs")[0].value != "Main")
 		invokefunc = $("#invokefunctionjs")[0].value;
+
 	var neonJSParams = [];
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
+
 	Invoke(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
     });//End of invoke function
@@ -253,9 +254,6 @@
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
-
-
-
 	var contractGasCost = 90;
 	var wI = $("#wallet_deployjs")[0].selectedOptions[0].index;
 	var storage = 0;
@@ -286,7 +284,7 @@
 	console.log("Final attached gas should be:" + contractGasCost)
 
         Deploy(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
-    });//End of invoke function
+    });//End of deploy function
     //===============================================================
 
 
@@ -649,7 +647,7 @@
 
 	// self update neonjs invoke parameters (in json format)
    function updateInvokeParamsJs() {
-		console.log("updating js json...");
+     console.log("updating js json...");
      invokefunc = "";
      if($("#invokefunctionjs")[0].value != "Main")
         invokefunc = $("#invokefunctionjs")[0].value; // method
@@ -660,17 +658,17 @@
      if($("#invokeparamjsbox1")[0].value != "None") {
         pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
         countparam++;
-		  console.log("step1");
+	console.log("step1");
      }
      if($("#invokeparamjsbox2")[0].value != "None") {
         pushParams(neonJSParams, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
         countparam++;
-		  console.log("step2");
+	console.log("step2");
      }
      if($("#invokeparamjsbox3")[0].value != "None") {
         pushParams(neonJSParams, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
         countparam++;
-		  console.log("step3");
+	console.log("step3");
      }
 
 	  invokecmd = "";

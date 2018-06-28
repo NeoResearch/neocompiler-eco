@@ -911,6 +911,8 @@ def Main():
                                <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
                              </div>
                            </div>
+                        </div>
+                        <div class="row">
                            <div class="col-md-6">
                              <div class="form-group">
                                <label for="invokehashjs">Contract</label>
@@ -923,15 +925,107 @@ def Main():
                                <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
                              </div>
                            </div>
+                        </div>
+                        <div class="row">
+                                 <div class="col-md-3">
+                                   <div class="form-group">
+                                     <label for="invokefunctionpy">Function to Invoke</label>
+                                     <select id="invokefunctionpy" class="custom-select form-control">
+                                         <option>Main</option>
+                                     </select>
+                                   </div>
+                                 </div>
+                                 <!-- Param 1 -->
+                                 <div class="col-md-1">
+                                   <div class="form-group">
+                                     <label>Type</label>
+                                     <select id="invokeparampybox1" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                         <option>None</option>
+                                         <option>String</option>
+                                         <option>Address</option>
+                                         <option>Hex</option>
+                                         <option>Integer</option>
+                                     </select>
+                                   </div>
+                                 </div>
+                                 <div class="col-md-2">
+                                   <div class="form-group">
+                                     <label>Param 1: </label> <input type="checkbox" id="cbx_inarray_py1" checked/> in array<br/>
+                                     <input id="invokeparamspy1" class="form-control" value='' placeholder="Script Param 1" onchange="updateInvokeParamsPy()"/>
+                                   </div>
+                                 </div>
+                                 <!-- Param 2 -->
+                                 <div class="col-md-1">
+                                   <div class="form-group">
+                                     <label>Type</label>
+                                     <select id="invokeparampybox2" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                         <option>None</option>
+                                         <option>String</option>
+                                         <option>Address</option>
+                                         <option>Hex</option>
+                                         <option>Integer</option>
+                                     </select>
+                                   </div>
+                                 </div>
+                                 <div class="col-md-2">
+                                   <div class="form-group">
+                                     <label>Param 2</label> <input type="checkbox" id="cbx_inarray_py2" checked/> in array<br/>
+                                     <input id="invokeparamspy2" class="form-control" value='' placeholder="Script Param 2" onchange="updateInvokeParamsPy()"/>
+                                   </div>
+                                 </div>
+                                 <!-- Param 3 -->
+                                 <div class="col-md-1">
+                                   <div class="form-group">
+                                     <label>Type</label>
+                                     <select id="invokeparampybox3" class="custom-select form-control" onchange="updateInvokeParamsPy()">
+                                         <option>None</option>
+                                         <option>String</option>
+                                         <option>Address</option>
+                                         <option>Hex</option>
+                                         <option>Integer</option>
+                                     </select>
+                                   </div>
+                                 </div>
+                                 <div class="col-md-2">
+                                   <div class="form-group">
+                                     <label>Param 3</label> <input type="checkbox" id="cbx_inarray_py3" checked/> in array<br/>
+                                     <input id="invokeparamspy3" class="form-control" value='' placeholder="Script Param 3" onchange="updateInvokeParamsPy()"/>
+                                   </div>
+                                 </div>
+                           </div> <!-- row -->
+                           <div class="row">
+                             <div class="col-md-3" style="margin-bottom: 10px">
+                               <div class="form-group">
+                                   <label for="wallet_invoke">Select Wallet</label>
+                                   <select name="wallet_invoke" class="custom-select form-control">
+                                       <option>w1.wallet</option>
+                                       <option>w2.wallet</option>
+                                   </select>
+                               </div>
+                             </div>
+                               <div class="col-md-3" style="margin-bottom: 10px">
+                                 <div class="form-group">
+                                   <label for="attachneo">Attach NEO</label>
+                                   <input id="attachneo" name="attachneo" class="form-control" value="0" placeholder="Send NEO"/>
+                                 </div>
+                               </div>
+                               <div class="col-md-3" style="margin-bottom: 10px">
+                                 <div class="form-group">
+                                   <label for="attachgas">Attach GAS</label>
+                                   <input id="attachgas" name="attachgas" class="form-control" value="0" placeholder="Send GAS"/>
+                                 </div>
+                               </div>
+                               <div class="col-md-3" style="margin-bottom: 10px">
+                                   <br/>
+                                   <input type="checkbox" name="cbx_invokeonly" id="cbx_invokeonly"/> Test Invoke Only
+                               </div>
 
-                           <div class="col-md-12">
-                             <button type="submit" id="invokebtnjs"class="btn btn-success btn-sm" data-toggle="modal">Invoke by hash</button>
-                           </div>
-                       </div>
+                               <div class="col-md-12">
+                                 <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
+                               </div>
+                           </div> <!-- row -->
                      </form>
-                   </div> <!-- tab-pane -->
-                   <!-- end invokejs -->
-
+                   </div> <!-- end invokejs -->
 
                    <div class="tab-pane cont" id="tabinvokepy">
                     <form id="forminvoke" action="/invokex" method="post">
@@ -944,7 +1038,7 @@ def Main():
                           </div>
                           <div class="col-md-6">
                             <div class="form-group">
-                              <label for="invokeparams">Invoke Params</label>
+                              <label for="invokeparams">Invoke Params (direct string: xyz, bytearray: bytearray(b'\x6e\x61\x6d\x65'),...)</label>
                               <input id="invokeparams" name="invokeparams" class="form-control" value='""' placeholder="Script Params"/>
                             </div>
                           </div>

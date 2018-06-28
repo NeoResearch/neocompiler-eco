@@ -235,7 +235,12 @@
 	var invokeScripthash = $("#invokehashjs").val();
 
         console.log("invoking contract '"+$("#invokehashjs").val()+"' with params '"+$("#invokeparamsjs").val()+"'");
-	Invoke(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, "", BASE_PATH_CLI, getCurrentNetworkNickname())
+	var invokefunc = "";
+	if($("#invokefunctionjs")[0].value != "Main")
+		invokefunc = $("#invokefunctionjs")[0].value;
+	var neonJSParams = [];
+	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
+	Invoke(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
     });//End of invoke function
     //===============================================================
@@ -593,6 +598,7 @@
      return "";
    }
 
+   // self update python invoke parameters
    function updateInvokeParamsPy() {
      invokecmd = "";
      if($("#invokefunctionpy")[0].value != "Main")
@@ -638,6 +644,42 @@
       invokecmd += "]";
 
       $("#invokeparams")[0].value = invokecmd;
+   }
+
+
+	// self update neonjs invoke parameters (in json format)
+   function updateInvokeParamsJs() {
+		console.log("updating js json...");
+     invokefunc = "";
+     if($("#invokefunctionjs")[0].value != "Main")
+        invokefunc = $("#invokefunctionjs")[0].value; // method
+
+     console.log("function is "+invokefunc);
+     var neonJSParams = [];
+     countparam = 0;
+     if($("#invokeparamjsbox1")[0].value != "None") {
+        pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
+        countparam++;
+		  console.log("step1");
+     }
+     if($("#invokeparamjsbox2")[0].value != "None") {
+        pushParams(neonJSParams, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
+        countparam++;
+		  console.log("step2");
+     }
+     if($("#invokeparamjsbox3")[0].value != "None") {
+        pushParams(neonJSParams, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
+        countparam++;
+		  console.log("step3");
+     }
+
+	  invokecmd = "";
+	  //invokecmd += invokefunc;
+	  //invokecmd += " ";
+
+      invokecmd += JSON.stringify(neonJSParams);
+
+      $("#invokeparamsjs")[0].value = invokecmd;
    }
 
 

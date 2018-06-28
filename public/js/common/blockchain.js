@@ -132,7 +132,7 @@ function pushParams(neonJSParams, type, value){
 	else if(type == 'Hex')
 		neonJSParams.push(Neon.default.create.contractParam(type, value));
 	else if(type == 'Integer')
-		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'integer'));
+		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
 	else if(type == 'BigInteger')
 		neonJSParams.push(Neon.default.create.contractParam(type, value));
 	else

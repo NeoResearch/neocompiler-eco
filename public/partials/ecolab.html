@@ -922,7 +922,7 @@ def Main():
                            <div class="col-md-6">
                              <div class="form-group">
                                <label for="invokeparamsjs">Params</label>
-                               <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"/>
+                               <textarea id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"></textarea>
                              </div>
                            </div>
                         </div>
@@ -994,32 +994,6 @@ def Main():
                                  </div>
                            </div> <!-- row -->
                            <div class="row">
-                             <div class="col-md-3" style="margin-bottom: 10px">
-                               <div class="form-group">
-                                   <label for="wallet_invoke">Select Wallet</label>
-                                   <select name="wallet_invoke" class="custom-select form-control">
-                                       <option>w1.wallet</option>
-                                       <option>w2.wallet</option>
-                                   </select>
-                               </div>
-                             </div>
-                               <div class="col-md-3" style="margin-bottom: 10px">
-                                 <div class="form-group">
-                                   <label for="attachneo">Attach NEO</label>
-                                   <input id="attachneo" name="attachneo" class="form-control" value="0" placeholder="Send NEO"/>
-                                 </div>
-                               </div>
-                               <div class="col-md-3" style="margin-bottom: 10px">
-                                 <div class="form-group">
-                                   <label for="attachgas">Attach GAS</label>
-                                   <input id="attachgas" name="attachgas" class="form-control" value="0" placeholder="Send GAS"/>
-                                 </div>
-                               </div>
-                               <div class="col-md-3" style="margin-bottom: 10px">
-                                   <br/>
-                                   <input type="checkbox" name="cbx_invokeonly" id="cbx_invokeonly"/> Test Invoke Only
-                               </div>
-
                                <div class="col-md-12">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Invoke by hash</button>
                                </div>

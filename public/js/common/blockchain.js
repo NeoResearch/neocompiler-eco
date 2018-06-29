@@ -102,7 +102,7 @@ Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,10,0, "e0967
 var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
-pushParams(neonJSParams, 'Integer', "100");
+pushParams(neonJSParams, 'Integer', "0.5");
 Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
 //Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
@@ -204,6 +204,12 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
 
+    if(contract_script == "")
+    {
+    	alert("empty contract_script");
+    	return;
+    }
+
     const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring('appdescription')) // description
       .emitPush(Neon.u.str2hexstring('email')) // email
@@ -215,7 +221,6 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
       .emitPush(par) // expects hexstring  (_emitString) // usually '0710'
       .emitPush(contract_script) //script
       .emitSysCall('Neo.Contract.Create');
-
 
     const config = {
       net: networkToCall,
@@ -242,10 +247,10 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 {
 	  var permission = (Notification.permission === "granted");
-     if (!permission) {
+     	  if (!permission) {
           	//alert(Notification.permission);
             //console.log(Notification.permission);
-	  	      Notification.requestPermission();
+	  	Notification.requestPermission();
 	  }
 
 	  if(Notification.permission === "granted"){
@@ -256,8 +261,8 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 	 	setTimeout(function() {notification.close()}, notifyTime);
 	  } else {
 		//For browser that do not allow notifications
-		  //alert(notifyTitle + " : " + notifyBody);
-        alert(notifyTitle + " : " + notifyBody);
+		//alert(notifyTitle + " : " + notifyBody);
+          	alert(notifyTitle + " : " + notifyBody);
 	  }
 }
 

@@ -42,6 +42,8 @@ Start any recursive submodule: `git submodule update --recursive --remote`
 
 `npm install`
 
+Pull submodules: `git submodule update --init --recursive` (first time), then, `git submodule update --recursive --remote`
+
 ### Installing docker-compose 1.19.0+
 
 We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:

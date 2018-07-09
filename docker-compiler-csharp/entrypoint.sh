@@ -7,8 +7,10 @@ cp /usr/lib/mono/4.5/mscorlib.dll /tmp/NeoContract1/bin/Release # needed for Act
 echo -n "{ \"output\": \""
 echo "Neo compiler version (latest): " >> /tmp/output.txt
 cat /neo-compiler/neon/*.csproj | grep "<Version>" >> /tmp/output.txt
+(cd /neo-compiler && git log --format="%H" -n 1) >> /tmp/output.txt
 echo "Smart Contract Framework version (latest): " >> /tmp/output.txt
 cat /neo-devpack-dotnet/Neo.SmartContract.Framework/*.csproj | grep "<Version>" >> /tmp/output.txt
+(cd /neo-devpack-dotnet && git log --format="%H" -n 1) >> /tmp/output.txt
 #xbuild /p:Configuration=Release | base64 -w 0
 msbuild /p:Configuration=Release >> /tmp/output.txt
 cat /tmp/output.txt | base64 -w 0

@@ -24,7 +24,7 @@ RUN apt-get update && apt-get install -y dotnet-sdk-2.1.200 #dotnet-sdk-2.1.300*
 RUN apt-get -y install xxd
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
-RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout 1344dd140c6bf4f36c2046585bd419cd72822043) # 2.0.3.7
+RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout 243d773470464c4d2094d947a0431f365a1d19b7) # 2.0.3.7
 RUN (cd /neo-compiler/neon && dotnet restore)
 RUN (cd /neo-compiler/neon && msbuild /p:Configuration=Release)
 RUN (cd /neo-compiler/neon && dotnet publish)

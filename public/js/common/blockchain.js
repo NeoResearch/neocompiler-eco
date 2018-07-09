@@ -66,6 +66,10 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
         privateKey: fromPrivateKey,
     }
 
+    //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
+    //https://github.com/CityOfZion/neon-js/blob/c6a169a82a4d037e00dccd424f53cdc818d6b3ae/src/transactions/transaction.js#L80
+    //https://github.com/CityOfZion/neon-js/blob/fe588b7312cad90f20c4febe0e3f24d93b43ab20/src/wallet/Account.js#L19
+
     Neon.default.claimGas(config)
     .then(res => {
         //console.log("network:"+networkToCall);

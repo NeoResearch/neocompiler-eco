@@ -38,11 +38,11 @@ import sys
 from time import sleep
 from logzero import logger
 from prompt_toolkit import prompt
-from prompt_toolkit.contrib.completers import WordCompleter
+#from prompt_toolkit.contrib.completers import WordCompleter
 from prompt_toolkit.history import FileHistory
-from prompt_toolkit.shortcuts import print_tokens
-from prompt_toolkit.styles import style_from_dict
-from prompt_toolkit.token import Token
+#from prompt_toolkit.shortcuts import print_tokens
+#from prompt_toolkit.styles import style_from_dict
+#from prompt_toolkit.token import Token
 from twisted.internet import reactor, task
 
 from tempfile import NamedTemporaryFile
@@ -71,7 +71,7 @@ from neo.Prompt.Commands.Wallet import DeleteAddress, ImportWatchAddr, ImportTok
     ShowUnspentCoins
 from neo.Prompt.Utils import get_arg, get_from_addr
 from neo.Prompt.InputParser import InputParser
-from neo.Settings import settings, PrivnetConnectionError, PATH_USER_DATA
+from neo.Settings import settings, PrivnetConnectionError
 from neo.UserPreferences import preferences
 from neocore.KeyPair import KeyPair
 from neocore.UInt256 import UInt256

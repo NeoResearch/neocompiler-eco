@@ -114,8 +114,8 @@
                 $("#nodeStatus")[0].innerHTML = "RPC_PY:" + BASE_PATH_PY + " -> " + result.version+" -> H2:"+result.current_height;
       }); // Python user agent + block count
 
-      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_highest_block", function(result5) {
-        $("#postgreshighestblock")[0].innerHTML = BASE_PATH_NEOSCAN  +" -> H3:"+result5.index;
+      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result5) {
+        $("#postgreshighestblock")[0].innerHTML = BASE_PATH_NEOSCAN  +" -> H3:"+result5.height;
       }); // neoscan top block
     });
 

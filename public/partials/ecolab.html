@@ -1875,15 +1875,10 @@ def Main():
            if(this.window.location.href.indexOf("localhost")  != -1)
                net = "http://localhost:8000";
 
-           $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
-           $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
-           $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
-           $.get(net+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); } );
-
-           $("#node1data").scrollTop($("#node1data")[0].scrollHeight);
-           $("#node2data").scrollTop($("#node2data")[0].scrollHeight);
-           $("#node3data").scrollTop($("#node3data")[0].scrollHeight);
-           $("#node4data").scrollTop($("#node4data")[0].scrollHeight);
+           $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node1data").scrollTop($("#node1data")[0].scrollHeight);} );
+           $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node2data").scrollTop($("#node2data")[0].scrollHeight);} );
+           $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node3data").scrollTop($("#node3data")[0].scrollHeight);} );
+           $.get(net+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight);} );
         }
     </script>
 </div>

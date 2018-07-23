@@ -601,7 +601,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">Compile</div>
                         <div class="panel-body">
-                            <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
+                            <form id="formCompile" action="" style="margin-top: 10px;" method="post">
                                 <div class="tab-container">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
@@ -1353,6 +1353,10 @@ def Main():
               BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
+            //Update express routes
+            //$('#formCompile')[0].action
+            $('#formCompile').attr('action', BASE_PATH_URL+'/compilex');
+
             // updateHeaderNetworkInfo();
         }
 
@@ -1811,6 +1815,7 @@ def Main():
         {
            $.get(BASE_PATH_URL+'/notifications', function (data) { $("#textAreaOfAllPythonNotifications").val(data); $("#textAreaOfAllPythonNotifications").scrollTop($("#textAreaOfAllPythonNotifications")[0].scrollHeight); });
         }
+
 
     </script>
 </div>

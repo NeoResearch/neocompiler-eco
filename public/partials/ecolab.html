@@ -1354,6 +1354,12 @@ def Main():
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;
             }
 
+            if(mynetwork == "CoZ TestNet")
+            {
+              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET; //TODO
+              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;  //TODO
+            }
+
             //Update express routes
             //$('#formCompile')[0].action
             $('#formCompile').attr('action', BASE_PATH_URL+'/compilex');

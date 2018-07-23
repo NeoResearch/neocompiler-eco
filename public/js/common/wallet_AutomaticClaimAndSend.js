@@ -1,9 +1,8 @@
 function searchIndexOfAllKnownWallets(addressToTryToGet)
 {
-  for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-      if(KNOWN_ADDRESSES[ka].publicKey == addressToTryToGet)
-	     return ka;
-
+  for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
+      if(KNOWN_ADDRESSES[iToFind].publicKey == addressToTryToGet)
+	     return iToFind;
   return -1;
 }
 
@@ -96,7 +95,6 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
 
     if(result.balance)
     {
-      //console.log(result.balance);
       for( i = 0; i < result.balance.length; ++i)
       {
     	  if(result.balance[i].asset == assetToGet)
@@ -140,18 +138,23 @@ function fillWalletInfo(result)
 }
 
 
-function populateWalletData()
+function populateAllWalletData()
 {
+    //Adding all known address to NeonInvokeSelectionBox
+    addAllKnownAddressesToSelectionBox("wallet_invokejs");
+    addAllKnownAddressesToSelectionBox("wallet_deployjs");
+    addAllKnownAddressesToSelectionBox("wallet_info");
+
     drawWalletsStatus();
 
     for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
     {
       addressToGet = KNOWN_ADDRESSES[ka].publicKey;
-      walletIndex = searchIndexOfAllKnownWallets(addressToGet);
-      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + walletIndex);
-      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + walletIndex);
-      callClaimableNeonQuery(addressToGet,"#walletClaim" + walletIndex);
-      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + walletIndex);
+      //walletIndex = searchIndexOfAllKnownWallets(addressToGet);
+      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
+      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
+      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
+      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + ka);
     }
 }
 
@@ -198,16 +201,14 @@ function drawWalletsStatus(){
       //b.onclick = function () {alert(this.value);};
       b.onclick = function () {buttonKnownAddress(this.value);};
       b.innerHTML = i;
-
       txRow.insertCell(-1).appendChild(b);
 
       var link = document.createElement("a");
       var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + KNOWN_ADDRESSES[i].publicKey;
-      link.appendChild(document.createTextNode(KNOWN_ADDRESSES[i].publicKey));
+      link.text = KNOWN_ADDRESSES[i].publicKey;
       link.href = urlToGet;
       link.target = 'popup';
       link.onclick= urlToGet;
-
       txRow.insertCell(-1).appendChild(link);
 
       var walletNeo = document.createElement('input');
@@ -237,7 +238,6 @@ function drawWalletsStatus(){
 
       txRow.insertCell(-1).appendChild(b);
 
-
       var walletUnclaim = document.createElement('input');
       walletUnclaim.setAttribute('id', "walletUnclaim"+i);
       walletUnclaim.setAttribute("value", "-");
@@ -250,6 +250,39 @@ function drawWalletsStatus(){
   document.getElementById("divWalletsStatus").appendChild(table);
 }//Finishe DrawWallets function
 //===============================================================
+
+//===============================================================
+function addWallet(){
+        pubAddressToAdd = document.getElementById('addressToAddBox').value;
+        wifToAdd = document.getElementById('wifToAddBox').value;
+        //console.log("pubAddressToAdd:" + pubAddressToAdd + " wifToAdd: " + wifToAdd);
+
+	if(searchIndexOfAllKnownWallets(pubAddressToAdd) != -1)
+	{
+		alert("Public address already registered. Please, delete index " + searchIndexOfAllKnownWallets(pubAddressToAdd) + " first.");
+		return;
+	}
+ 	if(!Neon.default.is.address(pubAddressToAdd))
+	{
+		alert("Public address " + pubAddressToAdd + " is not being recognized as a valid address.");
+		return;
+	}
+	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd });
+
+	populateAllWalletData();
+}
+//===============================================================
+
+//===============================================================
+//============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
+function changeWalletInfo(){
+	var wToChangeIndex = $("#wallet_info")[0].selectedOptions[0].index;
+	document.getElementById("walletInfoAddressBase58").value = KNOWN_ADDRESSES[wToChangeIndex].publicKey;
+	document.getElementById("walletInfoPubKey").value = KNOWN_ADDRESSES[wToChangeIndex].pubKey;
+	document.getElementById("walletInfoWIF").value = KNOWN_ADDRESSES[wToChangeIndex].privateKey;
+}
+//===============================================================
+
 
 //===============================================================
 function buttonKnownAddress(idToRemove){

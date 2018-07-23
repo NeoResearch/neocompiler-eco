@@ -1277,8 +1277,8 @@ def Main():
             {
                 $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
                 $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
-                updatePATHS();
             }
+            updatePATHS();
         });
 
         window.onbeforeunload = function(event){
@@ -1302,7 +1302,6 @@ def Main():
             verifyRPCNetworkForWithdrawUTXO();
         });
 */
-
         $("#createtx_input_utxo2").on('change', function() {
             console.log("input UTXO tx ID is: " + JSON.parse($("#createtx_input_utxo2").val()).txid);
         });

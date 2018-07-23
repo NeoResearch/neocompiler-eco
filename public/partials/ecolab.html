@@ -436,12 +436,12 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Known addresses</div>
                         <div class="panel-body">
-                            <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check addresses</button>
-                            <i>If you want to access UNCLAIMABLE->CLAIMABLE gas, please click in the arrow (it will self-transfer all NEO to that wallet), claim will be done automatically</i>
+                            <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check addresses</button> <br>
+                            <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
-                            <button type="button" onClick="addWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>&nbsp; &nbsp;
-                            address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="50" value="PubAddress to Add" size="30" title="public address"/>
+                            address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="50" value="PubAddress to Add" size="30" title="public address"/> &nbsp; &nbsp;
                             WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="50" value="WIF to Add" size="30" /> <br>
+                            <button type="button" onClick="addWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                         </div>
                     </div>
                     <div class="panel panel-info">
@@ -923,20 +923,23 @@ def Main():
                              </div>
                            </div>
                         </div>
+
                         <div class="row">
-                           <div class="col-md-6">
-                             <div class="form-group">
-                               <label for="invokehashjs">Contract</label>
-                               <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash"/>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                               <label for="invokehashjs">Contract ScriptHash</label>
+                               <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
                              </div>
                            </div>
+
                            <div class="col-md-6">
                              <div class="form-group">
                                <label for="invokeparamsjs">Params</label>
-                               <textarea id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Script Params"></textarea>
+                               <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Invoke Parameters" style="width: 100%"></textarea>
                              </div>
                            </div>
                         </div>
+
                         <div class="row">
                                  <div class="col-md-3">
                                    <div class="form-group">

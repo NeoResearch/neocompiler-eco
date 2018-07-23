@@ -50,7 +50,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
     .then(res => {
         //console.log("network:"+networkToCall);
         console.log(res.response);
-        createNotificationOrAlert("CreateTx", res.response.result, 2000);
+        createNotificationOrAlert("SendTX", res.response.result, 2000);
     })
     .catch(e => {
         console.log(e)
@@ -74,6 +74,7 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
     .then(res => {
         //console.log("network:"+networkToCall);
         console.log(res.response)
+	createNotificationOrAlert("ClaimTX", res.response.result, 2000);
     })
     .catch(e => {
         console.log(e)
@@ -149,9 +150,9 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
   console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
 
-  if(contract_scripthash == "")
+  if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
   {
-	alert("empty scripthash");
+	alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
 	return;
   }
 
@@ -166,8 +167,6 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
   	intent = Neon.api.makeIntent({NEO:neo}, toBase58(contract_scripthash))
 
    console.log(intent);
-
-  //TODO Check if scriptHash is Hex
 
   const config = {
     net: networkToCall,

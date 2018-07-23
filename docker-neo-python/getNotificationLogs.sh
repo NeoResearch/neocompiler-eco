@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat ~/.neopython/prompt.log
+cat ~/.neo-python/prompt.log

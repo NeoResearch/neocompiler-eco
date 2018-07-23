@@ -491,6 +491,7 @@
     	document.getElementById("divRelayedTXs").innerHTML = "";
     	var table = document.createElement("table");
       table.setAttribute('class', 'table');
+      table.style.width = '20px';
 
       var row = table.insertRow(-1);
       var headers1 = document.createElement('div');
@@ -521,13 +522,15 @@
 
           txRow.insertCell(-1).appendChild(b);
 
-          var link = document.createElement("a");
+          var txIDCell = document.createElement("a");
           var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
-          link.appendChild(document.createTextNode(vecRelayedTXs[i].tx));
-          link.href = urlToGet;
-          link.target = '_blank';
-          link.onclick = urlToGet;
-          txRow.insertCell(-1).appendChild(link);
+          txIDCell.text = vecRelayedTXs[i].tx.slice(0,5) + "..." + vecRelayedTXs[i].tx.slice(-5);
+          txIDCell.href = urlToGet;
+          txIDCell.target = '_blank';
+          txIDCell.onclick = urlToGet;
+          txIDCell.style.width = '70px';
+	  txIDCell.style.display = 'block';
+          txRow.insertCell(-1).appendChild(txIDCell);
 
           var input = document.createElement("input");
           //input.setAttribute("type", "hidden");
@@ -584,8 +587,9 @@
               document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
    }
-   //===============================================================
+  //===============================================================
 
+   //===============================================================
    function convertParam(type, value) {
      if(type == "String")
         return "\""+value+"\"";
@@ -597,7 +601,9 @@
         return ""+Number(value);
      return "";
    }
+   //===============================================================
 
+//===============================================================
    // self update python invoke parameters
    function updateInvokeParamsPy() {
      invokecmd = "";
@@ -645,9 +651,10 @@
 
       $("#invokeparams")[0].value = invokecmd;
    }
+//===============================================================
 
-
-	// self update neonjs invoke parameters (in json format)
+//===============================================================
+// self update neonjs invoke parameters (in json format)
    function updateInvokeParamsJs() {
      console.log("updating js json...");
      invokefunc = "";
@@ -681,6 +688,4 @@
 
       $("#invokeparamsjs")[0].value = invokecmd;
    }
-
-
-   // ==============================================================
+// ==============================================================

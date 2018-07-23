@@ -165,6 +165,7 @@ function drawWalletsStatus(){
   document.getElementById("divWalletsStatus").innerHTML = "";
   var table = document.createElement("table");
   table.setAttribute('class', 'table');
+  table.style.width = '20px';
 
   var row = table.insertRow(-1);
   var headers1 = document.createElement('div');
@@ -203,30 +204,35 @@ function drawWalletsStatus(){
       b.innerHTML = i;
       txRow.insertCell(-1).appendChild(b);
 
-      var link = document.createElement("a");
+      var addressBase58 = document.createElement("a");
       var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + KNOWN_ADDRESSES[i].publicKey;
-      link.text = KNOWN_ADDRESSES[i].publicKey;
-      link.href = urlToGet;
-      link.target = 'popup';
-      link.onclick= urlToGet;
-      txRow.insertCell(-1).appendChild(link);
+      addressBase58.text = KNOWN_ADDRESSES[i].publicKey.slice(0,5) + "..." + KNOWN_ADDRESSES[i].publicKey.slice(-5);
+      addressBase58.href = urlToGet;
+      addressBase58.target = 'popup';
+      addressBase58.onclick= urlToGet;
+      addressBase58.style.width = '70px';
+      addressBase58.style.display = 'block';
+      txRow.insertCell(-1).appendChild(addressBase58);
 
       var walletNeo = document.createElement('input');
       walletNeo.setAttribute('id', "walletNeo"+i);
       walletNeo.setAttribute("value", "-");
       walletNeo.setAttribute("readonly","true");
+      walletNeo.style.width = '90px'
       txRow.insertCell(-1).appendChild(walletNeo);
 
       var walletGas = document.createElement('input');
       walletGas.setAttribute('id', "walletGas"+i);
       walletGas.setAttribute("value", "-");
       walletGas.setAttribute("readonly","true");
+      walletGas.style.width = '80px'
       txRow.insertCell(-1).appendChild(walletGas);
 
       var walletClaim = document.createElement('input');
       walletClaim.setAttribute('id', "walletClaim"+i);
       walletClaim.setAttribute("value", "-");
       walletClaim.setAttribute("readonly","true");
+      walletClaim.style.width = '80px'
       txRow.insertCell(-1).appendChild(walletClaim);
 
       var b = document.createElement('button');
@@ -242,6 +248,7 @@ function drawWalletsStatus(){
       walletUnclaim.setAttribute('id', "walletUnclaim"+i);
       walletUnclaim.setAttribute("value", "-");
       walletUnclaim.setAttribute("readonly","true");
+      walletUnclaim.style.width = '80px'
       txRow.insertCell(-1).appendChild(walletUnclaim);
 
       //Check activation status

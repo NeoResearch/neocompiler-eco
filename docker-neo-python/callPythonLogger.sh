@@ -2,7 +2,7 @@
 
 #ln -s /root/.neopython/prompt.log /neo-python/logs2/prompt.log
 
-rm -rf /root/.neopython/
+rm -rf /root/.neo-python/
 
 screen -L -Logfile /neo-python/pythonScreen.log -dmS neolog python3.6  /neo-python/neo/bin/prompt.py -p --datadir /root/.neo-python/
 sleep 3

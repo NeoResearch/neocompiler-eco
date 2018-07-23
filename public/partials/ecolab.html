@@ -1271,19 +1271,19 @@ def Main():
 
             recoveringPageData();
             populateAllWalletData();
+
+            //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
+            if(window.location.href.indexOf("localhost")  != -1)
+            {
+                $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
+                $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
+                updatePATHS();
+            }
         });
 
         window.onbeforeunload = function(event){
           storePageData();
           return confirm("Confirm refresh");
-        }
-
-        //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
-        if(this.window.location.href.indexOf("localhost")  != -1)
-        {
-	          $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
-            $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
-            updatePATHS();
         }
 
         //=============================================================

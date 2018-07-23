@@ -498,10 +498,13 @@
       var headers2 = document.createElement('div');
       var headers3 = document.createElement('div');
       var headers4 = document.createElement('div');
+      var headersAppLog = document.createElement('div');
       headers1.innerHTML = "<b> ID </b>";
       row.insertCell(-1).appendChild(headers1);
       headers2.innerHTML = "<b> TX </b>";
       row.insertCell(-1).appendChild(headers2);
+      headersAppLog.innerHTML = "<b> AppLog </b>";
+      row.insertCell(-1).appendChild(headersAppLog);
       headers3.innerHTML = "<b> Note </b>";
       row.insertCell(-1).appendChild(headers3);
       headers4.innerHTML = "<b> Blockchained </b>";
@@ -519,7 +522,6 @@
           //b.onclick = function () {alert(this.value);};
           b.onclick = function () {buttonRemoveTX(this.value);};
           b.innerHTML = i;
-
           txRow.insertCell(-1).appendChild(b);
 
           var txIDCell = document.createElement("a");
@@ -531,6 +533,14 @@
           txIDCell.style.width = '70px';
 	  txIDCell.style.display = 'block';
           txRow.insertCell(-1).appendChild(txIDCell);
+
+          var bGoToAppLog = document.createElement('button');
+          bGoToAppLog.setAttribute('content', 'test content');
+          bGoToAppLog.setAttribute('class', 'btn btn-info');
+          bGoToAppLog.setAttribute('value', i);
+          bGoToAppLog.onclick = function () {callAppLog(this.value);};
+          bGoToAppLog.innerHTML = '?';
+          txRow.insertCell(-1).appendChild(bGoToAppLog);
 
           var input = document.createElement("input");
           //input.setAttribute("type", "hidden");
@@ -562,6 +572,24 @@
       document.getElementById("divRelayedTXs").appendChild(table);
       searchForTXs();
     }//Finishe DrawRules function
+   //===============================================================
+
+  //===============================================================
+   //Call app log
+   function callAppLog(txID){
+      if(txID < vecRelayedTXs.length && txID > -1)
+      {
+	     var txHash = vecRelayedTXs[txID].tx;
+	     var appLogJson = [];
+	     appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[txID].tx] });
+	     $("#txtRPCJson").val(JSON.stringify(appLogJson));
+	     $('#btnCallJsonRPC').click();
+	     $("#pillstab").children().eq(2).find('a').tab('show');
+	     document.getElementById('divFormJsonOut').scrollIntoView();
+      }else{
+        alert("Cannot get log of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+      }
+   }
    //===============================================================
 
   //===============================================================

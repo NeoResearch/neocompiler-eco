@@ -224,8 +224,8 @@
     //===============================================================
     //Invoke JS
     $("#forminvokejs").submit(function (e) {
-        $("#contractmessages").text("");
-        $("#contractmessagesnotify").text("");
+        //$("#contractmessages").text("");
+        //$("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
@@ -251,8 +251,8 @@
     //===============================================================
     //Deploy JS
     $("#formdeployjs").submit(function (e) {
-        $("#contractmessages").text("");
-        $("#contractmessagesnotify").text("");
+        //$("#contractmessages").text("");
+        //$("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();

@@ -1,10 +1,7 @@
 //===============================================================
 $("#formdeploy").submit(function (e) {
         $("#deploybtn")[0].disabled = true;
-        //$("#searchbtn")[0].disabled = true;
         $("#invokebtn")[0].disabled = true;
-        $("#contractmessages").text("");
-        $("#contractmessagesnotify").text("");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $('#formdeploy, #formCompile').serialize();
@@ -22,14 +19,11 @@ $("#formdeploy").submit(function (e) {
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
 
-           //$("#contractmessages").val(data);
-           $("#contractmessages").text(data);
-
-           if($("#contractmessages").text().indexOf("insufficient funds for asset id") != -1)
+           if(data.indexOf("insufficient funds for asset id") != -1)
               alert("Not enough GAS in wallet to perform deploy!");
 
            //Let's try to get the last relayed TX hash
-           updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
+           updateTXTableOfAPythonRelayedTX(data);
         }).fail(function(jqXHR, textStatus){
            //if(textStatus === 'timeout')
            //{
@@ -40,7 +34,7 @@ $("#formdeploy").submit(function (e) {
            //alert(jqXHR);
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
-           $("#contractmessages").text("Some unexpected error happened when calling POST for deploying!\n" + textStatus + "\n" + jqXHR);
+           alert("Some unexpected error happened when calling POST for deploying!\n" + textStatus + "\n" + jqXHR);
         }); //End of ajax for POST deploy
 
 	/*
@@ -64,11 +58,8 @@ $("#formdeploy").submit(function (e) {
 
 //===============================================================
 $("#forminvoke").submit(function (e) {
-      $("#deploybtn")[0].disabled = true;
-      //$("#searchbtn")[0].disabled = true;
-      $("#invokebtn")[0].disabled = true;
-        $("#contractmessages").text("");
-        $("#contractmessagesnotify").text("");
+        $("#deploybtn")[0].disabled = true;
+        $("#invokebtn")[0].disabled = true;
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
@@ -86,18 +77,12 @@ $("#forminvoke").submit(function (e) {
              $("#deploybtn")[0].disabled = false;
              $("#invokebtn")[0].disabled = false;
 
-
-	         $("#contractmessages").text(data);
-
-	         //TODO - FIX NOTIFY LOOP
-	         updateNotifyReports($("#contractmessages").text());
-
-             //Let's try to get the last relayed TX hash
-             updateTXTableOfAPythonRelayedTX($("#contractmessages").text());
+             //Get the last relayed TX hash
+	     updateTXTableOfAPythonRelayedTX(data);
         }).fail(function(jqXHR, textStatus){
            $("#deploybtn")[0].disabled = false;
            $("#invokebtn")[0].disabled = false;
-           $("#contractmessages").text("Some unexpected error happened when calling POST for invoke!\n" + textStatus + "\n" + jqXHR);
+           alert("Some unexpected error happened when calling POST for invoke!\n" + textStatus + "\n" + jqXHR);
         }); //End of ajax for POST invoke
 
         /*
@@ -132,6 +117,7 @@ $("#forminvoke").submit(function (e) {
 //===============================================================
 
 //===============================================================
+/*
 function updateNotifyReports(contractMessagesBox){
              //----------------------------------------------------
              //Procedure for filtering notify messages and showing on events specify textnofity box
@@ -185,6 +171,7 @@ function updateNotifyReports(contractMessagesBox){
 
              //----------------------------------------------------
 }
+*/
 //===============================================================
 
 

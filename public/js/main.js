@@ -74,11 +74,12 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
 	// TODO: improve! do we need a post for this?? it seems unlikely...
 	$http({ method: 'POST',
-            url: '/getvars'
+            url: BASE_PATH_URL+'/getvars'
          }).then(function (response){
 						ENV_VARS = response.data;
 						$("#footerversion")[0].innerHTML='<a href="https://github.com/neoresearch/neocompiler-eco/commit/'+ENV_VARS.commit+'">Get on GitHub</a>';
          }, function (error) {console.log("ENV_VARS error:"+JSON.stringify(error));});
+
 
   // Activates Tooltips for Social Links
   //$('.tooltip-social').tooltip({

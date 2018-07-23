@@ -60,6 +60,8 @@ setInterval(function() {
   io.emit('timeleft', { timeleft: timeleft });
 }, 1000);
 
+io.set('origins', '*:*');
+
 io.on('connection', function(socket){
   conn.addConnection();
   io.emit('userconnected', { online: conn.connections, since: conn.connectionsSince });

@@ -87,7 +87,7 @@
     <!-- /.container -->
 </nav>
 <script>
-    var socket = io().connect(window.location.hostname);
+    var socket = io().connect(BASE_PATH_URL);
     socket.on('userconnected', function (data) {
       $("#online")[0].innerHTML="Online: " + data['online'];
       $("#connecedSince")[0].innerHTML="Access: " + data['since'];

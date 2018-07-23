@@ -258,7 +258,7 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 
 	  if(Notification.permission === "granted"){
 		var notification = new Notification(notifyTitle, {
-			icon: 'images/prototype-icon-eco.png',//'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+			icon: 'public/images/prototype-icon-eco.png',//'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
 		  	body: notifyBody,
 	  	});
 	 	setTimeout(function() {notification.close()}, notifyTime);

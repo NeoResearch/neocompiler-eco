@@ -1,6 +1,11 @@
 /* Some Global Variables  */
 
 var refreshIntervalId = 0;
+
+//Fixed website URLS
+var FIXED_BASE_URL_LOCALHOST = "http://localhost:8000";
+var FIXED_BASE_URL_NEOCOMPILER_ECO = "https://eco.neocompiler.io";
+
 //Fixed known paths for NeoScan
 var FIXED_NEOSCAN_NEOCOMPILER = "https://neoscan.neocompiler.io";
 var FIXED_NEOSCAN_LOCALHOST = "http://localhost:4000";
@@ -20,6 +25,7 @@ var FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST =  "http://localhost:30333"; // node1
 var BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
 var BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
 var BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_NEOCOMPILER;
+var BASE_PATH_URL = FIXED_BASE_URL_NEOCOMPILER_ECO;
 
 var KNOWN_ADDRESSES = [];
 KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', pubKey: '031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a' });
@@ -38,6 +44,7 @@ if(LOCAL_DEVELOPMENT){
 	BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
         BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
         BASE_PATH_CLI = FIXED_NEOCLI_RPC_BASE_PATH_LOCALHOST;
+	BASE_PATH_URL = FIXED_BASE_URL_LOCALHOST;
 }
 
 var ENV_VARS = "";
@@ -52,15 +59,15 @@ app.config(['$routeProvider', function ($routeProvider) {
   $routeProvider
 
     //home page
-    .when("/", {templateUrl: "partials/home.html", controller: "PageCtrl"})
+    .when("/", {templateUrl: "public/partials/home.html", controller: "PageCtrl"})
 
     // Pages
-    .when("/neoeditor", {templateUrl: "partials/neoeditor.html", controller: "PageCtrl"})
-    .when("/ecolab", {templateUrl: "partials/ecolab.html", controller: "PageCtrl"})
-    .when("/about", {templateUrl: "partials/about.html", controller: "PageCtrl"})
+    .when("/neoeditor", {templateUrl: "public/partials/neoeditor.html", controller: "PageCtrl"})
+    .when("/ecolab", {templateUrl: "public/partials/ecolab.html", controller: "PageCtrl"})
+    .when("/about", {templateUrl: "public/partials/about.html", controller: "PageCtrl"})
 
     // else 404
-    .otherwise("/404", {templateUrl: "partials/404.html", controller: "PageCtrl"});
+    .otherwise("/404", {templateUrl: "public/partials/404.html", controller: "PageCtrl"});
 }]);
 
 /* Controls all other Pages */

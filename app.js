@@ -22,7 +22,7 @@ var app = express();
 //}));
 
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
+app.use(express.static(__dirname + '/'));                 // set the static files location /public/img will be /img for users
 app.use(logger('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({                                 // parse application/x-www-form-urlencoded
    parameterLimit: 100000,                // bigger parameter sizes
@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({                                 // parse applica
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
+
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);

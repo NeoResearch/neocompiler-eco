@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="../index.html">Home</a>
+                <li><a href="/index.html">Home</a>
                 </li>
                 <li class="active">EcoLab (Neo Ecosystem Laboratory)</li>
             </ol>
@@ -17,10 +17,11 @@
         <div class="col-sm-2 sidenav">
             <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a data-target="#compilers" data-toggle="tab">Compilers</a></li>
-              <li><a data-target="#network" data-toggle="tab">Network</a></li>
+              <li><a data-target="#network" data-toggle="tab">Network Essentials</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallets</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
+              <li><a data-target="#pythonnotification"  data-toggle="tab">PythonNotifications</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
             </ul>
         </div>
@@ -571,6 +572,28 @@
           <!-- END DIV NODES INFO -->
           <!-- ======================================================== -->
 
+          <!-- ======================================================== -->
+          <!-- BEGIN PYTHON NOTIFICATIONS -->
+           <div class="tab-pane fade" id="pythonnotification">
+               <div class="row">
+                   <div class="col-md-2 pull-left">
+                       <button type="submit" onClick="getPythonNotificationsInfo()" class="btn btn-info btn-sm">Reload all system notifications</button>
+                   </div>
+               </div>
+
+               <div class="panel panel-primary">
+                   <div class="panel-heading">Python client notifications logger</div>
+                   <div class="panel-body">
+                     <div class="row">
+                       <div class="col-md-12">
+                          <textarea id="textAreaOfAllPythonNotifications" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Python Runtime.Notify messages..." class="form-control"></textarea><br>
+                        </div>
+                      </div>
+                   </div>
+               </div>
+           </div>
+         <!-- END DIV PYTHON NOTIFICATIONS -->
+         <!-- ======================================================== -->
 
           <!-- ======================================================== -->
           <!-- BEGIN DIV COMPILERS -->
@@ -1180,23 +1203,6 @@ def Main():
               </div>
           </div>
 
-          <div class="panel panel-info">
-              <div class="panel-heading">Python client notifications logger</div>
-              <div class="panel-body">
-                  <center><button type="submit" onClick="getPythonNotificationsInfo()" class="btn btn-info btn-sm">Reload all system notifications</button></center>
-                  <textarea id="textAreaOfAllPythonNotifications" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Python Runtime.Notify messages..." class="form-control"></textarea><br>
-
-                  <!-- OLD PYTHON NOTIFICATIONS - DEPRECATED -->
-                  <!--
-                  <form id="formprivatenet" method="post">
-                      <textarea id="contractmessages" readonly="readonly" style="font-size: 12px;" rows="15" cols="100" placeholder="Contract messages..." class="form-control"></textarea><br>
-                      <textarea id="contractmessagesnotify" readonly="readonly" style="font-size: 12px;" rows="5" cols="100" placeholder="Contract messages Notify..." class="form-control"></textarea><br>
-                  </form>-->
-              </div>
-          </div>
-
-
-
         </div>
 
       </div> <!-- TAB PANNEL -->
@@ -1215,9 +1221,9 @@ def Main():
   <!-- ======================================================== -->
   <!-- ======================================================== -->
 
-    <script src="js/common/neoEditorScripts.js"></script>
-    <script src="js/common/wallet_AutomaticClaimAndSend.js"></script>
-    <script src="js/common/pythonEco.js"></script>
+    <script src="public/js/common/neoEditorScripts.js"></script>
+    <script src="public/js/common/wallet_AutomaticClaimAndSend.js"></script>
+    <script src="public/js/common/pythonEco.js"></script>
 
     <script>
         function addAllKnownAddressesToSelectionBox(walletSelectionBox){
@@ -1322,6 +1328,7 @@ def Main():
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
               BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
+              BASE_PATH_URL = FIXED_BASE_URL_LOCALHOST;
             }
 
             if(mynetwork == "neocompiler.io (shared privatenet)")
@@ -1329,6 +1336,7 @@ def Main():
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
               BASE_PATH_CLI = $("#neonodeurl")[0].value;
+              BASE_PATH_URL = FIXED_BASE_URL_NEOCOMPILER_ECO;
             }
 
             if(mynetwork == "NEO MainNet")
@@ -1792,23 +1800,17 @@ def Main():
         //This uses local routes
         function getNodeInfo()
         {
-           var net = "https://eco.neocompiler.io";
-           if(this.window.location.href.indexOf("localhost")  != -1)
-               net = "http://localhost:8000";
-
-           $.get(net+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node1data").scrollTop($("#node1data")[0].scrollHeight); });
-           $.get(net+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node2data").scrollTop($("#node2data")[0].scrollHeight); });
-           $.get(net+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node3data").scrollTop($("#node3data")[0].scrollHeight); });
-           $.get(net+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight); });
+           $.get(BASE_PATH_URL+'/statusnode1', function (data) { $("#node1data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node1data").scrollTop($("#node1data")[0].scrollHeight); });
+           $.get(BASE_PATH_URL+'/statusnode2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node2data").scrollTop($("#node2data")[0].scrollHeight); });
+           $.get(BASE_PATH_URL+'/statusnode3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node3data").scrollTop($("#node3data")[0].scrollHeight); });
+           $.get(BASE_PATH_URL+'/statusnode4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight); });
         }
 
         //This uses local routes
         function getPythonNotificationsInfo()
         {
-           $.get('/notifications', function (data) { $("#textAreaOfAllPythonNotifications").val(data); $("#textAreaOfAllPythonNotifications").scrollTop($("#textAreaOfAllPythonNotifications")[0].scrollHeight); });
+           $.get(BASE_PATH_URL+'/notifications', function (data) { $("#textAreaOfAllPythonNotifications").val(data); $("#textAreaOfAllPythonNotifications").scrollTop($("#textAreaOfAllPythonNotifications")[0].scrollHeight); });
         }
-
-
 
     </script>
 </div>

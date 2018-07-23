@@ -1293,6 +1293,10 @@ def Main():
             updatePATHS();
         });
 
+        $("#neonodeurl").on('change', function() {
+            updatePATHS();
+        });
+
 /*
         $("#createtx_input_assetid").on('change', function() {
             verifyRPCNetworkForWithdrawUTXO();
@@ -1323,11 +1327,11 @@ def Main():
         {
             mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
 
+            BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
             if(mynetwork == "localhost (privatenet)")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
-              BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
               BASE_PATH_URL = FIXED_BASE_URL_LOCALHOST;
             }
 
@@ -1335,7 +1339,6 @@ def Main():
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
-              BASE_PATH_CLI = $("#neonodeurl")[0].value;
               BASE_PATH_URL = FIXED_BASE_URL_NEOCOMPILER_ECO;
             }
 
@@ -1343,14 +1346,12 @@ def Main():
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_MAINNET;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_MAINNET;
-              BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
             if(mynetwork == "NEO TestNet")
             {
               BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET;
               BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;
-              BASE_PATH_CLI = $("#neonodeurl")[0].value;
             }
 
             //Update express routes

@@ -33,6 +33,14 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
+app.use(function (req, res, next) {
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+res.setHeader('Access-Control-Allow-Credentials', true);
+next();
+});
+
 
 var server = http.createServer(app);
 var io = require('socket.io').listen(server);

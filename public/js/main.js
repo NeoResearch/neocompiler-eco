@@ -4,7 +4,7 @@ var refreshIntervalId = 0;
 
 //Fixed website URLS
 var FIXED_BASE_URL_LOCALHOST = "http://localhost:8000";
-var FIXED_BASE_URL_NEOCOMPILER_ECO = "https://eco.neocompiler.io";
+var FIXED_BASE_URL_NEOCOMPILER_ECO = "https://neocompiler.io";
 
 //Fixed known paths for NeoScan
 var FIXED_NEOSCAN_NEOCOMPILER = "https://neoscan.neocompiler.io";

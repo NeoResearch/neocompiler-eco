@@ -87,6 +87,7 @@
     <!-- /.container -->
 </nav>
 <script>
+    startSocketIoConnections();
     function startSocketIoConnections(){
       socket.disconnect();
       socket = io.connect(BASE_PATH_URL, {resource: 'nodejs'});

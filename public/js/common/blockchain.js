@@ -189,7 +189,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
     createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
 
     if(res.response.result)
-    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke of " + contract_scripthash + " Params: " + neonJSParams);
+    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
 
   }).catch(err => {
      console.log(err);
@@ -240,7 +240,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 	createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
 
 	if(res.response.result)
-		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy");
+		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", "","");
     }).catch(err => {
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 2000);
@@ -270,9 +270,9 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 }
 
 
-function updateVecRelayedTXsAndDraw(relayedTXID, personalNote)
+function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txParams)
 {
-	   vecRelayedTXs.push({tx:relayedTXID, note:personalNote});
+	   vecRelayedTXs.push({tx:relayedTXID, txType:actionType, txScriptHash:txScriptHash, txParams:txParams});
            drawRelayedTXs();
 }
 

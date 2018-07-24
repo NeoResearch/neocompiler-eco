@@ -496,19 +496,28 @@
       var row = table.insertRow(-1);
       var headers1 = document.createElement('div');
       var headers2 = document.createElement('div');
-      var headers3 = document.createElement('div');
+      var headersTxType = document.createElement('div');
+      var headerstxScriptHash = document.createElement('div');
+      var headerstxParams = document.createElement('div');
       var headers4 = document.createElement('div');
       var headersAppLog = document.createElement('div');
+      var headersRestore = document.createElement('div');
       headers1.innerHTML = "<b> ID </b>";
       row.insertCell(-1).appendChild(headers1);
       headers2.innerHTML = "<b> TX </b>";
       row.insertCell(-1).appendChild(headers2);
       headersAppLog.innerHTML = "<b> AppLog </b>";
       row.insertCell(-1).appendChild(headersAppLog);
-      headers3.innerHTML = "<b> Note </b>";
-      row.insertCell(-1).appendChild(headers3);
+      headersTxType.innerHTML = "<b> txType </b>";
+      row.insertCell(-1).appendChild(headersTxType);
+      headerstxScriptHash.innerHTML = "<b> txScriptHash </b>";
+      row.insertCell(-1).appendChild(headerstxScriptHash);
+      headerstxParams.innerHTML = "<b> txParams </b>";
+      row.insertCell(-1).appendChild(headerstxParams);
       headers4.innerHTML = "<b> Blockchained </b>";
       row.insertCell(-1).appendChild(headers4);
+      headersRestore.innerHTML = "<b> InvokeRestore </b>";
+      row.insertCell(-1).appendChild(headersRestore);
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
           var txRow = table.insertRow(-1);
@@ -542,16 +551,42 @@
           bGoToAppLog.innerHTML = '?';
           txRow.insertCell(-1).appendChild(bGoToAppLog);
 
-          var input = document.createElement("input");
+          var inputTxType = document.createElement("input");
           //input.setAttribute("type", "hidden");
-          input.setAttribute("name", "textNote"+i);
-          input.setAttribute("value", vecRelayedTXs[i].note);
-          txRow.insertCell(-1).appendChild(input);
+          inputTxType.setAttribute("name", "textTxType"+i);
+          inputTxType.setAttribute("readonly","true");
+          inputTxType.style.width = '70px';
+          inputTxType.setAttribute("value", vecRelayedTXs[i].txType);
+          txRow.insertCell(-1).appendChild(inputTxType);
+
+          var inputSH = document.createElement("input");
+          //input.setAttribute("type", "hidden");
+          inputSH.setAttribute("name", "textScriptHash"+i);
+          inputSH.setAttribute("readonly","true");
+          inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
+          txRow.insertCell(-1).appendChild(inputSH);
+
+          var inputParams = document.createElement("input");
+          //input.setAttribute("type", "hidden");
+          inputParams.setAttribute("name", "textParams"+i);
+          inputParams.setAttribute("readonly","true");
+          inputParams.setAttribute("value", vecRelayedTXs[i].txParams);
+          txRow.insertCell(-1).appendChild(inputParams);
+
 
           //Check activation status
           var activationStatus = document.createElement('div');
           activationStatus.setAttribute('id', "activationStatus"+i);
           activationStatus.innerHTML = "-";
+          txRow.insertCell(-1).appendChild(activationStatus);
+
+          var bRestore = document.createElement('button');
+          bRestore.setAttribute('content', 'test content');
+          bRestore.setAttribute('class', 'btn btn-info');
+          bRestore.setAttribute('value', i);
+          bRestore.onclick = function () {restoreTX(this.value);};
+          bRestore.innerHTML = ':)';
+          txRow.insertCell(-1).appendChild(bRestore);
 
           //This draw can be deprecated
           /*$.getJSON(urlToGet, function(result) {
@@ -565,7 +600,7 @@
               activationStatus.innerHTML = "<font color=\"red\">FAILED</font>";
           });*/
 
-          txRow.insertCell(-1).appendChild(activationStatus);
+
           //Check activation status ends
     	}//Finishes loop that draws each relayed transaction
 
@@ -588,6 +623,23 @@
 	     document.getElementById('divFormJsonOut').scrollIntoView();
       }else{
         alert("Cannot get log of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+      }
+   }
+   //===============================================================
+
+  //===============================================================
+   //Restore tx
+   function restoreTX(txID){
+      if(txID < vecRelayedTXs.length && txID > -1)
+      {
+	     if(vecRelayedTXs[txID].txType === "Invoke")
+	     {
+	     	$("#invokehashjs").val(vecRelayedTXs[txID].txScriptHash);
+	     	$("#invokeparamsjs").val(vecRelayedTXs[txID].txParams);
+	     }
+
+      }else{
+        alert("Cannot restore of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
    }
    //===============================================================

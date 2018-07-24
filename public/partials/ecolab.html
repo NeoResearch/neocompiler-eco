@@ -1240,8 +1240,6 @@ def Main():
           select.appendChild(option);
         }
 
-
-
         var editorPython = createEditor("editorPython", "ace/mode/python");
         var editorGolang = createEditor("editorGolang", "ace/mode/golang");
         var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
@@ -1279,6 +1277,7 @@ def Main():
                 $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
             }
             updatePATHS();
+            startSocketIoConnections();
         });
 
         window.onbeforeunload = function(event){
@@ -1291,6 +1290,7 @@ def Main():
         $("#ecolabnetworkurlselection").on('change', function() {
             $("#neonodeurl")[0].value = this.value;
             updatePATHS();
+            startSocketIoConnections();
         });
 
         $("#neonodeurl").on('change', function() {

@@ -47,6 +47,9 @@ if(LOCAL_DEVELOPMENT){
 	BASE_PATH_URL = FIXED_BASE_URL_LOCALHOST;
 }
 
+//Initializating socket var
+var socket = io.connect(BASE_PATH_URL, {resource: 'nodejs'});
+
 var ENV_VARS = "";
 
 /* Main  */

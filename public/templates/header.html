@@ -87,37 +87,41 @@
     <!-- /.container -->
 </nav>
 <script>
-    var socket = io().connect(BASE_PATH_URL);
-    socket.on('userconnected', function (data) {
-      $("#online")[0].innerHTML="Online: " + data['online'];
-      $("#connecedSince")[0].innerHTML="Access: " + data['since'];
-    });
+    function startSocketIoConnections(){
+      socket.disconnect();
+      socket = io.connect(BASE_PATH_URL, {resource: 'nodejs'});
+      socket.on('userconnected', function (data) {
+        $("#online")[0].innerHTML="Online: " + data['online'];
+        $("#connecedSince")[0].innerHTML="Access: " + data['since'];
+      });
 
-    socket.on('timeleft', function (data) {
-      var date = new Date(data['timeleft']);
-      var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
-      var tLeft = dateGMT0.toTimeString();
-      var output = "Time Left: " + tLeft.substring(0, 8);
-      $("#timeleft")[0].innerHTML=output;
+      socket.on('timeleft', function (data) {
+        var date = new Date(data['timeleft']);
+        var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
+        var tLeft = dateGMT0.toTimeString();
+        var output = "Time Left: " + tLeft.substring(0, 8);
+        $("#timeleft")[0].innerHTML=output;
 
-      $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
-        $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
-          $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-            $("#Version")[0].innerHTML = "<b>RPC_C#:</b>" + BASE_PATH_CLI + " -> " + result2.result.useragent;
-            $("#Version")[0].innerHTML += " -> <b>H1:</b>" + result3.result;
-            $("#Version")[0].innerHTML += " -> <b>MP:<b>" + result4.result.length;
-          }); // mempool
-        }); // NEO block count
-      }); // NEO useragent
+        $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
+          $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
+            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
+              $("#Version")[0].innerHTML = "<b>RPC_C#:</b>" + BASE_PATH_CLI + " -> " + result2.result.useragent;
+              $("#Version")[0].innerHTML += " -> <b>H1:</b>" + result3.result;
+              $("#Version")[0].innerHTML += " -> <b>MP:<b>" + result4.result.length;
+            }); // mempool
+          }); // NEO block count
+        }); // NEO useragent
 
-      $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
-                $("#nodeStatus")[0].innerHTML = "RPC_PY:" + BASE_PATH_PY + " -> " + result.version+" -> H2:"+result.current_height;
-      }); // Python user agent + block count
+        $.getJSON(BASE_PATH_PY+"/v1/status", function(result) {
+                  $("#nodeStatus")[0].innerHTML = "RPC_PY:" + BASE_PATH_PY + " -> " + result.version+" -> H2:"+result.current_height;
+        }); // Python user agent + block count
 
-      $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result5) {
-        $("#postgreshighestblock")[0].innerHTML = BASE_PATH_NEOSCAN  +" -> H3:"+result5.height;
-      }); // neoscan top block
-    });
+        $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result5) {
+          $("#postgreshighestblock")[0].innerHTML = BASE_PATH_NEOSCAN  +" -> H3:"+result5.height;
+        }); // neoscan top block
+      });
+    }
+
 
     document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
     document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);

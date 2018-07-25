@@ -182,7 +182,7 @@ function updateTXTableOfAPythonRelayedTX(contractMessagesBox){
      if(indexRelayedTx != -1)
      {
            //relayedTX = $("#contractmessages").text()[indexRelayedTx, 64];
-           for(var i = 0; i<= 64; i++)
+           for(var i = 0; i < 64; i++)
                  relayedTX += contractMessagesBox[indexRelayedTx + 12 + i];
            //console.log("Relayed tx is:"+relayedTX);
            vecRelayedTXs.push({tx:relayedTX, note:"Personal tx note"});

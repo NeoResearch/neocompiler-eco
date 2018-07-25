@@ -150,6 +150,11 @@ function pushParams(neonJSParams, type, value){
 //Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
+
+  var i = 0;
+  for(i = 0; i<neonJSParams.length; i++)
+     console.log(JSON.stringify(neonJSParams[i]));
+
   console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
 
   if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
@@ -201,9 +206,19 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
   var sb = Neon.default.create.scriptBuilder();//new ScriptBuilder();
   var i=0;
-  for(i=0; i<neonJSParams.length; i++)
-     sb.emitPush(neonJSParams[i]);
-  sb._emitAppCall(contract_scripthash, false);
+  // PUSH parameters BACKWARDS!!
+  for(i=neonJSParams.length-1; i>=0; i--) {
+     console.log('emit push:'+JSON.stringify(neonJSParams[i]));
+     console.log(neonJSParams[i]);
+     if (Array.isArray(neonJSParams[i])) {
+         console.log("is array!");
+         //sb._emitArray(neonJSParams[i]);
+     }
+     //else
+     //      sb.emitPush(neonJSParams[i]);
+     sb._emitParam(neonJSParams[i]);
+  }
+  sb._emitAppCall(contract_scripthash, false); // tailCall = false
   var myscript = sb.str;
 
   // TODO: consider "in array" option to create an array of parameters...

@@ -235,10 +235,12 @@
 	var attachneojs = Number($("#attachneojs").val());
 	var attachgasjs = Number($("#attachgasjs").val());
 	var invokeScripthash = $("#invokehashjs").val();
-     
+
 	var invokefunc = "";
-	if($("#invokefunctionjs")[0].value != "Main")
-		invokefunc = $("#invokefunctionjs")[0].value;
+	// INVOKE function is already passed as a String parameter!!
+
+	//if($("#invokefunctionjs")[0].value != "Main")
+	//	invokefunc = $("#invokefunctionjs")[0].value;
 
 	var neonJSParams = [];
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
@@ -743,6 +745,9 @@
 
      console.log("function is "+invokefunc);
      var neonJSParams = [];
+
+	  if(invokefunc != "")
+	      pushParams(neonJSParams, "String", invokefunc);
      countparam = 0;
      if($("#invokeparamjsbox1")[0].value != "None") {
         pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);

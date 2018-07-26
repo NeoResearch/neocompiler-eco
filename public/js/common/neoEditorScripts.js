@@ -742,35 +742,56 @@
      invokefunc = "";
      if($("#invokefunctionjs")[0].value != "Main")
         invokefunc = $("#invokefunctionjs")[0].value; // method
+	  var arrayparam = [];
 
      console.log("function is "+invokefunc);
      var neonJSParams = [];
 
 	  if(invokefunc != "")
 	      pushParams(neonJSParams, "String", invokefunc);
-     countparam = 0;
+
      if($("#invokeparamjsbox1")[0].value != "None") {
-        pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
-        countparam++;
-	console.log("step1");
+		  if($("#cbx_inarray_js1")[0].checked)
+		  		pushParams(arrayparam, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
+		  else
+        		pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
      }
      if($("#invokeparamjsbox2")[0].value != "None") {
-        pushParams(neonJSParams, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
-        countparam++;
-	console.log("step2");
+		  if($("#cbx_inarray_js2")[0].checked)
+		  		pushParams(arrayparam, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
+		  else
+        		pushParams(neonJSParams, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
      }
      if($("#invokeparamjsbox3")[0].value != "None") {
-        pushParams(neonJSParams, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
-        countparam++;
-	console.log("step3");
+		  if($("#cbx_inarray_js3")[0].checked)
+		  		pushParams(arrayparam, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
+		  else
+        		pushParams(neonJSParams, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
      }
 
-	  invokecmd = "";
-	  //invokecmd += invokefunc;
-	  //invokecmd += " ";
+	  if($("#cbx_usearray_js")[0].checked)
+	  		pushParams(neonJSParams, 'Array', arrayparam);
 
-      invokecmd += JSON.stringify(neonJSParams);
-
-      $("#invokeparamsjs")[0].value = invokecmd;
+      $("#invokeparamsjs")[0].value = JSON.stringify(neonJSParams);
    }
+
+   // block and unblock array checkboxes
+	function updateArrayInvokeParamsJs() {
+		if($("#cbx_usearray_js")[0].checked) {
+			$("#cbx_inarray_js1")[0].checked = true;
+			$("#cbx_inarray_js1")[0].disabled = false;
+			$("#cbx_inarray_js2")[0].checked = true;
+			$("#cbx_inarray_js2")[0].disabled = false;
+			$("#cbx_inarray_js3")[0].checked = true;
+			$("#cbx_inarray_js3")[0].disabled = false;
+		}
+		else {
+			$("#cbx_inarray_js1")[0].checked = false;
+			$("#cbx_inarray_js1")[0].disabled = true;
+			$("#cbx_inarray_js2")[0].checked = false;
+			$("#cbx_inarray_js2")[0].disabled = true;
+			$("#cbx_inarray_js3")[0].checked = false;
+			$("#cbx_inarray_js3")[0].disabled = true;
+		}
+	}
 // ==============================================================

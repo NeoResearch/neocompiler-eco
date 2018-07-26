@@ -966,8 +966,8 @@ def Main():
                         <div class="row">
                                  <div class="col-md-3">
                                    <div class="form-group">
-                                     <label for="invokefunctionjs">Function to Invoke</label>
-                                     <select id="invokefunctionjs" class="custom-select form-control">
+                                     <label for="invokefunctionjs">Function to Invoke</label> <input type="checkbox" id="cbx_usearray_js" checked onchange="updateArrayInvokeParamsJs()"/> use param array<br/>
+                                     <select id="invokefunctionjs" class="custom-select form-control" onchange="updateInvokeParamsJs()">
                                          <option>Main</option>
                                      </select>
                                    </div>

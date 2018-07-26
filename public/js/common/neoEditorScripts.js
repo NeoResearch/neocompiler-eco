@@ -40,6 +40,12 @@
 	});
 
 
+   function firstCharToLowerCase(str) {
+		if(str == "")
+			return "";
+		return str.charAt(0).toLowerCase() + str.slice(1);
+	}
+
     //===============================================================
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;
@@ -140,12 +146,12 @@
 
                         if(jsonABI["functions"][i]["name"] != "Main") {
                             option = document.createElement("option");
-                            option.text  = jsonABI["functions"][i]["name"];
-                            option.value = jsonABI["functions"][i]["name"];
+                            option.text  = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
+                            option.value = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
                             inputbox2.add(option);
                             option2 = document.createElement("option");
-                            option2.text  = jsonABI["functions"][i]["name"];
-                            option2.value = jsonABI["functions"][i]["name"];
+                            option2.text  = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
+                            option2.value = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
                             inputboxjs2.add(option2);
                         }
 

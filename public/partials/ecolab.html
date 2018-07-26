@@ -1250,15 +1250,16 @@ def Main():
         var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
         var editorJava = createEditor("editorJava", "ace/mode/java");
         var cSharpFiles = [
-            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/ICO_Template/ICO_Template.cs"],
-            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/create_checkwitness/MyCheckWitness/MyCheckWitness.cs"],
-            ["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/Lock/Lock.cs"],
+            //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+            ["/examples/csharp/HelloWorld/HelloWorld.cs"],
+            ["/examples/csharp/ICO_Template/ICO_Template.cs"],
+            ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
+            ["/examples/csharp/Lock/Lock.cs"],
             [
-                "https://raw.githubusercontent.com/neo-project/examples-csharp/master/StructExample/Point.cs",
-                "https://raw.githubusercontent.com/neo-project/examples-csharp/master/StructExample/StructExample.cs"
+                "/examples/csharp/StructExample/Point.cs",
+                "/examples/csharp/StructExample/StructExample.cs"
             ],
-            ["https://raw.githubusercontent.com/neo-project/examples-csharp/master/MapExample/MapExample.cs"]
+            ["/examples/csharp/MapExample/MapExample.cs"]
         ];
 
         var vecRelayedTXs = [];

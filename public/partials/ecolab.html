@@ -794,12 +794,12 @@ def Main():
 
                               <div class="col-md-6">
                                 <div class="form-group">
-                                  <label for="contractparams">Params</label>
+                                  <label for="contractparams">Deploy Params</label>
                                   <input id="contractparamsjs" name="contractparams" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%">
                                 </div>
                               </div>
 
-                              <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                              <div class="col-md-6 form-inline" style="margin-bottom: 10px">
                                 <div class="form-group">
                                   <select name="contractreturn" id="contractreturnjs" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
                                     <option>00</option>
@@ -832,6 +832,11 @@ def Main():
                                     </label>
                                   </div>
                                 </div>
+                              </div>
+
+                              <div class="col-md-6">
+                                 <label for="contractparamnames">Param Type Names</label>
+                                 <input id="contractparamnamesjs" name="contractparamnames" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%" disabled>
                               </div>
 
                               <div class="col-md-12">

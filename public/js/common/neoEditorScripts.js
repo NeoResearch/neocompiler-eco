@@ -190,18 +190,24 @@
                     // get parameters
                     $("#contractparams")[0].value = "\"\"";
 						  $("#contractparamsjs")[0].value = "";
+						  $("#contractparamnamesjs")[0].value = "";
                     var j = 0;
                     console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
 						  var paramhex = "";
+						  var paramnames = "";
                     for (j = 0; j < jsonABI["functions"][i]["parameters"].length; j++) {
                         var phex = getHexForType(jsonABI["functions"][i]["parameters"][j]["type"]);
                         console.log("parameter[" + j + "]: " + jsonABI["functions"][i]["parameters"][j]["type"] + " -> hex(" + phex + ")");
                         paramhex += phex;
+								paramnames += jsonABI["functions"][i]["parameters"][j]["type"]+"\t";
                     }
 						  if(paramhex.length > 0) {
                     		$("#contractparams")[0].value = paramhex;
 						  		$("#contractparamsjs")[0].value = paramhex;
+								$("#contractparamnamesjs")[0].value = paramnames;
 						  }
+						  else
+						  		$("#contractparamnamesjs")[0].value = "no parameters";
                     // set invoke params to many empty strings (at least one is desirable for now)
                     $("#invokeparams")[0].value = "\"\"";
 						  $("#invokeparamsjs")[0].value = "\"\"";

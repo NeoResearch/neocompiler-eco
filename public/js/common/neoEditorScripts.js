@@ -208,13 +208,19 @@
 						  }
 						  else
 						  		$("#contractparamnamesjs")[0].value = "no parameters";
+
                     // set invoke params to many empty strings (at least one is desirable for now)
+						  // PYTHON
                     $("#invokeparams")[0].value = "\"\"";
-						  $("#invokeparamsjs")[0].value = "\"\"";
-                    for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++) {
+						  for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++)
                         $("#invokeparams")[0].value += " \"\"";
-								$("#invokeparamsjs")[0].value += " \"\"";
-						  }
+						  // JS
+						  $("#cbx_usearray_js")[0].checked = false;
+						  if(paramhex=="0710") // enable array passing
+						  		$("#cbx_usearray_js")[0].checked = true;
+						  updateArrayInvokeParamsJs(); // update auxiliary check boxes
+						  updateInvokeParamsJs(); // update simple example
+
                     // get return hexcode
                     rettype = jsonABI["functions"][i]["returntype"];
                     $("#contractreturn")[0].value = getHexForType(rettype);

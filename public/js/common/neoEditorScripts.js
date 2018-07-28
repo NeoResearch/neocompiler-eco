@@ -333,8 +333,12 @@
                     $("#neonodeurl")[0].value, // Gets the URL to sent the post to
                     '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["'+sthash+'"] }', // Serializes form data in standard format
                     function (data2) {
-                      if(data2.result)
-                        $("#gsf_contractvaluehex")[0].value = "contract exists (but key does not)!";
+                      if(data2.result) { // contract exists
+								 if(data2.result.properties.storage)
+                             $("#gsf_contractvaluehex")[0].value = "contract exists (but key does not)!";
+								 else
+                             $("#gsf_contractvaluehex")[0].value = "contract exists (but did not pay for Storage on deploy)!";
+							 }
                       else if(data2.error.code == -100)
                         $("#gsf_contractvaluehex")[0].value = "contract does not exist (must deploy first)!";
                       else {

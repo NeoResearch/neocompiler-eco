@@ -334,9 +334,9 @@
                     '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["'+sthash+'"] }', // Serializes form data in standard format
                     function (data2) {
                       if(data2.result)
-                        $("#gsf_contractvaluehex")[0].value = "contract exists!";
+                        $("#gsf_contractvaluehex")[0].value = "contract exists (but key does not)!";
                       else if(data2.error.code == -100)
-                        $("#gsf_contractvaluehex")[0].value = "contract does not exist!";
+                        $("#gsf_contractvaluehex")[0].value = "contract does not exist (must deploy first)!";
                       else {
                         $("#gsf_contractvaluehex")[0].value = "some strange error happened!";
                         console.log(data2);

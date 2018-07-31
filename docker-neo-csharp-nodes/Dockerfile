@@ -1,7 +1,5 @@
-# NEO csharp-nodes private network - Dockerfile
+# NEO csharp-nodes network simulator
 FROM ubuntu:18.04
-
-LABEL maintainer="City of Zion, NeoResearch"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -92,7 +90,13 @@ ADD ./scripts/start_rpc_node.sh /opt/
 ADD ./scripts/updateConsensusCharacteristics.sh /opt/
 
 # Inform Docker what ports to expose
-# Neo-cli ports
+# Neo-cli WS ports
+EXPOSE 10333
+EXPOSE 10334
+EXPOSE 10335
+EXPOSE 10336
+
+# Neo-cli TCP ports
 EXPOSE 20333
 EXPOSE 20334
 EXPOSE 20335
@@ -100,6 +104,7 @@ EXPOSE 20336
 EXPOSE 20337
 EXPOSE 20338
 
+# Neo-cli RPC ports
 EXPOSE 30333
 EXPOSE 30334
 EXPOSE 30335

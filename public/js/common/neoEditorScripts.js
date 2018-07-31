@@ -528,18 +528,16 @@
       var headersRestore = document.createElement('div');
       headers1.innerHTML = "<b> ID </b>";
       row.insertCell(-1).appendChild(headers1);
-      headers2.innerHTML = "<b> TX </b>";
-      row.insertCell(-1).appendChild(headers2);
-      headersAppLog.innerHTML = "<b> AppLog </b>";
-      row.insertCell(-1).appendChild(headersAppLog);
       headersTxType.innerHTML = "<b> txType </b>";
       row.insertCell(-1).appendChild(headersTxType);
       headerstxScriptHash.innerHTML = "<b> txScriptHash </b>";
       row.insertCell(-1).appendChild(headerstxScriptHash);
+      headersAppLog.innerHTML = "<b> AppLog </b>";
+      row.insertCell(-1).appendChild(headersAppLog);
       headerstxParams.innerHTML = "<b> txParams </b>";
       row.insertCell(-1).appendChild(headerstxParams);
-      headers4.innerHTML = "<b> Blockchained </b>";
-      row.insertCell(-1).appendChild(headers4);
+      headers2.innerHTML = "<b> TX on NeoScan </b>";
+      row.insertCell(-1).appendChild(headers2);
       headersRestore.innerHTML = "<b> InvokeRestore </b>";
       row.insertCell(-1).appendChild(headersRestore);
 
@@ -557,24 +555,6 @@
           b.innerHTML = i;
           txRow.insertCell(-1).appendChild(b);
 
-          var txIDCell = document.createElement("a");
-          var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
-          txIDCell.text = vecRelayedTXs[i].tx.slice(0,5) + "..." + vecRelayedTXs[i].tx.slice(-5);
-          txIDCell.href = urlToGet;
-          txIDCell.target = '_blank';
-          txIDCell.onclick = urlToGet;
-          txIDCell.style.width = '70px';
-	  txIDCell.style.display = 'block';
-          txRow.insertCell(-1).appendChild(txIDCell);
-
-          var bGoToAppLog = document.createElement('button');
-          bGoToAppLog.setAttribute('content', 'test content');
-          bGoToAppLog.setAttribute('class', 'btn btn-info');
-          bGoToAppLog.setAttribute('value', i);
-          bGoToAppLog.onclick = function () {callAppLog(this.value);};
-          bGoToAppLog.innerHTML = '?';
-          txRow.insertCell(-1).appendChild(bGoToAppLog);
-
           var inputTxType = document.createElement("input");
           //input.setAttribute("type", "hidden");
           inputTxType.setAttribute("name", "textTxType"+i);
@@ -587,8 +567,19 @@
           //input.setAttribute("type", "hidden");
           inputSH.setAttribute("name", "textScriptHash"+i);
           inputSH.setAttribute("readonly","true");
+          inputSH.style.width = '120px';
           inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
           txRow.insertCell(-1).appendChild(inputSH);
+
+          var bGoToAppLog = document.createElement('button');
+          bGoToAppLog.setAttribute('content', 'test content');
+          bGoToAppLog.setAttribute('class', 'btn btn-info');
+          bGoToAppLog.setAttribute('value', i);
+          bGoToAppLog.setAttribute('id', "appLogNeoCli"+i);
+          bGoToAppLog.onclick = function () {callAppLog(this.value);};
+          bGoToAppLog.innerHTML = '?';
+          txRow.insertCell(-1).appendChild(bGoToAppLog);
+
 
           var inputParams = document.createElement("input");
           //input.setAttribute("type", "hidden");
@@ -597,12 +588,23 @@
           inputParams.setAttribute("value", vecRelayedTXs[i].txParams);
           txRow.insertCell(-1).appendChild(inputParams);
 
-
+	  /*
           //Check activation status
           var activationStatus = document.createElement('div');
           activationStatus.setAttribute('id', "activationStatus"+i);
           activationStatus.innerHTML = "-";
           txRow.insertCell(-1).appendChild(activationStatus);
+	  */
+
+          var txIDCell = document.createElement("a");
+          var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
+          txIDCell.text = vecRelayedTXs[i].tx.slice(0,5) + "..." + vecRelayedTXs[i].tx.slice(-5);
+          txIDCell.href = urlToGet;
+          txIDCell.target = '_blank';
+          txIDCell.onclick = urlToGet;
+          txIDCell.style.width = '70px';
+	  txIDCell.style.display = 'block';
+          txRow.insertCell(-1).appendChild(txIDCell);
 
           var bRestore = document.createElement('button');
           bRestore.setAttribute('content', 'test content');
@@ -643,7 +645,7 @@
 	     appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[txID].tx] });
 	     $("#txtRPCJson").val(JSON.stringify(appLogJson));
 	     $('#btnCallJsonRPC').click();
-	     $("#pillstab").children().eq(2).find('a').tab('show');
+	     //$("#pillstab").children().eq(2).find('a').tab('show');
 	     document.getElementById('divFormJsonOut').scrollIntoView();
       }else{
         alert("Cannot get log of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
@@ -680,6 +682,9 @@
    //===============================================================
    //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
    function searchForTX(indexToUpdate){
+
+          //DEPRECATED QUERY FOR CHECKING IF FOUND ON NEOSCAN AND LINK TO Logs from csharp docker container
+	  /*
           $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[indexToUpdate].tx, function(result) {
               //console.log("div is activationStatus"+indexToUpdate);
               if(result.txid == "not found" || result.vin == null){
@@ -690,6 +695,26 @@
           }).fail(function (result) {
               document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
+	  */
+
+	  var jsonDataToCallNeoCli = [];
+	  jsonDataToCallNeoCli.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[indexToUpdate].tx] });
+
+          $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                JSON.stringify(jsonDataToCallNeoCli), // Serializes form data in standard format
+                function (data) {
+		   //console.log(data);
+		   if(data[0].result){
+	                   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
+		   }else{
+			   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].error.code;
+		   }
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+                document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = "FAILED";
+          }); //End of POST for search
    }
   //===============================================================
 

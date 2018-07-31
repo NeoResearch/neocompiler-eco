@@ -13,13 +13,13 @@
     <!-- ======================================================== -->
     <!-- ======================================================== -->
     <!-- BEGIN DIV MAIN CONTENTS - MENU AND CONTENT -->
-    <div class="row">
         <div class="col-sm-2 sidenav">
             <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a data-target="#compilers" data-toggle="tab">Compilers</a></li>
               <li><a data-target="#network" data-toggle="tab">Network Essentials</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
-              <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallets</a></li>
+              <li><a data-target="#utils"  data-toggle="tab">Utils</a></li>
+              <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#pythonnotification"  data-toggle="tab">PythonNotifications</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
@@ -29,7 +29,6 @@
         <!-- ======================================================== -->
         <!-- BEGIN DIV MAIN CONTENTS - EVERYTHING IS HERE - I -->
         <div class="col-sm-10">
-
             <!-- ======================================================== -->
             <!-- BEGIN FIXED DIV OF NETWORKS -->
             <div class="row">
@@ -176,75 +175,44 @@
                 <!-- ======================================================== -->
 
                 <!-- ======================================================== -->
-                <!-- BEGIN DIV TRANSACTION -->
-                <div class="tab-pane fade" id="transaction">
-                  <div class="panel panel-primary" id="divFormJsonOut">
-                      <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
+                <!-- BEGIN UTILS TRANSACTION -->
+                <div class="tab-pane fade" id="utils">
+
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">Read storage from a Smart Contract</div>
                       <div class="panel-body">
-                          <form id="frmRPCJson" action="">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="rpcMethod">Method (view <a href="http://docs.neo.org/en-us/node/cli/api.html" target="_blank">Official API</a> or put cursor on top for tooltip)</label>
-                                  <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
-                                    <option title="select">Select a method</option>
-                                    <option title=":Gets the number of blocks in the main chain">getblockcount</option>
-                                    <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
-                                    <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
-                                    <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging)">getapplicationlog</option>
-                                    <option title="<asset_id> :	Query asset information according to the specified asset number">getassetstate</option>
-                                    <option title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)">getbalance</option>
-                                    <option title=": Gets the hash of the tallest block in the main chain">getbestblockhash</option>
-                                    <option title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value">getblock</option>
-                                    <option title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index">getblock</option>
-                                    <option title="<index>: 	Returns the hash value of the corresponding block based on the specified index">getblockhash</option>
-                                    <option title="<index>: 	Returns the system fees before the block according to the specified index">getblocksysfee</option>
-                                    <option title=": Gets the current number of connections for the node">getconnectioncount</option>
-                                    <option title="<script_hash>: 	Returns information about the contract based on the specified script hash">getcontractstate</option>
-                                    <option title=": Create a new address (Need to open the wallet)">getnewaddress</option>
-                                    <option title=": Get a list of unconfirmed transactions in memory">getrawmempool</option>
-                                    <option title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value">getrawtransaction</option>
-                                    <option title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key">getstorage</option>
-                                    <option title="<txid> <n>: 	Returns the corresponding transaction output (change) information based on the specified hash and index">gettxout</option>
-                                    <option title=": Get a list of nodes that are currently connected/disconnected by this node">getpeers</option>
-                                    <option title=": Get version information of this node">getversion</option>
-                                    <option title="<script_hash> <params>:	Invokes a smart contract at specified script hash with the given parameters">invoke</option>
-                                    <option title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params">invokefunction</option>
-                                    <option title="<script>: 	Runs a script through the virtual machine and returns the results">invokescript</option>
-                                    <option title=": Lists all the addresses in the current wallet (Need to open the wallet)">listaddress</option>
-                                    <option title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation.">sendrawtransaction</option>
-                                    <option title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)">sendtoaddress</option>
-                                    <option title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">sendmany</option>
-                                    <option title="<hex>: 	Submit new blocks (Needs to be a consensus node)">submitblock</option>
-                                    <option title="<address>:	Verify that the address is a correct NEO address 	">validateaddress</option>
-                                    <option title=": create your invoke function manually!"></option>
+                          <form id="formgetstorage" method="post">
+                              <label for="gsf_contracthash">ScriptHash</label>
+                              <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash"/>
+                              <label for="getStorageFormat">Input Key</label>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <input id="gsf_contractkey" class="form-control" placeholder="Storage Key"/>
+                                </div>
+                                <div class="col-md-6">
+                                  <select name="getStorageFormat" id="getStorageFormat" class="custom-select form-control">
+                                    <option title="gsf_string" selected>String (no quotes)</option>
+                                    <option title="gsf_hex">Hex</option>
                                   </select>
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="txtRPCJson">RPC Json Model</label>
-                                  <textarea id="txtRPCJson" class="form-control"/>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <button type="submit" id="gsfsubmit" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-info" data-toggle="modal">Get Storage Value</button>
                                 </div>
                               </div>
-                            </div>
-                          </form>
-                          <form id="frmRPCJson2" action="">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="txtRPCJsonOut">Output RPC</label>
-                                  <textarea id="txtRPCJsonOut" class="form-control" readonly/>
+                              <label for="gsf_contractvalue">Output Value</label>
+                              <div class="row">
+                                <div class="col-md-6">
+                                    <input id="gsf_contractvaluehex" class="form-control" placeholder="Storage Value (Hex)" readonly/>
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="gsf_contractvaluestr" class="form-control" placeholder="Storage Value (String)" readonly/>
                                 </div>
                               </div>
-                              <div class="col-md-12">
-                                <button type="submit" id="btnCallJsonRPC"class="btn btn-info btn-sm">RPC Call JSON</button>
-                              </div>
-                            </div>
                           </form>
                       </div>
                   </div>
-
 
                   <div class="panel panel-primary">
                       <div class="panel-heading">NEP5 Balance</div>
@@ -266,7 +234,7 @@
                             </div>
                             <div class="row">
                               <div class="col-md-12">
-                                <button type="submit" id="txgetnep5balance" class="btn btn-info btn-sm">Get</button>
+                                <button type="submit" style="margin-bottom: 10px;" id="txgetnep5balance" class="btn btn-info">Get</button>
                               </div>
                               <div class="col-md-6">
                                 <div class="form-group">
@@ -285,6 +253,13 @@
                        </div>
                   </div>
 
+                </div>
+                <!-- END UTILS TRANSACTION -->
+                <!-- ======================================================== -->
+
+                <!-- ======================================================== -->
+                <!-- BEGIN DIV TRANSACTION -->
+                <div class="tab-pane fade" id="transaction">
 
                     <div class="panel panel-primary">
                         <div class="panel-heading">Create TX: Transfer UTXO Assets
@@ -770,7 +745,86 @@ def Main():
           <!-- begin network -->
         <div class="tab-pane fade" id="network">
 
-          <div class="panel panel-warning">
+          <div class="panel panel-primary" id="divFormJsonOut">
+              <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
+              <div class="panel-body">
+                  <form id="frmRPCJson" action="">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="rpcMethod">Method (view <a href="http://docs.neo.org/en-us/node/cli/api.html" target="_blank">Official API</a> or put cursor on top for tooltip)</label>
+                          <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
+                            <option title="select">Select a method</option>
+                            <option title=":Gets the number of blocks in the main chain">getblockcount</option>
+                            <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
+                            <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
+                            <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging)">getapplicationlog</option>
+                            <option title="<asset_id> :	Query asset information according to the specified asset number">getassetstate</option>
+                            <option title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)">getbalance</option>
+                            <option title=": Gets the hash of the tallest block in the main chain">getbestblockhash</option>
+                            <option title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value">getblock</option>
+                            <option title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index">getblock</option>
+                            <option title="<index>: 	Returns the hash value of the corresponding block based on the specified index">getblockhash</option>
+                            <option title="<index>: 	Returns the system fees before the block according to the specified index">getblocksysfee</option>
+                            <option title=": Gets the current number of connections for the node">getconnectioncount</option>
+                            <option title="<script_hash>: 	Returns information about the contract based on the specified script hash">getcontractstate</option>
+                            <option title=": Create a new address (Need to open the wallet)">getnewaddress</option>
+                            <option title=": Get a list of unconfirmed transactions in memory">getrawmempool</option>
+                            <option title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value">getrawtransaction</option>
+                            <option title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key">getstorage</option>
+                            <option title="<txid> <n>: 	Returns the corresponding transaction output (change) information based on the specified hash and index">gettxout</option>
+                            <option title=": Get a list of nodes that are currently connected/disconnected by this node">getpeers</option>
+                            <option title=": Get version information of this node">getversion</option>
+                            <option title="<script_hash> <params>:	Invokes a smart contract at specified script hash with the given parameters">invoke</option>
+                            <option title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params">invokefunction</option>
+                            <option title="<script>: 	Runs a script through the virtual machine and returns the results">invokescript</option>
+                            <option title=": Lists all the addresses in the current wallet (Need to open the wallet)">listaddress</option>
+                            <option title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation.">sendrawtransaction</option>
+                            <option title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)">sendtoaddress</option>
+                            <option title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">sendmany</option>
+                            <option title="<hex>: 	Submit new blocks (Needs to be a consensus node)">submitblock</option>
+                            <option title="<address>:	Verify that the address is a correct NEO address 	">validateaddress</option>
+                            <option title=": create your invoke function manually!"></option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="txtRPCJson">RPC Json Model</label>
+                          <textarea id="txtRPCJson" class="form-control"/>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <form id="frmRPCJson2" action="">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="txtRPCJsonOut">Output RPC</label>
+                          <textarea id="txtRPCJsonOut" class="form-control" readonly/>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <button type="submit" id="btnCallJsonRPC"class="btn btn-success btn-sm">RPC Call JSON</button>
+                        <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="ConvertJsonNotifications()">Convert Notifications</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div id="divAppLogNotifications">
+                      <textarea id="txt_notifications" readonly="readonly" rows="3" cols="100" placeholder="Listing Notifications"></textarea>
+                  </div>
+              </div>
+          </div>
+
+          <div class="panel panel-info" id="divNetworkRelayed">
+              <div class="panel-heading">Relayed TX's informative table</div>
+              <div class="panel-body">
+                  <div id="divRelayedTXs" class="table-responsive"></div>
+                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Reload TX's status</button>
+              </div>
+          </div>
+
+          <div class="panel panel-primary" id="divNetworkDeploy">
               <div class="panel-heading">Deploy contract into the Blockchain</div>
               <div class="panel-body">
 
@@ -920,7 +974,7 @@ def Main():
           </div> <!-- warning -->
 
 
-          <div class="panel panel-warning">
+          <div class="panel panel-primary" id="divNetworkInvoke">
               <div class="panel-heading">Interacting with a Smart Contract - Invoke</div>
               <div class="panel-body">
 
@@ -1167,47 +1221,6 @@ def Main():
             </div> <!-- tab-container -->
           </div> <!-- body -->
         </div> <!-- panel warning -->
-
-
-          <div class="panel panel-info">
-              <div class="panel-heading">Relayed TX's informative table</div>
-              <div class="panel-body">
-                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 10px;" class="btn btn-success btn-sm">Reload TX's status</button><br>
-                  <div id="divRelayedTXs" class="table-responsive"></div>
-              </div>
-          </div>
-
-          <div class="panel panel-info">
-              <div class="panel-heading">Read storage from a Smart Contract</div>
-              <div class="panel-body">
-                  <form id="formgetstorage" method="post">
-                      <label for="gsf_contracthash">ScriptHash</label>
-                      <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash"/>
-                      <label for="getStorageFormat">Input Key</label>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <input id="gsf_contractkey" class="form-control" placeholder="Storage Key"/>
-                        </div>
-                        <div class="col-md-6">
-                          <select name="getStorageFormat" id="getStorageFormat" class="custom-select form-control">
-                            <option title="gsf_string" selected>String (no quotes)</option>
-                            <option title="gsf_hex">Hex</option>
-                          </select>
-                        </div>
-                      </div>
-                      <label for="gsf_contractvalue">Output Value</label>
-                      <div class="row">
-                        <div class="col-md-6">
-                            <input id="gsf_contractvaluehex" class="form-control" placeholder="Storage Value (Hex)" readonly/>
-                        </div>
-                        <div class="col-md-6">
-                            <input id="gsf_contractvaluestr" class="form-control" placeholder="Storage Value (String)" readonly/>
-                        </div>
-                      </div>
-                      <button type="submit" id="gsfsubmit" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Get Storage Value</button>
-                  </form>
-              </div>
-          </div>
 
         </div>
 
@@ -1529,7 +1542,31 @@ def Main():
             updateOutputValues();
         }
 
+        function ConvertJsonNotifications(){
+          console.log(jsonObj);
+          if($("#txtRPCJsonOut").val() != "")
+          {
+            var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
+            if(jsonObj.length >= 1 && jsonObj[0].result){
+              var myNotify = "";
+              for(var nSize = 0; nSize < jsonObj[0].result.notifications.length; nSize++ )
+              {
+                  var jsonNotificationsObj = jsonObj[0].result.notifications[nSize];
+                  myNotify+= "Notification " + nSize + " typeI: " + jsonNotificationsObj.state.type + ";";
+                  myNotify+= " typeII: " + jsonNotificationsObj.state.value[0].type + ";";
+                  myNotify+= " value(hex): " + jsonNotificationsObj.state.value[0].value + ";";
+                  myNotify+= " value(string): " + hex2bin(jsonNotificationsObj.state.value[0].value) + ".\n";
+              }
+              $("#txt_notifications").val(myNotify);
+            }
+            else{
+              $("#txt_notifications").val("Notifications were not found!");
+            }
 
+          }else{
+            alert("empty RPC call output to check notification");
+          }
+        }
 
         $("#frmRPCJson2").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing

@@ -257,6 +257,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
      createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
   });
 
+  document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
 
@@ -301,11 +302,14 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 	createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
 
 	if(res.response.result)
-		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", "","");
+		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(),"DeployParams");
+
     }).catch(err => {
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 2000);
   });
+
+  document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
 function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)

@@ -1,0 +1,10 @@
+    cozNetNodes = [
+    {
+      "protocol": "http",
+      "url": "188.68.34.29",
+      "location": "USA",
+      "locale": "us",
+      "port": "10004",
+      "type": "RPC"
+    }
+  ]

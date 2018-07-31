@@ -32,18 +32,36 @@
             <!-- ======================================================== -->
             <!-- BEGIN FIXED DIV OF NETWORKS -->
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <span class="label label-success">Base Network</span>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
-                      <option title="https://node1.neocompiler.io" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
-                      <option title="http://localhost:30333" value="http://localhost:30333">localhost (privatenet)</option>
-                      <option title="https://seed1.neo.org:20331" value="https://seed1.neo.org:20331">NEO TestNet</option>
-                      <option title="http://188.68.34.29:10004" value="http://188.68.34.29:10004">CoZ TestNet</option>
-                      <option title="http://seed1.neo.org:10331" value="http://seed1.neo.org:10331">NEO MainNet</option>
-                      <option title="https://seed4.switcheo.network:10331" value="https://seed4.switcheo.network:10331">MainNet (switcheo https)</option>
+                      <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">neocompiler.io (shared privatenet)</option>
+                      <option title="Localhost services" value="http://localhost:30333">localhost (privatenet)</option>
+                      <option title="MainNet services" value="0">NEO MainNet</option>
+                      <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet</option>
+                      <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet</option>
                     </select>
                 </div>
-                <div class="col-md-9">
-                    <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">
+                <div class="col-md-2">
+                    <!-- <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">-->
+                    <span class="label label-success">RPC</span>
+                    <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
+                    <select id="selectionBoxRPCNodes" class="custom-select form-control"></select>
+                </div>
+                <div class="col-md-2">
+                    <span class="label label-success">NeoScan</span>
+                    <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
+                    <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
+                </div>
+                <div class="col-md-2">
+                    <span class="label label-success">Compilers + PythonServices</span>
+                    <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
+                    <select id="selectionBoxCompilers" class="custom-select form-control"></select>
+                </div>
+                <div class="col-md-2">
+                    <span class="label label-success">REST Notifications</span>
+                    <input type="text" onchange="updateBASEPATHS()" id="rest_notifications_path" value="------">
+                    <select id="selectionBoxRestNotifications" class="custom-select form-control"></select>
                 </div>
             </div>
             <!-- END FIXED DIV OF NETWORKS -->
@@ -1246,10 +1264,47 @@ def Main():
 
     <script>
         function addAllKnownAddressesToSelectionBox(walletSelectionBox){
+          //Clear selection box
           document.getElementById(walletSelectionBox).options.length = 0;
           for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
             addOptionToWalletToInvoke("wallet_"+ka,"wallet_"+ka,walletSelectionBox);
         }
+
+        function addAllKnownServiceToSelectionBox(serviceType,networkServicesObj,selectionBoxToFill){
+          //Clear selection box
+          document.getElementById(selectionBoxToFill).options.length = 0;
+          for(var kn = 0; kn < networkServicesObj.length; kn++)
+          {
+            var serviceUrlToAdd = '';
+
+            if( (serviceType == "RPC") && (networkServicesObj[kn].type == serviceType) || (networkServicesObj[kn].type+"-Python" == serviceType+"-Python") )
+            {
+              if(networkServicesObj[kn].protocol)
+                serviceUrlToAdd = networkServicesObj[kn].protocol + "://"+networkServicesObj[kn].url;
+              if(networkServicesObj[kn].port)
+                serviceUrlToAdd += ":"+networkServicesObj[kn].port;
+            }
+
+            if( (serviceType == "neoscan") && networkServicesObj[kn].type == serviceType)
+            {
+                serviceUrlToAdd = networkServicesObj[kn].url;
+            }
+
+            if( (serviceType == "ecoservices") && networkServicesObj[kn].type == serviceType)
+            {
+                serviceUrlToAdd = networkServicesObj[kn].url;
+            }
+
+            if( (serviceType == "RESTNotification") && networkServicesObj[kn].type == serviceType)
+            {
+                serviceUrlToAdd = networkServicesObj[kn].url;
+            }
+
+            if(serviceUrlToAdd !== '')
+              addOptionToWalletToInvoke(serviceUrlToAdd,serviceUrlToAdd,selectionBoxToFill);
+          }
+        }
+
 
         function addOptionToWalletToInvoke(textToOption,valueToOption,walletSelectionBox){
           var option = document.createElement("option");
@@ -1295,7 +1350,7 @@ def Main():
             if(window.location.href.indexOf("localhost")  != -1)
             {
                 $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
-                $("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
+                //$("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
             }
             updatePATHS();
             startSocketIoConnections();
@@ -1309,13 +1364,34 @@ def Main():
         //=============================================================
         //======== BEGIN ON CHANGE FUNCTIONS ================================
         $("#ecolabnetworkurlselection").on('change', function() {
-            $("#neonodeurl")[0].value = this.value;
+            //$("#neonodeurl")[0].value = this.value;
             updatePATHS();
             startSocketIoConnections();
         });
 
+        /*
         $("#neonodeurl").on('change', function() {
             BASE_PATH_CLI = $("#neonodeurl")[0].value;
+        });*/
+
+        $("#selectionBoxRPCNodes").on('change', function() {
+            BASE_PATH_CLI = this.value;
+            $("#rpc_nodes_path")[0].value = this.value;
+        });
+
+        $("#selectionBoxNeoScan").on('change', function() {
+            BASE_PATH_NEOSCAN = this.value;
+            $("#neoscan_path")[0].value = this.value;
+        });
+
+        $("#selectionBoxCompilers").on('change', function() {
+            BASE_PATH_URL = this.value;
+            $("#compilers_path")[0].value = this.value;
+        });
+
+        $("#selectionBoxRestNotifications").on('change', function() {
+            BASE_PATH_PY = this.value;
+            $("#rest_notifications_path")[0].value = this.value;
         });
 
 /*
@@ -1343,47 +1419,72 @@ def Main():
         //======== END ON-CHANGE FUNCTIONS ================================
         //=============================================================
 
+        function updateBASEPATHS(){
+          BASE_PATH_CLI = $("#rpc_nodes_path")[0].value; //deprecated - BASE_PATH_CLI is being used
+          BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value; //deprecated - BASE_PATH_CLI is being used
+          BASE_PATH_URL = $("#compilers_path")[0].value; //deprecated - BASE_PATH_CLI is being used
+          BASE_PATH_PY = $("#rest_notifications_path")[0].value; //deprecated - BASE_PATH_CLI is being used
+
+
+          //Update express routes
+          //$('#formCompile')[0].action
+          $('#formCompile').attr('action', BASE_PATH_URL+'/compilex');
+        }
+
         function updatePATHS()
         {
             mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
 
-            BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
+            //BASE_PATH_CLI = $("#neonodeurl")[0].value; //deprecated - BASE_PATH_CLI is being used
+
             if(mynetwork == "localhost (privatenet)")
             {
-              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
-              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
-              BASE_PATH_URL = FIXED_BASE_URL_LOCALHOST;
+              addAllKnownServiceToSelectionBox("RPC",localHostNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",localHostNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("ecoservices",localHostNodes,"selectionBoxCompilers");
+              addAllKnownServiceToSelectionBox("RESTNotification",localHostNodes,"selectionBoxRestNotifications");
+              //BASE_PATH_NEOSCAN = FIXED_NEOSCAN_LOCALHOST;
+              //BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_LOCALHOST;
             }
 
             if(mynetwork == "neocompiler.io (shared privatenet)")
             {
-              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_NEOCOMPILER;
-              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_NEOCOMPILER;
-              BASE_PATH_URL = FIXED_BASE_URL_NEOCOMPILER_ECO;
+              addAllKnownServiceToSelectionBox("RPC",ecoNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",ecoNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxCompilers");
+              addAllKnownServiceToSelectionBox("RESTNotification",ecoNodes,"selectionBoxRestNotifications");
             }
 
             if(mynetwork == "NEO MainNet")
             {
-              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_MAINNET;
-              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_MAINNET;
+              addAllKnownServiceToSelectionBox("RPC",mainNetNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",mainNetNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxCompilers"); //TODO
+              addAllKnownServiceToSelectionBox("RESTNotification",mainNetNodes,"selectionBoxRestNotifications");
             }
 
             if(mynetwork == "NEO TestNet")
             {
-              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET;
-              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;
+              addAllKnownServiceToSelectionBox("RPC",testNetNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",testNetNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxCompilers"); //TODO
+              addAllKnownServiceToSelectionBox("RESTNotification",mainNetNodes,"selectionBoxRestNotifications");//TODO
             }
 
             if(mynetwork == "CoZ TestNet")
             {
-              BASE_PATH_NEOSCAN = FIXED_NEOSCAN_TESTNET; //TODO
-              BASE_PATH_PY = FIXED_NEOPY_NOTIFICATION_TESTNET;  //TODO
+              addAllKnownServiceToSelectionBox("RPC",cozNetNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",cozNetNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxCompilers"); //TODO
+              addAllKnownServiceToSelectionBox("RESTNotification",mainNetNodes,"selectionBoxRestNotifications"); //TODO
             }
 
-            //Update express routes
-            //$('#formCompile')[0].action
-            $('#formCompile').attr('action', BASE_PATH_URL+'/compilex');
+            $("#rpc_nodes_path")[0].value = $("#selectionBoxRPCNodes")[0].value;
+            $("#neoscan_path")[0].value = $("#selectionBoxNeoScan")[0].value;
+            $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
+            $("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
+            updateBASEPATHS();
             // updateHeaderNetworkInfo();
         }
 

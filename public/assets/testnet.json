@@ -1,0 +1,112 @@
+testNetNodes = [
+{
+  "service": "neoScan",
+  "url": "https://neoscan-testnet.io/api/test_net/v1/",
+  "location": "United States",
+  "locale": "us",
+  "type": "REST"
+},
+{
+  "url": "https://neoscan-testnet.io/",
+  "location": "United States",
+  "address": "104.25.126.31",
+  "locale": "us",
+  "type": "neoscan"
+},
+{
+  "service": "neon",
+  "url": "http://testnet-api.neonwallet.com/v2/",
+  "location": "United States",
+  "locale": "us",
+  "type": "REST"
+},
+{
+  "protocol": "https",
+  "url": "seed1.neo.org",
+  "location": "China",
+  "address": "47.94.164.49",
+  "locale": "cn",
+  "port": "20331",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "seed2.neo.org",
+  "location": "China",
+  "address": "139.219.106.33",
+  "locale": "cn",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "seed3.neo.org",
+  "location": "Canada",
+  "address": "47.89.178.72",
+  "locale": "ca",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "seed4.neo.org",
+  "location": "Canada",
+  "address": "47.88.53.224",
+  "locale": "ca",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "seed5.neo.org",
+  "location": "Canada",
+  "address": "47.91.92.192",
+  "locale": "ca",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "api.otcgo.cn",
+  "location": "China",
+  "address": "121.42.26.131",
+  "locale": "cn",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "test1.cityofzion.io",
+  "location": "USA",
+  "locale": "us",
+  "port": "8880",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "test2.cityofzion.io",
+  "location": "USA",
+  "locale": "us",
+  "port": "8880",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "test3.cityofzion.io",
+  "location": "USA",
+  "locale": "us",
+  "port": "8880",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "test4.cityofzion.io",
+  "location": "USA",
+  "locale": "us",
+  "port": "8880",
+  "type": "RPC"
+},
+{
+  "protocol": "http",
+  "url": "test5.cityofzion.io",
+  "location": "USA",
+  "locale": "us",
+  "port": "8880",
+  "type": "RPC"
+}
+]

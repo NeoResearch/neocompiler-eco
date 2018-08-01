@@ -136,10 +136,11 @@ function pushParams(neonJSParams, type, value){
 		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'address'));
 	else if(type == 'Hex')
 		neonJSParams.push(Neon.default.create.contractParam('ByteArray', value));
-	else if(type == 'Integer')
+	else if(type == 'DecFixed8') {
 		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
-	else if(type == 'BigInteger')
-		neonJSParams.push(Neon.default.create.contractParam(type, value));
+   }
+	else if(type == 'Integer')
+		neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
    // TODO: see this for Array! https://github.com/CityOfZion/neon-js/blob/faa31b5f5a18d9f36a9ad4e36b5831462790156e/src/sc/ScriptBuilder.js#L97
    // PERHAPS USE IT HERE??
    else if(type == 'Array')

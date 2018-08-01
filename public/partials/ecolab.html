@@ -19,7 +19,7 @@
               <li><a data-target="#network" data-toggle="tab">Network Essentials</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
               <li><a data-target="#utils"  data-toggle="tab">Storage Query</a></li>
-              <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Addresses</a></li>
+              <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#pythonnotification"  data-toggle="tab">PythonNotifications</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
@@ -1059,7 +1059,8 @@ def Main():
                                          <option>String</option>
                                          <option>Address</option>
                                          <option>Hex</option>
-                                         <option>Integer</option>
+                                         <option>Integer</option> <!-- big integer -->
+                                         <option>DecFixed8</option> <!-- fixed8 in decimal format -->
                                      </select>
                                    </div>
                                  </div>
@@ -1078,7 +1079,8 @@ def Main():
                                          <option>String</option>
                                          <option>Address</option>
                                          <option>Hex</option>
-                                         <option>Integer</option>
+                                         <option>Integer</option> <!-- big integer -->
+                                         <option>DecFixed8</option> <!-- fixed8 in decimal format -->
                                      </select>
                                    </div>
                                  </div>
@@ -1097,7 +1099,8 @@ def Main():
                                          <option>String</option>
                                          <option>Address</option>
                                          <option>Hex</option>
-                                         <option>Integer</option>
+                                         <option>Integer</option> <!-- big integer -->
+                                         <option>DecFixed8</option> <!-- fixed8 in decimal format -->
                                      </select>
                                    </div>
                                  </div>

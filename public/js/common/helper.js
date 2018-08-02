@@ -33,6 +33,75 @@ function int2hex(intvalue, mindigits = 2) {
   return hval;
 }
 
+// negative big integers represented as hex
+// TODO: use it to create javascript class csBigInteger (C# Big Integer)
+function negbigint2hex(intvalue) {
+   if(intvalue >= 0) // ONLY NEGATIVE!
+      return null;
+   x = intvalue;
+   /*
+   // https://msdn.microsoft.com/en-us/library/system.numerics.biginteger(v=vs.110).aspx
+   The BigInteger structure assumes that negative values are stored by using two's complement representation. Because the BigInteger structure represents a numeric value with no fixed length, the BigInteger(Byte[]) constructor always interprets the most significant bit of the last byte in the array as a sign bit. To prevent the BigInteger(Byte[]) constructor from confusing the two's complement representation of a negative value with the sign and magnitude representation of a positive value, positive values in which the most significant bit of the last byte in the byte array would ordinarily be set should include an additional byte whose value is 0. For example, 0xC0 0xBD 0xF0 0xFF is the little-endian hexadecimal representation of either -1,000,000 or 4,293,967,296. Because the most significant bit of the last byte in this array is on, the value of the byte array would be interpreted by the BigInteger(Byte[]) constructor as -1,000,000. To instantiate a BigInteger whose value is positive, a byte array whose elements are 0xC0 0xBD 0xF0 0xFF 0x00 must be passed to the constructor.
+   */
+   //x=-1000000; // must become (big endian) "f0bdc0" => little endian C0 BD F0  (careful with positive 4,293,967,296 that may become negative, need to be C0 BD F0 FF 00)
+   // ASSERT (x < 0) !!! x==0 is problematic! equals to 256...
+   //x=-1; // ff
+   //x=-2; // fe
+   //x=-127; // 81
+   //x=-255; // "ff01" => 01 ff
+   //x=-256; // "ff00" => 00 ff
+   //x=-257; // "feff" => ff fe
+   //x=-128; // "ff80" => 80 ff
+   // only for negative integers
+   x *= -1; // turn into positive
+   // ========================
+   // perform two's complement
+   // ========================
+   // convert to binary
+   y = x.toString(2);
+   //console.log("FIRST BINARY: "+y);
+   // extra padding for limit cases (avoid overflow)
+   y = "0"+y;
+   //guarantee length must be at least 8, or add padding!
+   while((y.length<8) || (y.length % 8 != 0)) {
+      //console.log("ADDING PADDING 1!");
+      y = "0"+y;
+   }
+   // invert bits
+   y2 = "";
+   for(i = 0; i<y.length; i++)
+      y2 += y[i]=='0'?'1':'0';
+   //console.log("SECOND BINARY: "+y2);
+   // go back to int
+   y3 = parseInt(y2, 2);
+   //console.log("INT is "+y3);
+   // sum 1
+   y3 += 1;
+   //console.log("INT is after sum "+y3);
+   // convert to binary again
+   y4 = y3.toString(2);
+   //guarantee length must be at least 8, or add padding!
+   while(y4.length < 8) {
+      //console.log("ADDING PADDING!");
+      y4 = "0"+y4;
+   }
+   ///// verify if most important bit in LAST byte would is already set... (NO NEED.. ONLY FOR POSITIVE INTEGERS)
+   //index = y4.length-8;
+   //if(y4[index]=='0') {
+       //console.log("CREATING EXTRA BYTE! BUT HOW?");
+       // must create an extra byte just to inform sign...
+       //y4="10000000"+y4; // could be 1xxxxxxx I guess, but everyone is just using f0 (which is 11110000)...
+   //}
+
+   //console.log("final binary:"+y4);
+
+   // convert to hex
+   y5 = parseInt(y4,2).toString(16);
+   // adjust padding
+
+   return revertHexString(y5);
+}
+
 function uint2bytes(intvalue) {
   if(intvalue < 0)
      intvalue = 0;

@@ -725,6 +725,7 @@ def Main():
 
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
+                                <input type="checkbox" id="cbx_optimize">Optimize opcodes with neon-opt (BETA! USE WITH CAUTION!)</input><br/>
                                 <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
                                 <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p>
                                 <h4>Compile Warning/Errors:</h4>
@@ -744,15 +745,15 @@ def Main():
                                         <li><a onclick="downloadAVM('1')">hex code</a></li>
                                     </ul>
                                 </div>
-                                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button>
-                                Upload AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br>
+                                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button><br/>
+                                Upload AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br/>
                                 <div id="opcodesDiv" class="collapse">
                                     <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control"></textarea>
                                     <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
                                 </div>
                                 <h4>ABI:</h4>
                                 <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
-                            </form>
+                            </form> <!-- id="formCompile" -->
                             <!-- end of compilex form -->
                             <!-- /////////////////////////////////////////////////////////////////// -->
                         </div>

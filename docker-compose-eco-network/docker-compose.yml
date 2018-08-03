@@ -28,6 +28,9 @@ services:
       - ./logs-neocli-node2:/opt/node2/neo-cli/Logs
       - ./logs-neocli-node3:/opt/node3/neo-cli/Logs
       - ./logs-neocli-node4:/opt/node4/neo-cli/Logs
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
 # ================================================================================
 

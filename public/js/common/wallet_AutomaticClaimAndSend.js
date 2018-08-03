@@ -107,14 +107,14 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
 		 var idToTransfer = searchIndexOfAllKnownWallets(adddressToGet);
 		 if (idToTransfer != -1)
 		 	CreateTx(KNOWN_ADDRESSES[idToTransfer].publicKey,KNOWN_ADDRESSES[idToTransfer].privateKey,KNOWN_ADDRESSES[idToTransfer].publicKey, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
-	      }      
-	
+	      }
+
     	      return result.balance[i].amount;
     	  }
        }
     }else
       return 0;
-    
+
   });
 }
 
@@ -260,22 +260,31 @@ function drawWalletsStatus(){
 
 //===============================================================
 function addWallet(){
+   console.log("addWallet()");
         pubAddressToAdd = document.getElementById('addressToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
-        //console.log("pubAddressToAdd:" + pubAddressToAdd + " wifToAdd: " + wifToAdd);
+        console.log("pubAddressToAdd: '" + pubAddressToAdd + "' wifToAdd: '" + wifToAdd + "'");
 
 	if(searchIndexOfAllKnownWallets(pubAddressToAdd) != -1)
 	{
 		alert("Public address already registered. Please, delete index " + searchIndexOfAllKnownWallets(pubAddressToAdd) + " first.");
 		return;
 	}
+
  	if(!Neon.default.is.address(pubAddressToAdd))
 	{
 		alert("Public address " + pubAddressToAdd + " is not being recognized as a valid address.");
 		return;
 	}
-	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd });
+   console.log("Address is ok!");
+   // DISCLAIMER: 'privateKey' is in fact the WIF (Wallet Import Format)
+   realpriv = Neon.wallet.getPrivateKeyFromWIF(wifToAdd);
+   console.log("real priv:"+realpriv);
+   pubkeyToAdd = Neon.wallet.getPublicKeyFromPrivateKey(realpriv);
+   console.log("read pub:"+pubkeyToAdd);
+	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd, pubKey: pubkeyToAdd });
 
+   console.log("will populate all wallets");
 	populateAllWalletData();
 }
 //===============================================================

@@ -1680,7 +1680,7 @@ def Main():
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
-                  $("#txtRPCJsonOut").val(JSON.stringify(data));
+                  $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
                 },
                 "json" // The format the response should be in
             ).fail(function() {

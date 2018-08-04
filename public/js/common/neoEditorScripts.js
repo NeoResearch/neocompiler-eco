@@ -420,12 +420,14 @@
                  var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
                  //printOpcode(hexavm, $("#opcodes"));
 
-                 $("#contracthash")[0].value = shash;
-                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
-                 $("#invokehash")[0].value = $("#contracthash")[0].value;
+					  $("#contracthash")[0].value = shash;
+                 $("#invokehash")[0].value = shash;
+					  $("#contracthashjs")[0].value = shash;
+					  $("#invokehashjs")[0].value = shash;
 
                  console.log(toBase58(shash));//address
                  alert("scripthash "+shash+" imported successfully!");
+
              };
              reader.readAsBinaryString(file);
          }

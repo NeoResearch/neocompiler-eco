@@ -24,6 +24,17 @@ function elipsisMiddle(str) {
   return str;
 }
 
+function bigint2bebytearray(bigint) {
+   if(bigint >= 0){
+      bihex = bigint.toString(16);
+      if(bihex.length % 2 == 1)
+         bihex = "0"+bihex;
+      return revertHexString("00"+bihex);
+   }
+   else
+      return negbigint2hex(bigint);
+}
+
 function int2hex(intvalue, mindigits = 2) {
   if(intvalue < 0)
      intvalue = 0;

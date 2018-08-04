@@ -425,6 +425,10 @@
 					  $("#contracthashjs")[0].value = shash;
 					  $("#invokehashjs")[0].value = shash;
 
+					  // assuming canonical format
+					  $("#contractparamsjs")[0].value = "0710"; // string array
+					  $("#contractreturnjs")[0].value = "05"    // bytearray
+
                  console.log(toBase58(shash));//address
                  alert("scripthash "+shash+" imported successfully!");
 

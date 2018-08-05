@@ -33,11 +33,11 @@ done
 
 if ((!$DISABLE_BUILD)); then
 	if (($DEV_MODE)); then
-		echo "(DEV MODE) BUILDING docker-compiler-csharpnodes with modified neo-cli";
-		(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
+		echo "BUILDING docker-neo-csharp-node with modified neo-cli (DEV MODE)";
+		(cd docker-neo-csharp-node; ./docker_build.sh --neo-cli neo-cli-built.zip)
 	else
-		echo "BUILDING docker-compiler-csharpnodes";
-		(cd docker-neo-csharp-nodes; ./docker_build.sh)
+		echo "BUILDING docker-neo-csharp-node (with default neo-cli)";
+		(cd docker-neo-csharp-node; ./docker_build.sh)
 	fi
 	
 	echo "BUILDING docker-neo-compiler-neo-python";

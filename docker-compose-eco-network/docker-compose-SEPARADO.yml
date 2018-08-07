@@ -7,27 +7,120 @@ services:
 
 # ================================================================================
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
-  eco-neo-csharp-nodes-running:
-    image: eco-neo-csharp-nodes:latest
-    container_name: "eco-neo-csharp-nodes-running"
-    ports:
+  eco-neo-csharp-node1-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-node1-running"
+    ports: # config1.json
       - "20333:20333"
-      - "20334:20334"
-      - "20335:20335"
-      - "20336:20336"
-      - "20337:20337"
-      - "20338:20338"
+      - "20334"
+      - "20335"
+      - "20336"
       - "30333:30333"
-      - "30334:30334"
-      - "30335:30335"
-      - "30336:30336"
-      - "30337:30337"
-      - "30338:30338"
+    networks:
+      - consensus-net
     volumes:
-      - ./logs-neocli-node1:/opt/node1/neo-cli/Logs
-      - ./logs-neocli-node2:/opt/node2/neo-cli/Logs
-      - ./logs-neocli-node3:/opt/node3/neo-cli/Logs
-      - ./logs-neocli-node4:/opt/node4/neo-cli/Logs
+      - ./logs-neocli-node1:/opt/node/neo-cli/Logs
+    environment:
+      IS_CONSENSUS: 1
+      RPC_SERVER: callRPC
+      NUMBER_SERVER: 1
+      WALLET_PWD_SERVER: one
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  eco-neo-csharp-node2-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-node2-running"
+    ports: #config2.json
+      - "20333"
+      - "20334:20334"
+      - "30334:30334"
+      - "20335"
+      - "20336"
+    networks:
+      - consensus-net
+    volumes:
+      - ./logs-neocli-node2:/opt/node/neo-cli/Logs
+    environment:
+      IS_CONSENSUS: 1
+      RPC_SERVER: 0
+      NUMBER_SERVER: 2
+      WALLET_PWD_SERVER: two
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  eco-neo-csharp-node3-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-node3-running"
+    ports: #config3.json
+      - "20333"
+      - "20334"
+      - "20335:20335"
+      - "30335:30335"
+      - "20336"
+    networks:
+      - consensus-net
+    volumes:
+      - ./logs-neocli-node3:/opt/node/neo-cli/Logs
+    environment:
+      IS_CONSENSUS: 1
+      RPC_SERVER: 0
+      NUMBER_SERVER: 3
+      WALLET_PWD_SERVER: three
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  eco-neo-csharp-node4-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-node4-running"
+    ports: #config4.json
+      - "20333"
+      - "20334"
+      - "20335"
+      - "20336:20336"
+      - "30336:30336"
+    networks:
+      - consensus-net
+    volumes:
+      - ./logs-neocli-node4:/opt/node/neo-cli/Logs
+    environment:
+      IS_CONSENSUS: 1
+      RPC_SERVER: 0
+      NUMBER_SERVER: 4
+      WALLET_PWD_SERVER: four
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  eco-neo-csharp-noderpc1-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-noderpc1-running"
+    ports: #config1RPC.json
+      - "20337:20337"
+      - "30337:30337"
+    networks:
+      - consensus-net
+    environment:
+      IS_CONSENSUS: 0
+      NUMBER_SERVER: 1
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  eco-neo-csharp-noderpc2-running:
+    image: eco-neo-csharp-node:latest
+    container_name: "eco-neo-csharp-noderpc2-running"
+    ports: #config2RPC.json
+      - "20338:20338"
+      - "30338:30338"
+    networks:
+      - consensus-net
+    environment:
+      IS_CONSENSUS: 0
+      NUMBER_SERVER: 2
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -53,11 +146,21 @@ services:
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
     links:
       - eco-neo-scan-postgresql-running:postgres
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-rest-running
     depends_on:
       - eco-neo-scan-postgresql-running
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-rest-running
 
   eco-neo-scan-postgresql-running:
@@ -80,11 +183,21 @@ services:
     ports:
       - "8080:8080"
     links:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     command: /bin/bash /opt/start_neopython_rest.sh
     depends_on:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
@@ -96,11 +209,21 @@ services:
     ports:
       - "10332:10332"
     links:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     command: /bin/bash /opt/start_neopython_rpc.sh
     depends_on:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
@@ -115,10 +238,20 @@ services:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-first-multisig-transfer-running"
     links:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
     command: /bin/bash /opt/callGenesisBlockCreation.sh
     depends_on:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
     volumes:
       - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 # ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
@@ -150,10 +283,20 @@ services:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-logger-running"
     links:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
     depends_on:
-      - eco-neo-csharp-nodes-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
@@ -161,6 +304,11 @@ services:
 
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
 # ================================================================================
+
+# ================= CONSENSUS NETWORK ================
+networks: # do not belong to 'services' section!
+  consensus-net:
+    driver: bridge
 
 
 # ================================================================================

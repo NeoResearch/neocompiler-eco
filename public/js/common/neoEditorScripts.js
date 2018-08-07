@@ -18,7 +18,7 @@
 
 		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
 		  $.post(
-		      $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+		      $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
 		      strgetblock,
 		      function (data2) {
 		        //console.log(data);
@@ -319,18 +319,19 @@
 	//Get the hash and key
         sthash = $("#gsf_contracthash")[0].value;
         stkey = $("#gsf_contractkey")[0].value;
-        if($("#getStorageFormat")[0].value == "String (no quotes)")
-           stkey = Neon.u.str2hexstring(stkey);
+        if($("#getStorageFormat")[0].value == "String (no quotes)") {
+			  stkey = Neon.u.str2hexstring(stkey);
+		  }
 
-        console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#neonodeurl")[0].value);
-        getStorage(sthash, stkey, $("#neonodeurl")[0].value).then(function(data){
+        console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#rpc_nodes_path")[0].value);
+        getStorage(sthash, stkey, $("#rpc_nodes_path")[0].value).then(function(data){
             $("#gsf_contractvaluehex")[0].value = data.result;
             if(data.result != null)
               $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);
             else
             {
                 $.post(
-                    $("#neonodeurl")[0].value, // Gets the URL to sent the post to
+                    $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
                     '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["'+sthash+'"] }', // Serializes form data in standard format
                     function (data2) {
                       if(data2.result) { // contract exists
@@ -420,12 +421,18 @@
                  var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
                  //printOpcode(hexavm, $("#opcodes"));
 
-                 $("#contracthash")[0].value = shash;
-                 //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
-                 $("#invokehash")[0].value = $("#contracthash")[0].value;
+					  $("#contracthash")[0].value = shash;
+                 $("#invokehash")[0].value = shash;
+					  $("#contracthashjs")[0].value = shash;
+					  $("#invokehashjs")[0].value = shash;
+
+					  // assuming canonical format
+					  $("#contractparamsjs")[0].value = "0710"; // string array
+					  $("#contractreturnjs")[0].value = "05"    // bytearray
 
                  console.log(toBase58(shash));//address
                  alert("scripthash "+shash+" imported successfully!");
+
              };
              reader.readAsBinaryString(file);
          }

@@ -138,6 +138,7 @@
                             </form>
                         </div>
                     </div>
+
                     <div class="panel panel-primary">
                         <div class="panel-heading">Address <-> ScriptHash</div>
                         <div class="panel-body">
@@ -159,6 +160,30 @@
                             </form>
                         </div>
                     </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">BigInteger -> Big Endian ByteArray</div>
+                        <div class="panel-body">
+                            <form id="convert_bigint_to_bytearray">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="convert_bigint">BigInteger</label>
+                                    <input id="convert_bigint" class="form-control" placeholder="BigInteger" oninput="conv_bigint2bebytearray()"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label for="convert_bytearray">Big Endian ByteArray</label>
+                                    <input id="convert_bytearray" class="form-control" placeholder="Big Endian ByteArray" readonly />
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+
+
                     <div class="panel panel-primary">
                         <div class="panel-heading">Disassembly opcodes</div>
                         <div class="panel-body">
@@ -433,8 +458,8 @@
                             <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check addresses</button> <br>
                             <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
-                            address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="50" value="PubAddress to Add" size="30" title="public address"/> &nbsp; &nbsp;
-                            WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="50" value="WIF to Add" size="30" /> <br>
+                            Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" value="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="30" title="public address"/> &nbsp; &nbsp;
+                            WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" value="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
                             <button type="button" onClick="addWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                         </div>
                     </div>
@@ -725,6 +750,7 @@ def Main():
 
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
+                                <input type="checkbox" id="cbx_optimize">Optimize opcodes with neon-opt (BETA! USE WITH CAUTION!)</input><br/>
                                 <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
                                 <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p>
                                 <h4>Compile Warning/Errors:</h4>
@@ -744,15 +770,15 @@ def Main():
                                         <li><a onclick="downloadAVM('1')">hex code</a></li>
                                     </ul>
                                 </div>
-                                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button>
-                                Upload AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br>
+                                <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button><br/>
+                                Upload AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br/>
                                 <div id="opcodesDiv" class="collapse">
                                     <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control"></textarea>
                                     <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
                                 </div>
                                 <h4>ABI:</h4>
                                 <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
-                            </form>
+                            </form> <!-- id="formCompile" -->
                             <!-- end of compilex form -->
                             <!-- /////////////////////////////////////////////////////////////////// -->
                         </div>
@@ -849,7 +875,7 @@ def Main():
                 <div class="tab-container">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-target="#tabdeployjs" data-toggle="tab">Deploy via neon-js</a></li>
-                        <li class="disabled"><a data-target="#tabdeployjs" data-toggle="tab" tabindex="-1">Deploy via Eco + neo-python</a></li>
+                        <li class="disabled"><a data-target="#tabdeployjs" data-toggle="tab" tabindex="-1">Deploy via neo-python</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -861,7 +887,7 @@ def Main():
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="contracthash">Contract ScriptHash</label>
-                                  <input id="contracthashjs" readonly="readonly" name="contracthash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                                  <input id="contracthashjs" name="contracthash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
                                 </div>
                               </div>
 
@@ -999,7 +1025,7 @@ def Main():
                 <div class="tab-container">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-target="#tabinvokejs" data-toggle="tab">Invoke via neon-js</a></li>
-                        <li><a data-target="#tabinvokepy" data-toggle="tab">Invoke via Eco + neo-python</a></li>
+                        <li class="disabled"><a data-target="#tabinvokejs" data-toggle="tab" tabindex="-1">Invoke via neo-python</a></li>
                     </ul>
                   <div class="tab-content">
                     <!-- begin invokejs -->
@@ -1567,6 +1593,13 @@ def Main():
           $("#scripthash").val( fromBase58($("#address").val()) );
         }
 
+        function conv_bigint2bebytearray()
+        {
+           valbigint = Number($('#convert_bigint')[0].value);
+           //console.log("converting int:"+valbigint);
+           $('#convert_bytearray')[0].value = bigint2bebytearray(valbigint);
+        }
+
         function scripthash2address()
         {
           if( $("#scripthash").val() == "" ) return;
@@ -1679,7 +1712,7 @@ def Main():
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 $("#txtRPCJson").val(), // Serializes form data in standard format
                 function (data) {
-                  $("#txtRPCJsonOut").val(JSON.stringify(data));
+                  $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
                 },
                 "json" // The format the response should be in
             ).fail(function() {

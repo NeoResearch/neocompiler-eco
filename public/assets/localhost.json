@@ -1,6 +1,6 @@
     localHostNodes = [
       {
-        "url": "http://localhost:10000",
+        "url": "http://localhost:8000",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "ecoservices"

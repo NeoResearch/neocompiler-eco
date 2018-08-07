@@ -1,4 +1,4 @@
-const Connections = require('./js/connections.js');
+const Connections = require('./express-servers/socket-js/connections.js');
 let conn = new Connections();
 
 var express  = require('express');

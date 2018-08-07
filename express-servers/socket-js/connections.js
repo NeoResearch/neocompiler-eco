@@ -3,7 +3,7 @@ const fs = require('fs');
 class Connections {
   constructor() {
     this.Connections = 0;
-    this.FileName = './socket-js/connections.json';
+    this.FileName = './connections.json';
     this.ConnectionsSince = this.readFromFile();
   }
 

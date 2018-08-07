@@ -1,0 +1,168 @@
+# ================================================================================
+# ========== WELCOME TO THE NEOCOMPILER ECO NEO BLOCKCHAIN MICROSERVICE  =========
+# ================================================================================
+
+version: "3"
+services:
+
+# ================================================================================
+# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
+  eco-neo-csharp-nodes-running:
+    image: eco-neo-csharp-nodes:latest
+    container_name: "eco-neo-csharp-nodes-running"
+    ports:
+      - "20333:20333"
+      - "20334:20334"
+      - "20335:20335"
+      - "20336:20336"
+      - "20337:20337"
+      - "20338:20338"
+      - "30333:30333"
+      - "30334:30334"
+      - "30335:30335"
+      - "30336:30336"
+      - "30337:30337"
+      - "30338:30338"
+    volumes:
+      - ./logs-neocli-node1:/opt/node1/neo-cli/Logs
+      - ./logs-neocli-node2:/opt/node2/neo-cli/Logs
+      - ./logs-neocli-node3:/opt/node3/neo-cli/Logs
+      - ./logs-neocli-node4:/opt/node4/neo-cli/Logs
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
+# ================================================================================
+
+# ================================================================================
+# ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
+  neo-scan-running:
+    image: "registry.gitlab.com/cityofzion/neo-scan:26735238-master"
+    container_name: "eco-neo-scan-running"
+    ports:
+      - "4000:4000"
+    #command: /bin/true #disable neo-scan
+    environment:
+      PORT: 4000
+      HOST: ${HOST_NAME}
+      NEO_SEED_1: "http://eco-neo-csharp-nodes-running:30333"
+      NEO_SEED_2: "http://eco-neo-csharp-nodes-running:30337"
+      NEO_SEED_3: "http://eco-neo-csharp-nodes-running:30338"
+      NEO_SEED_4: "http://eco-neo-csharp-nodes-running:30333"
+      NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
+    links:
+      - eco-neo-scan-postgresql-running:postgres
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-rest-running
+    depends_on:
+      - eco-neo-scan-postgresql-running
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-rest-running
+
+  eco-neo-scan-postgresql-running:
+    image: postgres:10.1
+    container_name: "eco-neo-scan-postgresql-running"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: neoscan_prodv
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+# ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
+# ================================================================================
+
+# ================================================================================
+# ================== BEGIN OF PYTHON CLIENT FOR RPC AND RESTFULL =================
+  eco-neo-python-rest-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-rest-running"
+    ports:
+      - "8080:8080"
+    links:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    command: /bin/bash /opt/start_neopython_rest.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./logs-neopython-rest-rpc/:/neo-python/logs
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+
+  eco-neo-python-rpc-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-rpc-running"
+    ports:
+      - "10332:10332"
+    links:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    command: /bin/bash /opt/start_neopython_rpc.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./logs-neopython-rest-rpc/:/neo-python/logs
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+
+# ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
+# ================================================================================
+
+# ================================================================================
+# ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
+  eco-neo-python-first-multisig-transfer-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-first-multisig-transfer-running"
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callGenesisBlockCreation.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+# ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
+# ================================================================================
+
+# ================================================================================
+# ===================== BEGIN ECO PRE-SYNCED WALLETS =============================
+#  eco-neo-python-w1-running:
+#    image: eco-neo-python:latest
+#    container_name: "eco-neo-python-w1-running"
+#    environment:
+#      - PYTHON_WALLET=w1.wallet
+#      - PYTHON_NAME=pythonW1
+#      - PYTHON_PWD=coz
+#    links:
+#      - eco-neo-csharp-nodes-running
+#    command: /bin/bash /opt/openPythonWallet.sh
+#    depends_on:
+#      - eco-neo-csharp-nodes-running
+#      - eco-neo-python-first-multisig-transfer-running
+#    volumes:
+#      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+# ===================== END ECO PRE-SYNCED WALLETS ===============================
+# ================================================================================
+
+# ================================================================================
+# ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
+  eco-neo-python-logger-running:
+    image: eco-neo-python:latest
+    container_name: "eco-neo-python-logger-running"
+    links:
+      - eco-neo-csharp-nodes-running
+    command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
+    depends_on:
+      - eco-neo-csharp-nodes-running
+      - eco-neo-python-first-multisig-transfer-running
+    volumes:
+      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+#      - ./logs-neopython-logger:/neo-python/logs2
+
+# ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
+# ================================================================================
+
+
+# ================================================================================
+# ======================= THANKS FOR CREATING ME =================================
+# ================================================================================

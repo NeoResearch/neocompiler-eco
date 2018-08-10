@@ -23,6 +23,7 @@
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#pythonnotification"  data-toggle="tab">PythonNotifications</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
+              <li><a data-target="#configurations"  data-toggle="tab">Configurations</a></li>
             </ul>
         </div>
 
@@ -41,32 +42,6 @@
                       <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet</option>
                       <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet</option>
                     </select>
-                </div>
-                <div class="col-md-2">
-                    <!-- <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">-->
-                    <span class="label label-success">RPC</span>
-                    <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
-                    <select id="selectionBoxRPCNodes" class="custom-select form-control"></select>
-                </div>
-                <div class="col-md-2">
-                    <span class="label label-success">NeoScan</span>
-                    <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
-                    <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
-                </div>
-                <div class="col-md-2">
-                    <span class="label label-success">Compilers</span>
-                    <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
-                    <select id="selectionBoxCompilers" class="custom-select form-control"></select>
-                </div>
-                <div class="col-md-2">
-                    <span class="label label-success">EcoServices</span>
-                    <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
-                    <select id="selectionBoxEcoServices" class="custom-select form-control"></select>
-                </div>
-                <div class="col-md-2">
-                    <span class="label label-success">REST Notifications</span>
-                    <input type="text" onchange="updateBASEPATHS()" id="rest_notifications_path" value="------">
-                    <select id="selectionBoxRestNotifications" class="custom-select form-control"></select>
                 </div>
             </div>
             <!-- END FIXED DIV OF NETWORKS -->
@@ -594,6 +569,41 @@
             </div>
           <!-- END DIV NODES INFO -->
           <!-- ======================================================== -->
+
+          <!-- ======================================================== -->
+          <!-- BEGIN CONFIGURATIONS NODEINFO -->
+           <div class="tab-pane fade" id="configurations">
+               <div class="panel panel-primary">
+                 <div class="col-md-2">
+                     <!-- <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">-->
+                     <span class="label label-success">RPC</span>
+                     <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
+                     <select id="selectionBoxRPCNodes" class="custom-select form-control"></select>
+                 </div>
+                 <div class="col-md-2">
+                     <span class="label label-success">NeoScan</span>
+                     <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
+                     <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
+                 </div>
+                 <div class="col-md-2">
+                     <span class="label label-success">Compilers</span>
+                     <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
+                     <select id="selectionBoxCompilers" class="custom-select form-control"></select>
+                 </div>
+                 <div class="col-md-2">
+                     <span class="label label-success">EcoServices</span>
+                     <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
+                     <select id="selectionBoxEcoServices" class="custom-select form-control"></select>
+                 </div>
+                 <div class="col-md-2">
+                     <span class="label label-success">REST Notifications</span>
+                     <input type="text" onchange="updateBASEPATHS()" id="rest_notifications_path" value="------">
+                     <select id="selectionBoxRestNotifications" class="custom-select form-control"></select>
+                 </div>
+               </div>
+           </div>
+         <!-- END CONFIGURATIONS INFO -->
+         <!-- ======================================================== -->
 
           <!-- ======================================================== -->
           <!-- BEGIN PYTHON NOTIFICATIONS -->

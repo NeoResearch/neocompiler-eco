@@ -1,6 +1,8 @@
 #!/bin/bash
-#DEBUG=neocompilersonly:* PORT=1000 
-DOOR_COMPILERS=10000
-fuser -k  $DOOR_COMPILERS/tcp
+DOOR_ECOSERVICES=9000
 
+echo "fuser -k on port $DOOR_ECOSERVICES"
+fuser -k  $DOOR_ECOSERVICES/tcp
+
+echo "starting appEcoServices.js at port $DOOR_ECOSERVICES"
 node appEcoServices.js

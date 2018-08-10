@@ -47,30 +47,11 @@ ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
 #==========================================================================
 #====================== RPC and RESTFULL API interface ====================
 #Script used to start  neopy
-ADD ./neo-python-rpc-rest/start_neopython_rest.sh /opt/
-ADD ./neo-python-rpc-rest/start_neopython_rpc.sh /opt/
-
-# Neo-python REST port
-EXPOSE 8080
-# Neo-python RPC port
-EXPOSE 10332
+ADD start_neopython_rest.sh /opt/
 #==========================================================================
 
 #==========================================================================
 #==================== Eco scripts =========================================
-#Add four different wallet files
-ADD neo-python-wallet-sync/w1.wallet /neo-python/
-ADD neo-python-wallet-sync/w2.wallet /neo-python/
-ADD neo-python-wallet-sync/w3.wallet /neo-python/
-ADD neo-python-wallet-sync/w4.wallet /neo-python/
-
-#Starts screen for python wallets pre-syncing
-ADD neo-python-wallet-sync/commands/openPythonWallet.sh /opt
-
-#Scripts called by the javascript interface
-ADD neo-python-wallet-sync/commands/pythonScreenDeploy.sh /opt
-ADD neo-python-wallet-sync/commands/pythonScreenInvoke.sh /opt
-
 #Notifications and python Logers
 ADD callPythonLogger.sh /opt
 ADD getNotificationLogs.sh /opt
@@ -78,10 +59,3 @@ ADD getNotificationLogs.sh /opt
 
 #Loop that forces python clients to wait for csharp nodes
 ADD waitNodes.sh /opt
-
-# ADD scripts that initializes everything needed by the NeoCompiler Eco
-#ADD run-all.sh /opt/
-
-# On docker run, start the rpc-rest node
-#CMD ["/bin/bash", "/opt/run-all.sh"]
-#CMD ["ls", "-la"]

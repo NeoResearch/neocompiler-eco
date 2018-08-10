@@ -51,4 +51,8 @@ echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CS
 ./runEco_network.sh
 
 echo "BUILDING/RUNNING web interface and compilers";
-./buildCompilers_startWebInterface.sh
+# ./buildCompilers_startWebInterface.sh
+
+nohup ./runHttpExpress.sh > ./nohupOutputRunHttpExpress.out 2> ./nohupOutputRunHttpExpress.err < /dev/null &
+(cd express-servers; ./startAllExpressNohup.sh)
+

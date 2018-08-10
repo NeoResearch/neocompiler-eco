@@ -9,11 +9,8 @@
         "02a7bc55fe8684e0119768d104ba30795bdcc86619e864add26156723ed185cd62"
     ],
     "SeedList": [
-     "eco-neo-csharp-nodes-running:20334",
-     "eco-neo-csharp-nodes-running:20335",
-     "eco-neo-csharp-nodes-running:20336",
-     "eco-neo-csharp-nodes-running:20337",
-     "eco-neo-csharp-nodes-running:20338"
+     "eco-neo-csharp-nodes-running:20333",
+     "eco-neo-csharp-nodes-running:20334"
     ],
     "RPCList":[
      "http://eco-neo-csharp-nodes-running:30337"
@@ -29,10 +26,10 @@
   "ApplicationConfiguration": {
     "DataDirectoryPath": "Chains/privnet",
     "NotificationDataPath": "Chains/privnet_notif",
-    "RPCPort": 20332,
-    "NodePort": 20333,
-    "WsPort": 20334,
-    "UriPrefix": [ "http://*:20332" ],
+    "RPCPort": 50332,
+    "NodePort": 50333,
+    "WsPort": 50334,
+    "UriPrefix": [ "http://*:50332" ],
     "SslCert": "",
     "SslCertPassword": "",
     "BootstrapFile":"",

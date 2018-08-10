@@ -1,6 +1,12 @@
 ecoNodes = [
   {
-    "url": "https://neocompiler.io",
+    "url": "https://compilers.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "ecocompilers"
+  },
+  {
+    "url": "https://ecoservices.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "ecoservices"
@@ -15,7 +21,7 @@ ecoNodes = [
     "url": "https://rest.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
-    "type": "RESTNotification"
+    "type": "RESTNotifications"
   },
   {
     "protocol": "https",
@@ -37,13 +43,5 @@ ecoNodes = [
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"
-  },
-  {
-    "protocol": "http",
-    "type": "REST-Python",
-    "url": "pyNotifications.neocompiler.io",
-    "port": "8080",
-    "location": "worldwide",
-    "locale": "worldwide",
   }
 ]

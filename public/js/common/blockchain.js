@@ -2,7 +2,7 @@ function addLocalPrivateNet(){
   const config = {
     name: 'LocalPrivateNet',
     extra: {
-      neoscan: FIXED_NEOSCAN_LOCALHOST + "/api/main_net"
+      neoscan: getFirstAvailableService("neoscan",localHostNodes) + "/api/main_net"
     }
   }
   const localprivateNet = new Neon.rpc.Network(config)
@@ -14,7 +14,7 @@ function addSharedPrivateNet(){
   const config = {
     name: 'SharedPrivateNet',
     extra: {
-      neoscan: FIXED_NEOSCAN_NEOCOMPILER + "/api/main_net"
+      neoscan: getFirstAvailableService("neoscan",ecoNodes) + "/api/main_net"
     }
   }
   const sharedprivateNet = new Neon.rpc.Network(config)

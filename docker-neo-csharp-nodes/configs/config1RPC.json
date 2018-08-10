@@ -17,7 +17,7 @@
       "Path": "",
       "Password": "",
       "StartConsensus": false,
-      "IsActive": true
+      "IsActive": false
     }
   }
 }

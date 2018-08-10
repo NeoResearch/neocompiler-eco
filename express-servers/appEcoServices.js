@@ -21,11 +21,9 @@ res.setHeader('Access-Control-Allow-Credentials', true);
 next();
 });
 
-//app.listen(10000);
-
 var server = http.createServer(app);
 
-server.listen(10000 || process.env.PORT, (err) => {
+server.listen(9000 || process.env.PORT, (err) => {
   if (err) {
     return console.log('something bad happened', err)
   }
@@ -34,7 +32,7 @@ server.listen(10000 || process.env.PORT, (err) => {
 
 app.get('/', (req, res) => {
   console.log("Welcome to our NeoCompiler Eco Services RPC API");
-  res.status(200).send("Welcome to our NeoCompiler Eco Services RPC API: [socket.io], [/statusnode/:node - CN Routes], [/getvars - get commit] ");
+  res.status(200).send("Welcome to our NeoCompiler Eco Services RPC API: [socket.io], [/statusnode/:node - CN Routes], [/getvars - get commit], [/notifications - python notification loggers]");
 });
 
 app.post('/getvars', function(req, res){
@@ -44,9 +42,9 @@ app.post('/getvars', function(req, res){
 
 app.get('/statusnode/:node', function(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-  var cmddocker = 'cat ./docker-compose-eco-network/logs-neocli-node'+req.params.node+'/*.log | tail -n 50';
-
-  var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
+  var cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-node'+req.params.node+'/*.log | tail -n 500';
+  console.log("cmddocker is " + cmddocker);
+  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
       res.send("Error:"+e);
       console.error(e);
@@ -79,6 +77,51 @@ io.on('connection', function(socket){
   });
 });
 // ============================================================
+
+var optionsGetLogger = {
+  timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!
+  killSignal: 'SIGKILL'
+}
+
+// ============================================================
+// ================== PYTHON LOGGER SERVICES ==================
+app.get('/notifications', function(req, res) {
+  var cmddocker = 'docker exec -t eco-neo-python-logger-running dash -i -c "/opt/getNotificationLogs.sh"';
+  //var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-logger/prompt.log';
+  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+      res.send(stdout1);
+    }
+  });
+});
+
+//TODO REMOVE, THIS ARE THE LOGS FOR DEBUGGING PYTHON REST API CLIENT
+/*
+app.get('/restlog', function(req, res) {
+  //var cmddocker = 'docker exec -t eco-neo-python-logger-running dash -i -c "/opt/getNotificationLogs.sh"';
+  var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-rest-rpc/saida.log';
+  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+      res.send(stdout1);
+    }
+  });
+});
+*/
+
+// ============================================================
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

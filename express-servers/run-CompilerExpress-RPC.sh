@@ -1,6 +1,8 @@
 #!/bin/bash
-#DEBUG=neocompilersonly:* PORT=1000 
-DOOR_COMPILERS=9000
+DOOR_COMPILERS=10000
+
+echo "fuser -k on port $DOOR_COMPILERS"
 fuser -k  $DOOR_COMPILERS/tcp
 
+echo "starting appCompiler.js at port $DOOR_COMPILERS"
 node appCompiler.js

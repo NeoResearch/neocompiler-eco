@@ -71,28 +71,5 @@ ADD ./scripts/start_rpc_node.sh /opt/
 #Script used to modify neo-csharp-nodes characteristcs and parameters
 ADD ./scripts/updateConsensusCharacteristics.sh /opt/
 
-# Inform Docker what ports to expose
-# Neo-cli WS ports
-EXPOSE 10333
-EXPOSE 10334
-EXPOSE 10335
-EXPOSE 10336
-
-# Neo-cli TCP ports
-EXPOSE 20333
-EXPOSE 20334
-EXPOSE 20335
-EXPOSE 20336
-EXPOSE 20337
-EXPOSE 20338
-
-# Neo-cli RPC ports
-EXPOSE 30333
-EXPOSE 30334
-EXPOSE 30335
-EXPOSE 30336
-EXPOSE 30337
-EXPOSE 30338
-
 # On docker run, start the consensus nodes
 CMD ["/bin/bash", "/opt/run.sh"]

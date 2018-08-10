@@ -53,6 +53,6 @@ echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CS
 echo "BUILDING/RUNNING web interface and compilers";
 # ./buildCompilers_startWebInterface.sh
 
-nohup ./runHttpExpress.sh > ./nohupOutputRunHttpExpress.out 2> ./nohupOutputRunHttpExpress.err < /dev/null &
+nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
 (cd express-servers; ./startAllExpressNohup.sh)
 

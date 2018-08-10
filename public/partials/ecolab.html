@@ -36,8 +36,8 @@
                 <div class="col-md-2">
                     <span class="label label-success">Base Network</span>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
-                      <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">neocompiler.io services</option>
-                      <option title="Localhost services" value="http://localhost:30333">localhost services</option>
+                      <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">NeoCompiler Eco</option>
+                      <option title="Localhost services" value="http://localhost:30333">Localhost</option>
                       <option title="MainNet services" value="0">NEO MainNet (incomplete)</option>
                       <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet (incomplete)</option>
                       <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>
@@ -585,11 +585,6 @@
                        <select id="selectionBoxRPCNodes" class="custom-select form-control"></select>
                    </div>
                    <div class="col-md-2">
-                       <span class="label label-success">NeoScan</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
-                       <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
-                   </div>
-                   <div class="col-md-2">
                        <span class="label label-success">Compilers</span>
                        <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
                        <select id="selectionBoxCompilers" class="custom-select form-control"></select>
@@ -598,6 +593,11 @@
                        <span class="label label-success">EcoServices</span>
                        <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
                        <select id="selectionBoxEcoServices" class="custom-select form-control"></select>
+                   </div>
+                   <div class="col-md-2">
+                       <span class="label label-success">NeoScan</span>
+                       <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
+                       <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
                    </div>
                    <div class="col-md-2">
                        <span class="label label-success">REST Notifications</span>

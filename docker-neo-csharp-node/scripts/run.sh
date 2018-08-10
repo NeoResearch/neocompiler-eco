@@ -50,9 +50,13 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 
 if (($IS_CONSENSUS)); then
 	echo "LAUNCHING neo-cli consensus node$NUMBER_SERVER (RPC_SERVER=$RPC_SERVER)";
+	# setting up specific config file
+	cp /opt/node/neo-cli/config${NUMBER_SERVER}.json /opt/node/neo-cli/config.json
 	screen -L -dmS node$NUMBER_SERVER expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet${NUMBER_SERVER}.json $WALLET_PWD_SERVER $RPC_SERVER
 else
 	echo "LAUNCHING neo-cli rpc node${NUMBER_SERVER}RPC";
+	# setting up specific config file
+	cp /opt/node/neo-cli/config${NUMBER_SERVER}RPC.json /opt/node/neo-cli/config.json 
 	screen -L -dmS node${NUMBER_SERVER}RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/
 fi
 

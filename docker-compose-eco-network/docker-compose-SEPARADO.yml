@@ -214,7 +214,6 @@ services:
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
       - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
-      - ./waitNodes-SEPARADO.sh:/opt/waitNodes.sh
 
 # ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
 # ================================================================================
@@ -245,7 +244,6 @@ services:
       - eco-neo-csharp-noderpc2-running
     volumes:
       - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
-      - ./waitNodes-SEPARADO.sh:/opt/waitNodes.sh
 # ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
 # ================================================================================
 

@@ -83,6 +83,8 @@ services:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
     command: /bin/bash /opt/start_neopython_rest.sh
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-nodes-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running
@@ -100,6 +102,8 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callGenesisBlockCreation.sh
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-nodes-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-nodes-running
     volumes:
@@ -115,6 +119,8 @@ services:
     links:
       - eco-neo-csharp-nodes-running
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-nodes-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-nodes-running
       - eco-neo-python-first-multisig-transfer-running

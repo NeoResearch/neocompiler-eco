@@ -1,4 +1,3 @@
-CSHARP_NODES_CONTAINER_NAME="eco-neo-csharp-nodes-running"
 while true; do
     cnt=`curl -s -X POST $CSHARP_NODES_CONTAINER_NAME:30333 -H 'Content-Type: application/json' -d '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [] }'`
     echo $cnt

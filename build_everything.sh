@@ -44,14 +44,14 @@ if ((!$DISABLE_BUILD)); then
 	(cd docker-neo-python; ./docker_build.sh)
 fi
 
-
-
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
 ./stopEco_network.sh
 ./runEco_network.sh
 
 echo "BUILDING/RUNNING web interface and compilers";
 # ./buildCompilers_startWebInterface.sh
+
+./express-servers/buildCompilers.sh
 
 nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
 (cd express-servers; ./startAllExpressNohup.sh)

@@ -78,7 +78,7 @@ app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
   //})
 });
 
-        function getServiceURLByTypeAndNetwork(serviceType,networkService){
+function getServiceURLByTypeAndNetwork(serviceType,networkService){
           var serviceUrlToAdd = '';
 
           if( (serviceType == "RPC") && ( (networkService.type == serviceType) || (networkService.type+"-Python" == serviceType+"-Python") ) )
@@ -97,9 +97,9 @@ app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
           }
 
           return serviceUrlToAdd;
-        }
+}
 
-        function getFirstAvailableService(serviceType,networkServicesObj){
+function getFirstAvailableService(serviceType,networkServicesObj){
           for(var kn = 0; kn < networkServicesObj.length; kn++)
           {
             var serviceUrlToAdd = getServiceURLByTypeAndNetwork(serviceType,networkServicesObj[kn]);
@@ -107,6 +107,6 @@ app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
             if(serviceUrlToAdd !== '')
               return serviceUrlToAdd;
           }
-        }
+}
         
 

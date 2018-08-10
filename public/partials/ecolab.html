@@ -624,7 +624,7 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">Compile</div>
                         <div class="panel-body">
-                            <form id="formCompile" action="" style="margin-top: 10px;" method="post">
+                            <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
                                 <div class="tab-container">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
@@ -1294,7 +1294,6 @@ def Main():
 
     <script src="public/js/common/neoEditorScripts.js"></script>
     <script src="public/js/common/wallet_AutomaticClaimAndSend.js"></script>
-    <script src="public/js/common/pythonEco.js"></script>
 
     <script>
         function addAllKnownAddressesToSelectionBox(walletSelectionBox){
@@ -1315,6 +1314,7 @@ def Main():
               addOptionToWalletToInvoke(serviceUrlToAdd,serviceUrlToAdd,selectionBoxToFill);
           }
         }
+
 
         function addOptionToWalletToInvoke(textToOption,valueToOption,walletSelectionBox){
           var option = document.createElement("option");
@@ -1344,6 +1344,7 @@ def Main():
 
         var vecRelayedTXs = [];
         drawRelayedTXs();
+
         //Check current webpage and starts with localhost or neocompiler public website
         $(document).ready(function(){
             //console.log("checking wallets");
@@ -1352,7 +1353,6 @@ def Main():
                 callFromAllKnownThatHasClaimable();
                 searchForTXs();
             }, 10000); // 30000 milsec
-
             recoveringPageData();
             populateAllWalletData();
 
@@ -1439,10 +1439,6 @@ def Main():
           BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
           BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
           BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
-
-          //Update express routes
-          //$('#formCompile')[0].action
-          $('#formCompile').attr('action', BASE_PATH_COMPILERS+'/compilex');
         }
 
         function updatePATHS()
@@ -1473,7 +1469,6 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
               addAllKnownServiceToSelectionBox("RPC",mainNetNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",mainNetNodes,"selectionBoxNeoScan");
-
               addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
             }
 

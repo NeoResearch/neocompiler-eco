@@ -81,7 +81,7 @@
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
         $.post(
-            BASE_ANGULARJS_PATH + $this.attr("action"), // Gets the URL to sent the post to
+            BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
             indata, // Serializes form data in standard format
             function (data) {
                 console.log("finished compiling");

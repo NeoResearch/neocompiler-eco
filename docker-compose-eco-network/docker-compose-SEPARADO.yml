@@ -135,7 +135,7 @@ services:
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   neo-scan-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan:26735238-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan:27174878-master"
     container_name: "eco-neo-scan-running"
     ports:
       - "4000:4000"
@@ -214,32 +214,6 @@ services:
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
       - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
-
-#  eco-neo-python-rpc-running:
-#    image: eco-neo-python:latest
-#    container_name: "eco-neo-python-rpc-running"
-#    ports:
-#      - "10332:10332"
-#    links:
-#      - eco-neo-csharp-node1-running
-#      - eco-neo-csharp-node2-running
-#      - eco-neo-csharp-node3-running
-#      - eco-neo-csharp-node4-running
-#      - eco-neo-csharp-noderpc1-running
-#      - eco-neo-csharp-noderpc2-running
-#      - eco-neo-python-first-multisig-transfer-running
-#    command: /bin/bash /opt/start_neopython_rpc.sh
-#    depends_on:
-#      - eco-neo-csharp-node1-running
-#      - eco-neo-csharp-node2-running
-#      - eco-neo-csharp-node3-running
-#      - eco-neo-csharp-node4-running
-#      - eco-neo-csharp-noderpc1-running
-#      - eco-neo-csharp-noderpc2-running
-#      - eco-neo-python-first-multisig-transfer-running
-#    volumes:
-#      - ./logs-neopython-rest-rpc/:/neo-python/logs
-#      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
 # ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
 # ================================================================================

@@ -49,8 +49,16 @@ fi
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
 #./stopEco_network.sh
 (cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml down)
+# Ensure that everything is down - also from the old compose
+(cd docker-compose-eco-network; docker-compose down)
 #./runEco_network.sh
 (cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml up -d)
 
 echo "BUILDING/RUNNING web interface and compilers";
-./buildCompilers_startWebInterface.sh
+#./buildCompilers_startWebInterface.sh
+
+
+./buildCompilers.sh
+
+nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
+(cd express-servers; ./startAllExpressNohup.sh)

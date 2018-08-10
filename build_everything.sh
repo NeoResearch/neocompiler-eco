@@ -32,6 +32,9 @@ while [[ "$#" > 0 ]]; do case $1 in
 done
 
 if ((!$DISABLE_BUILD)); then
+	echo "BUILDING ubuntu-dotnet";
+	(cd docker-ubuntu-dotnet; ./docker_build.sh)
+
 	if (($DEV_MODE)); then
 		echo "(DEV MODE) BUILDING docker-compiler-csharpnodes with modified neo-cli";
 		(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
@@ -46,12 +49,14 @@ fi
 
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
 ./stopEco_network.sh
+(cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml down)
+
 ./runEco_network.sh
 
 echo "BUILDING/RUNNING web interface and compilers";
 # ./buildCompilers_startWebInterface.sh
 
-./express-servers/buildCompilers.sh
+./buildCompilers.sh
 
 nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
 (cd express-servers; ./startAllExpressNohup.sh)

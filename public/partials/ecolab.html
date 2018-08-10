@@ -37,10 +37,10 @@
                     <span class="label label-success">Base Network</span>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
                       <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">neocompiler.io services</option>
-                      <option title="Localhost services" value="http://localhost:30333">localhost (privatenet)</option>
-                      <option title="MainNet services" value="0">NEO MainNet</option>
-                      <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet</option>
-                      <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet</option>
+                      <option title="Localhost services" value="http://localhost:30333">localhost services</option>
+                      <option title="MainNet services" value="0">NEO MainNet (incomplete)</option>
+                      <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet (incomplete)</option>
+                      <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>
                     </select>
                 </div>
             </div>
@@ -855,7 +855,7 @@ def Main():
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="txtRPCJson">RPC Json Model</label>
-                          <textarea id="txtRPCJson" class="form-control"/>
+                          <textarea id="txtRPCJson" rows="1" cols="100" class="form-control"/>
                         </div>
                       </div>
                     </div>
@@ -865,7 +865,7 @@ def Main():
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="txtRPCJsonOut">Output RPC</label>
-                          <textarea id="txtRPCJsonOut" class="form-control" readonly/>
+                          <textarea id="txtRPCJsonOut" rows="4" cols="100" class="form-control" readonly/>
                         </div>
                       </div>
                       <div class="col-md-12">
@@ -1458,18 +1458,9 @@ def Main():
 
         function updatePATHS()
         {
-            mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
+            mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
 
-            if(mynetwork == "localhost (privatenet)")
-            {
-              addAllKnownServiceToSelectionBox("ecocompilers",localHostNodes,"selectionBoxCompilers");
-              addAllKnownServiceToSelectionBox("ecoservices",localHostNodes,"selectionBoxEcoServices");
-              addAllKnownServiceToSelectionBox("RPC",localHostNodes,"selectionBoxRPCNodes");
-              addAllKnownServiceToSelectionBox("neoscan",localHostNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
-            }
-
-            if(mynetwork == "neocompiler.io services")
+            if(mynetworkIndex == 0)
             {
               addAllKnownServiceToSelectionBox("ecocompilers",ecoNodes,"selectionBoxCompilers");
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices");
@@ -1478,7 +1469,17 @@ def Main():
               addAllKnownServiceToSelectionBox("RESTNotifications",ecoNodes,"selectionBoxRestNotifications");
             }
 
-            if(mynetwork == "NEO MainNet")
+            if(mynetworkIndex == 1)
+            {
+              addAllKnownServiceToSelectionBox("ecocompilers",localHostNodes,"selectionBoxCompilers");
+              addAllKnownServiceToSelectionBox("ecoservices",localHostNodes,"selectionBoxEcoServices");
+              addAllKnownServiceToSelectionBox("RPC",localHostNodes,"selectionBoxRPCNodes");
+              addAllKnownServiceToSelectionBox("neoscan",localHostNodes,"selectionBoxNeoScan");
+              addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
+            }
+
+            // MainNet
+            if(mynetworkIndex == 2)
             {
               addAllKnownServiceToSelectionBox("ecocompilers",ecoNodes,"selectionBoxCompilers");
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
@@ -1487,7 +1488,8 @@ def Main():
               addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
             }
 
-            if(mynetwork == "NEO TestNet")
+            // Tesnet
+            if(mynetworkIndex == 3)
             {
               addAllKnownServiceToSelectionBox("ecocompilers",ecoNodes,"selectionBoxCompilers");
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
@@ -1497,8 +1499,8 @@ def Main():
 
             }
 
-            //TODO
-            if(mynetwork == "CoZ TestNet")
+            // CozTestnet TODO
+            if(mynetworkIndex == 4)
             {
               addAllKnownServiceToSelectionBox("ecocompilers",ecoNodes,"selectionBoxCompilers");
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO

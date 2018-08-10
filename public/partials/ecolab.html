@@ -1315,7 +1315,7 @@ def Main():
           //Clear selection box
           document.getElementById(walletSelectionBox).options.length = 0;
           for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            addOptionToWalletToInvoke("wallet_"+ka,"wallet_"+ka,walletSelectionBox);
+            addOptionToWalletToInvoke("address_"+KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
         }
 
         function addAllKnownServiceToSelectionBox(serviceType,networkServicesObj,selectionBoxToFill){
@@ -1520,18 +1520,14 @@ def Main():
 
         function getCurrentNetworkNickname()
         {
-          mynetwork = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].text;
-
-          if(mynetwork == "localhost (privatenet)")
-             return "LocalPrivateNet";
-
-          if(mynetwork == "neocompiler.io services")
+          mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
+          if(mynetworkIndex == 0)
              return "SharedPrivateNet";
-
-          if(mynetwork == "NEO MainNet")
+          if(mynetworkIndex == 1)
+            return "LocalPrivateNet";
+          if(mynetworkIndex == 2)
              return "MainNet";
-
-          if(mynetwork == "NEO TestNet")
+          if(mynetworkIndex == 1)
              return "TestNet";
         }
 

@@ -149,12 +149,15 @@ function populateAllWalletData()
 
     for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
     {
-      addressToGet = KNOWN_ADDRESSES[ka].publicKey;
-      //walletIndex = searchIndexOfAllKnownWallets(addressToGet);
-      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
-      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
-      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
-      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + ka);
+      if(KNOWN_ADDRESSES[ka].print == true)
+      {
+	      addressToGet = KNOWN_ADDRESSES[ka].publicKey;
+	      //walletIndex = searchIndexOfAllKnownWallets(addressToGet);
+	      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
+	      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
+	      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
+	      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + ka);
+      }
     }
 }
 
@@ -191,6 +194,8 @@ function drawWalletsStatus(){
   row.insertCell(-1).appendChild(headers6);
 
   for (i = 0; i < KNOWN_ADDRESSES.length; i++) {
+  if(KNOWN_ADDRESSES[i].print == true)
+  {
       var txRow = table.insertRow(-1);
       //row.insertCell(-1).appendChild(document.createTextNode(i));
       //Insert button that remove rule
@@ -250,8 +255,8 @@ function drawWalletsStatus(){
       walletUnclaim.setAttribute("readonly","true");
       walletUnclaim.style.width = '80px'
       txRow.insertCell(-1).appendChild(walletUnclaim);
-
       //Check activation status
+   }
   }//Finishes loop that draws each relayed transaction
 
   document.getElementById("divWalletsStatus").appendChild(table);

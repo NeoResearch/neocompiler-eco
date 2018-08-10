@@ -23,6 +23,57 @@ function addSharedPrivateNet(){
 }
 
 
+//createGenesisTransaction("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU",BASE_PATH_CLI, getCurrentNetworkNickname());
+// const balance = Neon.api.neoscan.getBalance(getCurrentNetworkNickname(),"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+
+function createGenesisTransaction(from, nodeToCall, networkToCall){
+
+//const balance = new Neon.wallet.Balance({net: networkToCall, address: from})
+
+//const balancee = Neon.api.neoscan.getBalance(networkToCall,from)
+// e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb
+
+let tx = Neon.default.create.tx({type: 128})
+// Now let us add an intention to send 1 NEO to someone
+tx
+.addOutput('NEO',5,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+//.calculate(balance)
+.sign(KNOWN_ADDRESSES[5].privateKey)
+.sign(KNOWN_ADDRESSES[6].privateKey)
+.sign(KNOWN_ADDRESSES[7].privateKey)
+
+//tx.inputs = [];
+//tx.inputs.push({prevHash: "e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb", prevIndex: 0})
+tx.inputs = {prevHash: "e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb", prevIndex: 0}
+
+
+const serializedTx = tx.serialize();
+
+    const config = {
+        net: networkToCall, // The network to perform the action, MainNet or TestNet.
+        url: nodeToCall,
+	address: from,
+        tx: serializedTx
+    }
+
+  Neon.default.doInvoke(config).then(res => {
+    console.log(res);
+    console.log(res.response);
+
+    createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
+
+    if(res.response.result)
+    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
+
+  }).catch(err => {
+     console.log(err);
+     createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
+  });
+
+}
+
+
 function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent;
@@ -53,6 +104,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
         createNotificationOrAlert("SendTX", res.response.result, 2000);
     })
     .catch(e => {
+        console.log("Transaction send failed!");
         console.log(e)
     })
 }

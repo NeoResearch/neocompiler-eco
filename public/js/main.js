@@ -3,10 +3,19 @@
 var refreshIntervalId = 0;
 
 var KNOWN_ADDRESSES = [];
-KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', pubKey: '031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a' });
-KNOWN_ADDRESSES.push({ publicKey: 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL', privateKey: 'L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA', pubKey: '036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb' });
-KNOWN_ADDRESSES.push({ publicKey: 'AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx', privateKey: 'KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p', pubKey: '0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d' });
-KNOWN_ADDRESSES.push({ publicKey: 'AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9', privateKey: 'KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV', pubKey: '02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4' });
+KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', pubKey: '031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a', print: true });
+KNOWN_ADDRESSES.push({ publicKey: 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL', privateKey: 'L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA', pubKey: '036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb', print: true });
+KNOWN_ADDRESSES.push({ publicKey: 'AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx', privateKey: 'KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p', pubKey: '0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d', print: true });
+KNOWN_ADDRESSES.push({ publicKey: 'AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9', privateKey: 'KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV', pubKey: '02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4', print: true });
+//Node1
+KNOWN_ADDRESSES.push({ publicKey: 'AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs', privateKey: 'KxyjQ8eUa4FHt3Gvioyt1Wz29cTUrE4eTqX3yFSk1YFCsPL8uNsY', print: false });
+//Node2
+KNOWN_ADDRESSES.push({ publicKey: 'AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17', privateKey: 'KzfPUYDC9n2yf4fK5ro4C8KMcdeXtFuEnStycbZgX3GomiUsvX6W', print: false });
+//Node3
+KNOWN_ADDRESSES.push({ publicKey: 'AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F', privateKey: 'L2oEXKRAAMiPEZukwR5ho2S6SMeQLhcK9mF71ZnF7GvT8dU4Kkgz', print: false });
+//Node4
+KNOWN_ADDRESSES.push({ publicKey: 'AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF', privateKey: 'KzgWE3u3EDp13XPXXuTKZxeJ3Gi8Bsm8f9ijY3ZsCKKRvZUo1Cdn', print: false });
+
 var ADDRESSES_TO_CLAIM = new Array(0);
 
 // ==============================================================================================

@@ -1,4 +1,5 @@
 #!/bin/bas
+echo "(PYTHON-LOGGER SCRIPT)"
 rm -rf /root/.neopython/
 
 screen -L -Logfile /neo-python/pythonScreen.log -dmS neolog python3.6  /neo-python/neo/bin/prompt.py -p

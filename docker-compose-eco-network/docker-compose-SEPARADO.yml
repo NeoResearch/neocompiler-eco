@@ -294,6 +294,7 @@ services:
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
+      - ./waitNodes-SEPARADO.sh:/opt/waitNodes.sh
 #      - ./logs-neopython-logger:/neo-python/logs2
 
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================

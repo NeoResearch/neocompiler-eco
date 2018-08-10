@@ -11,6 +11,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node1-running"
     ports: # config1.json
+      - "10333:10333"
       - "20333:20333"
       - "20334"
       - "20335"
@@ -33,6 +34,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node2-running"
     ports: #config2.json
+      - "10334:10334"
       - "20333"
       - "20334:20334"
       - "30334:30334"
@@ -55,6 +57,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node3-running"
     ports: #config3.json
+      - "10335:10335"
       - "20333"
       - "20334"
       - "20335:20335"
@@ -77,6 +80,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node4-running"
     ports: #config4.json
+      - "10336:10336"
       - "20333"
       - "20334"
       - "20335"
@@ -139,33 +143,37 @@ services:
     environment:
       PORT: 4000
       HOST: ${HOST_NAME}
-      NEO_SEED_1: "http://eco-neo-csharp-nodes-running:30333"
-      NEO_SEED_2: "http://eco-neo-csharp-nodes-running:30337"
-      NEO_SEED_3: "http://eco-neo-csharp-nodes-running:30338"
-      NEO_SEED_4: "http://eco-neo-csharp-nodes-running:30333"
+      NEO_SEED_1: "http://eco-neo-csharp-node1-running:30333"
+      NEO_SEED_2: "http://eco-neo-csharp-noderpc1-running:30337"
+      NEO_SEED_3: "http://eco-neo-csharp-noderpc2-running:30338"
+      NEO_SEED_4: "http://eco-neo-csharp-node1-running:30333"
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
+    networks:
+      - consensus-net
     links:
       - eco-neo-scan-postgresql-running:postgres
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
-      - eco-neo-python-rest-running
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
+#      - eco-neo-python-rest-running
     depends_on:
       - eco-neo-scan-postgresql-running
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
       - eco-neo-python-rest-running
 
   eco-neo-scan-postgresql-running:
     image: postgres:10.1
     container_name: "eco-neo-scan-postgresql-running"
+    networks:
+      - consensus-net
     ports:
       - "5432:5432"
     environment:
@@ -182,15 +190,19 @@ services:
     container_name: "eco-neo-python-rest-running"
     ports:
       - "8080:8080"
-    links:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
-      - eco-neo-python-first-multisig-transfer-running
+#    links:
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
+#      - eco-neo-python-first-multisig-transfer-running
     command: /bin/bash /opt/start_neopython_rest.sh
+    networks:
+      - consensus-net
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
@@ -201,33 +213,33 @@ services:
       - eco-neo-python-first-multisig-transfer-running
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
-      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+      - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
 
-  eco-neo-python-rpc-running:
-    image: eco-neo-python:latest
-    container_name: "eco-neo-python-rpc-running"
-    ports:
-      - "10332:10332"
-    links:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
-      - eco-neo-python-first-multisig-transfer-running
-    command: /bin/bash /opt/start_neopython_rpc.sh
-    depends_on:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
-      - eco-neo-python-first-multisig-transfer-running
-    volumes:
-      - ./logs-neopython-rest-rpc/:/neo-python/logs
-      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+#  eco-neo-python-rpc-running:
+#    image: eco-neo-python:latest
+#    container_name: "eco-neo-python-rpc-running"
+#    ports:
+#      - "10332:10332"
+#    links:
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
+#      - eco-neo-python-first-multisig-transfer-running
+#    command: /bin/bash /opt/start_neopython_rpc.sh
+#    depends_on:
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
+#      - eco-neo-python-first-multisig-transfer-running
+#    volumes:
+#      - ./logs-neopython-rest-rpc/:/neo-python/logs
+#      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
 
 # ================== END OF PYTHON CLIENT FOR RPC AND RESTFULL ===================
 # ================================================================================
@@ -237,14 +249,18 @@ services:
   eco-neo-python-first-multisig-transfer-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-first-multisig-transfer-running"
-    links:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
+    networks:
+      - consensus-net
+#    links:
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
     command: /bin/bash /opt/callGenesisBlockCreation.sh
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
@@ -253,7 +269,7 @@ services:
       - eco-neo-csharp-noderpc1-running
       - eco-neo-csharp-noderpc2-running
     volumes:
-      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+      - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
 # ================== CALLS FIRST MULTI-SIG NEO TRANSFER TO A NORMAL ADDRESS ======
 # ================================================================================
 
@@ -282,14 +298,18 @@ services:
   eco-neo-python-logger-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-logger-running"
-    links:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-      - eco-neo-csharp-noderpc2-running
+#    links:
+#      - eco-neo-csharp-node1-running
+#      - eco-neo-csharp-node2-running
+#      - eco-neo-csharp-node3-running
+#      - eco-neo-csharp-node4-running
+#      - eco-neo-csharp-noderpc1-running
+#      - eco-neo-csharp-noderpc2-running
+    networks:
+      - consensus-net
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
+    environment:
+      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
     depends_on:
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
@@ -299,7 +319,7 @@ services:
       - eco-neo-csharp-noderpc2-running
       - eco-neo-python-first-multisig-transfer-running
     volumes:
-      - ./custom-config.json:/neo-python/neo/data/protocol.privnet.json
+      - ./custom-config-separado.json:/neo-python/neo/data/protocol.privnet.json
 #      - ./logs-neopython-logger:/neo-python/logs2
 
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================

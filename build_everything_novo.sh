@@ -39,7 +39,7 @@ if ((!$DISABLE_BUILD)); then
 		echo "BUILDING docker-neo-csharp-node (with default neo-cli)";
 		(cd docker-neo-csharp-node; ./docker_build.sh)
 	fi
-	
+
 	echo "BUILDING docker-neo-compiler-neo-python";
 	(cd docker-neo-python; ./docker_build.sh)
 fi
@@ -47,8 +47,10 @@ fi
 
 
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
-./stopEco_network.sh
-./runEco_network.sh
+#./stopEco_network.sh
+(cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml down)
+#./runEco_network.sh
+(cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml up -d)
 
 echo "BUILDING/RUNNING web interface and compilers";
 ./buildCompilers_startWebInterface.sh

@@ -711,7 +711,7 @@
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 JSON.stringify(jsonDataToCallNeoCli), // Serializes form data in standard format
                 function (data) {
-		   //console.log(data);
+		   console.log(data);
 		   if(data[0].result){
 	                   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
 		   }else{

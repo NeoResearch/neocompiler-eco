@@ -61,7 +61,7 @@ const serializedTx = tx.serialize();
     console.log(res);
     console.log(res.response);
 
-    createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
+    createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash, 2000);
 
     if(res.response.result)
     	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
@@ -101,7 +101,8 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
     .then(res => {
         //console.log("network:"+networkToCall);
         console.log(res.response);
-        createNotificationOrAlert("SendTX", res.response.result, 2000);
+        console.log(res.response);
+        createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 2000);
     })
     .catch(e => {
         console.log("Transaction send failed!");
@@ -126,7 +127,7 @@ function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
     .then(res => {
         //console.log("network:"+networkToCall);
         console.log(res.response)
-	createNotificationOrAlert("ClaimTX", res.response.result, 2000);
+	createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 2000);
     })
     .catch(e => {
         console.log(e)
@@ -304,12 +305,14 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
   Neon.default.doInvoke(config).then(res => {
     console.log(res);
-    console.log(res.response);
+    //console.log(res.response);
+    //console.log(res.tx);
+    //console.log(res.tx.hash);
 
-    createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
+    createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 2000);
 
     if(res.response.result)
-    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
+    	updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
 
   }).catch(err => {
      console.log(err);
@@ -358,10 +361,10 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
 
-	createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
+	createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 2000);
 
 	if(res.response.result)
-		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(),"DeployParams");
+		updateVecRelayedTXsAndDraw(res.tx.hash, "Deploy", $("#contracthashjs").val(),"DeployParams");
 
     }).catch(err => {
      	console.log(err);

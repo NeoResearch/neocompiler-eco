@@ -5,7 +5,7 @@ set -e
 # or: ./docker_build.sh (will use pre-built version 2.7.4 for now)
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="3.0-preview7" #"2.7.6.1"
+NEO_CLI_VERSION="3.0-preview7-appLog" #"2.7.6.1"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"

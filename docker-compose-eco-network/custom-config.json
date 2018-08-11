@@ -9,14 +9,13 @@
         "02a7bc55fe8684e0119768d104ba30795bdcc86619e864add26156723ed185cd62"
     ],
     "SeedList": [
-     "eco-neo-csharp-nodes-running:20334",
-     "eco-neo-csharp-nodes-running:20335",
-     "eco-neo-csharp-nodes-running:20336",
-     "eco-neo-csharp-nodes-running:20337",
-     "eco-neo-csharp-nodes-running:20338"
+     "eco-neo-csharp-node1-running:20333",
+     "eco-neo-csharp-node2-running:20334",
+     "eco-neo-csharp-node3-running:20335",
+     "eco-neo-csharp-node4-running:20336"
     ],
     "RPCList":[
-     "http://eco-neo-csharp-nodes-running:30337"
+     "http://eco-neo-csharp-noderpc1-running:30337"
     ],
     "SystemFee": {
         "EnrollmentTransaction": 1000,

@@ -32,32 +32,29 @@ while [[ "$#" > 0 ]]; do case $1 in
 done
 
 if ((!$DISABLE_BUILD)); then
-	echo "BUILDING ubuntu-dotnet";
+	echo "BUILDING ubuntu-dotnet for a correct docker-neo-csharp-node initialization";
 	(cd docker-ubuntu-dotnet; ./docker_build.sh)
 
 	if (($DEV_MODE)); then
-		echo "(DEV MODE) BUILDING docker-compiler-csharpnodes with modified neo-cli";
-		(cd docker-neo-csharp-nodes; ./docker_build.sh --neo-cli neo-cli-built.zip)
+		echo "BUILDING docker-neo-csharp-node with modified neo-cli (DEV MODE)";
+		(cd docker-neo-csharp-node; ./docker_build.sh --neo-cli neo-cli-built.zip)
 	else
-		echo "BUILDING docker-compiler-csharpnodes";
-		(cd docker-neo-csharp-nodes; ./docker_build.sh)
+		echo "BUILDING docker-neo-csharp-node (with default neo-cli)";
+		(cd docker-neo-csharp-node; ./docker_build.sh)
 	fi
-	
+
 	echo "BUILDING docker-neo-compiler-neo-python";
 	(cd docker-neo-python; ./docker_build.sh)
 fi
 
+
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
-./stopEco_network.sh
 (cd docker-compose-eco-network; docker-compose down)
+(cd docker-compose-eco-network; docker-compose up -d)
 
-./runEco_network.sh
-
-echo "BUILDING/RUNNING web interface and compilers";
-# ./buildCompilers_startWebInterface.sh
-
+echo "BUILDING compilers";
 ./buildCompilers.sh
 
+echo "RUNNING express servers: front-end, compilers and ecoservices";
 nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
 (cd express-servers; ./startAllExpressNohup.sh)
-

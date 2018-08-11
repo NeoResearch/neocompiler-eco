@@ -5,7 +5,7 @@ set -e
 # or: ./docker_build.sh (will use pre-built version 2.7.4 for now)
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="2.7.6.1"
+NEO_CLI_VERSION="3.0-preview7" #"2.7.6.1"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"
@@ -45,7 +45,7 @@ IMAGE_NAME="$BASE_NAME:$NEO_CLI_VERSION"
 # Definition of standard neo-cli filenames and URL based on the version
 NEO_CLI_ZIPFN="neo-release-${NEO_CLI_VERSION}.zip"
 #NEO_CLI_URL="https://github.com/neo-project/neo-cli/releases/download/v${NEO_CLI_VERSION}/neo-cli-linux-x64.zip"
-NEO_CLI_URL="https://github.com/NeoResearch/neo-tests/tree/master/releases/${NEO_CLI_VERSION}.zip"
+NEO_CLI_URL="https://github.com/NeoResearch/neo-tests/raw/master/releases/neo-release-${NEO_CLI_VERSION}.zip"
 
 if [ -z "$NEO_CLI_CUSTOM_ZIPFN" ]; then
     echo "Using downloaded neo-cli v${NEO_CLI_VERSION}"

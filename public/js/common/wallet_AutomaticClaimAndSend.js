@@ -265,7 +265,7 @@ function drawWalletsStatus(){
 
 //===============================================================
 function addWallet(){
-   console.log("addWallet()");
+   	console.log("addWallet()");
         pubAddressToAdd = document.getElementById('addressToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
         console.log("pubAddressToAdd: '" + pubAddressToAdd + "' wifToAdd: '" + wifToAdd + "'");
@@ -281,15 +281,15 @@ function addWallet(){
 		alert("Public address " + pubAddressToAdd + " is not being recognized as a valid address.");
 		return;
 	}
-   console.log("Address is ok!");
-   // DISCLAIMER: 'privateKey' is in fact the WIF (Wallet Import Format)
-   realpriv = Neon.wallet.getPrivateKeyFromWIF(wifToAdd);
-   console.log("real priv:"+realpriv);
-   pubkeyToAdd = Neon.wallet.getPublicKeyFromPrivateKey(realpriv);
-   console.log("read pub:"+pubkeyToAdd);
+   	console.log("Address is ok!");
+   	// DISCLAIMER: 'privateKey' is in fact the WIF (Wallet Import Format)
+   	realpriv = Neon.wallet.getPrivateKeyFromWIF(wifToAdd);
+   	console.log("real priv:"+realpriv);
+   	pubkeyToAdd = Neon.wallet.getPublicKeyFromPrivateKey(realpriv);
+   	console.log("read pub:"+pubkeyToAdd);
 	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd, pubKey: pubkeyToAdd });
 
-   console.log("will populate all wallets");
+   	console.log("will populate all wallets");
 	populateAllWalletData();
 }
 //===============================================================

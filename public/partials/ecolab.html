@@ -444,7 +444,7 @@
                         </div>
                     </div>
                     <div class="panel panel-info">
-                        <div class="panel-heading">Wallets detailed info</div>
+                        <div class="panel-heading">Addresses detailed info</div>
                         <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
                             <strong>Address</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
@@ -1315,7 +1315,7 @@ def Main():
           //Clear selection box
           document.getElementById(walletSelectionBox).options.length = 0;
           for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            addOptionToWalletToInvoke("address_"+KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
+            addOptionToWalletToInvoke(KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
         }
 
         function addAllKnownServiceToSelectionBox(serviceType,networkServicesObj,selectionBoxToFill){

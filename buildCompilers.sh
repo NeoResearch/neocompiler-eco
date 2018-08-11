@@ -1,6 +1,9 @@
 #!/bin/bash
 #================================================
 #Building last version of online compiler
+echo "BUILDING ubuntu-dotnet";
+(cd docker-ubuntu-dotnet; ./docker_build.sh)
+
 echo "BUILDING mono-neo-compiler";
 (cd docker-compiler-csharp; ./docker_build.sh)
 

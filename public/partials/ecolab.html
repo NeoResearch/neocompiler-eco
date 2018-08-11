@@ -1681,11 +1681,20 @@ def Main():
           if($("#txtRPCJsonOut").val() != "")
           {
             var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
-            if(jsonObj.length >= 1 && jsonObj[0].result && jsonObj[0].result.notifications.length >= 1){
+            console.log(jsonObj);
+
+            if(jsonObj.length >= 1 && jsonObj[0].result ){
               var myNotify = "";
-              for(var nSize = 0; nSize < jsonObj[0].result.notifications.length; nSize++ )
+              var notifArray = [];
+
+              if(jsonObj[0].result.notifications) // 2.X
+                  notifArray = jsonObj[0].result.notifications;
+              else // 3.X
+                  notifArray = jsonObj[0].result.executions[0].notifications;
+              console.log("notifications:"+JSON.stringify(notifArray));
+              for(var nSize = 0; nSize < notifArray.length; nSize++ )
               {
-                  var jsonNotificationsObj = jsonObj[0].result.notifications[nSize];
+                  var jsonNotificationsObj = notifArray[nSize];
                   myNotify+= "Notification " + nSize + " typeI: " + jsonNotificationsObj.state.type + ";";
                   myNotify+= " typeII: " + jsonNotificationsObj.state.value[0].type + ";";
                   myNotify+= " value(hex): " + jsonNotificationsObj.state.value[0].value + ";";

@@ -21,7 +21,8 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node1:/opt/node/neo-cli/Logs
-      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: callRPC
@@ -45,7 +46,8 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node2:/opt/node/neo-cli/Logs
-      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0
@@ -69,7 +71,8 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node3:/opt/node/neo-cli/Logs
-      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0
@@ -93,7 +96,8 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node4:/opt/node/neo-cli/Logs
-      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0
@@ -111,6 +115,9 @@ services:
       - "30337:30337"
     networks:
       - consensus-net
+    volumes:
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 0
       NUMBER_SERVER: 1
@@ -126,6 +133,9 @@ services:
       - "30338:30338"
     networks:
       - consensus-net
+    volumes:
+      - ./simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - ./appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
     environment:
       IS_CONSENSUS: 0
       NUMBER_SERVER: 2

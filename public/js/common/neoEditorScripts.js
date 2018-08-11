@@ -713,7 +713,7 @@
                 function (data) {
 		   console.log(data);
 		   if(data[0].result){
-	                   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
+	                   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
 		   }else{
 			   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].error.code;
 		   }

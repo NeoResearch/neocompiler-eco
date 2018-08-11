@@ -7,7 +7,7 @@
         width="125px;">
 </p>
 
-## NeoCompiler Eco
+## NeoCompiler Eco 3.0-dev
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 

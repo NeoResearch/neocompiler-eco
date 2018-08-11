@@ -142,7 +142,7 @@ services:
     #command: /bin/true #disable neo-scan
     environment:
       PORT: 4000
-      HOST: ${HOST_NAME}
+      HOST: localhost
       NEO_SEED_1: "http://eco-neo-csharp-node1-running:30333"
       NEO_SEED_2: "http://eco-neo-csharp-noderpc1-running:30337"
       NEO_SEED_3: "http://eco-neo-csharp-noderpc2-running:30338"

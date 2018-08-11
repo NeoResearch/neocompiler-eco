@@ -48,9 +48,9 @@ if ((!$DISABLE_BUILD)); then
 fi
 
 
-echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
-(cd docker-compose-eco-network; docker-compose down)
-(cd docker-compose-eco-network; docker-compose up -d)
+echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [csharp nodes], [csharp rpc], [neoscan and postgress], [Neo-Python Rest, Notifications and Genesis transfer]";
+./stopEco_network.sh
+./runEco_network.sh
 
 echo "BUILDING compilers";
 ./buildCompilers.sh

@@ -36,19 +36,58 @@ function createGenesisTransaction(from, nodeToCall, networkToCall){
 let tx = Neon.default.create.tx({type: 128})
 // Now let us add an intention to send 1 NEO to someone
 tx
+.addOutput('NEO',1,"AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU")
+.addOutput('NEO',4,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+tx.inputs = [];
+tx.inputs.push({prevHash: "d4a17712a2201d687975356008c7a8d8426fe63f5d7f95af0ab00d95d44a67a6", prevIndex: 0})
+tx.sign(KNOWN_ADDRESSES[0].privateKey)
+const serializedTx = tx.serialize();
+serializedTx
+
+/*
+
+let tx = Neon.default.create.tx({type: 128})
+// Now let us add an intention to send 1 NEO to someone
+tx
+.addOutput('NEO',1,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+tx.inputs = [];
+tx.inputs.push({prevHash: "96e4d536e3ce8a91d9651fd1ef3c84e0a91c4b965cb806e2e109ef7b4bbb7b1c", prevIndex: 0})
+tx.sign(KNOWN_ADDRESSES[4].privateKey)
+tx.sign(KNOWN_ADDRESSES[5].privateKey)
+tx.sign(KNOWN_ADDRESSES[6].privateKey)
+const serializedTx = tx.serialize();
+serializedTx
+
+*/
+
+/*
+let tx = Neon.default.create.tx({type: 128})
+// Now let us add an intention to send 1 NEO to someone
+tx
 .addOutput('NEO',5,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+.addOutput('NEO',99999995,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+tx.calculate(balance)
+tx.sign(KNOWN_ADDRESSES[0].privateKey)
+tx.calculate(balance)
+*/
+
+
+tx = Neon.default.sign.transaction(tx, KNOWN_ADDRESSES[0].privateKey)
+
+const client = Neon.default.create.rpcClient(BASE_PATH_CLI, '2.3.2')
+
+
 //.calculate(balance)
-.sign(KNOWN_ADDRESSES[5].privateKey)
-.sign(KNOWN_ADDRESSES[6].privateKey)
-.sign(KNOWN_ADDRESSES[7].privateKey)
+//.sign(KNOWN_ADDRESSES[5].privateKey)
+//.sign(KNOWN_ADDRESSES[6].privateKey)
+//.sign(KNOWN_ADDRESSES[7].privateKey)
 
 //tx.inputs = [];
 //tx.inputs.push({prevHash: "e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb", prevIndex: 0})
-tx.inputs = {prevHash: "e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb", prevIndex: 0}
 
-
-const serializedTx = tx.serialize();
 
     const config = {
         net: networkToCall, // The network to perform the action, MainNet or TestNet.

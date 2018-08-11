@@ -7,11 +7,29 @@
         width="125px;">
 </p>
 
-## NeoCompiler Eco 3.0-dev
+## NeoCompiler Eco 3.0
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
 In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.
+
+### Suggestions
+
+#####  The current front-end interface can be acessed from:
+*  [https://neocompiler.io](https://neocompiler.io)
+* [http://neocompiler-eco.neoresearch.io](http://neocompiler-eco.neoresearch.io) - Provided as http by GitHub in order to allow easy interaction with other services of the Neo Blockchain ecosystem;
+
+##### Compilers RPC API services are available at:
+
+* [https://compilers2.neocompiler.io/](https://compilers2.neocompiler.io/) or [http://178.128.203.47:10000/](http://178.128.203.47:10000/)
+
+* [https://compilers.neocompiler.io/](https://compilers.neocompiler.io)
+
+##### Other useful services
+
+* [https://ecoservices.neocompiler.io](https://ecoservices.neocompiler.io)
+* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io)
+* C# RPC nodes and Python Rest Notifications Server - Check front-end configuration boxes.
 
 
 ### What does it currently do
@@ -19,11 +37,13 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Return AVM and ABI codes (more precise of C# compiler);
 * Deploy and invoke code to private net (Current in the back);
 * Tests with different wallets, synced and with able to provide historic data our activity;
-* Perform different types of blockchain invocations and RPC calls.
+* Perform different types of blockchain invocations and RPC calls;
+* Use websockets to provide some useful information;
+* It can perform TestNet invokes, or even MainNet (however, this is extremely not recommended).
+
 
 ### Roadmap
-* Using websockets to accelerate responses (more fluid)
-* Integrate with testnet invokes
+
 * Integrate with `neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
@@ -87,11 +107,22 @@ Furthermore, it will set all available compilers and open the front/backend inte
 Basically, two steps are required: A1 and A2.
 Both are described below.
 
-## A1) Building compilers and running node server
+## A1) Building compilers
 
 This script already builds the compilers and starts the server:
 
-`./buildCompilers_startWebInterface.sh`
+`./buildCompilers.sh`
+
+
+### Running express node servers
+
+**Http front-end**: `./runHttpExpress.sh` or `nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &`
+
+**Compilers RPC API**: `(cd express-servers; ./run-CompilerExpress-RPC.sh)`
+
+**Eco Services**: `(cd express-servers; ./run-EcoServicesExpress-RPC-SocketIo.sh)`
+
+**Compilers and Eco Services with nohup**: `(cd express-servers; ./startAllExpressNohup.sh)`
 
 ### Building compiling backends (C#, Python, Java and Go)
 
@@ -124,11 +155,6 @@ The backend for Java is provided by neoj compiler (in mono), only two steps are 
 `docker_build.sh`
 
 
-### Running node server
-
-After building the compilers (without privatenet) you can run the front/backend node server (at port 8000 by default):
-
-`./run.sh`
 
 ## A2) Eco Network Funtionalities
 

@@ -49,7 +49,7 @@ fi
 
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: Neo-CSharp-Nodes,NeoScan and Neo-Python";
 ./stopEco_network.sh
-(cd docker-compose-eco-network; docker-compose -f docker-compose-SEPARADO.yml down)
+(cd docker-compose-eco-network; docker-compose down)
 
 ./runEco_network.sh
 

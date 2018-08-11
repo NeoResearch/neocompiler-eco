@@ -21,6 +21,7 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node1:/opt/node/neo-cli/Logs
+      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: callRPC
@@ -44,6 +45,7 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node2:/opt/node/neo-cli/Logs
+      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0
@@ -67,6 +69,7 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node3:/opt/node/neo-cli/Logs
+      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0
@@ -90,6 +93,7 @@ services:
       - consensus-net
     volumes:
       - ./logs-neocli-node4:/opt/node/neo-cli/Logs
+      - ./SimplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: 0

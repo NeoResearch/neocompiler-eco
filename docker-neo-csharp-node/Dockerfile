@@ -4,6 +4,8 @@ FROM ubuntu-dotnet:18.04-2.1.200
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
 
+RUN apt-get update && apt-get install -y iptables psmisc # attacking the network
+
 # Add the neo-cli package
 ADD ./neo-cli.zip /opt/neo-cli.zip
 

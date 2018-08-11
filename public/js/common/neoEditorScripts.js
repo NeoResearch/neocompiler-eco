@@ -713,7 +713,7 @@
                 function (data) {
 		   console.log(data);
 		   if(data[0].result){
-            if(typeof(data[0].result) == "boolean") // 2.X
+            if(data[0].result.vmstate) // 2.X
 				     document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
 				else
 	              document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;

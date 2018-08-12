@@ -26,8 +26,82 @@ function addSharedPrivateNet(){
 //createGenesisTransaction("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU",BASE_PATH_CLI, getCurrentNetworkNickname());
 // const balance = Neon.api.neoscan.getBalance(getCurrentNetworkNickname(),"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
 
-function createGenesisTransaction(from, nodeToCall, networkToCall){
+function signWithMultiSign(wtx, currentInvocationScript, verificationScript, privateKeyToSign){
+	currentInvocationScript += "40" + Neon.wallet.generateSignature(tx.serialize(), privateKeyToSign);
+	return currentInvocationScript;
+}
 
+function sendRawTXToTheRPCNetwork(wtx){
+            console.log("formating as json for RPC request...");
+            wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
+            console.log(wtxjson);
+
+            console.log("SENDING TO"+BASE_PATH_CLI);
+            $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                wtxjson, // Serializes form data in standard format
+                function (resultJsonData) {
+                  console.log(resultJsonData);
+
+        	   if(typeof(resultJsonData.result) == "boolean") // 2.X
+          		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 2000);
+        	   else // 3.X
+           		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 2000);
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+                alert("failed to pass transaction to network!");
+            }); //End of POST for search
+}
+
+
+function fixedGenesisNeoTransferTXCreation(){
+	let tx = Neon.default.create.tx({type: 128})
+	// Now let us add an intention to send 1 NEO to someone
+	tx
+	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+	tx.inputs = [];
+	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
+	tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
+	tx.scripts = [];
+	//Only one verification is needed - All are the same for a Multi-Sig address
+	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
+	//Only one verification is needed
+	var invocationScript = "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
+	invocationScript += "40" +  Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
+	invocationScript += "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
+	tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
+	const serializedTx = tx.serialize();
+	console.log(serializedTx);
+        sendRawTXToTheRPCNetwork(serializedTx);
+}
+
+function createMultiSigSendingTransaction(outputs, inputs,  nodeToCall, networkToCall){
+
+	let tx = Neon.default.create.tx({type: 128})
+
+	const balance = Neon.api.neoscan.getBalance('LocalPrivateNet','AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU')
+	// Now let us add an intention to send 1 NEO to someone
+	tx
+	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+	.calculate(balance)
+	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+	//tx.inputs = [];
+	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
+
+	//tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
+	//tx.scripts = [];
+	//Only one verification is needed
+	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
+	//Only one verification is needed
+	var invocationScript;
+	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
+	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
+	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
+	serializedTx
+
+/*
 //const balance = new Neon.wallet.Balance({net: networkToCall, address: from})
 
 //const balancee = Neon.api.neoscan.getBalance(networkToCall,from)
@@ -41,77 +115,13 @@ tx
 //.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
 tx.inputs = [];
 tx.inputs.push({prevHash: "d4a17712a2201d687975356008c7a8d8426fe63f5d7f95af0ab00d95d44a67a6", prevIndex: 0})
+tx.scripts = [];
 tx.sign(KNOWN_ADDRESSES[0].privateKey)
 const serializedTx = tx.serialize();
 serializedTx
-
-/*
-
-let tx = Neon.default.create.tx({type: 128})
-// Now let us add an intention to send 1 NEO to someone
-tx
-.addOutput('NEO',1,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-tx.inputs = [];
-tx.inputs.push({prevHash: "96e4d536e3ce8a91d9651fd1ef3c84e0a91c4b965cb806e2e109ef7b4bbb7b1c", prevIndex: 0})
-tx.sign(KNOWN_ADDRESSES[4].privateKey)
-tx.sign(KNOWN_ADDRESSES[5].privateKey)
-tx.sign(KNOWN_ADDRESSES[6].privateKey)
-const serializedTx = tx.serialize();
-serializedTx
-
-*/
-
-/*
-let tx = Neon.default.create.tx({type: 128})
-// Now let us add an intention to send 1 NEO to someone
-tx
-.addOutput('NEO',5,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-.addOutput('NEO',99999995,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-tx.calculate(balance)
-tx.sign(KNOWN_ADDRESSES[0].privateKey)
-tx.calculate(balance)
 */
 
 
-tx = Neon.default.sign.transaction(tx, KNOWN_ADDRESSES[0].privateKey)
-
-const client = Neon.default.create.rpcClient(BASE_PATH_CLI, '2.3.2')
-
-
-//.calculate(balance)
-//.sign(KNOWN_ADDRESSES[5].privateKey)
-//.sign(KNOWN_ADDRESSES[6].privateKey)
-//.sign(KNOWN_ADDRESSES[7].privateKey)
-
-//tx.inputs = [];
-//tx.inputs.push({prevHash: "e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb", prevIndex: 0})
-
-
-    const config = {
-        net: networkToCall, // The network to perform the action, MainNet or TestNet.
-        url: nodeToCall,
-	address: from,
-        tx: serializedTx
-    }
-
-  Neon.default.doInvoke(config).then(res => {
-    console.log(res);
-    console.log(res.response);
-
-    if(typeof(res.response.result == "boolean")) // 2.X
-      createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
-    else // 3.X
-      createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash, 2000);
-
-    if(res.response.result)
-    	updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
-
-  }).catch(err => {
-     console.log(err);
-     createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
-  });
 
 }
 
@@ -239,18 +249,18 @@ function pushParams(neonJSParams, type, value){
 	else if(type == 'DecFixed8') {
          // Decimal fixed 8 seems to break at transition 92233720368.54775807 -> 92233720368.54775808
    		neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
-   }
+         }
 	else if(type == 'Integer') {
-      if((typeof(value) == "string") && (Number(value).toString() != value))
-         value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
-      if(Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
-         neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2hex(value)));
-      else
-		   neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
+	      if((typeof(value) == "string") && (Number(value).toString() != value))
+		 value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
+	      if(Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
+		 neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2hex(value)));
+	      else
+	   	 neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
       //console.log("INTEGER="+value+" -> "+Number(value));
-   }
-   else if(type == 'Array')
-      neonJSParams.push(Neon.default.create.contractParam(type, value));
+        }
+   	else if(type == 'Array')
+      		neonJSParams.push(Neon.default.create.contractParam(type, value));
 	else
 		alert("You are trying to push a wrong invoke param type: " + type + "with value : " + value);
 }
@@ -365,7 +375,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
       if(typeof(res.response.result) == "boolean") // 2.X
           updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
       else  // 3.X
-    	    updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
+    	  updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
     }
 
   }).catch(err => {
@@ -415,17 +425,17 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
 
-   if(typeof(res.response.result) == "boolean") // 2.X
+     if(typeof(res.response.result) == "boolean") // 2.X
        createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
-   else  // 3.X
+     else  // 3.X
        createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 2000);
 
-	if(res.response.result) {
+    if(res.response.result) {
       if(typeof(res.response.result) == "boolean") // 2.X
          updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(),"DeployParams");
       else // 3.X
          updateVecRelayedTXsAndDraw(res.tx.hash, "Deploy", $("#contracthashjs").val(),"DeployParams");
-   }
+    }
 
     }).catch(err => {
      	console.log(err);

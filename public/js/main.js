@@ -7,14 +7,20 @@ KNOWN_ADDRESSES.push({ publicKey: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y', privateK
 KNOWN_ADDRESSES.push({ publicKey: 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL', privateKey: 'L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA', pubKey: '036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb', print: true });
 KNOWN_ADDRESSES.push({ publicKey: 'AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx', privateKey: 'KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p', pubKey: '0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d', print: true });
 KNOWN_ADDRESSES.push({ publicKey: 'AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9', privateKey: 'KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV', pubKey: '02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4', print: true });
+
+// ==============================================================================================
+// Genesis Multi-sig
+// Signing order: [NODE2, NODE1, NODE3, NODE4]
 //Node1
-KNOWN_ADDRESSES.push({ publicKey: 'AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs', privateKey: 'KxyjQ8eUa4FHt3Gvioyt1Wz29cTUrE4eTqX3yFSk1YFCsPL8uNsY', print: false });
+KNOWN_ADDRESSES.push({ publicKey: 'AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs', privateKey: 'KxyjQ8eUa4FHt3Gvioyt1Wz29cTUrE4eTqX3yFSk1YFCsPL8uNsY', print: false, verificationScript: '532102103a7f7dd016558597f7960d27c516a4394fd968b9e65155eb4b013e4040406e2102a7bc55fe8684e0119768d104ba30795bdcc86619e864add26156723ed185cd622102b3622bf4017bdfe317c58aed5f4c753f206b7db896046fa7d774bbc4bf7f8dc22103d90c07df63e690ce77912e10ab51acc944b66860237b608c4f8f8309e71ee69954ae'});
 //Node2
-KNOWN_ADDRESSES.push({ publicKey: 'AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17', privateKey: 'KzfPUYDC9n2yf4fK5ro4C8KMcdeXtFuEnStycbZgX3GomiUsvX6W', print: false });
+KNOWN_ADDRESSES.push({ publicKey: 'AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17', privateKey: 'KzfPUYDC9n2yf4fK5ro4C8KMcdeXtFuEnStycbZgX3GomiUsvX6W', print: false, verificationScript:KNOWN_ADDRESSES[4].verificationScript });
 //Node3
-KNOWN_ADDRESSES.push({ publicKey: 'AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F', privateKey: 'L2oEXKRAAMiPEZukwR5ho2S6SMeQLhcK9mF71ZnF7GvT8dU4Kkgz', print: false });
+KNOWN_ADDRESSES.push({ publicKey: 'AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F', privateKey: 'L2oEXKRAAMiPEZukwR5ho2S6SMeQLhcK9mF71ZnF7GvT8dU4Kkgz', print: false, verificationScript:KNOWN_ADDRESSES[4].verificationScript });
 //Node4
-KNOWN_ADDRESSES.push({ publicKey: 'AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF', privateKey: 'KzgWE3u3EDp13XPXXuTKZxeJ3Gi8Bsm8f9ijY3ZsCKKRvZUo1Cdn', print: false });
+KNOWN_ADDRESSES.push({ publicKey: 'AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF', privateKey: 'KzgWE3u3EDp13XPXXuTKZxeJ3Gi8Bsm8f9ijY3ZsCKKRvZUo1Cdn', print: false, verificationScript:KNOWN_ADDRESSES[4].verificationScript });
+// ==============================================================================================
+
 
 var ADDRESSES_TO_CLAIM = new Array(0);
 

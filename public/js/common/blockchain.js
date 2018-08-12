@@ -26,8 +26,18 @@ function addSharedPrivateNet(){
 //createGenesisTransaction("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU",BASE_PATH_CLI, getCurrentNetworkNickname());
 // const balance = Neon.api.neoscan.getBalance(getCurrentNetworkNickname(),"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
 
-function signWithMultiSign(wtx, currentInvocationScript, verificationScript, privateKeyToSign){
-	currentInvocationScript += "40" + Neon.wallet.generateSignature(tx.serialize(), privateKeyToSign);
+function signWithMultiSign(wtx, currentInvocationScript, verificationScript, privateKeyOfSigner){
+ 	pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
+	console.log(pubKeyOfSigner);
+
+	var signature = Neon.wallet.generateSignature(wtx, privateKeyOfSigner);
+        //signature = Neon.wallet.signMessage(wtx, privateKeyOfSigner);
+	currentInvocationScript += "40" + signature;
+	console.log(currentInvocationScript);
+
+        //This is not working for generateSignature, which generates different signature than signMessage
+        //console.log(Neon.wallet.verifyMessage(wtx, signature, pubKeyOfSigner))
+
 	return currentInvocationScript;
 }
 
@@ -41,12 +51,15 @@ function sendRawTXToTheRPCNetwork(wtx){
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (resultJsonData) {
-                  console.log(resultJsonData);
-
-        	   if(typeof(resultJsonData.result) == "boolean") // 2.X
-          		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 2000);
-        	   else // 3.X
-           		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 2000);
+                   console.log(resultJsonData);
+                   if(resultJsonData.result)
+                   {
+			   if(typeof(resultJsonData.result) == "boolean") // 2.X
+		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 2000);
+			   else // 3.X
+		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 2000);
+		   }else
+			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 2000);
                 },
                 "json" // The format the response should be in
             ).fail(function() {
@@ -68,9 +81,15 @@ function fixedGenesisNeoTransferTXCreation(){
 	//Only one verification is needed - All are the same for a Multi-Sig address
 	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
 	//Only one verification is needed
+	/*
 	var invocationScript = "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
 	invocationScript += "40" +  Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
 	invocationScript += "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
+        */
+	var invocationScript = '';
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
 	tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
 	const serializedTx = tx.serialize();
 	console.log(serializedTx);
@@ -95,10 +114,10 @@ function createMultiSigSendingTransaction(outputs, inputs,  nodeToCall, networkT
 	//Only one verification is needed
 	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
 	//Only one verification is needed
-	var invocationScript;
-	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
-	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
-	invocationScript += signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
+	var invocationScript = '';
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
 	serializedTx
 
 /*

@@ -26,8 +26,6 @@ function addSharedPrivateNet(){
 //createGenesisTransaction("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU",BASE_PATH_CLI, getCurrentNetworkNickname());
 // const balance = Neon.api.neoscan.getBalance(getCurrentNetworkNickname(),"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
 
-
-
 function getNRequiredSignatures(verificationScript){
     	nextPKeyIndex = verificationScript.indexOf(21);
 
@@ -59,7 +57,6 @@ function getPubKeysFromMultiSig(verificationScript)
 	nSignatures = verificationScript.substr(1, nObtainedSignatures.length)
 	if(nSignatures != nObtainedSignatures)
 		alert("Error on number of signatures at getPubKeysFromMultiSig!");
-	
 	
 	//console.log(arrayPubKey);
 	return jssonArrayWithPubKey;
@@ -134,34 +131,6 @@ function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
 }
 
 
-
-function fixedGenesisNeoTransferTXCreation(){
-	let tx = Neon.default.create.tx({type: 128})
-	// Now let us add an intention to send 1 NEO to someone
-	tx
-	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-	tx.inputs = [];
-	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
-	tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
-	tx.scripts = [];
-	//Only one verification is needed - All are the same for a Multi-Sig address
-	// 5, 7, 4 6
-	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
-	//Everyone signs the invocation in any order
-	var invocationScript = '';
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[7].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
-	console.log(invocationScript);
-        invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);
-	tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
-	const serializedTx = tx.serialize();
-	console.log(serializedTx);
-        sendRawTXToTheRPCNetwork(serializedTx);
-}
-
 function sendRawTXToTheRPCNetwork(wtx){
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
@@ -188,53 +157,75 @@ function sendRawTXToTheRPCNetwork(wtx){
             }); //End of POST for search
 }
 
-function createMultiSigSendingTransaction(outputs, inputs,  nodeToCall, networkToCall){
 
-	let tx = Neon.default.create.tx({type: 128})
+//==========================================================================
+//Call for Genesis Block
+function genesisBlockTransfer(){
+	jsonArrayWithPrivKeys = [];
+	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[7].privateKey});
+	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[6].privateKey});
+	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[5].privateKey});
+	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[4].privateKey});
+	createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, "AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", 100, "GAS", getCurrentNetworkNickname());
 
-	const balance = Neon.api.neoscan.getBalance('LocalPrivateNet','AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU')
-	// Now let us add an intention to send 1 NEO to someone
-	tx
-	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-	.calculate(balance)
-	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-	//tx.inputs = [];
-	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
-
-	//tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
-	//tx.scripts = [];
-	//Only one verification is needed
-	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
-	//Only one verification is needed
-	var invocationScript = '';
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
-	serializedTx
-
-/*
-//const balance = new Neon.wallet.Balance({net: networkToCall, address: from})
-
-//const balancee = Neon.api.neoscan.getBalance(networkToCall,from)
-// e01ac51d967053359738db58f7609aa4497772c36e8ab7ff3d69954968e65ceb
-
-let tx = Neon.default.create.tx({type: 128})
-// Now let us add an intention to send 1 NEO to someone
-tx
-.addOutput('NEO',1,"AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU")
-.addOutput('NEO',4,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-tx.inputs = [];
-tx.inputs.push({prevHash: "d4a17712a2201d687975356008c7a8d8426fe63f5d7f95af0ab00d95d44a67a6", prevIndex: 0})
-tx.scripts = [];
-tx.sign(KNOWN_ADDRESSES[0].privateKey)
-const serializedTx = tx.serialize();
-serializedTx
-*/
-
-
-
+	createMultiSigClaimingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, "AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", getCurrentNetworkNickname());
 }
+//==========================================================================
+
+function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivKeys,addressBase58,networkToCall){
+	const config = {
+	  net: networkToCall,
+	  address: addressBase58
+	}
+
+	claimsFrom = Neon.api.getClaimsFrom(config, Neon.api.neoscan)
+	claimsFrom.then((c) => Neon.api.createTx(c, 'claim'))
+	claimsFrom.then( function(c) {
+		c.tx.scripts = [];
+		//Everyone signs the invocation in any order
+		var invocationScript = '';
+		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
+			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+
+		invocationScript = sortMultiSigInvocationScript(c.tx.serialize(),invocationScript, verificationScript);
+		c.tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript});
+		const serializedTx = c.tx.serialize();
+		console.log(serializedTx);
+		sendRawTXToTheRPCNetwork(serializedTx);
+	});
+}
+
+//==========================================================================
+function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, addressBase58, to, amount, asset, networkToCall){
+	Neon.api.neoscan.getBalance(networkToCall,addressBase58)
+	.then(balance => {
+		let tx = Neon.default.create.tx({type: 128})
+		// Now let us add an intention to send 1 NEO to someone
+		tx
+		.addOutput(asset,amount,to)
+		tx.calculate(balance)
+		//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+		//tx.inputs = [];
+		//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
+		//tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
+		console.log(tx)
+		tx.scripts = [];
+		//Only one verification is needed - All are the same for a Multi-Sig address
+		// 5, 7, 4 6
+		//Everyone signs the invocation in any order
+		var invocationScript = '';
+		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
+			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+
+		console.log(invocationScript);
+		invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);
+		tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
+		const serializedTx = tx.serialize();
+		console.log(serializedTx);
+		sendRawTXToTheRPCNetwork(serializedTx);
+	});
+}
+//==========================================================================
 
 
 function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){

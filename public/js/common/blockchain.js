@@ -26,19 +26,140 @@ function addSharedPrivateNet(){
 //createGenesisTransaction("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU",BASE_PATH_CLI, getCurrentNetworkNickname());
 // const balance = Neon.api.neoscan.getBalance(getCurrentNetworkNickname(),"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
 
-function signWithMultiSign(wtx, currentInvocationScript, verificationScript, privateKeyOfSigner){
- 	pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
-	console.log(pubKeyOfSigner);
+
+
+function getNRequiredSignatures(verificationScript){
+    	nextPKeyIndex = verificationScript.indexOf(21);
+
+	//Consider 52 is 2 signatures, 53 is 3, 511 would be 11 (TODO CHECK WITH IGOR)
+	nRequiredSignatures = verificationScript.substr(1,nextPKeyIndex-1);
+	return nRequiredSignatures;
+}
+
+function getPubKeysFromMultiSig(verificationScript)
+{
+	nRequiredSignatures = getNRequiredSignatures(verificationScript);
+        jssonArrayWithPubKey = [];
+
+    	nextPKeyIndex = verificationScript.indexOf(21);
+	while(nextPKeyIndex != -1)
+	{
+		pKeyNBytes=33;
+		//get the pKeyNBytes opcodes 
+		nextPKey = verificationScript.substr(nextPKeyIndex+2,pKeyNBytes*2)
+        	jssonArrayWithPubKey.push({pubKey: nextPKey});
+
+		verificationScript = verificationScript.substr(pKeyNBytes*2 + nextPKeyIndex+2);
+		nextPKeyIndex = verificationScript.indexOf(21);
+        }
+
+	//console.log(verificationScript);
+	nObtainedSignatures = jssonArrayWithPubKey.length.toLocaleString();
+	//get number of signatures - jump 5 and get number
+	nSignatures = verificationScript.substr(1, nObtainedSignatures.length)
+	if(nSignatures != nObtainedSignatures)
+		alert("Error on number of signatures at getPubKeysFromMultiSig!");
+	
+	
+	//console.log(arrayPubKey);
+	return jssonArrayWithPubKey;
+}
+
+function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
+        arrayPubKey = getPubKeysFromMultiSig(verificationScript);
+	jsonWithOrderedSignatures = [];
+
+	for(a=0;a<arrayPubKey.length;a++)
+	{
+		currentInvocationScript = invocationScript;
+		nextSignatureIndex = currentInvocationScript.indexOf(40);
+		while(nextSignatureIndex != -1)
+		{
+			signatureNBytes=64;
+			nextSignature = currentInvocationScript.substr(nextSignatureIndex+2,signatureNBytes*2);
+			currentInvocationScript = currentInvocationScript.substr(signatureNBytes*2 + nextSignatureIndex+2);
+
+			console.log(nextSignature);
+			if(Neon.wallet.verifySignature(wtx, nextSignature, arrayPubKey[a].pubKey))
+			{
+				jsonWithOrderedSignatures.push({privKey: nextSignature});
+				break;//exit while
+			}
+			nextSignatureIndex = currentInvocationScript.indexOf(40);			
+		}
+	}
+	
+	console.log(jsonWithOrderedSignatures);
+
+	//=====================================================
+	//========= Delete any exceding number of signatures ==
+	nRequiredSignatures = getNRequiredSignatures(verificationScript);
+	if(jsonWithOrderedSignatures.length > nRequiredSignatures)
+	{
+		console.log("Deleting excedding signatures  " + jsonWithOrderedSignatures.length + "/" + nRequiredSignatures);
+		signaturesToDelete = jsonWithOrderedSignatures.length - nRequiredSignatures;
+		for(d=0;d<signaturesToDelete;d++)
+			delete jsonWithOrderedSignatures.splice(d, 1);
+
+		console.log(jsonWithOrderedSignatures);
+	}else{
+		if(jsonWithOrderedSignatures.length < nRequiredSignatures)
+		{
+			console.log("Missings signatures  " + jsonWithOrderedSignatures.length + "/" + nRequiredSignatures);
+		}
+	}
+	//=====================================================
+
+	//=====================================================
+	finalIS = "";
+	for(a=0;a<jsonWithOrderedSignatures.length;a++)
+		finalIS += "40" + jsonWithOrderedSignatures[a].privKey;
+	//=====================================================
+
+	//Neon.wallet.verifySignature(wtx, signature, pubKeyOfSigner)
+	return finalIS;
+}
+
+function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
+ 	//pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
+	//console.log(pubKeyOfSigner);
 
 	var signature = Neon.wallet.generateSignature(wtx, privateKeyOfSigner);
-        //signature = Neon.wallet.signMessage(wtx, privateKeyOfSigner);
 	currentInvocationScript += "40" + signature;
-	console.log(currentInvocationScript);
 
-        //This is not working for generateSignature, which generates different signature than signMessage
-        //console.log(Neon.wallet.verifyMessage(wtx, signature, pubKeyOfSigner))
+        //VerifySignature
+        //console.log(Neon.wallet.verifySignature(wtx, signature, pubKeyOfSigner))
 
 	return currentInvocationScript;
+}
+
+
+
+function fixedGenesisNeoTransferTXCreation(){
+	let tx = Neon.default.create.tx({type: 128})
+	// Now let us add an intention to send 1 NEO to someone
+	tx
+	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
+	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
+	tx.inputs = [];
+	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
+	tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
+	tx.scripts = [];
+	//Only one verification is needed - All are the same for a Multi-Sig address
+	// 5, 7, 4 6
+	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
+	//Everyone signs the invocation in any order
+	var invocationScript = '';
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[7].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
+	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
+	console.log(invocationScript);
+        invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);
+	tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
+	const serializedTx = tx.serialize();
+	console.log(serializedTx);
+        sendRawTXToTheRPCNetwork(serializedTx);
 }
 
 function sendRawTXToTheRPCNetwork(wtx){
@@ -65,35 +186,6 @@ function sendRawTXToTheRPCNetwork(wtx){
             ).fail(function() {
                 alert("failed to pass transaction to network!");
             }); //End of POST for search
-}
-
-
-function fixedGenesisNeoTransferTXCreation(){
-	let tx = Neon.default.create.tx({type: 128})
-	// Now let us add an intention to send 1 NEO to someone
-	tx
-	.addOutput('NEO',100000000,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-	//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-	tx.inputs = [];
-	//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
-	tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
-	tx.scripts = [];
-	//Only one verification is needed - All are the same for a Multi-Sig address
-	var verificationScript = KNOWN_ADDRESSES[4].verificationScript;
-	//Only one verification is needed
-	/*
-	var invocationScript = "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
-	invocationScript += "40" +  Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
-	invocationScript += "40" + Neon.wallet.generateSignature(tx.serialize(), Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
-        */
-	var invocationScript = '';
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[5].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[4].privateKey));
-	invocationScript = signWithMultiSign(tx.serialize(), invocationScript, verificationScript, Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[6].privateKey));
-	tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
-	const serializedTx = tx.serialize();
-	console.log(serializedTx);
-        sendRawTXToTheRPCNetwork(serializedTx);
 }
 
 function createMultiSigSendingTransaction(outputs, inputs,  nodeToCall, networkToCall){

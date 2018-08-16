@@ -6,13 +6,22 @@ function searchIndexOfAllKnownWallets(addressToTryToGet)
   return -1;
 }
 
+function getPrivateKeyIfKnownAddress(addressToTryToGet)
+{
+  var index = searchIndexOfAllKnownWallets(addressToTryToGet);
+  if (index != -1)
+      return KNOWN_ADDRESSES[index].privateKey;
+  else
+      return -1;
+}
+
 function fillPrivateKeyIfKnown(boxPublicFrom,boxPrivateTo)
 {
   //console.log("public is "+ $(boxPublicFrom).val())
 
-  var index = searchIndexOfAllKnownWallets($(boxPublicFrom).val());
-  if (index != -1)
-      $(boxPrivateTo).val(KNOWN_ADDRESSES[index].privateKey);
+  var privateKeyToGet = getPrivateKeyIfKnownAddress($(boxPublicFrom).val());
+  if (privateKeyToGet != -1)
+      $(boxPrivateTo).val(privateKeyToGet);
 }
 
 function callFromAllKnownThatHasClaimable()
@@ -30,7 +39,15 @@ function callFromAllKnownThatHasClaimable()
     		    index = ka;
 
       if (index > -1)
-  	    CreateClaimGasTX(KNOWN_ADDRESSES[index].publicKey, KNOWN_ADDRESSES[index].privateKey, BASE_PATH_CLI, getCurrentNetworkNickname());
+      {	
+            if(KNOWN_ADDRESSES[index].verificationScript)
+	    {
+		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(index);
+		//Multi-sig address
+		createMultiSigClaimingTransaction(KNOWN_ADDRESSES[index].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname());
+	    }else //not multisig- normal address
+	  	createClaimGasTX(KNOWN_ADDRESSES[index].publicKey, KNOWN_ADDRESSES[index].privateKey, BASE_PATH_CLI, getCurrentNetworkNickname());
+      }
     }
   }
 }
@@ -85,10 +102,10 @@ function callUnclaimedNeonQuery(adddressToGet,boxToFill="")
 }
 
 
-function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer = false)
+function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTransfer = false, to = "")
 {
   var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
-  //console.log("url_toFill:" + url_toFill);
+  //console.log("url_toFill: " + url_toFill);
   $.getJSON(url_toFill, function(result) {
     if(boxToFill!="")
 	    $(boxToFill).val(0);
@@ -102,18 +119,29 @@ function getAllNeoOrGasFrom(adddressToGet,assetToGet,boxToFill="",selfTransfer =
     	      //console.log(assetToGet + " balance is:" + result.balance[i].amount);
     	      if(boxToFill!="")
     		      $(boxToFill).val(result.balance[i].amount);
-	      if(selfTransfer)
+	      if(automaticTransfer)
 	      {
+		 if(to==="")
+		 	to = adddressToGet;		
+		 
 		 var idToTransfer = searchIndexOfAllKnownWallets(adddressToGet);
-		 if (idToTransfer != -1)
-		 	CreateTx(KNOWN_ADDRESSES[idToTransfer].publicKey,KNOWN_ADDRESSES[idToTransfer].privateKey,KNOWN_ADDRESSES[idToTransfer].publicKey, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
-	      }
+		 //console.log("idToTransfer:" + idToTransfer);
+		 if (idToTransfer != -1 && result.balance[i].amount!=0){
+			 if(KNOWN_ADDRESSES[idToTransfer].verificationScript)
+			 {
+				jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
+				//Multi-sig address
+				createMultiSigSendingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys, to, result.balance[i].amount, assetToGet, getCurrentNetworkNickname());
+			 }else			 
+			 	CreateTx(KNOWN_ADDRESSES[idToTransfer].publicKey,KNOWN_ADDRESSES[idToTransfer].privateKey,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+		}
 
-    	      return result.balance[i].amount;
+
+	      }
     	  }
        }
-    }else
-      return 0;
+    }
+
 
   });
 }
@@ -319,7 +347,7 @@ function buttonKnownAddress(idToRemove){
 function selfTransfer(idToTransfer){
   if(idToTransfer < KNOWN_ADDRESSES.length && idToTransfer > -1)
   {
-      getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].publicKey,"NEO","",true);
+      	getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].publicKey,"NEO","",true);
   }else{
       alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
   }

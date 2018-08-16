@@ -1372,6 +1372,11 @@ def Main():
             recoveringPageData();
             populateAllWalletData();
 
+            refreshGenesisBlock = setInterval(function() {
+                genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+            }, 10000); // 30000 milsec
+
+
             //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
             if(window.location.href.indexOf("localhost")  != -1)
             {

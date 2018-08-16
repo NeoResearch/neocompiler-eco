@@ -36,15 +36,6 @@ RUN cd /neo-python && git pull && git checkout 06d32201e0f3f9cd9ca6cf137f45907fc
 RUN pip3 install -e .
 
 #==========================================================================
-#==================== genesis block emulator scripts ======================
-#Scripts used in order to perform some actions for the genesis block
-RUN wget https://s3.amazonaws.com/neo-experiments/neo-privnet.wallet
-ADD ./neo-python-genesis-block/claim_neo_and_gas_fixedwallet.py /neo-python/
-ADD ./neo-python-genesis-block/neo-privnet.python-wallet /tmp/wallet
-ADD ./neo-python-genesis-block/callGenesisBlockCreation.sh /opt/
-#==========================================================================
-
-#==========================================================================
 #====================== RPC and RESTFULL API interface ====================
 #Script used to start  neopy
 ADD start_neopython_rest.sh /opt/

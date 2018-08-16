@@ -157,22 +157,62 @@ function sendRawTXToTheRPCNetwork(wtx){
             }); //End of POST for search
 }
 
+function getMultiSigPrivateKeys(multiSigIndex){
+            jsonArrayWithPrivKeys = [];
+	    if(KNOWN_ADDRESSES[multiSigIndex].verificationScript)
+	    {
+		for(o=0;o<KNOWN_ADDRESSES[multiSigIndex].owners.length;o++)
+		{
+			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[index].owners[o].publicKey);
+			if(privateKeyToGet!=-1)
+				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});	
+		}
+	    }else
+		alert("Index" + multiSigIndex + " is not a multisig address! getMultiSigPrivateKeys");
+
+	   return jsonArrayWithPrivKeys;
+}
+
 
 //==========================================================================
 //Call for Genesis Block
-function genesisBlockTransfer(){
-	jsonArrayWithPrivKeys = [];
-	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[7].privateKey});
-	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[6].privateKey});
-	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[5].privateKey});
-	jsonArrayWithPrivKeys.push({privKey: KNOWN_ADDRESSES[4].privateKey});
-	createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, "AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y", 100, "GAS", getCurrentNetworkNickname());
+//genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+function genesisBlockTransfer(genesisAddress, newOwner){
+	console.log("Inside Genesis Block Transfers");
+	//Verification on the front-end if wallets already have funds, then, skip transfer
+	console.log("newOwnerIndex: " + searchIndexOfAllKnownWallets(newOwner));
+	newOwnerNeoBalance = $("#walletNeo" + searchIndexOfAllKnownWallets(newOwner)).val();	
+	newOwnerGasBalance = $("#walletGas" + searchIndexOfAllKnownWallets(newOwner)).val();
+	console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
+	console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
+	if( (newOwnerNeoBalance > 0) && (newOwnerGasBalance > 0))
+	{
+		clearInterval(refreshGenesisBlock);
+	}
+	else
+	{
+		if(!(newOwnerNeoBalance > 0))
+			getAllNeoOrGasFrom(genesisAddress,"NEO","",true,newOwner);
 
-	createMultiSigClaimingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, "AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", getCurrentNetworkNickname());
+		if(!(newOwnerGasBalance > 0))
+			getAllNeoOrGasFrom(genesisAddress,"GAS","",true,newOwner);
+	}
+
+	//var genesisAddressIndex = searchIndexOfAllKnownWallets(genesisAddress);
+	//var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(genesisAddressIndex);
+
+	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, newOwner, 100000000, "NEO", getCurrentNetworkNickname());
+	//getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","GAS","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+	//getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","NEO","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, newOwner, allGas, "GAS", getCurrentNetworkNickname());
+
+	//Claim will be automatic if frontend is open
+	//createMultiSigClaimingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, getCurrentNetworkNickname());
 }
 //==========================================================================
 
-function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivKeys,addressBase58,networkToCall){
+function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivKeys,networkToCall){
+	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
 	const config = {
 	  net: networkToCall,
 	  address: addressBase58
@@ -196,7 +236,8 @@ function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivK
 }
 
 //==========================================================================
-function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, addressBase58, to, amount, asset, networkToCall){
+function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, to, amount, asset, networkToCall){
+	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
 	Neon.api.neoscan.getBalance(networkToCall,addressBase58)
 	.then(balance => {
 		let tx = Neon.default.create.tx({type: 128})
@@ -267,7 +308,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
 }
 
 //Private key or signing Function
-function CreateClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
+function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
     const config = {
         net: networkToCall, // The network to perform the action, MainNet or TestNet.
         url: nodeToCall,

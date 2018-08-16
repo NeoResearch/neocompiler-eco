@@ -246,7 +246,7 @@ services:
 #      - eco-neo-csharp-node4-running
 #      - eco-neo-csharp-noderpc1-running
 #      - eco-neo-csharp-noderpc2-running
-    command: /bin/bash /opt/callGenesisBlockCreation.sh
+    command: /bin/bash # /opt/callGenesisBlockCreation.sh
     environment:
       - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
     depends_on:

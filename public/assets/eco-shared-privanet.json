@@ -6,6 +6,12 @@ ecoNodes = [
     "type": "ecocompilers"
   },
   {
+    "url": "https://compilers2.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "ecocompilers"
+  },
+  {
     "url": "https://ecoservices.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",

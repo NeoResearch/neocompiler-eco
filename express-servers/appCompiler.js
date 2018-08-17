@@ -108,6 +108,7 @@ app.post('/compilex', function(req, res) {
   //console.log("cs: "+req.body.codesend_cs);
   //console.log("go: "+req.body.codesend_golang);
   //console.log("java: "+req.body.codesend_java);
+  //console.log(req.body.csharp_compilers_versions);
 
   var imagename = "";
   var code64 = "";
@@ -125,12 +126,15 @@ app.post('/compilex', function(req, res) {
     code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
   }
   else if(req.body.codesend_cs) { // C#
-    imagename = "docker-mono-neo-compiler";
+    //TODO - An attach can probably be done here
+    // Check if imagename is exactly a given standard
+    imagename = req.body.csharp_compilers_versions;
     code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
   }
-
+	
   if(imagename != "")
   {
+      console.log(cmddocker);
       var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
       var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
 

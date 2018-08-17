@@ -684,6 +684,9 @@ namespace NeoContract1
     }
 }
                                       </pre>
+                                      <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                        <select name="csharp_compilers_versions" id="docker-mono-neo-compiler-selection-box" class="custom-select form-control"></select><br/>
+                                      </div>
                                     </div>
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- end csharpcode -->
@@ -1428,6 +1431,8 @@ def Main():
         $("#selectionBoxCompilers").on('change', function() {
             BASE_PATH_COMPILERS = this.value;
             $("#compilers_path")[0].value = this.value;
+
+            updateCompilersSelectionBox("docker-mono-neo-compiler");
         });
 
         $("#selectionBoxEcoServices").on('change', function() {
@@ -1460,7 +1465,32 @@ def Main():
           BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
           BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
           BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
+
+          updateCompilersSelectionBox("docker-mono-neo-compiler");
         }
+
+        //updateCompilersSelectionBox("docker-mono-neo-compiler");
+        function updateCompilersSelectionBox(compilerType)
+        {
+
+          $.get(BASE_PATH_COMPILERS+'/getcompilers',
+              function (data) {
+              compilerSelectionBoxID = compilerType+"-selection-box";
+              compilerSelectionBoxObj = document.getElementById(compilerSelectionBoxID);
+              compilerSelectionBoxObj.options.length = 0;
+
+              for(c = 0; c < data.length; c++)
+              {
+                if(data[c].compiler == compilerType)
+                  addOptionToWalletToInvoke(data[c].version,compilerType +":"+data[c].version,compilerSelectionBoxID);
+              }
+              //Select the latest as default
+              compilerSelectionBoxObj.selectedIndex = (compilerSelectionBoxObj.length -1)
+           },
+           "json" // The format the response should be in
+           );
+        }
+
 
         function updatePATHS()
         {

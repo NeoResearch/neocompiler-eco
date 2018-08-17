@@ -163,7 +163,7 @@ function getMultiSigPrivateKeys(multiSigIndex){
 	    {
 		for(o=0;o<KNOWN_ADDRESSES[multiSigIndex].owners.length;o++)
 		{
-			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[index].owners[o].publicKey);
+			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].publicKey);
 			if(privateKeyToGet!=-1)
 				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});	
 		}

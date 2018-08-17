@@ -42,24 +42,6 @@ var optionsCompile = {
 
 
 var compilers = [];
-fillCompilers();
-function fillCompilers(){
-	compilers.push({ compiler: 'docker-mono-neo-compiler', version: 'latest'});
-	compilers.push({ compiler: 'docker-java-neo-compiler', version: 'latest'});
-	compilers.push({ compiler: 'docker-neo-boa', version: 'latest'});
-	compilers.push({ compiler: 'docker-neo-go', version: 'latest'});
-
-	var cmddocker = 'docker images docker-mono-neo-compiler; docker images docker-java-neo-compiler; docker images docker-neo-boa; docker images docker-neo-go';
-	var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr)=> {
-	if (e instanceof Error) {
-	      console.error(e);
-	}
-	else {
-		
-	}
-	});
-}
-
 
 app.get('/getCompilers', (req, res) => {
   var cmddocker = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-java-neo-compiler | tail -n +2; docker images docker-neo-boa| tail -n +2; docker images docker-neo-go| tail -n +2) | awk '{ print $1,$2 }'";
@@ -87,6 +69,7 @@ app.get('/getCompilers', (req, res) => {
     obj["version"] = stdout1[i+1];
     arr.push(obj);
   }
+	compilers = arr;
 	res.send(JSON.stringify(arr));
       //res.send(stdout1);
     }
@@ -126,38 +109,54 @@ app.post('/compilex', function(req, res) {
     code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
   }
   else if(req.body.codesend_cs) { // C#
-    //TODO - An attach can probably be done here
-    // Check if imagename is exactly a given standard
     imagename = req.body.csharp_compilers_versions;
     code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
   }
-	
+
   if(imagename != "")
   {
-      console.log(cmddocker);
-      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
-      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
+	  //Check if compiler request exists
+	  //console.log("Current compilers");
+	  //console.log(compilers);
+	  var compilerExists = false;
+	  for(c = 0; c < compilers.length; c++)
+	  {
+		var compilerName = compilers[c].compiler + ":" + compilers[c].version;
+	  	if(compilerName == imagename)
+			compilerExists = true;
+	  }
 
-      if (e instanceof Error) {
-        console.error(e);
-        var msg64 = new Buffer("Internal Error:\n"+e,'ascii').toString('base64');
-        var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-        res.send(msgret);
-        //throw e;
-      }
-      else {
-        //console.log('stdout ', stdout);
-        //console.log('stderr ', stderr);
-        res.send(stdout);
-      }
-    }); // child
-  } // if
-  else {
-    var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
-    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-    res.send(msgret);
-  }
+	  if(!compilerExists)
+	  {
+		  console.log("Someone is doing something crazy. Compiler does not exist.");
+		  var msg64 = new Buffer("Unknown Compiler! Please use something from the list!",'ascii').toString('base64');
+		  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+		  res.send(msgret);
+	  }
+	  else{	
+		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+		      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
 
+		      if (e instanceof Error) {
+			console.error(e);
+			var msg64 = new Buffer("Internal Error:\n"+e,'ascii').toString('base64');
+			var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+			res.send(msgret);
+			//throw e;
+		      }
+		      else {
+			//console.log('stdout ', stdout);
+			//console.log('stderr ', stderr);
+			res.send(stdout);
+		      }
+		    }); // child
+          } //Compiler exists if
+    } // if imagename!= ""
+    else {
+	    var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
+	    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+	    res.send(msgret); 
+    }
 }); // End of compilex
 
 // catch 404 and forward to error handler

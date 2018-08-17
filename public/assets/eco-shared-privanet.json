@@ -1,12 +1,12 @@
 ecoNodes = [
   {
-    "url": "https://compilers.neocompiler.io",
+    "url": "https://compilers2.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "ecocompilers"
   },
   {
-    "url": "https://compilers2.neocompiler.io",
+    "url": "https://compilers.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "ecocompilers"

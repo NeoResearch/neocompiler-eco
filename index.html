@@ -122,6 +122,20 @@
   });
 </script>
 -->
+<script>
+((window.gitter = {}).chat = {}).options = {
+room: 'neocompiler-io/chat'
+};
+</script>
+<script src="https://sidecar.gitter.im/dist/sidecar.v1.js" ></script>
+<script>
+document.querySelector('.gitter-chat-embed').addEventListener('gitter-chat-toggle', function(e) {
+   if(e.detail.state) // opened
+      $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-top ng-scope";
+   else // closed
+      $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-fixed-top ng-scope";
+});
+</script>
 
 </body>
 </html>

@@ -16,7 +16,8 @@ Current development version is 3.0-dev, so a new major version is coming out wit
 - Full integration with neon-opt project (when it's ready), so compiled AVM will be automatically optimized
 - Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
 
-### [3.0-beta] - ?
+### [3.0] - ?
+- created a webchat on gitter
 - separating neo-cli nodes in different containers
 - updated npm to 6.3.0
 - adding support to codemirror

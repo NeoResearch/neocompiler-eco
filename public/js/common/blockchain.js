@@ -118,7 +118,7 @@ function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
 }
 
 function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
- 	//pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
+ 	//pubKeyOfSigner = Neon.default.get.addressBase58FromPrivateKey(privateKeyOfSigner);
 	//console.log(pubKeyOfSigner);
 
 	var signature = Neon.wallet.generateSignature(wtx, privateKeyOfSigner);
@@ -159,11 +159,11 @@ function sendRawTXToTheRPCNetwork(wtx){
 
 function getMultiSigPrivateKeys(multiSigIndex){
             jsonArrayWithPrivKeys = [];
-	    if(KNOWN_ADDRESSES[multiSigIndex].verificationScript)
+	    if(KNOWN_ADDRESSES[multiSigIndex].type === "multisig")
 	    {
 		for(o=0;o<KNOWN_ADDRESSES[multiSigIndex].owners.length;o++)
 		{
-			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].publicKey);
+			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].addressBase58);
 			if(privateKeyToGet!=-1)
 				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});	
 		}
@@ -225,7 +225,7 @@ function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivK
 		//Everyone signs the invocation in any order
 		var invocationScript = '';
 		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.pKeyWifFromWIF(jsonArrayWithPrivKeys[nA].privKey));
 
 		invocationScript = sortMultiSigInvocationScript(c.tx.serialize(),invocationScript, verificationScript);
 		c.tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript});
@@ -256,7 +256,7 @@ function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivK
 		//Everyone signs the invocation in any order
 		var invocationScript = '';
 		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.pKeyWifFromWIF(jsonArrayWithPrivKeys[nA].privKey));
 
 		console.log(invocationScript);
 		invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);
@@ -337,7 +337,7 @@ function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 //ICO TEMPLATE EXAMPLE:
 /*
 //Invoke mintToken from wallet of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 
 //Check Balance of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 {
@@ -361,7 +361,7 @@ var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
 pushParams(neonJSParams, 'Integer', "0.5");
-Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
+Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
 //Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 {
@@ -409,7 +409,7 @@ function pushParams(neonJSParams, type, value){
 }
 
 //Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
 
@@ -531,8 +531,8 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
 
 //Example of Deploy checkwitness
-//Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
-//Deploy(KNOWN_ADDRESSES[0].publicKey,KNOWN_ADDRESSES[0].privateKey,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
+//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
+//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
 function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '') {
 
     if(returntype.length == 1)

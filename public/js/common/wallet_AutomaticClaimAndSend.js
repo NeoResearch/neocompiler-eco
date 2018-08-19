@@ -1,7 +1,7 @@
 function searchIndexOfAllKnownWallets(addressToTryToGet)
 {
   for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
-      if(KNOWN_ADDRESSES[iToFind].publicKey == addressToTryToGet)
+      if(KNOWN_ADDRESSES[iToFind].addressBase58 == addressToTryToGet)
 	     return iToFind;
   return -1;
 }
@@ -10,7 +10,7 @@ function getPrivateKeyIfKnownAddress(addressToTryToGet)
 {
   var index = searchIndexOfAllKnownWallets(addressToTryToGet);
   if (index != -1)
-      return KNOWN_ADDRESSES[index].privateKey;
+      return KNOWN_ADDRESSES[index].pKeyWif;
   else
       return -1;
 }
@@ -33,20 +33,20 @@ function callFromAllKnownThatHasClaimable()
     {
       //console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL KNOWN_ADDRESSES are:")
       //console.log(KNOWN_ADDRESSES)
-      var index = -1;
+      var idToTransfer = -1;
       for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-      	if(KNOWN_ADDRESSES[ka].publicKey == ADDRESSES_TO_CLAIM[i])
-    		    index = ka;
+      	if(KNOWN_ADDRESSES[ka].addressBase58 == ADDRESSES_TO_CLAIM[i])
+    		    idToTransfer = ka;
 
-      if (index > -1)
+      if (idToTransfer > -1)
       {	
-            if(KNOWN_ADDRESSES[index].verificationScript)
+            if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
 	    {
-		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(index);
+		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 		//Multi-sig address
-		createMultiSigClaimingTransaction(KNOWN_ADDRESSES[index].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname());
+		createMultiSigClaimingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname());
 	    }else //not multisig- normal address
-	  	createClaimGasTX(KNOWN_ADDRESSES[index].publicKey, KNOWN_ADDRESSES[index].privateKey, BASE_PATH_CLI, getCurrentNetworkNickname());
+	  	createClaimGasTX(KNOWN_ADDRESSES[idToTransfer].addressBase58, KNOWN_ADDRESSES[idToTransfer].pKeyWif, BASE_PATH_CLI, getCurrentNetworkNickname());
       }
     }
   }
@@ -127,13 +127,13 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 		 var idToTransfer = searchIndexOfAllKnownWallets(adddressToGet);
 		 //console.log("idToTransfer:" + idToTransfer);
 		 if (idToTransfer != -1 && result.balance[i].amount!=0){
-			 if(KNOWN_ADDRESSES[idToTransfer].verificationScript)
+			 if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
 			 {
 				jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 				//Multi-sig address
 				createMultiSigSendingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys, to, result.balance[i].amount, assetToGet, getCurrentNetworkNickname());
 			 }else			 
-			 	CreateTx(KNOWN_ADDRESSES[idToTransfer].publicKey,KNOWN_ADDRESSES[idToTransfer].privateKey,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+			 	CreateTx(KNOWN_ADDRESSES[idToTransfer].addressBase58,KNOWN_ADDRESSES[idToTransfer].pKeyWif,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
 		}
 
 
@@ -174,7 +174,7 @@ function populateAllWalletData()
     {
       if(KNOWN_ADDRESSES[ka].print == true)
       {
-	      addressToGet = KNOWN_ADDRESSES[ka].publicKey;
+	      addressToGet = KNOWN_ADDRESSES[ka].addressBase58;
 	      //walletIndex = searchIndexOfAllKnownWallets(addressToGet);
 	      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
 	      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
@@ -233,8 +233,8 @@ function drawWalletsStatus(){
       txRow.insertCell(-1).appendChild(b);
 
       var addressBase58 = document.createElement("a");
-      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + KNOWN_ADDRESSES[i].publicKey;
-      addressBase58.text = KNOWN_ADDRESSES[i].publicKey.slice(0,5) + "..." + KNOWN_ADDRESSES[i].publicKey.slice(-5);
+      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + KNOWN_ADDRESSES[i].addressBase58;
+      addressBase58.text = KNOWN_ADDRESSES[i].addressBase58.slice(0,5) + "..." + KNOWN_ADDRESSES[i].addressBase58.slice(-5);
       addressBase58.href = urlToGet;
       addressBase58.target = 'popup';
       addressBase58.onclick= urlToGet;
@@ -322,15 +322,50 @@ function addWallet(){
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
 function changeWalletInfo(){
 	var wToChangeIndex = $("#wallet_info")[0].selectedOptions[0].index;
-	document.getElementById("walletInfoAddressBase58").value = KNOWN_ADDRESSES[wToChangeIndex].publicKey;
+	document.getElementById("walletInfoAddressBase58").value = KNOWN_ADDRESSES[wToChangeIndex].addressBase58;
 	document.getElementById("walletInfoPubKey").value = KNOWN_ADDRESSES[wToChangeIndex].pubKey;
-	document.getElementById("walletInfoWIF").value = KNOWN_ADDRESSES[wToChangeIndex].privateKey;
+	document.getElementById("walletInfoWIF").value = KNOWN_ADDRESSES[wToChangeIndex].pKeyWif;
+	document.getElementById("walletInfoPrivateKey").value = KNOWN_ADDRESSES[wToChangeIndex].privKey;
+	document.getElementById("addressPrintInfo").value = KNOWN_ADDRESSES[wToChangeIndex].print;
+	document.getElementById("addressVerificationScript").value = KNOWN_ADDRESSES[wToChangeIndex].verificationScript;
+		
+}
+//===============================================================
+
+//===============================================================
+//============= UPDATE ALL KNOWN ADDRESSES ======================
+function updateInfoOfAllKnownAdresses(){
+          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+	  {
+         	if(KNOWN_ADDRESSES[ka].type === 'commonAddress')
+		{
+	            if(KNOWN_ADDRESSES[ka].privKey === '' && Neon.default.is.wif(KNOWN_ADDRESSES[ka].pKeyWif))
+			KNOWN_ADDRESSES[ka].privKey = Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[ka].pKeyWif);
+			
+	            if(Neon.default.is.privateKey(KNOWN_ADDRESSES[ka].privKey) && KNOWN_ADDRESSES[ka].pubKey === '')
+			KNOWN_ADDRESSES[ka].pubKey = Neon.default.get.publicKeyFromPrivateKey(KNOWN_ADDRESSES[ka].privKey);
+
+	            if(KNOWN_ADDRESSES[ka].verificationScript === '')
+			KNOWN_ADDRESSES[ka].verificationScript = "21" + KNOWN_ADDRESSES[ka].pubKey + "ac";
+
+	            if(KNOWN_ADDRESSES[ka].addressBase58 === '')
+			KNOWN_ADDRESSES[ka].addressBase58 = toBase58(getScriptHashFromAVM(KNOWN_ADDRESSES[ka].verificationScript));
+		}
+
+         	if(KNOWN_ADDRESSES[ka].type === 'multisig')
+		{
+		    if(KNOWN_ADDRESSES[ka].addressBase58 === '')
+			KNOWN_ADDRESSES[ka].addressBase58 = toBase58(getScriptHashFromAVM(KNOWN_ADDRESSES[ka].verificationScript));
+		}
+          }
 }
 //===============================================================
 
 //===============================================================
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function updateAddressSelectionBox(){
+      updateInfoOfAllKnownAdresses();
+      drawWalletsStatus();
       //Adding all known address to NeonInvokeSelectionBox
       addAllKnownAddressesToSelectionBox("wallet_invokejs");
       addAllKnownAddressesToSelectionBox("wallet_deployjs");
@@ -344,7 +379,7 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox){
           //Clear selection box
           document.getElementById(walletSelectionBox).options.length = 0;
           for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            addOptionToSelectionBox(KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
+            addOptionToSelectionBox(KNOWN_ADDRESSES[ka].addressBase58.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].addressBase58.slice(-3),"wallet_"+ka,walletSelectionBox);
 }
 //===============================================================
 
@@ -364,8 +399,8 @@ function buttonKnownAddress(idToRemove){
 function selfTransfer(idToTransfer){
   if(idToTransfer < KNOWN_ADDRESSES.length && idToTransfer > -1)
   {
-      	getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].publicKey,"NEO","",true);
+      	getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].addressBase58,"NEO","",true);
   }else{
-      alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
+        alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
   }
 }

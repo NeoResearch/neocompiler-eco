@@ -263,7 +263,7 @@
 	var neonJSParams = [];
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
-	Invoke(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
+	Invoke(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
     });//End of invoke function
     //===============================================================
@@ -305,7 +305,7 @@
 
 	console.log("Final attached gas should be:" + contractGasCost)
 
-        Deploy(KNOWN_ADDRESSES[wI].publicKey,KNOWN_ADDRESSES[wI].privateKey,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
+        Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
     });//End of deploy function
     //===============================================================
 
@@ -711,7 +711,7 @@
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 JSON.stringify(jsonDataToCallNeoCli), // Serializes form data in standard format
                 function (data) {
-		   console.log(data);
+		   //console.log(data);
 		   if(data[0].result){
             if(data[0].result.vmstate) // 2.X
 				     document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;

@@ -447,9 +447,13 @@
                         <div class="panel-heading">Addresses detailed info</div>
                         <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
-                            <strong>Address</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Publickey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>PublicKey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>VerificationScript</strong><input id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>WIF</strong><input id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>PrivateKey</strong><input id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>Owners:</strong><input id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>Print:</strong><input id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                         </div>
                     </div>
                     <!--

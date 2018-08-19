@@ -1,14 +1,22 @@
-function searchIndexOfAllKnownWallets(addressToTryToGet)
+function searchAddrIndexFromBase58(addressBase58ToTryToGet)
 {
   for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
-      if(KNOWN_ADDRESSES[iToFind].addressBase58 == addressToTryToGet)
+      if(KNOWN_ADDRESSES[iToFind].addressBase58 == addressBase58ToTryToGet)
 	     return iToFind;
   return -1;
 }
 
-function getPrivateKeyIfKnownAddress(addressToTryToGet)
+function searchAddrIndexFromWif(wifToTryToGet)
 {
-  var index = searchIndexOfAllKnownWallets(addressToTryToGet);
+  for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
+      if(KNOWN_ADDRESSES[iToFind].pKeyWif == wifToTryToGet)
+	     return iToFind;
+  return -1;
+}
+
+function getWifIfKnownAddress(addressToTryToGet)
+{
+  var index = searchAddrIndexFromBase58(addressToTryToGet);
   if (index != -1)
       return KNOWN_ADDRESSES[index].pKeyWif;
   else
@@ -19,7 +27,7 @@ function fillPrivateKeyIfKnown(boxPublicFrom,boxPrivateTo)
 {
   //console.log("public is "+ $(boxPublicFrom).val())
 
-  var privateKeyToGet = getPrivateKeyIfKnownAddress($(boxPublicFrom).val());
+  var privateKeyToGet = getWifIfKnownAddress($(boxPublicFrom).val());
   if (privateKeyToGet != -1)
       $(boxPrivateTo).val(privateKeyToGet);
 }
@@ -124,7 +132,7 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 		 if(to==="")
 		 	to = adddressToGet;		
 		 
-		 var idToTransfer = searchIndexOfAllKnownWallets(adddressToGet);
+		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
 		 //console.log("idToTransfer:" + idToTransfer);
 		 if (idToTransfer != -1 && result.balance[i].amount!=0){
 			 if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
@@ -175,7 +183,7 @@ function populateAllWalletData()
       if(KNOWN_ADDRESSES[ka].print == true)
       {
 	      addressToGet = KNOWN_ADDRESSES[ka].addressBase58;
-	      //walletIndex = searchIndexOfAllKnownWallets(addressToGet);
+	      //walletIndex = searchAddrIndexFromBase58(addressToGet);
 	      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
 	      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
 	      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
@@ -303,11 +311,19 @@ function addWallet(){
    	console.log("wif " + wifToAdd + " is ok!");
 
 	//TODO Check if addressBase58 already exists by getting it from wif
-	if(searchIndexOfAllKnownWallets(addressBase58ToAdd) != -1)
+	if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
 	{
-		alert("Public addressBase58 already registered. Please, delete index " + searchIndexOfAllKnownWallets(addressBase58ToAdd) + " first.");
+		alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
 		return;
 	}
+
+	console.log(getWifIfKnownAddress(wifToAdd));
+	if(searchAddrIndexFromWif(wifToAdd) != -1)
+	{
+		alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
+		return;
+	}
+
 
  	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
 	{
@@ -335,6 +351,8 @@ function changeWalletInfo(){
 	document.getElementById("walletInfoPrivateKey").value = KNOWN_ADDRESSES[wToChangeIndex].privKey;
 	document.getElementById("addressPrintInfo").value = KNOWN_ADDRESSES[wToChangeIndex].print;
 	document.getElementById("addressVerificationScript").value = KNOWN_ADDRESSES[wToChangeIndex].verificationScript;
+	document.getElementById("addressOwners").value = JSON.stringify(KNOWN_ADDRESSES[wToChangeIndex].owners);
+
 		
 }
 //===============================================================
@@ -363,6 +381,11 @@ function updateInfoOfAllKnownAdresses(){
 		{
 		    if(KNOWN_ADDRESSES[ka].addressBase58 === '')
 			KNOWN_ADDRESSES[ka].addressBase58 = toBase58(getScriptHashFromAVM(KNOWN_ADDRESSES[ka].verificationScript));
+
+		    if(KNOWN_ADDRESSES[ka].owners === '')
+		    	KNOWN_ADDRESSES[ka].owners = getAddressBase58FromMultiSig(KNOWN_ADDRESSES[ka].verificationScript);
+
+		   console.log(KNOWN_ADDRESSES[ka].owners);
 		}
           }
 }

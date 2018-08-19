@@ -14,6 +14,17 @@ function toBase58(address)
     return Neon.wallet.getAddressFromScriptHash(address);
 }
 
+// converts pubKeyToConvert in hex to base58 address
+function toBase58FromPublicKey(pubKeyToConvert)
+{
+    if(!Neon.default.is.publicKey(pubKeyToConvert))
+    {
+	console.log( pubKeyToConvert + " does not seems to be a valid publicKey.")
+	return;
+    }
+   
+    return toBase58(getScriptHashFromAVM("21" + pubKeyToConvert + "ac"));
+}
 
 // converts base58 address to scripthash (in hex)
 // example: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y' => 'e9eed8dc39332032dc22e5d6e86332c50327ba23'

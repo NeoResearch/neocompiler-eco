@@ -62,6 +62,16 @@ function getPubKeysFromMultiSig(verificationScript)
 	return jssonArrayWithPubKey;
 }
 
+function getAddressBase58FromMultiSig(verificationScript)
+{
+	jssonArrayWithAddr = [];
+	jssonArrayWithPubKey = getPubKeysFromMultiSig(verificationScript);
+	for(a=0;a<jssonArrayWithPubKey.length;a++)
+		jssonArrayWithAddr.push({addressBase58: toBase58FromPublicKey(jssonArrayWithPubKey[a].pubKey)});
+	return jssonArrayWithAddr;
+}
+
+
 function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
         arrayPubKey = getPubKeysFromMultiSig(verificationScript);
 	jsonWithOrderedSignatures = [];
@@ -163,7 +173,7 @@ function getMultiSigPrivateKeys(multiSigIndex){
 	    {
 		for(o=0;o<KNOWN_ADDRESSES[multiSigIndex].owners.length;o++)
 		{
-			privateKeyToGet = getPrivateKeyIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].addressBase58);
+			privateKeyToGet = getWifIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].addressBase58);
 			if(privateKeyToGet!=-1)
 				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});	
 		}
@@ -180,9 +190,9 @@ function getMultiSigPrivateKeys(multiSigIndex){
 function genesisBlockTransfer(genesisAddress, newOwner){
 	console.log("Inside Genesis Block Transfers");
 	//Verification on the front-end if wallets already have funds, then, skip transfer
-	console.log("newOwnerIndex: " + searchIndexOfAllKnownWallets(newOwner));
-	newOwnerNeoBalance = $("#walletNeo" + searchIndexOfAllKnownWallets(newOwner)).val();	
-	newOwnerGasBalance = $("#walletGas" + searchIndexOfAllKnownWallets(newOwner)).val();
+	console.log("newOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
+	newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner)).val();	
+	newOwnerGasBalance = $("#walletGas" + searchAddrIndexFromBase58(newOwner)).val();
 	console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
 	console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
 	if( (newOwnerNeoBalance > 0) && (newOwnerGasBalance > 0))
@@ -198,7 +208,7 @@ function genesisBlockTransfer(genesisAddress, newOwner){
 			getAllNeoOrGasFrom(genesisAddress,"GAS","",true,newOwner);
 	}
 
-	//var genesisAddressIndex = searchIndexOfAllKnownWallets(genesisAddress);
+	//var genesisAddressIndex = searchAddrIndexFromBase58(genesisAddress);
 	//var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(genesisAddressIndex);
 
 	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, newOwner, 100000000, "NEO", getCurrentNetworkNickname());

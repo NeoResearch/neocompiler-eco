@@ -118,7 +118,7 @@ function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
 }
 
 function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
- 	//pubKeyOfSigner = Neon.default.get.addressBase58FromPrivateKey(privateKeyOfSigner);
+ 	//pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
 	//console.log(pubKeyOfSigner);
 
 	var signature = Neon.wallet.generateSignature(wtx, privateKeyOfSigner);
@@ -225,7 +225,7 @@ function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivK
 		//Everyone signs the invocation in any order
 		var invocationScript = '';
 		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.pKeyWifFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
 
 		invocationScript = sortMultiSigInvocationScript(c.tx.serialize(),invocationScript, verificationScript);
 		c.tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript});
@@ -256,7 +256,7 @@ function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivK
 		//Everyone signs the invocation in any order
 		var invocationScript = '';
 		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.pKeyWifFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
 
 		console.log(invocationScript);
 		invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);

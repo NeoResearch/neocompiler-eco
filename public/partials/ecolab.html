@@ -1315,33 +1315,16 @@ def Main():
     <script src="public/js/common/wallet_AutomaticClaimAndSend.js"></script>
 
     <script>
-        function addAllKnownAddressesToSelectionBox(walletSelectionBox){
-          //Clear selection box
-          document.getElementById(walletSelectionBox).options.length = 0;
-          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            addOptionToWalletToInvoke(KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
+        //===============================================================
+        //============= ADD OPTION TO SELECTION BOX =====================
+        function addOptionToSelectionBox(textToOption,valueToOption,walletSelectionBox){
+                  var option = document.createElement("option");
+                  option.text = textToOption;
+                  option.value = valueToOption;
+                  var select = document.getElementById(walletSelectionBox);
+                  select.appendChild(option);
         }
-
-        function addAllKnownServiceToSelectionBox(serviceType,networkServicesObj,selectionBoxToFill){
-          //Clear selection box
-          document.getElementById(selectionBoxToFill).options.length = 0;
-          for(var kn = 0; kn < networkServicesObj.length; kn++)
-          {
-            var serviceUrlToAdd = getServiceURLByTypeAndNetwork(serviceType,networkServicesObj[kn]);
-
-            if(serviceUrlToAdd !== '')
-              addOptionToWalletToInvoke(serviceUrlToAdd,serviceUrlToAdd,selectionBoxToFill);
-          }
-        }
-
-
-        function addOptionToWalletToInvoke(textToOption,valueToOption,walletSelectionBox){
-          var option = document.createElement("option");
-          option.text = textToOption;
-          option.value = valueToOption;
-          var select = document.getElementById(walletSelectionBox);
-          select.appendChild(option);
-        }
+        //===============================================================
 
         var editorPython = createEditor("editorPython", "ace/mode/python");
         var editorGolang = createEditor("editorGolang", "ace/mode/golang");
@@ -1374,6 +1357,7 @@ def Main():
             }, 10000); // 30000 milsec
             recoveringPageData();
             populateAllWalletData();
+            updateAddressSelectionBox();
 
             refreshGenesisBlock = setInterval(function() {
                 genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
@@ -1482,7 +1466,7 @@ def Main():
               for(c = 0; c < data.length; c++)
               {
                 if(data[c].compiler == compilerType)
-                  addOptionToWalletToInvoke(data[c].version,compilerType +":"+data[c].version,compilerSelectionBoxID);
+                  addOptionToSelectionBox(data[c].version,compilerType +":"+data[c].version,compilerSelectionBoxID);
               }
               //Select the latest as default
               compilerSelectionBoxObj.selectedIndex = (compilerSelectionBoxObj.length -1)
@@ -1490,6 +1474,21 @@ def Main():
            "json" // The format the response should be in
            );
         }
+
+        //===============================================================
+        //= UPDATE ALL KNOWN SERVICE TO THEIR CONFIGURATION SELELECTION =
+        function addAllKnownServiceToSelectionBox(serviceType,networkServicesObj,selectionBoxToFill){
+                  //Clear selection box
+                  document.getElementById(selectionBoxToFill).options.length = 0;
+                  for(var kn = 0; kn < networkServicesObj.length; kn++)
+                  {
+                    var serviceUrlToAdd = getServiceURLByTypeAndNetwork(serviceType,networkServicesObj[kn]);
+
+                    if(serviceUrlToAdd !== '')
+                      addOptionToSelectionBox(serviceUrlToAdd,serviceUrlToAdd,selectionBoxToFill);
+                  }
+        }
+        //===============================================================
 
 
         function updatePATHS()

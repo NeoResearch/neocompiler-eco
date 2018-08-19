@@ -168,11 +168,6 @@ function fillWalletInfo(result)
 
 function populateAllWalletData()
 {
-    //Adding all known address to NeonInvokeSelectionBox
-    addAllKnownAddressesToSelectionBox("wallet_invokejs");
-    addAllKnownAddressesToSelectionBox("wallet_deployjs");
-    addAllKnownAddressesToSelectionBox("wallet_info");
-
     drawWalletsStatus();
 
     for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
@@ -317,6 +312,7 @@ function addWallet(){
    	console.log("read pub:"+pubkeyToAdd);
 	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd, pubKey: pubkeyToAdd });
 
+	updateAddressSelectionBox();
    	console.log("will populate all wallets");
 	populateAllWalletData();
 }
@@ -332,6 +328,26 @@ function changeWalletInfo(){
 }
 //===============================================================
 
+//===============================================================
+//============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
+function updateAddressSelectionBox(){
+      //Adding all known address to NeonInvokeSelectionBox
+      addAllKnownAddressesToSelectionBox("wallet_invokejs");
+      addAllKnownAddressesToSelectionBox("wallet_deployjs");
+      addAllKnownAddressesToSelectionBox("wallet_info");
+}
+//===============================================================
+
+//===============================================================
+//============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
+function addAllKnownAddressesToSelectionBox(walletSelectionBox){
+          //Clear selection box
+          document.getElementById(walletSelectionBox).options.length = 0;
+          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+            addOptionToSelectionBox(KNOWN_ADDRESSES[ka].publicKey.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].publicKey.slice(-3),"wallet_"+ka,walletSelectionBox);
+}
+//===============================================================
+
 
 //===============================================================
 function buttonKnownAddress(idToRemove){
@@ -339,6 +355,7 @@ function buttonKnownAddress(idToRemove){
   {
       KNOWN_ADDRESSES.splice(idToRemove, 1);
       drawWalletsStatus();
+      updateAddressSelectionBox();
   }else{
       alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
   }

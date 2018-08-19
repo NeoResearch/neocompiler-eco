@@ -287,30 +287,37 @@ function drawWalletsStatus(){
 //===============================================================
 
 //===============================================================
+//================ ADD NEW ADDRESS ==============================
+//TODO Add suport for adding multisig and specialSC
 function addWallet(){
    	console.log("addWallet()");
-        pubAddressToAdd = document.getElementById('addressToAddBox').value;
+        addressBase58ToAdd = document.getElementById('addressToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
-        console.log("pubAddressToAdd: '" + pubAddressToAdd + "' wifToAdd: '" + wifToAdd + "'");
+        console.log("pubAddressToAdd: '" + addressBase58ToAdd + "' wifToAdd: '" + wifToAdd + "'");
 
-	if(searchIndexOfAllKnownWallets(pubAddressToAdd) != -1)
+ 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
 	{
-		alert("Public address already registered. Please, delete index " + searchIndexOfAllKnownWallets(pubAddressToAdd) + " first.");
+		alert("This WIF " + wifToAdd + " does not seems to be valid.");
+		return;
+	}
+   	console.log("wif " + wifToAdd + " is ok!");
+
+	//TODO Check if addressBase58 already exists by getting it from wif
+	if(searchIndexOfAllKnownWallets(addressBase58ToAdd) != -1)
+	{
+		alert("Public addressBase58 already registered. Please, delete index " + searchIndexOfAllKnownWallets(addressBase58ToAdd) + " first.");
 		return;
 	}
 
- 	if(!Neon.default.is.address(pubAddressToAdd))
+ 	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
 	{
-		alert("Public address " + pubAddressToAdd + " is not being recognized as a valid address.");
+		alert("Public addressBase58 " + addressBase58ToAdd + " is not being recognized as a valid address.");
 		return;
 	}
-   	console.log("Address is ok!");
-   	// DISCLAIMER: 'privateKey' is in fact the WIF (Wallet Import Format)
-   	realpriv = Neon.wallet.getPrivateKeyFromWIF(wifToAdd);
-   	console.log("real priv:"+realpriv);
-   	pubkeyToAdd = Neon.wallet.getPublicKeyFromPrivateKey(realpriv);
-   	console.log("read pub:"+pubkeyToAdd);
-	KNOWN_ADDRESSES.push({ publicKey: pubAddressToAdd, privateKey: wifToAdd, pubKey: pubkeyToAdd });
+   	console.log("Address " + addressBase58ToAdd + " is ok!");
+
+
+	KNOWN_ADDRESSES.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
 
 	updateAddressSelectionBox();
    	console.log("will populate all wallets");

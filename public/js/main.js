@@ -4,7 +4,7 @@ var refreshIntervalId = 0;
 
 var KNOWN_ADDRESSES = [];
 //Template
-//KNOWN_ADDRESSES.push({ type: '0 (normal),1(multisig) or 2(special contract)', addressBase58: '', pKeyWif: '', privKey: '', pubKey: '', print: false, verificationScript: ''});
+//KNOWN_ADDRESSES.push({ type: 'commonAddress, multisig or specialSC', addressBase58: '', pKeyWif: '', privKey: '', pubKey: '', print: false, verificationScript: ''});
 //AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 KNOWN_ADDRESSES.push({ type: 'commonAddress', addressBase58: '', pKeyWif: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', privKey: '', pubKey: '', print: true, verificationScript: '' });
 //APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL

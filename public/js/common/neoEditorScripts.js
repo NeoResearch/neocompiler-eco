@@ -46,6 +46,30 @@
 		return str.charAt(0).toLowerCase() + str.slice(1);
 	}
 
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	//console.log(e.target.dataset.target)
+
+
+        if($("#csharpcode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-mono-neo-compiler");
+            console.log("C# Compile");
+        }
+        if($("#pythoncode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-neo-boa");
+            console.log("Python Compile");
+        }
+        if($("#golangcode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-neo-go");
+            console.log("Golang Compile");
+        }
+        if($("#javacode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-java-neo-compiler");
+            console.log("Java Compile");
+        }
+
+    });
+
     //===============================================================
     $("#formCompile").submit(function (e) {
         $("#compilebtn")[0].disabled = true;

@@ -645,7 +645,7 @@
                         <div class="panel-body">
                             <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
                                 <div class="tab-container">
-                                    <ul class="nav nav-tabs">
+                                    <ul class="nav nav-tabs" id="compilersnavtabs">
                                         <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
                                         <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
                                         <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
@@ -688,9 +688,6 @@ namespace NeoContract1
     }
 }
                                       </pre>
-                                      <div class="dropdown btn-group" style="margin-bottom: 10px">
-                                        <select name="csharp_compilers_versions" id="docker-mono-neo-compiler-selection-box" class="custom-select form-control"></select><br/>
-                                      </div>
                                     </div>
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- end csharpcode -->
@@ -777,7 +774,10 @@ def Main():
 
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
-                                <input type="checkbox" id="cbx_optimize">Optimize opcodes with neon-opt (BETA! USE WITH CAUTION!)</input><br/>
+                                <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                  <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
+                                </div>
+                                <br/><input type="checkbox" id="cbx_optimize">Optimize opcodes with neon-opt (BETA! USE WITH CAUTION!)</input><br/>
                                 <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
                                 <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p>
                                 <h4>Compile Warning/Errors:</h4>
@@ -1453,17 +1453,16 @@ def Main():
           BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
           BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
           BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
-
-          updateCompilersSelectionBox("docker-mono-neo-compiler");
         }
 
-        //updateCompilersSelectionBox("docker-mono-neo-compiler");
+        //The first call is done here as default
+        updateCompilersSelectionBox("docker-mono-neo-compiler");
         function updateCompilersSelectionBox(compilerType)
         {
 
           $.get(BASE_PATH_COMPILERS+'/getcompilers',
               function (data) {
-              compilerSelectionBoxID = compilerType+"-selection-box";
+              compilerSelectionBoxID = "compilers_versions-selection-box";
               compilerSelectionBoxObj = document.getElementById(compilerSelectionBoxID);
               compilerSelectionBoxObj.options.length = 0;
 

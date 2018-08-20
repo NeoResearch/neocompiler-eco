@@ -93,23 +93,19 @@ app.post('/compilex', function(req, res) {
   //console.log("java: "+req.body.codesend_java);
   //console.log(req.body.csharp_compilers_versions);
 
-  var imagename = "";
+  var imagename = req.body.compilers_versions;
   var code64 = "";
 
   if(req.body.codesend_python) { // Python
-    imagename = "docker-neo-boa";
     code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
   }
   else if(req.body.codesend_golang) { // Golang
-    imagename = "docker-neo-go";
     code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
   }
   else if(req.body.codesend_java) { // Java
-    imagename = "docker-java-neo-compiler";
     code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
   }
   else if(req.body.codesend_cs) { // C#
-    imagename = req.body.csharp_compilers_versions;
     code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
   }
 

@@ -8,15 +8,18 @@ The idea is to follow the semantic versioning format for the releases (MAJOR-MIN
 - The FIX number will be used when specific fixes are made on a previously launched release (but we intend to keep moving on the mainline, so do not be too much left behind :D)
 
 ### Release information
-Current development version is 3.0-dev, so a new major version is coming out with very good things :) The directions we are following now are:
+Current development version is 3.0, so a new major version is coming out with very good things :) The directions we are following now are:
 - Further separation of NeoCompiler Eco components (but still keeping them integrated in a single repository)
-- Deprecating neo-python support. This decision was hard because we are using it since the beggining of the project and it definitely helped a lot! But it's time to move on and get more and more features directly on web client.
+- Deprecating neo-python support. This decision was hard because we are using it since the beginning of the project and it definitely helped a lot! But it's time to move on and get more and more features directly on web client.
 - We also plan to release desktop versions of the tool (perhaps Windows, Mac and Linux if we are fast enough)
 - More embedded examples for all supported programming languages
 - Full integration with neon-opt project (when it's ready), so compiled AVM will be automatically optimized
 - Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
 
 ### [3.0] - ?
+- adding support for multi version compilers
+- adding support for multisig send and claim via javascript, using some tools from NeonJS 3.10.0
+- deprecated genesis block via neo-python
 - created a webchat on gitter
 - separating neo-cli nodes in different containers
 - updated npm to 6.3.0

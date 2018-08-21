@@ -93,6 +93,8 @@ We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker doc
 * Deepin users can follow Ubuntu instructions and use `artful` (Ubuntu 17.10) repository:
 `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"`
 
+Adding user to docker group: `sudo usermod -a -G docker $USER`
+
 # Build everything
 
 The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.

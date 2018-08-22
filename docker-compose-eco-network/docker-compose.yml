@@ -180,6 +180,12 @@ services:
       - "5432:5432"
     depends_on:
       - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
+      - eco-neo-python-rest-running
     environment:
       POSTGRES_DB: neoscan_prodv
       POSTGRES_USER: postgres

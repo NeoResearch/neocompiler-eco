@@ -74,9 +74,12 @@ We need docker-compose version 1.19.0 (or more), so we recommend the following s
 
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
 
-`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o` `/usr/local/bin/docker-compose`
+`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o /usr/local/bin/docker-compose`
+
 `chmod +x /usr/local/bin/docker-compose`
+
 `echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
+
 `source ~/.bashrc`
 
 ### Docker recommendations
@@ -88,14 +91,20 @@ We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker doc
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository):
 
 `sudo apt-get install apt-transport-https ca-certificates curl software-properties-common gnupg2`
+
 `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
+
 `sudo apt-key fingerprint 0EBFCD88`
+
 `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`
+
 `sudo apt update`
+
 `sudo apt install docker-ce`
 
-* Deepin users can follow Ubuntu instructions and use `artful` (Ubuntu 17.10) repository:
-`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu artful stable"`
+* Deepin users can follow Ubuntu instructions and use `bionic` (Ubuntu 18.04) repository:
+`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"`
+- `sudo apt install apparmor=2.12-4ubuntu5` (the official `2.12-4` version was denying network access to docker)
 
 Adding user to docker group: `sudo usermod -a -G docker $USER`
 

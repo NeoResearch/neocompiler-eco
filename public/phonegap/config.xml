@@ -3,10 +3,10 @@
     xmlns:gap   = "http://phonegap.com/ns/1.0"
     xmlns:android = "http://schemas.android.com/apk/res/android"
     id          = "com.phonegap.neocompiler"
-    versionCode = "1"
-    version     = "v1.0" >
+    versionCode = "3"
+    version     = "v3.0Beta" >
 
-   <icon src="images/prototype-icon-eco.png" />
+   <icon src="public/images/prototype-icon-eco.png" />
 
 <!-- versionCode is optional and Android only -->
 

@@ -1,6 +1,7 @@
 /* Some Global Variables  */
 
 var refreshIntervalId = 0;
+var ALLOW_NOTIFICATIONS_ALERTS = true;
 
 var KNOWN_ADDRESSES = [];
 //Template

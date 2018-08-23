@@ -15,6 +15,10 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ### Suggestions
 
+#### Browsers/Devices
+
+* Tested with Firefox Quantum - 61.0.1
+
 #####  The current front-end interface can be acessed from:
 *  [https://neocompiler.io](https://neocompiler.io)
 * [http://neocompiler-eco.neoresearch.io](http://neocompiler-eco.neoresearch.io) - Provided as http by GitHub in order to allow easy interaction with other services of the Neo Blockchain ecosystem;

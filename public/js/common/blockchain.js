@@ -335,7 +335,7 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
            createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);
     })
     .catch(e => {
-        createNotificationOrAlert("SendTX", "Transaction sent failed!", 5000);
+        createNotificationOrAlert("SendTX", "Transfer transaction has failed!", 5000);
         console.log(e)
     })
 }
@@ -363,7 +363,7 @@ function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
            createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
     })
     .catch(e => {
-        createNotificationOrAlert("ClaimTX", "Transaction sent failed!", 5000);
+        createNotificationOrAlert("ClaimTX", "Claim transaction has failed!", 5000);
         console.log(e)
     })
 }
@@ -559,7 +559,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
   }).catch(err => {
      console.log(err);
-     createNotificationOrAlert("Invoke ERROR","Response: " + err, 5000);
+     createNotificationOrAlert("Invoke ERROR","Response: " + err, 7000);
   });
 
   document.getElementById('divNetworkRelayed').scrollIntoView();
@@ -635,8 +635,9 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
   document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
-function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
+function createNotificationOrAlert(notifyTitle, notifyBody, notificationTimeout)
 {
+    if(ALLOW_NOTIFICATIONS_ALERTS){
 	  var permission = (Notification.permission === "granted");
      	  if (!permission) {
           	//alert(Notification.permission);
@@ -644,17 +645,22 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 	  	Notification.requestPermission();
 	  }
 
+	  var options = {
+	      body: notifyBody,
+	      icon: 'public/images/prototype-icon-eco.png'
+	  }
+
 	  if(Notification.permission === "granted"){
-		var notification = new Notification(notifyTitle, {
-			icon: 'public/images/prototype-icon-eco.png',//'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-		  	body: notifyBody,
-	  	});
-	 	setTimeout(function() {notification.close.bind(notification)}, notifyTime);
+		var n = new Notification(notifyTitle, options);
+	 	setTimeout(function() {n.close.bind(n)}, notificationTimeout);
 	  } else {
-		//For browser that do not allow notifications
-		//alert(notifyTitle + " : " + notifyBody);
+		//For devices that do not allow notifications
           	alert(notifyTitle + " : " + notifyBody);
 	  }
+     }else
+     {
+	console.log(notifyTitle + " : " + notifyBody);
+     }
 }
 
 function getStorage( scripthashContext, key, url )

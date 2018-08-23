@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y msbuild
 #xxd decoder for hex to binary
 RUN apt-get -y install xxd
 
+ARG commit
+
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
 RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout $commit)
 RUN (cd /neo-compiler/neon && dotnet restore)

@@ -9,10 +9,11 @@ RUN apt-get update && apt-get install -y msbuild
 #xxd decoder for hex to binary
 RUN apt-get -y install xxd
 
-ARG commit
+ARG commitNeoCompiler
+ARG commitDevpackDotnet
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
-RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout $commit)
+RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout $commitNeoCompiler)
 RUN (cd /neo-compiler/neon && dotnet restore)
 RUN (cd /neo-compiler/neon && msbuild /p:Configuration=Release)
 RUN (cd /neo-compiler/neon && dotnet publish)
@@ -24,7 +25,7 @@ COPY NeoContractTeste /tmp/
 RUN cp /neo-compiler/neon/bin/Release/netcoreapp2.0/* /tmp/NeoContract1/bin/Release/
 
 #Adding latest Neo.SmartContract.TargetFramework
-RUN git clone https://github.com/neo-project/neo-devpack-dotnet.git
+RUN git clone https://github.com/neo-project/neo-devpack-dotnet.git && (cd /neo-devpack-dotnet && git checkout $commitDevpackDotnet)
 RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && dotnet restore)
 RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && msbuild /p:Configuration=Release)
 RUN mkdir -p /tmp/packages/Neo.SmartContract.Framework-latest/lib/net40

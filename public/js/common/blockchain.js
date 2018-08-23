@@ -140,6 +140,29 @@ function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
 	return currentInvocationScript;
 }
 
+function getContractState(contractScriptHash, message){
+            console.log("formating as json for RPC request...");
+            requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getcontractstate\", \"params\": [\""+contractScriptHash+"\"] }";
+            console.log(requestJson);
+
+            console.log("SENDING TO"+BASE_PATH_CLI);
+            $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                requestJson, // Serializes form data in standard format
+                function (resultJsonData) {
+                   console.log(resultJsonData);
+                   if(resultJsonData.result)
+                   {
+		   	createNotificationOrAlert("CONTRACT EXISTS", "code_version: " + resultJsonData.result.code_version +  " name:" + resultJsonData.result.name, 3000);
+		   }else
+			createNotificationOrAlert("CONTRACT NOT FOUND YET", "CODE: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 3000);
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+		createNotificationOrAlert("CONTRACT STATE", "failed to pass request to RPC network!", 3000);
+            }); //End of POST for search
+}
+
 
 function sendRawTXToTheRPCNetwork(wtx){
             console.log("formating as json for RPC request...");
@@ -155,15 +178,15 @@ function sendRawTXToTheRPCNetwork(wtx){
                    if(resultJsonData.result)
                    {
 			   if(typeof(resultJsonData.result) == "boolean") // 2.X
-		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 2000);
+		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
 			   else // 3.X
-		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 2000);
+		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 5000);
 		   }else
-			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 2000);
+			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 5000);
                 },
                 "json" // The format the response should be in
             ).fail(function() {
-                alert("failed to pass transaction to network!");
+		createNotificationOrAlert("RPCRawTX", "failed to pass transaction to network!", 5000);
             }); //End of POST for search
 }
 
@@ -307,12 +330,12 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
         //console.log("network:"+networkToCall);
         console.log(res.response);
         if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("SendTX", res.response.result, 2000);
+           createNotificationOrAlert("SendTX", res.response.result, 5000);
         else // 3.X
-           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 2000);
+           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);
     })
     .catch(e => {
-        console.log("Transaction send failed!");
+        createNotificationOrAlert("SendTX", "Transaction sent failed!", 5000);
         console.log(e)
     })
 }
@@ -335,11 +358,12 @@ function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
         //console.log("network:"+networkToCall);
         console.log(res.response)
         if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("ClaimTX", res.response.result, 2000);
+           createNotificationOrAlert("ClaimTX", res.response.result, 5000);
         else // 3.X
-           createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 2000);
+           createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
     })
     .catch(e => {
+        createNotificationOrAlert("ClaimTX", "Transaction sent failed!", 5000);
         console.log(e)
     })
 }
@@ -429,6 +453,8 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 
   console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
 
+  //Notify user if contract exists
+  getContractState(contract_scripthash);
   if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
   {
 	alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
@@ -445,7 +471,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
   if(neo > 0 && gas == 0)
   	intent = Neon.api.makeIntent({NEO:neo}, toBase58(contract_scripthash))
 
-   console.log(intent);
+   //console.log(intent);
 
 /*
    export const createScript = (...scriptIntents) => {
@@ -520,9 +546,9 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
     //console.log(res.tx.hash);
 
     if(typeof(res.response.result) == "boolean") // 2.X
-         createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 2000);
+         createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 7000);
     else // 3.X
-         createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 2000);
+         createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 7000);
 
     if(res.response.result) {
       if(typeof(res.response.result) == "boolean") // 2.X
@@ -533,7 +559,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
   }).catch(err => {
      console.log(err);
-     createNotificationOrAlert("Invoke ERROR","Response: " + err, 2000);
+     createNotificationOrAlert("Invoke ERROR","Response: " + err, 5000);
   });
 
   document.getElementById('divNetworkRelayed').scrollIntoView();
@@ -548,9 +574,20 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
 
+
     if(contract_script == "")
     {
-    	alert("empty contract_script");
+	alert("ERROR (DEPLOY): Empty script (avm)!");
+    	return;
+    }
+
+    var contract_scripthash = getScriptHashFromAVM(contract_script);
+
+    //Notify user if contract exists
+    getContractState(contract_scripthash);
+    if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
+    {
+	alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
     	return;
     }
 
@@ -579,9 +616,9 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
       	console.log(res);
 
      if(typeof(res.response.result) == "boolean") // 2.X
-       createNotificationOrAlert("Deploy","Response: " + res.response.result, 2000);
+       createNotificationOrAlert("Deploy","Response: " + res.response.result, 7000);
      else  // 3.X
-       createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 2000);
+       createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
     if(res.response.result) {
       if(typeof(res.response.result) == "boolean") // 2.X
@@ -592,7 +629,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 
     }).catch(err => {
      	console.log(err);
-	createNotificationOrAlert("Deploy ERROR","Response: " + err, 2000);
+	createNotificationOrAlert("Deploy ERROR","Response: " + err, 5000);
   });
 
   document.getElementById('divNetworkRelayed').scrollIntoView();
@@ -603,7 +640,7 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 	  var permission = (Notification.permission === "granted");
      	  if (!permission) {
           	//alert(Notification.permission);
-            //console.log(Notification.permission);
+                //console.log(Notification.permission);
 	  	Notification.requestPermission();
 	  }
 
@@ -612,19 +649,12 @@ function createNotificationOrAlert(notifyTitle, notifyBody, notifyTime)
 			icon: 'public/images/prototype-icon-eco.png',//'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
 		  	body: notifyBody,
 	  	});
-	 	setTimeout(function() {notification.close()}, notifyTime);
+	 	setTimeout(function() {notification.close.bind(notification)}, notifyTime);
 	  } else {
 		//For browser that do not allow notifications
 		//alert(notifyTitle + " : " + notifyBody);
           	alert(notifyTitle + " : " + notifyBody);
 	  }
-}
-
-
-function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txParams)
-{
-	   vecRelayedTXs.push({tx:relayedTXID, txType:actionType, txScriptHash:txScriptHash, txParams:txParams});
-           drawRelayedTXs();
 }
 
 function getStorage( scripthashContext, key, url )
@@ -645,45 +675,3 @@ function CreateRawTx( rawData ){
   console.log(response);
 }
 */
-
-// =============================================
-//First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
-function neonJSPlayground(){
-  var NeonA = Neon.default
-  const query = Neon.default.create.query()
-  var wallet = Neon.wallet
-  console.log("query: " + query)
-  console.log("wallet: " + wallet)
-  var tx = Neon.tx
-  console.log("tx: " + tx)
-  let tx2 = Neon.default.create.tx({type: 128})
-  console.log("tx2: " + tx2)
-
-  balance = Neon.api.neoscan.getBalance('PrivateNet', "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y")
-  .then(res => console.log(res))
-
-
-  const intent = Neon.api.makeIntent({NEO:1,GAS:1000}, 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y')
-  console.log(intent) // This is an array of 2 Intent objects, one for each asset
-  const configTest = {
-    net: 'PrivateNet', // The network to perform the action, MainNet or TestNet.
-    url: BASE_PATH_CLI,
-    address: 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',  // This is the address which the assets come from.
-    privateKey: 'KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr',
-    intents: intent
-  }
-
-  Neon.default.sendAsset(configTest)
-  .then(res => {
-    console.log(res.response)
-  })
-  .catch(e => {
-    console.log(e)
-  })
-
-  const sb = Neon.default.create.scriptBuilder()
-
-  //sb.emitAppCall('35816a2b6f823a28aa6674ca56c28862fe419f8', 'name')
-  //const tx3 = Neon.default.create.invocationTx('KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr', {}, {}, sb.str, 0)
-}//END First examples of using Neon-JS in connection with neo-scan for broadcasting to private net RPC clients
-// =============================================

@@ -384,8 +384,7 @@ function updateInfoOfAllKnownAdresses(){
 
 		    if(KNOWN_ADDRESSES[ka].owners === '')
 		    	KNOWN_ADDRESSES[ka].owners = getAddressBase58FromMultiSig(KNOWN_ADDRESSES[ka].verificationScript);
-
-		   console.log(KNOWN_ADDRESSES[ka].owners);
+		    //console.log(KNOWN_ADDRESSES[ka].owners);
 		}
           }
 }

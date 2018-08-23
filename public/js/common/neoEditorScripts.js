@@ -53,19 +53,19 @@
 
         if($("#csharpcode.tab-pane.active.cont").length != 0) {
             updateCompilersSelectionBox("docker-mono-neo-compiler");
-            console.log("C# Compile");
+            //console.log("C# Compile");
         }
         if($("#pythoncode.tab-pane.active.cont").length != 0) {
             updateCompilersSelectionBox("docker-neo-boa");
-            console.log("Python Compile");
+            //console.log("Python Compile");
         }
         if($("#golangcode.tab-pane.active.cont").length != 0) {
             updateCompilersSelectionBox("docker-neo-go");
-            console.log("Golang Compile");
+            //console.log("Golang Compile");
         }
         if($("#javacode.tab-pane.active.cont").length != 0) {
             updateCompilersSelectionBox("docker-java-neo-compiler");
-            console.log("Java Compile");
+            //console.log("Java Compile");
         }
 
     });
@@ -666,7 +666,16 @@
     }//Finishe DrawRules function
    //===============================================================
 
-  //===============================================================
+   //===============================================================
+   //Update vector of relayed txs
+   function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txParams)
+   {
+	   vecRelayedTXs.push({tx:relayedTXID, txType:actionType, txScriptHash:txScriptHash, txParams:txParams});
+           drawRelayedTXs();
+   }
+   //===============================================================
+
+   //===============================================================
    //Call app log
    function callAppLog(txID){
       if(txID < vecRelayedTXs.length && txID > -1)
@@ -682,7 +691,7 @@
         alert("Cannot get log of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
    }
-   //===============================================================
+  //===============================================================
 
   //===============================================================
    //Restore tx

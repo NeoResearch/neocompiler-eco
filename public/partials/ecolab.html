@@ -142,7 +142,7 @@
                     </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">BigInteger -> Big Endian ByteArray</div>
+                        <div class="panel-heading">BigInteger <-> Big Endian ByteArray</div>
                         <div class="panel-body">
                             <form id="convert_bigint_to_bytearray">
                               <div class="row">
@@ -155,7 +155,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="convert_bytearray">Big Endian ByteArray</label>
-                                    <input id="convert_bytearray" class="form-control" placeholder="Big Endian ByteArray" readonly />
+                                    <input id="convert_bytearray" class="form-control" placeholder="Big Endian ByteArray" oninput="conv_bebytearray2bigint()" />
                                   </div>
                                 </div>
                               </div>
@@ -1634,6 +1634,13 @@ def Main():
            valbigint = Number($('#convert_bigint')[0].value);
            //console.log("converting int:"+valbigint);
            $('#convert_bytearray')[0].value = bigint2bebytearray(valbigint);
+        }
+
+        function conv_bebytearray2bigint()
+        {
+           vbytearray = $('#convert_bytearray')[0].value;
+           //console.log("converting int:"+valbigint);
+           $('#convert_bigint')[0].value = ""+behex2bigint(vbytearray);
         }
 
         function scripthash2address()

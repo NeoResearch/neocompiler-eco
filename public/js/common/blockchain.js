@@ -43,7 +43,7 @@ function getPubKeysFromMultiSig(verificationScript)
 	while(nextPKeyIndex != -1)
 	{
 		pKeyNBytes=33;
-		//get the pKeyNBytes opcodes 
+		//get the pKeyNBytes opcodes
 		nextPKey = verificationScript.substr(nextPKeyIndex+2,pKeyNBytes*2)
         	jssonArrayWithPubKey.push({pubKey: nextPKey});
 
@@ -57,7 +57,7 @@ function getPubKeysFromMultiSig(verificationScript)
 	nSignatures = verificationScript.substr(1, nObtainedSignatures.length)
 	if(nSignatures != nObtainedSignatures)
 		alert("Error on number of signatures at getPubKeysFromMultiSig!");
-	
+
 	//console.log(arrayPubKey);
 	return jssonArrayWithPubKey;
 }
@@ -92,10 +92,10 @@ function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
 				jsonWithOrderedSignatures.push({privKey: nextSignature});
 				break;//exit while
 			}
-			nextSignatureIndex = currentInvocationScript.indexOf(40);			
+			nextSignatureIndex = currentInvocationScript.indexOf(40);
 		}
 	}
-	
+
 	console.log(jsonWithOrderedSignatures);
 
 	//=====================================================
@@ -198,7 +198,7 @@ function getMultiSigPrivateKeys(multiSigIndex){
 		{
 			privateKeyToGet = getWifIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].addressBase58);
 			if(privateKeyToGet!=-1)
-				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});	
+				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});
 		}
 	    }else
 		alert("Index" + multiSigIndex + " is not a multisig address! getMultiSigPrivateKeys");
@@ -214,7 +214,7 @@ function genesisBlockTransfer(genesisAddress, newOwner){
 	console.log("Inside Genesis Block Transfers");
 	//Verification on the front-end if wallets already have funds, then, skip transfer
 	console.log("newOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
-	newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner)).val();	
+	newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner)).val();
 	newOwnerGasBalance = $("#walletGas" + searchAddrIndexFromBase58(newOwner)).val();
 	console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
 	console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
@@ -431,7 +431,7 @@ function pushParams(neonJSParams, type, value){
 	      if((typeof(value) == "string") && (Number(value).toString() != value))
 		 value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
 	      if(Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
-		 neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2hex(value)));
+		 neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2behex(value)));
 	      else
 	   	 neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
       //console.log("INTEGER="+value+" -> "+Number(value));

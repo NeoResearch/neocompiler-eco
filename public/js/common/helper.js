@@ -24,29 +24,63 @@ function elipsisMiddle(str) {
   return str;
 }
 
+// javascript big integer to big-endian byte array (C# representation)
 function bigint2bebytearray(bigint) {
    if(bigint >= 0){
       bihex = bigint.toString(16);
       if(bihex.length % 2 == 1)
          bihex = "0"+bihex;
-      return revertHexString("00"+bihex);
+      return revertHexString("00"+bihex); // '00' only really necessary in a few cases... TODO: improve that
    }
    else
-      return negbigint2hex(bigint);
+      return negbigint2behex(bigint);
 }
 
-function int2hex(intvalue, mindigits = 2) {
+
+// integer to string hex array with default padding = 2 (10 => 'a' => '0a')
+function int2hex(intvalue, padding = 2) {
   if(intvalue < 0)
      intvalue = 0;
   hval = intvalue.toString(16);
-  while(hval.length < mindigits)
+  while(hval.length < padding)
      hval = "0"+hval;
   return hval;
 }
+// behex2bigint($('#convert_bytearray')[0].value)
+// big endian hex string converted to javascript big integer
+function behex2bigint(behex) {
+  x = behex;
+  // if needs padding
+  if(x.length % 2 == 1)
+    x = '0'+x;
+  // check negative bit
+  y = x.slice(x.length-2,x.length+2);
+  //console.log("base="+y);
+  // detect negative values
+  bitnum = parseInt(y, 16).toString(2);
+  //console.log("bitnum="+bitnum);
+  // -1389293829382
+  if((bitnum.length == 8) && (bitnum[0]=="1")) {
+    // negative number
+      //console.log("negative!");
+      //console.log(behex);
+      rbitnum = parseInt(revertHexString(behex),16).toString(2);
+      // negate bits
+      y2 = "";
+      for(i = 0; i<rbitnum.length; i++)
+         y2 += rbitnum[i]=='0'?'1':'0';
+      finalnum = -1*(parseInt(y2, 2) + 1);
+      return finalnum;
+  }
+  else {
+    // positive number: positive is easy, just revert and convert to int (TODO: beware javascript natural precision loss)
+    return parseInt(revertHexString(behex), 16);
+  }
+}
 
-// negative big integers represented as hex
+// negative big integers returned as (big-endian) hex
 // TODO: use it to create javascript class csBigInteger (C# Big Integer)
-function negbigint2hex(intvalue) {
+function negbigint2behex(intvalue) {
    if(intvalue >= 0) // ONLY NEGATIVE!
       return null;
    x = intvalue;
@@ -110,7 +144,7 @@ function negbigint2hex(intvalue) {
    y5 = parseInt(y4,2).toString(16);
    // adjust padding
 
-   return revertHexString(y5);
+   return revertHexString(y5); // big endian
 }
 
 function uint2bytes(intvalue) {

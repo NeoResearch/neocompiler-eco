@@ -60,16 +60,22 @@
                         <div class="panel-body">
                             <form id="str2hash">
                               <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                   <div class="form-group">
                                     <label for="strhex_str">String</label>
                                     <input id="strhex_str" class="form-control" placeholder="String" oninput="str2hex()"/>
                                   </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                   <div class="form-group">
                                     <label for="strhex_hex">Hex</label>
                                     <input id="strhex_hex" class="form-control" placeholder="Hex" oninput="hex2str()"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="form-group">
+                                    <label for="hex_length">Length (in bytes)</label>
+                                    <input id="hex_length" class="form-control" placeholder="Length (in bytes)" readonly/>
                                   </div>
                                 </div>
                               </div>
@@ -156,6 +162,40 @@
                                   <div class="form-group">
                                     <label for="convert_bytearray">Big Endian ByteArray</label>
                                     <input id="convert_bytearray" class="form-control" placeholder="Big Endian ByteArray" oninput="conv_bebytearray2bigint()" />
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Hex String -> Hash</div>
+                        <div class="panel-body">
+                            <form id="convert_string_to_hash">
+                              <div class="row">
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="convert_string_hash">Hex String</label>
+                                    <input id="convert_string_hash" class="form-control" placeholder="Input String to Hash" oninput="conv_string_hash()"/>
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="convert_string_hash160">Hash160 (scripthash format)</label>
+                                    <input id="convert_string_hash160" class="form-control" placeholder="Hash160 (Sha256 Ripemd160)" readonly />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="convert_string_sha256">Sha256</label>
+                                    <input id="convert_string_sha256" class="form-control" placeholder="Sha256" readonly />
+                                  </div>
+                                </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label for="convert_string_hash256">Hash256</label>
+                                    <input id="convert_string_hash256" class="form-control" placeholder="Hash256 (Sha256 Sha256)" readonly />
                                   </div>
                                 </div>
                               </div>
@@ -1599,14 +1639,17 @@ def Main():
         function str2hex() {
             var i = 0;
             $("#strhex_hex").val(Neon.u.str2hexstring($("#strhex_str").val()));
+            $("#hex_length").val(($("#strhex_hex").val().length/2).toString());
         };
 
         function hex2str() {
             $("#strhex_str").val(Neon.u.hexstring2str($("#strhex_hex").val()));
+            $("#hex_length").val(($("#strhex_hex").val().length/2).toString());
         };
 
         function hex2xeh() {
             $("#hexxeh_xeh").val( revertHexString($("#hexxeh_hex").val()) );
+            $("#hex_length").val($("#strhex_hex").val().length.toString());
         };
 
         function xeh2hex() {
@@ -1628,6 +1671,14 @@ def Main():
           if( $("#address").val() == "" ) return;
           $("#scripthash").val( fromBase58($("#address").val()) );
         }
+
+        function conv_string_hash()
+        {
+           $("#convert_string_hash256")[0].value = Neon.u.hash256($("#convert_string_hash")[0].value);
+           $("#convert_string_hash160")[0].value = Neon.u.hash160($("#convert_string_hash")[0].value);
+           $("#convert_string_sha256")[0].value  = Neon.u.sha256($("#convert_string_hash")[0].value);
+        }
+
 
         function conv_bigint2bebytearray()
         {

@@ -12,12 +12,5 @@ if { $rpcFlag == "callRPC" } {
 	spawn dotnet neo-cli.dll --log
 }
 
-expect "neo>"
-send "open wallet $wallet\n"
-expect "password:"
-send "$password\n"
-expect "neo>"
-send "start consensus\n"
 expect "OnStart"
-#expect "LIVEFOREVER"
 interact

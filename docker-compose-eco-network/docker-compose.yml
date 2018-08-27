@@ -22,6 +22,7 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./logs-neocli-node1:/opt/node/neo-cli/Logs
+#      - ./${CHAIN}:/opt/node/neo-cli/${CHAIN}
     environment:
       IS_CONSENSUS: 1
       RPC_SERVER: callRPC

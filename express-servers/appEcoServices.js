@@ -40,7 +40,19 @@ app.post('/getvars', function(req, res){
   res.send('{"commit":"'+process.env.COMMIT_GIT_VERSION+'"}');
 });
 
+function isInt(value) {
+  var x = parseFloat(value);
+  return !isNaN(value) && (x | 0) === x;
+}
+
 app.get('/statusnode/:node', function(req, res) {
+
+  if(!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4 )
+  {
+	 console.log("Someone is doing something crazy. Compiler does not exist.");
+	 res.send("This is not a valid node parameter");
+  }
+
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   var cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-node'+req.params.node+'/*.log | tail -n 500';
   console.log("cmddocker is " + cmddocker);

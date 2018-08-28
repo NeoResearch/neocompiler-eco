@@ -43,8 +43,8 @@ echo $IP_SERVER2 >> /testes.log
 echo $IP_SERVER3 >> /testes.log
 echo $IP_SERVER4 >> /testes.log
 
+#Since files provided by docker-compose are shared locally it is better to copy before changing
 cp /opt/node/neo-cli/protocolNeoCompiler.json /opt/node/neo-cli/protocol.json
-cp /opt/node/neo-cli/wallet${NUMBER_SERVER}.json /opt/node/neo-cli/wallet.json
 
 sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/neo-cli/protocol.json
 sed -i -e "s/eco-neo-csharp-node2-running/$IP_SERVER2/g" /opt/node/neo-cli/protocol.json
@@ -59,13 +59,8 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 #	sleep 1
 #fi
 
-if (($IS_CONSENSUS)); then
-	echo "LAUNCHING neo-cli Consensus Node$NUMBER_SERVER (with param RPC_SERVER=$RPC_SERVER)";
-	screen -L -dmS node$NUMBER_SERVER expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet.json $WALLET_PWD_SERVER $RPC_SERVER
-else
-	echo "LAUNCHING neo-cli RPC node${NUMBER_SERVER}RPC";
-	screen -L -dmS node${NUMBER_SERVER}RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/
-fi
+echo "LAUNCHING neo-cli node$NUMBER_SERVER with params: IS_CONSENSUS=$IS_CONSENSUS, IS_RPC=$IS_RPC";
+screen -L -dmS node${NUMBER_SERVER} /opt/start_node.sh
 
 service cron restart
 

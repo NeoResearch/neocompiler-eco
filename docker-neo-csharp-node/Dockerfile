@@ -19,9 +19,8 @@ RUN unzip -q -d /opt/node /opt/neo-cli.zip
 #Script used to start nodes on screen sessions
 ADD ./scripts/run.sh /opt/
 
-#Script used to open a wallet and start a neo-cli consensus
-ADD ./scripts/start_consensus_node.sh /opt/
-ADD ./scripts/start_rpc_node.sh /opt/
+#Script used to simple start RPC
+ADD ./scripts/start_node.sh /opt/
 
 #Script used to modify neo-csharp-nodes characteristcs and parameters - TODO - Recreate - not working after nodes split
 #ADD ./scripts/updateConsensusCharacteristics.sh /opt/

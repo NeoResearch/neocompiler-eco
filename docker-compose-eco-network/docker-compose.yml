@@ -13,8 +13,6 @@ services:
     ports: # config1.json
       - "20333:20333"
       - "30333:30333"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
@@ -25,9 +23,8 @@ services:
 #      - ./${CHAIN}:/opt/node/neo-cli/${CHAIN}
     environment:
       IS_CONSENSUS: 1
-      RPC_SERVER: callRPC
+      IS_RPC: 1
       NUMBER_SERVER: 1
-      WALLET_PWD_SERVER: one
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -37,8 +34,6 @@ services:
     container_name: "eco-neo-csharp-node2-running"
     ports: #config2.json
       - "20334:20334"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
@@ -48,9 +43,8 @@ services:
       - ./logs-neocli-node2:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      RPC_SERVER: 0
+      IS_RPC: 0
       NUMBER_SERVER: 2
-      WALLET_PWD_SERVER: two
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -60,8 +54,6 @@ services:
     container_name: "eco-neo-csharp-node3-running"
     ports: #config3.json
       - "20335:20335"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
@@ -71,9 +63,8 @@ services:
       - ./logs-neocli-node3:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      RPC_SERVER: 0
+      IS_RPC: 0
       NUMBER_SERVER: 3
-      WALLET_PWD_SERVER: three
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -83,8 +74,6 @@ services:
     container_name: "eco-neo-csharp-node4-running"
     ports: #config4.json
       - "20336:20336"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
@@ -94,9 +83,8 @@ services:
       - ./logs-neocli-node4:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      RPC_SERVER: 0
+      IS_RPC: 0
       NUMBER_SERVER: 4
-      WALLET_PWD_SERVER: four
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -107,8 +95,6 @@ services:
     ports: #config1RPC.json
       - "20337:20337"
       - "30337:30337"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
@@ -118,7 +104,8 @@ services:
       - eco-neo-csharp-node1-running
     environment:
       IS_CONSENSUS: 0
-      NUMBER_SERVER: 1
+      IS_RPC: 1
+      NUMBER_SERVER: 5
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -129,8 +116,6 @@ services:
     ports: #config2RPC.json
       - "20338:20338"
       - "30338:30338"
-    networks:
-      - consensus-net
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2RPC.json:/opt/node/neo-cli/config.json
@@ -140,7 +125,8 @@ services:
       - eco-neo-csharp-node1-running
     environment:
       IS_CONSENSUS: 0
-      NUMBER_SERVER: 2
+      IS_RPC: 1
+      NUMBER_SERVER: 6
     cap_add:
       - NET_ADMIN
       - NET_RAW
@@ -164,8 +150,6 @@ services:
       NEO_SEED_3: "http://eco-neo-csharp-noderpc2-running:30338"
       NEO_SEED_4: "http://eco-neo-csharp-node1-running:30333"
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
-    networks:
-      - consensus-net
     links:
       - eco-neo-scan-postgresql-running:postgres
     depends_on:
@@ -175,8 +159,6 @@ services:
   eco-neo-scan-postgresql-running:
     image: postgres:10.1
     container_name: "eco-neo-scan-postgresql-running"
-    networks:
-      - consensus-net
     ports:
       - "5432:5432"
     depends_on:
@@ -202,8 +184,6 @@ services:
     ports:
       - "8080:8080"
     command: /bin/bash /opt/start_neopython_rest.sh
-    networks:
-      - consensus-net
     environment:
       - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
     depends_on:
@@ -222,8 +202,6 @@ services:
   eco-neo-python-logger-running:
     image: eco-neo-python:latest
     container_name: "eco-neo-python-logger-running"
-    networks:
-      - consensus-net
     command: /bin/bash /opt/callPythonLogger.sh  #openPythonWallet.sh
     environment:
       - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
@@ -241,10 +219,6 @@ services:
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
 # ================================================================================
 
-# ================= CONSENSUS NETWORK ================
-networks: # do not belong to 'services' section!
-  consensus-net:
-    driver: bridge
 # ================================================================================
 # ======================= THANKS FOR CREATING ME =================================
 # ================================================================================

@@ -44,10 +44,10 @@
             <li>
               <div class="col-sm-1">
                 <div class="row">
-                  <span id="nodeRestHeader" class="label label-info"></span>
+                  <span id="nodeRPCHeader" class="label label-info"></span>
                 </div>
                 <div class="row">
-                  <span id="nodeRPCHeader" class="label label-info"></span>
+                  <span id="nodeRestHeader" class="label label-info"></span>
                 </div>
               </div>
             </li>
@@ -95,15 +95,15 @@
         var date = new Date(data['timeleft']);
         var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
         var tLeft = dateGMT0.toTimeString();
-        var output = "Reset: " + tLeft.substring(0, 8);
+        var output = "Time left: " + tLeft.substring(0, 8);
         $("#timeleft")[0].innerHTML=output;
 
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(result2) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(result3) {
             $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
-              $("#nodeRPCHeader")[0].innerHTML = "RPC: " + result2.result.useragent;
-              $("#nodeRPCHeader")[0].innerHTML += " -> H1: " + result3.result;
-              $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + result4.result.length;
+                  $("#nodeRPCHeader")[0].innerHTML = "RPC: " + result2.result.useragent;
+                  $("#nodeRPCHeader")[0].innerHTML += " -> H1: " + result3.result;
+                  $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + result4.result.length;
             }); // mempool
           }); // NEO block count
         }); // NEO useragent

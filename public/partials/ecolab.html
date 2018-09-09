@@ -1861,7 +1861,20 @@ def Main():
           /*block 0*/wtx = "80"; // tx type (1 byte)
           /*block 1*/wtx += "00"; //tx version (1 byte)
 
-          /*block 2*/wtx += "00"; // number of attributes (1 byte)
+          var lattribs   = $("#createtx_attributes")[0].value.trim().split("\n");
+          var numattribs = lattribs.length;
+          if(numattribs > 255) {
+            console.log("WARNING: too many attributes! Limit is 255 (1 byte)")
+            numattribs = 0;
+          }
+
+          /*block 2*/wtx += int2hex(numattribs); //"00"; // number of attributes (1 byte)
+
+          // add attributes
+          for(var i=0; i<numattribs; i++) {
+            console.log("attribute "+i+":"+lattribs[i].substr(0,2));
+            wtx += lattribs[i]; // attribute code (1byte) + data
+          }
 
           outexpected = 0;
           intxlist = $("#createtx_input_utxo2").val();

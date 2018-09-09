@@ -1,4 +1,4 @@
-<div class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
@@ -414,16 +414,26 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_from_contract">From: Wallet/Verification Script in hex</label>
+                                    <label for="createtx_from_contract">From: Verification Script in hex</label>
                                     <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
-                                    <label for="createtx_from_scripthash">Scripthash (readonly)</label>
-                                    <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
-                                    <label for="createtx_from_address">Address (readonly)</label>
-                                    <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label for="createtx_from_scripthash">Scripthash (readonly)</label>
+                                        <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="createtx_from_address">Address (readonly)</label>
+                                        <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                      </div>
+                                    </div>
                                     <label for="createtx_from_verification">Invocation in hex</label>
                                     <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
                                     <label for="createtx_from_verification_opcodes">Invocation script opcodes (readonly)</label>
                                     <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
+                                    <label for="createtx_script_attributes">Script Attributes</label>
+                                    <textarea id="createtx_script_attributes" class="form-control" placeholder="Script Attributes, one per line"/>
+                                    <label for="createtx_attributes">Attributes: 20 Script (20B), 30 Vote, (32B), f0-ff remarks (variable), a1-af hashes (32B)</label>
+                                    <textarea id="createtx_attributes" class="form-control" placeholder="Attributes, one per line"/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -449,8 +459,8 @@
                                   <div class="form-group">
                                     <input type="checkbox" id="createtx_cbx_change" checked>Add change automatically</input><br/>
                                     <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
-                                    <label for="createtx_signature">Signature (Optional)</label>
-                                    <input id="createtx_signature" class="form-control" placeholder="Signature" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
+                                    <label for="createtx_signature">Generate Signature (Optional)</label>
+                                    <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
                                     <!-- document.getElementById("createtx_signature").checkValidity() -->
                                     <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();">Sign</button>
                                     <!-- Neon.wallet.generateSignature -->
@@ -1850,8 +1860,8 @@ def Main():
         function createtx_getWithoutWitness() {
           /*block 0*/wtx = "80"; // tx type (1 byte)
           /*block 1*/wtx += "00"; //tx version (1 byte)
-          /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
-          //TODO: attributes was 0001 (thus, was reduced!?)
+
+          /*block 2*/wtx += "00"; // number of attributes (1 byte)
 
           outexpected = 0;
           intxlist = $("#createtx_input_utxo2").val();

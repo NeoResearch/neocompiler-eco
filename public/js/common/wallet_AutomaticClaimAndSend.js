@@ -399,6 +399,10 @@ function updateAddressSelectionBox(){
       addAllKnownAddressesToSelectionBox("wallet_invokejs");
       addAllKnownAddressesToSelectionBox("wallet_deployjs");
       addAllKnownAddressesToSelectionBox("wallet_info");
+      addAllKnownAddressesToSelectionBox("createtx_to");
+      addAllKnownAddressesToSelectionBox("createtx_from");
+
+
 }
 //===============================================================
 

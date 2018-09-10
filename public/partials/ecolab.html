@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Address <-> ScriptHash</div>
+                        <div class="panel-heading">Address <-> ScriptHash (little endian)</div>
                         <div class="panel-body">
                             <form id="addressscripthash">
                               <div class="row">
@@ -432,7 +432,7 @@
                                     <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
                                     <label for="createtx_script_attributes">Script Attributes</label>
                                     <textarea id="createtx_script_attributes" class="form-control" placeholder="Script Attributes, one per line"/>
-                                    <label for="createtx_attributes">Attributes: 20 Script (20B), 30 Vote, (32B), f0-ff remarks (variable), a1-af hashes (32B)</label>
+                                    <label for="createtx_attributes">Attributes: 20 Script big-end (20B), 30 Vote, (32B), f0-ff remarks (variable), a1-af hashes (32B)</label>
                                     <textarea id="createtx_attributes" class="form-control" placeholder="Attributes, one per line"/>
                                   </div>
                                 </div>
@@ -450,7 +450,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)"/>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 (little endian) \n ScriptHash2 (little endian) \n OriginalScriptHash (For Change)"/>
                                     <label for="createtx_output_addresses">Output/To Values (One per line)</label>
                                     <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
                                   </div>
@@ -2017,7 +2017,9 @@ def Main():
               var otherscript = $("#createtx_script_attributes")[0].value;
               var shash = getScriptHashFromAVM(otherscript);
               lscripthash.push(shash);
-              script_other += "00"; // no invocation
+              script_other += int2hex(0); // no invocation (2 bytes)
+              // script_other += int2hex(1);
+              //script_other += "51";
               script_other +=  uint2bytes(otherscript.length/2);
               script_other += otherscript;
 

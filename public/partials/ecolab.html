@@ -1853,6 +1853,7 @@ def Main():
           }
 
           wtx = createtx_getWithoutWitness();
+          console.log("transaction header: "+wtx);
           //alert('oi'+wtx);
           $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
         }
@@ -1862,18 +1863,34 @@ def Main():
           /*block 1*/wtx += "00"; //tx version (1 byte)
 
           var lattribs   = $("#createtx_attributes")[0].value.trim().split("\n");
+          if(lattribs[0]=="")
+            lattribs.pop();
           var numattribs = lattribs.length;
           if(numattribs > 255) {
             console.log("WARNING: too many attributes! Limit is 255 (1 byte)")
             numattribs = 0;
           }
 
+          console.log("Transaction with "+numattribs+" attributes");
+
           /*block 2*/wtx += int2hex(numattribs); //"00"; // number of attributes (1 byte)
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, probably ATTRIBUTE COUNT!");
+             return;
+          }
 
           // add attributes
           for(var i=0; i<numattribs; i++) {
             console.log("attribute "+i+":"+lattribs[i].substr(0,2));
             wtx += lattribs[i]; // attribute code (1byte) + data
+          }
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, probably SOME ATTRIBUTE!");
+             return;
           }
 
           outexpected = 0;
@@ -1989,31 +2006,85 @@ def Main():
                return;
             }
 
-            /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
-            var hexavmverif = $("#createtx_from_verification").val();
-            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 11*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
-            /*block 12*/wtx += hexavmverif; // invocation script
-            console.log(int2hex(hexavmverif.length/2)+hexavmverif);
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 11/12");
-               console.log("length: "+wtx.length);
-               return;
+
+
+            var lscripthash   = [];
+            lscripthash.push($("#createtx_from_scripthash")[0].value); // IGOR
+
+            var script_other = "";
+
+            if($("#createtx_script_attributes")[0].value.trim().length > 0) { // if hash Script 0x20
+              var otherscript = $("#createtx_script_attributes")[0].value;
+              var shash = getScriptHashFromAVM(otherscript);
+              lscripthash.push(shash);
+              script_other += "00"; // no invocation
+              script_other +=  uint2bytes(otherscript.length/2);
+              script_other += otherscript;
+
+              if(script_other.length%2 == 1)
+              {
+                 console.log("Problems were detected with WTX OTHER SCRIPT");
+                 console.log("length: "+script_other.length);
+                 return;
+              }
             }
+
+            var wtxverif = "";
+
+            var hexavmverif = $("#createtx_from_verification").val(); // invocation
+            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
+            /*block 11*/wtxverif += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
+            /*block 12*/wtxverif += hexavmverif; // invocation script
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 13*/wtx += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
+            /*block 13*/wtxverif += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
             console.log("hexavm is:"+hexavm.length/2 + " with last length:" + uint2bytes(hexavm.length/2));
-            /*block 14*/wtx += hexavm;// verification script
+            /*block 14*/wtxverif += hexavm;// verification script
+
+            if(wtxverif.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX verification!");
+               console.log("length: "+wtxverif.length);
+               return;
+            }
+
+
+            /*block 10*/
+            //if($("#createtx_script_attributes")[0].value.trim().length > 0) // if hash Script 0x20
+            //  wtx += "02"
+            //else
+            //  wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
+            wtx += int2hex(lscripthash.length); // 01 or 02
+
             if(wtx.length%2 == 1)
             {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 13/14");
+               console.log("Problems were detected with WTX lenght, ERROR in WITNESS COUNT");
                console.log("length: "+wtx.length);
                return;
             }
 
+
+            if(lscripthash.length == 1) { // only single witness
+              wtx += wtxverif;
+              console.log("adding verification script: "+wtxverif);
+            } else if(lscripthash.length == 2){
+              // check order
+              if(lscripthash[0] < lscripthash[1]) {
+                 wtx += wtxverif;
+                 wtx += script_other;
+                 console.log("adding verification script: "+wtxverif);
+                 console.log("adding other script: "+script_other);
+                 console.log(lscripthash);
+              }
+              else {
+                wtx += script_other;
+                wtx += wtxverif;
+                console.log("adding verification script: "+wtxverif);
+                console.log("adding other script: "+script_other);
+                console.log(lscripthash);
+              }
+            }
 
             /*block end*/wtx = wtx.toLowerCase();
             console.log(wtx);

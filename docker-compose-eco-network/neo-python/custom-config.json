@@ -36,6 +36,7 @@
     "SslCertPassword": "",
     "BootstrapFile":"",
     "NotificationBootstrapFile":"",
-    "DebugStorage":1
+    "DebugStorage":1,
+    "AcceptIncomingPeers": false
   }
 }

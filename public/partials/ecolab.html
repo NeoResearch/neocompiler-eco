@@ -1,4 +1,4 @@
-<div class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Address <-> ScriptHash</div>
+                        <div class="panel-heading">Address <-> ScriptHash (little endian)</div>
                         <div class="panel-body">
                             <form id="addressscripthash">
                               <div class="row">
@@ -377,16 +377,26 @@
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_from_contract">From: Wallet/Verification Script in hex</label>
+                                    <label for="createtx_from_contract">From: Verification Script in hex</label>
                                     <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
-                                    <label for="createtx_from_scripthash">Scripthash (readonly)</label>
-                                    <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
-                                    <label for="createtx_from_address">Address (readonly)</label>
-                                    <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <label for="createtx_from_scripthash">Scripthash (readonly)</label>
+                                        <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
+                                      </div>
+                                      <div class="col-md-6">
+                                        <label for="createtx_from_address">Address (readonly)</label>
+                                        <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
+                                      </div>
+                                    </div>
                                     <label for="createtx_from_verification">Invocation in hex</label>
                                     <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
                                     <label for="createtx_from_verification_opcodes">Invocation script opcodes (readonly)</label>
                                     <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
+                                    <label for="createtx_script_attributes">Script Attributes</label>
+                                    <textarea id="createtx_script_attributes" class="form-control" placeholder="Script Attributes, one per line"/>
+                                    <label for="createtx_attributes">Attributes: 20 Script big-end (20B), 30 Vote, (32B), f0-ff remarks (variable), a1-af hashes (32B)</label>
+                                    <textarea id="createtx_attributes" class="form-control" placeholder="Attributes, one per line"/>
                                   </div>
                                 </div>
                                 <div class="col-md-6">
@@ -403,7 +413,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 \n ScriptHash2 \n OriginalScriptHash (For Change)"/>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 (little endian) \n ScriptHash2 (little endian) \n OriginalScriptHash (For Change)"/>
                                     <label for="createtx_output_addresses">Output/To Values (One per line)</label>
                                     <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
                                   </div>
@@ -412,8 +422,8 @@
                                   <div class="form-group">
                                     <input type="checkbox" id="createtx_cbx_change" checked>Add change automatically</input><br/>
                                     <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
-                                    <label for="createtx_signature">Signature (Optional)</label>
-                                    <input id="createtx_signature" class="form-control" placeholder="Signature" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
+                                    <label for="createtx_signature">Generate Signature (Optional)</label>
+                                    <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
                                     <!-- document.getElementById("createtx_signature").checkValidity() -->
                                     <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();">Sign</button>
                                     <!-- Neon.wallet.generateSignature -->
@@ -1806,6 +1816,7 @@ def Main():
           }
 
           wtx = createtx_getWithoutWitness();
+          console.log("transaction header: "+wtx);
           //alert('oi'+wtx);
           $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
         }
@@ -1813,8 +1824,37 @@ def Main():
         function createtx_getWithoutWitness() {
           /*block 0*/wtx = "80"; // tx type (1 byte)
           /*block 1*/wtx += "00"; //tx version (1 byte)
-          /*block 2*/wtx += "00"; // number of attributes (4bytes) can be reduced
-          //TODO: attributes was 0001 (thus, was reduced!?)
+
+          var lattribs   = $("#createtx_attributes")[0].value.trim().split("\n");
+          if(lattribs[0]=="")
+            lattribs.pop();
+          var numattribs = lattribs.length;
+          if(numattribs > 255) {
+            console.log("WARNING: too many attributes! Limit is 255 (1 byte)")
+            numattribs = 0;
+          }
+
+          console.log("Transaction with "+numattribs+" attributes");
+
+          /*block 2*/wtx += int2hex(numattribs); //"00"; // number of attributes (1 byte)
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, probably ATTRIBUTE COUNT!");
+             return;
+          }
+
+          // add attributes
+          for(var i=0; i<numattribs; i++) {
+            console.log("attribute "+i+":"+lattribs[i].substr(0,2));
+            wtx += lattribs[i]; // attribute code (1byte) + data
+          }
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, probably SOME ATTRIBUTE!");
+             return;
+          }
 
           outexpected = 0;
           intxlist = $("#createtx_input_utxo2").val();
@@ -1929,31 +1969,87 @@ def Main():
                return;
             }
 
-            /*block 10*/wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
-            var hexavmverif = $("#createtx_from_verification").val();
-            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 11*/wtx += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
-            /*block 12*/wtx += hexavmverif; // invocation script
-            console.log(int2hex(hexavmverif.length/2)+hexavmverif);
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 11/12");
-               console.log("length: "+wtx.length);
-               return;
+
+
+            var lscripthash   = [];
+            lscripthash.push($("#createtx_from_scripthash")[0].value); // IGOR
+
+            var script_other = "";
+
+            if($("#createtx_script_attributes")[0].value.trim().length > 0) { // if hash Script 0x20
+              var otherscript = $("#createtx_script_attributes")[0].value;
+              var shash = getScriptHashFromAVM(otherscript);
+              lscripthash.push(shash);
+              script_other += int2hex(0); // no invocation (2 bytes)
+              // script_other += int2hex(1);
+              //script_other += "51";
+              script_other +=  uint2bytes(otherscript.length/2);
+              script_other += otherscript;
+
+              if(script_other.length%2 == 1)
+              {
+                 console.log("Problems were detected with WTX OTHER SCRIPT");
+                 console.log("length: "+script_other.length);
+                 return;
+              }
             }
+
+            var wtxverif = "";
+
+            var hexavmverif = $("#createtx_from_verification").val(); // invocation
+            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
+            /*block 11*/wtxverif += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
+            /*block 12*/wtxverif += hexavmverif; // invocation script
             console.log("will finish wallet script");
             var hexavm = $("#createtx_from_contract").val();
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 13*/wtx += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
+            /*block 13*/wtxverif += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
             console.log("hexavm is:"+hexavm.length/2 + " with last length:" + uint2bytes(hexavm.length/2));
-            /*block 14*/wtx += hexavm;// verification script
+            /*block 14*/wtxverif += hexavm;// verification script
+
+            if(wtxverif.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX verification!");
+               console.log("length: "+wtxverif.length);
+               return;
+            }
+
+
+            /*block 10*/
+            //if($("#createtx_script_attributes")[0].value.trim().length > 0) // if hash Script 0x20
+            //  wtx += "02"
+            //else
+            //  wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
+            wtx += int2hex(lscripthash.length); // 01 or 02
+
             if(wtx.length%2 == 1)
             {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes: 13/14");
+               console.log("Problems were detected with WTX lenght, ERROR in WITNESS COUNT");
                console.log("length: "+wtx.length);
                return;
             }
 
+
+            if(lscripthash.length == 1) { // only single witness
+              wtx += wtxverif;
+              console.log("adding verification script: "+wtxverif);
+            } else if(lscripthash.length == 2){
+              // check order
+              if(lscripthash[0] < lscripthash[1]) {
+                 wtx += wtxverif;
+                 wtx += script_other;
+                 console.log("adding verification script: "+wtxverif);
+                 console.log("adding other script: "+script_other);
+                 console.log(lscripthash);
+              }
+              else {
+                wtx += script_other;
+                wtx += wtxverif;
+                console.log("adding other script: "+script_other);
+                console.log("adding verification script: "+wtxverif);
+                console.log(lscripthash);
+              }
+            }
 
             /*block end*/wtx = wtx.toLowerCase();
             console.log(wtx);

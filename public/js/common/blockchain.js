@@ -140,7 +140,7 @@ function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
 	return currentInvocationScript;
 }
 
-function getContractState(contractScriptHash, message, deployOrInvoke){
+function getContractState(contractScriptHash, deployOrInvoke){
             console.log("formating as json for RPC request...");
             requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getcontractstate\", \"params\": [\""+contractScriptHash+"\"] }";
             console.log(requestJson);

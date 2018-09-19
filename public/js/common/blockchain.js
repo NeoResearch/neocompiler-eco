@@ -140,7 +140,7 @@ function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
 	return currentInvocationScript;
 }
 
-function getContractState(contractScriptHash, message){
+function getContractState(contractScriptHash, message, deployOrInvoke){
             console.log("formating as json for RPC request...");
             requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getcontractstate\", \"params\": [\""+contractScriptHash+"\"] }";
             console.log(requestJson);
@@ -152,10 +152,13 @@ function getContractState(contractScriptHash, message){
                 function (resultJsonData) {
                    console.log(resultJsonData);
                    if(resultJsonData.result)
-                   {
-		   	createNotificationOrAlert("CONTRACT EXISTS", "code_version: " + resultJsonData.result.code_version +  " name:" + resultJsonData.result.name, 3000);
-		   }else
-			createNotificationOrAlert("CONTRACT NOT FOUND YET", "CODE: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 3000);
+                   {			
+			if(deployOrInvoke)
+			   	createNotificationOrAlert("DEPLOYING A CONTRACT THAT ALREADY EXISTS", "code_version: " + resultJsonData.result.code_version +  " name:" + resultJsonData.result.name, 3000);
+		   }else{
+			if(!deployOrInvoke)
+				createNotificationOrAlert("INVOKING WITH CONTRACT NOT YET FOUND", "CODE: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 3000);
+		   }
                 },
                 "json" // The format the response should be in
             ).fail(function() {
@@ -211,13 +214,13 @@ function getMultiSigPrivateKeys(multiSigIndex){
 //Call for Genesis Block
 //genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
 function genesisBlockTransfer(genesisAddress, newOwner){
-	console.log("Inside Genesis Block Transfers");
+	//console.log("Inside Genesis Block Transfers");
 	//Verification on the front-end if wallets already have funds, then, skip transfer
-	console.log("newOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
+	//console.log("newOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
 	newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner)).val();
 	newOwnerGasBalance = $("#walletGas" + searchAddrIndexFromBase58(newOwner)).val();
-	console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
-	console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
+	//console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
+	//console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
 	if( (newOwnerNeoBalance > 0) && (newOwnerGasBalance > 0))
 	{
 		clearInterval(refreshGenesisBlock);
@@ -269,14 +272,32 @@ function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivK
 }
 
 //==========================================================================
-function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, to, amount, asset, networkToCall){
+function createGasAndNeoIntent(to, neo, gas){
+    var intent;
+    if(neo > 0 && gas > 0)
+        intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+
+    if(neo == 0 && gas > 0)
+        intent = Neon.api.makeIntent({GAS:gas}, to)
+
+    if(neo > 0 && gas == 0)
+        intent = Neon.api.makeIntent({NEO:neo}, to)
+    return intent;
+}
+//==========================================================================
+
+//==========================================================================
+function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, to, neo, gas, networkToCall){
 	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
 	Neon.api.neoscan.getBalance(networkToCall,addressBase58)
 	.then(balance => {
 		let tx = Neon.default.create.tx({type: 128})
 		// Now let us add an intention to send 1 NEO to someone
-		tx
-		.addOutput(asset,amount,to)
+		if(neo > 0)
+			tx.addOutput("NEO",neo,to)
+
+		if(gas > 0)
+			tx.addOutput("GAS",gas,to)
 		tx.calculate(balance)
 		//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
 		//tx.inputs = [];
@@ -304,18 +325,9 @@ function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivK
 
 function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
-    var intent;
-    if(neo > 0 && gas > 0)
-        intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, to)
+    var intent = createGasAndNeoIntent(to, neo, gas);
 
-    if(neo == 0 && gas > 0)
-        intent = Neon.api.makeIntent({GAS:gas}, to)
-
-    if(neo > 0 && gas == 0)
-        intent = Neon.api.makeIntent({NEO:neo}, to)
-
-
-    //console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    console.log(intent) // This is an array of 2 Intent objects, one for each asset
     const config = {
         net: networkToCall, // The network to perform the action, MainNet or TestNet.
         url: nodeToCall,
@@ -454,7 +466,7 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
   console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
 
   //Notify user if contract exists
-  getContractState(contract_scripthash);
+  getContractState(contract_scripthash, false);
   if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
   {
 	alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
@@ -584,7 +596,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     var contract_scripthash = getScriptHashFromAVM(contract_script);
 
     //Notify user if contract exists
-    getContractState(contract_scripthash);
+    getContractState(contract_scripthash, true);
     if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
     {
 	alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");

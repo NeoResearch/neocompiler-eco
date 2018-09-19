@@ -139,7 +139,13 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 			 {
 				jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 				//Multi-sig address
-				createMultiSigSendingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys, to, result.balance[i].amount, assetToGet, getCurrentNetworkNickname());
+				neoToSend = 0;
+				gasToSend = 0;
+			        if(assetToGet == "NEO")
+					neoToSend = result.balance[i].amount;
+				else
+					gasToSend = result.balance[i].amount;
+				createMultiSigSendingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys, to, neoToSend, gasToSend, getCurrentNetworkNickname());
 			 }else			 
 			 	CreateTx(KNOWN_ADDRESSES[idToTransfer].addressBase58,KNOWN_ADDRESSES[idToTransfer].pKeyWif,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
 		}
@@ -156,9 +162,15 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 
 function fillAllNeo()
 {
-  getAllNeoOrGasFrom($("#createtx_from").val(),"NEO","#createtx_NEO");
+  var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+  getAllNeoOrGasFrom(KNOWN_ADDRESSES[addrFromIndex].addressBase58,"NEO","#createtx_NEO");
 }
 
+function fillAllGas()
+{
+  var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+  getAllNeoOrGasFrom(KNOWN_ADDRESSES[addrFromIndex].addressBase58,"GAS","#createtx_GAS");
+}
 
 function fillWalletInfo(result)
 {

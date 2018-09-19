@@ -333,7 +333,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
-                                    <button type="submit" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
+                                    <button type=button onClick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
                                     <select name="createtx_from" id="createtx_from" class="custom-select form-control"></select>
                                   </div>
                                 </div>
@@ -342,7 +342,7 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_to">To (Address)</label>
-                                    <button type="submit" id="txcreate" class="btn btn-info btn-sm">Send</button>
+                                    <button type=button onClick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm">Send</button>
                                     <select name="createtx_to" id="createtx_to" class="custom-select form-control"></select>
                                   </div>
                                 </div>
@@ -351,7 +351,6 @@
                                 <div class="col-md-16">
                                   <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="createtx_NEO">NEO</label>
                                       <button type=button onClick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">All Neo</button>
                                       <input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required/>
                                     </div>
@@ -359,7 +358,7 @@
 
                                   <div class="col-md-4">
                                     <div class="form-group">
-                                      <label for="createtx_GAS">GAS</label>
+                                      <button type=button onClick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">All Gas</button>
                                       <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
                                     </div>
                                   </div>
@@ -2065,26 +2064,38 @@ def Main():
         });
         // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
         // ==================================================================================
-        $("#createtx").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
+        function createSendTxForm(){
+            //e.preventDefault(); // Prevents the page from refreshing
 	          var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
             var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
 
-            if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
+           if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
      			 {
-     				var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
-     				//Multi-sig address
-     				createMultiSigSendingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), "NEO", getCurrentNetworkNickname());
+     				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+     			    //Multi-sig address
+     			    createMultiSigSendingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
      			 }else
-     			 	CreateTx(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
-
+           {
+               //TODO add verification for watch only
+     			 	   CreateTx(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+           }
             //updateHeaderNetworkInfo();
-        });
+        };
 
-        $("#createtxgas").submit(function (e) {
-            e.preventDefault(); // Prevents the page from refreshing
-            CreateClaimGasTX($("#createtxgas_from").val(), $("#createtxgas_from_privatek").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
-        });
+        function createGasTxForm(){
+           var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+           if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
+     			 {
+     				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+     			    //Multi-sig address
+              createMultiSigClaimingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname())
+     			 }else
+           {
+               //TODO add verification for watch only
+               createClaimGasTX(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, BASE_PATH_CLI, getCurrentNetworkNickname());
+           }
+        };
+
 
         $("#createtx_from_contract").on('keyup', function () {
             var hexavm = $("#createtx_from_contract").val();

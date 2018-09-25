@@ -208,12 +208,12 @@
                     $("#codeabi").val(textAbi);
 
                     // parse ABI json
-                    console.log("Parsing ABI json");
+                    //console.log("Parsing ABI json");
                     // look for Main function
                     var i = 0;
                     for (i = 0; i < jsonABI["functions"].length; i++)
                         if (jsonABI["functions"][i]["name"] == "Main") {
-                            console.log("Found function 'Main' with id=" + i);
+                            //console.log("Found function 'Main' with id=" + i);
                             break;
                         }
 
@@ -222,7 +222,7 @@
 						  $("#contractparamsjs")[0].value = "";
 						  $("#contractparamnamesjs")[0].value = "";
                     var j = 0;
-                    console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
+                    //console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
 						  var paramhex = "";
 						  var paramnames = "";
                     for (j = 0; j < jsonABI["functions"][i]["parameters"].length; j++) {
@@ -828,13 +828,13 @@
 //===============================================================
 // self update neonjs invoke parameters (in json format)
    function updateInvokeParamsJs() {
-     console.log("updating js json...");
+     //console.log("updating js json...");
      invokefunc = "";
      if($("#invokefunctionjs")[0].value != "Main")
         invokefunc = $("#invokefunctionjs")[0].value; // method
 	  var arrayparam = [];
 
-     console.log("function is "+invokefunc);
+     //console.log("function is "+invokefunc);
      var neonJSParams = [];
 
 	  if(invokefunc != "")

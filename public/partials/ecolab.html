@@ -1388,7 +1388,6 @@ def Main():
                 //$("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
             }
             updatePATHS();
-            startSocketIoConnections();
         });
 
         window.onbeforeunload = function(event){
@@ -1591,7 +1590,7 @@ def Main():
         function recoveringPageData(){
           if( checkCookie("lastactivetab") ){
             index = getCookie("lastactivetab");
-            console.log("Cookie tests. Recovering active tab....");
+            //console.log("Cookie tests. Recovering active tab....");
             $("#pillstab").children().eq(index).find('a').tab('show');
           }
         }

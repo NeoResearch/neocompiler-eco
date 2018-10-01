@@ -61,7 +61,7 @@ if(LOCAL_DEVELOPMENT){
 // ==============================================================================================
 
 //Initializating socket var
-var socket = io.connect(BASE_PATH_ECOSERVICES, {resource: 'nodejs'});
+var socket = io.connect();
 
 var ENV_VARS = "";
 

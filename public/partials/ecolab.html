@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Address <-> ScriptHash (little endian)</div>
+                        <div class="panel-heading">Address <-> ScriptHash (big endian)</div>
                         <div class="panel-body">
                             <form id="addressscripthash">
                               <div class="row">
@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="scripthash">ScriptHash</label>
+                                    <label for="scripthash">ScriptHash (big endian, should start with 0x)</label>
                                     <input id="scripthash" class="form-control" placeholder="ScriptHash" oninput="scripthash2address()"/>
                                   </div>
                                 </div>
@@ -216,7 +216,7 @@
                                   </div>
                                 </div>
                                 <div class="col-md-6">
-                                  <label for="sc_scripthash">ScriptHash</label>
+                                  <label for="sc_scripthash">ScriptHash (big endian, starting with 0x)</label>
                                   <input type="text" id="sc_scripthash" class="form-control" placeholder="Script Hash" readonly></input>
                                 </div>
                                 <div class="col-md-6">
@@ -1604,7 +1604,7 @@ def Main():
         function Disassembly() {
             var hexavm = $("#avmcode")[0].value;
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            var shash = getScriptHashFromAVM(hexavm);
+            var shash = '0x'+getScriptHashFromAVM(hexavm);
             $("#sc_scripthash")[0].value = shash;
             $("#sc_address58")[0].value = toBase58(shash);
             $("#opcodes").text("" + (hexavm.length/2) + " bytes\n");
@@ -1672,7 +1672,10 @@ def Main():
         function scripthash2address()
         {
           if( $("#scripthash").val() == "" ) return;
-          $("#address").val( toBase58($("#scripthash").val()) );
+          var b58 = toBase58($("#scripthash").val());
+          if(b58=="")
+            b58 = "BAD FORMAT! Expects 20 bytes!";
+          $("#address").val( b58 );
           //CreateRawTx();
         }
 

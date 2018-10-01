@@ -7,11 +7,16 @@ function getScriptHashFromAVM(avm)
     return hash;
 }
 
-// converts scripthash in hex to base58 address
-// example:  'e9eed8dc39332032dc22e5d6e86332c50327ba23' => 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y'
-function toBase58(address)
+// converts (big-endian) scripthash in hex to base58 address
+// example:  '0xe9eed8dc39332032dc22e5d6e86332c50327ba23' => 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y'
+function toBase58(beScriptHash)
 {
-    return Neon.wallet.getAddressFromScriptHash(address);
+  if(beScriptHash.length==42) // remove '0x'
+    beScriptHash = beScriptHash.slice(2);
+  if(beScriptHash.length==40) // 20 bytes (40 char hexstring)
+    return Neon.wallet.getAddressFromScriptHash(beScriptHash);
+  else
+    return "";
 }
 
 // converts pubKeyToConvert in hex to base58 address
@@ -22,7 +27,7 @@ function toBase58FromPublicKey(pubKeyToConvert)
 	console.log( pubKeyToConvert + " does not seems to be a valid publicKey.")
 	return;
     }
-   
+
     return toBase58(getScriptHashFromAVM("21" + pubKeyToConvert + "ac"));
 }
 

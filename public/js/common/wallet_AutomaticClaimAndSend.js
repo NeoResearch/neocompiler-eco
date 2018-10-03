@@ -47,7 +47,7 @@ function callFromAllKnownThatHasClaimable()
     		    idToTransfer = ka;
 
       if (idToTransfer > -1)
-      {	
+      {
             if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
 	    {
 		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
@@ -130,8 +130,8 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 	      if(automaticTransfer)
 	      {
 		 if(to==="")
-		 	to = adddressToGet;		
-		 
+		 	to = adddressToGet;
+
 		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
 		 //console.log("idToTransfer:" + idToTransfer);
 		 if (idToTransfer != -1 && result.balance[i].amount!=0){
@@ -146,7 +146,7 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 				else
 					gasToSend = result.balance[i].amount;
 				createMultiSigSendingTransaction(KNOWN_ADDRESSES[idToTransfer].verificationScript,jsonArrayWithPrivKeys, to, neoToSend, gasToSend, getCurrentNetworkNickname());
-			 }else			 
+			 }else
 			 	CreateTx(KNOWN_ADDRESSES[idToTransfer].addressBase58,KNOWN_ADDRESSES[idToTransfer].pKeyWif,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
 		}
 
@@ -365,7 +365,7 @@ function changeWalletInfo(){
 	document.getElementById("addressVerificationScript").value = KNOWN_ADDRESSES[wToChangeIndex].verificationScript;
 	document.getElementById("addressOwners").value = JSON.stringify(KNOWN_ADDRESSES[wToChangeIndex].owners);
 
-		
+
 }
 //===============================================================
 
@@ -378,7 +378,7 @@ function updateInfoOfAllKnownAdresses(){
 		{
 	            if(KNOWN_ADDRESSES[ka].privKey === '' && Neon.default.is.wif(KNOWN_ADDRESSES[ka].pKeyWif))
 			KNOWN_ADDRESSES[ka].privKey = Neon.default.get.privateKeyFromWIF(KNOWN_ADDRESSES[ka].pKeyWif);
-			
+
 	            if(Neon.default.is.privateKey(KNOWN_ADDRESSES[ka].privKey) && KNOWN_ADDRESSES[ka].pubKey === '')
 			KNOWN_ADDRESSES[ka].pubKey = Neon.default.get.publicKeyFromPrivateKey(KNOWN_ADDRESSES[ka].privKey);
 
@@ -411,7 +411,7 @@ function updateAddressSelectionBox(){
       addAllKnownAddressesToSelectionBox("wallet_invokejs");
       addAllKnownAddressesToSelectionBox("wallet_deployjs");
       addAllKnownAddressesToSelectionBox("wallet_info");
-      addAllKnownAddressesToSelectionBox("createtx_to");
+      //addAllKnownAddressesToSelectionBox("createtx_to");
       addAllKnownAddressesToSelectionBox("createtx_from");
 
 

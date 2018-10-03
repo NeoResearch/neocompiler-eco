@@ -342,8 +342,9 @@
                                 <div class="col-md-6">
                                   <div class="form-group">
                                     <label for="createtx_to">To (Address)</label>
+                                    <!-- <select name="createtx_to" id="createtx_to" class="custom-select form-control"></select> -->
+                                    <input name="createtx_to" id="createtx_to" placeholder="Destination Address" size="40"></input>
                                     <button type=button onClick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm">Send</button>
-                                    <select name="createtx_to" id="createtx_to" class="custom-select form-control"></select>
                                   </div>
                                 </div>
                               </div>
@@ -2069,17 +2070,18 @@ def Main():
         function createSendTxForm(){
             //e.preventDefault(); // Prevents the page from refreshing
 	          var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-            var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+            //var addrToIndex = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
+            var addrToValue = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
 
            if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
      			 {
      				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			    //Multi-sig address
-     			    createMultiSigSendingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
+     			    createMultiSigSendingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
      			 }else
            {
                //TODO add verification for watch only
-     			 	   CreateTx(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, KNOWN_ADDRESSES[addrToIndex].addressBase58, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+     			 	   CreateTx(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
            }
             //updateHeaderNetworkInfo();
         };

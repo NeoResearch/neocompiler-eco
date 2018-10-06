@@ -381,7 +381,7 @@
                                     <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
                                     <div class="row">
                                       <div class="col-md-6">
-                                        <label for="createtx_from_scripthash">Scripthash (readonly)</label>
+                                        <label for="createtx_from_scripthash">Scripthash big-endian (readonly)</label>
                                         <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
                                       </div>
                                       <div class="col-md-6">
@@ -412,8 +412,8 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_output_addresses">Output/To ScriptHash (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 (little endian) \n ScriptHash2 (little endian) \n OriginalScriptHash (For Change)"/>
+                                    <label for="createtx_output_addresses">Output/To ScriptHash Big Endian (One per line)</label>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 (big endian) \n ScriptHash2 (big endian) \n OriginalScriptHash (For Change)"/>
                                     <label for="createtx_output_addresses">Output/To Values (One per line)</label>
                                     <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
                                   </div>
@@ -429,6 +429,10 @@
                                     <!-- Neon.wallet.generateSignature -->
                                     <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
                                   </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <label for="createtx_txhex">Transaction Header/Message Hash</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="transaction hash (big endian UInt256/32 bytes)" id="createtx_txhash" size="50" readonly></input><br/>
+                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex" readonly/>
                                 </div>
                                 <div class="col-md-12">
                                   <button type="submit" id="txcreate_withdraw" class="btn btn-info btn-sm">Create Withdraw Transaction</button>
@@ -1807,6 +1811,7 @@ def Main():
         // 14 blocks
 
         function createtx_sign() {
+          $('#createtx_from_verification').val("00");
           //if(!document.getElementById("createtx_signature").checkValidity()) { // allow zero or 32 bytes
           if(document.getElementById("createtx_signature").value.length != 64) {
             alert("signature must be hex string of 32 bytes");
@@ -1819,6 +1824,7 @@ def Main():
 
           wtx = createtx_getWithoutWitness();
           console.log("transaction header: "+wtx);
+          $("#createtx_txhash").val("0x"+revertHexString(Neon.u.hash256(wtx)));
           //alert('oi'+wtx);
           $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
         }
@@ -2062,6 +2068,9 @@ def Main():
                return;
             }
             console.log(wtx.length/2 + " bytes");
+
+            $("#createtx_txhex").val(wtx);
+            //$("#createtx_txhash").val(Neon.u.hash256($("#createtx_txhex").val()));
 
             sendRawTXToTheRPCNetwork(wtx);
         });

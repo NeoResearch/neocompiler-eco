@@ -412,8 +412,8 @@
                                 </div>
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_output_addresses">Output/To ScriptHash Big Endian (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="ScriptHash1 (big endian) \n ScriptHash2 (big endian) \n OriginalScriptHash (For Change)"/>
+                                    <label for="createtx_output_addresses">Output/To Address (One per line)</label>
+                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="Address1 \n Address2 \n OriginalAddress (For Change)"/>
                                     <label for="createtx_output_addresses">Output/To Values (One per line)</label>
                                     <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
                                   </div>
@@ -1823,8 +1823,9 @@ def Main():
           }
 
           wtx = createtx_getWithoutWitness();
-          console.log("transaction header: "+wtx);
-          $("#createtx_txhash").val("0x"+revertHexString(Neon.u.hash256(wtx)));
+          var wtxHash = "0x"+revertHexString(Neon.u.hash256(wtx));
+          $("#createtx_txhash").val(wtxHash);
+          console.log("transaction ("+wtxHash+") "+wtx);
           //alert('oi'+wtx);
           $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
         }
@@ -1935,7 +1936,12 @@ def Main():
              /*block 7*/wtx += revertHexString($("#createtx_input_assetid")[0].value); //asset type (32 bytes)
              const txvalue = new Neon.u.Fixed8(Number(outtxlist[i]));
              /*block 8*/wtx += revertHexString(txvalue.toHex()); //value of the asset (8 bytes)
-             /*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
+             ///*block 9*/wtx += revertHexString(outtxlist2[i]);// address to send the asset to (20 bytes)
+             if(Neon.wallet.isAddress(outtxlist2[i]))
+                wtx += revertHexString(Neon.wallet.getScriptHashFromAddress(outtxlist2[i]));
+             else {
+                wtx += revertHexString(outtxlist2[i]); // writes scripthash in little-endian
+             }
              if(wtx.length%2 == 1)
              {
                 console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
@@ -2146,8 +2152,12 @@ def Main():
           if(outtotal > outexpected)
             $("#createtx_output_total").text("Total: "+ outtotal + " (OUTPUT EXCEEDED: "+ outexpected + ")");
           else {
-            if($("#createtx_cbx_change")[0].checked)
+            if($("#createtx_cbx_change")[0].checked) {
               $("#createtx_output_total").text("Total OK: "+ outtotal + " (CHANGE: "+ (outexpected-outtotal) + ")");
+              var wtx = createtx_getWithoutWitness();
+              var wtxHash = "0x"+revertHexString(Neon.u.hash256(wtx));
+              $("#createtx_txhash").val(wtxHash);
+            }
             else
               $("#createtx_output_total").text("Total: "+ outtotal + (outtotal != outexpected?" (ERROR EXPECTED: "+ outexpected + ")":" (OK)"));
           }

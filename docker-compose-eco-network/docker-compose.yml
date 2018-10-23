@@ -18,6 +18,7 @@ services:
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./logs-neocli-node1:/opt/node/neo-cli/Logs
 #      - ./${CHAIN}:/opt/node/neo-cli/${CHAIN}
@@ -39,6 +40,7 @@ services:
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./logs-neocli-node2:/opt/node/neo-cli/Logs
     environment:
@@ -59,6 +61,7 @@ services:
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./logs-neocli-node3:/opt/node/neo-cli/Logs
     environment:
@@ -79,6 +82,7 @@ services:
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./logs-neocli-node4:/opt/node/neo-cli/Logs
     environment:
@@ -100,6 +104,7 @@ services:
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
     depends_on:
       - eco-neo-csharp-node1-running
     environment:
@@ -121,6 +126,7 @@ services:
       - ./neo-cli/configs/config2RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
     depends_on:
       - eco-neo-csharp-node1-running
     environment:
@@ -136,31 +142,69 @@ services:
 
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
-  neo-scan-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan:27174878-master"
-    container_name: "eco-neo-scan-running"
+  eco-neo-scan-api-running:
+    image: "registry.gitlab.com/cityofzion/neo-scan/api:32259754-master"
+    container_name: "eco-neo-scan-api-running"
     ports:
       - "4000:4000"
     #command: /bin/true #disable neo-scan
     environment:
       PORT: 4000
       HOST: localhost
-      NEO_SEED_1: "http://eco-neo-csharp-node1-running:30333"
-      NEO_SEED_2: "http://eco-neo-csharp-noderpc1-running:30337"
-      NEO_SEED_3: "http://eco-neo-csharp-noderpc2-running:30338"
-      NEO_SEED_4: "http://eco-neo-csharp-node1-running:30333"
+      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30337;http://eco-neo-csharp-noderpc2-running:30338"
       NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
+      DB_HOSTNAME: eco-neo-scan-postgresql-running
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: neoscan_prodv
+      REPLACE_OS_VARS: "true"
+    depends_on:
+      - eco-neo-scan-postgresql-running
+      - eco-neo-scan-sync-running
+      - eco-neo-python-rest-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
     links:
-      - eco-neo-scan-postgresql-running:postgres
+      - eco-neo-csharp-node1-running:30333
+      - eco-neo-csharp-noderpc1-running:30337
+      - eco-neo-csharp-noderpc2-running:30338
+      - eco-neo-scan-postgresql-running:5432
+
+  eco-neo-scan-sync-running:
+    container_name: "eco-neo-scan-sync-running"
     depends_on:
       - eco-neo-scan-postgresql-running
       - eco-neo-python-rest-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-node3-running
+      - eco-neo-csharp-node4-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-csharp-noderpc2-running
+    environment:
+      NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
+      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30337;http://eco-neo-csharp-noderpc2-running:30338"
+      DB_HOSTNAME: eco-neo-scan-postgresql-running
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: neoscan_prodv
+      REPLACE_OS_VARS: "true"
+    image: "registry.gitlab.com/cityofzion/neo-scan/sync:32259754-master"
+    links:
+      - eco-neo-csharp-node1-running:30333
+      - eco-neo-csharp-noderpc1-running:30337
+      - eco-neo-csharp-noderpc2-running:30338
+      - eco-neo-scan-postgresql-running:5432
 
   eco-neo-scan-postgresql-running:
-    image: postgres:10.1
+    image: postgres:10.5
     container_name: "eco-neo-scan-postgresql-running"
-    ports:
-      - "5432:5432"
+    expose:
+      - 5432
     depends_on:
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
@@ -171,8 +215,8 @@ services:
       - eco-neo-python-rest-running
     environment:
       POSTGRES_DB: neoscan_prodv
-      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
 # ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
 # ================================================================================
 

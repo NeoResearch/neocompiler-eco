@@ -1,6 +1,6 @@
 #!/bin/bash
-COMPILER_VERSION=2.0.3.9
-COMPILER_COMMIT_NEOCOMPILER=90f7a47de921dbb6679894b3a10b8217d6e4d898
-COMPILER_COMMIT_DEVPACK=5acee2d0a8a5d17da9840d0e8bb09f968cc1abcc
+COMPILER_VERSION=2.0.3.9.1
+COMPILER_COMMIT_NEOCOMPILER=bdbaa79e75728ed1e32503ae971350d551f9f5cb
+COMPILER_COMMIT_DEVPACK=492bf28f30a94d56072d4ea2b94f0a5cae7a6b00
 docker build --build-arg commitNeoCompiler=$COMPILER_COMMIT_NEOCOMPILER --build-arg commitDevpackDotnet=$COMPILER_COMMIT_DEVPACK -t docker-mono-neo-compiler:$COMPILER_VERSION .
 docker tag docker-mono-neo-compiler:$COMPILER_VERSION "docker-mono-neo-compiler:latest"

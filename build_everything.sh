@@ -17,6 +17,7 @@ while [[ "$#" > 0 ]]; do case $1 in
         exit 0
         ;;
     --no-build)
+	echo "PARAMETER DISABLE_BUILD actived.";
         DISABLE_BUILD=1
         shift
         ;;

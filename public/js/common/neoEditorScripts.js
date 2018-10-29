@@ -327,6 +327,10 @@
 		storage += 2;
 	}
 
+	if($("#cbx_ispayablejs")[0].checked) {
+		storage += 4;
+	}
+
 	console.log("Final attached gas should be:" + contractGasCost)
 
         Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)

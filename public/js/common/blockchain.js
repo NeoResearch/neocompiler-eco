@@ -473,6 +473,13 @@ function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash
 	return;
   }
 
+  if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
+  {
+	console.log("(INVOKE) hashs are empty, they are going to be fullfilled based on the contract_scripthash passed as parameter");
+	$("#contracthash")[0].value = contract_scripthash;
+	$("#contracthashjs")[0].value = contract_scripthash;
+  }
+
   var intent;
   if(neo > 0 && gas > 0)
   	intent = Neon.api.makeIntent({NEO:neo,GAS:gas}, toBase58(contract_scripthash))
@@ -602,6 +609,13 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 	alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
     	return;
     }
+
+     if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
+     {
+	console.log("hashs are empty, they are going to be fullfilled based on the avm passed as parameter");
+	$("#contracthash")[0].value = contract_scripthash;
+	$("#contracthashjs")[0].value = contract_scripthash;
+     }
 
     const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring('appdescription')) // description

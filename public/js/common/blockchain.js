@@ -587,12 +587,13 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
 //Example of Deploy checkwitness
 //Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
-//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,500,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
-function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '') {
+//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
+function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
 
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
 
+    console.log("current gas fee is " + mygasfee);
 
     if(contract_script == "")
     {
@@ -618,11 +619,11 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
      }
 
     const sb = Neon.default.create.scriptBuilder();
-    sb.emitPush(Neon.u.str2hexstring('appdescription')) // description
-      .emitPush(Neon.u.str2hexstring('email')) // email
-      .emitPush(Neon.u.str2hexstring('author')) // author
-      .emitPush(Neon.u.str2hexstring('v1.0')) // code_version
-      .emitPush(Neon.u.str2hexstring('appname')) // name
+    sb.emitPush(Neon.u.str2hexstring(contract_description)) // description
+      .emitPush(Neon.u.str2hexstring(contract_email)) // email
+      .emitPush(Neon.u.str2hexstring(contract_author)) // author
+      .emitPush(Neon.u.str2hexstring(contract_version)) // code_version
+      .emitPush(Neon.u.str2hexstring(contract_appname)) // name
       .emitPush(storage) // storage: {none: 0x00, storage: 0x01, dynamic: 0x02, storage+dynamic:0x03}
       .emitPush(returntype) // expects hexstring  (_emitString) // usually '05'
       .emitPush(par) // expects hexstring  (_emitString) // usually '0710'

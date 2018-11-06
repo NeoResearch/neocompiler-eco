@@ -432,7 +432,7 @@
                                 </div>
                                 <div class="col-md-12">
                                   <label for="createtx_txhex">Transaction Header/Message Hash</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="transaction hash (big endian UInt256/32 bytes)" id="createtx_txhash" size="50"></input><br/>
-                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex" readonly/>
+                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex"/>
                                 </div>
                                 <div class="col-md-12">
                                   <button id="txcreate_withdraw" type="button" class="btn btn-info btn-sm" onclick="create_withdrawtx();">Create Withdraw Transaction</button>
@@ -2097,7 +2097,7 @@ def Main():
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
 
-            create_withdrawtx();
+            //create_withdrawtx();
 
             wtx = $("#createtx_txhex").val();
 

@@ -431,11 +431,12 @@
                                   </div>
                                 </div>
                                 <div class="col-md-12">
-                                  <label for="createtx_txhex">Transaction Header/Message Hash</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="transaction hash (big endian UInt256/32 bytes)" id="createtx_txhash" size="50" readonly></input><br/>
-                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex" readonly/>
+                                  <label for="createtx_txhex">Transaction Header/Message Hash</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="transaction hash (big endian UInt256/32 bytes)" id="createtx_txhash" size="50"></input><br/>
+                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex"/>
                                 </div>
                                 <div class="col-md-12">
-                                  <button type="submit" id="txcreate_withdraw" class="btn btn-info btn-sm">Create Withdraw Transaction</button>
+                                  <button id="txcreate_withdraw" type="button" class="btn btn-info btn-sm" onclick="create_withdrawtx();">Create Withdraw Transaction</button>
+                                  <button type="submit" id="txcreatesubmit_withdraw" class="btn btn-info btn-sm">Submit Withdraw Transaction</button>
                                 </div>
                               </div>
                            </form>
@@ -1817,6 +1818,123 @@ def Main():
         // ================== CREATE RAW UTXO WITHDRAW TRANSACTION BEGINS ===================
         // 14 blocks
 
+        function create_withdrawtx() {
+          /*
+           TODO: all the blocks that doesn't match with the expected size must do what is defined below:
+           if (value > 0xffffffff) write 8 bytes hex
+          else if (value > 0xffff) write 4 bytes hex
+          else if (value > 0xfc) write 2 bytes hex
+          else write 1 byte hex
+          */
+
+          wtx = createtx_getWithoutWitness();
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes (input/output part): ?/12");
+             console.log("length: "+wtx.length);
+             return;
+          }
+
+
+
+          var lscripthash   = [];
+          lscripthash.push($("#createtx_from_scripthash")[0].value); // IGOR
+
+          var script_other = "";
+
+          if($("#createtx_script_attributes")[0].value.trim().length > 0) { // if hash Script 0x20
+            var otherscript = $("#createtx_script_attributes")[0].value;
+            var shash = getScriptHashFromAVM(otherscript);
+            lscripthash.push(shash);
+            script_other += int2hex(0); // no invocation (2 bytes)
+            // script_other += int2hex(1);
+            //script_other += "51";
+            script_other +=  uint2bytes(otherscript.length/2);
+            script_other += otherscript;
+
+            if(script_other.length%2 == 1)
+            {
+               console.log("Problems were detected with WTX OTHER SCRIPT");
+               console.log("length: "+script_other.length);
+               return;
+            }
+          }
+
+          var wtxverif = "";
+
+          var hexavmverif = $("#createtx_from_verification").val(); // invocation
+          hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
+          /*block 11*/wtxverif += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
+          /*block 12*/wtxverif += hexavmverif; // invocation script
+          console.log("will finish wallet script");
+          var hexavm = $("#createtx_from_contract").val();
+          hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+          /*block 13*/wtxverif += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
+          console.log("hexavm is:"+hexavm.length/2 + " with last length:" + uint2bytes(hexavm.length/2));
+          /*block 14*/wtxverif += hexavm;// verification script
+
+          if(wtxverif.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX verification!");
+             console.log("length: "+wtxverif.length);
+             return;
+          }
+
+
+          /*block 10*/
+          //if($("#createtx_script_attributes")[0].value.trim().length > 0) // if hash Script 0x20
+          //  wtx += "02"
+          //else
+          //  wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
+          wtx += int2hex(lscripthash.length); // 01 or 02
+
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, ERROR in WITNESS COUNT");
+             console.log("length: "+wtx.length);
+             return;
+          }
+
+
+          if(lscripthash.length == 1) { // only single witness
+            wtx += wtxverif;
+            console.log("adding verification script: "+wtxverif);
+          } else if(lscripthash.length == 2){
+            // check order
+            if(lscripthash[0] < lscripthash[1]) {
+               wtx += wtxverif;
+               wtx += script_other;
+               console.log("adding verification script: "+wtxverif);
+               console.log("adding other script: "+script_other);
+               console.log(lscripthash);
+            }
+            else {
+              wtx += script_other;
+              wtx += wtxverif;
+              console.log("adding other script: "+script_other);
+              console.log("adding verification script: "+wtxverif);
+              console.log(lscripthash);
+            }
+          }
+
+          /*block end*/wtx = wtx.toLowerCase();
+          console.log(wtx);
+          if(wtx.length%2 == 1)
+          {
+             console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
+             console.log("length: "+wtx.length);
+             return;
+          }
+          console.log(wtx.length/2 + " bytes");
+
+          $("#createtx_txhex").val(wtx);
+          //$("#createtx_txhash").val(Neon.u.hash256($("#createtx_txhex").val()));
+        }
+
+        // ======================================================
+        // ======================================================
+
         function createtx_sign() {
           $('#createtx_from_verification').val("00");
           //if(!document.getElementById("createtx_signature").checkValidity()) { // allow zero or 32 bytes
@@ -1836,6 +1954,9 @@ def Main():
           //alert('oi'+wtx);
           $('#createtx_from_verification').val('40'+Neon.wallet.generateSignature(wtx, $('#createtx_signature')[0].value));
         }
+
+        // ======================================================
+        // ======================================================
 
         function createtx_getWithoutWitness() {
           /*block 0*/wtx = "80"; // tx type (1 byte)
@@ -1970,120 +2091,15 @@ def Main():
           return wtx;
         }
 
+        // ======================================================
+        // ======================================================
+
         $("#frm_createtx_withdraw").submit(function (e) {
             e.preventDefault(); // Prevents the page from refreshing
 
-            /*
-             TODO: all the blocks that doesn't match with the expected size must do what is defined below:
-             if (value > 0xffffffff) write 8 bytes hex
-            else if (value > 0xffff) write 4 bytes hex
-            else if (value > 0xfc) write 2 bytes hex
-            else write 1 byte hex
-            */
+            //create_withdrawtx();
 
-            wtx = createtx_getWithoutWitness();
-
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes (input/output part): ?/12");
-               console.log("length: "+wtx.length);
-               return;
-            }
-
-
-
-            var lscripthash   = [];
-            lscripthash.push($("#createtx_from_scripthash")[0].value); // IGOR
-
-            var script_other = "";
-
-            if($("#createtx_script_attributes")[0].value.trim().length > 0) { // if hash Script 0x20
-              var otherscript = $("#createtx_script_attributes")[0].value;
-              var shash = getScriptHashFromAVM(otherscript);
-              lscripthash.push(shash);
-              script_other += int2hex(0); // no invocation (2 bytes)
-              // script_other += int2hex(1);
-              //script_other += "51";
-              script_other +=  uint2bytes(otherscript.length/2);
-              script_other += otherscript;
-
-              if(script_other.length%2 == 1)
-              {
-                 console.log("Problems were detected with WTX OTHER SCRIPT");
-                 console.log("length: "+script_other.length);
-                 return;
-              }
-            }
-
-            var wtxverif = "";
-
-            var hexavmverif = $("#createtx_from_verification").val(); // invocation
-            hexavmverif = hexavmverif.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 11*/wtxverif += int2hex(hexavmverif.length/2);// size of invocation script (8 bytes)
-            /*block 12*/wtxverif += hexavmverif; // invocation script
-            console.log("will finish wallet script");
-            var hexavm = $("#createtx_from_contract").val();
-            hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-            /*block 13*/wtxverif += uint2bytes(hexavm.length/2);// size of verification script (8 bytes)
-            console.log("hexavm is:"+hexavm.length/2 + " with last length:" + uint2bytes(hexavm.length/2));
-            /*block 14*/wtxverif += hexavm;// verification script
-
-            if(wtxverif.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX verification!");
-               console.log("length: "+wtxverif.length);
-               return;
-            }
-
-
-            /*block 10*/
-            //if($("#createtx_script_attributes")[0].value.trim().length > 0) // if hash Script 0x20
-            //  wtx += "02"
-            //else
-            //  wtx += "01"; //witness count ( number of scripts) (8 bytes) can be reduced TODO: calculate it
-            wtx += int2hex(lscripthash.length); // 01 or 02
-
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, ERROR in WITNESS COUNT");
-               console.log("length: "+wtx.length);
-               return;
-            }
-
-
-            if(lscripthash.length == 1) { // only single witness
-              wtx += wtxverif;
-              console.log("adding verification script: "+wtxverif);
-            } else if(lscripthash.length == 2){
-              // check order
-              if(lscripthash[0] < lscripthash[1]) {
-                 wtx += wtxverif;
-                 wtx += script_other;
-                 console.log("adding verification script: "+wtxverif);
-                 console.log("adding other script: "+script_other);
-                 console.log(lscripthash);
-              }
-              else {
-                wtx += script_other;
-                wtx += wtxverif;
-                console.log("adding other script: "+script_other);
-                console.log("adding verification script: "+wtxverif);
-                console.log(lscripthash);
-              }
-            }
-
-            /*block end*/wtx = wtx.toLowerCase();
-            console.log(wtx);
-            if(wtx.length%2 == 1)
-            {
-               console.log("Problems were detected with WTX lenght, pehaps, in terms of an opcodes without 2 bytes");
-               console.log("length: "+wtx.length);
-               return;
-            }
-            console.log(wtx.length/2 + " bytes");
-
-            $("#createtx_txhex").val(wtx);
-            //$("#createtx_txhash").val(Neon.u.hash256($("#createtx_txhex").val()));
+            wtx = $("#createtx_txhex").val();
 
             sendRawTXToTheRPCNetwork(wtx);
         });

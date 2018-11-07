@@ -27,9 +27,6 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 1
       NUMBER_SERVER: 1
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
   eco-neo-csharp-node2-running:
     image: eco-neo-csharp-node:latest
@@ -49,9 +46,6 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 2
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
   eco-neo-csharp-node3-running:
     image: eco-neo-csharp-node:latest
@@ -71,9 +65,6 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 3
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
   eco-neo-csharp-node4-running:
     image: eco-neo-csharp-node:latest
@@ -93,9 +84,6 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 4
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
   eco-neo-csharp-noderpc1-running:
     image: eco-neo-csharp-node:latest
@@ -116,9 +104,6 @@ services:
       IS_CONSENSUS: 0
       IS_RPC: 1
       NUMBER_SERVER: 5
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
   eco-neo-csharp-noderpc2-running:
     image: eco-neo-csharp-node:latest
@@ -139,9 +124,6 @@ services:
       IS_CONSENSUS: 0
       IS_RPC: 1
       NUMBER_SERVER: 6
-    cap_add:
-      - NET_ADMIN
-      - NET_RAW
 
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
 # ================================================================================

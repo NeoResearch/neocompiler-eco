@@ -555,6 +555,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
     intents: intent,
     address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
     privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
+    fees: 0,
     gas: mygasfee //0
   }
 

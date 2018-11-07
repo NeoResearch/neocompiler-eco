@@ -5,7 +5,8 @@ set -e
 # or: ./docker_build.sh (will use pre-built version 2.7.4 for now)
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="2.9.1-all-plugins"
+#NEO_CLI_VERSION="2.9.1-all-plugins"
+NEO_CLI_VERSION="2.9.2-all-plugins-odbft"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"

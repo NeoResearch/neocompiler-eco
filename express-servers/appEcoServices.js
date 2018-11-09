@@ -32,12 +32,29 @@ server.listen(9000 || process.env.PORT, (err) => {
 
 app.get('/', (req, res) => {
   console.log("Welcome to our NeoCompiler Eco Services RPC API");
-  res.status(200).send("Welcome to our NeoCompiler Eco Services RPC API: [socket.io], [/statusnode/:node - CN Routes], [/getvars - get commit], [/notifications - python notification loggers]");
+  res.status(200).send("Welcome to our NeoCompiler Eco Services RPC API: [socket.io], [/statusnode/:node - CN Routes], [/getvars - get commit], [/notifications - python notification loggers], [getvars]");
 });
 
-app.post('/getvars', function(req, res){
-  res.setHeader('Content-Type', 'text/json; charset="utf-8"');
-  res.send('{"commit":"'+process.env.COMMIT_GIT_VERSION+'"}');
+var optionsDefault = {
+  timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!
+  killSignal: 'SIGKILL'
+}
+
+app.get('/getvars', function(req, res){
+      var cmddocker = "git log --format='%H' -n 1";
+      var child = require('child_process').exec(cmddocker, optionsDefault, (e, stdout, stderr)=> {
+      if (e instanceof Error) {
+	console.error(e);
+	var msg64 = new Buffer("Error on getting git version!",'ascii').toString('base64');
+	var msgret = "{\"output\":\""+msg64+"\"}";
+	res.send(msgret); 
+      }
+      else {
+	jsonOutput = "{\"output\":\""+stdout+"\"}";
+	//console.log('stdout ', jsonOutput);
+	//console.log('stderr ', stderr);
+	res.send(jsonOutput);
+      }}); // child
 });
 
 function isInt(value) {

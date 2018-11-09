@@ -50,9 +50,8 @@ app.get('/getvars', function(req, res){
 	res.send(msgret); 
       }
       else {
-	jsonOutput = "{\"output\":\""+stdout+"\"}";
-	//console.log('stdout ', jsonOutput);
-	//console.log('stderr ', stderr);
+	//console.log(stdout.substr(0,stdout.length - 1))
+	jsonOutput = '{"commit":"'+stdout.substr(0,stdout.length - 1)+'"}';
 	res.send(jsonOutput);
       }}); // child
 });

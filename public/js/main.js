@@ -89,7 +89,7 @@ app.config(['$routeProvider', function ($routeProvider) {
 /* Controls all other Pages */
 app.controller('PageCtrl', function ( $scope, /*$location, */$http) {
 	// TODO: improve! do we need a post for this?? it seems unlikely...
-	$http({ method: 'POST',
+	$http({ method: 'GET',
             url: BASE_PATH_ECOSERVICES+'/getvars'
          }).then(function (response){
 						ENV_VARS = response.data;

@@ -158,7 +158,7 @@
                 {
                     jsonABI = JSON.parse(codeabi);
 
-                    var textAbi = "ScriptHash (reversed): " + jsonABI["hash"] + "\n";
+                    var textAbi = "ScriptHash (big endian): " + jsonABI["hash"] + "\n";
                     textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
                     textAbi += "Functions:" + "\n";
 

@@ -6,7 +6,7 @@ RUN apk update && apk add git make && rm -rf /var/cache/apk/*
 
 RUN mkdir -p $APP_DIRECTORY
 
-RUN git clone https://github.com/CityOfZion/neo-go $APP_DIRECTORY
+RUN git clone https://github.com/CityOfZion/neo-go $APP_DIRECTORY # 0.44.10 <- just change number and docker image will be rebuilt
 
 WORKDIR $APP_DIRECTORY
 

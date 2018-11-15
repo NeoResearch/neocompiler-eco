@@ -111,48 +111,56 @@ app.post('/compilex', function(req, res) {
 
   if(imagename != "")
   {
-	  //Check if compiler request exists
-	  //console.log("Current compilers");
-	  //console.log(compilers);
-	  var compilerExists = false;
-	  for(c = 0; c < compilers.length; c++)
-	  {
-		var compilerName = compilers[c].compiler + ":" + compilers[c].version;
-	  	if(compilerName == imagename)
-			compilerExists = true;
-	  }
+  	  //Check if compiler request exists
+  	  //console.log("Current compilers");
+  	  //console.log(compilers);
+  	  var compilerExists = false;
+  	  for(c = 0; c < compilers.length; c++)
+  	  {
+      		var compilerName = compilers[c].compiler + ":" + compilers[c].version;
+    	  	if(compilerName == imagename)
+    			   compilerExists = true;
+    	}
 
-	  if(!compilerExists)
-	  {
-		  console.log("Someone is doing something crazy. Compiler does not exist.");
-		  var msg64 = new Buffer("Unknown Compiler! Please use something from the list!",'ascii').toString('base64');
-		  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-		  res.send(msgret);
-	  }
-	  else{
+  	  if(!compilerExists)
+  	  {
+    		  console.log("Someone is doing something crazy. Compiler does not exist.");
+    		  var msg64 = new Buffer("Unknown Compiler! Please use something from the list!",'ascii').toString('base64');
+    		  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+    		  res.send(msgret);
+  	  }
+  	  else
+      {
 		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+          var start = new Date();
 		      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
-
-		      if (e instanceof Error) {
-			console.error(e);
-			var msg64 = new Buffer("Internal Error:\n"+e,'ascii').toString('base64');
-			var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-			res.send(msgret);
-			//throw e;
-		      }
-		      else {
-			//console.log('stdout ', stdout);
-			//console.log('stderr ', stderr);
-			res.send(stdout);
-		      }
-		    }); // child
-          } //Compiler exists if
-    } // if imagename!= ""
-    else {
-	    var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
-	    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-	    res.send(msgret);
-    }
+            var end = new Date() - start;
+  		      if (e instanceof Error)
+            {
+        			console.error(e);
+              var message = "Internal Error:\n"+e;
+              if(end > optionsCompile.timeout)
+                  message = "Timeout on "+end+"ms (limit: "+optionsCompile.timeout+"ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
+        			var msg64 = new Buffer(message,'ascii').toString('base64');
+        			var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+        			res.send(msgret);
+        			//throw e;
+  		      }
+  		      else
+            {
+        			//console.log('stdout ', stdout);
+        			//console.log('stderr ', stderr);
+        			res.send(stdout);
+  		      }
+  		    }); // child
+      } //Compiler exists if
+  } // if imagename!= ""
+  else
+  {
+      var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
+      var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+      res.send(msgret);
+  }
 }); // End of compilex
 
 // catch 404 and forward to error handler

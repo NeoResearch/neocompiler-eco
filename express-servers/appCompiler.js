@@ -36,7 +36,7 @@ server.listen(10000 || process.env.PORT, (err) => {
 
 
 var optionsCompile = {
-  timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!
+  timeout: 15000, // 5 seconds is already a lot... but C# is requiring 10!
   killSignal: 'SIGKILL'
 }
 
@@ -129,7 +129,7 @@ app.post('/compilex', function(req, res) {
 		  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
 		  res.send(msgret);
 	  }
-	  else{	
+	  else{
 		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
 		      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
 
@@ -151,7 +151,7 @@ app.post('/compilex', function(req, res) {
     else {
 	    var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
 	    var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-	    res.send(msgret); 
+	    res.send(msgret);
     }
 }); // End of compilex
 

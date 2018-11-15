@@ -36,7 +36,7 @@ server.listen(10000 || process.env.PORT, (err) => {
 
 
 var optionsCompile = {
-  timeout: 15000, // 5 seconds is already a lot... but C# is requiring 10!
+  timeout: 20000, // 5 seconds is already a lot... but C# is requiring 20!
   killSignal: 'SIGKILL'
 }
 

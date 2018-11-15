@@ -3,7 +3,9 @@
 echo $COMPILECODE | base64 -d > /tmp/contract.go
 
 echo -n "{ \"output\": \""
- ./bin/neo-go contract compile -i /tmp/contract.go -o /tmp/contract.avm > /tmp/output.txt 2> /tmp/output.err
+ ./bin/neo-go contract compile -i /tmp/contract.go -d -o /tmp/contract.avm > /tmp/output.txt 2> /tmp/output.err
+(cd /go/src/github.com/CityOfZion/neo-go && git show | head -n 3 >> /tmp/output.txt)
+echo "" >> /tmp/output.txt
 cat /tmp/output.txt /tmp/output.err | base64 | tr -d '\n'
 echo -n "\", \"avm\": \""
 if [ -f /tmp/contract.avm ]; then

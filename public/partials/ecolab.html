@@ -628,6 +628,18 @@
                    </div>
                  </div>
                </div>
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     Automatic tools
+                 </div>
+                 <div class="panel-body">
+                   <div class="col-md-2">
+                       <span class="label label-success">Automatic compiler selection</span>
+                       <br/><input type="checkbox" id="cbx_automatic_compiler" checked>Pick compiler automatically</input><br/>
+                   </div>
+
+                 </div>
+               </div>
            </div>
          <!-- END CONFIGURATIONS INFO -->
          <!-- ======================================================== -->
@@ -1384,6 +1396,7 @@ def Main():
                 populateAllWalletData();
                 callFromAllKnownThatHasClaimable();
                 searchForTXs();
+                pingCompilers();
             }, 10000); // 30000 milsec
             recoveringPageData();
             populateAllWalletData();
@@ -1402,6 +1415,38 @@ def Main():
             }
             updatePATHS();
         });
+
+        function pingCompilers(){
+
+          if($("#cbx_automatic_compiler")[0].checked)
+          {
+            var availableCompilers = $("#selectionBoxCompilers")[0].length;
+            var bestCompiler = $("#selectionBoxCompilers")[0][0].value;
+            var bestPing = 1000000000;
+            for(var i=0;i<availableCompilers;i++)
+            {
+              var compilerToPing = $("#selectionBoxCompilers")[0][i].value;
+
+              //console.log('Going to ping ' + compilerToPing + '...');
+              ping(compilerToPing).then(function(response) {
+                  //console.log('Ping time was ' + String(response.delta) + ' ms');
+                  if(response.delta < bestPing )
+                  {
+                    bestPing = response.delta;
+                    bestCompiler = response.url;
+                    if(bestCompiler != BASE_PATH_COMPILERS)
+                    {
+                      console.log('Going to update to bestCompiler ' + bestCompiler + " with ping time " + String(response.delta));
+                      updateAllCompilerRelatedVariables(bestCompiler);
+                    }
+                  }
+                  //console.log('bestCompiler ' + bestCompiler + ' with ' + bestPing + 'ms');
+              }).catch(function(err) {
+                  console.error('Could not ping remote URL', err);
+              });
+            }
+          } //automatic compiler checkbox
+        }
 
         window.onbeforeunload = function(event){
           storePageData();
@@ -1441,11 +1486,15 @@ def Main():
 
         //=============================================================
         //======== BEGIN CONFIGUCATION SELECTION BOX ON CHANGE ========
-        $("#selectionBoxCompilers").on('change', function() {
-            BASE_PATH_COMPILERS = this.value;
-            $("#compilers_path")[0].value = this.value;
+        function updateAllCompilerRelatedVariables(url){
+          BASE_PATH_COMPILERS = url;
+          $("#compilers_path")[0].value = url;
 
-            updateCompilersSelectionBox("docker-mono-neo-compiler");
+          updateCompilersSelectionBox("docker-mono-neo-compiler");
+        }
+
+        $("#selectionBoxCompilers").on('change', function() {
+            updateAllCompilerRelatedVariables(this.value);
         });
 
         $("#selectionBoxEcoServices").on('change', function() {

@@ -333,7 +333,15 @@
 
 	console.log("Final attached gas should be:" + contractGasCost)
 
-        Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params)
+	      var contract_name = $("#jsdeploy_name").val();
+				var contract_desc = $("#jsdeploy_desc").val();
+				var contract_email = $("#jsdeploy_email").val();
+				var contract_author = $("#jsdeploy_author").val();
+				var contract_version = $("#jsdeploy_version").val();
+
+				//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
+
+        Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
     });//End of deploy function
     //===============================================================
 

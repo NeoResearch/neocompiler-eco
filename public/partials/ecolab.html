@@ -950,12 +950,17 @@ def Main():
                                 </div>
                               </div>
 
-                              <div class="col-md-6">
+                              <div class="col-md-3">
                                 <div class="form-group">
                                   <label for="contractparams">Deploy Params</label>
                                   <input id="contractparamsjs" name="contractparams" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%">
                                 </div>
                               </div>
+                              <div class="col-md-3">
+                                 <label for="contractparamnames">Param Type Names</label>
+                                 <input id="contractparamnamesjs" name="contractparamnames" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%" disabled>
+                              </div>
+
 
                               <div class="col-md-6 form-inline" style="margin-bottom: 10px">
                                 <div class="form-group">
@@ -999,11 +1004,26 @@ def Main():
                                 </div>
                               </div>
 
-                              <div class="col-md-6">
-                                 <label for="contractparamnames">Param Type Names</label>
-                                 <input id="contractparamnamesjs" name="contractparamnames" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%" disabled>
+                              <div class="col-md-3">
+                                 <label for="contractparamnames">Contract Name</label>
+                                 <input id="jsdeploy_name" name="jsdeploy_name" value='appname' class="form-control" placeholder="" style="width: 100%"/>
                               </div>
-
+                              <div class="col-md-3">
+                                 <label for="contractparamnames">Contract Author</label>
+                                 <input id="jsdeploy_author" name="jsdeploy_author" value='author' class="form-control" placeholder="" style="width: 100%"/>
+                              </div>
+                              <div class="col-md-6">
+                                 <label for="contractparamnames">Contract Description</label>
+                                 <input id="jsdeploy_desc" name="jsdeploy_desc" value='appdescription' class="form-control" placeholder="" style="width: 100%"/>
+                              </div>
+                              <div class="col-md-3">
+                                 <label for="contractparamnames">Contract e-mail</label>
+                                 <input id="jsdeploy_email" name="jsdeploy_email" value='email' class="form-control" placeholder="" style="width: 100%"/>
+                              </div>
+                              <div class="col-md-3">
+                                 <label for="contractparamnames">Contract version</label>
+                                 <input id="jsdeploy_version" name="jsdeploy_version" value='v1.0' class="form-control" placeholder="" style="width: 100%"/>
+                              </div>
                               <div class="col-md-12">
                                 <button type="submit" id="deploybtnjs" class="btn btn-success btn-sm" data-toggle="modal" >Deploy Js</button>
                               </div>

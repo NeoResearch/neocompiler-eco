@@ -109,6 +109,10 @@ app.post('/compilex', function(req, res) {
     code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
   }
 
+  var compatible="";
+  if(req.body.cbx_compatible)
+	compatible="--compatible";
+
   if(imagename != "")
   {
   	  //Check if compiler request exists
@@ -131,7 +135,7 @@ app.post('/compilex', function(req, res) {
   	  }
   	  else
       {
-		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -e COMPATIBLE=" + compatible +" -t --rm " + imagename;
           var start = new Date();
 		      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
             var end = new Date() - start;

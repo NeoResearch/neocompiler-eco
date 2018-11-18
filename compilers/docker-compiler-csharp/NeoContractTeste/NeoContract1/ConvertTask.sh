@@ -1,2 +1,2 @@
-(cd bin/Release && dotnet neon.dll --compatible NeoContract1.dll)
-#(cd bin/Release && dotnet neon.dll NeoContract1.dll)
+echo "Compatible mode is $COMPATIBLE"
+(cd bin/Release && dotnet neon.dll $COMPATIBLE NeoContract1.dll)

@@ -1425,6 +1425,10 @@ def Main():
                 callFromAllKnownThatHasClaimable();
                 searchForTXs();
                 pingCompilers();
+
+                $("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
+                $("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
+                $("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
             }, 10000); // 30000 milsec
             recoveringPageData();
             populateAllWalletData();

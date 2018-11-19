@@ -677,13 +677,16 @@
 	  txIDCell.style.display = 'block';
           txRow.insertCell(-1).appendChild(txIDCell);
 
-          var bRestore = document.createElement('button');
-          bRestore.setAttribute('content', 'test content');
-          bRestore.setAttribute('class', 'btn btn-info');
-          bRestore.setAttribute('value', i);
-          bRestore.onclick = function () {restoreTX(this.value);};
-          bRestore.innerHTML = ':)';
-          txRow.insertCell(-1).appendChild(bRestore);
+	  if(vecRelayedTXs[i].txType === "Invoke")
+	  {
+		  var bRestore = document.createElement('button');
+		  bRestore.setAttribute('content', 'test content');
+		  bRestore.setAttribute('class', 'btn btn-info');
+		  bRestore.setAttribute('value', i);
+		  bRestore.onclick = function () {restoreTX(this.value);};
+		  bRestore.innerHTML = 'R';
+		  txRow.insertCell(-1).appendChild(bRestore);
+	  }
 
           //This draw can be deprecated
           /*$.getJSON(urlToGet, function(result) {

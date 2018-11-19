@@ -1425,14 +1425,13 @@ def Main():
                 callFromAllKnownThatHasClaimable();
                 searchForTXs();
                 pingCompilers();
-
-                $("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
-                $("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
-                $("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
+                updateEcoMetadataInfo();
             }, 10000); // 30000 milsec
             recoveringPageData();
             populateAllWalletData();
             updateAddressSelectionBox();
+            updateEcoMetadataInfo();
+            changeWalletInfo();
 
             refreshGenesisBlock = setInterval(function() {
                 genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
@@ -1447,6 +1446,12 @@ def Main():
             }
             updatePATHS();
         });
+
+        function updateEcoMetadataInfo(){
+          $("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
+          $("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
+          $("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
+        }
 
         function pingCompilers(){
 

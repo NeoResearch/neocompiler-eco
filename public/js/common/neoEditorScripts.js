@@ -260,6 +260,15 @@
             "json" // The format the response should be in
         );  //End of POST for Compile
 
+	//Send info to EcoServices for counting number of compilations
+	$.post(
+            BASE_PATH_ECOSERVICES + "/compileCounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function (data) {
+        },
+            "json" // The format the response should be in
+        );  //End of POST for Compile counter
+
     }); //End of form Compile function
     //===============================================================
 
@@ -288,6 +297,15 @@
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
 	Invoke(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
+
+	//Send info to EcoServices for counting number of invokes
+	$.post(
+            BASE_PATH_ECOSERVICES + "/invokecounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function (data) {
+        },
+            "json" // The format the response should be in
+        );  //End of POST for Compile counter
 
     });//End of invoke function
     //===============================================================
@@ -342,6 +360,16 @@
 				//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
 
         Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
+
+	//Send info to EcoServices for counting number of deploys
+	$.post(
+            BASE_PATH_ECOSERVICES + "/deploycounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function (data) {
+        },
+            "json" // The format the response should be in
+        );  //End of POST for Compile counter
+
     });//End of deploy function
     //===============================================================
 

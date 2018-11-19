@@ -5,5 +5,5 @@
 node_modules
 .fuse*
 *.DS_Store
-connections.json
+eco-metadata.json
 nohup*

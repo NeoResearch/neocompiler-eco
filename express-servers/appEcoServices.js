@@ -86,22 +86,23 @@ app.get('/statusnode/:node', function(req, res) {
 
 // ============================================================
 // ================== Socket io ===============================
-const Connections = require('./socket-js/connections.js');
-let conn = new Connections();
+const EcoData = require('./socket-js/eco-metadata-class.js');
+let ecoInfo = new EcoData();
+
 var io = require('socket.io').listen(server);
 var timeleft = (12*60*60*1000);
 setInterval(function() {
   timeleft -= 1000;
-  io.emit('timeleft', { timeleft: timeleft });
+  io.emit('timeleft', { timeleft: timeleft, compilations: ecoInfo.compilationsSince, deploys: ecoInfo.deploysSince, invokes: ecoInfo.invokesSince });
 }, 1000);
 
 io.set('origins', '*:*');
 
 io.on('connection', function(socket){
-  conn.addConnection();
-  io.emit('userconnected', { online: conn.connections, since: conn.connectionsSince });
+  ecoInfo.addConnection();
+  io.emit('userconnected', { online: ecoInfo.connections, since: ecoInfo.connectionsSince});
   socket.on('disconnect', function(){
-    conn.removeConnection();
+    ecoInfo.removeConnection();
   });
 });
 // ============================================================
@@ -110,6 +111,24 @@ var optionsGetLogger = {
   timeout: 10000, // 5 seconds is already a lot... but C# is requiring 10!
   killSignal: 'SIGKILL'
 }
+
+app.post('/compileCounter', function(req, res) {
+   ecoInfo.addCompilation();
+   //console.log("Current number of compilation requests is " + ecoInfo.compilationsSince);
+   res.send("true");
+});
+
+app.post('/deployCounter', function(req, res) {
+   ecoInfo.addDeploy();
+   //console.log("Current number of deploy requests is " + ecoInfo.deploysSince);
+   res.send("true");
+});
+
+app.post('/invokeCounter', function(req, res) {
+   ecoInfo.addInvoke();
+   //console.log("Current number of invoke requests is " + ecoInfo.invokesSince);
+   res.send("true");
+});
 
 // ============================================================
 // ================== PYTHON LOGGER SERVICES ==================

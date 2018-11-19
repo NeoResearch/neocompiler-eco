@@ -310,45 +310,74 @@ function drawWalletsStatus(){
 //================ ADD NEW ADDRESS ==============================
 //TODO Add suport for adding multisig and specialSC
 function addWallet(){
-   	console.log("addWallet()");
+   	//console.log("addWallet()");
         addressBase58ToAdd = document.getElementById('addressToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
-        console.log("pubAddressToAdd: '" + addressBase58ToAdd + "' wifToAdd: '" + wifToAdd + "'");
+        vsToAdd = document.getElementById('vsToAddBox').value;
 
- 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
+	if(!$("#cbx_multisig")[0].checked)
 	{
-		alert("This WIF " + wifToAdd + " does not seems to be valid.");
-		return;
-	}
-   	console.log("wif " + wifToAdd + " is ok!");
+		console.log("pubAddressToAdd: '" + addressBase58ToAdd + "' wifToAdd: '" + wifToAdd + "'");
 
-	//TODO Check if addressBase58 already exists by getting it from wif
-	if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
+	 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
+		{
+			alert("This WIF " + wifToAdd + " does not seems to be valid.");
+			return;
+		}
+	   	console.log("wif " + wifToAdd + " is ok!");
+
+		//TODO Check if addressBase58 already exists by getting it from wif
+		if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
+		{
+			alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
+			return;
+		}
+
+		//console.log(getWifIfKnownAddress(wifToAdd));
+		if(wifToAdd == '' && !$("#cbx_watchonly")[0].checked)
+		{
+			alert("WIF is null. Please mark WatchOnly or multisig");
+			return;
+		}
+
+		if(searchAddrIndexFromWif(wifToAdd) != -1 && !$("#cbx_watchonly")[0].checked)
+		{
+			alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
+			return;
+		}
+
+		
+	 	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
+		{
+			alert("Public addressBase58 " + addressBase58ToAdd + " is not being recognized as a valid address.");
+			return;
+		}
+	   	console.log("Address " + addressBase58ToAdd + " is ok!");
+
+
+		KNOWN_ADDRESSES.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
+	}
+
+	if($("#cbx_multisig")[0].checked)
 	{
-		alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
-		return;
+		if(vsToAdd == '')
+		{
+			alert("Verification script is empty for this multisig!");
+			return;
+		}
+
+		addressBase58ToAdd = toBase58(getScriptHashFromAVM(vsToAdd));
+
+		if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
+		{
+			alert("Public addressBase58 already registered for this MultiSig. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
+			return;
+		}
+		KNOWN_ADDRESSES.push({ type: 'multisig', addressBase58: addressBase58ToAdd, pKeyWif: '', privKey: '', pubKey: '', print: true, verificationScript: vsToAdd });
 	}
-
-	console.log(getWifIfKnownAddress(wifToAdd));
-	if(searchAddrIndexFromWif(wifToAdd) != -1)
-	{
-		alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
-		return;
-	}
-
-
- 	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
-	{
-		alert("Public addressBase58 " + addressBase58ToAdd + " is not being recognized as a valid address.");
-		return;
-	}
-   	console.log("Address " + addressBase58ToAdd + " is ok!");
-
-
-	KNOWN_ADDRESSES.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
-
+	
 	updateAddressSelectionBox();
-   	console.log("will populate all wallets");
+   	//console.log("will populate all wallets");
 	populateAllWalletData();
 }
 //===============================================================

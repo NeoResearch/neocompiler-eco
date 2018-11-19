@@ -456,8 +456,11 @@
                             <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check wallet</button> <br>
                             <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
-                            Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" value="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="30" title="public address"/> &nbsp; &nbsp;
+                            Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" value="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address"/> <br>
                             WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" value="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
+                            VerificationScript: <input type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" size="20" /> <br>
+                            <br/><input type="checkbox" id="cbx_watchonly" name="cbx_watchonly">Watch Only</input>
+                            <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
                             <button type="button" onClick="addWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                         </div>
                     </div>

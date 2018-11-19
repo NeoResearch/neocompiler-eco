@@ -599,18 +599,19 @@
       var headersRestore = document.createElement('div');
       headers1.innerHTML = "<b> ID </b>";
       row.insertCell(-1).appendChild(headers1);
+      headersAppLog.innerHTML = "<b> VM Status (Click for Info)</b>";
+      row.insertCell(-1).appendChild(headersAppLog);
+      headersRestore.innerHTML = "<b> Restore </b>";
+      row.insertCell(-1).appendChild(headersRestore);
       headersTxType.innerHTML = "<b> txType </b>";
       row.insertCell(-1).appendChild(headersTxType);
       headerstxScriptHash.innerHTML = "<b> txScriptHash </b>";
       row.insertCell(-1).appendChild(headerstxScriptHash);
-      headersAppLog.innerHTML = "<b> AppLog </b>";
-      row.insertCell(-1).appendChild(headersAppLog);
       headerstxParams.innerHTML = "<b> txParams </b>";
       row.insertCell(-1).appendChild(headerstxParams);
       headers2.innerHTML = "<b> TX on NeoScan </b>";
       row.insertCell(-1).appendChild(headers2);
-      headersRestore.innerHTML = "<b> InvokeRestore </b>";
-      row.insertCell(-1).appendChild(headersRestore);
+
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
           var txRow = table.insertRow(-1);
@@ -625,6 +626,35 @@
           b.onclick = function () {buttonRemoveTX(this.value);};
           b.innerHTML = i;
           txRow.insertCell(-1).appendChild(b);
+
+          var bGoToAppLog = document.createElement('button');
+          bGoToAppLog.setAttribute('content', 'test content');
+          bGoToAppLog.setAttribute('class', 'btn btn-info');
+          bGoToAppLog.setAttribute('value', i);
+          bGoToAppLog.setAttribute('id', "appLogNeoCli"+i);
+          bGoToAppLog.onclick = function () {callAppLog(this.value);};
+          bGoToAppLog.innerHTML = '?';
+          txRow.insertCell(-1).appendChild(bGoToAppLog);
+
+	  if(vecRelayedTXs[i].txType === "Invoke")
+	  {
+		  var bRestore = document.createElement('button');
+		  bRestore.setAttribute('content', 'test content');
+		  bRestore.setAttribute('class', 'btn btn-info');
+		  bRestore.setAttribute('value', i);
+		  bRestore.onclick = function () {restoreInvokeTX(this.value);};
+		  bRestore.innerHTML = 'R_I';
+		  txRow.insertCell(-1).appendChild(bRestore);
+	  }else{
+		  var bRestore = document.createElement('button');
+		  bRestore.setAttribute('content', 'test content');
+		  bRestore.setAttribute('class', 'btn btn-info');
+		  bRestore.setAttribute('value', i);
+		  bRestore.onclick = function () {restoreDeployTX(this.value);};
+		  bRestore.innerHTML = 'R_D';
+		  txRow.insertCell(-1).appendChild(bRestore);
+	  }
+
 
           var inputTxType = document.createElement("input");
           //input.setAttribute("type", "hidden");
@@ -641,15 +671,6 @@
           inputSH.style.width = '120px';
           inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
           txRow.insertCell(-1).appendChild(inputSH);
-
-          var bGoToAppLog = document.createElement('button');
-          bGoToAppLog.setAttribute('content', 'test content');
-          bGoToAppLog.setAttribute('class', 'btn btn-info');
-          bGoToAppLog.setAttribute('value', i);
-          bGoToAppLog.setAttribute('id', "appLogNeoCli"+i);
-          bGoToAppLog.onclick = function () {callAppLog(this.value);};
-          bGoToAppLog.innerHTML = '?';
-          txRow.insertCell(-1).appendChild(bGoToAppLog);
 
 
           var inputParams = document.createElement("input");
@@ -677,16 +698,6 @@
 	  txIDCell.style.display = 'block';
           txRow.insertCell(-1).appendChild(txIDCell);
 
-	  if(vecRelayedTXs[i].txType === "Invoke")
-	  {
-		  var bRestore = document.createElement('button');
-		  bRestore.setAttribute('content', 'test content');
-		  bRestore.setAttribute('class', 'btn btn-info');
-		  bRestore.setAttribute('value', i);
-		  bRestore.onclick = function () {restoreTX(this.value);};
-		  bRestore.innerHTML = 'R';
-		  txRow.insertCell(-1).appendChild(bRestore);
-	  }
 
           //This draw can be deprecated
           /*$.getJSON(urlToGet, function(result) {
@@ -737,8 +748,8 @@
   //===============================================================
 
   //===============================================================
-   //Restore tx
-   function restoreTX(txID){
+   //Restore Invoke tx
+   function restoreInvokeTX(txID){
       if(txID < vecRelayedTXs.length && txID > -1)
       {
 	     if(vecRelayedTXs[txID].txType === "Invoke")
@@ -748,7 +759,21 @@
 	     }
 
       }else{
-        alert("Cannot restore of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+        alert("Cannot restore invoke of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+      }
+   }
+
+   function restoreDeployTX(txID){
+      if(txID < vecRelayedTXs.length && txID > -1)
+      {
+	     if(vecRelayedTXs[txID].txType === "Deploy")
+	     {
+		var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+		console.log(deployJsonParams);
+	     }
+
+      }else{
+        alert("Cannot restore deploy TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
    }
    //===============================================================

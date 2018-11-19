@@ -804,7 +804,9 @@ def Main():
 
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
-                                <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p>
+                                <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font>
+                                <br><span id="span_numberCompilations" class="label label-info"></span>
+                                </p>
                                 <div class="dropdown btn-group" style="margin-bottom: 10px">
                                   <label for="compilers_versions-selection-box">Compiler version:</label>
                                   <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
@@ -1028,7 +1030,9 @@ def Main():
                               <div class="col-md-12">
                                 <button type="submit" id="deploybtnjs" class="btn btn-success btn-sm" data-toggle="modal" >Deploy Js</button>
                               </div>
-
+                              <div class="col-md-12">
+                                <span id="span_numberDeploys" class="label label-info"></span>
+                              </div>
                             </div>
                         </form>
                       </div> <!-- end panel deploy js -->
@@ -1227,6 +1231,9 @@ def Main():
                            <div class="row">
                                <div class="col-md-12">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal">Invoke js</button>
+                               </div>
+                               <div class="col-md-12">
+                                 <span id="span_numberInvokes" class="label label-info"></span>
                                </div>
                            </div> <!-- row -->
                      </form>

@@ -96,6 +96,9 @@
         numberCompilations = data['compilations'];
         numberDeploys = data['deploys'];
         numberInvokes = data['invokes'];
+        $("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
+        $("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
+        $("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
         var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
         var tLeft = dateGMT0.toTimeString();
         var output = "Time left: " + tLeft.substring(0, 8);

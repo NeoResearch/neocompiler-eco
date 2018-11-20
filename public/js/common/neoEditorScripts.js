@@ -857,6 +857,17 @@
      for (i = 0; i < vecRelayedTXs.length; i++)
       searchForTX(i);
    }
+
+   function exportHistory(){
+	console.log(JSON.stringify(vecRelayedTXs));
+   }
+
+   function loadHistory(vecRelayedTXsToLoad){	
+	vecRelayedTXs = vecRelayedTXsToLoad;
+        drawRelayedTXs();
+   }
+
+
    //===============================================================
 
    //===============================================================

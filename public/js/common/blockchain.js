@@ -455,15 +455,16 @@ function pushParams(neonJSParams, type, value){
 }
 
 //Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
-function Invoke(myaddress, myprivatekey, mygasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
+//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+// contract_operation IS OBSOLET AS IT IS RIGHT NOW
+function Invoke(myaddress, myprivatekey, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
 
   var i = 0;
   for(i = 0; i<neonJSParams.length; i++)
      console.log(JSON.stringify(neonJSParams[i]));
 
-  console.log("mygasfee '" +mygasfee+ "' neo '" + neo + "' gas '" + gas+"'");
+  console.log("mynetfee '" +mynetfee+" mygasfee '" +mysysgasfee+ "' neo '" + neo + "' gas '" + gas+"'");
 
   //Notify user if contract exists
   getContractState(contract_scripthash, false);
@@ -555,8 +556,8 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
     intents: intent,
     address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
     privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
-    fees: 0,
-    gas: mygasfee //0
+    fees: mynetfee, // net fees
+    gas: mysysgasfee // systemfee
   }
 
   Neon.default.doInvoke(config).then(res => {
@@ -571,10 +572,11 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
          createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 7000);
 
     if(res.response.result) {
+      var invokeParams = transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJSParams);
       if(typeof(res.response.result) == "boolean") // 2.X
-          updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
+          updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,invokeParams);
       else  // 3.X
-    	  updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,JSON.stringify(neonJSParams));
+    	  updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,invokeParams);
     }
 
   }).catch(err => {
@@ -586,11 +588,16 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 }
 
 
+function transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJSParams)
+{
+	var invokeParams = { caller: myaddress, mynetfee: mynetfee, mysysgasfee: mysysgasfee, neo: neo, gas: gas, neonJSParams: neonJSParams}
+	return JSON.stringify(invokeParams);
+}
+
 function transformDeployParams(myaddress, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname)
 {
-	var deployParams = { myaddress: myaddress, contract_script: contract_script, storage: storage, returntype: returntype, par: par, contract_description: contract_description,
+	var deployParams = { caller: myaddress, contract_script: contract_script, storage: storage, returntype: returntype, par: par, contract_description: contract_description,
 	contract_email: contract_email, contract_author: contract_author, contract_version: contract_version, contract_appname:contract_appname}
-
 	return JSON.stringify(deployParams);
 }
 

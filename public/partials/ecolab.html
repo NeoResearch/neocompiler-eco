@@ -1127,10 +1127,22 @@ def Main():
                     <div class="tab-pane active cont" id="tabinvokejs">
                      <form id="forminvokejs" method="post">
                        <div class="row">
+                         <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                           <div class="form-group">
+                             <label>Caller (AddressBase58)</label>
+                             <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
+                           </div>
+                          </div>
+                       </div>
+                       <div class="row">
                            <div class="col-md-12 form-inline" style="margin-bottom: 10px">
                              <div class="form-group">
-                                 <label for="attachgasfeejs">System fee (in GAS)</label>
-                                 <input id="attachgasfeejs" name="attachgasfeejs" class="form-control" value="0" placeholder="Send GAS"/>
+                                 <label for="attachSystemgasjs">System fee (in GAS)</label>
+                                 <input id="attachSystemgasjs" name="attachSystemgasjs" class="form-control" value="0" placeholder="Send GAS Sys"/>
+                             </div>
+                             <div class="form-group">
+                                 <label for="attachgasfeejs">Net fee (in GAS)</label>
+                                 <input id="attachgasfeejs" name="attachgasfeejs" class="form-control" value="0" placeholder="Send GAS NetFee"/>
                              </div>
                              <div class="form-group">
                                <label for="attachneojs">Attach NEO</label>
@@ -1139,9 +1151,6 @@ def Main():
                              <div class="form-group">
                                  <label for="attachgas">GAS</label>
                                  <input id="attachgasjs" name="attachgasjs" class="form-control" value="0" placeholder="Attach GAS"/>
-                             </div>
-                             <div class="form-group">
-                               <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
                              </div>
                            </div>
                         </div>

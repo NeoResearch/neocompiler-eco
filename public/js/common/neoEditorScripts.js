@@ -283,6 +283,7 @@
 
 	var wI = $("#wallet_invokejs")[0].selectedOptions[0].index;
 	var attachgasfeejs = Number($("#attachgasfeejs").val());
+	var attachsystemgasjs = Number($("#attachSystemgasjs").val());
 	var attachneojs = Number($("#attachneojs").val());
 	var attachgasjs = Number($("#attachgasjs").val());
 	var invokeScripthash = $("#invokehashjs").val();
@@ -296,7 +297,7 @@
 	var neonJSParams = [];
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
-	Invoke(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,attachgasfeejs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
+	Invoke(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,attachgasfeejs,attachsystemgasjs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
 	//Send info to EcoServices for counting number of invokes
 	$.post(
@@ -754,10 +755,16 @@
       {
 	     if(vecRelayedTXs[txID].txType === "Invoke")
 	     {
+		var invokeJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
 	     	$("#invokehashjs").val(vecRelayedTXs[txID].txScriptHash);
-	     	$("#invokeparamsjs").val(vecRelayedTXs[txID].txParams);
+	     	$("#invokeparamsjs").val(JSON.stringify(invokeJsonParams.neonJSParams));
+		$("#attachgasfeejs").val(invokeJsonParams.mynetfee);
+		$("#attachSystemgasjs").val(invokeJsonParams.mysysgasfee);
+		$("#attachneojs").val(invokeJsonParams.neo);
+		$("#attachgasjs").val(invokeJsonParams.gas);
+		if(searchAddrIndexFromBase58(invokeJsonParams.caller) != -1)
+			$("#wallet_invokejs")[0].selectedIndex = searchAddrIndexFromBase58(invokeJsonParams.caller);
 	     }
-
       }else{
         alert("Cannot restore invoke of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
@@ -768,8 +775,73 @@
       {
 	     if(vecRelayedTXs[txID].txType === "Deploy")
 	     {
+
 		var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
 		console.log(deployJsonParams);
+	     	$("#jsdeploy_name").val(deployJsonParams.contract_appname);
+	     	$("#jsdeploy_desc").val(deployJsonParams.contract_description);
+		$("#jsdeploy_email").val(deployJsonParams.contract_email);
+		$("#jsdeploy_author").val(deployJsonParams.contract_author);
+		$("#jsdeploy_version").val(deployJsonParams.contract_version);
+		$("#contractparamsjs").val(deployJsonParams.par);
+		$("#codeavm").val(deployJsonParams.contract_script);
+		$("#contracthashjs").val(getScriptHashFromAVM(deployJsonParams.contract_script));
+                $("#contractreturn")[0].value = getHexForType(deployJsonParams.returntype);
+                $("#contractreturnjs")[0].value = getHexForType(deployJsonParams.returntype);
+
+		if(deployJsonParams.storage == 0)
+		{
+			$("#cbx_storagejs")[0].checked = false;
+			$("#cbx_dynamicinvokejs")[0].checked = false;
+			$("#cbx_ispayablejs")[0].checked = false;
+		}
+		if(deployJsonParams.storage == 1)
+		{
+			$("#cbx_storagejs")[0].checked = true;
+			$("#cbx_dynamicinvokejs")[0].checked = false;
+			$("#cbx_ispayablejs")[0].checked = false;
+		}
+		if(deployJsonParams.storage == 2)
+		{
+			$("#cbx_storagejs")[0].checked = false;
+			$("#cbx_dynamicinvokejs")[0].checked = true;
+			$("#cbx_ispayablejs")[0].checked = false;
+		}
+		if(deployJsonParams.storage == 3)
+		{
+			$("#cbx_storagejs")[0].checked = true;
+			$("#cbx_dynamicinvokejs")[0].checked = true;
+			$("#cbx_ispayablejs")[0].checked = false;
+		}
+		if(deployJsonParams.storage == 4)
+		{
+			$("#cbx_storagejs")[0].checked = false;
+			$("#cbx_dynamicinvokejs")[0].checked = false;
+			$("#cbx_ispayablejs")[0].checked = true;
+		}
+		if(deployJsonParams.storage == 5)
+		{
+			$("#cbx_storagejs")[0].checked = true;
+			$("#cbx_dynamicinvokejs")[0].checked = false;
+			$("#cbx_ispayablejs")[0].checked = true;
+		}
+		if(deployJsonParams.storage == 6)
+		{
+			$("#cbx_storagejs")[0].checked = false;
+			$("#cbx_dynamicinvokejs")[0].checked = true;
+			$("#cbx_ispayablejs")[0].checked = true;
+		}
+		if(deployJsonParams.storage == 7)
+		{
+			$("#cbx_storagejs")[0].checked = true;
+			$("#cbx_dynamicinvokejs")[0].checked = true;
+			$("#cbx_ispayablejs")[0].checked = true;
+		}
+
+
+		if(searchAddrIndexFromBase58(deployJsonParams.caller) != -1)
+			$("#wallet_deployjs")[0].selectedIndex = searchAddrIndexFromBase58(deployJsonParams.caller);
+
 	     }
 
       }else{

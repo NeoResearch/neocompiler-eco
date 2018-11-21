@@ -88,7 +88,7 @@
       socket = io.connect(BASE_PATH_ECOSERVICES, {resource: 'nodejs'});
       socket.on('userconnected', function (data) {
         $("#online")[0].innerHTML="Online: " + data['online'];
-        $("#connecedSince")[0].innerHTML="Access: " + data['since'];
+        $("#connecedSince")[0].innerHTML="Queries: " + data['since'];
       });
 
       socket.on('timeleft', function (data) {

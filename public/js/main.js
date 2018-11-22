@@ -4,7 +4,6 @@ var numberCompilations = 0;
 var numberDeploys = 0;
 var numberInvokes = 0;
 var refreshIntervalId = 0;
-var ALLOW_NOTIFICATIONS_ALERTS = true;
 
 var KNOWN_ADDRESSES = [];
 //Template

@@ -682,7 +682,7 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 
 function createNotificationOrAlert(notifyTitle, notifyBody, notificationTimeout)
 {
-    if(ALLOW_NOTIFICATIONS_ALERTS){
+    if($("#cbx_ecoNotifications")[0].checked){
 	  var permission = (Notification.permission === "granted");
      	  if (!permission) {
           	//alert(Notification.permission);

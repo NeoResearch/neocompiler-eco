@@ -73,10 +73,10 @@ class EcoData {
       this.InvokesSince = conns['Invokes'];
     } else
     {
-      this.ConnectionsSince = -1000;
-      this.CompilationsSince = -1000;
-      this.DeploysSince = -1000;
-      this.InvokesSince = -1000;
+      this.ConnectionsSince = 0;
+      this.CompilationsSince = 0;
+      this.DeploysSince = 0;
+      this.InvokesSince = 0;
     }
 
   }

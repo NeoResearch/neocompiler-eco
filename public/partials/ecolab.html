@@ -706,17 +706,17 @@
                                                 </div>
                                                 <input type="hidden" id="code_cs" name="codesend_cs"/>
                                                 <pre id="editorCSharp">
-using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
-using System;
-using System.Numerics;
-namespace NeoContract1
+
+namespace Neo.SmartContract
 {
-    public class Contract1 : SmartContract
+    public class HelloWorld : Framework.SmartContract
     {
         public static void Main()
         {
-            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+            // writes value &quot;World&quot; on storage key &quot;Hello&quot;
+            // implicitly calls Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;)
+            Storage.Put(&quot;Hello&quot;, &quot;World&quot;);
         }
     }
 }

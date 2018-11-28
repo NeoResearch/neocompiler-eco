@@ -20,12 +20,16 @@ res.setHeader('Access-Control-Allow-Origin', '*');
 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 res.setHeader('Access-Control-Allow-Credentials', true);
+res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+res.header('Expires', '-1');
+res.header('Pragma', 'no-cache');
 next();
 });
 
 //app.listen(9000);
 
 var server = http.createServer(app);
+var objErrorHandler = {};
 
 server.listen(10000 || process.env.PORT, (err) => {
   if (err) {
@@ -52,7 +56,7 @@ app.get('/', (req, res) => {
   arrMethods.push({method: "/compilex" });
   arrMethods.push({method: "/getCompilers" });
   obj["methods"] = arrMethods;
-  res.status(200).send(obj);
+  res.send(obj);
 });
 
 app.get('/getCompilers', (req, res) => {
@@ -179,15 +183,20 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  if(!objErrorHandler.result)
+  {
+	console.log("Obj error handler should have something");
+	//console.log(objErrorHandler);
+	res.send(objErrorHandler);
+	return;
+  }
+
+  var obj={};
+  obj["result"] = false;
+  obj["reason"] = "Something went wrong in this route invocation! Try again with our set of knonw functions provided by invoking our root route!! Good luck.";
+  res.send(obj);
 });
 
 module.exports = app;

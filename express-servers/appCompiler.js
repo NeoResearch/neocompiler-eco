@@ -36,12 +36,24 @@ server.listen(10000 || process.env.PORT, (err) => {
 
 
 var optionsCompile = {
-  timeout: 20000, // 5 seconds is already a lot... but C# is requiring 20!
+  timeout: 40000, // 5 seconds is already a lot... but C# is requiring 20!
   killSignal: 'SIGKILL'
 }
 
 
 var compilers = [];
+
+app.get('/', (req, res) => {
+  console.log("Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch");
+  var obj={};
+  obj["result"] = true;
+  obj["welcome"] = "Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch.";
+  var arrMethods=[];
+  arrMethods.push({method: "/compilex" });
+  arrMethods.push({method: "/getCompilers" });
+  obj["methods"] = arrMethods;
+  res.status(200).send(obj);
+});
 
 app.get('/getCompilers', (req, res) => {
   var cmddocker = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-java-neo-compiler | tail -n +2; docker images docker-neo-boa| tail -n +2; docker images docker-neo-go| tail -n +2) | awk '{ print $1,$2 }'";
@@ -76,13 +88,6 @@ app.get('/getCompilers', (req, res) => {
   });
 });
 
-
-
-app.get('/', (req, res) => {
-  console.log("Welcome to our NeoCompiler Eco Compilers RPC API");
-  res.status(200).send("Welcome to our NeoCompiler Eco Compilers RPC API");
-});
-
 app.post('/compilex', function(req, res) {
   // Specifies which URL to listen for
   // req.body -- contains form data
@@ -97,16 +102,16 @@ app.post('/compilex', function(req, res) {
   var code64 = "";
 
   if(req.body.codesend_python) { // Python
-    code64 = new Buffer(req.body.codesend_python, 'ascii').toString('base64');
+    code64 = Buffer.from(req.body.codesend_python, 'ascii').toString('base64');
   }
   else if(req.body.codesend_golang) { // Golang
-    code64 = new Buffer(req.body.codesend_golang, 'ascii').toString('base64');
+    code64 = Buffer.from(req.body.codesend_golang, 'ascii').toString('base64');
   }
   else if(req.body.codesend_java) { // Java
-    code64 = new Buffer(req.body.codesend_java, 'ascii').toString('base64');
+    code64 = Buffer.from(req.body.codesend_java, 'ascii').toString('base64');
   }
   else if(req.body.codesend_cs) { // C#
-    code64 = new Buffer(req.body.codesend_cs, 'ascii').toString('base64');
+    code64 = Buffer.from(req.body.codesend_cs, 'ascii').toString('base64');
   }
 
   var compatible="";
@@ -124,44 +129,44 @@ app.post('/compilex', function(req, res) {
       		var compilerName = compilers[c].compiler + ":" + compilers[c].version;
     	  	if(compilerName == imagename)
     			   compilerExists = true;
-    	}
+    	  }
 
   	  if(!compilerExists)
   	  {
     		  console.log("Someone is doing something crazy. Compiler does not exist.");
-    		  var msg64 = new Buffer("Unknown Compiler! Please use something from the list!",'ascii').toString('base64');
+    		  var msg64 = Buffer.from("Unknown Compiler! Please use something from the list!",'ascii').toString('base64');
     		  var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
     		  res.send(msgret);
   	  }
   	  else
-      {
-		      var cmddocker = "docker run -e COMPILECODE=" + code64 + " -e COMPATIBLE=" + compatible +" -t --rm " + imagename;
-          var start = new Date();
-		      var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
-            var end = new Date() - start;
-  		      if (e instanceof Error)
-            {
-        			console.error(e);
-              var message = "Internal Error:\n"+e;
-              if(end > optionsCompile.timeout)
-                  message = "Timeout on "+end+"ms (limit: "+optionsCompile.timeout+"ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
-        			var msg64 = new Buffer(message,'ascii').toString('base64');
-        			var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
-        			res.send(msgret);
+          {
+	  	var cmddocker = "docker run -e COMPILECODE=" + code64 + " -e COMPATIBLE=" + compatible +" -t --rm " + imagename;
+          	var start = new Date();
+	  	var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr)=> {
+                var end = new Date() - start;
+  		if (e instanceof Error)
+                {
+        		console.error(e);
+              		var message = "Internal Error:\n"+e;
+              		if(end > optionsCompile.timeout)
+                  		message = "Timeout on "+end+"ms (limit: "+optionsCompile.timeout+"ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
+        		var msg64 = Buffer.from(message,'ascii').toString('base64');
+        		var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
+        		res.send(msgret);
         			//throw e;
   		      }
   		      else
-            {
+                      {
         			//console.log('stdout ', stdout);
         			//console.log('stderr ', stderr);
         			res.send(stdout);
   		      }
-  		    }); // child
-      } //Compiler exists if
+   		}); // child
+           } //Compiler exists if
   } // if imagename!= ""
   else
   {
-      var msg64 = new Buffer("Unknown Compiler!",'ascii').toString('base64');
+      var msg64 = Buffer.from("Unknown Compiler!",'ascii').toString('base64');
       var msgret = "{\"output\":\""+msg64+"\",\"avm\":\"\",\"abi\":\"\"}";
       res.send(msgret);
   }

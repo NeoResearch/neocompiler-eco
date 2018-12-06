@@ -144,9 +144,11 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 					neoToSend = result.balance[i].amount;
 				else
 					gasToSend = result.balance[i].amount;
-				createMultiSigSendingTransactionFromAccount(idToTransfer, to, neoToSend, gasToSend, getCurrentNetworkNickname());
+				createTxFromMSAccount(idToTransfer, to, neoToSend, gasToSend, getCurrentNetworkNickname());
 			 }else
-			 	CreateTxFromAccount(idToTransfer,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+			 {
+			 	createTxFromAccount(idToTransfer,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+			 }
 		}
 
 

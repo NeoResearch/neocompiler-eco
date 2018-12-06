@@ -203,9 +203,24 @@ function hex2int(hex) {
     return bigint;
 }
 
+//================================================================================
+// NeonJS dependent conversions
 function revertHexString(hex) {
     return Neon.u.reverseHex(hex);
 }
+
+function str2hexstring(value) {
+    return Neon.u.str2hexstring(value);
+}
+
+function fixed8FromHex(value) {
+    return Neon.u.Fixed8.fromHex(value);
+}
+
+function hexstring2str(value) {
+    return Neon.u.hexstring2str(value);
+}
+//================================================================================
 
 
 /*

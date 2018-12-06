@@ -13,7 +13,7 @@
 		function (data) {
 		  //console.log(data);
 		  valfixed8 = data.result;
-		  const a = new Neon.u.Fixed8.fromHex(revertHexString(valfixed8));
+		  const a = new fixed8FromHex(revertHexString(valfixed8));
 		  $("#output_getnep5").val(a);
 
 		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
@@ -385,14 +385,14 @@
         sthash = $("#gsf_contracthash")[0].value;
         stkey = $("#gsf_contractkey")[0].value;
         if($("#getStorageFormat")[0].value == "String (no quotes)") {
-			  stkey = Neon.u.str2hexstring(stkey);
+			  stkey = str2hexstring(stkey);
 		  }
 
         console.log("looking for storage key '"+stkey+"' at contract '"+sthash+"'" +" in the network "+$("#rpc_nodes_path")[0].value);
         getStorage(sthash, stkey, $("#rpc_nodes_path")[0].value).then(function(data){
             $("#gsf_contractvaluehex")[0].value = data.result;
             if(data.result != null)
-              $("#gsf_contractvaluestr")[0].value = Neon.u.hexstring2str(data.result);
+              $("#gsf_contractvaluestr")[0].value = hexstring2str(data.result);
             else
             {
                 $.post(
@@ -919,7 +919,7 @@
      if(type == "Address")
         return "\""+value+"\"";
      if(type == "Hex")
-        return "b'"+Neon.u.str2hexstring(Neon.u.hexstring2str(value))+"'";
+        return "b'"+str2hexstring(hexstring2str(value))+"'";
      if(type == "Integer")
         return ""+Number(value);
      return "";
@@ -931,7 +931,7 @@
    function updateInvokeParamsPy() {
      invokecmd = "";
      if($("#invokefunctionpy")[0].value != "Main")
-        invokecmd += $("#invokefunctionpy")[0].value +" "; // method or "abcdef01" (method in hex with double slashes using Neon.u.str2hexstring...)
+        invokecmd += $("#invokefunctionpy")[0].value +" "; // method or "abcdef01" (method in hex with double slashes using str2hexstring...)
 
      countparam = 0;
      par1 = "";

@@ -1,37 +1,3 @@
-function searchAddrIndexFromBase58(addressBase58ToTryToGet)
-{
-  for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
-      if(KNOWN_ADDRESSES[iToFind].account.address == addressBase58ToTryToGet)
-	     return iToFind;
-  return -1;
-}
-
-function searchAddrIndexFromWif(wifToTryToGet)
-{
-  for(iToFind = 0; iToFind < KNOWN_ADDRESSES.length; ++iToFind)
-      if(KNOWN_ADDRESSES[iToFind].account.WIF == wifToTryToGet)
-	     return iToFind;
-  return -1;
-}
-
-function getWifIfKnownAddress(addressToTryToGet)
-{
-  var index = searchAddrIndexFromBase58(addressToTryToGet);
-  if (index != -1)
-      return KNOWN_ADDRESSES[index].account.WIF;
-  else
-      return -1;
-}
-
-function fillPrivateKeyIfKnown(boxPublicFrom,boxPrivateTo)
-{
-  //console.log("public is "+ $(boxPublicFrom).val())
-
-  var privateKeyToGet = getWifIfKnownAddress($(boxPublicFrom).val());
-  if (privateKeyToGet != -1)
-      $(boxPrivateTo).val(privateKeyToGet);
-}
-
 function callFromAllKnownThatHasClaimable()
 {
   //console.log("ADDRESSES_TO_CLAIM.length is:" + ADDRESSES_TO_CLAIM.length);
@@ -52,9 +18,11 @@ function callFromAllKnownThatHasClaimable()
 	    {
 		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 		//Multi-sig address
-		createMultiSigClaimingTransaction(KNOWN_ADDRESSES[idToTransfer].account.contract.script,jsonArrayWithPrivKeys,getCurrentNetworkNickname());
+		createClaimMSGasTX(idToTransfer,jsonArrayWithPrivKeys,getCurrentNetworkNickname());
 	    }else //not multisig- normal address
+            {
 	  	createClaimGasTX(idToTransfer, BASE_PATH_CLI, getCurrentNetworkNickname());
+            }
       }
     }
   }

@@ -1,32 +1,3 @@
-function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivKeys,networkToCall){
-	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
-	const config = {
-	  api: new Neon.api.neoscan.instance(networkToCall),
-	  address: addressBase58
-	}
-
-//const account = new wallet.Account(claimingPrivateKey);
-
-console.log("\n\n--- Claiming Address ---");
-//console.log(account);
-
-	claimsFrom = Neon.api.getClaimsFrom(config, Neon.api.neoscan)
-	claimsFrom.then((c) => Neon.api.createTx(c, 'claim'))
-	claimsFrom.then( function(c) {
-		c.tx.scripts = [];
-		//Everyone signs the invocation in any order
-		var invocationScript = '';
-		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].account.privateKey));
-
-		invocationScript = sortMultiSigInvocationScript(c.tx.serialize(),invocationScript, verificationScript);
-		c.tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript});
-		const serializedTx = c.tx.serialize();
-		console.log(serializedTx);
-		sendRawTXToTheRPCNetwork(serializedTx);
-	});
-}
-
 //==========================================================================
 function createGasAndNeoIntent(to, neo, gas){
     var intent;
@@ -42,73 +13,12 @@ function createGasAndNeoIntent(to, neo, gas){
 }
 //==========================================================================
 
-function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
+function signMultiTXNeonJs(idToTransfer, constructTxPromise)
+{
 	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 	verificationScript = KNOWN_ADDRESSES[idToTransfer].account;
 
-	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
-
-	/*
-	console.log("Constructing I")
-	neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
-		let unsignedTx = Neon.default.create.contractTx();
-		if(neo > 0)
-			unsignedTx.addIntent("NEO",neo,to)
-		if(gas > 0)
-			unsignedTx.addIntent("GAS",gas,to)
-		unsignedTx.calculate(balance)
-		console.log(balance)
-		const wtx = unsignedTx.serialize();
-		
-		// ===========================================
-		// Sig only with necessary amount of signature
-		invocationScriptClean = [];
-		var signatures=0;
-		for(var nA=0;nA<jsonArrayWithPrivKeys.length - 1;nA++)
-		{	
-		  	invocationScriptClean = fillWithMultiSign(wtx, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
-			signatures++;
-			if(signatures >= KNOWN_ADDRESSES[idToTransfer].account.contract.parameters.length)
-				break;
-		}
-		// ===========================================
-
-		console.log("Creating witness");
-		console.log(wtx)
-		console.log(invocationScriptClean)
-		console.log(verificationScript)
-		console.log("Creating witness");
-		const multiSigWitness = Neon.tx.Witness.buildMultiSig(
-		  wtx,
-		  invocationScriptClean,
-		  verificationScript
-		);
-		console.log("ok witness");
-		console.log(multiSigWitness)
-		unsignedTx.scripts.push(multiSigWitness);
-		const signedHex = unsignedTx.serialize();
-		console.log(signedHex);
-		console.log("serialized");
-		sendRawTXToTheRPCNetwork(signedHex);	
-	});*/
-  
-
-	console.log("Constructing II")
-
-	var constructTx = neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
-	    let transaction = Neon.default.create.contractTx();
-	    if(neo > 0)
-		transaction.addIntent("NEO",neo,to)
-	    if(gas > 0)
-		transaction.addIntent("GAS",gas,to)
-	    transaction.calculate(balance);
-
-	    return transaction;
-        });
-
-	console.log("Signing...")
-
-	const signTx = constructTx.then(transaction => {
+	const signTxPromise = constructTxPromise.then(transaction => {
 	  const txHex = transaction.serialize(false);
 
 	  invocationScriptClean = [];
@@ -127,7 +37,6 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
 	    invocationScriptClean,
 	    KNOWN_ADDRESSES[idToTransfer].account
 	  );
-
 	  transaction.addWitness(multiSigWitness);
 
 	  console.log("\n\n--- Transaction ---");
@@ -141,9 +50,12 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
 
 	  return transaction;
 	});
+	return signTxPromise;
+}
 
-	console.log("Sending...")
-	const sendTx = signTx.then(transaction => {
+function sendingTxPromiseWithEcoRaw(txPromise)
+{
+	const sendTxPromise = txPromise.then(transaction => {
 	    //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
 	    //return client.sendRawTransaction(transaction.serialize(true));
 	    sendRawTXToTheRPCNetwork(transaction.serialize(true));
@@ -153,7 +65,33 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
 	    console.log(res);
 	  })
 	  .catch(err => console.log(err));
+	return sendTxPromise;
+}
 
+
+function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
+
+
+	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
+	console.log("Constructing II")
+
+	var constructTx = neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
+	    let transaction = Neon.default.create.contractTx();
+	    if(neo > 0)
+		transaction.addIntent("NEO",neo,to)
+	    if(gas > 0)
+		transaction.addIntent("GAS",gas,to)
+	    transaction.calculate(balance);
+
+	    return transaction;
+        });
+
+	console.log("Signing...");
+	const signTx = signMultiTXNeonJs(idToTransfer, constructTx);
+
+
+	console.log("Sending...");
+	const sendTx = sendingTxPromiseWithEcoRaw(signTx);
 }
 
 function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
@@ -185,7 +123,31 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
     })
 }
 
-//Private key or signing Function
+function createClaimMSGasTX(idToClaim,jsonArrayWithPrivKeys,networkToCall){
+	console.log("\n\n--- Creating claim tx ---");
+
+	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToClaim);
+	verificationScript = KNOWN_ADDRESSES[idToClaim].account;
+
+	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
+
+
+        var constructTx = neoscanAPIProvider.getClaims(KNOWN_ADDRESSES[idToClaim].account.address).then(claims => {
+	    let transaction = Neon.default.create.claimTx();
+	    transaction.addClaims(claims);
+	    return transaction;
+        });
+	
+
+	console.log("Signing...")
+	signTx = signMultiTXNeonJs(idToClaim, constructTx);
+
+
+	console.log("Sending...");
+	const sendTx = sendingTxPromiseWithEcoRaw(signTx);
+}
+
+
 function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
     const config = {
         api: new Neon.api.neoscan.instance(networkToCall),

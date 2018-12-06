@@ -469,6 +469,7 @@
                         <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
                             <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>ScriptHash</strong><input id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>PublicKey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>VerificationScript</strong><input id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>WIF</strong><input id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
@@ -2216,11 +2217,11 @@ def Main():
      			 {
      				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			    //Multi-sig address
-     			    createMultiSigSendingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
+     			    createMultiSigSendingTransactionFromAccount(addrFromIndex,jsonArrayWithPrivKeys, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
      			 }else
            {
                //TODO add verification for watch only
-     			 	   CreateTx(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+     			 	   CreateTxFromAccount(addrFromIndex, addrToValue /*KNOWN_ADDRESSES[addrToIndex].addressBase58*/, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
            }
             //updateHeaderNetworkInfo();
         };

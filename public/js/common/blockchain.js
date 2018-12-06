@@ -87,7 +87,7 @@ function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
 			currentInvocationScript = currentInvocationScript.substr(signatureNBytes*2 + nextSignatureIndex+2);
 
 			console.log(nextSignature);
-			if(Neon.wallet.verifySignature(wtx, nextSignature, arrayPubKey[a].pubKey))
+			if(Neon.wallet.verify(wtx, nextSignature, arrayPubKey[a].account.publicKey))
 			{
 				jsonWithOrderedSignatures.push({privKey: nextSignature});
 				break;//exit while
@@ -127,16 +127,9 @@ function sortMultiSigInvocationScript(wtx,invocationScript, verificationScript){
 	return finalIS;
 }
 
-function signWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){
- 	//pubKeyOfSigner = Neon.default.get.publicKeyFromPrivateKey(privateKeyOfSigner);
-	//console.log(pubKeyOfSigner);
-
-	var signature = Neon.wallet.generateSignature(wtx, privateKeyOfSigner);
-	currentInvocationScript += "40" + signature;
-
-        //VerifySignature
-        //console.log(Neon.wallet.verifySignature(wtx, signature, pubKeyOfSigner))
-
+function fillWithMultiSign(wtx, currentInvocationScript, privateKeyOfSigner){	
+	var signature = Neon.wallet.sign(wtx, privateKeyOfSigner);
+	currentInvocationScript.push(signature);
 	return currentInvocationScript;
 }
 
@@ -145,14 +138,14 @@ function getContractState(contractScriptHash, deployOrInvoke){
             requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getcontractstate\", \"params\": [\""+contractScriptHash+"\"] }";
             console.log(requestJson);
 
-            console.log("SENDING TO"+BASE_PATH_CLI);
+            console.log("getContractState request to: "+BASE_PATH_CLI);
             $.post(
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function (resultJsonData) {
                    console.log(resultJsonData);
                    if(resultJsonData.result)
-                   {			
+                   {		
 			if(deployOrInvoke)
 			   	createNotificationOrAlert("DEPLOYING A CONTRACT THAT ALREADY EXISTS", "code_version: " + resultJsonData.result.code_version +  " name:" + resultJsonData.result.name, 3000);
 		   }else{
@@ -237,22 +230,28 @@ function genesisBlockTransfer(genesisAddress, newOwner){
 	//var genesisAddressIndex = searchAddrIndexFromBase58(genesisAddress);
 	//var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(genesisAddressIndex);
 
-	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, newOwner, 100000000, "NEO", getCurrentNetworkNickname());
+	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].account.contract.script, jsonArrayWithPrivKeys, newOwner, 100000000, "NEO", getCurrentNetworkNickname());
 	//getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","GAS","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
 	//getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","NEO","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
-	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, newOwner, allGas, "GAS", getCurrentNetworkNickname());
+	//createMultiSigSendingTransaction(KNOWN_ADDRESSES[4].account.contract.script, jsonArrayWithPrivKeys, newOwner, allGas, "GAS", getCurrentNetworkNickname());
 
 	//Claim will be automatic if frontend is open
-	//createMultiSigClaimingTransaction(KNOWN_ADDRESSES[4].verificationScript, jsonArrayWithPrivKeys, getCurrentNetworkNickname());
+	//createMultiSigClaimingTransaction(KNOWN_ADDRESSES[4].account.contract.script, jsonArrayWithPrivKeys, getCurrentNetworkNickname());
 }
 //==========================================================================
 
 function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivKeys,networkToCall){
 	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
 	const config = {
-	  net: networkToCall,
+	  api: new Neon.api.neoscan.instance(networkToCall),
 	  address: addressBase58
 	}
+
+//const account = new wallet.Account(claimingPrivateKey);
+
+console.log("\n\n--- Claiming Address ---");
+return
+//console.log(account);
 
 	claimsFrom = Neon.api.getClaimsFrom(config, Neon.api.neoscan)
 	claimsFrom.then((c) => Neon.api.createTx(c, 'claim'))
@@ -261,7 +260,7 @@ function createMultiSigClaimingTransaction(verificationScript,jsonArrayWithPrivK
 		//Everyone signs the invocation in any order
 		var invocationScript = '';
 		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			invocationScript = signWithMultiSign(c.tx.serialize(), invocationScript, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].account.privateKey));
 
 		invocationScript = sortMultiSigInvocationScript(c.tx.serialize(),invocationScript, verificationScript);
 		c.tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript});
@@ -286,56 +285,134 @@ function createGasAndNeoIntent(to, neo, gas){
 }
 //==========================================================================
 
-//==========================================================================
-function createMultiSigSendingTransaction(verificationScript, jsonArrayWithPrivKeys, to, neo, gas, networkToCall){
-	addressBase58 = toBase58(getScriptHashFromAVM(verificationScript));
-	Neon.api.neoscan.getBalance(networkToCall,addressBase58)
-	.then(balance => {
-		let tx = Neon.default.create.tx({type: 128})
-		// Now let us add an intention to send 1 NEO to someone
+function createMultiSigSendingTransactionFromAccount(idToTransfer, to, neo, gas, networkToCall){
+	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
+	verificationScript = KNOWN_ADDRESSES[idToTransfer].account;
+
+	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
+
+	/*
+	console.log("Constructing I")
+	neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
+		let unsignedTx = Neon.default.create.contractTx();
 		if(neo > 0)
-			tx.addOutput("NEO",neo,to)
-
+			unsignedTx.addIntent("NEO",neo,to)
 		if(gas > 0)
-			tx.addOutput("GAS",gas,to)
-		tx.calculate(balance)
-		//.addRemark('I all Neo from the Genesis CN wallet') // Add an remark
-		//tx.inputs = [];
-		//Asset Issue Genesis Transaction, done when CN are firstly initialized: 7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d
-		//tx.inputs.push({prevHash: "7aadf91ca8ac1e2c323c025a7e492bee2dd90c783b86ebfc3b18db66b530a76d", prevIndex: 0})
-		console.log(tx)
-		tx.scripts = [];
-		//Only one verification is needed - All are the same for a Multi-Sig address
-		// 5, 7, 4 6
-		//Everyone signs the invocation in any order
-		var invocationScript = '';
-		for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
-			invocationScript = signWithMultiSign(tx.serialize(), invocationScript, Neon.default.get.privateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			unsignedTx.addIntent("GAS",gas,to)
+		unsignedTx.calculate(balance)
+		console.log(balance)
+		const wtx = unsignedTx.serialize();
+		
+		// ===========================================
+		// Sig only with necessary amount of signature
+		invocationScriptClean = [];
+		var signatures=0;
+		for(var nA=0;nA<jsonArrayWithPrivKeys.length - 1;nA++)
+		{	
+		  	invocationScriptClean = fillWithMultiSign(wtx, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+			signatures++;
+			if(signatures >= KNOWN_ADDRESSES[idToTransfer].account.contract.parameters.length)
+				break;
+		}
+		// ===========================================
 
-		console.log(invocationScript);
-		invocationScript = sortMultiSigInvocationScript(tx.serialize(),invocationScript, verificationScript);
-		tx.scripts.push({invocationScript: invocationScript, verificationScript: verificationScript})
-		const serializedTx = tx.serialize();
-		console.log(serializedTx);
-		sendRawTXToTheRPCNetwork(serializedTx);
+		console.log("Creating witness");
+		console.log(wtx)
+		console.log(invocationScriptClean)
+		console.log(verificationScript)
+		console.log("Creating witness");
+		const multiSigWitness = Neon.tx.Witness.buildMultiSig(
+		  wtx,
+		  invocationScriptClean,
+		  verificationScript
+		);
+		console.log("ok witness");
+		console.log(multiSigWitness)
+		unsignedTx.scripts.push(multiSigWitness);
+		const signedHex = unsignedTx.serialize();
+		console.log(signedHex);
+		console.log("serialized");
+		sendRawTXToTheRPCNetwork(signedHex);	
+	});*/
+  
+
+	console.log("Constructing II")
+
+	var constructTx = neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
+	    let transaction = Neon.default.create.contractTx();
+	    if(neo > 0)
+		transaction.addIntent("NEO",neo,to)
+	    if(gas > 0)
+		transaction.addIntent("GAS",gas,to)
+	    transaction.calculate(balance);
+
+	    return transaction;
+        });
+
+	console.log("Signing...")
+
+	const signTx = constructTx.then(transaction => {
+	  const txHex = transaction.serialize(false);
+
+	  invocationScriptClean = [];
+	  var signatures=0;
+	  console.log("Here")
+	  for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
+          {
+	  	invocationScriptClean = fillWithMultiSign(txHex, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
+		signatures++;
+		//if(signatures >= KNOWN_ADDRESSES[idToTransfer].account.contract.parameters.length)
+		//	break;
+	  }
+	  console.log("ok")
+	  const multiSigWitness = Neon.tx.Witness.buildMultiSig(
+	    txHex,
+	    invocationScriptClean,
+	    KNOWN_ADDRESSES[idToTransfer].account
+	  );
+
+	  transaction.addWitness(multiSigWitness);
+
+	  console.log("\n\n--- Transaction ---");
+	  console.log(JSON.stringify(transaction.export(), undefined, 2));
+
+	  console.log("\n\n--- Transaction hash---");
+	  console.log(transaction.hash)
+
+	  console.log("\n\n--- Transaction string ---")
+	  console.log(transaction.serialize(true));
+
+	  return transaction;
 	});
+
+	console.log("Sending...")
+	const sendTx = signTx.then(transaction => {
+	    //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+	    //return client.sendRawTransaction(transaction.serialize(true));
+	    sendRawTXToTheRPCNetwork(transaction.serialize(true));
+	  })
+	  .then(res => {
+	    console.log("\n\n--- Response ---");
+	    console.log(res);
+	  })
+	  .catch(err => console.log(err));
+
 }
-//==========================================================================
 
 
-function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
+function CreateTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent = createGasAndNeoIntent(to, neo, gas);
 
     console.log(intent) // This is an array of 2 Intent objects, one for each asset
     const config = {
-        net: networkToCall, // The network to perform the action, MainNet or TestNet.
+        api: new Neon.api.neoscan.instance(networkToCall),
         url: nodeToCall,
-        address: from,  // This is the address which the assets come from.
+        account: KNOWN_ADDRESSES[idTransferFrom].account,  // This is the address which the assets come from.
 	sendingFromSmartContract: sendingFromSCFlag,
-        privateKey: fromPrivateKey,
         intents: intent
     }
+    console.log("GOing to send");
 
     Neon.default.sendAsset(config)
     .then(res => {
@@ -353,12 +430,11 @@ function CreateTx( from, fromPrivateKey, to, neo, gas, nodeToCall, networkToCall
 }
 
 //Private key or signing Function
-function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
+function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
     const config = {
-        net: networkToCall, // The network to perform the action, MainNet or TestNet.
+        api: new Neon.api.neoscan.instance(networkToCall),
         url: nodeToCall,
-        address: from,  // This is the address which the assets come from.
-        privateKey: fromPrivateKey,
+        account: KNOWN_ADDRESSES[idTransferFrom].account  // This is the address which the assets come from.
     }
 
     //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
@@ -383,7 +459,7 @@ function createClaimGasTX( from, fromPrivateKey, nodeToCall, networkToCall){
 //ICO TEMPLATE EXAMPLE:
 /*
 //Invoke mintToken from wallet of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 
 //Check Balance of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 {
@@ -407,7 +483,7 @@ var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
 pushParams(neonJSParams, 'Integer', "0.5");
-Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
+Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
 //Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 {
@@ -455,9 +531,9 @@ function pushParams(neonJSParams, type, value){
 }
 
 //Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 // contract_operation IS OBSOLET AS IT IS RIGHT NOW
-function Invoke(myaddress, myprivatekey, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
+function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
 
   var i = 0;
@@ -468,6 +544,8 @@ function Invoke(myaddress, myprivatekey, mynetfee, mysysgasfee, neo, gas, contra
 
   //Notify user if contract exists
   getContractState(contract_scripthash, false);
+
+  console.log("ok deploy");
   if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
   {
 	alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
@@ -545,7 +623,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
 
   const config = {
-    net: networkToCall,
+    api: new Neon.api.neoscan.instance(networkToCall),
     url: nodeToCall,
     //script: Neon.default.create.script({
    //   scriptHash: contract_scripthash,
@@ -554,8 +632,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
    // }),
     script : myscript, // new manual script respecting each parameter
     intents: intent,
-    address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
-    privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
+    account: KNOWN_ADDRESSES[idToInvoke].account,  // This is the address which the assets come from
     fees: mynetfee, // net fees
     gas: mysysgasfee // systemfee
   }
@@ -572,7 +649,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
          createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 7000);
 
     if(res.response.result) {
-      var invokeParams = transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJSParams);
+      var invokeParams = transformInvokeParams(KNOWN_ADDRESSES[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
       if(typeof(res.response.result) == "boolean") // 2.X
           updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,invokeParams);
       else  // 3.X
@@ -603,9 +680,9 @@ function transformDeployParams(myaddress, contract_script, storage, returntype, 
 
 
 //Example of Deploy checkwitness
-//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
-//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].pKeyWif,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
-function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
+//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
+//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
+function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
 
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
@@ -619,14 +696,16 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     }
 
     var contract_scripthash = getScriptHashFromAVM(contract_script);
-
+    console.log("ok");
     //Notify user if contract exists
-    getContractState(contract_scripthash, true);
+    //getContractState(contract_scripthash, true);
     if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
     {
 	alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
     	return;
     }
+
+    console.log("ok2");
 
      if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
      {
@@ -634,6 +713,8 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
 	$("#contracthash")[0].value = contract_scripthash;
 	$("#contracthashjs")[0].value = contract_scripthash;
      }
+
+    console.log("ok3");
 
     const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring(contract_description)) // description
@@ -647,14 +728,19 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
       .emitPush(contract_script) //script
       .emitSysCall('Neo.Contract.Create');
 
+console.log("ok4");
+
     const config = {
-      net: networkToCall,
+      api: new Neon.api.neoscan.instance(networkToCall),
       url: nodeToCall,
+      account: KNOWN_ADDRESSES[idToDeploy].account,  // This is the address which the assets come from
       script: sb.str,
-      address: myaddress, //'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y',//'ARCvt1d5qAGzcHqJCWA2MxvhTLQDb9dvjQ',
-      privateKey: myprivatekey, //'1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb',//'4f0d41eda93941d106d4a26cc90b4b4fddc0e03b396ac94eb439c5d9e0cd6548',
       gas: mygasfee //0
     }
+
+
+
+console.log("ok5");
 
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
@@ -664,8 +750,10 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
      else  // 3.X
        createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
+    console.log(KNOWN_ADDRESSES[idToDeploy].account.address);
+
     if(res.response.result) {
-      var deployParams = transformDeployParams(myaddress, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+      var deployParams = transformDeployParams(KNOWN_ADDRESSES[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
       if(typeof(res.response.result) == "boolean") // 2.X
          updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
       else // 3.X
@@ -675,7 +763,8 @@ function Deploy(myaddress, myprivatekey, mygasfee, nodeToCall, networkToCall, co
     }).catch(err => {
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 5000);
-  });
+    });
+console.log("ok6");
 
   document.getElementById('divNetworkRelayed').scrollIntoView();
 }

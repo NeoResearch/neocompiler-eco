@@ -297,7 +297,7 @@
 	var neonJSParams = [];
 	neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
-	Invoke(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,attachgasfeejs,attachsystemgasjs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
+	InvokeFromAccount(wI,attachgasfeejs,attachsystemgasjs,attachneojs,attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
 	//Send info to EcoServices for counting number of invokes
 	$.post(
@@ -360,7 +360,7 @@
 
 				//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
 
-        Deploy(KNOWN_ADDRESSES[wI].addressBase58,KNOWN_ADDRESSES[wI].pKeyWif,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
+        DeployFromAccount(wI,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
 
 	//Send info to EcoServices for counting number of deploys
 	$.post(

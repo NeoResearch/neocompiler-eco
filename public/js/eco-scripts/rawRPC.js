@@ -14,9 +14,9 @@ function sendRawTXToTheRPCNetwork(wtx){
 			   if(typeof(resultJsonData.result) == "boolean") // 2.X
 		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
 			   else // 3.X
-		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " Reason:" + resultJsonData.result.reason, 5000);
+		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " \nReason:" + resultJsonData.result.reason, 5000);
 		   }else
-			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " Reason:" + resultJsonData.error.message, 5000);
+			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " \nReason:" + resultJsonData.error.message, 5000);
                 },
                 "json" // The format the response should be in
             ).fail(function() {

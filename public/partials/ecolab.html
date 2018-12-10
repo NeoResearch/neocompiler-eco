@@ -2219,7 +2219,7 @@ def Main():
      			 {
      				   var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			     //Multi-sig address
-     			     createTxFromMSAccount(addrFromIndex,jsonArrayWithPrivKeys, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
+     			     createTxFromMSAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
      			 }else
            {
                //TODO add verification for watch only

@@ -13,6 +13,60 @@ function createGasAndNeoIntent(to, neo, gas){
 }
 //==========================================================================
 
+function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
+    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
+    var intent = createGasAndNeoIntent(to, neo, gas);
+
+    console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    const config = {
+        api: new Neon.api.neoscan.instance(networkToCall),
+        url: nodeToCall,
+        account: KNOWN_ADDRESSES[idTransferFrom].account,  // This is the address which the assets come from.
+	sendingFromSmartContract: sendingFromSCFlag,
+        intents: intent
+    }
+
+    Neon.default.sendAsset(config)
+    .then(res => {
+        //console.log("network:"+networkToCall);
+        console.log(res.response);
+        if(typeof(res.response.result) == "boolean") // 2.X
+           createNotificationOrAlert("SendTX", res.response.result, 5000);
+        else // 3.X
+           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);
+    })
+    .catch(e => {
+        createNotificationOrAlert("SendTX", "Transfer transaction has failed!", 5000);
+        console.log(e)
+    })
+}
+
+function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
+    const config = {
+        api: new Neon.api.neoscan.instance(networkToCall),
+        url: nodeToCall,
+        account: KNOWN_ADDRESSES[idTransferFrom].account  // This is the address which the assets come from.
+    }
+
+    //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
+    //https://github.com/CityOfZion/neon-js/blob/c6a169a82a4d037e00dccd424f53cdc818d6b3ae/src/transactions/transaction.js#L80
+    //https://github.com/CityOfZion/neon-js/blob/fe588b7312cad90f20c4febe0e3f24d93b43ab20/src/wallet/Account.js#L19
+
+    Neon.default.claimGas(config)
+    .then(res => {
+        //console.log("network:"+networkToCall);
+        console.log(res.response)
+        if(typeof(res.response.result) == "boolean") // 2.X
+           createNotificationOrAlert("ClaimTX", res.response.result, 5000);
+        else // 3.X
+           createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
+    })
+    .catch(e => {
+        createNotificationOrAlert("ClaimTX", "Claim transaction has failed!", 5000);
+        console.log(e)
+    })
+}
+
 function signMultiTXNeonJs(idToTransfer, constructTxPromise)
 {
 	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
@@ -22,16 +76,15 @@ function signMultiTXNeonJs(idToTransfer, constructTxPromise)
 	  const txHex = transaction.serialize(false);
 
 	  invocationScriptClean = [];
-	  var signatures=0;
-	  console.log("Here")
+	  //var signatures=0;
 	  for(nA=0;nA<jsonArrayWithPrivKeys.length;nA++)
           {
 	  	invocationScriptClean = fillSignaturesForMultiSign(txHex, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
-		signatures++;
+		//signatures++;
 		//if(signatures >= KNOWN_ADDRESSES[idToTransfer].account.contract.parameters.length)
 		//	break;
 	  }
-	  console.log("ok")
+
 	  const multiSigWitness = Neon.tx.Witness.buildMultiSig(
 	    txHex,
 	    invocationScriptClean,
@@ -70,11 +123,8 @@ function sendingTxPromiseWithEcoRaw(txPromise)
 
 
 function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
-
-
 	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
-	console.log("Constructing II")
-
+	console.log("Constructing " + to + " neo: "+neo + " gas: " + gas)
 	var constructTx = neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
 	    let transaction = Neon.default.create.contractTx();
 	    if(neo > 0)
@@ -92,35 +142,6 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
 
 	console.log("Sending...");
 	const sendTx = sendingTxPromiseWithEcoRaw(signTx);
-}
-
-function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false){
-    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
-    var intent = createGasAndNeoIntent(to, neo, gas);
-
-    console.log(intent) // This is an array of 2 Intent objects, one for each asset
-    const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
-        url: nodeToCall,
-        account: KNOWN_ADDRESSES[idTransferFrom].account,  // This is the address which the assets come from.
-	sendingFromSmartContract: sendingFromSCFlag,
-        intents: intent
-    }
-    console.log("GOing to send");
-
-    Neon.default.sendAsset(config)
-    .then(res => {
-        //console.log("network:"+networkToCall);
-        console.log(res.response);
-        if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("SendTX", res.response.result, 5000);
-        else // 3.X
-           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);
-    })
-    .catch(e => {
-        createNotificationOrAlert("SendTX", "Transfer transaction has failed!", 5000);
-        console.log(e)
-    })
 }
 
 function createClaimMSGasTX(idToClaim,jsonArrayWithPrivKeys,networkToCall){
@@ -145,31 +166,4 @@ function createClaimMSGasTX(idToClaim,jsonArrayWithPrivKeys,networkToCall){
 
 	console.log("Sending...");
 	const sendTx = sendingTxPromiseWithEcoRaw(signTx);
-}
-
-
-function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
-    const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
-        url: nodeToCall,
-        account: KNOWN_ADDRESSES[idTransferFrom].account  // This is the address which the assets come from.
-    }
-
-    //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
-    //https://github.com/CityOfZion/neon-js/blob/c6a169a82a4d037e00dccd424f53cdc818d6b3ae/src/transactions/transaction.js#L80
-    //https://github.com/CityOfZion/neon-js/blob/fe588b7312cad90f20c4febe0e3f24d93b43ab20/src/wallet/Account.js#L19
-
-    Neon.default.claimGas(config)
-    .then(res => {
-        //console.log("network:"+networkToCall);
-        console.log(res.response)
-        if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("ClaimTX", res.response.result, 5000);
-        else // 3.X
-           createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
-    })
-    .catch(e => {
-        createNotificationOrAlert("ClaimTX", "Claim transaction has failed!", 5000);
-        console.log(e)
-    })
 }

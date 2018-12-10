@@ -204,6 +204,10 @@ hr2 {
   margin-left:3em;
 }
 
+.cropLogo img {
+    margin: -65px -0px -0px -0px;
+}
+
 footer {
     padding: 3em 0 0 0;
     letter-spacing: 1px;

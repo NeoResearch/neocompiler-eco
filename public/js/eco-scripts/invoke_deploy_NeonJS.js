@@ -37,8 +37,8 @@ function transformDeployParams(myaddress, contract_script, storage, returntype, 
 	return JSON.stringify(deployParams);
 }
 
-//Example of invoke
-//Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+// Example of invoke
+// InvokeFromAccount(0,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 // contract_operation IS OBSOLET AS IT IS RIGHT NOW
 function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams){
   console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams+"'");
@@ -172,14 +172,14 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 }
 
 //Example of Deploy checkwitness
-//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
-//Deploy(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566',false,01,'')
-function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
+// DeployFromAccount(0 ,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
+// DeployFromAccount(0,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
 
+function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
 
-    console.log("current gas fee is " + mygasfee);
+    console.log("current gas fee is " + mysysgasfee);
 
     if(contract_script == "")
     {
@@ -188,7 +188,7 @@ function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, cont
     }
 
     var contract_scripthash = getScriptHashFromAVM(contract_script);
-    console.log("ok");
+
     //Notify user if contract exists
     //getContractState(contract_scripthash, true);
     if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
@@ -197,7 +197,6 @@ function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, cont
     	return;
     }
 
-    console.log("ok2");
 
      if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
      {
@@ -205,8 +204,6 @@ function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, cont
 	$("#contracthash")[0].value = contract_scripthash;
 	$("#contracthashjs")[0].value = contract_scripthash;
      }
-
-    console.log("ok3");
 
     const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring(contract_description)) // description
@@ -220,19 +217,14 @@ function DeployFromAccount(idToDeploy, mygasfee, nodeToCall, networkToCall, cont
       .emitPush(contract_script) //script
       .emitSysCall('Neo.Contract.Create');
 
-console.log("ok4");
-
     const config = {
       api: new Neon.api.neoscan.instance(networkToCall),
       url: nodeToCall,
-      account: KNOWN_ADDRESSES[idToDeploy].account,  // This is the address which the assets come from
+      account: KNOWN_ADDRESSES[idToDeploy].account, 
       script: sb.str,
-      gas: mygasfee //0
+      gas: mysysgasfee 
     }
 
-
-
-console.log("ok5");
 
     Neon.default.doInvoke(config).then(res => {
       	console.log(res);
@@ -256,7 +248,6 @@ console.log("ok5");
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 5000);
     });
-console.log("ok6");
 
   document.getElementById('divNetworkRelayed').scrollIntoView();
 }

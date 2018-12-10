@@ -139,7 +139,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
    // }),
     script : myscript, // new manual script respecting each parameter
     intents: intent,
-    account: KNOWN_ADDRESSES[idToInvoke].account,  // This is the address which the assets come from
+    account: ECO_WALLET[idToInvoke].account,  // This is the address which the assets come from
     fees: mynetfee, // net fees
     gas: mysysgasfee // systemfee
   }
@@ -156,7 +156,7 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
          createNotificationOrAlert("Invoke","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 7000);
 
     if(res.response.result) {
-      var invokeParams = transformInvokeParams(KNOWN_ADDRESSES[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
+      var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
       if(typeof(res.response.result) == "boolean") // 2.X
           updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,invokeParams);
       else  // 3.X
@@ -220,7 +220,7 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
     const config = {
       api: new Neon.api.neoscan.instance(networkToCall),
       url: nodeToCall,
-      account: KNOWN_ADDRESSES[idToDeploy].account, 
+      account: ECO_WALLET[idToDeploy].account, 
       script: sb.str,
       gas: mysysgasfee 
     }
@@ -234,10 +234,10 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
      else  // 3.X
        createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
-    console.log(KNOWN_ADDRESSES[idToDeploy].account.address);
+    console.log(ECO_WALLET[idToDeploy].account.address);
 
     if(res.response.result) {
-      var deployParams = transformDeployParams(KNOWN_ADDRESSES[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+      var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
       if(typeof(res.response.result) == "boolean") // 2.X
          updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
       else // 3.X
@@ -256,7 +256,7 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
 //ICO TEMPLATE EXAMPLE:
 /*
 //Invoke mintToken from wallet of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+Invoke(ECO_WALLET[0].addressBase58,ECO_WALLET[0].account.WIF,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 
 //Check Balance of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 {
@@ -280,7 +280,7 @@ var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
 pushParams(neonJSParams, 'Integer', "0.5");
-Invoke(KNOWN_ADDRESSES[0].addressBase58,KNOWN_ADDRESSES[0].account.WIF,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
+Invoke(ECO_WALLET[0].addressBase58,ECO_WALLET[0].account.WIF,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
 //Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 {

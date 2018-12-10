@@ -21,7 +21,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
     const config = {
         api: new Neon.api.neoscan.instance(networkToCall),
         url: nodeToCall,
-        account: KNOWN_ADDRESSES[idTransferFrom].account,  // This is the address which the assets come from.
+        account: ECO_WALLET[idTransferFrom].account,  // This is the address which the assets come from.
 	sendingFromSmartContract: sendingFromSCFlag,
         intents: intent
     }
@@ -45,7 +45,7 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
     const config = {
         api: new Neon.api.neoscan.instance(networkToCall),
         url: nodeToCall,
-        account: KNOWN_ADDRESSES[idTransferFrom].account  // This is the address which the assets come from.
+        account: ECO_WALLET[idTransferFrom].account  // This is the address which the assets come from.
     }
 
     //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
@@ -70,7 +70,7 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
 function signMultiTXNeonJs(idToTransfer, constructTxPromise)
 {
 	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
-	verificationScript = KNOWN_ADDRESSES[idToTransfer].account;
+	verificationScript = ECO_WALLET[idToTransfer].account;
 
 	const signTxPromise = constructTxPromise.then(transaction => {
 	  const txHex = transaction.serialize(false);
@@ -81,14 +81,14 @@ function signMultiTXNeonJs(idToTransfer, constructTxPromise)
           {
 	  	invocationScriptClean = fillSignaturesForMultiSign(txHex, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
 		//signatures++;
-		//if(signatures >= KNOWN_ADDRESSES[idToTransfer].account.contract.parameters.length)
+		//if(signatures >= ECO_WALLET[idToTransfer].account.contract.parameters.length)
 		//	break;
 	  }
 
 	  const multiSigWitness = Neon.tx.Witness.buildMultiSig(
 	    txHex,
 	    invocationScriptClean,
-	    KNOWN_ADDRESSES[idToTransfer].account
+	    ECO_WALLET[idToTransfer].account
 	  );
 	  transaction.addWitness(multiSigWitness);
 
@@ -125,7 +125,7 @@ function sendingTxPromiseWithEcoRaw(txPromise)
 function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall){
 	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
 	console.log("Constructing " + to + " neo: "+neo + " gas: " + gas)
-	var constructTx = neoscanAPIProvider.getBalance(KNOWN_ADDRESSES[idToTransfer].account.address).then(balance => {
+	var constructTx = neoscanAPIProvider.getBalance(ECO_WALLET[idToTransfer].account.address).then(balance => {
 	    let transaction = Neon.default.create.contractTx();
 	    if(neo > 0)
 		transaction.addIntent("NEO",neo,to)
@@ -148,12 +148,12 @@ function createClaimMSGasTX(idToClaim,jsonArrayWithPrivKeys,networkToCall){
 	console.log("\n\n--- Creating claim tx ---");
 
 	jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToClaim);
-	verificationScript = KNOWN_ADDRESSES[idToClaim].account;
+	verificationScript = ECO_WALLET[idToClaim].account;
 
 	const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
 
 
-        var constructTx = neoscanAPIProvider.getClaims(KNOWN_ADDRESSES[idToClaim].account.address).then(claims => {
+        var constructTx = neoscanAPIProvider.getClaims(ECO_WALLET[idToClaim].account.address).then(claims => {
 	    let transaction = Neon.default.create.claimTx();
 	    transaction.addClaims(claims);
 	    return transaction;

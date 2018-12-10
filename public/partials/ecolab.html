@@ -2215,7 +2215,7 @@ def Main():
             //var addrToIndex = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
             var addrToValue = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
 
-           if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
+           if(ECO_WALLET[addrFromIndex].type === "multisig")
      			 {
      				   var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			     //Multi-sig address
@@ -2230,15 +2230,15 @@ def Main():
 
         function createGasTxForm(){
            var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-           if(KNOWN_ADDRESSES[addrFromIndex].type === "multisig")
+           if(ECO_WALLET[addrFromIndex].type === "multisig")
      			 {
      				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			    //Multi-sig address
-              createMultiSigClaimingTransaction(KNOWN_ADDRESSES[addrFromIndex].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname())
+              createMultiSigClaimingTransaction(ECO_WALLET[addrFromIndex].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname())
      			 }else
            {
                //TODO add verification for watch only
-               createClaimGasTX(KNOWN_ADDRESSES[addrFromIndex].addressBase58, KNOWN_ADDRESSES[addrFromIndex].pKeyWif, BASE_PATH_CLI, getCurrentNetworkNickname());
+               createClaimGasTX(ECO_WALLET[addrFromIndex].addressBase58, ECO_WALLET[addrFromIndex].pKeyWif, BASE_PATH_CLI, getCurrentNetworkNickname());
            }
         };
 

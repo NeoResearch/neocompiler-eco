@@ -1,10 +1,17 @@
+/* ======================================  */
 /* Some Global Variables  */
-
+/* Basic counters */
 var numberCompilations = 0;
 var numberDeploys = 0;
 var numberInvokes = 0;
+
+/* Mostly used to get the current commit of GitHub repo */
 var refreshIntervalId = 0;
+
+/* Mostly used to get the current commit of GitHub repo */
 var ENV_VARS = "";
+/* End Some Global Variables  */
+/* ======================================  */
 
 /* Main  */
 var app = angular.module('neoCompilerIoWebApp', [

@@ -5,16 +5,16 @@ function callFromAllKnownThatHasClaimable()
   {
     for(i = 0; i < ADDRESSES_TO_CLAIM.length; ++i)
     {
-      //console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL KNOWN_ADDRESSES are:")
-      //console.log(KNOWN_ADDRESSES)
+      //console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL ECO_WALLET are:")
+      //console.log(ECO_WALLET)
       var idToTransfer = -1;
-      for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-      	if(KNOWN_ADDRESSES[ka].account.address == ADDRESSES_TO_CLAIM[i])
+      for(ka = 0; ka < ECO_WALLET.length; ++ka)
+      	if(ECO_WALLET[ka].account.address == ADDRESSES_TO_CLAIM[i])
     		    idToTransfer = ka;
 
       if (idToTransfer > -1)
       {
-            if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
+            if(ECO_WALLET[idToTransfer].type === "multisig")
 	    {
 		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 		//Multi-sig address
@@ -103,7 +103,7 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
 		 //console.log("idToTransfer:" + idToTransfer);
 		 if (idToTransfer != -1 && result.balance[i].amount!=0){
-			 if(KNOWN_ADDRESSES[idToTransfer].type === "multisig")
+			 if(ECO_WALLET[idToTransfer].type === "multisig")
 			 {
 				//Multi-sig address
 				neoToSend = 0;
@@ -132,13 +132,13 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 function fillAllNeo()
 {
   var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-  getAllNeoOrGasFrom(KNOWN_ADDRESSES[addrFromIndex].account.address,"NEO","#createtx_NEO");
+  getAllNeoOrGasFrom(ECO_WALLET[addrFromIndex].account.address,"NEO","#createtx_NEO");
 }
 
 function fillAllGas()
 {
   var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-  getAllNeoOrGasFrom(KNOWN_ADDRESSES[addrFromIndex].account.address,"GAS","#createtx_GAS");
+  getAllNeoOrGasFrom(ECO_WALLET[addrFromIndex].account.address,"GAS","#createtx_GAS");
 }
 
 function fillWalletInfo(result)
@@ -159,11 +159,11 @@ function populateAllWalletData()
 {
     drawWalletsStatus();
 
-    for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+    for(ka = 0; ka < ECO_WALLET.length; ++ka)
     {
-      if(KNOWN_ADDRESSES[ka].print == true)
+      if(ECO_WALLET[ka].print == true)
       {
-	      addressToGet = KNOWN_ADDRESSES[ka].account.address;
+	      addressToGet = ECO_WALLET[ka].account.address;
 	      //walletIndex = searchAddrIndexFromBase58(addressToGet);
 	      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
 	      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
@@ -205,8 +205,8 @@ function drawWalletsStatus(){
   headers6.innerHTML = "<b> UNCLAIMABLE </b>";
   row.insertCell(-1).appendChild(headers6);
 
-  for (i = 0; i < KNOWN_ADDRESSES.length; i++) {
-  if(KNOWN_ADDRESSES[i].print == true)
+  for (i = 0; i < ECO_WALLET.length; i++) {
+  if(ECO_WALLET[i].print == true)
   {
       var txRow = table.insertRow(-1);
       //row.insertCell(-1).appendChild(document.createTextNode(i));
@@ -222,8 +222,8 @@ function drawWalletsStatus(){
       txRow.insertCell(-1).appendChild(b);
 
       var addressBase58 = document.createElement("a");
-      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + KNOWN_ADDRESSES[i].account.address;
-      addressBase58.text = KNOWN_ADDRESSES[i].account.address.slice(0,5) + "..." + KNOWN_ADDRESSES[i].account.address.slice(-5);
+      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + ECO_WALLET[i].account.address;
+      addressBase58.text = ECO_WALLET[i].account.address.slice(0,5) + "..." + ECO_WALLET[i].account.address.slice(-5);
       addressBase58.href = urlToGet;
       addressBase58.target = 'popup';
       addressBase58.onclick= urlToGet;
@@ -324,7 +324,7 @@ function addWallet(){
 	   	console.log("Address " + addressBase58ToAdd + " is ok!");
 
 
-		KNOWN_ADDRESSES.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
+		ECO_WALLET.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
 	}
 
 	if($("#cbx_multisig")[0].checked)
@@ -342,7 +342,7 @@ function addWallet(){
 			alert("Public addressBase58 already registered for this MultiSig. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
 			return;
 		}
-		KNOWN_ADDRESSES.push({ type: 'multisig', addressBase58: addressBase58ToAdd, pKeyWif: '', privKey: '', pubKey: '', print: true, verificationScript: vsToAdd, owners: '' });
+		ECO_WALLET.push({ type: 'multisig', addressBase58: addressBase58ToAdd, pKeyWif: '', privKey: '', pubKey: '', print: true, verificationScript: vsToAdd, owners: '' });
 	}
 	
 	updateAddressSelectionBox();
@@ -355,27 +355,27 @@ function addWallet(){
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
 function changeWalletInfo(){
 	var wToChangeIndex = $("#wallet_info")[0].selectedOptions[0].index;
-	document.getElementById("walletInfoAddressBase58").value = KNOWN_ADDRESSES[wToChangeIndex].account.address;
-	document.getElementById("walletInfoScripthash").value = JSON.stringify(KNOWN_ADDRESSES[wToChangeIndex].account.scriptHash);
+	document.getElementById("walletInfoAddressBase58").value = ECO_WALLET[wToChangeIndex].account.address;
+	document.getElementById("walletInfoScripthash").value = JSON.stringify(ECO_WALLET[wToChangeIndex].account.scriptHash);
 
-	if(!KNOWN_ADDRESSES[wToChangeIndex].account.isMultiSig &&  KNOWN_ADDRESSES[wToChangeIndex].account.publicKey)
-	document.getElementById("walletInfoPubKey").value = KNOWN_ADDRESSES[wToChangeIndex].account.publicKey;
+	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.publicKey)
+	document.getElementById("walletInfoPubKey").value = ECO_WALLET[wToChangeIndex].account.publicKey;
 	else 
 		document.getElementById("walletInfoPubKey").value = "-";
 
-	if(!KNOWN_ADDRESSES[wToChangeIndex].account.isMultiSig &&  KNOWN_ADDRESSES[wToChangeIndex].account.WIF)
-		document.getElementById("walletInfoWIF").value = KNOWN_ADDRESSES[wToChangeIndex].account.WIF;
+	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.WIF)
+		document.getElementById("walletInfoWIF").value = ECO_WALLET[wToChangeIndex].account.WIF;
 	else
 		document.getElementById("walletInfoWIF").value = "-";
 
-	if(!KNOWN_ADDRESSES[wToChangeIndex].account.isMultiSig && KNOWN_ADDRESSES[wToChangeIndex].account.privateKey)
-		document.getElementById("walletInfoPrivateKey").value = KNOWN_ADDRESSES[wToChangeIndex].account.privateKey;
+	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account.privateKey)
+		document.getElementById("walletInfoPrivateKey").value = ECO_WALLET[wToChangeIndex].account.privateKey;
 	else 
 		document.getElementById("walletInfoPrivateKey").value = "-";
 
-	document.getElementById("addressPrintInfo").value = KNOWN_ADDRESSES[wToChangeIndex].print;
-	document.getElementById("addressVerificationScript").value = KNOWN_ADDRESSES[wToChangeIndex].account.contract.script;
-	document.getElementById("addressOwners").value = JSON.stringify(KNOWN_ADDRESSES[wToChangeIndex].owners);
+	document.getElementById("addressPrintInfo").value = ECO_WALLET[wToChangeIndex].print;
+	document.getElementById("addressVerificationScript").value = ECO_WALLET[wToChangeIndex].account.contract.script;
+	document.getElementById("addressOwners").value = JSON.stringify(ECO_WALLET[wToChangeIndex].owners);
 
 }
 //===============================================================
@@ -383,33 +383,33 @@ function changeWalletInfo(){
 //===============================================================
 //============= UPDATE ALL KNOWN ADDRESSES ======================
 function updateInfoOfAllKnownAdresses(){
-          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
+          for(ka = 0; ka < ECO_WALLET.length; ++ka)
 	  {
-         	if(!KNOWN_ADDRESSES[ka].account.isMultiSig)
+         	if(!ECO_WALLET[ka].account.isMultiSig)
 		{
 		    /*
-	            if(KNOWN_ADDRESSES[ka].account.privateKey === '' && Neon.default.is.wif(KNOWN_ADDRESSES[ka].account.WIF))
-			KNOWN_ADDRESSES[ka].account.privateKey = Neon.wallet.getPrivateKeyFromWIF(KNOWN_ADDRESSES[ka].account.WIF);
+	            if(ECO_WALLET[ka].account.privateKey === '' && Neon.default.is.wif(ECO_WALLET[ka].account.WIF))
+			ECO_WALLET[ka].account.privateKey = Neon.wallet.getPrivateKeyFromWIF(ECO_WALLET[ka].account.WIF);
 
-	            if(Neon.default.is.privateKey(KNOWN_ADDRESSES[ka].account.privateKey) && KNOWN_ADDRESSES[ka].account.publicKey === '')
-			KNOWN_ADDRESSES[ka].account.publicKey = Neon.wallet.getPublicKeyFromPrivateKey(KNOWN_ADDRESSES[ka].account.privateKey);
+	            if(Neon.default.is.privateKey(ECO_WALLET[ka].account.privateKey) && ECO_WALLET[ka].account.publicKey === '')
+			ECO_WALLET[ka].account.publicKey = Neon.wallet.getPublicKeyFromPrivateKey(ECO_WALLET[ka].account.privateKey);
 
-	            if(KNOWN_ADDRESSES[ka].account.contract.script === '')
-			KNOWN_ADDRESSES[ka].account.contract.script = "21" + KNOWN_ADDRESSES[ka].account.publicKey + "ac";
+	            if(ECO_WALLET[ka].account.contract.script === '')
+			ECO_WALLET[ka].account.contract.script = "21" + ECO_WALLET[ka].account.publicKey + "ac";
 
-	            if(KNOWN_ADDRESSES[ka].account.address === '')
-			KNOWN_ADDRESSES[ka].account.address = toBase58(getScriptHashFromAVM(KNOWN_ADDRESSES[ka].account.contract.script));
+	            if(ECO_WALLET[ka].account.address === '')
+			ECO_WALLET[ka].account.address = toBase58(getScriptHashFromAVM(ECO_WALLET[ka].account.contract.script));
 		    */
 		}
 
-         	if(KNOWN_ADDRESSES[ka].account.isMultiSig)
+         	if(ECO_WALLET[ka].account.isMultiSig)
 		{
-		    //if(KNOWN_ADDRESSES[ka].account.address === '')
-		    //	KNOWN_ADDRESSES[ka].account.address = toBase58(getScriptHashFromAVM(KNOWN_ADDRESSES[ka].account.contract.script));
+		    //if(ECO_WALLET[ka].account.address === '')
+		    //	ECO_WALLET[ka].account.address = toBase58(getScriptHashFromAVM(ECO_WALLET[ka].account.contract.script));
 
-		    if(KNOWN_ADDRESSES[ka].owners === '')
-		    	KNOWN_ADDRESSES[ka].owners = getAddressBase58FromMultiSig(KNOWN_ADDRESSES[ka].account.contract.script);
-		    //console.log(KNOWN_ADDRESSES[ka].owners);
+		    if(ECO_WALLET[ka].owners === '')
+		    	ECO_WALLET[ka].owners = getAddressBase58FromMultiSig(ECO_WALLET[ka].account.contract.script);
+		    //console.log(ECO_WALLET[ka].owners);
 		}
           }
 }
@@ -436,29 +436,29 @@ function updateAddressSelectionBox(){
 function addAllKnownAddressesToSelectionBox(walletSelectionBox){
           //Clear selection box
           document.getElementById(walletSelectionBox).options.length = 0;
-          for(ka = 0; ka < KNOWN_ADDRESSES.length; ++ka)
-            addOptionToSelectionBox(KNOWN_ADDRESSES[ka].account.address.slice(0,3) + "..." + KNOWN_ADDRESSES[ka].account.address.slice(-3),"wallet_"+ka,walletSelectionBox);
+          for(ka = 0; ka < ECO_WALLET.length; ++ka)
+            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0,3) + "..." + ECO_WALLET[ka].account.address.slice(-3),"wallet_"+ka,walletSelectionBox);
 }
 //===============================================================
 
 
 //===============================================================
 function buttonKnownAddress(idToRemove){
-  if(idToRemove < KNOWN_ADDRESSES.length && idToRemove > -1)
+  if(idToRemove < ECO_WALLET.length && idToRemove > -1)
   {
-      KNOWN_ADDRESSES.splice(idToRemove, 1);
+      ECO_WALLET.splice(idToRemove, 1);
       drawWalletsStatus();
       updateAddressSelectionBox();
   }else{
-      alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
+      alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + ECO_WALLET.length)
   }
 }
 //===============================================================
 function selfTransfer(idToTransfer){
-  if(idToTransfer < KNOWN_ADDRESSES.length && idToTransfer > -1)
+  if(idToTransfer < ECO_WALLET.length && idToTransfer > -1)
   {
-      	getAllNeoOrGasFrom(KNOWN_ADDRESSES[idToTransfer].account.address,"NEO","",true);
+      	getAllNeoOrGasFrom(ECO_WALLET[idToTransfer].account.address,"NEO","",true);
   }else{
-        alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + KNOWN_ADDRESSES.length)
+        alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length)
   }
 }

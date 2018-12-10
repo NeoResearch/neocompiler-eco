@@ -41,11 +41,11 @@ function getPubKeysFromMultiSig(verificationScript)
 
 function getMultiSigPrivateKeys(multiSigIndex){
             jsonArrayWithPrivKeys = [];
-	    if(KNOWN_ADDRESSES[multiSigIndex].type === "multisig")
+	    if(ECO_WALLET[multiSigIndex].type === "multisig")
 	    {
-		for(o=0;o<KNOWN_ADDRESSES[multiSigIndex].owners.length;o++)
+		for(o=0;o<ECO_WALLET[multiSigIndex].owners.length;o++)
 		{
-			privateKeyToGet = getWifIfKnownAddress(KNOWN_ADDRESSES[multiSigIndex].owners[o].addressBase58);
+			privateKeyToGet = getWifIfKnownAddress(ECO_WALLET[multiSigIndex].owners[o].addressBase58);
 			if(privateKeyToGet!=-1)
 				jsonArrayWithPrivKeys.push({privKey: privateKeyToGet});
 		}

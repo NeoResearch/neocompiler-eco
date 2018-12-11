@@ -231,3 +231,24 @@ function revertHexString(hex) {
     return reverthex;
 }
 */
+
+
+function firstCharToLowerCase(str) {
+	if(str == "")
+		return "";
+	return str.charAt(0).toLowerCase() + str.slice(1);
+}
+
+//===============================================================
+function convertParam(type, value) {
+     if(type == "String")
+        return "\""+value+"\"";
+     if(type == "Address")
+        return "\""+value+"\"";
+     if(type == "Hex")
+        return "b'"+str2hexstring(hexstring2str(value))+"'";
+     if(type == "Integer")
+        return ""+Number(value);
+     return "";
+}
+//===============================================================

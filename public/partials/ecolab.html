@@ -453,22 +453,29 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Wallet</div>
                         <div class="panel-body">
-                            <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Check wallet</button> <br>
+                            <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Reload wallet</button> <br>
                             <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
                             Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" value="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address"/> <br>
                             WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" value="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
                             VerificationScript: <input type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" size="20" /> <br>
+                            EncryptedKey: <input type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" size="20" /> <br>
                             <br/><input type="checkbox" id="cbx_watchonly" name="cbx_watchonly">Watch Only</input>
                             <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
-                            <button type="button" onClick="addWallet()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
+                            <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm">Add Wallet</button>
                         </div>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading">Addresses detailed info</div>
                         <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
+                            <button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">Remove account</button> <br />
                             <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <strong>Encrypted</strong><input id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
+                            <div id="dialog" title="Basic dialog" hidden>
+                              <input id="passwordNep2" type="password" size="25" />
+                              <button type="" onClick="decrypt()" class="btn btn-info btn-sm">Decrypt</button>
+                            </div>
                             <strong>ScriptHash</strong><input id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>PublicKey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>VerificationScript</strong><input id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>

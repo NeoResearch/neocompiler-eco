@@ -256,7 +256,7 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
 //ICO TEMPLATE EXAMPLE:
 /*
 //Invoke mintToken from wallet of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-Invoke(ECO_WALLET[0].addressBase58,ECO_WALLET[0].account.WIF,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
+Invoke(ECO_WALLET[0].account.address,ECO_WALLET[0].account.WIF,0,10,0, "e096710ef8012b83677b039ec0ee6871868bfcf9", "mintTokens", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 
 //Check Balance of AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 {
@@ -280,7 +280,7 @@ var neonJSParams = [];
 pushParams(neonJSParams, 'Address', 'AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y');
 pushParams(neonJSParams, 'Address', 'APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL');
 pushParams(neonJSParams, 'Integer', "0.5");
-Invoke(ECO_WALLET[0].addressBase58,ECO_WALLET[0].account.WIF,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
+Invoke(ECO_WALLET[0].account.address,ECO_WALLET[0].account.WIF,0,0,0, "925705cf2cae08804c51e2feaaa0f0a3c7b77bb9", "Transfer", BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams)
 
 //Check Balance of APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 {

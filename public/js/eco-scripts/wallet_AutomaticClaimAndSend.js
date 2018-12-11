@@ -7,14 +7,11 @@ function callFromAllKnownThatHasClaimable()
     {
       //console.log("Current address for claiming is:" + ADDRESSES_TO_CLAIM[i] + " ALL ECO_WALLET are:")
       //console.log(ECO_WALLET)
-      var idToTransfer = -1;
-      for(ka = 0; ka < ECO_WALLET.length; ++ka)
-      	if(ECO_WALLET[ka].account.address == ADDRESSES_TO_CLAIM[i])
-    		    idToTransfer = ka;
-
+      var idToTransfer = searchAddrIndexFromBase58(ADDRESSES_TO_CLAIM[i]);
+      	
       if (idToTransfer > -1)
       {
-            if(ECO_WALLET[idToTransfer].type === "multisig")
+            if(ECO_WALLET[idToTransfer].account.isMultiSig)
 	    {
 		jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
 		//Multi-sig address
@@ -103,7 +100,7 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
 		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
 		 //console.log("idToTransfer:" + idToTransfer);
 		 if (idToTransfer != -1 && result.balance[i].amount!=0){
-			 if(ECO_WALLET[idToTransfer].type === "multisig")
+			 if(ECO_WALLET[idToTransfer].account.isMultiSig)
 			 {
 				//Multi-sig address
 				neoToSend = 0;
@@ -160,8 +157,7 @@ function populateAllWalletData()
     drawWalletsStatus();
 
     for(ka = 0; ka < ECO_WALLET.length; ++ka)
-    {
-      if(ECO_WALLET[ka].print == true)
+      if(ECO_WALLET[ka].print == true && !isEncryptedOnly(ka))
       {
 	      addressToGet = ECO_WALLET[ka].account.address;
 	      //walletIndex = searchAddrIndexFromBase58(addressToGet);
@@ -170,7 +166,6 @@ function populateAllWalletData()
 	      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
 	      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + ka);
       }
-    }
 }
 
 
@@ -205,70 +200,70 @@ function drawWalletsStatus(){
   headers6.innerHTML = "<b> UNCLAIMABLE </b>";
   row.insertCell(-1).appendChild(headers6);
 
-  for (i = 0; i < ECO_WALLET.length; i++) {
-  if(ECO_WALLET[i].print == true)
+  for (ka = 0; ka < ECO_WALLET.length; ka++) 
   {
-      var txRow = table.insertRow(-1);
-      //row.insertCell(-1).appendChild(document.createTextNode(i));
-      //Insert button that remove rule
-      var b = document.createElement('button');
-      b.setAttribute('content', 'test content');
-      b.setAttribute('class', 'btn btn-danger');
-      b.setAttribute('value', i);
-      //b.onclick = function () {buttonRemoveRule();};
-      //b.onclick = function () {alert(this.value);};
-      b.onclick = function () {buttonKnownAddress(this.value);};
-      b.innerHTML = i;
-      txRow.insertCell(-1).appendChild(b);
+	  if(ECO_WALLET[ka].print == true && !isEncryptedOnly(ka))
+	  {
+	      var txRow = table.insertRow(-1);
+	      //row.insertCell(-1).appendChild(document.createTextNode(i));
+	      //Insert button that remove rule
+	      var b = document.createElement('button');
+	      b.setAttribute('content', 'test content');
+	      b.setAttribute('class', 'btn btn-danger');
+	      b.setAttribute('value', ka);
+	      //b.onclick = function () {buttonRemoveRule();};
+	      //b.onclick = function () {alert(this.value);};
+	      b.onclick = function () {removeAccountFromEcoWallet(this.value);};
+	      b.innerHTML = ka;
+	      txRow.insertCell(-1).appendChild(b);
 
-      var addressBase58 = document.createElement("a");
-      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + ECO_WALLET[i].account.address;
-      addressBase58.text = ECO_WALLET[i].account.address.slice(0,5) + "..." + ECO_WALLET[i].account.address.slice(-5);
-      addressBase58.href = urlToGet;
-      addressBase58.target = 'popup';
-      addressBase58.onclick= urlToGet;
-      addressBase58.style.width = '70px';
-      addressBase58.style.display = 'block';
-      txRow.insertCell(-1).appendChild(addressBase58);
+	      var addressBase58 = document.createElement("a");
+	      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + ECO_WALLET[ka].account.address;
+	      addressBase58.text = ECO_WALLET[ka].account.address.slice(0,4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
+	      addressBase58.href = urlToGet;
+	      addressBase58.target = 'popup';
+	      addressBase58.onclick= urlToGet;
+	      addressBase58.style.width = '70px';
+	      addressBase58.style.display = 'block';
+	      txRow.insertCell(-1).appendChild(addressBase58);
 
-      var walletNeo = document.createElement('input');
-      walletNeo.setAttribute('id', "walletNeo"+i);
-      walletNeo.setAttribute("value", "-");
-      walletNeo.setAttribute("readonly","true");
-      walletNeo.style.width = '90px'
-      txRow.insertCell(-1).appendChild(walletNeo);
+	      var walletNeo = document.createElement('input');
+	      walletNeo.setAttribute('id', "walletNeo"+ka);
+	      walletNeo.setAttribute("value", "-");
+	      walletNeo.setAttribute("readonly","true");
+	      walletNeo.style.width = '90px'
+	      txRow.insertCell(-1).appendChild(walletNeo);
 
-      var walletGas = document.createElement('input');
-      walletGas.setAttribute('id', "walletGas"+i);
-      walletGas.setAttribute("value", "-");
-      walletGas.setAttribute("readonly","true");
-      walletGas.style.width = '80px'
-      txRow.insertCell(-1).appendChild(walletGas);
+	      var walletGas = document.createElement('input');
+	      walletGas.setAttribute('id', "walletGas"+ka);
+	      walletGas.setAttribute("value", "-");
+	      walletGas.setAttribute("readonly","true");
+	      walletGas.style.width = '80px'
+	      txRow.insertCell(-1).appendChild(walletGas);
 
-      var walletClaim = document.createElement('input');
-      walletClaim.setAttribute('id', "walletClaim"+i);
-      walletClaim.setAttribute("value", "-");
-      walletClaim.setAttribute("readonly","true");
-      walletClaim.style.width = '80px'
-      txRow.insertCell(-1).appendChild(walletClaim);
+	      var walletClaim = document.createElement('input');
+	      walletClaim.setAttribute('id', "walletClaim"+ka);
+	      walletClaim.setAttribute("value", "-");
+	      walletClaim.setAttribute("readonly","true");
+	      walletClaim.style.width = '80px'
+	      txRow.insertCell(-1).appendChild(walletClaim);
 
-      var b = document.createElement('button');
-      b.setAttribute('content', 'test content');
-      b.setAttribute('class', 'btn btn-warning');
-      b.setAttribute('value', i);
-      b.onclick = function () {selfTransfer(this.value);};
-      b.innerHTML = '<-';
+	      var b = document.createElement('button');
+	      b.setAttribute('content', 'test content');
+	      b.setAttribute('class', 'btn btn-warning');
+	      b.setAttribute('value', ka);
+	      b.onclick = function () {selfTransfer(this.value);};
+	      b.innerHTML = '<-';
 
-      txRow.insertCell(-1).appendChild(b);
+	      txRow.insertCell(-1).appendChild(b);
 
-      var walletUnclaim = document.createElement('input');
-      walletUnclaim.setAttribute('id', "walletUnclaim"+i);
-      walletUnclaim.setAttribute("value", "-");
-      walletUnclaim.setAttribute("readonly","true");
-      walletUnclaim.style.width = '80px'
-      txRow.insertCell(-1).appendChild(walletUnclaim);
-      //Check activation status
-   }
+	      var walletUnclaim = document.createElement('input');
+	      walletUnclaim.setAttribute('id', "walletUnclaim"+ka);
+	      walletUnclaim.setAttribute("value", "-");
+	      walletUnclaim.setAttribute("readonly","true");
+	      walletUnclaim.style.width = '80px'
+	      txRow.insertCell(-1).appendChild(walletUnclaim);
+	   } //Check print and encrypted status
   }//Finishes loop that draws each relayed transaction
 
   document.getElementById("divWalletsStatus").appendChild(table);
@@ -277,21 +272,62 @@ function drawWalletsStatus(){
 
 //===============================================================
 //================ ADD NEW ADDRESS ==============================
-//TODO Add suport for adding multisig and specialSC
-function addWallet(){
+function addWalletFromForm(){
    	//console.log("addWallet()");
         addressBase58ToAdd = document.getElementById('addressToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
-        vsToAdd = document.getElementById('vsToAddBox').value;
+	vsToAdd = document.getElementById('vsToAddBox').value;
+	encryptedKeyToAdd = document.getElementById('encryptedKeyToAddBox').value;
+	multiSigFlag = $("#cbx_multisig")[0].checked;
+        watchOnly = $("#cbx_watchonly")[0].checked;
 
-	if(!$("#cbx_multisig")[0].checked)
+	var accountToAdd;
+	if(encryptedKeyToAdd != '')
 	{
+		accountToAdd = new Neon.wallet.Account(encryptedKeyToAdd);		
+	}else
+	{ 
+		if(multiSigFlag)
+		{
+			accountToAdd = getAccountFromMultiSigVerification(vsToAdd);
+		}else
+		{
+			if (watchOnly)
+				accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
+			else
+				accountToAdd = new Neon.wallet.Account(wifToAdd);
+		}
+	}
+	        
+	var addedFlag = addToWallet(accountToAdd);
+	if(addedFlag)
+        	updateAllWalletData();
+}
+
+//TODO Add suport for adding multisig and specialSC
+function addToWallet(accountToAdd)
+{
+	if(accountToAdd._encrypted != null)
+	{
+	        if(searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1)
+		{
+			alert("Encrypted key already registered. Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.");
+			return false;
+		}
+		ECO_WALLET.push({ account: accountToAdd, print: true});
+		return true;
+	}
+
+	if(!accountToAdd.isMultiSig)
+	{
+		var addressBase58ToAdd = accountToAdd.address;
+		var wifToAdd = accountToAdd.WIF;
 		console.log("pubAddressToAdd: '" + addressBase58ToAdd + "' wifToAdd: '" + wifToAdd + "'");
 
 	 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
 		{
 			alert("This WIF " + wifToAdd + " does not seems to be valid.");
-			return;
+			return false;
 		}
 	   	console.log("wif " + wifToAdd + " is ok!");
 
@@ -299,55 +335,58 @@ function addWallet(){
 		if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
 		{
 			alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
-			return;
+			return false;
 		}
 
 		//console.log(getWifIfKnownAddress(wifToAdd));
 		if(wifToAdd == '' && !$("#cbx_watchonly")[0].checked)
 		{
 			alert("WIF is null. Please mark WatchOnly or multisig");
-			return;
+			return false;
 		}
 
 		if(searchAddrIndexFromWif(wifToAdd) != -1 && !$("#cbx_watchonly")[0].checked)
 		{
 			alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
-			return;
+			return false;
 		}
 
 		
 	 	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
 		{
 			alert("Public addressBase58 " + addressBase58ToAdd + " is not being recognized as a valid address.");
-			return;
+			return false;
 		}
 	   	console.log("Address " + addressBase58ToAdd + " is ok!");
 
 
-		ECO_WALLET.push({ type: 'commonAddress', addressBase58: addressBase58ToAdd, pKeyWif: wifToAdd, privKey: '', pubKey: '', print: true, verificationScript: '' });
+		ECO_WALLET.push({ account: accountToAdd, print: true});
+		return true; 
 	}
 
-	if($("#cbx_multisig")[0].checked)
+	if(accountToAdd.isMultiSig)
 	{
+		var vsToAdd = accountToAdd.contract.script;
 		if(vsToAdd == '')
 		{
 			alert("Verification script is empty for this multisig!");
-			return;
+			return false;
 		}
 
-		addressBase58ToAdd = toBase58(getScriptHashFromAVM(vsToAdd));
+		if(accountToAdd.address != toBase58(getScriptHashFromAVM(vsToAdd)))
+		{
+			alert("Error on converting verification script to base58");
+			return false;
+		}
 
 		if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
 		{
 			alert("Public addressBase58 already registered for this MultiSig. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
-			return;
+			return false;
 		}
-		ECO_WALLET.push({ type: 'multisig', addressBase58: addressBase58ToAdd, pKeyWif: '', privKey: '', pubKey: '', print: true, verificationScript: vsToAdd, owners: '' });
+		ECO_WALLET.push({ account: accountToAdd, print: true, owners: ''});
+		return true;
 	}
-	
-	updateAddressSelectionBox();
-   	//console.log("will populate all wallets");
-	populateAllWalletData();
 }
 //===============================================================
 
@@ -355,70 +394,74 @@ function addWallet(){
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
 function changeWalletInfo(){
 	var wToChangeIndex = $("#wallet_info")[0].selectedOptions[0].index;
-	document.getElementById("walletInfoAddressBase58").value = ECO_WALLET[wToChangeIndex].account.address;
-	document.getElementById("walletInfoScripthash").value = JSON.stringify(ECO_WALLET[wToChangeIndex].account.scriptHash);
-
-	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.publicKey)
-	document.getElementById("walletInfoPubKey").value = ECO_WALLET[wToChangeIndex].account.publicKey;
-	else 
+	
+	if(isEncryptedOnly(wToChangeIndex))
+	{
+		$("#dialog").show();
+		document.getElementById("walletInfoEncrypted").value = ECO_WALLET[wToChangeIndex].account.encrypted;
+		document.getElementById("walletInfoAddressBase58").value = "-";
+		document.getElementById("walletInfoScripthash").value = "-";
 		document.getElementById("walletInfoPubKey").value = "-";
-
-	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.WIF)
-		document.getElementById("walletInfoWIF").value = ECO_WALLET[wToChangeIndex].account.WIF;
-	else
 		document.getElementById("walletInfoWIF").value = "-";
-
-	if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account.privateKey)
-		document.getElementById("walletInfoPrivateKey").value = ECO_WALLET[wToChangeIndex].account.privateKey;
-	else 
 		document.getElementById("walletInfoPrivateKey").value = "-";
+		document.getElementById("addressPrintInfo").value = "-";
+		document.getElementById("addressVerificationScript").value = "-";
+		document.getElementById("addressOwners").value = "-";
+	}
+	else
+	{
 
-	document.getElementById("addressPrintInfo").value = ECO_WALLET[wToChangeIndex].print;
-	document.getElementById("addressVerificationScript").value = ECO_WALLET[wToChangeIndex].account.contract.script;
-	document.getElementById("addressOwners").value = JSON.stringify(ECO_WALLET[wToChangeIndex].owners);
+		document.getElementById("walletInfoAddressBase58").value = ECO_WALLET[wToChangeIndex].account.address;
+		
+		if(ECO_WALLET[wToChangeIndex].account._encrypted != null)
+		{
+			document.getElementById("walletInfoEncrypted").value = ECO_WALLET[wToChangeIndex].account.encrypted;
+		}
+		else 
+		{
+			$("#dialog").hide();		
+			document.getElementById("walletInfoEncrypted").value = "-";
+		}
 
+		document.getElementById("walletInfoScripthash").value = JSON.stringify(ECO_WALLET[wToChangeIndex].account.scriptHash);
+
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.publicKey)
+			document.getElementById("walletInfoPubKey").value = ECO_WALLET[wToChangeIndex].account.publicKey;
+		else 
+			document.getElementById("walletInfoPubKey").value = "-";
+
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.WIF)
+			document.getElementById("walletInfoWIF").value = ECO_WALLET[wToChangeIndex].account.WIF;
+		else
+			document.getElementById("walletInfoWIF").value = "-";
+
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account.privateKey)
+			document.getElementById("walletInfoPrivateKey").value = ECO_WALLET[wToChangeIndex].account.privateKey;
+		else 
+			document.getElementById("walletInfoPrivateKey").value = "-";
+
+		document.getElementById("addressPrintInfo").value = ECO_WALLET[wToChangeIndex].print;
+		document.getElementById("addressVerificationScript").value = ECO_WALLET[wToChangeIndex].account.contract.script;
+		document.getElementById("addressOwners").value = JSON.stringify(ECO_WALLET[wToChangeIndex].owners);
+	}
 }
 //===============================================================
 
 //===============================================================
 //============= UPDATE ALL KNOWN ADDRESSES ======================
-function updateInfoOfAllKnownAdresses(){
+function updateInfoMSOwners(){
           for(ka = 0; ka < ECO_WALLET.length; ++ka)
-	  {
-         	if(!ECO_WALLET[ka].account.isMultiSig)
-		{
-		    /*
-	            if(ECO_WALLET[ka].account.privateKey === '' && Neon.default.is.wif(ECO_WALLET[ka].account.WIF))
-			ECO_WALLET[ka].account.privateKey = Neon.wallet.getPrivateKeyFromWIF(ECO_WALLET[ka].account.WIF);
-
-	            if(Neon.default.is.privateKey(ECO_WALLET[ka].account.privateKey) && ECO_WALLET[ka].account.publicKey === '')
-			ECO_WALLET[ka].account.publicKey = Neon.wallet.getPublicKeyFromPrivateKey(ECO_WALLET[ka].account.privateKey);
-
-	            if(ECO_WALLET[ka].account.contract.script === '')
-			ECO_WALLET[ka].account.contract.script = "21" + ECO_WALLET[ka].account.publicKey + "ac";
-
-	            if(ECO_WALLET[ka].account.address === '')
-			ECO_WALLET[ka].account.address = toBase58(getScriptHashFromAVM(ECO_WALLET[ka].account.contract.script));
-		    */
-		}
-
-         	if(ECO_WALLET[ka].account.isMultiSig)
-		{
-		    //if(ECO_WALLET[ka].account.address === '')
-		    //	ECO_WALLET[ka].account.address = toBase58(getScriptHashFromAVM(ECO_WALLET[ka].account.contract.script));
-
-		    if(ECO_WALLET[ka].owners === '')
-		    	ECO_WALLET[ka].owners = getAddressBase58FromMultiSig(ECO_WALLET[ka].account.contract.script);
-		    //console.log(ECO_WALLET[ka].owners);
-		}
-          }
+		if(!isEncryptedOnly(ka))
+		 	if(ECO_WALLET[ka].account.isMultiSig)
+			    if(ECO_WALLET[ka].owners === '')
+			    	ECO_WALLET[ka].owners = getAddressBase58FromMultiSig(ECO_WALLET[ka].account.contract.script);
 }
 //===============================================================
 
 //===============================================================
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function updateAddressSelectionBox(){
-      updateInfoOfAllKnownAdresses();
+      updateInfoMSOwners();
       drawWalletsStatus();
       //Adding all known address to NeonInvokeSelectionBox
       addAllKnownAddressesToSelectionBox("wallet_invokejs");
@@ -426,8 +469,6 @@ function updateAddressSelectionBox(){
       addAllKnownAddressesToSelectionBox("wallet_info");
       //addAllKnownAddressesToSelectionBox("createtx_to");
       addAllKnownAddressesToSelectionBox("createtx_from");
-
-
 }
 //===============================================================
 
@@ -435,20 +476,31 @@ function updateAddressSelectionBox(){
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function addAllKnownAddressesToSelectionBox(walletSelectionBox){
           //Clear selection box
+	  //var currentSelected = document.getElementById(walletSelectionBox).selectedOptions[0].index;
           document.getElementById(walletSelectionBox).options.length = 0;
           for(ka = 0; ka < ECO_WALLET.length; ++ka)
-            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0,3) + "..." + ECO_WALLET[ka].account.address.slice(-3),"wallet_"+ka,walletSelectionBox);
+          {
+	  	if(isEncryptedOnly(ka))
+		    addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0,3) + "..." + ECO_WALLET[ka].account.encrypted.slice(-3),"wallet_"+ka,walletSelectionBox);
+		else
+	            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0,3) + "..." + ECO_WALLET[ka].account.address.slice(-3),"wallet_"+ka,walletSelectionBox);
+          }
+	  //document.getElementById(walletSelectionBox)[0].selectedIndex = 0; //currentSelected
 }
 //===============================================================
 
+function updateAllWalletData(){
+	populateAllWalletData();
+	updateAddressSelectionBox();
+	changeWalletInfo();
+}
 
 //===============================================================
-function buttonKnownAddress(idToRemove){
+function removeAccountFromEcoWallet(idToRemove){
   if(idToRemove < ECO_WALLET.length && idToRemove > -1)
   {
       ECO_WALLET.splice(idToRemove, 1);
-      drawWalletsStatus();
-      updateAddressSelectionBox();
+      updateAllWalletData();
   }else{
       alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + ECO_WALLET.length)
   }
@@ -462,3 +514,23 @@ function selfTransfer(idToTransfer){
         alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length)
   }
 }
+
+function decrypt()
+{
+	var idToDecrypt = $("#wallet_info")[0].selectedOptions[0].index;
+	var encryptedKey = ECO_WALLET[idToDecrypt].account.encrypted;
+	var passValue = $("#passwordNep2").val();
+	$("#passwordNep2").val("");
+	console.log("idToDecrypt: " + idToDecrypt + " encryptedKey " + encryptedKey)
+	console.log("passValue: " + passValue)
+	ECO_WALLET[idToDecrypt].account.decrypt(passValue).then(decryptedWallet => {
+	  removeAccountFromEcoWallet(idToDecrypt);
+ 	  createNotificationOrAlert("Wallet decrypted!","Address: " + decryptedWallet.address, 5000);
+	  addToWallet(decryptedWallet);
+	  updateAllWalletData();
+	}).catch(err => {
+	     	console.log(err);
+		createNotificationOrAlert("Wallet decryptation ERROR","Response: " + err, 5000);
+   	});
+}
+

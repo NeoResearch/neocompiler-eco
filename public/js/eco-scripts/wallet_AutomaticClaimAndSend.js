@@ -275,11 +275,11 @@ function drawWalletsStatus(){
 function addWalletFromForm(){
    	//console.log("addWallet()");
         addressBase58ToAdd = document.getElementById('addressToAddBox').value;
+        pubKeyToAdd = document.getElementById('pubKeyToAddBox').value;
         wifToAdd = document.getElementById('wifToAddBox').value;
 	vsToAdd = document.getElementById('vsToAddBox').value;
 	encryptedKeyToAdd = document.getElementById('encryptedKeyToAddBox').value;
 	multiSigFlag = $("#cbx_multisig")[0].checked;
-        watchOnly = $("#cbx_watchonly")[0].checked;
 
 	var accountToAdd;
 	if(encryptedKeyToAdd != '')
@@ -292,10 +292,29 @@ function addWalletFromForm(){
 			accountToAdd = getAccountFromMultiSigVerification(vsToAdd);
 		}else
 		{
-			if (watchOnly)
-				accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
+			if(pubKeyToAdd != '' && wifToAdd==='')
+			{
+				accountToAdd = new Neon.wallet.Account(pubKeyToAdd);
+			}
 			else
-				accountToAdd = new Neon.wallet.Account(wifToAdd);
+			{
+				if (addressBase58ToAdd != '' && wifToAdd==='' )
+				{
+					accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
+				}
+				else
+				{
+					if (wifToAdd != '')
+					{
+						accountToAdd = new Neon.wallet.Account(wifToAdd);
+					}
+					else 
+				     	{
+				     		alert("Error when adding wallet. Values looks all empty.");
+				     		return false;
+				     	}
+				}
+			}
 		}
 	}
 	        
@@ -321,15 +340,31 @@ function addToWallet(accountToAdd)
 	if(!accountToAdd.isMultiSig)
 	{
 		var addressBase58ToAdd = accountToAdd.address;
-		var wifToAdd = accountToAdd.WIF;
-		console.log("pubAddressToAdd: '" + addressBase58ToAdd + "' wifToAdd: '" + wifToAdd + "'");
 
-	 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
+		console.log("pubAddressToAdd: '" + addressBase58ToAdd + "'");
+		if(accountToAdd._WIF != null)
 		{
-			alert("This WIF " + wifToAdd + " does not seems to be valid.");
-			return false;
+			var wifToAdd = accountToAdd.WIF;
+			console.log("wifToAdd: " + wifToAdd);
+		 	if(!Neon.default.is.wif(wifToAdd) && wifToAdd!='')
+			{
+				alert("This WIF " + wifToAdd + " does not seems to be valid.");
+				return false;
+			}
+					//console.log(getWifIfKnownAddress(wifToAdd));
+			if(wifToAdd == '')
+			{
+				alert("WIF is null.");
+				return false;
+			}
+
+			if(searchAddrIndexFromWif(wifToAdd) != -1)
+			{
+				alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
+				return false;
+			}
+	   		console.log("wif " + wifToAdd + " is ok!");
 		}
-	   	console.log("wif " + wifToAdd + " is ok!");
 
 		//TODO Check if addressBase58 already exists by getting it from wif
 		if(searchAddrIndexFromBase58(addressBase58ToAdd) != -1)
@@ -337,20 +372,6 @@ function addToWallet(accountToAdd)
 			alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
 			return false;
 		}
-
-		//console.log(getWifIfKnownAddress(wifToAdd));
-		if(wifToAdd == '' && !$("#cbx_watchonly")[0].checked)
-		{
-			alert("WIF is null. Please mark WatchOnly or multisig");
-			return false;
-		}
-
-		if(searchAddrIndexFromWif(wifToAdd) != -1 && !$("#cbx_watchonly")[0].checked)
-		{
-			alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
-			return false;
-		}
-
 		
 	 	if(!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd!='')
 		{
@@ -358,6 +379,16 @@ function addToWallet(accountToAdd)
 			return false;
 		}
 	   	console.log("Address " + addressBase58ToAdd + " is ok!");
+
+		if(accountToAdd._publicKey != null)
+		{
+			if(!Neon.default.is.publicKey(accountToAdd.publicKey) && accountToAdd.publicKey!='')
+			{
+				alert("Public key " + accountToAdd.publicKey + " is not being recognized as a valid address.");
+				return false;
+			}
+			console.log("pubKey " + accountToAdd.publicKey + " is ok!");
+		}
 
 
 		ECO_WALLET.push({ account: accountToAdd, print: true});
@@ -425,17 +456,17 @@ function changeWalletInfo(){
 
 		document.getElementById("walletInfoScripthash").value = JSON.stringify(ECO_WALLET[wToChangeIndex].account.scriptHash);
 
-		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.publicKey)
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._publicKey != null)
 			document.getElementById("walletInfoPubKey").value = ECO_WALLET[wToChangeIndex].account.publicKey;
 		else 
 			document.getElementById("walletInfoPubKey").value = "-";
 
-		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig &&  ECO_WALLET[wToChangeIndex].account.WIF)
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._WIF != null)
 			document.getElementById("walletInfoWIF").value = ECO_WALLET[wToChangeIndex].account.WIF;
 		else
 			document.getElementById("walletInfoWIF").value = "-";
 
-		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account.privateKey)
+		if(!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._privateKey != null)
 			document.getElementById("walletInfoPrivateKey").value = ECO_WALLET[wToChangeIndex].account.privateKey;
 		else 
 			document.getElementById("walletInfoPrivateKey").value = "-";

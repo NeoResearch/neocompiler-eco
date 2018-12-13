@@ -31,8 +31,18 @@ server.listen(9000 || process.env.PORT, (err) => {
 })
 
 app.get('/', (req, res) => {
-  console.log("Welcome to our NeoCompiler Eco Services RPC API");
-  res.status(200).send("Welcome to our NeoCompiler Eco Services RPC API: [socket.io], [/statusnode/:node - CN Routes], [/getvars - get commit], [/notifications - python notification loggers], [getvars]");
+  console.log("Welcome to our NeoCompiler Eco Services RPC API - NeoResearch");
+  var obj={};
+  obj["result"] = true;
+  obj["welcome"] = "Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch.";
+  var arrMethods=[];
+  arrMethods.push({method: "/statusnode/:node", info: "CN Routes" });
+  arrMethods.push({method: "/getvars", info: "get commit" });
+  arrMethods.push({method: "/notifications", info: " python notification loggers" });
+  arrMethods.push({method: "socket.io", info: "{ timeleft: timeleft, compilations: ecoInfo.compilationsSince, deploys: ecoInfo.deploysSince, invokes: ecoInfo.invokesSince }" });
+  obj["methods"] = arrMethods;
+  res.send(obj);
+
 });
 
 var optionsDefault = {

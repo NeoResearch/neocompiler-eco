@@ -146,10 +146,6 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 
   Neon.default.doInvoke(config).then(res => {
     console.log(res);
-    //console.log(res.response);
-    //console.log(res.tx);
-    //console.log(res.tx.hash);
-
     if(typeof(res.response.result) == "boolean") // 2.X
          createNotificationOrAlert("Invoke","Response: " + res.response.result + " of " + contract_scripthash, 7000);
     else // 3.X
@@ -162,7 +158,6 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
       else  // 3.X
     	  updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,invokeParams);
     }
-
   }).catch(err => {
      console.log(err);
      createNotificationOrAlert("Invoke ERROR","Response: " + err, 7000);
@@ -171,10 +166,9 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
   document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
-//Example of Deploy checkwitness
-// DeployFromAccount(0 ,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
+// Examples of Deploy 
+// DeployFromAccount(0,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 // DeployFromAccount(0,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
-
 function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
@@ -191,6 +185,7 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
 
     //Notify user if contract exists
     //getContractState(contract_scripthash, true);
+    
     if(contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash))
     {
 	alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
@@ -227,29 +222,26 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
 
 
     Neon.default.doInvoke(config).then(res => {
-      	console.log(res);
+    	console.log(res);
 
-     if(typeof(res.response.result) == "boolean") // 2.X
-       createNotificationOrAlert("Deploy","Response: " + res.response.result, 7000);
-     else  // 3.X
-       createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
+	if(typeof(res.response.result) == "boolean") // 2.X
+		createNotificationOrAlert("Deploy","Response: " + res.response.result, 7000);
+	else  // 3.X
+		createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
-    console.log(ECO_WALLET[idToDeploy].account.address);
-
-    if(res.response.result) {
-      var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
-      if(typeof(res.response.result) == "boolean") // 2.X
-         updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
-      else // 3.X
-         updateVecRelayedTXsAndDraw(res.tx.hash, "Deploy", $("#contracthashjs").val(), deployParams);
-    }
-
+	if(res.response.result) {
+		var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+	        if(typeof(res.response.result) == "boolean") // 2.X
+			updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
+	        else // 3.X
+			updateVecRelayedTXsAndDraw(res.tx.hash, "Deploy", $("#contracthashjs").val(), deployParams);
+	 }
     }).catch(err => {
      	console.log(err);
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 5000);
     });
 
-  document.getElementById('divNetworkRelayed').scrollIntoView();
+    document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
 

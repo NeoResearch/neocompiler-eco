@@ -1,10 +1,10 @@
 <p align="center">
     <img
-      src="./public/images/logo.png"
-      width="125px;">
-      <img
-        src="./public/images/prototype-icon-eco.png"
-        width="125px;">
+      src="./public/images/logo_neoresearch.png"
+      width="125px;" />
+    <img
+      src="./public/images/prototype-icon-eco.png"
+      width="125px;" />
 </p>
 
 ## NeoCompiler Eco 3.0
@@ -20,8 +20,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Tested with Firefox Quantum - 61.0.1
 
 #####  The current front-end interface can be acessed from:
-*  [https://neocompiler.io](https://neocompiler.io)
-* [http://neocompiler-eco.neoresearch.io](http://neocompiler-eco.neoresearch.io) - Provided as http by GitHub in order to allow easy interaction with other services of the Neo Blockchain ecosystem;
+* [https://neocompiler.io](https://neocompiler.io), automatically generated from the source code located in this current repository.
 
 ##### Compilers RPC API services are available at:
 
@@ -74,7 +73,9 @@ We need docker-compose version 1.19.0 (or more), so we recommend the following s
 
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
 
-`curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-``uname -s``-``uname -m`` -o /usr/local/bin/docker-compose`
+```docker
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
 
 `chmod +x /usr/local/bin/docker-compose`
 

@@ -1,10 +1,10 @@
 <p align="center">
     <img
-      src="./public/images/logo.png"
-      width="125px;">
-      <img
-        src="./public/images/prototype-icon-eco.png"
-        width="125px;">
+      src="./public/images/logo_neoresearch.png"
+      width="125px;" />
+    <img
+      src="./public/images/prototype-icon-eco.png"
+      width="125px;" />
 </p>
 
 ## NeoCompiler Eco 3.0

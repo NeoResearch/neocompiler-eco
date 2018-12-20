@@ -69,7 +69,7 @@ Pull submodules: `git submodule update --init --recursive` (first time), then, `
 
 ### Installing docker-compose 1.19.0+
 
-We need docker-compose version 1.19.0 (or more), so we recommend the following steps for installation:
+We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:
 
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
 

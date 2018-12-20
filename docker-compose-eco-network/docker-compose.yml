@@ -1,7 +1,7 @@
 # ================================================================================
 # ========== WELCOME TO THE NEOCOMPILER ECO NEO BLOCKCHAIN MICROSERVICE  =========
 # ================================================================================
-version: "3.6"
+version: "3.7"
 services:
 # ================================================================================
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
@@ -25,6 +25,16 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 1
       NUMBER_SERVER: 1
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/20333
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   eco-neo-csharp-node2-running:
     image: eco-neo-csharp-node:latest
@@ -44,6 +54,16 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 2
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/20334
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   eco-neo-csharp-node3-running:
     image: eco-neo-csharp-node:latest
@@ -63,6 +83,16 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 3
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/20335
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   eco-neo-csharp-node4-running:
     image: eco-neo-csharp-node:latest
@@ -82,6 +112,16 @@ services:
       IS_CONSENSUS: 1
       IS_RPC: 0
       NUMBER_SERVER: 4
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/20336
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   eco-neo-csharp-noderpc1-running:
     image: eco-neo-csharp-node:latest
@@ -102,6 +142,12 @@ services:
       IS_CONSENSUS: 0
       IS_RPC: 1
       NUMBER_SERVER: 5
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:30337"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   eco-neo-csharp-noderpc2-running:
     image: eco-neo-csharp-node:latest
@@ -122,6 +168,12 @@ services:
       IS_CONSENSUS: 0
       IS_RPC: 1
       NUMBER_SERVER: 6
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:30338"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
 # ================================================================================
@@ -238,7 +290,16 @@ services:
     volumes:
       - ./logs-neopython-rest-rpc/:/neo-python/logs
       - ./neo-python/custom-config.json:/neo-python/neo/data/protocol.privnet.json
-
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/8080
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 # ================================================================================
 # ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
   eco-neo-python-logger-running:

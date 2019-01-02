@@ -1478,9 +1478,12 @@ def Main():
         });
 
         function updateEcoMetadataInfo(){
-          $("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
-          $("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
-          $("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
+          //$("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
+          //$("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
+          //$("#span_numberInvokes")[0].innerHTML = "Total invoke calls: " + numberInvokes;
+          $("#span_numberCompilations")[0].innerHTML = "";
+          $("#span_numberDeploys")[0].innerHTML = "";
+          $("#span_numberInvokes")[0].innerHTML = "";
         }
 
         function pingCompilers(){

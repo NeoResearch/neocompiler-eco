@@ -16,8 +16,10 @@
         <div class="col-sm-2 sidenav">
             <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a data-target="#compilers" data-toggle="tab">Compilers</a></li>
-              <li><a data-target="#network" data-toggle="tab">Network Essentials</a></li>
+              <li><a data-target="#network" data-toggle="tab">Deploy & Invoke</a></li>
               <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
+              <li><a data-target="#rawRPC" data-toggle="tab">Raw RPC</a></li>
+              <li><a data-target="#activity"  data-toggle="tab">Activity</a></li>
               <li><a data-target="#utils"  data-toggle="tab">Storage Query</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
@@ -862,11 +864,8 @@ def Main():
                     </div>
           </div>
           <!-- end compilers -->
-
-          <!-- begin network -->
-        <div class="tab-pane fade" id="network">
-
-
+        <!-- begin activity -->
+        <div class="tab-pane fade" id="activity">
           <div class="panel panel-info" id="divNetworkRelayed">
               <div class="panel-heading">Historical Relayed TX's</div>
               <div class="panel-body">
@@ -876,6 +875,11 @@ def Main():
                   <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Export TX's History</button>
               </div>
           </div>
+        </div>
+        <!-- end activity -->
+
+        <!-- begin network -->
+        <div class="tab-pane fade" id="network">
 
           <div class="panel panel-primary" id="divNetworkDeploy">
               <div class="panel-heading">Deploy contract into the Blockchain</div>
@@ -1318,6 +1322,11 @@ def Main():
             </div> <!-- body -->
           </div> <!-- panel warning -->
 
+        </div>
+        <!-- end deploy invoke -->
+
+        <!-- begin rawRPC -->
+        <div class="tab-pane fade" id="rawRPC">
           <div class="panel panel-primary" id="divFormJsonOut">
               <div class="panel-heading">Invoke neo nodes (JSON RPC)</div>
               <div class="panel-body">
@@ -1389,8 +1398,8 @@ def Main():
                   </div>
               </div>
           </div>
-
         </div>
+        <!-- end rawRPC -->
 
       </div> <!-- TAB PANNEL -->
       <!-- END DIV MAIN CONTENTS - EVERYTHING WAS INSIDE HERE - II-->

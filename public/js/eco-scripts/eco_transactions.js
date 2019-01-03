@@ -13,8 +13,8 @@
     //===============================================================
     function drawRelayedTXs(){
     	//Clear previous data
-    	document.getElementById("divRelayedTXs").innerHTML = "";
-    	var table = document.createElement("table");
+      document.getElementById("divRelayedTXs").innerHTML = "";
+      var table = document.createElement("table");
       table.setAttribute('class', 'table');
       table.style.width = '20px';
 
@@ -169,8 +169,10 @@
 	     appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[txID].tx] });
 	     $("#txtRPCJson").val(JSON.stringify(appLogJson));
 	     $('#btnCallJsonRPC').click();
-	     //$("#pillstab").children().eq(2).find('a').tab('show');
-	     document.getElementById('divFormJsonOut').scrollIntoView();
+	     //$("#pillstab").children().eq(1).find('a').tab('show');
+	     //$('.nav-pills li:eq(3) a').tab('show');
+	     //document.getElementById('divFormJsonOut').scrollIntoView();
+	     $('.nav-pills a[data-target="#rawRPC"]').tab('show');
       }else{
         alert("Cannot get log of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }

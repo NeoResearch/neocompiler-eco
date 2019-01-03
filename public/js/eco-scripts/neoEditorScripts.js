@@ -304,6 +304,7 @@
             "json" // The format the response should be in
         );  //End of POST for Compile counter
 
+	$('.nav-pills a[data-target="#activity"]').tab('show');
     });//End of invoke function
     //===============================================================
 
@@ -367,6 +368,7 @@
             "json" // The format the response should be in
         );  //End of POST for Compile counter
 
+	$('.nav-pills a[data-target="#activity"]').tab('show');
     });//End of deploy function
     //===============================================================
 

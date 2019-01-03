@@ -8,6 +8,7 @@ function usage {
 }
 
 DISABLE_BUILD=0
+DISABLE_WEB=0
 DEV_MODE=0
 SERVER_MODE=0
 
@@ -23,6 +24,10 @@ while [[ "$#" > 0 ]]; do case $1 in
         ;;
     --dev)
         DEV_MODE=1
+        shift
+        ;;
+    --no-web)
+        DISABLE_WEB=1
         shift
         ;;
     *)
@@ -56,6 +61,11 @@ echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [cshar
 echo "BUILDING compilers";
 ./buildCompilers.sh
 
-echo "RUNNING express servers: front-end, compilers and ecoservices";
-nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
+
+if ((!$DISABLE_WEB)); then
+	echo "RUNNING front-end";
+	nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
+fi
+
+echo "RUNNING express servers: compilers and ecoservices";
 (cd express-servers; ./startAllExpressNohup.sh)

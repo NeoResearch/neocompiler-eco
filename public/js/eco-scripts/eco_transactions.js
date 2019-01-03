@@ -290,7 +290,13 @@
    }
 
    function exportHistory(){
-	console.log(JSON.stringify(vecRelayedTXs));
+        mydataStringfied = JSON.stringify(vecRelayedTXs);
+	console.log(mydataStringfied);
+
+
+        var file = new Blob();
+        file = new Blob([mydataStringfied],{type:'text/plain'});//new Blob([data], {type: type});
+        download(file, ".json");
    }
 
    function loadHistory(vecRelayedTXsToLoad){	

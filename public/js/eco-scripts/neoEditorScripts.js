@@ -502,6 +502,23 @@
     }
     //===============================================================
 
+    //===============================================================
+    function ImportHistoricalActivityJSON() {
+         var file = document.getElementById("importActivityFile").files[0];
+         if (file) {
+             var reader = new FileReader();
+             reader.onloadend = function () {
+		 var activityHistory = this.result;
+		 console.log("Printing historical transactions to be loaded...")
+                 console.log(activityHistory);
+		 console.log(JSON.parse(activityHistory));
+		 loadHistory(JSON.parse(activityHistory));
+             };
+             reader.readAsBinaryString(file);
+         }
+    }
+    //===============================================================
+
     function GetOpcodes() {
          console.log("disassembly opcodes...");
          $("#txt_opcodes").val("");

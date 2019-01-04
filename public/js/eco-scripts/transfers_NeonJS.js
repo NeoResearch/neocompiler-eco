@@ -28,12 +28,19 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 
     Neon.default.sendAsset(config)
     .then(res => {
-        //console.log("network:"+networkToCall);
+        console.log("createTxFromAccount:")
         console.log(res.response);
-        if(typeof(res.response.result) == "boolean") // 2.X
+        createNotificationOrAlert("SendTX", res.response.result, 5000);
+
+	if(FULL_ACTIVITY_HISTORY)
+	{
+		var sendParams = { caller: ECO_WALLET[idTransferFrom].account.address, to: to, neo: neo, gas: gas, sendingFromSCFlag: sendingFromSCFlag}
+	        updateVecRelayedTXsAndDraw(res.response.txid,"Send","-",JSON.stringify(sendParams));
+	}
+	/*if(typeof(res.response.result) == "boolean") // 2.X
            createNotificationOrAlert("SendTX", res.response.result, 5000);
         else // 3.X
-           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);
+           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);*/
     })
     .catch(e => {
         createNotificationOrAlert("SendTX", "Transfer transaction has failed!", 5000);
@@ -54,12 +61,20 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall){
 
     Neon.default.claimGas(config)
     .then(res => {
-        //console.log("network:"+networkToCall);
+	console.log("createClaimGasTX:")
         console.log(res.response)
-        if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("ClaimTX", res.response.result, 5000);
-        else // 3.X
-           createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
+        createNotificationOrAlert("ClaimTX", res.response.result, 5000);
+		
+	if(FULL_ACTIVITY_HISTORY)
+	{
+		var claimParams = { caller: ECO_WALLET[idTransferFrom].account.address}
+	        updateVecRelayedTXsAndDraw(res.response.txid,"Claim","-",JSON.stringify(claimParams));
+	}
+
+        //if(typeof(res.response.result) == "boolean") // 2.X
+        //   createNotificationOrAlert("ClaimTX", res.response.result, 5000);
+        //else // 3.X
+        //   createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
     })
     .catch(e => {
         createNotificationOrAlert("ClaimTX", "Claim transaction has failed!", 5000);

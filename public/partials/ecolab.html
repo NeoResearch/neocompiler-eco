@@ -869,6 +869,8 @@ def Main():
           <div class="panel panel-info" id="divNetworkRelayed">
               <div class="panel-heading">Historical Relayed TX's</div>
               <div class="panel-body">
+                  <span type="checkbox" class="label label-success">Full history</span>
+                  <input type="checkbox" id="cbx_fullHistory"></input>
                   <div id="divRelayedTXs" class="table-responsive"></div>
                   <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Reload TX's status</button><br>
                   <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm">Export TX's Activity</button><br>
@@ -1552,6 +1554,15 @@ def Main():
 
         //=============================================================
         //======== BEGIN ON CHANGE FUNCTIONS ================================
+        $("#cbx_fullHistory").on('change', function() {
+            if($("#cbx_fullHistory")[0].checked){
+              FULL_ACTIVITY_HISTORY = true;
+            }else {
+              FULL_ACTIVITY_HISTORY = false;
+            }
+            console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
+        });
+
         $("#ecolabnetworkurlselection").on('change', function() {
             //$("#neonodeurl")[0].value = this.value;
             updatePATHS();
@@ -2277,11 +2288,11 @@ def Main():
      			 {
      				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			    //Multi-sig address
-              createMultiSigClaimingTransaction(ECO_WALLET[addrFromIndex].verificationScript,jsonArrayWithPrivKeys,getCurrentNetworkNickname())
+              createClaimMSGasTX(addrFromIndex,jsonArrayWithPrivKeys,getCurrentNetworkNickname())
      			 }else
            {
                //TODO add verification for watch only
-               createClaimGasTX(ECO_WALLET[addrFromIndex].addressBase58, ECO_WALLET[addrFromIndex].pKeyWif, BASE_PATH_CLI, getCurrentNetworkNickname());
+               createClaimGasTX(addrFromIndex, BASE_PATH_CLI, getCurrentNetworkNickname());
            }
         };
 

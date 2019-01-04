@@ -66,24 +66,23 @@
           bGoToAppLog.innerHTML = '?';
           txRow.insertCell(-1).appendChild(bGoToAppLog);
 
-	  if(vecRelayedTXs[i].txType === "Invoke")
-	  {
-		  var bRestore = document.createElement('button');
-		  bRestore.setAttribute('content', 'test content');
-		  bRestore.setAttribute('class', 'btn btn-info');
-		  bRestore.setAttribute('value', i);
+	  var bRestore = document.createElement('button');
+	  bRestore.setAttribute('content', 'test content');
+	  bRestore.setAttribute('class', 'btn btn-info');
+	  bRestore.setAttribute('value', i);
+	  bRestore.innerHTML = '<i class="fas fa-reply"></i>';
+	  if(vecRelayedTXs[i].txType === "Invoke")	  
 		  bRestore.onclick = function () {restoreInvokeTX(this.value);};
-		  bRestore.innerHTML = 'R_I';
-		  txRow.insertCell(-1).appendChild(bRestore);
-	  }else{
-		  var bRestore = document.createElement('button');
-		  bRestore.setAttribute('content', 'test content');
-		  bRestore.setAttribute('class', 'btn btn-info');
-		  bRestore.setAttribute('value', i);
+	  else if(vecRelayedTXs[i].txType === "Deploy")
 		  bRestore.onclick = function () {restoreDeployTX(this.value);};
-		  bRestore.innerHTML = 'R_D';
-		  txRow.insertCell(-1).appendChild(bRestore);
-	  }
+	  else if(vecRelayedTXs[i].txType === "Send")
+		  bRestore.onclick = function () {restoreSendTX(this.value);};
+	  else if(vecRelayedTXs[i].txType === "Claim")
+		  bRestore.onclick = function () {restoreClaimTX(this.value);};
+	  else
+		  bRestore.onclick = function () {};
+	  
+	  txRow.insertCell(-1).appendChild(bRestore);
 
 
           var inputTxType = document.createElement("input");
@@ -280,6 +279,50 @@
 
       }else{
         alert("Cannot restore deploy TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+      }
+   }
+
+   function restoreSendTX(txID){
+      if(txID < vecRelayedTXs.length && txID > -1)
+      {
+	     if(vecRelayedTXs[txID].txType === "Send")
+	     {
+		var sendJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+
+		if(searchAddrIndexFromBase58(sendJsonParams.caller) != -1)
+			$("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(sendJsonParams.caller);
+
+		$("#createtx_to").val(sendJsonParams.to);
+		$("#createtx_NEO").val(sendJsonParams.neo);
+		$("#createtx_GAS").val(sendJsonParams.gas);
+
+		/*
+		if(sendJsonParams.sendingFromSCFlag);
+		   $("#cbx_storagejs")[0].checked = true;
+		else
+		  $("#cbx_storagejs")[0].checked = false;*/
+
+		$('.nav-pills a[data-target="#transaction"]').tab('show');
+	     }
+      }else{
+        alert("Cannot restore send of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+      }
+   }
+
+   function restoreClaimTX(txID){
+      if(txID < vecRelayedTXs.length && txID > -1)
+      {
+	     if(vecRelayedTXs[txID].txType === "Claim")
+	     {
+		var claimJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+
+		if(searchAddrIndexFromBase58(claimJsonParams.caller) != -1)
+			$("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(claimJsonParams.caller);
+
+		$('.nav-pills a[data-target="#transaction"]').tab('show');
+	     }
+      }else{
+        alert("Cannot restore claim of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
       }
    }
    //===============================================================

@@ -1,6 +1,6 @@
 function createNotificationOrAlert(notifyTitle, notifyBody, notificationTimeout)
 {
-    if($("#cbx_ecoNotifications")[0].checked){
+    if(!$("#cbx_ecoNotifications")[0].checked){
 	  var permission = (Notification.permission === "granted");
      	  if (!permission) {
           	//alert(Notification.permission);

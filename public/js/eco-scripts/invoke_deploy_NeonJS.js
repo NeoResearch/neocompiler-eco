@@ -167,9 +167,9 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
 }
 
 // Examples of Deploy 
-// DeployFromAccount(0,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
-// DeployFromAccount(0,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
-function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
+// DeployFromAccount(0,0.0000001,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
+// DeployFromAccount(0,0.001,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
+function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
     if(returntype.length == 1)
        returntype = returntype[0]; // remove array if single element
 
@@ -217,6 +217,7 @@ function DeployFromAccount(idToDeploy, mysysgasfee, nodeToCall, networkToCall, c
       url: nodeToCall,
       account: ECO_WALLET[idToDeploy].account, 
       script: sb.str,
+      fees: mynetfee,
       gas: mysysgasfee 
     }
 

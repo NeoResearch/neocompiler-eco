@@ -357,7 +357,9 @@
 
 				//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
 
-        DeployFromAccount(wI,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
+	var attachDeploygasfeejs = Number($("#attachDeployGasFeeJS").val());
+
+        DeployFromAccount(wI,attachDeploygasfeejs,contractGasCost,BASE_PATH_CLI, getCurrentNetworkNickname(),script,storage,rT,params, contract_desc, contract_email, contract_author, contract_version, contract_name);
 
 	//Send info to EcoServices for counting number of deploys
 	$.post(

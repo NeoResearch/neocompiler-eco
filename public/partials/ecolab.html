@@ -871,7 +871,7 @@ def Main():
               <div class="panel-body">
                   <div id="divRelayedTXs" class="table-responsive"></div>
                   <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Reload TX's status</button><br>
-                  <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm">Export TX's History</button><br>
+                  <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm">Export TX's Activity</button><br>
                   <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
                   Upload Historical Activity:
                   <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()"><br/>
@@ -918,7 +918,6 @@ def Main():
                                  <input id="contractparamnamesjs" name="contractparamnames" value='' class="form-control" placeholder="Parameters (without quotes)" style="width: 100%" disabled>
                               </div>
 
-
                               <div class="col-md-6 form-inline" style="margin-bottom: 10px">
                                 <div class="form-group">
                                   <select name="contractreturn" id="contractreturnjs" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
@@ -935,9 +934,7 @@ def Main():
                                     <option>ff</option>
                                   </select>
                                 </div>
-                                <div class="form-group">
-                                  <select name="wallet_deployjs" id="wallet_deployjs" class="custom-select form-control"></select>
-                                </div>
+
                                 <div class="form-group" style="margin-right: 8px">
                                   <div class="checkbox">
                                     <label>
@@ -981,12 +978,30 @@ def Main():
                                  <label for="contractparamnames">Contract version</label>
                                  <input id="jsdeploy_version" name="jsdeploy_version" value='v1.0' class="form-control" placeholder="" style="width: 100%"/>
                               </div>
+
+                              <div class="col-md-3">
+                                  <div class="form-group">
+                                    <label>Caller (AddressBase58)</label>
+                                    <select name="wallet_deployjs" id="wallet_deployjs" class="custom-select form-control"></select>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-3">
+                                <div class="form-group">
+                                  <label for="attachDeployGasFeeJS">Net fee (in GAS)</label>
+                                  <input id="attachDeployGasFeeJS" name="attachDeployGasFeeJS" class="form-control" value="0" placeholder="Send GAS NetFee"/>
+                                </div>
+                              </div>
+
                               <div class="col-md-12">
                                 <button type="submit" id="deploybtnjs" class="btn btn-success btn-sm" data-toggle="modal" >Deploy Js</button>
                               </div>
                               <div class="col-md-12">
                                 <span id="span_numberDeploys" class="label label-info"></span>
                               </div>
+
+
+
                             </div>
                         </form>
                       </div> <!-- end panel deploy js -->

@@ -253,7 +253,7 @@ function drawWalletsStatus(){
 	      b.setAttribute('class', 'btn btn-warning');
 	      b.setAttribute('value', ka);
 	      b.onclick = function () {selfTransfer(this.value);};
-	      b.innerHTML = '<-';
+	      b.innerHTML = '<i class="fas fa-sm fa-arrow-left"></i>';
 
 	      txRow.insertCell(-1).appendChild(b);
 

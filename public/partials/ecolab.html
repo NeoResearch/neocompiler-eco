@@ -2,9 +2,9 @@
     <div class="row">
         <div class="col-lg-12">
             <ol class="breadcrumb">
-                <li><a href="/index.html">Home</a>
+                <li><a href="/index.html"><i class="fas fa-home"></i></a>
                 </li>
-                <li class="active">EcoLab (Neo Ecosystem Laboratory)</li>
+                <li class="active"><i class="fa fa-flask" aria-hidden="true"></i> EcoLab (NEO Ecosystem Laboratory)</li>
             </ol>
         </div>
     </div>
@@ -17,15 +17,15 @@
             <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a data-target="#compilers" data-toggle="tab">Compilers</a></li>
               <li><a data-target="#network" data-toggle="tab">Deploy & Invoke</a></li>
-              <li><a data-target="#transaction"  data-toggle="tab">Transaction Build</a></li>
+              <li><a data-target="#transaction"  data-toggle="tab">Send & Build</a></li>
               <li><a data-target="#rawRPC" data-toggle="tab">Raw RPC</a></li>
               <li><a data-target="#activity"  data-toggle="tab">Activity</a></li>
               <li><a data-target="#utils"  data-toggle="tab">Storage Query</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#pythonnotification"  data-toggle="tab">PythonNotifications</a></li>
-              <li><a data-target="#nodeinfo"  data-toggle="tab">NodeInfo</a></li>
-              <li><a data-target="#configurations"  data-toggle="tab">Configurations</a></li>
+              <li><a data-target="#nodeinfo"  data-toggle="tab">Consensus <i class="fas fa-info"></i></a></li>
+              <li><a data-target="#configurations"  data-toggle="tab"><i class="fas fa-cogs"></i></a></li>
             </ul>
         </div>
 
@@ -36,7 +36,8 @@
             <!-- BEGIN FIXED DIV OF NETWORKS -->
             <div class="row">
                 <div class="col-md-2">
-                    <span class="label label-success">Base Network</span>
+                    <span class="label label-success"><i class="fas fa-network-wired"></i></span>
+                    <i class="fas fa-chart-network"></i>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
                       <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">NeoCompiler Eco</option>
                       <option title="Localhost services" value="http://localhost:30333">Localhost</option>
@@ -263,7 +264,7 @@
                               </div>
                               <div class="row">
                                 <div class="col-md-12">
-                                  <button type="submit" id="gsfsubmit" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-info" data-toggle="modal">Get Storage Value</button>
+                                  <button type="submit" id="gsfsubmit" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-info" data-toggle="modal"><i class="fas fa-hdd"></i></button>
                                 </div>
                               </div>
                               <label for="gsf_contractvalue">Output Value</label>
@@ -299,7 +300,7 @@
                             </div>
                             <div class="row">
                               <div class="col-md-12">
-                                <button type="submit" style="margin-bottom: 10px;" id="txgetnep5balance" class="btn btn-info">Get</button>
+                                <button type="submit" style="margin-bottom: 10px;" id="txgetnep5balance" class="btn btn-info"><i class="fas fa-phone"></i></button>
                               </div>
                               <div class="col-md-6">
                                 <div class="form-group">
@@ -427,7 +428,7 @@
                                     <label for="createtx_signature">Generate Signature (Optional)</label>
                                     <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
                                     <!-- document.getElementById("createtx_signature").checkValidity() -->
-                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();">Sign</button>
+                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i></button>
                                     <!-- Neon.wallet.generateSignature -->
                                     <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
                                   </div>
@@ -453,9 +454,12 @@
                 <!-- BEGIN DIV WALLETS INFO -->
                 <div class="tab-pane fade" id="wallet">
                     <div class="panel panel-info">
-                        <div class="panel-heading">Wallet</div>
+                        <div class="panel-heading">
+                          Wallet
+                          <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button> <br>
+                        </div>
                         <div class="panel-body">
-                            <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm">Reload wallet</button> <br>
+
                             <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
                         </div>
@@ -469,14 +473,14 @@
                             VerificationScript: <input type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" size="20" /> <br>
                             EncryptedKey: <input type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" size="20" /> <br>
                             <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
-                            <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm">Add to Eco-Wallet</button>
+                            <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                         </div>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading">Accounts detailed info</div>
                         <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
-                            <button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">Remove account</button> <br />
+                            <button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i></button> <br />
                             <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <strong>Encrypted</strong><input id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
                             <div id="dialog" title="Basic dialog" hidden>
@@ -553,14 +557,10 @@
            <!-- ======================================================== -->
            <!-- BEGIN DIV NODEINFO -->
             <div class="tab-pane fade" id="nodeinfo">
-                <div class="row">
-                    <div class="col-md-2 pull-left">
-                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm">Reload Nodes Report</button>
-                    </div>
-                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Node1
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <div class="panel-body">
                       <div class="row">
@@ -573,6 +573,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Node2
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <div class="panel-body">
                       <div class="row">
@@ -585,6 +586,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Node3
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <div class="panel-body">
                       <div class="row">
@@ -597,6 +599,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         Node4
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                     </div>
                     <div class="panel-body">
                       <div class="row">
@@ -665,14 +668,11 @@
           <!-- ======================================================== -->
           <!-- BEGIN PYTHON NOTIFICATIONS -->
            <div class="tab-pane fade" id="pythonnotification">
-               <div class="row">
-                   <div class="col-md-2 pull-left">
-                       <button type="submit" onClick="getPythonNotificationsInfo()" class="btn btn-info btn-sm">Reload all system notifications</button>
-                   </div>
-               </div>
-
                <div class="panel panel-primary">
-                   <div class="panel-heading">Python client notifications logger</div>
+                   <div class="panel-heading">
+                     Python client notifications logger
+                     <button type="submit" onClick="getPythonNotificationsInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                   </div>
                    <div class="panel-body">
                      <div class="row">
                        <div class="col-md-12">
@@ -831,7 +831,7 @@ def Main():
                                 </div>
                                 <br/><input type="checkbox" id="cbx_optimize">Optimize opcodes with <a href="https://github.com/NeoResearch/neo-avm-optimizer" target="_blank">neo-avm-optimizer</a> (BETA! USE WITH CAUTION!)</input><br/>
                                 <br/><input type="checkbox" id="cbx_compatible" name="cbx_compatible" checked>Compatible</input><br/>
-                                <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Compile</button>
+                                <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal"><i class="fas fa-hammer"></i></button>
                                 <h4>Compile Warning/Errors:</h4>
                                 <!-- end common submit button -->
                                 <!-- /////////////////////////////////////////////////////////////////// -->
@@ -841,7 +841,7 @@ def Main():
                                 <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
                                 <div class="dropdown btn-group">
                                     <a class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                        Download AVM
+                                        <i class="fas fa-download"></i> AVM
                                         <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu" id="downloadMenu">
@@ -850,10 +850,10 @@ def Main():
                                     </ul>
                                 </div>
                                 <button data-toggle="collapse" data-target="#opcodesDiv" type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info" onclick="GetOpcodes()">AVM OPCODES</button><br/>
-                                Upload AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br/>
+                                <i class="fas fa-upload"></i> AVM: <input type="file" id="importAVMFile" accept=".avm,.AVM" onchange="ImportAVM()"><br/>
                                 <div id="opcodesDiv" class="collapse">
                                     <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control"></textarea>
-                                    <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning">Download OpCodes</button>
+                                    <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning"><i class="fas fa-download"></i> OpCodes</button>
                                 </div>
                                 <h4>ABI:</h4>
                                 <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
@@ -870,12 +870,12 @@ def Main():
               <div class="panel-heading">Historical Relayed TX's</div>
               <div class="panel-body">
                   <span type="checkbox" class="label label-success">Full history</span>
-                  <input type="checkbox" id="cbx_fullHistory"></input>
+                  <input type="checkbox" id="cbx_fullHistory"></input> <br>
+                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm"> <i class="fas fa-sync-alt"></i></button><br>
                   <div id="divRelayedTXs" class="table-responsive"></div>
-                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Reload TX's status</button><br>
-                  <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm">Export TX's Activity</button><br>
+                  <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-download"></i> TX's Activity</button><br>
                   <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
-                  Upload Historical Activity:
+                  <i class="fas fa-upload"></i> Historical Activity:
                   <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()"><br/>
                   <button type="submit" onClick="searchForTXs()" id="btnReplayTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Replay all TX's (TODO)</button><br>
               </div>
@@ -996,7 +996,7 @@ def Main():
                               </div>
 
                               <div class="col-md-12">
-                                <button type="submit" id="deploybtnjs" class="btn btn-success btn-sm" data-toggle="modal" >Deploy Js</button>
+                                <button type="submit" id="deploybtnjs" class="btn btn-success btn-sm" data-toggle="modal" ><i class="fas fa-archive"></i> Deploy</button>
                               </div>
                               <div class="col-md-12">
                                 <span id="span_numberDeploys" class="label label-info"></span>
@@ -1209,7 +1209,7 @@ def Main():
                            </div> <!-- row -->
                            <div class="row">
                                <div class="col-md-12">
-                                 <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal">Invoke js</button>
+                                 <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-fire"></i> Invoke</button>
                                </div>
                                <div class="col-md-12">
                                  <span id="span_numberInvokes" class="label label-info"></span>
@@ -1408,8 +1408,8 @@ def Main():
                         </div>
                       </div>
                       <div class="col-md-12">
-                        <button type="submit" id="btnCallJsonRPC"class="btn btn-success btn-sm">RPC Call JSON</button>
-                        <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info btn-sm" onclick="ConvertJsonNotifications()">Convert Notifications</button>
+                        <button type="submit" id="btnCallJsonRPC"class="btn btn-success btn-sm"><i class="fas fa-phone"></i></button>
+                        <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info btn-sm" onclick="ConvertJsonNotifications()"><i class="fas fa-exchange-alt"></i> Notifications</button>
                       </div>
                     </div>
                   </form>

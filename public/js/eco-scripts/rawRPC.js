@@ -1,4 +1,4 @@
-function sendRawTXToTheRPCNetwork(wtx){
+function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
             console.log(wtxjson);
@@ -8,15 +8,27 @@ function sendRawTXToTheRPCNetwork(wtx){
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 wtxjson, // Serializes form data in standard format
                 function (resultJsonData) {
+		   console.log("sendRawTXToTheRPCNetwork:");
                    console.log(resultJsonData);
                    if(resultJsonData.result)
                    {
+			   createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
+
+			   if(FULL_ACTIVITY_HISTORY)
+			   {
+				var rawTXParams = { wtx: wtx}
+				updateVecRelayedTXsAndDraw(txHash,"RawTX","-",JSON.stringify(rawTXParams));
+			   }
+
+			   /*
 			   if(typeof(resultJsonData.result) == "boolean") // 2.X
 		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
 			   else // 3.X
-		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " \nReason:" + resultJsonData.result.reason, 5000);
+		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " \nReason:" + resultJsonData.result.reason, 5000);*/
 		   }else
+		   {
 			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " \nReason:" + resultJsonData.error.message, 5000);
+		   }
                 },
                 "json" // The format the response should be in
             ).fail(function() {

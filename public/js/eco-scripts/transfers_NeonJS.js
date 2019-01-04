@@ -126,11 +126,13 @@ function sendingTxPromiseWithEcoRaw(txPromise)
 	const sendTxPromise = txPromise.then(transaction => {
 	    //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
 	    //return client.sendRawTransaction(transaction.serialize(true));
-	    sendRawTXToTheRPCNetwork(transaction.serialize(true));
+	    console.log("sendingTxPromiseWithEcoRaw:");
+	    console.log(transaction);
+	    return sendRawTXToTheRPCNetwork(transaction.serialize(true),transaction.hash);
 	  })
 	  .then(res => {
-	    console.log("\n\n--- Response ---");
-	    console.log(res);
+	    console.log("\n\n--- A response was achieved---");
+	    //console.log(res);
 	  })
 	  .catch(err => console.log(err));
 	return sendTxPromise;

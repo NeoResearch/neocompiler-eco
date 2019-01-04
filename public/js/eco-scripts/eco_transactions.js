@@ -195,6 +195,7 @@
 		$("#attachgasjs").val(invokeJsonParams.gas);
 		if(searchAddrIndexFromBase58(invokeJsonParams.caller) != -1)
 			$("#wallet_invokejs")[0].selectedIndex = searchAddrIndexFromBase58(invokeJsonParams.caller);
+		$('.nav-pills a[data-target="#network"]').tab('show');
 	     }
       }else{
         alert("Cannot restore invoke of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
@@ -209,6 +210,7 @@
 
 		var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
 		console.log(deployJsonParams);
+	     	$("#attachDeployGasFeeJS").val(deployJsonParams.mynetfee);
 	     	$("#jsdeploy_name").val(deployJsonParams.contract_appname);
 	     	$("#jsdeploy_desc").val(deployJsonParams.contract_description);
 		$("#jsdeploy_email").val(deployJsonParams.contract_email);
@@ -273,6 +275,7 @@
 		if(searchAddrIndexFromBase58(deployJsonParams.caller) != -1)
 			$("#wallet_deployjs")[0].selectedIndex = searchAddrIndexFromBase58(deployJsonParams.caller);
 
+		$('.nav-pills a[data-target="#network"]').tab('show');
 	     }
 
       }else{

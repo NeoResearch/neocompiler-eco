@@ -30,9 +30,9 @@ function transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJ
 	return JSON.stringify(invokeParams);
 }
 
-function transformDeployParams(myaddress, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname)
+function transformDeployParams(myaddress, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname)
 {
-	var deployParams = { caller: myaddress, contract_script: contract_script, storage: storage, returntype: returntype, par: par, contract_description: contract_description,
+	var deployParams = { caller: myaddress, mynetfee: mynetfee, contract_script: contract_script, storage: storage, returntype: returntype, par: par, contract_description: contract_description,
 	contract_email: contract_email, contract_author: contract_author, contract_version: contract_version, contract_appname:contract_appname}
 	return JSON.stringify(deployParams);
 }
@@ -231,7 +231,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 		createNotificationOrAlert("Deploy","Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
 	if(res.response.result) {
-		var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+		var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
 	        if(typeof(res.response.result) == "boolean") // 2.X
 			updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
 	        else // 3.X

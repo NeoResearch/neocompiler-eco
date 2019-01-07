@@ -67,6 +67,8 @@ Start any recursive submodule: `git submodule update --recursive --remote`
 
 Pull submodules: `git submodule update --init --recursive` (first time), then, `git submodule update --recursive --remote`
 
+On Windows wget might be needed to be installed: https://eternallybored.org/misc/wget/
+
 ### Installing docker-compose 1.19.0+
 
 We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:

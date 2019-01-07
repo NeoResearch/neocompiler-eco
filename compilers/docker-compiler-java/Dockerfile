@@ -1,4 +1,4 @@
-FROM ubuntu-dotnet:18.04-2.1.200
+FROM microsoft/dotnet:2.2-sdk-bionic
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

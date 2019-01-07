@@ -38,9 +38,6 @@ while [[ "$#" > 0 ]]; do case $1 in
 done
 
 if ((!$DISABLE_BUILD)); then
-	echo "BUILDING ubuntu-dotnet for a correct docker-neo-csharp-node initialization";
-	(cd docker-ubuntu-dotnet; ./docker_build.sh)
-
 	if (($DEV_MODE)); then
 		echo "BUILDING docker-neo-csharp-node with modified neo-cli (DEV MODE)";
 		(cd docker-neo-csharp-node; ./docker_build.sh --neo-cli neo-cli-built.zip)

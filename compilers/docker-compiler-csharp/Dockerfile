@@ -1,13 +1,25 @@
-FROM ubuntu-dotnet:18.04-2.1.200
+FROM microsoft/dotnet:2.2-sdk-bionic
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
 
-RUN apt-get update && apt-get install -y mono-complete
-RUN apt-get update && apt-get install -y msbuild
+RUN apt-get update
 
+RUN apt-get install -y gnupg2 gnupg gnupg1
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+RUN wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.asc.gpg
+RUN mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+RUN wget -q https://packages.microsoft.com/config/ubuntu/18.04/prod.list
+RUN mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+
+# RUN apt-get update && apt-get install -y mono-complete
 #xxd decoder for hex to binary
-RUN apt-get -y install xxd
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      mono-complete \
+      msbuild \
+      xxd \
+    && rm -rf /var/lib/apt/lists/*
 
 ARG commitNeoCompiler
 ARG commitDevpackDotnet

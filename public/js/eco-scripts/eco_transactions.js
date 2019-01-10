@@ -62,7 +62,7 @@
           bGoToAppLog.setAttribute('class', 'btn btn-info');
           bGoToAppLog.setAttribute('value', i);
           bGoToAppLog.setAttribute('id', "appLogNeoCli"+i);
-          bGoToAppLog.onclick = function () {callAppLog(this.value);};
+          bGoToAppLog.onclick = function () {callAppLogOrRawTx(this.value);};
           bGoToAppLog.innerHTML = '?';
           txRow.insertCell(-1).appendChild(bGoToAppLog);
 
@@ -160,12 +160,15 @@
 
    //===============================================================
    //Call app log
-   function callAppLog(txID){
+   function callAppLogOrRawTx(txID){
       if(txID < vecRelayedTXs.length && txID > -1)
       {
 	     var txHash = vecRelayedTXs[txID].tx;
 	     var appLogJson = [];
-	     appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[txID].tx] });
+	     if(vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke")
+			appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[txID].tx] });
+	     else
+			appLogJson.push({"jsonrpc": "2.0", "id": 5, "method": "getrawtransaction", "params": [vecRelayedTXs[txID].tx] });
 	     $("#txtRPCJson").val(JSON.stringify(appLogJson));
 	     $('#btnCallJsonRPC').click();
 	     //$("#pillstab").children().eq(1).find('a').tab('show');
@@ -370,20 +373,27 @@
               document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
 	  */
-
+	  console.log(vecRelayedTXs[indexToUpdate].txType)
 	  var jsonDataToCallNeoCli = [];
-	  jsonDataToCallNeoCli.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[indexToUpdate].tx] });
+	  if(vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+		  jsonDataToCallNeoCli.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[indexToUpdate].tx] });
+	  else
+		  jsonDataToCallNeoCli.push({"jsonrpc": "2.0", "id": 5, "method": "getrawtransaction", "params": [vecRelayedTXs[indexToUpdate].tx] });
 
           $.post(
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 JSON.stringify(jsonDataToCallNeoCli), // Serializes form data in standard format
                 function (data) {
-		   //console.log(data);
+		   console.log(data);
 		   if(data[0].result){
-            if(data[0].result.vmstate) // 2.X
-				     document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
+				if(vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+					document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
 				else
-	              document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
+					document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = '<i class="fas fa-thumbs-up"></i>';
+           		        //if(data[0].result.vmstate) // 2.X
+				//     	document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.vmstate;
+				//else
+	              		//	document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
 		   }else{
 			   document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].error.code;
 		   }

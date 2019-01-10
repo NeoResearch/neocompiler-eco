@@ -1921,7 +1921,7 @@ def Main():
         }
 
         function ConvertJsonNotifications(){
-          //console.log(jsonObj);
+          console.log(jsonObj);
           if($("#txtRPCJsonOut").val() != "")
           {
             var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
@@ -1931,10 +1931,9 @@ def Main():
               var myNotify = "";
               var notifArray = [];
 
-              if(jsonObj[0].result.notifications) // 2.X
-                  notifArray = jsonObj[0].result.notifications;
-              else // 3.X
+              if(jsonObj[0].result.executions)
                   notifArray = jsonObj[0].result.executions[0].notifications;
+                  
               console.log("notifications:"+JSON.stringify(notifArray));
               for(var nSize = 0; nSize < notifArray.length; nSize++ )
               {

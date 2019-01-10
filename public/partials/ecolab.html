@@ -1921,19 +1921,18 @@ def Main():
         }
 
         function ConvertJsonNotifications(){
-          console.log(jsonObj);
+          //console.log(jsonObj);
           if($("#txtRPCJsonOut").val() != "")
           {
             var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
             console.log(jsonObj);
 
-            if(jsonObj.length >= 1 && jsonObj[0].result ){
+            if(jsonObj.length >= 1 && jsonObj[0].result && jsonObj[0].result.executions){
               var myNotify = "";
               var notifArray = [];
 
-              if(jsonObj[0].result.executions)
-                  notifArray = jsonObj[0].result.executions[0].notifications;
-                  
+              notifArray = jsonObj[0].result.executions[0].notifications;
+
               console.log("notifications:"+JSON.stringify(notifArray));
               for(var nSize = 0; nSize < notifArray.length; nSize++ )
               {

@@ -373,7 +373,7 @@
               document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
           });
 	  */
-	  console.log(vecRelayedTXs[indexToUpdate].txType)
+	  //console.log(vecRelayedTXs[indexToUpdate].txType)
 	  var jsonDataToCallNeoCli = [];
 	  if(vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
 		  jsonDataToCallNeoCli.push({"jsonrpc": "2.0", "id": 5, "method": "getapplicationlog", "params": [vecRelayedTXs[indexToUpdate].tx] });
@@ -384,7 +384,7 @@
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 JSON.stringify(jsonDataToCallNeoCli), // Serializes form data in standard format
                 function (data) {
-		   console.log(data);
+		   //console.log(data);
 		   if(data[0].result){
 				if(vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
 					document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;

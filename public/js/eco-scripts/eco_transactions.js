@@ -27,9 +27,10 @@
       var headers4 = document.createElement('div');
       var headersAppLog = document.createElement('div');
       var headersRestore = document.createElement('div');
+      var headersTXHeight = document.createElement('div');
       headers1.innerHTML = "<b> ID </b>";
       row.insertCell(-1).appendChild(headers1);
-      headersAppLog.innerHTML = "<b> VM Status (Click for Info)</b>";
+      headersAppLog.innerHTML = "<b> Status</b>";
       row.insertCell(-1).appendChild(headersAppLog);
       headersRestore.innerHTML = "<b> Restore </b>";
       row.insertCell(-1).appendChild(headersRestore);
@@ -39,8 +40,11 @@
       row.insertCell(-1).appendChild(headerstxScriptHash);
       headerstxParams.innerHTML = "<b> txParams </b>";
       row.insertCell(-1).appendChild(headerstxParams);
-      headers2.innerHTML = "<b> TX on NeoScan </b>";
+      headersTXHeight.innerHTML = "<b> Height </b>";
+      row.insertCell(-1).appendChild(headersTXHeight);
+      headers2.innerHTML = "<b> NeoScan </b>";
       row.insertCell(-1).appendChild(headers2);
+
 
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
@@ -117,6 +121,14 @@
           txRow.insertCell(-1).appendChild(activationStatus);
 	  */
 
+          var inputTxHeight = document.createElement("input");
+          inputTxHeight.setAttribute("name", "textTxHeight"+i);
+          inputTxHeight.setAttribute("readonly","true");
+          inputTxHeight.style.width = '70px';
+          inputTxHeight.setAttribute('value', '-');
+          inputTxHeight.setAttribute('id', "textTxHeight"+i);
+          txRow.insertCell(-1).appendChild(inputTxHeight);
+
           var txIDCell = document.createElement("a");
           var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
           txIDCell.text = vecRelayedTXs[i].tx.slice(0,5) + "..." + vecRelayedTXs[i].tx.slice(-5);
@@ -126,6 +138,7 @@
           txIDCell.style.width = '70px';
 	  txIDCell.style.display = 'block';
           txRow.insertCell(-1).appendChild(txIDCell);
+
 
 
           //This draw can be deprecated
@@ -402,5 +415,27 @@
             ).fail(function() {
                 document.getElementById("appLogNeoCli"+indexToUpdate).innerHTML = "FAILED";
           }); //End of POST for search
+
+	  //===========================================================
+	  // Get Transaction HEIGHT
+          $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                JSON.stringify({"jsonrpc": "2.0", "id": 5, "method": "gettransactionheight", "params": [vecRelayedTXs[indexToUpdate].tx] }), // Serializes form data in standard format
+                function (data) {
+		   console.log("Inside get transaction height")
+		   console.log(data);
+		   if(data.result){
+			   document.getElementById("textTxHeight"+indexToUpdate).value = data.result;
+		   }else{
+			   document.getElementById("textTxHeight"+indexToUpdate).value = data.error.code;
+		   }
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+                document.getElementById("textTxHeight"+indexToUpdate).value = "FAILED";
+          }); //End of POST for search
+	  //===========================================================
+
+
    }
   //===============================================================

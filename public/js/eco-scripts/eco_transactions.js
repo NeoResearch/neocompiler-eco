@@ -40,7 +40,7 @@
       row.insertCell(-1).appendChild(headerstxScriptHash);
       headerstxParams.innerHTML = "<b> txParams </b>";
       row.insertCell(-1).appendChild(headerstxParams);
-      headersTXHeight.innerHTML = "<b> Height </b>";
+      headersTXHeight.innerHTML = "<b> txHeight </b>";
       row.insertCell(-1).appendChild(headersTXHeight);
       headers2.innerHTML = "<b> NeoScan </b>";
       row.insertCell(-1).appendChild(headers2);

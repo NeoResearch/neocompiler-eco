@@ -114,7 +114,7 @@
             $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(result4) {
                   $("#nodeRPCHeader")[0].innerHTML = "RPC: " + result2.result.useragent;
                   $("#nodeRPCHeader")[0].innerHTML += " -> H1: " + result3.result;
-                  $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + result4.result.length;
+                  $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + result4.result.unverified.length + "/" + result4.result.verified.length;
             }); // mempool
           }); // NEO block count
         }); // NEO useragent

@@ -12,24 +12,24 @@
 
     //===============================================================
     function drawRelayedTXs(){
-    	//Clear previous data
+      //Clear previous data
       document.getElementById("divRelayedTXs").innerHTML = "";
+      
       var table = document.createElement("table");
       table.setAttribute('class', 'table');
       table.style.width = '20px';
-
       var row = table.insertRow(-1);
-      var headers1 = document.createElement('div');
-      var headers2 = document.createElement('div');
+
+      var headerID = document.createElement('div');
+      var headersAppLog = document.createElement('div');
+      var headersRestore = document.createElement('div');
       var headersTxType = document.createElement('div');
       var headerstxScriptHash = document.createElement('div');
       var headerstxParams = document.createElement('div');
-      var headers4 = document.createElement('div');
-      var headersAppLog = document.createElement('div');
-      var headersRestore = document.createElement('div');
       var headersTXHeight = document.createElement('div');
-      headers1.innerHTML = "<b> ID </b>";
-      row.insertCell(-1).appendChild(headers1);
+      var headerNeoScanLink = document.createElement('div');
+      headerID.innerHTML = "<b> ID </b>";
+      row.insertCell(-1).appendChild(headerID);
       headersAppLog.innerHTML = "<b> Status</b>";
       row.insertCell(-1).appendChild(headersAppLog);
       headersRestore.innerHTML = "<b> Restore </b>";
@@ -42,21 +42,16 @@
       row.insertCell(-1).appendChild(headerstxParams);
       headersTXHeight.innerHTML = "<b> txHeight </b>";
       row.insertCell(-1).appendChild(headersTXHeight);
-      headers2.innerHTML = "<b> NeoScan </b>";
-      row.insertCell(-1).appendChild(headers2);
-
-
+      headerNeoScanLink.innerHTML = "<b> NeoScan </b>";
+      row.insertCell(-1).appendChild(headerNeoScanLink);
 
       for (i = 0; i < vecRelayedTXs.length; i++) {
           var txRow = table.insertRow(-1);
           //row.insertCell(-1).appendChild(document.createTextNode(i));
-          //Insert button that remove rule
           var b = document.createElement('button');
           b.setAttribute('content', 'test content');
           b.setAttribute('class', 'btn btn-danger');
           b.setAttribute('value', i);
-          //b.onclick = function () {buttonRemoveRule();};
-          //b.onclick = function () {alert(this.value);};
           b.onclick = function () {buttonRemoveTX(this.value);};
           b.innerHTML = i;
           txRow.insertCell(-1).appendChild(b);
@@ -84,10 +79,8 @@
 	  else if(vecRelayedTXs[i].txType === "Claim")
 		  bRestore.onclick = function () {restoreClaimTX(this.value);};
 	  else
-		  bRestore.onclick = function () {};
-	  
+		  bRestore.onclick = function () {};	  
 	  txRow.insertCell(-1).appendChild(bRestore);
-
 
           var inputTxType = document.createElement("input");
           //input.setAttribute("type", "hidden");
@@ -98,28 +91,17 @@
           txRow.insertCell(-1).appendChild(inputTxType);
 
           var inputSH = document.createElement("input");
-          //input.setAttribute("type", "hidden");
           inputSH.setAttribute("name", "textScriptHash"+i);
           inputSH.setAttribute("readonly","true");
           inputSH.style.width = '120px';
           inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
           txRow.insertCell(-1).appendChild(inputSH);
 
-
           var inputParams = document.createElement("input");
-          //input.setAttribute("type", "hidden");
           inputParams.setAttribute("name", "textParams"+i);
           inputParams.setAttribute("readonly","true");
           inputParams.setAttribute("value", vecRelayedTXs[i].txParams);
           txRow.insertCell(-1).appendChild(inputParams);
-
-	  /*
-          //Check activation status
-          var activationStatus = document.createElement('div');
-          activationStatus.setAttribute('id', "activationStatus"+i);
-          activationStatus.innerHTML = "-";
-          txRow.insertCell(-1).appendChild(activationStatus);
-	  */
 
           var inputTxHeight = document.createElement("input");
           inputTxHeight.setAttribute("name", "textTxHeight"+i);
@@ -139,27 +121,15 @@
 	  txIDCell.style.display = 'block';
           txRow.insertCell(-1).appendChild(txIDCell);
 
-
-
-          //This draw can be deprecated
-          /*$.getJSON(urlToGet, function(result) {
-              //console.log(result);
-              if(result.txid == "not found" || result.vin == null){
-                activationStatus.innerHTML = "<font color=\"blue\">PENDING</font>";
-              }else{
-                activationStatus.innerHTML = "<font color=\"green\">FOUND</font>";
-              }
-          }).fail(function (result) {
-              activationStatus.innerHTML = "<font color=\"red\">FAILED</font>";
-          });*/
-
-
           //Check activation status ends
     	}//Finishes loop that draws each relayed transaction
 
+      //fill table
       document.getElementById("divRelayedTXs").appendChild(table);
+
+      //call function for updating fields that requires POST/GET calls
       searchForTXs();
-    }//Finishe DrawRules function
+    }//Finishes DrawRules function
    //===============================================================
 
    //===============================================================

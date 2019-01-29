@@ -368,6 +368,15 @@ class NeonOpt
            oplist.push(new NeonOpcode(opcode, "VALUES", "#"));
        else if (opcode == "e0") {
           strcomment = "# ";
+          // load return count and parameter count
+          var sizeret = "" + hexavm[0] + hexavm[1];
+          hexavm = hexavm.substr(2, hexavm.length);
+          var bsize = parseInt(sizeret, 16);
+          var sizeparam = "" + hexavm[0] + hexavm[1];
+          hexavm = hexavm.substr(2, hexavm.length);
+          var bparam = parseInt(sizeparam, 16);
+          strcomment += "ret "+bsize+" param "+bparam+" ";
+
           var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
           hexavm = hexavm.substr(4, hexavm.length);
           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));

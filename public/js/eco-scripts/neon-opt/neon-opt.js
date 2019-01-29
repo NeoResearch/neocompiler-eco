@@ -375,7 +375,7 @@ class NeonOpt
           var sizeparam = "" + hexavm[0] + hexavm[1];
           hexavm = hexavm.substr(2, hexavm.length);
           var bparam = parseInt(sizeparam, 16);
-          strcomment += "ret "+bsize+" param "+bparam+" ";
+          strcomment += "ret "+bsize+" param "+bparam+" jump_offset ";
 
           var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
           hexavm = hexavm.substr(4, hexavm.length);

@@ -20,6 +20,9 @@ services:
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./logs-neocli-node1:/opt/node/neo-cli/Logs
+      - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
+      - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
+      - ./Storage:/opt/node/neo-cli/Storage
 #      - ./${CHAIN}:/opt/node/neo-cli/${CHAIN}
     environment:
       IS_CONSENSUS: 1

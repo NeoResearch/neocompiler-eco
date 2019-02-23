@@ -94,6 +94,31 @@ app.get('/statusnode/:node', function(req, res) {
   });
 });
 
+
+app.get('/incstorage/:height', function(req, res) {
+
+  if(!isInt(req.params.height) || req.params.height < 0 )
+  {
+	 console.log("Someone is doing something crazy. Height lower than 0 or not int.");
+	 res.send("This is not a valid height parameter");
+  }
+  var getIncStorage = "'/opt/getIncStorage.sh " + req.params.height + "'";
+  var cmddocker = 'docker exec -t eco-neo-csharp-node1-running dash -i -c ' + getIncStorage;
+  console.log(cmddocker);
+  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+      res.send("Error:"+e);
+      console.error(e);
+    }
+    else {
+      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+      res.send(stdout1);
+    }
+  });
+});
+
+
 // ============================================================
 // ================== Socket io ===============================
 const EcoData = require('./socket-js/eco-metadata-class.js');

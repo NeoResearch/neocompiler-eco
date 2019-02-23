@@ -23,6 +23,7 @@
               <li><a data-target="#utils"  data-toggle="tab">Storage Query</a></li>
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
+              <li><a data-target="#incrementalstorage"  data-toggle="tab">Inc-Storage</a></li>
               <li><a data-target="#pythonnotification"  data-toggle="tab">Py-PromptLogger</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">Consensus <i class="fas fa-info"></i></a></li>
               <li><a data-target="#configurations"  data-toggle="tab"><i class="fas fa-cogs"></i></a></li>
@@ -684,6 +685,29 @@
            </div>
          <!-- END DIV PYTHON NOTIFICATIONS -->
          <!-- ======================================================== -->
+
+         <!-- ======================================================== -->
+         <!-- BEGIN PYTHON NOTIFICATIONS -->
+          <div class="tab-pane fade" id="incrementalstorage">
+              <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    Incremental storage
+                    <button type="submit" onClick="getIncrementalStorageInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button><br>
+                    <input id="heightForIncStorage" class="form-control" value="0" placeholder="0" oninput="getIncrementalStorageInfo()"/>
+                  </div>
+                  <div class="panel-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                         <textarea id="textAreaOfIncrementalStorage" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Incremental storage for any height..." class="form-control"></textarea><br>
+                       </div>
+                     </div>
+                  </div>
+              </div>
+          </div>
+        <!-- END DIV PYTHON NOTIFICATIONS -->
+        <!-- ======================================================== -->
+
+
 
           <!-- ======================================================== -->
           <!-- BEGIN DIV COMPILERS -->
@@ -2376,6 +2400,12 @@ def Main():
         function getPythonNotificationsInfo()
         {
            $.get(BASE_PATH_ECOSERVICES+'/notifications', function (data) { $("#textAreaOfAllPythonNotifications").val(data); $("#textAreaOfAllPythonNotifications").scrollTop($("#textAreaOfAllPythonNotifications")[0].scrollHeight); });
+        }
+
+        function getIncrementalStorageInfo()
+        {
+           var heightToGet = $("#heightForIncStorage").val();
+           $.get(BASE_PATH_ECOSERVICES+'/incstorage/'+ heightToGet, function (data) { $("#textAreaOfIncrementalStorage").val(data); $("#textAreaOfIncrementalStorage").scrollTop($("#textAreaOfIncrementalStorage")[0].scrollHeight); });
         }
 
 

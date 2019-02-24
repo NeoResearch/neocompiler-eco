@@ -352,10 +352,78 @@ class NeonOpt
            oplist.push(new NeonOpcode(opcode, "NEWARRAY", "#"));
        else if (opcode == "c6")
            oplist.push(new NeonOpcode(opcode, "NEWSTRUCT", "#"));
+       else if (opcode == "c7")
+           oplist.push(new NeonOpcode(opcode, "NEWMAP", "#"));
        else if (opcode == "c8")
            oplist.push(new NeonOpcode(opcode, "APPEND", "#"));
        else if (opcode == "c9")
            oplist.push(new NeonOpcode(opcode, "REVERSE", "#"));
+       else if (opcode == "ca")
+           oplist.push(new NeonOpcode(opcode, "REMOVE", "#"));
+       else if (opcode == "cb")
+           oplist.push(new NeonOpcode(opcode, "HASKEY", "#"));
+       else if (opcode == "cc")
+           oplist.push(new NeonOpcode(opcode, "KEYS", "#"));
+       else if (opcode == "cd")
+           oplist.push(new NeonOpcode(opcode, "VALUES", "#"));
+       else if (opcode == "e0") {
+          strcomment = "# ";
+          // load return count and parameter count
+          var sizeret = "" + hexavm[0] + hexavm[1];
+          hexavm = hexavm.substr(2, hexavm.length);
+          var bsize = parseInt(sizeret, 16);
+          var sizeparam = "" + hexavm[0] + hexavm[1];
+          hexavm = hexavm.substr(2, hexavm.length);
+          var bparam = parseInt(sizeparam, 16);
+          strcomment += "ret "+bsize+" param "+bparam+" jump_offset ";
+
+          var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
+          hexavm = hexavm.substr(4, hexavm.length);
+          strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
+          oplist.push(new NeonOpcode(opcode, "CALL_I", strcomment, nparfunc));
+          //oplist.push(new NeonOpcode(opcode, "CALL", "#"));
+       }
+       else if ((opcode == "e1")|| (opcode == "e2")||  (opcode == "e3")||  (opcode == "e4")) {  // read 20 bytes in reverse order
+           var opname = "";
+           var has20 = false;
+           if (opcode == "e1")
+           {
+               opname = "CALL_E";
+               has20 = true;
+           }
+           if (opcode == "e2")
+               opname = "CALL_ED";
+           if (opcode == "e3")
+           {
+               opname = "CALL_ET";
+               has20 = true;
+           }
+           if (opcode == "e4")
+               opname = "CALL_EDT";
+
+           // load return count and parameter count
+           var sizeret = "" + hexavm[0] + hexavm[1];
+           hexavm = hexavm.substr(2, hexavm.length);
+           var bsize = parseInt(sizeret, 16);
+           var sizeparam = "" + hexavm[0] + hexavm[1];
+           hexavm = hexavm.substr(2, hexavm.length);
+           var bparam = parseInt(sizeparam, 16);
+
+           strcomment += "# ret "+bsize+" param "+bparam+" ";
+
+           var codecall = "";
+           if(has20)
+           {
+               for (i = 0; i < 20; i++) {
+                   var codepush = "" + hexavm[0] + hexavm[1];
+                   hexavm = hexavm.substr(2, hexavm.length);
+                   //codecall = codepush + codecall;
+                   codecall += codepush;
+               }
+           }
+           //target.val(target.val() + codecall + "\n");
+           oplist.push(new NeonOpcode(opcode, opname, strcomment, codecall));
+       }
        else if (opcode == "ca")
            oplist.push(new NeonOpcode(opcode, "REMOVE", "#"));
        else if (opcode == "f0")

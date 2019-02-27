@@ -34,13 +34,13 @@
       row.insertCell(-1).appendChild(headersAppLog);
       headersRestore.innerHTML = "<b> Restore </b>";
       row.insertCell(-1).appendChild(headersRestore);
-      headersTxType.innerHTML = "<b> txType </b>";
+      headersTxType.innerHTML = "<b> Type </b>";
       row.insertCell(-1).appendChild(headersTxType);
-      headerstxScriptHash.innerHTML = "<b> txScriptHash </b>";
+      headerstxScriptHash.innerHTML = "<b> ScriptHash </b>";
       row.insertCell(-1).appendChild(headerstxScriptHash);
-      headerstxParams.innerHTML = "<b> txParams </b>";
+      headerstxParams.innerHTML = "<b> Params </b>";
       row.insertCell(-1).appendChild(headerstxParams);
-      headersTXHeight.innerHTML = "<b> txHeight </b>";
+      headersTXHeight.innerHTML = "<b> Height </b>";
       row.insertCell(-1).appendChild(headersTXHeight);
       headerNeoScanLink.innerHTML = "<b> NeoScan </b>";
       row.insertCell(-1).appendChild(headerNeoScanLink);

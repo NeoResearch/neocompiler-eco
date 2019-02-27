@@ -111,7 +111,7 @@
 
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
-            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [""] }', function(resultRawMemPool) {
+            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
                   $("#nodeRPCHeader")[0].innerHTML = "RPC: " + resultGetVersion.result.useragent;
                   $("#nodeRPCHeader")[0].innerHTML += " -> H1: " + resultBlockCount.result;
                   $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + resultRawMemPool.result.unverified.length + "/" + resultRawMemPool.result.verified.length;

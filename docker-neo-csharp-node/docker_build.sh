@@ -2,7 +2,7 @@
 set -e
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="2.9.5-all-plugins-improved-dbft"
+NEO_CLI_VERSION="2.9.5-all-plugins-improved-dbft-v2"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"

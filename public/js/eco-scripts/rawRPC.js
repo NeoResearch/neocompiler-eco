@@ -61,3 +61,44 @@ function getContractState(contractScriptHash, deployOrInvoke){
 		createNotificationOrAlert("CONTRACT STATE", "failed to pass request to RPC network!", 3000);
             }); //End of POST for search
 }
+
+$("#getnep5balance").submit(function (e) {
+	    e.preventDefault(); // Prevents the page from refreshing
+	    $("#output_getnep5").val("");
+	    $("#output_getnep5_extra").val("");
+	    var addressRevertedScriptHash = revertHexString(fromBase58($("#getnep5_address")[0].value));
+
+	    strrequest = '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+addressRevertedScriptHash+'"]}';
+	    //console.log($("#neonodeurl")[0].value);
+	    //console.log(strrequest);
+	    $.post(
+		BASE_PATH_CLI, // Gets the Neo-CLi URL to sent the post to
+		strrequest,
+		function (data) {
+		  //console.log(data);
+		  valfixed8 = data.result;
+		  const a = new fixed8FromHex(revertHexString(valfixed8));
+		  $("#output_getnep5").val(a);
+
+		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
+		  $.post(
+		      $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
+		      strgetblock,
+		      function (data2) {
+		        //console.log(data);
+		        blockheight = data2.result;
+		        //addr = toBase58($("#getnep5_address")[0].value);
+			addr=$("#getnep5_address")[0].value;
+		        $("#output_getnep5_extra").val(addr + " / H:"+blockheight);
+		      },
+		      "json" // The format the response should be in
+		  ).fail(function() {
+		      $("#output_getnep5_extra").val("failed to invoke network!");
+		  }); //End of POST for search
+
+		},
+		"json" // The format the response should be in
+	    ).fail(function() {
+		$("#output_getnep5").val("failed to invoke network!");
+	    }); //End of POST for search
+});

@@ -155,17 +155,14 @@ emitAppCall (scriptHash, operation = null, args = undefined, useTailCall = false
     if(res.response.result) {
       var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
       updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,invokeParams);
-      //if(typeof(res.response.result) == "boolean") // 2.X
-      //    updateVecRelayedTXsAndDraw(res.response.txid,"Invoke",contract_scripthash,invokeParams);
-      //else  // 3.X
-      //	  updateVecRelayedTXsAndDraw(res.tx.hash,"Invoke",contract_scripthash,invokeParams);
+
+      $('.nav-pills a[data-target="#activity"]').tab('show');
+      document.getElementById('divNetworkRelayed').scrollIntoView();
     }
   }).catch(err => {
      console.log(err);
      createNotificationOrAlert("Invoke ERROR","Response: " + err, 7000);
   });
-
-  document.getElementById('divNetworkRelayed').scrollIntoView();
 }
 
 // Examples of Deploy 
@@ -235,6 +232,9 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 	if(res.response.result) {
 		var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
 		updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
+
+          	$('.nav-pills a[data-target="#activity"]').tab('show');
+		document.getElementById('divNetworkRelayed').scrollIntoView();
 	        //if(typeof(res.response.result) == "boolean") // 2.X
 		//	updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
 	        //else // 3.X
@@ -245,7 +245,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 	createNotificationOrAlert("Deploy ERROR","Response: " + err, 5000);
     });
 
-    document.getElementById('divNetworkRelayed').scrollIntoView();
+
 }
 
 

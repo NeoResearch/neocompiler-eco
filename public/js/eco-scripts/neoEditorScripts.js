@@ -1,48 +1,3 @@
-	$("#getnep5balance").submit(function (e) {
-	    e.preventDefault(); // Prevents the page from refreshing
-	    $("#output_getnep5").val("");
-	    $("#output_getnep5_extra").val("");
-	    var addressRevertedScriptHash = revertHexString(fromBase58($("#getnep5_address")[0].value));
-
-	    strrequest = '{ "jsonrpc": "2.0", "id": 5, "method": "getstorage", "params": ["'+$("#getnep5_contract")[0].value+'","'+addressRevertedScriptHash+'"]}';
-	    //console.log($("#neonodeurl")[0].value);
-	    //console.log(strrequest);
-	    $.post(
-		BASE_PATH_CLI, // Gets the Neo-CLi URL to sent the post to
-		strrequest,
-		function (data) {
-		  //console.log(data);
-		  valfixed8 = data.result;
-		  const a = new fixed8FromHex(revertHexString(valfixed8));
-		  $("#output_getnep5").val(a);
-
-		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
-		  $.post(
-		      $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
-		      strgetblock,
-		      function (data2) {
-		        //console.log(data);
-		        blockheight = data2.result;
-		        //addr = toBase58($("#getnep5_address")[0].value);
-			addr=$("#getnep5_address")[0].value;
-		        $("#output_getnep5_extra").val(addr + " / H:"+blockheight);
-		      },
-		      "json" // The format the response should be in
-		  ).fail(function() {
-		      $("#output_getnep5_extra").val("failed to invoke network!");
-		  }); //End of POST for search
-
-		},
-		"json" // The format the response should be in
-	    ).fail(function() {
-		$("#output_getnep5").val("failed to invoke network!");
-	    }); //End of POST for search
-	});
-
-
-
-
-
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	//console.log(e.target.dataset.target)
 
@@ -150,14 +105,10 @@
                             jsonABI["functions"][i]["name"] + "(";
 
                         if(jsonABI["functions"][i]["name"] != "Main") {
-                            option = document.createElement("option");
-                            option.text  = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
-                            option.value = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
-                            inputbox2.add(option);
                             option2 = document.createElement("option");
                             option2.text  = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
                             option2.value = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
-                            inputboxjs2.add(option2);
+                            inputboxjs.add(option2);
                         }
 
                         for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++)
@@ -281,8 +232,6 @@
         },
             "json" // The format the response should be in
         );  //End of POST for Compile counter
-
-	$('.nav-pills a[data-target="#activity"]').tab('show');
     });//End of invoke function
     //===============================================================
 
@@ -348,7 +297,6 @@
             "json" // The format the response should be in
         );  //End of POST for Compile counter
 
-	$('.nav-pills a[data-target="#activity"]').tab('show');
     });//End of deploy function
     //===============================================================
 
@@ -565,56 +513,6 @@
     //===============================================================
 
 //===============================================================
-   // self update python invoke parameters
-   function updateInvokeParamsPy() {
-     invokecmd = "";
-     if($("#invokefunctionpy")[0].value != "Main")
-        invokecmd += $("#invokefunctionpy")[0].value +" "; // method or "abcdef01" (method in hex with double slashes using str2hexstring...)
-
-     countparam = 0;
-     par1 = "";
-     if($("#invokeparampybox1")[0].value != "None") {
-        par1 = convertParam($("#invokeparampybox1")[0].value, $("#invokeparamspy1")[0].value);
-        countparam++;
-     }
-     par2 = "";
-     if($("#invokeparampybox2")[0].value != "None") {
-        par2 = convertParam($("#invokeparampybox2")[0].value, $("#invokeparamspy2")[0].value);
-        countparam++;
-     }
-     par3 = "";
-     if($("#invokeparampybox3")[0].value != "None") {
-        par3 = convertParam($("#invokeparampybox3")[0].value, $("#invokeparamspy3")[0].value);
-        countparam++;
-     }
-
-     // put non-array values
-     //if(!$("#cbx_inarray_py1")[0].checked)
-
-      invokecmd += "[";
-      if(par1 != "") {
-         invokecmd += par1;
-         countparam--;
-      }
-      if(countparam > 0)
-         invokecmd += ",";
-      if(par2 != "") {
-         invokecmd += par2;
-         countparam--;
-      }
-      if(countparam > 0)
-         invokecmd += ",";
-      if(par3 != "") {
-         invokecmd += par3;
-         countparam--;
-      }
-      invokecmd += "]";
-
-      $("#invokeparams")[0].value = invokecmd;
-   }
-//===============================================================
-
-//===============================================================
 // self update neonjs invoke parameters (in json format)
    function updateInvokeParamsJs() {
      //console.log("updating js json...");
@@ -654,8 +552,8 @@
       $("#invokeparamsjs")[0].value = JSON.stringify(neonJSParams);
    }
 
-   // block and unblock array checkboxes
-	function updateArrayInvokeParamsJs() {
+// block and unblock array checkboxes
+function updateArrayInvokeParamsJs() {
 		if($("#cbx_usearray_js")[0].checked) {
 			$("#cbx_inarray_js1")[0].checked = true;
 			$("#cbx_inarray_js1")[0].disabled = false;
@@ -672,5 +570,5 @@
 			$("#cbx_inarray_js3")[0].checked = false;
 			$("#cbx_inarray_js3")[0].disabled = true;
 		}
-	}
+}
 // ==============================================================

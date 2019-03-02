@@ -93,9 +93,8 @@
         $("#codeavm").val("");
         $("#opcodes").val("");
         $("#codeabi").val("");
-        $("#contracthash").val("");
-        //$("#contracthash_search").val("");
-        $("#invokehash").val("");
+        $("#invokehashjs").val("");
+	$("#contracthashjs").val("");
         $("#contractparams").val("\"\"");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
@@ -117,38 +116,24 @@
                 localStorage.setItem('avmFile', hexcodeavm);//, {type: 'application/octet-stream'});
                 //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
                 //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-
                 //console.log(localStorage.getItem('avmFile').charCodeAt(0));
-                //console.log(localStorage.getItem('avmFile').charCodeAt(1));
-                //console.log(localStorage.getItem('avmFile').charCodeAt(2));
                 //$("#btn_download")[0].style = "";
 
-                $("#contracthash")[0].value = getScriptHashFromAVM(hexcodeavm);
+		//filling hashes
 		$("#contracthashjs")[0].value = getScriptHashFromAVM(hexcodeavm);
-                //$("#contracthash_search")[0].value = $("#contracthash")[0].value;
-                $("#invokehash")[0].value = $("#contracthash")[0].value;
-                $("#invokehashjs")[0].value = $("#contracthash")[0].value;
-                $("#gsf_contracthash")[0].value = $("#contracthash")[0].value;
+                $("#invokehashjs")[0].value = $("#contracthashjs")[0].value;
+                $("#gsf_contracthash")[0].value = $("#contracthashjs")[0].value;
 
                 var codeabi = atob(data.abi);
                 console.log(codeabi);
 
-                inputbox2 = document.getElementById("invokefunctionpy");
-                while(inputbox2.options.length > 0)
-                   inputbox2.remove(0);
-                inputboxjs2 = document.getElementById("invokefunctionjs");
-                while(inputboxjs2.options.length > 0)
-                   inputboxjs2.remove(0);
-
+                inputboxjs = document.getElementById("invokefunctionjs");
+                while(inputboxjs.options.length > 0)
+                   inputboxjs.remove(0);
                 option = document.createElement("option");
                 option.text = "Main";
                 option.value = "Main";
-                inputbox2.add(option);
-
-                option2 = document.createElement("option");
-                option2.text = "Main";
-                option2.value = "Main";
-                inputboxjs2.add(option2);
+                inputboxjs.add(option);
 
                 if( codeabi.length != 0)
                 {
@@ -214,9 +199,8 @@
                         }
 
                     // get parameters
-                    $("#contractparams")[0].value = "\"\"";
-						  $("#contractparamsjs")[0].value = "";
-						  $("#contractparamnamesjs")[0].value = "";
+   		    $("#contractparamsjs")[0].value = "";
+		    $("#contractparamnamesjs")[0].value = "";
                     var j = 0;
                     //console.log("Parameter count:" + jsonABI["functions"][i]["parameters"].length);
 						  var paramhex = "";
@@ -228,7 +212,6 @@
 								paramnames += jsonABI["functions"][i]["parameters"][j]["type"]+"\t";
                     }
 						  if(paramhex.length > 0) {
-                    		$("#contractparams")[0].value = paramhex;
 						  		$("#contractparamsjs")[0].value = paramhex;
 								$("#contractparamnamesjs")[0].value = paramnames;
 						  }
@@ -236,20 +219,15 @@
 						  		$("#contractparamnamesjs")[0].value = "no parameters";
 
                     // set invoke params to many empty strings (at least one is desirable for now)
-						  // PYTHON
-                    $("#invokeparams")[0].value = "\"\"";
-						  for (j = 1; j < jsonABI["functions"][i]["parameters"].length; j++)
-                        $("#invokeparams")[0].value += " \"\"";
-						  // JS
-						  $("#cbx_usearray_js")[0].checked = false;
-						  if(paramhex=="0710") // enable array passing
-						  		$("#cbx_usearray_js")[0].checked = true;
-						  updateArrayInvokeParamsJs(); // update auxiliary check boxes
-						  updateInvokeParamsJs(); // update simple example
+		    // JS
+		    $("#cbx_usearray_js")[0].checked = false;
+		    if(paramhex=="0710") // enable array passing
+		    	$("#cbx_usearray_js")[0].checked = true;
+		    updateArrayInvokeParamsJs(); // update auxiliary check boxes
+		    updateInvokeParamsJs(); // update simple example
 
                     // get return hexcode
                     rettype = jsonABI["functions"][i]["returntype"];
-                    $("#contractreturn")[0].value = getHexForType(rettype);
                     $("#contractreturnjs")[0].value = getHexForType(rettype);
                 }
             },
@@ -349,13 +327,13 @@
 
 	console.log("Final attached gas should be:" + contractGasCost)
 
-	      var contract_name = $("#jsdeploy_name").val();
-				var contract_desc = $("#jsdeploy_desc").val();
-				var contract_email = $("#jsdeploy_email").val();
-				var contract_author = $("#jsdeploy_author").val();
-				var contract_version = $("#jsdeploy_version").val();
+	var contract_name = $("#jsdeploy_name").val();
+	var contract_desc = $("#jsdeploy_desc").val();
+	var contract_email = $("#jsdeploy_email").val();
+	var contract_author = $("#jsdeploy_author").val();
+	var contract_version = $("#jsdeploy_version").val();
 
-				//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
+	//console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
 
 	var attachDeploygasfeejs = Number($("#attachDeployGasFeeJS").val());
 

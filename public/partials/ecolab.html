@@ -894,7 +894,6 @@ def Main():
                 <div class="tab-container">
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-target="#tabdeployjs" data-toggle="tab">Deploy via neon-js</a></li>
-                        <li class="disabled"><a data-target="#tabdeployjs" data-toggle="tab" tabindex="-1">Deploy via neo-python</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -1008,72 +1007,6 @@ def Main():
                             </div>
                         </form>
                       </div> <!-- end panel deploy js -->
-
-
-                      <!-- begin deploy py -->
-                      <div class="tab-pane cont" id="tabdeploypy">
-                        <form id="formdeploy" action="/deployx" method="post">
-                            <div class="row">
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="contracthash">Contract ScriptHash</label>
-                                  <input id="contracthash" readonly="readonly" name="contracthash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
-                                </div>
-                              </div>
-
-                              <div class="col-md-6">
-                                <div class="form-group">
-                                  <label for="contractparams">Params</label>
-                                  <input id="contractparams" name="contractparams" value='""' class="form-control" placeholder="&quot;Parameters (in quotes)&quot;" style="width: 100%">
-                                </div>
-                              </div>
-
-                              <div class="col-md-12 form-inline" style="margin-bottom: 10px">
-                                <div class="form-group">
-                                  <select name="contractreturn" id="contractreturn" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
-                                    <option>00</option>
-                                    <option>01</option>
-                                    <option>02</option>
-                                    <option>03</option>
-                                    <option>04</option>
-                                    <option>05</option>
-                                    <option>06</option>
-                                    <option>07</option>
-                                    <option>10</option>
-                                    <option>f0</option>
-                                    <option>ff</option>
-                                  </select>
-                                </div>
-                                <div class="form-group">
-                                  <select name="wallet_deploy" class="custom-select form-control">
-                                    <option>w1.wallet</option>
-                                    <option>w2.wallet</option>
-                                  </select>
-                                  <!--input(id='contractreturn', name='contractreturn' placeholder="Return Code (Void=00, Bool=01, ...)")-->
-                                </div>
-                                <div class="form-group" style="margin-right: 8px">
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox" name="cbx_storage" id="cbx_storage" /> Storage
-                                    </label>
-                                  </div>
-                                </div>
-                                <div class="form-group" style="margin-right: 8px">
-                                  <div class="checkbox">
-                                    <label>
-                                      <input type="checkbox" name="cbx_dynamicinvoke" id="cbx_dynamicinvoke"/> Dynamic Invoke
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="col-md-12">
-                                <button type="submit" id="deploybtn" class="btn btn-success btn-sm" data-toggle="modal" data-target="#TimeInfoModal">Deploy Py</button>
-                              </div>
-
-                            </div>
-                        </form>
-                      </div> <!-- end panel py -->
 
                     </div> <!-- end content  -->
                   </div>  <!-- end containers -->

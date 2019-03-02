@@ -59,11 +59,12 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
 	return;
   }
 
-  if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
+  if($("#contracthashjs")[0].value == "")
   {
-	console.log("(INVOKE) hashs are empty, they are going to be fullfilled based on the contract_scripthash passed as parameter");
-	$("#contracthash")[0].value = contract_scripthash;
+        console.log("(INVOKE) hashs are empty, they are going to be fullfilled based on the contract_scripthash passed as parameter");
 	$("#contracthashjs")[0].value = contract_scripthash;
+        $("#invokehashjs")[0].value = contract_scripthash;
+        $("#gsf_contracthash")[0].value = contract_scripthash;
   }
 
   var intent;
@@ -193,13 +194,13 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
     	return;
     }
 
-
-     if($("#contracthash")[0].value == "" && $("#contracthashjs")[0].value == "")
-     {
+    if($("#contracthashjs")[0].value == "")
+    {
 	console.log("hashs are empty, they are going to be fullfilled based on the avm passed as parameter");
-	$("#contracthash")[0].value = contract_scripthash;
 	$("#contracthashjs")[0].value = contract_scripthash;
-     }
+        $("#invokehashjs")[0].value = contract_scripthash;
+        $("#gsf_contracthash")[0].value = contract_scripthash;
+    }
 
     const sb = Neon.default.create.scriptBuilder();
     sb.emitPush(Neon.u.str2hexstring(contract_description)) // description

@@ -31,14 +31,14 @@ ecoNodes = [
   },
   {
     "protocol": "https",
-    "url": "node2.neocompiler.io",
+    "url": "node1.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"
   },
   {
     "protocol": "https",
-    "url": "node1.neocompiler.io",
+    "url": "node2.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"

@@ -38,7 +38,6 @@ app.get('/', (req, res) => {
   var arrMethods=[];
   arrMethods.push({method: "/statusnode/:node", info: "CN Routes" });
   arrMethods.push({method: "/getvars", info: "get commit" });
-  arrMethods.push({method: "/notifications", info: " python notification loggers" });
   arrMethods.push({method: "socket.io", info: "{ timeleft: timeleft, compilations: ecoInfo.compilationsSince, deploys: ecoInfo.deploysSince, invokes: ecoInfo.invokesSince }" });
   obj["methods"] = arrMethods;
   res.send(obj);
@@ -103,7 +102,7 @@ app.get('/incstorage/:height', function(req, res) {
 	 res.send("This is not a valid height parameter");
   }
   var getIncStorage = "'/opt/getIncStorage.sh " + req.params.height + "'";
-  var cmddocker = 'docker exec -t eco-neo-csharp-node1-running dash -i -c ' + getIncStorage;
+  var cmddocker = 'docker exec -t eco-neo-csharp-noderpc1-running dash -i -c ' + getIncStorage;
   console.log(cmddocker);
   var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
@@ -164,46 +163,6 @@ app.post('/invokeCounter', function(req, res) {
    //console.log("Current number of invoke requests is " + ecoInfo.invokesSince);
    res.send("true");
 });
-
-// ============================================================
-// ================== PYTHON LOGGER SERVICES ==================
-app.get('/notifications', function(req, res) {
-  var cmddocker = 'docker exec -t eco-neo-python-logger-running dash -i -c "/opt/getNotificationLogs.sh"';
-  //var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-logger/prompt.log';
-  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
-    if (e instanceof Error) {
-      res.send("Error:"+e);
-      console.error(e);
-    }
-    else {
-      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
-      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-      res.send(stdout1);
-    }
-  });
-});
-
-//TODO REMOVE, THIS ARE THE LOGS FOR DEBUGGING PYTHON REST API CLIENT
-/*
-app.get('/restlog', function(req, res) {
-  //var cmddocker = 'docker exec -t eco-neo-python-logger-running dash -i -c "/opt/getNotificationLogs.sh"';
-  var cmddocker = 'cat ./docker-compose-eco-network/logs-neopython-rest-rpc/saida.log';
-  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
-    if (e instanceof Error) {
-      res.send("Error:"+e);
-      console.error(e);
-    }
-    else {
-      //x = stdout1.replace(/[^\x00-\x7F]/g, "");
-      res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-      res.send(stdout1);
-    }
-  });
-});
-*/
-
-// ============================================================
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

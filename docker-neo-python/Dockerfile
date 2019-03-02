@@ -39,12 +39,5 @@ RUN pip3 install -e .
 ADD start_neopython_rest.sh /opt/
 #==========================================================================
 
-#==========================================================================
-#==================== Eco scripts =========================================
-#Notifications and python Logers
-ADD callPythonLogger.sh /opt
-ADD getNotificationLogs.sh /opt
-#==========================================================================
-
 #Loop that forces python clients to wait for csharp nodes
 ADD waitNodes.sh /opt

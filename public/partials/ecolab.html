@@ -24,7 +24,6 @@
               <li><a data-target="#wallet"  data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#incrementalstorage"  data-toggle="tab">Inc-Storage</a></li>
-              <li><a data-target="#pythonnotification"  data-toggle="tab">Py-PromptLogger</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab">Consensus <i class="fas fa-info"></i></a></li>
               <li><a data-target="#configurations"  data-toggle="tab"><i class="fas fa-cogs"></i></a></li>
             </ul>
@@ -666,28 +665,8 @@
          <!-- END CONFIGURATIONS INFO -->
          <!-- ======================================================== -->
 
-          <!-- ======================================================== -->
-          <!-- BEGIN PYTHON NOTIFICATIONS -->
-           <div class="tab-pane fade" id="pythonnotification">
-               <div class="panel panel-primary">
-                   <div class="panel-heading">
-                     Python client prompt logger
-                     <button type="submit" onClick="getPythonNotificationsInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
-                   </div>
-                   <div class="panel-body">
-                     <div class="row">
-                       <div class="col-md-12">
-                          <textarea id="textAreaOfAllPythonNotifications" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Python Runtime.Notify messages..." class="form-control"></textarea><br>
-                        </div>
-                      </div>
-                   </div>
-               </div>
-           </div>
-         <!-- END DIV PYTHON NOTIFICATIONS -->
          <!-- ======================================================== -->
-
-         <!-- ======================================================== -->
-         <!-- BEGIN PYTHON NOTIFICATIONS -->
+         <!-- BEGIN INCREMENTAL STORAGE  -->
           <div class="tab-pane fade" id="incrementalstorage">
               <div class="panel panel-primary">
                   <div class="panel-heading">
@@ -704,10 +683,8 @@
                   </div>
               </div>
           </div>
-        <!-- END DIV PYTHON NOTIFICATIONS -->
+        <!-- END DIV INCREMENTAL STORAGE  -->
         <!-- ======================================================== -->
-
-
 
           <!-- ======================================================== -->
           <!-- BEGIN DIV COMPILERS -->
@@ -2398,11 +2375,6 @@ def Main():
         }
 
         //This uses local routes
-        function getPythonNotificationsInfo()
-        {
-           $.get(BASE_PATH_ECOSERVICES+'/notifications', function (data) { $("#textAreaOfAllPythonNotifications").val(data); $("#textAreaOfAllPythonNotifications").scrollTop($("#textAreaOfAllPythonNotifications")[0].scrollHeight); });
-        }
-
         function getIncrementalStorageInfo()
         {
            var heightToGet = $("#heightForIncStorage").val();

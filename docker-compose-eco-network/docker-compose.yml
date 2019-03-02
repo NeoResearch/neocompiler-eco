@@ -137,7 +137,6 @@ services:
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
-      - ./Storage:/opt/node/neo-cli/Storage
     depends_on:
       - eco-neo-csharp-node1-running
     environment:

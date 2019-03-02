@@ -28,14 +28,6 @@
         "url": "localhost",
         "location": "worldwide",
         "locale": "worldwide",
-        "port": "30333",
-        "type": "RPC"
-      },
-      {
-        "protocol": "http",
-        "url": "localhost",
-        "location": "worldwide",
-        "locale": "worldwide",
         "port": "30337",
         "type": "RPC"
       },
@@ -44,7 +36,7 @@
         "url": "localhost",
         "location": "worldwide",
         "locale": "worldwide",
-        "port": "30338",
+        "port": "30333",
         "type": "RPC"
       },
       {

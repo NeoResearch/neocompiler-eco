@@ -42,5 +42,12 @@ ecoNodes = [
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"
+  },
+  {
+    "protocol": "https",
+    "url": "node3.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "RPC"
   }
 ]

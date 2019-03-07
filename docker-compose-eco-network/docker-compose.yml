@@ -41,6 +41,7 @@ services:
     privileged: true
     ports: #config2.json
       - "20334:20334"
+      - "30334:30334"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
@@ -51,7 +52,7 @@ services:
       - ./logs-neocli-node2:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      IS_RPC: 0
+      IS_RPC: 1
       NUMBER_SERVER: 2
     healthcheck:
       test:

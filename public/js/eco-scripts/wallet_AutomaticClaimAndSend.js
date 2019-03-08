@@ -177,7 +177,8 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet,boxToFill="", automaticTra
                 },
                 "json" // The format the response should be in
             ).fail(function() {
-		createNotificationOrAlert("CONTRACT STATE", "failed to pass request to RPC network!", 3000);
+		console.error("getAllNeoOrGasFrom problem. failed to pass request to RPC network!");
+		//createNotificationOrAlert("getAllNeoOrGasFrom problem", "failed to pass request to RPC network!", 3000);
             }); //End of POST for search
 }
 
@@ -607,13 +608,14 @@ function decrypt()
 	var encryptedKey = ECO_WALLET[idToDecrypt].account.encrypted;
 	var passValue = $("#passwordNep2").val();
 	$("#passwordNep2").val("");
-	console.log("idToDecrypt: " + idToDecrypt + " encryptedKey " + encryptedKey)
-	console.log("passValue: " + passValue)
+	console.log("idToDecrypt: " + idToDecrypt + " encryptedKey " + encryptedKey);
+	console.log("passValue: " + passValue);
+
 	ECO_WALLET[idToDecrypt].account.decrypt(passValue).then(decryptedWallet => {
-	  removeAccountFromEcoWallet(idToDecrypt);
- 	  createNotificationOrAlert("Wallet decrypted!","Address: " + decryptedWallet.address, 5000);
-	  addToWallet(decryptedWallet);
-	  updateAllWalletData();
+		removeAccountFromEcoWallet(idToDecrypt);
+	 	createNotificationOrAlert("Wallet decrypted!","Address: " + decryptedWallet.address, 5000);
+		addToWallet(decryptedWallet);
+		updateAllWalletData();
 	}).catch(err => {
 	     	console.log(err);
 		createNotificationOrAlert("Wallet decryptation ERROR","Response: " + err, 5000);

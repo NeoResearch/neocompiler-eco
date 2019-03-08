@@ -1297,14 +1297,17 @@ def Main():
             refreshIntervalId = setInterval(function() {
                 populateAllWalletData();
                 searchForTXs();
-                pingCompilers();
                 updateEcoMetadataInfo();
             }, 10000); // 30000 milsec
-            recoveringPageData();
-            populateAllWalletData();
+
+            refreshIntervalCompilersAndNodes = setInterval(function() {
+                pingCompilers();
+                automaticNeoCliNodeSelection();
+            }, 30000); // 30000 milsec
             updateAddressSelectionBox();
             updateEcoMetadataInfo();
             changeWalletInfo();
+            recoveringPageData();
 
             refreshGenesisBlock = setInterval(function() {
                 genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
@@ -1317,6 +1320,9 @@ def Main():
                 //$("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
             }
             updatePATHS();
+            //This should be after Paths update
+            automaticNeoCliNodeSelection();
+            //populateAllWalletData();
         });
 
         function updateEcoMetadataInfo(){
@@ -1329,7 +1335,6 @@ def Main():
         }
 
         function pingCompilers(){
-
           if($("#cbx_automatic_compiler")[0].checked)
           {
             var availableCompilers = $("#selectionBoxCompilers")[0].length;
@@ -1348,7 +1353,7 @@ def Main():
                     bestCompiler = response.url;
                     if(bestCompiler != BASE_PATH_COMPILERS)
                     {
-                      console.log('Going to update to bestCompiler ' + bestCompiler + " with ping time " + String(response.delta));
+                      //console.log('Going to update to bestCompiler ' + bestCompiler + " with ping time " + String(response.delta));
                       updateAllCompilerRelatedVariables(bestCompiler);
                     }
                   }

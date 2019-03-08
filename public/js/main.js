@@ -11,6 +11,9 @@ var refreshIntervalId = 0;
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;
 
+/* Automatic pic csharp node at best height */
+var AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH = true;
+
 /* Mostly used to get the current commit of GitHub repo */
 var ENV_VARS = "";
 /* End Some Global Variables  */

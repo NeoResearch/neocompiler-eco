@@ -1,5 +1,6 @@
 var ECO_WALLET = [];
-var ADDRESSES_TO_CLAIM = new Array(0);
+
+var map = new Object();
 
 //Template
 //ECO_WALLET.push({ type: 'commonAddress, multisig or specialSC', addressBase58: '', pKeyWif: '', privKey: '', pubKey: '', print: false, verificationScript: ''});

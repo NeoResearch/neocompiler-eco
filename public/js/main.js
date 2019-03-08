@@ -7,6 +7,7 @@ var numberInvokes = 0;
 
 /* Mostly used to get the current commit of GitHub repo */
 var refreshIntervalId = 0;
+var refreshIntervalCompilersAndNodes = 0;
 
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;

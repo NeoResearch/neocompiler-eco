@@ -1,0 +1,6 @@
+{
+  "PluginConfiguration": {
+    "DBPath": "Nep5BalanceData",
+    "TrackHistory" : true
+  }
+}

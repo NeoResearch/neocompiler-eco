@@ -60,8 +60,8 @@ function callUnclaimedFromNeoCli(adddressToGet,boxToFill="")
                 function (resultUnclaimed) {
 		    console.log(resultUnclaimed);
 		    var amountUnclaimable = 0;
-		    if(resultUnclaimed.unclaimed)
-		    	amountUnclaimable = resultUnclaimed.unclaimed;
+		    if(resultUnclaimed.result)
+		    	amountUnclaimable = resultUnclaimed.result.unavailable;
 
 		    if(boxToFill!="")
 		      $(boxToFill).val(amountUnclaimable);

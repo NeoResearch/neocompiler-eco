@@ -1223,7 +1223,7 @@ def Main():
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="txtRPCJsonOut">Output RPC</label>
-                          <textarea id="txtRPCJsonOut" rows="4" cols="100" class="form-control" readonly/>
+                          <textarea id="txtRPCJsonOut" rows="10" cols="100" class="form-control" readonly/>
                         </div>
                       </div>
                       <div class="col-md-12">
@@ -1233,7 +1233,7 @@ def Main():
                     </div>
                   </form>
                   <div id="divAppLogNotifications">
-                      <textarea id="txt_notifications" readonly="readonly" rows="3" cols="100" placeholder="Listing Notifications"></textarea>
+                      <textarea id="txt_notifications" readonly="readonly" rows="5" cols="100" placeholder="Listing Notifications"></textarea>
                   </div>
               </div>
           </div>
@@ -1395,7 +1395,7 @@ def Main():
             console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
         });
 
-        
+
         $("#cbx_enable_neoscan").on('change', function() {
             if($("#cbx_enable_neoscan")[0].checked){
               ENABLE_NEOSCAN_TRACKING = true;

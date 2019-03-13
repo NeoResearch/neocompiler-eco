@@ -24,6 +24,7 @@ function callClaimableFromNeoCli(adddressToGet,boxToFill="")
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function (resultClaimable) {
+		      console.log("resultClaimable")
 		      console.log(resultClaimable);
 		      var amountClaimable = 0;
 		      if(resultClaimable.result)
@@ -58,6 +59,7 @@ function callUnclaimedFromNeoCli(adddressToGet,boxToFill="")
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function (resultUnclaimed) {
+		    console.log("resultUnclaimed")
 		    console.log(resultUnclaimed);
 		    var amountUnclaimable = 0;
 		    if(resultUnclaimed.result)
@@ -233,14 +235,13 @@ function drawWalletsStatus(){
 	      b.innerHTML = ka;
 	      txRow.insertCell(-1).appendChild(b);
 
-	      var addressBase58 = document.createElement("a");
-	      var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + ECO_WALLET[ka].account.address;
-	      addressBase58.text = ECO_WALLET[ka].account.address.slice(0,4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
-	      addressBase58.href = urlToGet;
-	      addressBase58.target = 'popup';
-	      addressBase58.onclick= urlToGet;
-	      addressBase58.style.width = '70px';
-	      addressBase58.style.display = 'block';
+	      var addressBase58 = document.createElement('button');
+	      addressBase58.setAttribute('content', 'test content');
+	      addressBase58.setAttribute('class', 'btn btn-info');
+	      addressBase58.setAttribute('value', i);
+	      addressBase58.setAttribute('id', "btnGetBalanceAddress"+i);
+	      addressBase58.onclick = function () {getUnspentsForAddress(this.value);};
+	      addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0,3) + "..." + ECO_WALLET[ka].account.address.slice(-3);
 	      txRow.insertCell(-1).appendChild(addressBase58);
 
 	      var walletNeo = document.createElement('input');
@@ -285,6 +286,21 @@ function drawWalletsStatus(){
   document.getElementById("divWalletsStatus").appendChild(table);
 }//Finishe DrawWallets function
 //===============================================================
+
+   //===============================================================
+   //Call address balance
+   function getUnspentsForAddress(addressID){
+      if(addressID < ECO_WALLET.length && addressID > -1)
+      {
+	     var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunspents\", \"params\": [\""+ECO_WALLET[addressID].account.address+"\"] }";
+	     $("#txtRPCJson").val(requestJson);
+	     $('#btnCallJsonRPC').click();
+	     $('.nav-pills a[data-target="#rawRPC"]').tab('show');
+      }else{
+        alert("Cannot get unspents of addrs with ID " + addressID + " from set of address with size " + ECO_WALLET.length)
+      }
+   }
+  //===============================================================
 
 //===============================================================
 //================ ADD NEW ADDRESS ==============================

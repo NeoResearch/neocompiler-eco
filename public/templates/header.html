@@ -127,10 +127,19 @@
           $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
                     $("#postgreshighestblock")[0].innerHTML = "NEOSCAN: H3: "+result.height;
           }); // neoscan top block
+        }else{
+          $("#nodeRestHeader")[0].innerHTML = "";
+          $("#postgreshighestblock")[0].innerHTML = "";
         }
       });
     }
 
-    document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
-    document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);
+    if(ENABLE_NEOSCAN_TRACKING){
+        document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
+        document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);
+    }else
+    {
+      $("#headerNeoScanLink")[0].innerHTML = "";
+    }
+    
 </script>

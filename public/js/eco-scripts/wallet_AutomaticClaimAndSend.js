@@ -16,103 +16,63 @@ function automaticClaim(amountClaimable, idToAutomaticClaim)
     }
 }
 
-function callClaimableNeonQuery(adddressToGet,boxToFill="")
+function callClaimableFromNeoCli(adddressToGet,boxToFill="")
 {
-  url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_claimable/" + adddressToGet;
-  $.getJSON(url_toFill, function(resultClaimable) {
-      //console.log("resultClaimable is:");
-      //console.log(resultClaimable);
-      var amountClaimable = 0;
-      if(resultClaimable.unclaimed)
-      	amountClaimable = resultClaimable.unclaimed;
+            var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getclaimable\", \"params\": [\""+adddressToGet+"\"] }";
+            //console.log("getclaimable request to: "+BASE_PATH_CLI);
+            $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                requestJson, // Serializes form data in standard format
+                function (resultClaimable) {
+		      console.log(resultClaimable);
+		      var amountClaimable = 0;
+		      if(resultClaimable.result)
+		      	amountClaimable = resultClaimable.result.unclaimed;
 
-      if(resultClaimable.address && amountClaimable>0)
-      {
-        idToAutomaticClaim = searchAddrIndexFromBase58(resultClaimable.address);
-        //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
-	if($("#walletGas" + idToAutomaticClaim).val() == map[resultClaimable.address])
-      		automaticClaim(amountClaimable,idToAutomaticClaim);
-        map[resultClaimable.address] = $("#walletGas" + idToAutomaticClaim).val();
-        //console.log(map);
-      }
+		      if(resultClaimable.result.address && amountClaimable>0)
+		      {
+			var resultQueryAddress = resultClaimable.result.address;
+			idToAutomaticClaim = searchAddrIndexFromBase58(resultQueryAddress);
+			//console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
+			if($("#walletGas" + idToAutomaticClaim).val() == map[resultQueryAddress])
+		      		automaticClaim(amountClaimable,idToAutomaticClaim);
+			map[resultQueryAddress] = $("#walletGas" + idToAutomaticClaim).val();
+			//console.log(map);
+		      }
 
-      if(boxToFill!="")
-	       $(boxToFill).val(amountClaimable);
-
-      return amountClaimable;
-  });
+		      if(boxToFill!="")
+			       $(boxToFill).val(amountClaimable);
+		     return amountClaimable;		    
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+		console.error("callClaimableFromNeoCli problem. failed to pass request to RPC network!");
+            }); //End of POST for search
 }
 
-function callUnclaimedNeonQuery(adddressToGet,boxToFill="")
+function callUnclaimedFromNeoCli(adddressToGet,boxToFill="")
 {
-  url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_unclaimed/" + adddressToGet;
-  $.getJSON(url_toFill, function(result) {
-    var amountUnclaimable = 0;
-    if(result.unclaimed)
-    	amountUnclaimable = result.unclaimed;
+            var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimed\", \"params\": [\""+adddressToGet+"\"] }";
+            //console.log("getclaimable request to: "+BASE_PATH_CLI);
+            $.post(
+                BASE_PATH_CLI, // Gets the URL to sent the post to
+                requestJson, // Serializes form data in standard format
+                function (resultUnclaimed) {
+		    console.log(resultUnclaimed);
+		    var amountUnclaimable = 0;
+		    if(resultUnclaimed.unclaimed)
+		    	amountUnclaimable = resultUnclaimed.unclaimed;
 
-    if(boxToFill!="")
-      $(boxToFill).val(amountUnclaimable);
+		    if(boxToFill!="")
+		      $(boxToFill).val(amountUnclaimable);
 
-    return amountUnclaimable;
-  });
+		    return amountUnclaimable;		    
+                },
+                "json" // The format the response should be in
+            ).fail(function() {
+		console.error("callUnclaimedFromNeoCli problem. failed to pass request to RPC network!");
+            }); //End of POST for search
 }
-
-// ==================================================
-//DEPRECATED
-function getAllNeoOrGasFromNeonScan(adddressToGet, assetToGet,boxToFill="", automaticTransfer = false, to = "")
-{
-  var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
-  //console.log("url_toFill: " + url_toFill);
-  $.getJSON(url_toFill, function(result) {
-    if(boxToFill!="")
-	    $(boxToFill).val(0);
-
-    if(result.balance)
-    {
-      for( i = 0; i < result.balance.length; ++i)
-      {
-    	  if(result.balance[i].asset == assetToGet)
-    	  {
-    	      //console.log(assetToGet + " balance is:" + result.balance[i].amount);
-    	      if(boxToFill!="")
-    		      $(boxToFill).val(result.balance[i].amount);
-	      if(automaticTransfer)
-	      {
-		 if(to==="")
-		 	to = adddressToGet;
-
-		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
-		 //console.log("idToTransfer:" + idToTransfer);
-		 if (idToTransfer != -1 && result.balance[i].amount!=0){
-			 if(ECO_WALLET[idToTransfer].account.isMultiSig)
-			 {
-				//Multi-sig address
-				neoToSend = 0;
-				gasToSend = 0;
-			        if(assetToGet == "NEO")
-					neoToSend = result.balance[i].amount;
-				else
-					gasToSend = result.balance[i].amount;
-				createTxFromMSAccount(idToTransfer, to, neoToSend, gasToSend, getCurrentNetworkNickname());
-			 }else
-			 {
-			 	createTxFromAccount(idToTransfer,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
-			 }
-		}
-
-
-	      }
-    	  }
-       }
-    }
-
-
-  });
-}
-//DEPRECATED
-// ==================================================
-
 
 //GAS: 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7 
 //NEO: 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b 
@@ -219,8 +179,8 @@ function populateAllWalletData()
 	      //walletIndex = searchAddrIndexFromBase58(addressToGet);
 	      getAllNeoOrGasFrom(addressToGet,"NEO","#walletNeo" + ka);
 	      getAllNeoOrGasFrom(addressToGet,"GAS","#walletGas" + ka);
-	      callClaimableNeonQuery(addressToGet,"#walletClaim" + ka);
-	      callUnclaimedNeonQuery(addressToGet,"#walletUnclaim" + ka);
+	      callClaimableFromNeoCli(addressToGet,"#walletClaim" + ka);
+	      callUnclaimedFromNeoCli(addressToGet,"#walletUnclaim" + ka);
       }
 }
 
@@ -668,3 +628,104 @@ function updateClaimable(amountClaimable, addressToClaim)
     }
 }
 */
+
+// ==================================================
+//DEPRECATED
+function callUnclaimedNeonQueryFromNeoScan(adddressToGet,boxToFill="")
+{
+  url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_unclaimed/" + adddressToGet;
+  $.getJSON(url_toFill, function(result) {
+    var amountUnclaimable = 0;
+    if(result.unclaimed)
+    	amountUnclaimable = result.unclaimed;
+
+    if(boxToFill!="")
+      $(boxToFill).val(amountUnclaimable);
+
+    return amountUnclaimable;
+  });
+}
+
+function callClaimableNeonQueryFromNeoScan(adddressToGet,boxToFill="")
+{
+  url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_claimable/" + adddressToGet;
+  $.getJSON(url_toFill, function(resultClaimable) {
+      //console.log("resultClaimable is:");
+      //console.log(resultClaimable);
+      var amountClaimable = 0;
+      if(resultClaimable.unclaimed)
+      	amountClaimable = resultClaimable.unclaimed;
+
+      if(resultClaimable.address && amountClaimable>0)
+      {
+        idToAutomaticClaim = searchAddrIndexFromBase58(resultClaimable.address);
+        //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
+	if($("#walletGas" + idToAutomaticClaim).val() == map[resultClaimable.address])
+      		automaticClaim(amountClaimable,idToAutomaticClaim);
+        map[resultClaimable.address] = $("#walletGas" + idToAutomaticClaim).val();
+        //console.log(map);
+      }
+
+      if(boxToFill!="")
+	       $(boxToFill).val(amountClaimable);
+
+      return amountClaimable;
+  });
+}
+
+// ==================================================
+
+// ==================================================
+//DEPRECATED
+function getAllNeoOrGasFromNeoScan(adddressToGet, assetToGet,boxToFill="", automaticTransfer = false, to = "")
+{
+  var url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_balance/" + adddressToGet;
+  //console.log("url_toFill: " + url_toFill);
+  $.getJSON(url_toFill, function(result) {
+    if(boxToFill!="")
+	    $(boxToFill).val(0);
+
+    if(result.balance)
+    {
+      for( i = 0; i < result.balance.length; ++i)
+      {
+    	  if(result.balance[i].asset == assetToGet)
+    	  {
+    	      //console.log(assetToGet + " balance is:" + result.balance[i].amount);
+    	      if(boxToFill!="")
+    		      $(boxToFill).val(result.balance[i].amount);
+	      if(automaticTransfer)
+	      {
+		 if(to==="")
+		 	to = adddressToGet;
+
+		 var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
+		 //console.log("idToTransfer:" + idToTransfer);
+		 if (idToTransfer != -1 && result.balance[i].amount!=0){
+			 if(ECO_WALLET[idToTransfer].account.isMultiSig)
+			 {
+				//Multi-sig address
+				neoToSend = 0;
+				gasToSend = 0;
+			        if(assetToGet == "NEO")
+					neoToSend = result.balance[i].amount;
+				else
+					gasToSend = result.balance[i].amount;
+				createTxFromMSAccount(idToTransfer, to, neoToSend, gasToSend, getCurrentNetworkNickname());
+			 }else
+			 {
+			 	createTxFromAccount(idToTransfer,to, result.balance[i].amount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
+			 }
+		}
+
+
+	      }
+    	  }
+       }
+    }
+
+
+  });
+}
+//DEPRECATED
+// ==================================================

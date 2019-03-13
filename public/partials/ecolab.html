@@ -639,7 +639,7 @@
                    </div>
                    <div class="col-md-2">
                        <span class="label label-success">NeoScan</span>
-                       <input type="checkbox" id="cbx_enable_neoscan" checked></input>
+                       <input type="checkbox" id="cbx_enable_neoscan"></input>
                        <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
                        <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
                    </div>
@@ -1395,6 +1395,7 @@ def Main():
             console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
         });
 
+        
         $("#cbx_enable_neoscan").on('change', function() {
             if($("#cbx_enable_neoscan")[0].checked){
               ENABLE_NEOSCAN_TRACKING = true;

@@ -9,6 +9,9 @@ var numberInvokes = 0;
 var refreshIntervalId = 0;
 var refreshIntervalCompilersAndNodes = 0;
 
+/* Enable NEOSCAN explorer on the frontend */
+var ENABLE_NEOSCAN_TRACKING = false;
+
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;
 

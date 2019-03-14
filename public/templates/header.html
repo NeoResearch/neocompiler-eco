@@ -38,7 +38,7 @@
                   <span id="timeleft" class="label label-info"></span>
                 </div>
                 <div class="row">
-                  <span id="postgreshighestblock" class="label label-info"></span>
+                  <span id="nodeRPCHeader" class="label label-info"></span>
                 </div>
                 <!--
                 <div class="row">
@@ -52,7 +52,7 @@
             <li>
               <div class="col-sm-1">
                 <div class="row">
-                  <span id="nodeRPCHeader" class="label label-info"></span>
+                  <span id="postgreshighestblock" class="label label-info"></span>
                 </div>
                 <div class="row">
                   <span id="nodeRestHeader" class="label label-info"></span>
@@ -67,13 +67,12 @@
                 </a>
               </li>
               <li>
-                <a id="headerNeoScanLink">
-                  <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
+                <a href="#/about">
+                  <i class="fa fa-info" aria-hidden="true"></i> About
                 </a>
               </li>
               <li>
-                <a href="#/about">
-                  <i class="fa fa-info" aria-hidden="true"></i> About
+                <a id="headerNeoScanLink">                  
                 </a>
               </li>
           </ul>
@@ -119,16 +118,18 @@
           }); // NEO block count
         }); // NEO useragent
 
-        $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
-                  $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
-        }); // Python user agent + block count
+        if(ENABLE_NEOSCAN_TRACKING){
+          $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
+                    $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
+          }); // Python user agent + block count
 
-        $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
-                  $("#postgreshighestblock")[0].innerHTML = "NEOSCAN: H3: "+result.height;
-        }); // neoscan top block
+          $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
+                    $("#postgreshighestblock")[0].innerHTML = "NEOSCAN: H3: "+result.height;
+          }); // neoscan top block
+        }else{
+          $("#nodeRestHeader")[0].innerHTML = "";
+          $("#postgreshighestblock")[0].innerHTML = "";
+        }
       });
     }
-
-    document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
-    document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);
 </script>

@@ -3,6 +3,7 @@
 
 set -e
 
+source .env
 function usage {
     echo "Usage: $0 [--no-build] [--dev] [--server-mode]"
 }
@@ -52,12 +53,19 @@ fi
 
 
 echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [csharp nodes], [csharp rpc], [neoscan and postgress], [Neo-Python Rest, Notifications and Genesis transfer]";
-./stopEco_network.sh
-./runEco_network.sh
+
+if (($NEO_SCAN)); then
+	./stopEco_network.sh --neo-scan
+	echo "BUILDING using NEO-SCAN";	
+	(cd docker-compose-eco-network; docker-compose -f docker-compose-neoscan.yml up -d)
+else
+	./stopEco_network.sh
+	echo "BUILDING minimal version";
+	(cd docker-compose-eco-network; docker-compose up -d)
+fi
 
 echo "BUILDING compilers";
 ./buildCompilers.sh
-
 
 if ((!$DISABLE_WEB)); then
 	echo "RUNNING front-end";

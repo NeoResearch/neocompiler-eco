@@ -531,7 +531,7 @@ function updateAddressSelectionBox(){
       addAllKnownAddressesToSelectionBox("wallet_invokejs");
       addAllKnownAddressesToSelectionBox("wallet_deployjs");
       addAllKnownAddressesToSelectionBox("wallet_info");
-      //addAllKnownAddressesToSelectionBox("createtx_to");
+      addAllKnownAddressesToSelectionBox("createtx_to");
       addAllKnownAddressesToSelectionBox("createtx_from");
 }
 //===============================================================
@@ -545,9 +545,9 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox){
           for(ka = 0; ka < ECO_WALLET.length; ++ka)
           {
 	  	if(isEncryptedOnly(ka))
-		    addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0,3) + "..." + ECO_WALLET[ka].account.encrypted.slice(-3),"wallet_"+ka,walletSelectionBox);
+		    addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0,4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4),"wallet_"+ka,walletSelectionBox);
 		else
-	            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0,3) + "..." + ECO_WALLET[ka].account.address.slice(-3),"wallet_"+ka,walletSelectionBox);
+	            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0,4) + "..." + ECO_WALLET[ka].account.address.slice(-4),"wallet_"+ka,walletSelectionBox);
           }
 	  //document.getElementById(walletSelectionBox)[0].selectedIndex = 0; //currentSelected
 }

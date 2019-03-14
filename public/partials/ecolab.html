@@ -328,7 +328,8 @@
                 <div class="tab-pane fade" id="transaction">
 
                     <div class="panel panel-primary">
-                        <div class="panel-heading">Create TX: Transfer UTXO Assets
+                        <div class="panel-heading">Create TX: Transfer UTXO Assets<br>
+                          <button type=button onClick="goToWalletCentral()" id="btn_register_new_address" class="btn btn-warning btn-sm">Register new address</button>
                         </div>
                         <div class="panel-body">
                             <form id="createtx" action="">
@@ -337,17 +338,16 @@
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
                                     <button type=button onClick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
-                                    <select name="createtx_from" id="createtx_from" class="custom-select form-control"></select>
+                                    <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3"></select>
                                   </div>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-md-6">
                                   <div class="form-group">
-                                    <label for="createtx_to">To (Address)</label>
-                                    <!-- <select name="createtx_to" id="createtx_to" class="custom-select form-control"></select> -->
-                                    <input name="createtx_to" id="createtx_to" placeholder="Destination Address" size="40"></input>
-                                    <button type=button onClick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm">Send</button>
+                                    <label for="createtx_to">To(Address)</label>
+                                    <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3"></select>
+                                    <!-- <input name="createtx_to" id="createtx_to" placeholder="Destination Address" size="40"></input>-->
                                   </div>
                                 </div>
                               </div>
@@ -365,6 +365,13 @@
                                       <button type=button onClick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">All Gas</button>
                                       <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required/>
                                     </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                      <button type=button onClick="createSendTxForm()" id="txcreate" class="btn btn-primary btn-sm">Send</button>
                                   </div>
                                 </div>
                               </div>
@@ -467,11 +474,11 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Register new account</div>
                         <div class="panel-body">
-                            Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" value="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address"/> <br>
-                            PubKey: <input type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" value="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="64" title="public key"/> <br>
-                            WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" value="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
-                            VerificationScript: <input type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" size="20" /> <br>
-                            EncryptedKey: <input type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" size="20" /> <br>
+                            Address: <input type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address"/> <br>
+                            PubKey: <input type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="64" title="public key"/> <br>
+                            WIF: <input type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
+                            VerificationScript: <input type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="20" /> <br>
+                            EncryptedKey: <input type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="20" /> <br>
                             <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
                             <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                         </div>
@@ -1633,6 +1640,9 @@ def Main():
              return "TestNet";
         }
 
+        function goToWalletCentral(){
+          $('.nav-pills a[data-target="#wallet"]').tab('show');
+        }
 
         // =======================================================================
         // ======================= COOKIES TEST ==================================
@@ -2136,10 +2146,13 @@ def Main():
         function createSendTxForm(){
             //e.preventDefault(); // Prevents the page from refreshing
 	          var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-            //var addrToIndex = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
-            var addrToValue = $("#createtx_to").val();//$("#createtx_to")[0].selectedOptions[0].index;
-
-           if(ECO_WALLET[addrFromIndex].type === "multisig")
+            var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+            var addrToValue = ECO_WALLET[addrToIndex].account.address;
+            //var addrToValue = $("#createtx_to").val();
+          console.log(ECO_WALLET[addrFromIndex].type);
+          console.log(ECO_WALLET[addrFromIndex]);
+          console.log(addrFromIndex);
+           if(ECO_WALLET[addrFromIndex].account.isMultiSig)
      			 {
      				   var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			     //Multi-sig address
@@ -2154,7 +2167,7 @@ def Main():
 
         function createGasTxForm(){
            var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-           if(ECO_WALLET[addrFromIndex].type === "multisig")
+           if(ECO_WALLET[addrFromIndex].account.isMultiSig)
      			 {
      				  var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
      			    //Multi-sig address

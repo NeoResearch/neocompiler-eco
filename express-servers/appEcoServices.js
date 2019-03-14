@@ -70,6 +70,30 @@ function isInt(value) {
   return !isNaN(value) && (x | 0) === x;
 }
 
+app.get('/setconsensusnodesblocktime/:spb', function(req, res) {
+
+  if(!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > 15 )
+  {
+	 console.log("Someone is doing something crazy. This seconds per block sounds bad.");
+	 res.send("This is not a valid node parameter");
+  }
+
+  var getIncStorage = "'/opt/updateConsensusCharacteristics.sh " + req.params.spb + "'";
+
+  for(var n=1;n<=4;n++)
+  {
+	  var cmddocker = 'docker exec -t eco-neo-csharp-node' + n +'-running dash -i -c ' + getIncStorage;
+	  console.log(cmddocker);
+	  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
+	  });
+  }
+
+  var obj={};
+  obj["result"] = true;
+  obj["info"] = "Command was passed to CN! Hopefully they will be set with block time equal to " + req.params.spb;
+  res.send(obj);
+});
+
 app.get('/statusnode/:node', function(req, res) {
 
   if(!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4 )

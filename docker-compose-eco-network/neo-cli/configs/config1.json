@@ -2,7 +2,7 @@
   "ApplicationConfiguration": {
     "Paths": {
       "Chain": "Chain_{0}",
-	    "Index": "Index_{0}"
+      "Index": "Index_{0}"
     },
     "P2P": {
       "Port": 20333,
@@ -12,10 +12,11 @@
       "BindAddress": "0.0.0.0",
       "Port": 30333,
       "SslCert": "",
-      "SslCertPassword": ""
+      "SslCertPassword": "",
+      "MaxGasInvoke": "0"
     },
     "UnlockWallet": {
-      "Path": "./wallet1.json",
+      "Path": "wallet1.json",
       "Password": "one",
       "StartConsensus": true,
       "IsActive": true

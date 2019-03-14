@@ -17,7 +17,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
     //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent = createGasAndNeoIntent(to, neo, gas);
 
-    console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    //console.log(intent) // This is an array of 2 Intent objects, one for each asset
     const config = {
         api: new Neon.api.neoscan.instance(networkToCall),
         url: nodeToCall,
@@ -28,8 +28,8 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 
     Neon.default.sendAsset(config)
     .then(res => {
-        console.log("createTxFromAccount:")
-        console.log(res.response);
+        //console.log("createTxFromAccount:")
+        //console.log(res.response);
         createNotificationOrAlert("SendTX", res.response.result, 5000);
 
 	if(FULL_ACTIVITY_HISTORY)

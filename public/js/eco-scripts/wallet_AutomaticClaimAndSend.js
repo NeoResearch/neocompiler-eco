@@ -24,8 +24,8 @@ function callClaimableFromNeoCli(adddressToGet,boxToFill="")
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function (resultClaimable) {
-		      console.log("resultClaimable")
-		      console.log(resultClaimable);
+		      //console.log("resultClaimable")
+		      //console.log(resultClaimable);
 		      var amountClaimable = 0;
 		      if(resultClaimable.result)
 		      	amountClaimable = resultClaimable.result.unclaimed;
@@ -59,8 +59,8 @@ function callUnclaimedFromNeoCli(adddressToGet,boxToFill="")
                 BASE_PATH_CLI, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function (resultUnclaimed) {
-		    console.log("resultUnclaimed")
-		    console.log(resultUnclaimed);
+		    //console.log("resultUnclaimed")
+		    //console.log(resultUnclaimed);
 		    var amountUnclaimable = 0;
 		    if(resultUnclaimed.result)
 		    	amountUnclaimable = resultUnclaimed.result.unavailable;
@@ -189,8 +189,6 @@ function populateAllWalletData()
 
 //===============================================================
 function drawWalletsStatus(){
-  //Clear previous data
-  document.getElementById("divWalletsStatus").innerHTML = "";
   var table = document.createElement("table");
   table.setAttribute('class', 'table');
   table.style.width = '20px';
@@ -283,6 +281,9 @@ function drawWalletsStatus(){
 	   } //Check print and encrypted status
   }//Finishes loop that draws each relayed transaction
 
+  //Clear previous data
+  document.getElementById("divWalletsStatus").innerHTML = "";
+  //Append new table
   document.getElementById("divWalletsStatus").appendChild(table);
 }//Finishe DrawWallets function
 //===============================================================

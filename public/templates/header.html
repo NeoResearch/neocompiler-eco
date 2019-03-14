@@ -67,13 +67,12 @@
                 </a>
               </li>
               <li>
-                <a id="headerNeoScanLink">
-                  <i class="fa fa-th-large" aria-hidden="true"></i> NeoScan-PrivateNet
+                <a href="#/about">
+                  <i class="fa fa-info" aria-hidden="true"></i> About
                 </a>
               </li>
               <li>
-                <a href="#/about">
-                  <i class="fa fa-info" aria-hidden="true"></i> About
+                <a id="headerNeoScanLink">                  
                 </a>
               </li>
           </ul>
@@ -133,13 +132,4 @@
         }
       });
     }
-
-    if(ENABLE_NEOSCAN_TRACKING){
-        document.getElementById("headerNeoScanLink").setAttribute("target","_blank");
-        document.getElementById("headerNeoScanLink").setAttribute("href",BASE_PATH_NEOSCAN);
-    }else
-    {
-      $("#headerNeoScanLink")[0].innerHTML = "";
-    }
-    
 </script>

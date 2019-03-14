@@ -12,10 +12,11 @@
       "BindAddress": "0.0.0.0",
       "Port": 30334,
       "SslCert": "",
-      "SslCertPassword": ""
+      "SslCertPassword": "",
+      "MaxGasInvoke": "0"
     },
     "UnlockWallet": {
-      "Path": "./wallet2.json",
+      "Path": "wallet2.json",
       "Password": "two",
       "StartConsensus": true,
       "IsActive": true

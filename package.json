@@ -14,7 +14,7 @@
     "debug": "~2.6.9",
     "express": "^4.16.3",
     "method-override": "^2.3.10",
-    "morgan": "~1.9.0",
+    "morgan": "^1.9.1",
     "npm": "^6.3.0",
     "serve-favicon": "~2.4.5",
     "serve-static": "^1.13.2",

@@ -70,7 +70,24 @@ function isInt(value) {
   return !isNaN(value) && (x | 0) === x;
 }
 
-app.get('/setconsensusnodesblocktime/:spb', function(req, res) {
+app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
+  //console.log("Local enviroment password is " + process.env.PWD_CN_BLOCKTIME);
+
+  if(!(req.params.pwd === process.env.PWD_CN_BLOCKTIME))
+  {
+	 console.log("Someone is trying an unauthorized access. ");
+	 var obj={};
+	 obj["error"] = false;
+	 obj["info"] = "You have no acess to this call with password: " + req.params.spb + ". Try a local privatenet.";
+	 res.send(obj);
+	 return;
+  }
+
+  if(!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4 )
+  {
+	 console.log("Someone is doing something crazy. Compiler does not exist.");
+	 res.send("This is not a valid node parameter");
+  }
 
   if(!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > 15 )
   {
@@ -79,19 +96,22 @@ app.get('/setconsensusnodesblocktime/:spb', function(req, res) {
   }
 
   var getIncStorage = "'/opt/updateConsensusCharacteristics.sh " + req.params.spb + "'";
-
-  for(var n=1;n<=4;n++)
-  {
-	  var cmddocker = 'docker exec -t eco-neo-csharp-node' + n +'-running dash -i -c ' + getIncStorage;
-	  console.log(cmddocker);
-	  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
-	  });
-  }
-
-  var obj={};
-  obj["result"] = true;
-  obj["info"] = "Command was passed to CN! Hopefully they will be set with block time equal to " + req.params.spb;
-  res.send(obj);
+  var cmddocker = 'docker exec -t eco-neo-csharp-node' + req.params.node +'-running dash -i -c ' + getIncStorage;
+  console.log(cmddocker);
+  var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
+    if (e instanceof Error) {
+	  console.error(e);
+	  res.send("Error:"+e);
+    }
+    else {
+	  var obj={};
+	  obj["result"] = true;
+	  obj["info"] = "Command was passed to CN! Hopefully CN " + req.params.node+ " will be set with block time equal to " + req.params.spb;
+	  obj["node"] = req.params.node;
+	  obj["spb"] = req.params.spb;
+	  res.send(obj);
+    }
+  });
 });
 
 app.get('/statusnode/:node', function(req, res) {

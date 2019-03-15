@@ -2257,6 +2257,15 @@ def Main():
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight); });
         }
 
+        //Set CN blockTime
+        function setConsensusNodesBlockTime(blockTime,pwd)
+        {
+           $.get(BASE_PATH_ECOSERVICES+'/setconsensusnodesblocktime/1/'+blockTime+'/'+pwd, function (data) { console.log(data) });
+           $.get(BASE_PATH_ECOSERVICES+'/setconsensusnodesblocktime/2/'+blockTime+'/'+pwd, function (data) { console.log(data) });
+           $.get(BASE_PATH_ECOSERVICES+'/setconsensusnodesblocktime/3/'+blockTime+'/'+pwd, function (data) { console.log(data) });
+           $.get(BASE_PATH_ECOSERVICES+'/setconsensusnodesblocktime/4/'+blockTime+'/'+pwd, function (data) { console.log(data) });
+        }
+
         //This uses local routes
         function getIncrementalStorageInfo()
         {

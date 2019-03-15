@@ -672,6 +672,29 @@
                    </div>
                  </div>
                </div>
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     Consensus Node
+                 </div>
+                 <div class="panel-body">
+                   <div class="form-group">
+                     <div class="row">
+                           <div class="col-md-2">
+                             <span class="label label-success">Seconds per block</span>
+                             <br/><input type="text" id="cbx_spb_cn" placeholder="15" size="2">
+                           </div>
+                           <div class="col-md-2">
+                             <span class="label label-success">Password</span>
+                             <br/><input type="text" id="cbx_pwd_cn" placeholder="neoresearch" size="12">
+                           </div>
+                      </div>
+                      <div class="row">
+                            <div class="col-md-2">
+                              <button type=button onClick="onClickBtnSetCNBlockTime()" id="btc_set_cn_pwd" class="btn btn-sucess btn-sm">Set</button>
+                            </div>
+                      </div>
+                 </div>
+               </div>
            </div>
          <!-- END CONFIGURATIONS INFO -->
          <!-- ======================================================== -->
@@ -2255,6 +2278,12 @@ def Main():
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node2data").scrollTop($("#node2data")[0].scrollHeight); });
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node3data").scrollTop($("#node3data")[0].scrollHeight); });
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight); });
+        }
+
+
+        function onClickBtnSetCNBlockTime()
+        {
+          setConsensusNodesBlockTime($("#cbx_spb_cn").val(),$("#cbx_pwd_cn").val());
         }
 
         //Set CN blockTime

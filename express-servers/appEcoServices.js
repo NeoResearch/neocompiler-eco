@@ -78,7 +78,7 @@ app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
 	 console.log("Someone is trying an unauthorized access. ");
 	 var obj={};
 	 obj["error"] = false;
-	 obj["info"] = "You have no acess to this call with password: " + req.params.spb + ". Try a local privatenet.";
+	 obj["info"] = "You have no acess to this call with password: " + process.env.PWD_CN_BLOCKTIME + ". Try a local privatenet.";
 	 res.send(obj);
 	 return;
   }

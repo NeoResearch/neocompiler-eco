@@ -5,9 +5,9 @@
 #
 
 if (( $# != 0 )); then
-	screen -X -S node quit 
+	screen -X -S node quit
+	sleep 2
 	sed -i '/SecondsPerBlock/c\\t"SecondsPerBlock": '$1',' /opt/node/neo-cli/protocol.json
-
 	screen -L -dmS node${NUMBER_SERVER} /opt/start_node.sh
 else
 	echo "Please, provide, at least: * [integer]the new (expected) consensus time between blocks ";

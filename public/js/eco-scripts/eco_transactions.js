@@ -204,7 +204,6 @@
 		$("#contractparamsjs").val(deployJsonParams.par);
 		$("#codeavm").val(deployJsonParams.contract_script);
 		$("#contracthashjs").val(getScriptHashFromAVM(deployJsonParams.contract_script));
-                $("#contractreturn")[0].value = getHexForType(deployJsonParams.returntype);
                 $("#contractreturnjs")[0].value = getHexForType(deployJsonParams.returntype);
 
 		if(deployJsonParams.storage == 0)
@@ -275,10 +274,21 @@
 	     {
 		var sendJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
 
-		if(searchAddrIndexFromBase58(sendJsonParams.caller) != -1)
-			$("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(sendJsonParams.caller);
+		if(searchAddrIndexFromBase58(sendJsonParams.caller) == -1)
+		{
+		 	createNotificationOrAlert("Restoring Send Problem!","Account" + sendJsonParams.caller + "not found", 5000);
+			return;
+		}
+			
+		$("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(sendJsonParams.caller);
 
-		$("#createtx_to").val(sendJsonParams.to);
+		if(searchAddrIndexFromBase58(sendJsonParams.to) == -1)
+		{
+		 	createNotificationOrAlert("Restoring Send Problem!","Account" + sendJsonParams.to + "not found", 5000);
+			return;
+		}
+
+		$("#createtx_to")[0].selectedIndex = searchAddrIndexFromBase58(sendJsonParams.to)
 		$("#createtx_NEO").val(sendJsonParams.neo);
 		$("#createtx_GAS").val(sendJsonParams.gas);
 
@@ -291,7 +301,7 @@
 		$('.nav-pills a[data-target="#transaction"]').tab('show');
 	     }
       }else{
-        alert("Cannot restore send of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
+	createNotificationOrAlert("Restoring Send Problem!","Size of requested index was not found correctly", 5000);
       }
    }
 

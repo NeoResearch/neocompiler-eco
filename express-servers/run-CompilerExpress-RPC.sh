@@ -1,5 +1,5 @@
 #!/bin/bash
-DOOR_COMPILERS=10000
+source .env
 
 echo "fuser -k on port $DOOR_COMPILERS"
 fuser -k  $DOOR_COMPILERS/tcp

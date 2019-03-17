@@ -51,8 +51,7 @@ if ((!$DISABLE_BUILD)); then
 	(cd docker-neo-python; ./docker_build.sh)
 fi
 
-
-echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [csharp nodes], [csharp rpc], [neoscan and postgress], [Neo-Python Rest, Notifications and Genesis transfer]";
+echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [csharp nodes], [csharp rpc], [neoscan and postgress], [Neo-Python Rest]";
 
 if (($NEO_SCAN)); then
 	./stopEco_network.sh --neo-scan

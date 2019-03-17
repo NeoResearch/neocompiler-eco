@@ -1,5 +1,5 @@
 #!/bin/bash
-DOOR_HTTP=8000
+source .env
 
 echo "fuser -k on port $DOOR_HTTP"
 fuser -k  $DOOR_HTTP/tcp

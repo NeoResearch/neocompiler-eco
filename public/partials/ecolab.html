@@ -910,10 +910,10 @@ def Main():
                   <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm"> <i class="fas fa-sync-alt"></i></button><br>
                   <div id="divRelayedTXs" class="table-responsive"></div>
                   <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-download"></i> TX's Activity</button><br>
-                  <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
                   <i class="fas fa-upload"></i> Historical Activity:
                   <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()"><br/>
-                  <button type="submit" onClick="searchForTXs()" id="btnReplayTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Replay all TX's (TODO)</button><br>
+                  <button type="submit" onClick="replayTXs()" id="btnReplayTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Replay all TX's (TODO)</button><br>
+                  <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
               </div>
           </div>
         </div>

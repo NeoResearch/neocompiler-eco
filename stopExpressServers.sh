@@ -1,6 +1,6 @@
-#Http
-fuser -k  8000/tcp
+#!/bin/bash
+# Call script to stop HTTP server
+./stopHttpExpress.sh
+
 #Eco Services
-fuser -k  9000/tcp
-#Compilers
-fuser -k  10000/tcp
+(cd express-servers; ./stop-Compiler-EcoServices-Express-RPC.sh)

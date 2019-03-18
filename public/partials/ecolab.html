@@ -910,9 +910,14 @@ def Main():
                   <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm"> <i class="fas fa-sync-alt"></i></button><br>
                   <div id="divRelayedTXs" class="table-responsive"></div>
                   <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-download"></i> TX's Activity</button><br>
-                  <i class="fas fa-upload"></i> Historical Activity:
-                  <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()"><br/>
-                  <button type="submit" onClick="replayTXs()" id="btnReplayTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm">Replay all TX's (TODO)</button><br>
+                  <span type="checkbox" class="label label-info"><i class="fas fa-upload"></i> Historical Activity</span>
+                  <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()">
+                  <span type="checkbox" class="label label-success">Open Replay TX's Tools</span>
+                  <input type="checkbox" data-toggle="collapse" data-target="#replayTXsDiv" onClick="openReplayToolsTXs()" id="btnReplayTXsTools"></input><br>
+                  <div id="replayTXsDiv" class="collapse">
+                      <textarea id="txt_replayOrder" readonly="readonly" rows="5" cols="100" placeholder="Order to replay" class="form-control"></textarea>
+                      <button id="btnReplayTXs" onClick="replayTXs()" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-sm">Replay all TXs</button>
+                  </div>
                   <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
               </div>
           </div>

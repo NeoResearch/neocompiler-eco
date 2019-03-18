@@ -42,6 +42,14 @@
       row.insertCell(-1).appendChild(headerstxParams);
       headersTXHeight.innerHTML = "<b> Height </b>";
       row.insertCell(-1).appendChild(headersTXHeight);
+
+      if($("#btnReplayTXsTools")[0].checked)
+      {
+		var headerReplayingTXs = document.createElement('div');
+	        headerReplayingTXs.innerHTML = "<b> ReplayHeight </b>";
+      		row.insertCell(-1).appendChild(headerReplayingTXs);
+      }
+
       headerNeoScanLink.innerHTML = "<b> NeoScan </b>";
       row.insertCell(-1).appendChild(headerNeoScanLink);
 
@@ -106,10 +114,21 @@
           var inputTxHeight = document.createElement("input");
           inputTxHeight.setAttribute("name", "textTxHeight"+i);
           inputTxHeight.setAttribute("readonly","true");
-          inputTxHeight.style.width = '70px';
+          inputTxHeight.style.width = '60px';
           inputTxHeight.setAttribute('value', '-');
           inputTxHeight.setAttribute('id', "textTxHeight"+i);
           txRow.insertCell(-1).appendChild(inputTxHeight);
+
+          if($("#btnReplayTXsTools")[0].checked)
+          {
+		  var inputTxReplayHeight = document.createElement("input");
+		  inputTxReplayHeight.setAttribute("name", "textReplayHeight"+i);
+		  inputTxReplayHeight.style.width = '50px';
+		  inputTxReplayHeight.setAttribute('value', '-');
+		  inputTxReplayHeight.setAttribute('oninput', 'mapReplayByHeight()');
+		  inputTxReplayHeight.setAttribute('id', "textReplayHeight"+i);
+		  txRow.insertCell(-1).appendChild(inputTxReplayHeight);
+	  }
 
           var txIDCell = document.createElement("a");
           var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
@@ -332,7 +351,11 @@
    }
 
    function exportHistory(){
-        mydataStringfied = JSON.stringify(vecRelayedTXs);
+	var tempVecRelayedTXs = vecRelayedTXs;
+	for(var t=0; t<tempVecRelayedTXs.length; t++)
+		tempVecRelayedTXs[t]["height"] = document.getElementById("textTxHeight"+t).value;
+
+        mydataStringfied = JSON.stringify(tempVecRelayedTXs);
 	console.log(mydataStringfied);
 
 
@@ -348,6 +371,68 @@
 
 
    //===============================================================
+
+
+   //===============================================================
+   function openReplayToolsTXs(){
+	console.log("openReplayToolsTxs");
+	if(vecRelayedTXs.length > 0)
+	{
+		drawRelayedTXs();
+
+		if($("#btnReplayTXsTools")[0].checked)
+		{
+			//First txs is set to 0
+			var prevHeight = 0;
+			document.getElementById("textReplayHeight"+0).value = prevHeight;
+			for(txID = 1; txID < vecRelayedTXs.length;txID++)
+			{	
+				if(!vecRelayedTXs[txID].height)
+				{
+					console.error("Previous height of our TX could not be loaded properly");
+					return;
+				}
+				var historicalTXBlockchainHeight = vecRelayedTXs[txID].height;
+				var prevIndex = txID-1;
+						
+				if(historicalTXBlockchainHeight!=-100)    
+					document.getElementById("textReplayHeight"+txID).value = historicalTXBlockchainHeight - prevHeight;
+				else 
+					document.getElementById("textReplayHeight"+txID).value = prevHeight + 1;
+
+				prevHeight = Number(document.getElementById("textReplayHeight"+txID).value);
+		       }
+	       }
+	       mapReplayByHeight();
+       }
+   }
+
+   function mapReplayByHeight(){
+	console.log("openReplayToolsTxs");
+	var mapReplayPerHeight = new Map();
+	for(var t=0;t<vecRelayedTXs.length;t++)
+	{
+		var height = Number(document.getElementById("textReplayHeight"+t).value);
+		var txsPerHeight = [];
+		if(mapReplayPerHeight.has(height))
+			txsPerHeight = mapReplayPerHeight.get(height);
+		txsPerHeight.push({ txID: t});
+		mapReplayPerHeight.set(height,txsPerHeight);
+        }
+
+	const mapReplayPerHeightSorted = new Map([...mapReplayPerHeight.entries()].sort());
+	$("#txt_replayOrder").val("");
+	mapReplayPerHeightSorted.forEach(printMap); 
+   }
+
+   function printMap(values, key)  
+   { 
+	   document.getElementById("txt_replayOrder").value += "Reference Height: " + key + " - ";
+	   document.getElementById("txt_replayOrder").value += JSON.stringify(values) + "\n";
+   } 
+
+   //===============================================================
+
 
    //===============================================================
    //This function tries to search and verify for a specific relayed TX that was, possible, broadcasted and included in the blockchain
@@ -405,7 +490,10 @@
 		   console.log("Inside get transaction height")
 		   console.log(data);
 		   if(data.result){
+
 			   document.getElementById("textTxHeight"+indexToUpdate).value = data.result;
+
+
 		   }else{
 			   document.getElementById("textTxHeight"+indexToUpdate).value = data.error.code;
 		   }

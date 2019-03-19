@@ -72,7 +72,7 @@ function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "") {
 
 //GAS: 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7
 //NEO: 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b
-function getAllNeoOrGasFrom(adddressToGet, assetToGet, boxToFill = "", automaticTransfer = false, to = "") {
+function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", automaticTransfer = false, to = "") {
     var assetToGetHash = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
     if (assetToGet == "GAS")
         assetToGetHash = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
@@ -126,19 +126,19 @@ function getAllNeoOrGasFrom(adddressToGet, assetToGet, boxToFill = "", automatic
         },
         "json" // The format the response should be in
     ).fail(function() {
-        console.error("getAllNeoOrGasFrom problem. failed to pass request to RPC network!");
-        //createNotificationOrAlert("getAllNeoOrGasFrom problem", "failed to pass request to RPC network!", 3000);
+        console.error("getAllNeoOrGasFromNeoCli problem. failed to pass request to RPC network!");
+        //createNotificationOrAlert("getAllNeoOrGasFromNeoCli problem", "failed to pass request to RPC network!", 3000);
     }); //End of POST for search
 }
 
 function fillAllNeo() {
     var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-    getAllNeoOrGasFrom(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");
 }
 
 function fillAllGas() {
     var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-    getAllNeoOrGasFrom(ECO_WALLET[addrFromIndex].account.address, "GAS", "#createtx_GAS");
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#createtx_GAS");
 }
 
 function fillWalletInfo(result) {
@@ -160,10 +160,17 @@ function populateAllWalletData() {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
             //walletIndex = searchAddrIndexFromBase58(addressToGet);
-            getAllNeoOrGasFrom(addressToGet, "NEO", "#walletNeo" + ka);
-            getAllNeoOrGasFrom(addressToGet, "GAS", "#walletGas" + ka);
-            callClaimableFromNeoCli(addressToGet, "#walletClaim" + ka);
-            callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka);
+            getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
+            getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
+            if(!$("#cbx_query_neoscan")[0].checked)
+              callClaimableFromNeoCli(addressToGet, "#walletClaim" + ka);
+            else
+              callClaimableFromNeoScan(addressToGet, "#walletClaim" + ka);
+
+            if(!$("#cbx_query_neoscan")[0].checked)
+              callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka);
+            else
+              callUnclaimedFromNeoScan(addressToGet, "#walletUnclaim" + ka);
         }
 }
 
@@ -529,7 +536,7 @@ function removeAccountFromEcoWallet(idToRemove) {
 //===============================================================
 function selfTransfer(idToTransfer) {
     if (idToTransfer < ECO_WALLET.length && idToTransfer > -1) {
-        getAllNeoOrGasFrom(ECO_WALLET[idToTransfer].account.address, "NEO", "", true);
+        getAllNeoOrGasFromNeoCli(ECO_WALLET[idToTransfer].account.address, "NEO", "", true);
     } else {
         alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length)
     }
@@ -602,8 +609,9 @@ function updateClaimable(amountClaimable, addressToClaim)
 */
 
 // ==================================================
-//DEPRECATED
-function callUnclaimedNeonQueryFromNeoScan(adddressToGet, boxToFill = "") {
+// ======== QUERY BALANCES FROM NEOSCAN =============
+// ==================================================
+function callUnclaimedFromNeoScan(adddressToGet, boxToFill = "") {
     url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_unclaimed/" + adddressToGet;
     $.getJSON(url_toFill, function(result) {
         var amountUnclaimable = 0;
@@ -617,7 +625,7 @@ function callUnclaimedNeonQueryFromNeoScan(adddressToGet, boxToFill = "") {
     });
 }
 
-function callClaimableNeonQueryFromNeoScan(adddressToGet, boxToFill = "") {
+function callClaimableFromNeoScan(adddressToGet, boxToFill = "") {
     url_toFill = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_claimable/" + adddressToGet;
     $.getJSON(url_toFill, function(resultClaimable) {
         //console.log("resultClaimable is:");
@@ -689,5 +697,6 @@ function getAllNeoOrGasFromNeoScan(adddressToGet, assetToGet, boxToFill = "", au
 
     });
 }
-//DEPRECATED
+// ==================================================
+// ======== QUERY BALANCES FROM NEOSCAN =============
 // ==================================================

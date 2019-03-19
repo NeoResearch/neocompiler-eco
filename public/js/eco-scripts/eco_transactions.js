@@ -35,7 +35,7 @@ function drawRelayedTXs() {
         row.insertCell(-1).appendChild(headerReplayingTXs);
     }
 
-    headerNeoScanLink.innerHTML = "<b> NeoScan </b>";
+    headerNeoScanLink.innerHTML = "<b> Hash </b>";
     row.insertCell(-1).appendChild(headerNeoScanLink);
 
     for (i = 0; i < vecRelayedTXs.length; i++) {
@@ -126,16 +126,30 @@ function drawRelayedTXs() {
             txRow.insertCell(-1).appendChild(inputTxReplayHeight);
         }
 
-        var txIDCell = document.createElement("a");
-        var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
-        txIDCell.text = vecRelayedTXs[i].tx.slice(0, 5) + "..." + vecRelayedTXs[i].tx.slice(-5);
-        txIDCell.href = urlToGet;
-        txIDCell.target = '_blank';
-        txIDCell.onclick = urlToGet;
-        txIDCell.style.width = '70px';
-        txIDCell.style.display = 'block';
-        txRow.insertCell(-1).appendChild(txIDCell);
-        //Check activation status ends
+	if(ENABLE_NEOSCAN_TRACKING) {
+		var txIDCell = document.createElement("a");
+		var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
+		txIDCell.text = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
+		txIDCell.href = urlToGet;
+		txIDCell.target = '_blank';
+		txIDCell.onclick = urlToGet;
+		txIDCell.style.width = '70px';
+		txIDCell.style.display = 'block';
+		txRow.insertCell(-1).appendChild(txIDCell);
+	}else{
+		var txIDCell = document.createElement('button');
+		txIDCell.setAttribute('content', 'test content');
+		txIDCell.setAttribute('class', 'btn btn-info');
+		txIDCell.setAttribute('value', i);
+		txIDCell.setAttribute('id', "btnGetTransactionRaw" + i);
+		txIDCell.onclick = function() {
+		    callAppLogOrRawTx(this.value,true);
+		};
+		txIDCell.innerHTML = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
+		txRow.insertCell(-1).appendChild(txIDCell);
+	}
+
+        //Check activation status ends	
     } //Finishes loop that draws each relayed transaction
 
     //Clear previous data
@@ -163,11 +177,11 @@ function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txPar
 
 //===============================================================
 //Call app log
-function callAppLogOrRawTx(txID) {
+function callAppLogOrRawTx(txID, rawTX=false) {
     if (txID < vecRelayedTXs.length && txID > -1) {
         var txHash = vecRelayedTXs[txID].tx;
         var appLogJson = [];
-        if (vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke")
+        if ((vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke") && !rawTX)
             appLogJson.push({
                 "jsonrpc": "2.0",
                 "id": 5,

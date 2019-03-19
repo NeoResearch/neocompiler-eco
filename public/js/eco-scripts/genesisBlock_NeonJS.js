@@ -13,18 +13,18 @@ function genesisBlockTransfer(genesisAddress, newOwner) {
         clearInterval(refreshGenesisBlock);
     } else {
         if (!(newOwnerNeoBalance > 0))
-            getAllNeoOrGasFrom(genesisAddress, "NEO", "", true, newOwner);
+            getAllNeoOrGasFromNeoCli(genesisAddress, "NEO", "", true, newOwner);
 
         if (!(newOwnerGasBalance > 0))
-            getAllNeoOrGasFrom(genesisAddress, "GAS", "", true, newOwner);
+            getAllNeoOrGasFromNeoCli(genesisAddress, "GAS", "", true, newOwner);
     }
 
     //var genesisAddressIndex = searchAddrIndexFromBase58(genesisAddress);
     //var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(genesisAddressIndex);
 
     //createMultiSigSendingTransaction(ECO_WALLET[4].account.contract.script, jsonArrayWithPrivKeys, newOwner, 100000000, "NEO", getCurrentNetworkNickname());
-    //getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","GAS","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
-    //getAllNeoOrGasFrom("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","NEO","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+    //getAllNeoOrGasFromNeoCli("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","GAS","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+    //getAllNeoOrGasFromNeoCli("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","NEO","",true,"AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
     //createMultiSigSendingTransaction(ECO_WALLET[4].account.contract.script, jsonArrayWithPrivKeys, newOwner, allGas, "GAS", getCurrentNetworkNickname());
 
     //Claim will be automatic if frontend is open

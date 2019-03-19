@@ -646,7 +646,6 @@
                    </div>
                    <div class="col-md-2">
                        <span class="label label-success">NeoScan</span>
-                       <input type="checkbox" id="cbx_enable_neoscan"></input>
                        <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
                        <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
                    </div>
@@ -692,6 +691,25 @@
                             <div class="col-md-2">
                               <button type=button onClick="onClickBtnSetCNBlockTime()" id="btc_set_cn_pwd" class="btn btn-sucess btn-sm">Set</button>
                             </div>
+                      </div>
+                   </div>
+                 </div>
+               </div>
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     Explorers
+                 </div>
+                 <div class="panel-body">
+                   <div class="form-group">
+                     <div class="row">
+                           <div class="col-md-2">
+                             <span class="label label-success">View NEOSCAN</span>
+                             <br/><input type="checkbox" id="cbx_enable_neoscan">View links and statistics of NEOSCAN</input>
+                           </div>
+                           <div class="col-md-2">
+                             <span class="label label-success">Perform Queries using NEOSCAN</span>
+                             <br/><input type="checkbox" id="cbx_query_neoscan">Queries (UTXO, Claims, Neon.ApiProvide) with NEOSCAN</input>
+                           </div>
                       </div>
                    </div>
                  </div>
@@ -1446,11 +1464,10 @@ def Main():
               ENABLE_NEOSCAN_TRACKING = false;
             }
             updateNeoScanLinkIfEnable();
+            drawRelayedTXs();
             console.log("New ENABLE_NEOSCAN_TRACKING flag is " + ENABLE_NEOSCAN_TRACKING);
         });
         //=================================================================
-
-
 
         $("#ecolabnetworkurlselection").on('change', function() {
             //$("#neonodeurl")[0].value = this.value;

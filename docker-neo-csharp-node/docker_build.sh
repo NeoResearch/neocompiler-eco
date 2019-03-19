@@ -2,7 +2,7 @@
 set -e
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="2.10.1-all-plugins-preview-2"
+NEO_CLI_VERSION="2.10.1-all-plugins-preview-3"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"

@@ -1,33 +1,32 @@
-function addLocalPrivateNet(){
-  const config = {
-    name: 'LocalPrivateNet',
-    extra: {
-      neoscan: getFirstAvailableService("neoscan",localHostNodes) + "/api/main_net"
+function addLocalPrivateNet() {
+    const config = {
+        name: 'LocalPrivateNet',
+        extra: {
+            neoscan: getFirstAvailableService("neoscan", localHostNodes) + "/api/main_net"
+        }
     }
-  }
-  const localprivateNet = new Neon.rpc.Network(config)
-  Neon.default.add.network(localprivateNet)
-  console.log(Neon.settings.networks['LocalPrivateNet'])
+    const localprivateNet = new Neon.rpc.Network(config)
+    Neon.default.add.network(localprivateNet)
+    console.log(Neon.settings.networks['LocalPrivateNet'])
 }
 
-function addSharedPrivateNet(){
-  const config = {
-    name: 'SharedPrivateNet',
-    extra: {
-      neoscan: getFirstAvailableService("neoscan",ecoNodes) + "/api/main_net"
+function addSharedPrivateNet() {
+    const config = {
+        name: 'SharedPrivateNet',
+        extra: {
+            neoscan: getFirstAvailableService("neoscan", ecoNodes) + "/api/main_net"
+        }
     }
-  }
-  const sharedprivateNet = new Neon.rpc.Network(config)
-  Neon.default.add.network(sharedprivateNet)
-  console.log(Neon.settings.networks['SharedPrivateNet'])
+    const sharedprivateNet = new Neon.rpc.Network(config)
+    Neon.default.add.network(sharedprivateNet)
+    console.log(Neon.settings.networks['SharedPrivateNet'])
 }
 
-function getStorage( scripthashContext, key, url )
-{
-  query = Neon.rpc.Query.getStorage( scripthashContext, key );
-  response = query.execute(url);
-  console.log(response);
-  return response;
+function getStorage(scripthashContext, key, url) {
+    query = Neon.rpc.Query.getStorage(scripthashContext, key);
+    response = query.execute(url);
+    console.log(response);
+    return response;
 }
 
 /*

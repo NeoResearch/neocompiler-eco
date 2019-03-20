@@ -37,7 +37,8 @@
     "BootstrapFile":"",
     "NotificationBootstrapFile":"",
     "DebugStorage":1,
-    "AcceptIncomingPeers": false
+    "AcceptIncomingPeers": false,
+    "CompilerNep8":false
   }
 }
 

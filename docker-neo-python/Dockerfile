@@ -28,9 +28,7 @@ WORKDIR /neo-python
 # Everything should be in the same line, then, clone happens again, if necessary
 
 RUN git clone https://github.com/CityOfZion/neo-python.git /neo-python
-RUN cd /neo-python && git pull && git checkout 9de10ccecf56fad5f546a5d9afffbe622d96a7de # v0.7.10
-
-# RUN cd /neo-python && git pull && git checkout fe90f62e123d720d4281c79af0598d9df9e776fb # v0.8.4
+RUN cd /neo-python && git pull && git checkout 773e57e72b24a00f6d6d0f9b6fe701e3bb0e7d31 # v0.8.1
 
 # Install the dependencies
 RUN pip3 install -e .

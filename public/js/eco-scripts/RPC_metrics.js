@@ -46,6 +46,9 @@ function filterBlockTimestamps(resultBlockTimestamps) {
     generateTimeDiffGraph(heights, blockTime, blockTimeStamps);
 }
 
+var chartBlockTimeStamp;
+var shouldDestroy_chartBlockTimeStamp = false;
+
 function generateTimeDiffGraph(labels, data, blockTimeStamps) {
     //console.log(labels);
     //console.log(data);
@@ -61,7 +64,7 @@ function generateTimeDiffGraph(labels, data, blockTimeStamps) {
     }
     //console.log(ts);
 
-    var ctx = document.getElementById('myChart').getContext("2d");
+    var ctx = document.getElementById('canvas_blocktime_chart').getContext("2d");
     /*
     var stackedLine = new Chart(ctx, {
         type: 'line',
@@ -88,7 +91,9 @@ function generateTimeDiffGraph(labels, data, blockTimeStamps) {
 
     var maxYTickValue = Number($("#cbx_max_yTick_ts_value").val());
     var minYTickValue = Number($("#cbx_min_yTick_ts_value").val());
-    var chart = new Chart(ctx, {
+    if(shouldDestroy_chartBlockTimeStamp)
+    	chartBlockTimeStamp.destroy();
+    chartBlockTimeStamp = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
 
@@ -130,5 +135,5 @@ function generateTimeDiffGraph(labels, data, blockTimeStamps) {
             }
         }
     });
-
+    shouldDestroy_chartBlockTimeStamp=true;
 }

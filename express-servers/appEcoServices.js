@@ -116,7 +116,8 @@ app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
 
 app.get('/statusnode/:node', function(req, res) {
 
-  if(!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4 )
+  // Node 0 is the RPC
+  if(!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4 )
   {
 	 console.log("Someone is doing something crazy. Compiler does not exist.");
 	 res.send("This is not a valid node parameter");
@@ -124,6 +125,8 @@ app.get('/statusnode/:node', function(req, res) {
 
   res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
   var cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-node'+req.params.node+'/*.log | tail -n 500';
+  if(req.params.node == 0)
+  	cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-noderpc/*.log | tail -n 500';
   console.log("cmddocker is " + cmddocker);
   var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr)=> {
     if (e instanceof Error) {
@@ -181,6 +184,7 @@ io.on('connection', function(socket){
   io.emit('userconnected', { online: ecoInfo.connections, since: ecoInfo.connectionsSince});
   socket.on('disconnect', function(){
     ecoInfo.removeConnection();
+    io.emit('userconnected', { online: ecoInfo.connections, since: ecoInfo.connectionsSince});
   });
 });
 // ============================================================

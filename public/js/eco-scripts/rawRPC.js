@@ -82,7 +82,7 @@ $("#getnep5balance").submit(function (e) {
 
 		  strgetblock = '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }';
 		  $.post(
-		      $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
+		      BASE_PATH_CLI, // Gets the URL to sent the post to
 		      strgetblock,
 		      function (data2) {
 		        //console.log(data);

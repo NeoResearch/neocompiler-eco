@@ -25,7 +25,8 @@
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#incrementalstorage"  data-toggle="tab">Inc-Storage</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab" onclick="getNodeInfo()">Consensus <i class="fas fa-info"></i></a></li>
-              <li><a data-target="#configurations"  data-toggle="tab"><i class="fas fa-cogs"></i></a></li>
+              <li><a data-target="#statistics"  data-toggle="tab">Statistics <i class="fas fa-chart-bar"></i></a></li>
+              <li><a data-target="#configurations"  data-toggle="tab">Settings <i class="fas fa-cogs"></i></a></li>
             </ul>
         </div>
 
@@ -615,10 +616,67 @@
                         </div>
                       </div>
                     </div>
-                </div> <!-- node4 end -->
+                </div> <!-- noderpc end -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        NodeRPC(WatchOnly)
+                        <button type="submit" onClick="getNodeInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="panel-body">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <textarea id="noderpcdata" class="form-control"  style="font-size: 12px;" rows=15 readonly></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div> <!-- noderpc end -->
             </div>
           <!-- END DIV NODES INFO -->
           <!-- ======================================================== -->
+
+          <!-- ======================================================== -->
+          <!-- BEGIN STATISTICS NODEINFO -->
+           <div class="tab-pane fade" id="statistics">
+               <div class="panel panel-primary">
+                   <div class="panel-heading">
+                       Blocks timestamps
+                       <button type="submit" onClick="callCoreMetricsFromCurrentHeight()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                   </div>
+
+                   <div class="panel-body">
+                     <div class="row">
+                       <div class="col-md-2">
+                         <span class="label label-success">Max nBlocks to query</span>
+                         <br/><input type="text" id="cbx_blocks_toQuery" value="50" size="2">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Max yTick timeseries</span>
+                         <br/><input type="text" id="cbx_max_yTick_ts_value" value="3" size="2">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Min yTick timeseries</span>
+                         <br/><input type="text" id="cbx_min_yTick_ts_value" value="-1" size="2">
+                       </div>
+                     </div>
+
+                     <div class="row">
+                       <div class="col-md-8">
+                         <textarea id="txt_area_timestampsStats" placeholder="Timestamps statistics...TODO" class="form-control" style="font-size: 12px;" rows=5 readonly></textarea>
+                         <canvas id="myChart"></canvas>
+                       </div>
+                     </div>
+
+                     <div class="row">
+                       <div class="col-md-8">
+                         <canvas id="myChart"></canvas>
+                       </div>
+                     </div>
+                   </div>
+
+               </div> <!-- Statis end -->
+           </div>
+         <!-- END DIV STATISTICS INFO -->
+         <!-- ======================================================== -->
 
           <!-- ======================================================== -->
           <!-- BEGIN CONFIGURATIONS NODEINFO -->
@@ -630,30 +688,37 @@
                  <div class="panel-body">
                    <div class="col-md-2">
                        <!-- <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">-->
-                       <span class="label label-success">RPC</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
+                       <span class="label label-success">Neo-cli RPCs</span>
                        <select id="selectionBoxRPCNodes" class="custom-select form-control"></select>
+                       <span class="label label-info">Selected service</span>
+                       <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
                    </div>
                    <div class="col-md-2">
                        <span class="label label-success">Compilers</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
                        <select id="selectionBoxCompilers" class="custom-select form-control"></select>
+                       <span class="label label-info">Selected service</span>
+                       <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
                    </div>
                    <div class="col-md-2">
                        <span class="label label-success">EcoServices</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
                        <select id="selectionBoxEcoServices" class="custom-select form-control"></select>
+                       <span class="label label-info">Selected service</span>
+                       <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
                    </div>
                    <div class="col-md-2">
-                       <span class="label label-success">NeoScan</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
+                       <span class="label label-success">NEOSCAN</span>
                        <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
+                       <span class="label label-info">Selected service</span>
+                       <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
                    </div>
+                   <!--
                    <div class="col-md-2">
                        <span class="label label-success">REST Notifications</span>
                        <input type="text" onchange="updateBASEPATHS()" id="rest_notifications_path" value="------">
+                       <span class="label label-info">Selected service</span>
                        <select id="selectionBoxRestNotifications" class="custom-select form-control"></select>
                    </div>
+                 -->
                  </div>
                </div>
                <div class="panel panel-primary">
@@ -709,6 +774,21 @@
                            <div class="col-md-2">
                              <span class="label label-success">Perform Queries using NEOSCAN</span>
                              <br/><input type="checkbox" id="cbx_query_neoscan">Queries (UTXO, Claims, Neon.ApiProvide) with NEOSCAN</input>
+                           </div>
+                      </div>
+                   </div>
+                 </div>
+               </div>
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     Configs
+                 </div>
+                 <div class="panel-body">
+                   <div class="form-group">
+                     <div class="row">
+                           <div class="col-md-2">
+                             <span type="checkbox" class="label label-success"><i class="fas fa-bell-slash"></i> Disable notifications</span>
+                             <br/><input type="checkbox" id="cbx_ecoNotifications"></input>
                            </div>
                       </div>
                    </div>
@@ -1526,10 +1606,14 @@ def Main():
             $("#neoscan_path")[0].value = this.value;
         });
 
+
+        /*
+        //DEPRECATED SELECTION FOX FOR PYTHON REST SELECTION
         $("#selectionBoxRestNotifications").on('change', function() {
             BASE_PATH_PY_REST = this.value;
             $("#rest_notifications_path")[0].value = this.value;
         });
+        */
         //=============================================================
 
         //======== END ON-CHANGE FUNCTIONS ================================
@@ -1540,7 +1624,7 @@ def Main():
           BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
           BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
           BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
-          BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
+          //BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
 
           updateNeoScanLinkIfEnable();
         }
@@ -1621,7 +1705,7 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices");
               addAllKnownServiceToSelectionBox("RPC",ecoNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",ecoNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",ecoNodes,"selectionBoxRestNotifications");
+              //addAllKnownServiceToSelectionBox("RESTNotifications",ecoNodes,"selectionBoxRestNotifications");
             }
 
             if(mynetworkIndex == 1)
@@ -1630,7 +1714,7 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",localHostNodes,"selectionBoxEcoServices");
               addAllKnownServiceToSelectionBox("RPC",localHostNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",localHostNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
+              //addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
             }
 
             // MainNet
@@ -1640,7 +1724,7 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
               addAllKnownServiceToSelectionBox("RPC",mainNetNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",mainNetNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
+              //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
             }
 
             // Tesnet
@@ -1650,8 +1734,7 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
               addAllKnownServiceToSelectionBox("RPC",testNetNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",testNetNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");//TODO
-
+              //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
             }
 
             // CozTestnet TODO
@@ -1661,14 +1744,14 @@ def Main():
               addAllKnownServiceToSelectionBox("ecoservices",ecoNodes,"selectionBoxEcoServices"); //TODO
               addAllKnownServiceToSelectionBox("RPC",cozNetNodes,"selectionBoxRPCNodes");
               addAllKnownServiceToSelectionBox("neoscan",cozNetNodes,"selectionBoxNeoScan");
-              addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications"); //TODO
+              //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
             }
 
             $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
             $("#eco_services_path")[0].value = $("#selectionBoxEcoServices")[0].value;
             $("#rpc_nodes_path")[0].value = $("#selectionBoxRPCNodes")[0].value;
             $("#neoscan_path")[0].value = $("#selectionBoxNeoScan")[0].value;
-            $("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
+            //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
             updateBASEPATHS();
         }
@@ -2292,6 +2375,7 @@ def Main():
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/2', function (data) { $("#node2data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node2data").scrollTop($("#node2data")[0].scrollHeight); });
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/3', function (data) { $("#node3data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node3data").scrollTop($("#node3data")[0].scrollHeight); });
            $.get(BASE_PATH_ECOSERVICES+'/statusnode/4', function (data) { $("#node4data").val(data.replace(/[^\x00-\x7F]/g, "")); $("#node4data").scrollTop($("#node4data")[0].scrollHeight); });
+           $.get(BASE_PATH_ECOSERVICES+'/statusnode/0', function (data) { $("#noderpcdata").val(data.replace(/[^\x00-\x7F]/g, "")); $("#noderpcdata").scrollTop($("#noderpcdata")[0].scrollHeight); });
         }
 
         // btnfunction for calling CN set time from form

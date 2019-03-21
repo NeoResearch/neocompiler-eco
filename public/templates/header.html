@@ -17,45 +17,20 @@
             <li>
               <div class="col-sm-1">
                 <div class="row">
-                  <span type="checkbox" class="label label-success"><i class="fas fa-bell-slash"></i></span>
-                  <input type="checkbox" id="cbx_ecoNotifications"></input>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="col-sm-1">
-                <div class="row">
                   <span id="online" class="label label-success"></span>
                 </div>
                 <div class="row">
-                  <span id="connecedSince" class="label label-primary"></span>
+                  <span id="nodeRPCHeader" class="label label-info"></span>
                 </div>
               </div>
             </li>
             <li>
               <div class="col-sm-1">
-                <div class="row">
-                  <span id="nodeRPCHeader" class="label label-info"></span>
-                </div>
                 <div class="row">
                   <span id="timeleft" class="label label-info"></span>
                 </div>
-                <!--
-                <div class="row">
-                  <span data-toggle="collapse" data-target="#netInfo" type="button"
-                          class="label label-info">Network Info
-                  </span>
-                </div>
-                -->
-              </div>
-            </li>
-            <li>
-              <div class="col-sm-1">
                 <div class="row">
                   <span id="postgreshighestblock" class="label label-info"></span>
-                </div>
-                <div class="row">
-                  <span id="nodeRestHeader" class="label label-info"></span>
                 </div>
               </div>
             </li>
@@ -90,12 +65,14 @@
 </nav>
 <script>
     startSocketIoConnections();
+    var onlineStats;
     function startSocketIoConnections(){
       socket.disconnect();
       socket = io.connect(BASE_PATH_ECOSERVICES, {resource: 'nodejs'});
+
       socket.on('userconnected', function (data) {
-        $("#online")[0].innerHTML='<i class="fas fa-plug"></i> ' + data['online'];
-        $("#connecedSince")[0].innerHTML="Queries: " + data['since'];
+        onlineStats = '<i class="fas fa-plug"></i> ' + data['online'];
+        onlineStats += ' -> ' + '<i class="fas fa-phone"></i> ' + data['since'];
       });
 
       socket.on('timeleft', function (data) {
@@ -106,29 +83,29 @@
         var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
         var tLeft = dateGMT0.toTimeString();
         var output = '<i class="fas fa-stopwatch"></i> ' + tLeft.substring(0, 8);
-        $("#timeleft")[0].innerHTML=output;
+        $("#online")[0].innerHTML = output + ' -> ' + onlineStats;
 
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
             $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
-                  $("#nodeRPCHeader")[0].innerHTML = "RPC: " + resultGetVersion.result.useragent;
-                  $("#nodeRPCHeader")[0].innerHTML += " -> H1: " + resultBlockCount.result;
-                  $("#nodeRPCHeader")[0].innerHTML += " -> MP: " + resultRawMemPool.result.unverified.length + "/" + resultRawMemPool.result.verified.length;
+                  $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
+                  $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
+                  $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
             }); // mempool
           }); // NEO block count
         }); // NEO useragent
 
         if(ENABLE_NEOSCAN_TRACKING){
+          $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
+                    $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: "+result.height;
+          }); // neoscan top block
+          /*
           $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
                     $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
-          }); // Python user agent + block count
-
-          $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
-                    $("#postgreshighestblock")[0].innerHTML = "NEOSCAN: H3: "+result.height;
-          }); // neoscan top block
+          }); // Python user agent + block count*/
         }else{
-          $("#nodeRestHeader")[0].innerHTML = "";
           $("#postgreshighestblock")[0].innerHTML = "";
+          //$("#nodeRestHeader")[0].innerHTML = "";
         }
       });
     }

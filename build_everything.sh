@@ -51,16 +51,16 @@ if ((!$DISABLE_BUILD)); then
 	(cd docker-neo-python; ./docker_build.sh)
 fi
 
-echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [csharp nodes], [csharp rpc], [neoscan and postgress], [Neo-Python Rest]";
-
 if (($NEO_SCAN)); then
-	./stopEco_network.sh --neo-scan
+        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly], [neoscan api, neoscan sync, postgress, Neo-Python Rest]";
+	./stopEco_network.sh
 	echo "BUILDING using NEO-SCAN";	
-	(cd docker-compose-eco-network; docker-compose -f docker-compose-neoscan.yml up -d)
+	./runEco_network.sh
 else
+        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly]";
 	./stopEco_network.sh
 	echo "BUILDING minimal version";
-	(cd docker-compose-eco-network; docker-compose up -d)
+	./runEco_network.sh
 fi
 
 echo "BUILDING compilers";

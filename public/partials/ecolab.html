@@ -25,7 +25,7 @@
               <li><a data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a data-target="#incrementalstorage"  data-toggle="tab">Inc-Storage</a></li>
               <li><a data-target="#nodeinfo"  data-toggle="tab" onclick="getNodeInfo()">Consensus <i class="fas fa-info"></i></a></li>
-              <li><a data-target="#statistics"  data-toggle="tab">Statistics <i class="fas fa-chart-bar"></i></a></li>
+              <li><a data-target="#statistics"  data-toggle="tab" onclick="callCoreMetricsFromForm()">Statistics <i class="fas fa-chart-bar"></i></a></li>
               <li><a data-target="#configurations"  data-toggle="tab">Settings <i class="fas fa-cogs"></i></a></li>
             </ul>
         </div>
@@ -640,7 +640,7 @@
                <div class="panel panel-primary">
                    <div class="panel-heading">
                        Blocks timestamps
-                       <button type="submit" onClick="callCoreMetricsFromCurrentHeight()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                       <button type="submit" onClick="callCoreMetricsFromForm()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                    </div>
 
                    <div class="panel-body">
@@ -650,12 +650,13 @@
                          <br/><input type="text" id="cbx_blocks_toQuery" value="50" size="2">
                        </div>
                        <div class="col-md-2">
-                         <span class="label label-success">Max yTick timeseries</span>
-                         <br/><input type="text" id="cbx_max_yTick_ts_value" value="3" size="2">
+                         <span class="label label-success">Height to start</span>
+                         <br/><input type="text" id="cbx_height_toQuery" value="-1" size="2" data-toggle="tooltip" data-placement="top" title="Leave -1 if you want to get blocks from ending in the last known height.">
                        </div>
                        <div class="col-md-2">
-                         <span class="label label-success">Min yTick timeseries</span>
+                         <span class="label label-success">Min/Max yTick timeseries</span>
                          <br/><input type="text" id="cbx_min_yTick_ts_value" value="-1" size="2">
+                         <input type="text" id="cbx_max_yTick_ts_value" value="3" size="2">
                        </div>
                      </div>
 
@@ -1312,7 +1313,7 @@ def Main():
                             <option title=":Gets the number of blocks in the main chain">getblockcount</option>
                             <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
                             <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
-                            <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging)">getapplicationlog</option>
+                            <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging plugin)">getapplicationlog</option>
                             <option title="<asset_id> :	Query asset information according to the specified asset number">getassetstate</option>
                             <option title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)">getbalance</option>
                             <option title=": Gets the hash of the tallest block in the main chain">getbestblockhash</option>
@@ -1323,6 +1324,7 @@ def Main():
                             <option title=": Gets the current number of connections for the node">getconnectioncount</option>
                             <option title="<script_hash>: 	Returns information about the contract based on the specified script hash">getcontractstate</option>
                             <option title=": Create a new address (Need to open the wallet)">getnewaddress</option>
+                            <option title="<number_of_blocks> <height_to_end (optional)> Return block timestamps (Need to enable CoreMetrics plugin)">getmetricblocktimestamp</option>
                             <option title=": Get a list of unconfirmed transactions in memory">getrawmempool</option>
                             <option title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value">getrawtransaction</option>
                             <option title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key">getstorage</option>
@@ -1335,6 +1337,7 @@ def Main():
                             <option title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params">invokefunction</option>
                             <option title="<script>: 	Runs a script through the virtual machine and returns the results">invokescript</option>
                             <option title=": Lists all the addresses in the current wallet (Need to open the wallet)">listaddress</option>
+                            <option title=": Lists all the plugins loaded in the RPC node">listplugins</option>
                             <option title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation.">sendrawtransaction</option>
                             <option title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)">sendtoaddress</option>
                             <option title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">sendmany</option>

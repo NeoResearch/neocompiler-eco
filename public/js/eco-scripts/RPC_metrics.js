@@ -1,20 +1,32 @@
-function callCoreMetricsFromCurrentHeight() {
-    maxNBlocks = $("#cbx_blocks_toQuery").val();
-    $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
-        var nBlocksToGet = Math.min(resultBlockCount.result - 2, maxNBlocks);
-        callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet);
-    }); // block count
+function callCoreMetricsFromForm() {
+    nBlockToQueryForm = Number($("#cbx_blocks_toQuery").val());
+    heightToStartForm = Number($("#cbx_height_toQuery").val());
+
+    if(heightToStartForm == -1)
+    {
+	    $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
+		var feasibleNumberBlocksToGet = Math.min(resultBlockCount.result - 2, nBlockToQueryForm);	
+		callCoreMetricsGetBlockTimestampsAndFillStats(feasibleNumberBlocksToGet,heightToStartForm);
+	    }); // block count
+    }else
+   	callCoreMetricsGetBlockTimestampsAndFillStats(nBlockToQueryForm,heightToStartForm);
 }
 
-function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet) {
-    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getmetricblocktimestamp\", \"params\": [\"" + nBlocksToGet + "\"] }";
+function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet,heightToStart=-1) {
+    var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getmetricblocktimestamp\", \"params\": [\"" + nBlocksToGet + "\"] }";
+    if (heightToStart>0)
+    	requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getmetricblocktimestamp\", \"params\": [" + nBlocksToGet + "," + heightToStart + "] }";
+    //console.log(requestJson);
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
         function(resultBlockTimestamps) {
             //console.log("Timestamp were obtained");
-            //console.log(resultBlockTimestamps);
-            filterBlockTimestamps(resultBlockTimestamps);
+            console.log(resultBlockTimestamps);
+	    if(resultBlockTimestamps.result[0].timestamp)
+	            filterBlockTimestamps(resultBlockTimestamps);
+	    else
+		createNotificationOrAlert("ERROR on getmetricblocktimestamp", resultBlockTimestamps.result, 5000);
         },
         "json" // The format the response should be in
     ).fail(function() {
@@ -47,10 +59,9 @@ function generateTimeDiffGraph(labels, data, blockTimeStamps) {
             height: labels[a]
         });
     }
+    //console.log(ts);
 
-    console.log(ts);
     var ctx = document.getElementById('myChart').getContext("2d");
-
     /*
     var stackedLine = new Chart(ctx, {
         type: 'line',

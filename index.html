@@ -90,7 +90,7 @@
 <script src="public/js/eco-scripts/transfers_NeonJS.js"></script>
 <script src="public/js/eco-scripts/genesisBlock_NeonJS.js"></script>
 <script src="public/js/eco-scripts/rawRPC.js"></script>
-<script src="public/js/eco-scripts/RPC_NeonJS.js"></script>
+<script src="public/js/eco-scripts/NeonJS_APIProvider_Queries.js"></script>
 <script src="public/js/eco-scripts/RPC_metrics.js"></script>
 <script src="public/js/eco-scripts/invoke_deploy_NeonJS.js"></script>
 <script src="public/js/eco-scripts/automatic_node_selection.js"></script>
@@ -145,16 +145,16 @@
 //TODO IT GIVES AN ERROR/WARNING when out of connection and testing local
 //Maybe download sidecar is going to solve
 ((window.gitter = {}).chat = {}).options = {
-room: 'neocompiler-io/chat'
+    room: 'neocompiler-io/chat'
 };
 </script>
 <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" ></script>
 <script>
 document.querySelector('.gitter-chat-embed').addEventListener('gitter-chat-toggle', function(e) {
-   if(e.detail.state) // opened
-      $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-top ng-scope";
-   else // closed
-      $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-fixed-top ng-scope";
+    if (e.detail.state) // opened
+        $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-top ng-scope";
+    else // closed
+        $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-fixed-top ng-scope";
 });
 </script>
 

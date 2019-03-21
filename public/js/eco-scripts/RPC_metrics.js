@@ -22,7 +22,7 @@ function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet,heightToStar
         requestJson, // Serializes form data in standard format
         function(resultBlockTimestamps) {
             //console.log("Timestamp were obtained");
-            console.log(resultBlockTimestamps);
+            //console.log(resultBlockTimestamps);
 	    if(resultBlockTimestamps.result[0].timestamp)
 	            filterBlockTimestamps(resultBlockTimestamps);
 	    else

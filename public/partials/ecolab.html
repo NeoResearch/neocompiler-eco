@@ -1518,6 +1518,7 @@ def Main():
 
         window.onbeforeunload = function(event){
           storePageData();
+          //socket.disconnect();
           return confirm("Confirm refresh");
         }
 

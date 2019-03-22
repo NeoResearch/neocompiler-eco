@@ -5,6 +5,7 @@ function callCoreMetricsFromForm() {
     if(heightToStartForm == -1)
     {
 	    $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
+		// TODO - Fix CoreMetrics Plugin verification to be -1 here
 		var feasibleNumberBlocksToGet = Math.min(resultBlockCount.result - 2, nBlockToQueryForm);	
 		callCoreMetricsGetBlockTimestampsAndFillStats(feasibleNumberBlocksToGet,heightToStartForm);
 	    }); // block count

@@ -245,7 +245,7 @@ function restoreDeployTX(txID) {
             $("#contractparamsjs").val(deployJsonParams.par);
             $("#codeavm").val(deployJsonParams.contract_script);
             $("#contracthashjs").val(getScriptHashFromAVM(deployJsonParams.contract_script));
-            $("#contractreturnjs")[0].value = getHexForType(deployJsonParams.returntype);
+            $("#contractreturnjs")[0].value = getIndexForReturnSelectionBox(deployJsonParams.returntype);
 
             if (deployJsonParams.storage == 0) {
                 $("#cbx_storagejs")[0].checked = false;

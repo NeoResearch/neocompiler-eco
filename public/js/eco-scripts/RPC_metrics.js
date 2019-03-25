@@ -44,56 +44,49 @@ function filterBlockTimestamps(resultBlockTimestamps) {
         blockTime.push(resultBlockTimestamps.result[bh].timestamp - resultBlockTimestamps.result[bh - 1].timestamp);
         blockTimeStamps.push(moment.unix(resultBlockTimestamps.result[bh].timestamp));
     }
-    generateTimeDiffGraph(heights, blockTime, blockTimeStamps);
+    generateTimeDiffGraph(false, heights, blockTime, blockTimeStamps);
 }
 
 var chartBlockTimeStamp;
 var shouldDestroy_chartBlockTimeStamp = false;
+var lastTS = null;
 
-function generateTimeDiffGraph(labels, data, blockTimeStamps) {
+function reloadTSGraph() {
+	if(lastTS!=null)
+		generateTimeDiffGraph(true);
+}
+
+function generateTimeDiffGraph(useTSInCache, heights = null, blockTime = null, blockTimeStamps = null) {
     //console.log(labels);
     //console.log(data);
     //console.log(blockTimeStamps);
 
     var ts = [];
-    for (var a = 0; a < data.length; a++) {
-        ts.push({
-            t: blockTimeStamps[a],
-            y: data[a],
-            height: labels[a]
-        });
+    if(useTSInCache)
+    {
+	    ts = lastTS;
+    }
+    else
+    {
+	    for (var a = 0; a < blockTime.length; a++) {
+		ts.push({
+		    t: blockTimeStamps[a],
+		    y: blockTime[a],
+		    height: heights[a]
+		});
+	    }
+	    lastTS = ts;
     }
     //console.log(ts);
 
     var ctx = document.getElementById('canvas_blocktime_chart').getContext("2d");
-    /*
-    var stackedLine = new Chart(ctx, {
-        type: 'line',
-        	    data: {
-    		labels: labels,
-    		datasets: [{
-    		    label: 'Block times',
-    		    backgroundColor: 'rgb(255, 99, 132)',
-    		    borderColor: 'rgb(255, 99, 132)',
-    		    data: ts
-    		}]
-    	    },
-        options: {
-            scales: {
-                yAxes: [{
-                    stacked: true
-                }]
-            }
-        }
-    });*/
-
-    //Chart.defaults.global.elements.point.radius = 0;
-    //Chart.defaults.global.elements.point.hoverRadius = 0;
-
-    var maxYTickValue = Number($("#cbx_max_yTick_ts_value").val());
-    var minYTickValue = Number($("#cbx_min_yTick_ts_value").val());
+    // Destroy previous chart
     if(shouldDestroy_chartBlockTimeStamp)
     	chartBlockTimeStamp.destroy();
+
+    var maxYTickValue = Number($("#cbx_max_yTick_ts_value").val());
+    var minYTickValue = Number($("#cbx_min_yTick_ts_value").val());   
+
     chartBlockTimeStamp = new Chart(ctx, {
         // The type of chart we want to create
         type: 'line',
@@ -137,4 +130,29 @@ function generateTimeDiffGraph(labels, data, blockTimeStamps) {
         }
     });
     shouldDestroy_chartBlockTimeStamp=true;
+
+    /*
+    var stackedLine = new Chart(ctx, {
+        type: 'line',
+        	    data: {
+    		labels: labels,
+    		datasets: [{
+    		    label: 'Block times',
+    		    backgroundColor: 'rgb(255, 99, 132)',
+    		    borderColor: 'rgb(255, 99, 132)',
+    		    data: ts
+    		}]
+    	    },
+        options: {
+            scales: {
+                yAxes: [{
+                    stacked: true
+                }]
+            }
+        }
+    });*/
+
+    //Chart.defaults.global.elements.point.radius = 0;
+    //Chart.defaults.global.elements.point.hoverRadius = 0;
+
 }

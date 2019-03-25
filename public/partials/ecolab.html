@@ -647,16 +647,16 @@
                      <div class="row">
                        <div class="col-md-2">
                          <span class="label label-success">Max nBlocks to query</span>
-                         <br/><input type="text" id="cbx_blocks_toQuery" value="50" size="2">
+                         <br/><input type="text" onchange="callCoreMetricsFromForm()" id="cbx_blocks_toQuery" value="50" size="2">
                        </div>
                        <div class="col-md-2">
                          <span class="label label-success">Height to start</span>
-                         <br/><input type="text" id="cbx_height_toQuery" value="-1" size="2" data-toggle="tooltip" data-placement="top" title="Leave -1 if you want to get blocks from ending in the last known height.">
+                         <br/><input type="text" onchange="callCoreMetricsFromForm()" id="cbx_height_toQuery" value="-1" size="2" data-toggle="tooltip" data-placement="top" title="Leave -1 if you want to get blocks from ending in the last known height.">
                        </div>
                        <div class="col-md-2">
                          <span class="label label-success">Min/Max yTick timeseries</span>
-                         <br/><input type="text" id="cbx_min_yTick_ts_value" value="-1" size="1">
-                         <input type="text" id="cbx_max_yTick_ts_value" value="3" size="1">
+                         <br/><input type="text" onchange="reloadTSGraph()" id="cbx_min_yTick_ts_value" value="-1" size="1">
+                         <input type="text" onchange="reloadTSGraph()" id="cbx_max_yTick_ts_value" value="3" size="1">
                        </div>
                      </div>
 
@@ -1061,17 +1061,17 @@ def Main():
                               <div class="col-md-6 form-inline" style="margin-bottom: 10px">
                                 <div class="form-group">
                                   <select name="contractreturn" id="contractreturnjs" class="custom-select form-control" data-toggle="tooltip" data-placement="top" title="Signature (00), Boolean (01), Integer (02), Hash160 (03), Hash256 (04), ByteArray (05), PublicKey (06), String (07), Array (10), InteropInterface (f0), Void (ff).">
-                                    <option>00</option>
-                                    <option>01</option>
-                                    <option>02</option>
-                                    <option>03</option>
-                                    <option>04</option>
-                                    <option>05</option>
-                                    <option>06</option>
-                                    <option>07</option>
-                                    <option>10</option>
-                                    <option>f0</option>
-                                    <option>ff</option>
+                                    <option>00 - Signature</option>
+                                    <option>01 - Boolean</option>
+                                    <option>02 - Integer</option>
+                                    <option>03 - Hash160</option>
+                                    <option>04 - Hash256</option>
+                                    <option>05 - ByteArray</option>
+                                    <option>06 - PublicKey</option>
+                                    <option>07 - String</option>
+                                    <option>10 - Array</option>
+                                    <option>f0 - InteropInterface</option>
+                                    <option>ff - Void</option>
                                   </select>
                                 </div>
 

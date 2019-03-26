@@ -40,11 +40,11 @@
                     <span class="label label-success"><i class="fas fa-network-wired"></i></span>
                     <i class="fas fa-chart-network"></i>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
-                      <option title="NeoCompiler Eco services" value="https://node1.neocompiler.io">NeoCompiler Eco</option>
-                      <option title="Localhost services" value="http://localhost:30333">Localhost</option>
-                      <option title="MainNet services" value="0">NEO MainNet (incomplete)</option>
-                      <option title="Testnet services" value="https://seed1.neo.org:20331">NEO TestNet (incomplete)</option>
-                      <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>
+                      <option title="NeoCompiler Eco services">NeoCompiler Eco</option>
+                      <option title="Localhost services">Localhost</option>
+                      <option title="MainNet services">NEO MainNet (unsafe)</option>
+                      <option title="Testnet services">NEO TestNet</option>
+                      <!-- <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>  -->
                     </select>
                 </div>
             </div>
@@ -1453,8 +1453,7 @@ def Main():
 
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if (window.location.href.indexOf("localhost") != -1) {
-            $("#ecolabnetworkurlselection")[0].selectedIndex = 1; //set network to localhost
-            //$("#neonodeurl")[0].value = $("#ecolabnetworkurlselection")[0].value;
+            $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
         }
         updatePATHS();
         //This should be after Paths update
@@ -1630,18 +1629,23 @@ def Main():
             //neocompiler eco
             if (mynetworkIndex == 0)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-SharedPrivatenet";
+
             //local
             if (mynetworkIndex == 1)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-PrivateNet";
+
             // MainNet
             if (mynetworkIndex == 2)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-Mainet";
+
             // Tesnet
             if (mynetworkIndex == 3)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-Testnet";
+
             // CozTestnet TODO
             if (mynetworkIndex == 4)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-CozNet";
+
             document.getElementById("headerNeoScanLink").setAttribute("target", "_blank");
             document.getElementById("headerNeoScanLink").setAttribute("href", BASE_PATH_NEOSCAN);
         } else {
@@ -1690,6 +1694,9 @@ def Main():
         mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
 
         if (mynetworkIndex == 0) {
+            $("#cbx_enable_neoscan")[0].checked = false;
+            $("#cbx_query_neoscan")[0].checked = false;
+
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", ecoNodes, "selectionBoxRPCNodes");
@@ -1698,6 +1705,9 @@ def Main():
         }
 
         if (mynetworkIndex == 1) {
+            $("#cbx_enable_neoscan")[0].checked = false;
+            $("#cbx_query_neoscan")[0].checked = false;
+
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", localHostNodes, "selectionBoxRPCNodes");
@@ -1707,6 +1717,10 @@ def Main():
 
         // MainNet
         if (mynetworkIndex == 2) {
+            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
+            $("#cbx_enable_neoscan")[0].checked = true;
+            $("#cbx_query_neoscan")[0].checked = true;
+
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
             addAllKnownServiceToSelectionBox("RPC", mainNetNodes, "selectionBoxRPCNodes");
@@ -1716,6 +1730,10 @@ def Main():
 
         // Tesnet
         if (mynetworkIndex == 3) {
+            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
+            $("#cbx_enable_neoscan")[0].checked = true;
+            $("#cbx_query_neoscan")[0].checked = true;
+
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
             addAllKnownServiceToSelectionBox("RPC", testNetNodes, "selectionBoxRPCNodes");
@@ -1725,6 +1743,10 @@ def Main():
 
         // CozTestnet TODO
         if (mynetworkIndex == 4) {
+            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
+            $("#cbx_enable_neoscan")[0].checked = true;
+            $("#cbx_query_neoscan")[0].checked = true;
+
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
             addAllKnownServiceToSelectionBox("RPC", cozNetNodes, "selectionBoxRPCNodes");

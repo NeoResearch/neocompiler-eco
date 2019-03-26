@@ -76,7 +76,7 @@ $("#formCompile").submit(function(e) {
 	    var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
             $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
             $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
-            $("#contractInfo_AVMSize")[0].value = hexcodeavm.length;
+            $("#contractInfo_AVMSize")[0].value = Math.ceil(hexcodeavm.length/2);
             $("#contracthashjs")[0].value = contractScriptHash;
             $("#invokehashjs")[0].value = $("#contracthashjs")[0].value;
             $("#gsf_contracthash")[0].value = $("#contracthashjs")[0].value;

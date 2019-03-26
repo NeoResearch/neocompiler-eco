@@ -375,6 +375,37 @@ function printOpcode(hexavm, target) {
     //console.log("oplist: "+JSON.stringify(oplist));
 }
 
+// =============================================================================================
+// https://github.com/neo-project/neo/blob/master/neo/SmartContract/ContractParameterType.cs
+// https://github.com/CityOfZion/neo-python/blob/master/neo/SmartContract/ContractParameterType.py
+
+function getHexForType(stype) {
+    if (stype == "Signature")
+        return '00';
+    else if (stype == "Boolean")
+        return '01';
+    else if (stype == "Integer")
+        return '02';
+    else if (stype == "Hash160")
+        return '03';
+    else if (stype == "Hash256")
+        return '04';
+    else if (stype == "ByteArray")
+        return '05';
+    else if (stype == "PublicKey")
+        return '06';
+    else if (stype == "String")
+        return '07';
+    else if (stype == "Array")
+        return '10'; // object[]
+    else if (stype == "InteropInterface")
+        return 'f0';
+    else if (stype == "Void")
+        return 'ff';
+    else
+        return '05';
+}
+// =============================================================================================
 /*
 function parseOpcodeList(hexavm, oplist) {
     if (hexavm.length == 0)

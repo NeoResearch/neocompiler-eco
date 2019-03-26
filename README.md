@@ -7,7 +7,7 @@
       width="125px;" />
 </p>
 
-## NeoCompiler Eco 3.0
+## NeoCompiler Eco 3.1
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
@@ -18,6 +18,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 #### Browsers/Devices
 
 * Tested with Firefox Quantum - 61.0.1
+* Tested with Chromium - Version 73
 
 #####  The current front-end interface can be acessed from:
 * [https://neocompiler.io](https://neocompiler.io), automatically generated from the source code located in this current repository.

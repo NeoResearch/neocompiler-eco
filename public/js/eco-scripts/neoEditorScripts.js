@@ -174,7 +174,7 @@ $("#formCompile").submit(function(e) {
 
                 // get return hexcode
                 rettype = jsonABI["functions"][i]["returntype"];
-		$("#contractreturnjs")[0].selectedIndex = getIndexForReturnSelectionBox(rettype);
+		 $("#contractreturnjs")[0].value = getHexForType(rettype);
 
             }
         },

@@ -2,12 +2,16 @@
 // ======================= INITIALIZING BASE PATHS ==============================================
 //COMPILERS EXPRESS RPC PATH
 var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", ecoNodes);
+
 //CSHARP RPC BASE PATH (On the main and testnet some python RPC are running - Check TODO)
 var BASE_PATH_CLI = getFirstAvailableService("RPC", ecoNodes);
-// ECO SERVICES RPC PATH - [SOCKETIO - CSHARPNODESLOGS - PYTHON-NOTIFICATIONS]
+
+// ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", ecoNodes);
+
 // NEOSCAN PATH PATH 
 var BASE_PATH_NEOSCAN = getFirstAvailableService("neoscan", ecoNodes);
+
 // PYTHON REST NOTIFICATIONS
 //var BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", ecoNodes);
 
@@ -23,9 +27,6 @@ if (LOCAL_DEVELOPMENT) {
     //BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", localHostNodes);
 }
 // ==============================================================================================
-
-//Initializating socket var
-var socket = io.connect();
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';

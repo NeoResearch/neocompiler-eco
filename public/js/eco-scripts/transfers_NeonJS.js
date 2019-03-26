@@ -73,8 +73,8 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
 
     Neon.default.claimGas(config)
         .then(res => {
-            console.log("createClaimGasTX:")
-            console.log(res.response)
+            //console.log("createClaimGasTX:")
+            //console.log(res.response)
             createNotificationOrAlert("ClaimTX", res.response.result, 5000);
 
             if (FULL_ACTIVITY_HISTORY) {

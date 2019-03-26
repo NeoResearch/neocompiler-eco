@@ -1,7 +1,5 @@
 $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
     //console.log(e.target.dataset.target)
-
-
     if ($("#csharpcode.tab-pane.active.cont").length != 0) {
         updateCompilersSelectionBox("docker-mono-neo-compiler");
         //console.log("C# Compile");
@@ -18,7 +16,6 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         updateCompilersSelectionBox("docker-java-neo-compiler");
         //console.log("Java Compile");
     }
-
 });
 
 //===============================================================
@@ -337,8 +334,6 @@ $("#formgetstorage").submit(function(e) {
     });
 }); //End of storage read function
 //===============================================================
-
-
 
 //===============================================================
 function createEditor(name, mode) {

@@ -1,56 +1,3 @@
-function pushParams(neonJSParams, type, value) {
-    if (type == 'String')
-        neonJSParams.push(Neon.default.create.contractParam(type, value));
-    else if (type == 'Address')
-        neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'address'));
-    else if (type == 'Hex')
-        neonJSParams.push(Neon.default.create.contractParam('ByteArray', value));
-    else if (type == 'DecFixed8') {
-        // Decimal fixed 8 seems to break at transition 92233720368.54775807 -> 92233720368.54775808
-        neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
-    } else if (type == 'Integer') {
-        if ((typeof(value) == "string") && (Number(value).toString() != value))
-            value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
-        if (Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
-            neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2behex(value)));
-        else
-            neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
-        //console.log("INTEGER="+value+" -> "+Number(value));
-    } else if (type == 'Array')
-        neonJSParams.push(Neon.default.create.contractParam(type, value));
-    else
-        alert("You are trying to push a wrong invoke param type: " + type + "with value : " + value);
-}
-
-function transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJSParams) {
-    var invokeParams = {
-        caller: myaddress,
-        mynetfee: mynetfee,
-        mysysgasfee: mysysgasfee,
-        neo: neo,
-        gas: gas,
-        neonJSParams: neonJSParams
-    }
-    return JSON.stringify(invokeParams);
-}
-
-function transformDeployParams(myaddress, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname) {
-    var deployParams = {
-        caller: myaddress,
-        mynetfee: mynetfee,
-        contract_script: contract_script,
-        storage: storage,
-        returntype: returntype,
-        par: par,
-        contract_description: contract_description,
-        contract_email: contract_email,
-        contract_author: contract_author,
-        contract_version: contract_version,
-        contract_appname: contract_appname
-    }
-    return JSON.stringify(deployParams);
-}
-
 // Example of invoke
 // InvokeFromAccount(0,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 // contract_operation IS OBSOLET AS IT IS RIGHT NOW
@@ -243,7 +190,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 
         if (typeof(res.response.result) == "boolean") // 2.X
             createNotificationOrAlert("Deploy", "Response: " + res.response.result, 7000);
-        else // 3.X
+        else
             createNotificationOrAlert("Deploy", "Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
 
         if (res.response.result) {
@@ -252,17 +199,64 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 
             $('.nav-pills a[data-target="#activity"]').tab('show');
             document.getElementById('divNetworkRelayed').scrollIntoView();
-            //if(typeof(res.response.result) == "boolean") // 2.X
-            //	updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
-            //else // 3.X
-            //	updateVecRelayedTXsAndDraw(res.tx.hash, "Deploy", $("#contracthashjs").val(), deployParams);
         }
     }).catch(err => {
         console.log(err);
         createNotificationOrAlert("Deploy ERROR", "Response: " + err, 5000);
-    });
+    }); //end doInvoke
+} // end deploy from acount
 
+function pushParams(neonJSParams, type, value) {
+    if (type == 'String')
+        neonJSParams.push(Neon.default.create.contractParam(type, value));
+    else if (type == 'Address')
+        neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'address'));
+    else if (type == 'Hex')
+        neonJSParams.push(Neon.default.create.contractParam('ByteArray', value));
+    else if (type == 'DecFixed8') {
+        // Decimal fixed 8 seems to break at transition 92233720368.54775807 -> 92233720368.54775808
+        neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
+    } else if (type == 'Integer') {
+        if ((typeof(value) == "string") && (Number(value).toString() != value))
+            value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
+        if (Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
+            neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2behex(value)));
+        else
+            neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
+        //console.log("INTEGER="+value+" -> "+Number(value));
+    } else if (type == 'Array')
+        neonJSParams.push(Neon.default.create.contractParam(type, value));
+    else
+        alert("You are trying to push a wrong invoke param type: " + type + "with value : " + value);
+}
 
+function transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJSParams) {
+    var invokeParams = {
+        caller: myaddress,
+        mynetfee: mynetfee,
+        mysysgasfee: mysysgasfee,
+        neo: neo,
+        gas: gas,
+        neonJSParams: neonJSParams
+    }
+    return JSON.stringify(invokeParams);
+}
+
+function transformDeployParams(myaddress, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname) {
+    var deployParams = {
+        caller: myaddress,
+        mynetfee: mynetfee,
+        contract_script: contract_script,
+        storage: storage,
+        returntype: returntype,
+        par: par,
+        contract_description: contract_description,
+        contract_email: contract_email,
+        contract_author: contract_author,
+        contract_version: contract_version,
+        contract_appname: contract_appname
+    }
+    return JSON.stringify(deployParams);
 }
 
 

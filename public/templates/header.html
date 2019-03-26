@@ -64,10 +64,15 @@
     <!-- /.container -->
 </nav>
 <script>
-    startSocketIoConnections();
+    // socket io global var
+    var socket;
+    startSocketIoConnections(true);
     var onlineStats;
-    function startSocketIoConnections(){
-      socket.disconnect();
+    function startSocketIoConnections(firstInitialization = false){
+      if(!firstInitialization){
+        socket.disconnect();
+      }
+
       socket = io.connect(BASE_PATH_ECOSERVICES, {resource: 'nodejs'});
 
       socket.on('userconnected', function (data) {

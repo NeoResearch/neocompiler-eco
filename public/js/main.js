@@ -9,6 +9,9 @@ var numberInvokes = 0;
 var refreshIntervalId = 0;
 var refreshIntervalCompilersAndNodes = 0;
 
+/* Set Default API Provider var for NEONJS */
+var NEON_API_PROVIDER;
+
 /* Enable NEOSCAN explorer on the frontend */
 var ENABLE_NEOSCAN_TRACKING = false;
 

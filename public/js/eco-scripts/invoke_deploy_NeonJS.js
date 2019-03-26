@@ -148,9 +148,9 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
     // Json should be something like: [{"type":"String","value":"op"},[{"type":"String","value":"ccxxcx"},{"type":"String","value":"sddsdd"}]]
     // Or: [{"type":"String","value":"op"},{"type":"Array", "value": [{"type":"String","value":"ccxxcx"},{"type":"String","value":"sddsdd"}]}]
 
-
+    setNeonApiProvider(networkToCall);
     const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
+        api: NEON_API_PROVIDER,
         url: nodeToCall,
         //script: Neon.default.create.script({
         //   scriptHash: contract_scripthash,
@@ -227,8 +227,9 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         .emitPush(contract_script) //script
         .emitSysCall('Neo.Contract.Create');
 
+    setNeonApiProvider(networkToCall);
     const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
+        api: NEON_API_PROVIDER,
         url: nodeToCall,
         account: ECO_WALLET[idToDeploy].account,
         script: sb.str,

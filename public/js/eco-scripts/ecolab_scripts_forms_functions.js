@@ -73,7 +73,11 @@ $("#formCompile").submit(function(e) {
             //$("#btn_download")[0].style = "";
 
             //filling hashes
-            $("#contracthashjs")[0].value = getScriptHashFromAVM(hexcodeavm);
+	    var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+            $("#contractInfo")[0].value = "ScriptHash: " + contractScriptHash;
+            $("#contractInfo")[0].value += "\nAddress: " + toBase58(contractScriptHash);
+            $("#contractInfo")[0].value += "\nAVMSize: " + hexcodeavm.length;
+            $("#contracthashjs")[0].value = contractScriptHash;
             $("#invokehashjs")[0].value = $("#contracthashjs")[0].value;
             $("#gsf_contracthash")[0].value = $("#contracthashjs")[0].value;
 

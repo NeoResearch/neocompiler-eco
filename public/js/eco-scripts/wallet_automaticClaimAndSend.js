@@ -1,4 +1,3 @@
-
 function automaticClaim(amountClaimable, idToAutomaticClaim) {
     //console.log("amountClaimable is " +  amountClaimable + " of index "+ idToAutomaticClaim);
 

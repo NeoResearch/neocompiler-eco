@@ -64,23 +64,26 @@
     <!-- /.container -->
 </nav>
 <script>
-    // socket io global var
-    var socket;
-    startSocketIoConnections(true);
-    var onlineStats;
-    function startSocketIoConnections(firstInitialization = false){
-      if(!firstInitialization){
+// socket io global var
+var socket;
+startSocketIoConnections(true);
+var onlineStats;
+
+function startSocketIoConnections(firstInitialization = false) {
+    if (!firstInitialization) {
         socket.disconnect();
-      }
+    }
 
-      socket = io.connect(BASE_PATH_ECOSERVICES, {resource: 'nodejs'});
+    socket = io.connect(BASE_PATH_ECOSERVICES, {
+        resource: 'nodejs'
+    });
 
-      socket.on('userconnected', function (data) {
+    socket.on('userconnected', function(data) {
         onlineStats = '<i class="fas fa-plug"></i> ' + data['online'];
         onlineStats += ' -> ' + '<i class="fas fa-phone"></i> ' + data['since'];
-      });
+    });
 
-      socket.on('timeleft', function (data) {
+    socket.on('timeleft', function(data) {
         var date = new Date(data['timeleft']);
         numberCompilations = data['compilations'];
         numberDeploys = data['deploys'];
@@ -91,27 +94,27 @@
         $("#online")[0].innerHTML = output + ' -> ' + onlineStats;
 
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
-          $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
-            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
-                  $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
-                  $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
-                  $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
-            }); // mempool
-          }); // NEO block count
+            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
+                $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
+                    $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
+                    $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
+                    $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
+                }); // mempool
+            }); // NEO block count
         }); // NEO useragent
 
-        if(ENABLE_NEOSCAN_TRACKING){
-          $.getJSON(BASE_PATH_NEOSCAN+"/api/main_net/v1/get_height", function(result) {
-                    $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: "+result.height;
-          }); // neoscan top block
-          /*
-          $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
-                    $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
-          }); // Python user agent + block count*/
-        }else{
-          $("#postgreshighestblock")[0].innerHTML = "";
-          //$("#nodeRestHeader")[0].innerHTML = "";
+        if (ENABLE_NEOSCAN_TRACKING) {
+            $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_height", function(result) {
+                $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: " + result.height;
+            }); // neoscan top block
+            /*
+            $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
+                      $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
+            }); // Python user agent + block count*/
+        } else {
+            $("#postgreshighestblock")[0].innerHTML = "";
+            //$("#nodeRestHeader")[0].innerHTML = "";
         }
-      });
-    }
+    });
+}
 </script>

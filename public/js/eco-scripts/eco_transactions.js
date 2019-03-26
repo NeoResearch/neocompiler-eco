@@ -126,28 +126,28 @@ function drawRelayedTXs() {
             txRow.insertCell(-1).appendChild(inputTxReplayHeight);
         }
 
-	if(ENABLE_NEOSCAN_TRACKING) {
-		var txIDCell = document.createElement("a");
-		var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
-		txIDCell.text = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
-		txIDCell.href = urlToGet;
-		txIDCell.target = '_blank';
-		txIDCell.onclick = urlToGet;
-		txIDCell.style.width = '70px';
-		txIDCell.style.display = 'block';
-		txRow.insertCell(-1).appendChild(txIDCell);
-	}else{
-		var txIDCell = document.createElement('button');
-		txIDCell.setAttribute('content', 'test content');
-		txIDCell.setAttribute('class', 'btn btn-info');
-		txIDCell.setAttribute('value', i);
-		txIDCell.setAttribute('id', "btnGetTransactionRaw" + i);
-		txIDCell.onclick = function() {
-		    callAppLogOrRawTx(this.value,true);
-		};
-		txIDCell.innerHTML = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
-		txRow.insertCell(-1).appendChild(txIDCell);
-	}
+        if (ENABLE_NEOSCAN_TRACKING) {
+            var txIDCell = document.createElement("a");
+            var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
+            txIDCell.text = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
+            txIDCell.href = urlToGet;
+            txIDCell.target = '_blank';
+            txIDCell.onclick = urlToGet;
+            txIDCell.style.width = '70px';
+            txIDCell.style.display = 'block';
+            txRow.insertCell(-1).appendChild(txIDCell);
+        } else {
+            var txIDCell = document.createElement('button');
+            txIDCell.setAttribute('content', 'test content');
+            txIDCell.setAttribute('class', 'btn btn-info');
+            txIDCell.setAttribute('value', i);
+            txIDCell.setAttribute('id', "btnGetTransactionRaw" + i);
+            txIDCell.onclick = function() {
+                callAppLogOrRawTx(this.value, true);
+            };
+            txIDCell.innerHTML = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
+            txRow.insertCell(-1).appendChild(txIDCell);
+        }
 
         //Check activation status ends	
     } //Finishes loop that draws each relayed transaction
@@ -177,7 +177,7 @@ function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txPar
 
 //===============================================================
 //Call app log
-function callAppLogOrRawTx(txID, rawTX=false) {
+function callAppLogOrRawTx(txID, rawTX = false) {
     if (txID < vecRelayedTXs.length && txID > -1) {
         var txHash = vecRelayedTXs[txID].tx;
         var appLogJson = [];
@@ -358,6 +358,10 @@ function exportHistory() {
     for (var t = 0; t < tempVecRelayedTXs.length; t++)
         tempVecRelayedTXs[t]["height"] = document.getElementById("textTxHeight" + t).value;
 
+    if ($("#btnReplayTXsTools")[0].checked)
+        for (var t = 0; t < tempVecRelayedTXs.length; t++)
+            tempVecRelayedTXs[t]["replayHeight"] = document.getElementById("textReplayHeight" + t).value;
+
     mydataStringfied = JSON.stringify(tempVecRelayedTXs);
     console.log(mydataStringfied);
 
@@ -385,31 +389,46 @@ function openReplayToolsTXs() {
         drawRelayedTXs();
 
         if ($("#btnReplayTXsTools")[0].checked) {
-            //First txs is set to 0
-            var prevHeight = 0;
-            document.getElementById("textReplayHeight" + 0).value = prevHeight;
-            for (txID = 1; txID < vecRelayedTXs.length; txID++) {
-                if (!vecRelayedTXs[txID].height) {
-                    console.error("Previous height of our TX could not be loaded properly");
+            if (vecRelayedTXs[0].replayHeight) {
+                console.log("Loading replay with pre-defined values");
+                for (txID = 0; txID < vecRelayedTXs.length; txID++) {
+                    if (!vecRelayedTXs[txID].replayHeight) {
+                        console.error("Historical replay height of tx: " + txID + " could not be loaded properly!");
+                        return;
+                    }
+                    document.getElementById("textReplayHeight" + txID).value = Number(vecRelayedTXs[txID].replayHeight);
+                }
+            } else {
+                //First txs is set to 0	    
+                if (!vecRelayedTXs[0].height) {
+                    console.error("Historical height of tx: " + 0 + " could not be loaded properly!");
                     return;
                 }
-                var historicalTXBlockchainHeight = vecRelayedTXs[txID].height;
-                var prevIndex = txID - 1;
+                document.getElementById("textReplayHeight" + 0).value = 0;
 
-                if (historicalTXBlockchainHeight != -100)
-                    document.getElementById("textReplayHeight" + txID).value = historicalTXBlockchainHeight - prevHeight;
-                else
-                    document.getElementById("textReplayHeight" + txID).value = prevHeight + 1;
-
-                prevHeight = Number(document.getElementById("textReplayHeight" + txID).value);
+                for (txID = 1; txID < vecRelayedTXs.length; txID++) {
+                    if (!vecRelayedTXs[txID].height) {
+                        console.error("Historical height of tx: " + txID + " could not be loaded properly!");
+                        return;
+                    }
+                    var histHeight = Number(vecRelayedTXs[txID].height);
+                    var lastIndex = txID - 1;
+                    var histHeightLastIndex = Number(vecRelayedTXs[lastIndex].height);
+                    var lastRelayHeight = Number(document.getElementById("textReplayHeight" + lastIndex).value);
+                    if (histHeight != -100 && histHeightLastIndex != -100)
+                        document.getElementById("textReplayHeight" + txID).value = Number(lastRelayHeight + (histHeight - histHeightLastIndex));
+                    else
+                        document.getElementById("textReplayHeight" + txID).value = Number(lastRelayHeight + 1);
+                }
             }
+
+            getOrderedReplayAndFillInfo();
         }
-        mapReplayByHeight();
     }
 }
 
-function mapReplayByHeight() {
-    console.log("openReplayToolsTxs");
+function getOrderedReplayAndFillInfo() {
+    console.log("mapReplayByHeight");
     var mapReplayPerHeight = new Map();
     for (var t = 0; t < vecRelayedTXs.length; t++) {
         var height = Number(document.getElementById("textReplayHeight" + t).value);
@@ -422,15 +441,36 @@ function mapReplayByHeight() {
         mapReplayPerHeight.set(height, txsPerHeight);
     }
 
-    const mapReplayPerHeightSorted = new Map([...mapReplayPerHeight.entries()].sort());
+    //============================================
+    //Transforming map to list and ordering
+    var orderedMapList = [];
+    mapReplayPerHeight.forEach(function(value, key) {
+        orderedMapList.push({
+            height: key,
+            txs: value
+        });
+    }, mapReplayPerHeight);
+    orderedMapList.sort(function(a, b) {
+        return a.height - b.height
+    });
+    //============================================
+
+    //const mapReplayPerHeightSorted = new Map([...mapReplayPerHeight.entries()].sort(function(a,b){return Number(a) - Number(b);}));
     $("#txt_replayOrder").val("");
-    mapReplayPerHeightSorted.forEach(printMap);
+    //mapReplayPerHeightSorted.forEach(printMap);
+    orderedMapList.forEach(function(entry) {
+        document.getElementById("txt_replayOrder").value += "Reference Height: " + entry.height + " - ";
+        document.getElementById("txt_replayOrder").value += JSON.stringify(entry.txs) + "\n";
+    });
+
+   return orderedMapList;
 }
 
+/*
 function printMap(values, key) {
     document.getElementById("txt_replayOrder").value += "Reference Height: " + key + " - ";
     document.getElementById("txt_replayOrder").value += JSON.stringify(values) + "\n";
-}
+}*/
 //===============================================================
 
 //===============================================================
@@ -507,13 +547,10 @@ function searchForTX(indexToUpdate) {
             "params": [vecRelayedTXs[indexToUpdate].tx]
         }), // Serializes form data in standard format
         function(data) {
-            console.log("Inside get transaction height")
-            console.log(data);
+            //console.log("Inside get transaction height")
+            //console.log(data);
             if (data.result) {
-
                 document.getElementById("textTxHeight" + indexToUpdate).value = data.result;
-
-
             } else {
                 document.getElementById("textTxHeight" + indexToUpdate).value = data.error.code;
             }

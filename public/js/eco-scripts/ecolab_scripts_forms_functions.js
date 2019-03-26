@@ -76,10 +76,25 @@ $("#formCompile").submit(function(e) {
 	    var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
             $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
             $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
-            $("#contractInfo_AVMSize")[0].value = Math.ceil(hexcodeavm.length/2);
             $("#contracthashjs")[0].value = contractScriptHash;
             $("#invokehashjs")[0].value = $("#contracthashjs")[0].value;
             $("#gsf_contracthash")[0].value = $("#contracthashjs")[0].value;
+
+
+            // ------------------------------------------
+	    // calculating extra fee according to AVM size
+	    var avmSize = Math.ceil(hexcodeavm.length/2);
+            $("#contractInfo_AVMSize")[0].value = avmSize;
+	    // TODO - Create a call on neo-plugins SimplePolicy
+	    var freeSize = 1024;
+	    var feePerExtraByte = 0.00001;
+	    var extraGasNetFeeForBigTx = 0;
+	    if (avmSize > freeSize)
+		extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
+            $("#attachDeployGasFeeJS")[0].value = Math.ceil(extraGasNetFeeForBigTx);
+            // ------------------------------------------
+	
+
 
             var codeabi = atob(data.abi);
             console.log(codeabi);

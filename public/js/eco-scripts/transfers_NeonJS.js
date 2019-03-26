@@ -21,12 +21,11 @@ function createGasAndNeoIntent(to, neo, gas) {
 //==========================================================================
 
 function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkToCall, sendingFromSCFlag = false) {
-    //balance = Neon.api.neoscan.getBalance('PrivateNet', from).then(res => console.log(res))
     var intent = createGasAndNeoIntent(to, neo, gas);
 
-    //console.log(intent) // This is an array of 2 Intent objects, one for each asset
+    setNeonApiProvider(networkToCall);
     const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
+        api: NEON_API_PROVIDER,
         url: nodeToCall,
         account: ECO_WALLET[idTransferFrom].account, // This is the address which the assets come from.
         sendingFromSmartContract: sendingFromSCFlag,
@@ -61,8 +60,9 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 }
 
 function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
+    setNeonApiProvider(networkToCall);
     const config = {
-        api: new Neon.api.neoscan.instance(networkToCall),
+        api: NEON_API_PROVIDER,
         url: nodeToCall,
         account: ECO_WALLET[idTransferFrom].account // This is the address which the assets come from.
     }
@@ -148,11 +148,10 @@ function sendingTxPromiseWithEcoRaw(txPromise) {
     return sendTxPromise;
 }
 
-
 function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall) {
-    const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
+    setNeonApiProvider(networkToCall);    
     console.log("Constructing " + to + " neo: " + neo + " gas: " + gas)
-    var constructTx = neoscanAPIProvider.getBalance(ECO_WALLET[idToTransfer].account.address).then(balance => {
+    var constructTx = NEON_API_PROVIDER.getBalance(ECO_WALLET[idToTransfer].account.address).then(balance => {
         let transaction = Neon.default.create.contractTx();
         if (neo > 0)
             transaction.addIntent("NEO", neo, to)
@@ -173,14 +172,12 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall) {
 
 function createClaimMSGasTX(idToClaim, jsonArrayWithPrivKeys, networkToCall) {
     console.log("\n\n--- Creating claim tx ---");
-
+    
     jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToClaim);
     verificationScript = ECO_WALLET[idToClaim].account;
 
-    const neoscanAPIProvider = new Neon.api.neoscan.instance(networkToCall);
-
-
-    var constructTx = neoscanAPIProvider.getClaims(ECO_WALLET[idToClaim].account.address).then(claims => {
+    setNeonApiProvider(networkToCall);
+    var constructTx = NEON_API_PROVIDER.getClaims(ECO_WALLET[idToClaim].account.address).then(claims => {
         let transaction = Neon.default.create.claimTx();
         transaction.addClaims(claims);
         return transaction;

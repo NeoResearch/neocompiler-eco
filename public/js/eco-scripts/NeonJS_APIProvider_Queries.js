@@ -22,6 +22,16 @@ function addSharedPrivateNet() {
     //console.log(Neon.settings.networks['SharedPrivateNet'])
 }
 
+function setNeonApiProvider(networkToCall)
+{	
+            if($("#cbx_enable_neoscan")[0].checked){
+            	NEON_API_PROVIDER = new Neon.api.neoscan.instance(networkToCall);
+            }else {
+		//NEON_API_PROVIDER = new Neon.api.neoscan.instance(networkToCall);
+            	NEON_API_PROVIDER = new Neon.api.neoCli.instance(BASE_PATH_CLI);
+            }
+}
+
 function getStorage(scripthashContext, key, url) {
     query = Neon.rpc.Query.getStorage(scripthashContext, key);
     response = query.execute(url);

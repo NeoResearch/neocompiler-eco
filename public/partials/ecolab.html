@@ -1879,13 +1879,11 @@ def Main():
 
         function verifyRPCNetworkForWithdrawUTXO()
         {
-            mynetwork = getCurrentNetworkNickname();
-
             myaddress = $("#createtx_from_address")[0].value;
+            console.log('getBalance: for: ' + myaddress);
             if(myaddress != "") {
-               //Neon.api.neonDB.getBalance(mynetwork,myaddress).then(res => console.log("neoDB"+JSON.stringify(res)));
-               Neon.api.neoscan.getBalance(mynetwork, myaddress).then(res => updateUTXOSCapture(res) );
-               console.log('getBalance: '+mynetwork+' for: '+myaddress);
+               setNeonApiProvider(getCurrentNetworkNickname());
+               NEON_API_PROVIDER.getBalance(myaddress).then(res => updateUTXOSCapture(res) );
             }
         }
 

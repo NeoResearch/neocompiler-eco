@@ -7,7 +7,7 @@
       width="125px;" />
 </p>
 
-## NeoCompiler Eco 3.0
+## NeoCompiler Eco 3.1
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
@@ -18,6 +18,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 #### Browsers/Devices
 
 * Tested with Firefox Quantum - 61.0.1
+* Tested with Chromium - Version 73
 
 #####  The current front-end interface can be acessed from:
 * [https://neocompiler.io](https://neocompiler.io), automatically generated from the source code located in this current repository.
@@ -31,18 +32,21 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 ##### Other useful services
 
 * [https://ecoservices.neocompiler.io](https://ecoservices.neocompiler.io)
-* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io)
-* C# RPC nodes and Python Rest Notifications Server - Check front-end configuration boxes.
+* C# RPC node with watch-only CN feature;
+* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io) or [http://localhost:4000/](http://localhost:4000/) - (disabled as default) - it can be enable by acessing [`.env` file](https://github.com/NeoResearch/neocompiler-eco/blob/master/.env);
+* Python Rest Notifications Server (enable with NEOSCAN).
 
 
 ### What does it currently do
 * Compile input C#, Python, Go or Java code using reliable and safe servers (backend) compilers;
 * Return AVM and ABI codes (more precise of C# compiler);
-* Deploy and invoke code to private net (Current in the back);
+* Deploy and invoke code to private net, shared privatenet, testnet (unsafe), mainet (unsafe);
+* Save your history of activies for testing a given smart contract;
 * Tests with different wallets, synced and with able to provide historic data our activity;
-* Perform different types of blockchain invocations and RPC calls;
+* Perform all up-to-date blockchain invocations and RPC calls;
+* Runs RPC with all enabled plugins and up-to-date features;
 * Use websockets to provide some useful information;
-* It can perform TestNet invokes, or even MainNet (however, this is extremely not recommended).
+* It can be used on TestNet, or even MainNet (however, this is extremely not recommended).
 
 
 ### Roadmap

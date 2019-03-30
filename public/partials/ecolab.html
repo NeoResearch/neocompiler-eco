@@ -1171,7 +1171,17 @@ def Main():
                     <!-- begin invokejs -->
                     <div class="tab-pane active cont" id="tabinvokejs">
                      <form id="forminvokejs" method="post">
-                      <div class="col-md-6">
+
+                      <div class="row">
+                      <div class="col-md-6"> <!-- LEFT SIDE OF INVOKE BOX -->
+                       <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                             <label for="invokehashjs">Contract ScriptHash</label>
+                             <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                           </div>
+                         </div>
+                       </div>
                        <div class="row">
                          <div class="col-md-12 form-inline" style="margin-bottom: 10px">
                            <div class="form-group">
@@ -1180,6 +1190,7 @@ def Main():
                            </div>
                           </div>
                        </div>
+
                        <div class="row">
                            <div class="col-md-6">
                              <div class="form-group">
@@ -1209,31 +1220,14 @@ def Main():
                               </div>
                           </div>
                         </div>
-
-                      </div> <!-- col6 -->
-
-                      <div class="col-md-6">
+                      </div> <!-- LEFT col6 -->
+                      <div class="col-md-6"> <!-- RIGHT SIDE OF INVOKE BOX -->
                         <div class="form-group">
-                          <label for="invokeparamsjs">Params JSON</label><br/>
-                          <textarea id="invokeparamsjs" name="invokeparamsjs" rows="5" cols="50"></textarea>
+                          <label for="invokeparamsjs">Invoke Parameters (JSON)</label><br/>
+                          <textarea id="invokeparamsjs" name="invokeparamsjs" rows="5" style="width: 100%; margin-bottom: 10px;"></textarea>
                         </div>
-                      </div>
-
-                        <div class="row">
-                          <div class="col-md-6">
-                            <div class="form-group">
-                               <label for="invokehashjs">Contract ScriptHash</label>
-                               <input id="invokehashjs" name="invokehashjs" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
-                             </div>
-                           </div>
-
-                           <div class="col-md-6">
-                             <div class="form-group">
-                               <label for="invokeparamsjs1">Params</label>
-                               <input id="invokeparamsjs1" name="invokeparamsjs1" class="form-control" value='' placeholder="Invoke Parameters" style="width: 100%"></textarea>
-                             </div>
-                           </div>
-                        </div>
+                      </div>  <!-- RIGHT col6 -->
+                    </div> <!-- finish row LEFT/RIGHT -->
 
                         <div class="row">
                                  <div class="col-md-3">

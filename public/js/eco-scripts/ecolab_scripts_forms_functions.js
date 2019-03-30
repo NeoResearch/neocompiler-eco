@@ -83,7 +83,8 @@ $("#formCompile").submit(function(e) {
 
             // ------------------------------------------
 	    // calculating extra fee according to AVM size
-	    var avmSize = Math.ceil(hexcodeavm.length/2);
+            var fixedAVGTxSize = 300; //TODO
+	    var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
             $("#contractInfo_AVMSize")[0].value = avmSize;
 	    // TODO - Create a call on neo-plugins SimplePolicy
 	    var freeSize = 1024;
@@ -91,7 +92,7 @@ $("#formCompile").submit(function(e) {
 	    var extraGasNetFeeForBigTx = 0;
 	    if (avmSize > freeSize)
 		extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
-            $("#attachDeployGasFeeJS")[0].value = Math.ceil(extraGasNetFeeForBigTx);
+            $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
             // ------------------------------------------
 	
 

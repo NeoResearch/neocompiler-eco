@@ -182,20 +182,18 @@ function callAppLogOrRawTx(txID, rawTX = false) {
         var txHash = vecRelayedTXs[txID].tx;
         var appLogJson = [];
         if ((vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke") && !rawTX)
+        { 
             appLogJson.push({
                 "jsonrpc": "2.0",
                 "id": 5,
                 "method": "getapplicationlog",
                 "params": [vecRelayedTXs[txID].tx]
             });
+            $("#txtRPCJson").val(JSON.stringify(appLogJson));
+	}
         else
-            appLogJson.push({
-                "jsonrpc": "2.0",
-                "id": 5,
-                "method": "getrawtransaction",
-                "params": [vecRelayedTXs[txID].tx]
-            });
-        $("#txtRPCJson").val(JSON.stringify(appLogJson));
+            $("#txtRPCJson").val('{ "jsonrpc": "2.0", "id": 5, "method": "getrawtransaction", "params": ["'+vecRelayedTXs[txID].tx+'","true"]}');
+
         $('#btnCallJsonRPC').click();
         //$("#pillstab").children().eq(1).find('a').tab('show');
         //$('.nav-pills li:eq(3) a').tab('show');

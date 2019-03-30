@@ -1823,7 +1823,7 @@ def Main():
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(1300); //1.3s
-            $("#cbx_refresh_gen").val(1300); // this should be set here and not in function
+            $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
@@ -1841,7 +1841,7 @@ def Main():
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(800); //0.8s
-            $("#cbx_refresh_gen").val(800);
+            $("#cbx_refresh_headers").val(800);
             setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
@@ -1861,7 +1861,7 @@ def Main():
             setWalletRefreshInterval(15000); //10000 millisec
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
-            $("#cbx_refresh_gen").val(10000);
+            $("#cbx_refresh_headers").val(10000);
             setCompilersByPing(30000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
@@ -1881,7 +1881,7 @@ def Main():
             setWalletRefreshInterval(15000); //10000 millisec
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
-            $("#cbx_refresh_gen").val(10000);
+            $("#cbx_refresh_headers").val(10000);
             setCompilersByPing(30000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
@@ -1898,6 +1898,12 @@ def Main():
             $("#cbx_enable_neoscan")[0].checked = true;
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
+            setWalletRefreshInterval(15000); //10000 millisec
+            setEcoInfoRefreshInterval(15000);
+            setRefreshingIntervalForHeadersInfo(10000); //10s
+            $("#cbx_refresh_headers").val(10000);
+            setCompilersByPing(30000);
+            setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO

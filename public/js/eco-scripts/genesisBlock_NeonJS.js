@@ -11,6 +11,7 @@ function genesisBlockTransfer(genesisAddress, newOwner) {
     //console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
     if ((newOwnerNeoBalance > 0) && (newOwnerGasBalance > 0)) {
         clearInterval(refreshGenesisBlock);
+	$("#cbx_refresh_gen").val(0);
     } else {
         if (!(newOwnerNeoBalance > 0))
             getAllNeoOrGasFromNeoCli(genesisAddress, "NEO", "", true, newOwner);

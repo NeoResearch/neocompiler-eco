@@ -21,6 +21,86 @@ testNetNodes = [
   "locale": "us",
   "type": "REST"
 },
+    {
+      "protocol": "http",
+      "url": "seed1.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed2.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed3.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed4.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed5.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed6.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed7.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed8.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed9.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed10.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "20332",
+      "type": "RPC"
+    },
 {
   "protocol": "https",
   "url": "seed1.neo.org",
@@ -36,6 +116,7 @@ testNetNodes = [
   "location": "China",
   "address": "139.219.106.33",
   "locale": "cn",
+  "port": "20332",
   "type": "RPC"
 },
 {
@@ -43,6 +124,7 @@ testNetNodes = [
   "url": "seed3.neo.org",
   "location": "Canada",
   "address": "47.89.178.72",
+  "port": "20332",
   "locale": "ca",
   "type": "RPC"
 },
@@ -52,6 +134,7 @@ testNetNodes = [
   "location": "Canada",
   "address": "47.88.53.224",
   "locale": "ca",
+  "port": "20332",
   "type": "RPC"
 },
 {
@@ -59,55 +142,56 @@ testNetNodes = [
   "url": "seed5.neo.org",
   "location": "Canada",
   "address": "47.91.92.192",
+  "port": "20332",
   "locale": "ca",
   "type": "RPC"
 },
-{
-  "protocol": "http",
-  "url": "api.otcgo.cn",
-  "location": "China",
-  "address": "121.42.26.131",
-  "locale": "cn",
-  "type": "RPC"
-},
-{
-  "protocol": "http",
-  "url": "test1.cityofzion.io",
-  "location": "USA",
-  "locale": "us",
-  "port": "8880",
-  "type": "RPC"
-},
-{
-  "protocol": "http",
-  "url": "test2.cityofzion.io",
-  "location": "USA",
-  "locale": "us",
-  "port": "8880",
-  "type": "RPC"
-},
-{
-  "protocol": "http",
-  "url": "test3.cityofzion.io",
-  "location": "USA",
-  "locale": "us",
-  "port": "8880",
-  "type": "RPC"
-},
-{
-  "protocol": "http",
-  "url": "test4.cityofzion.io",
-  "location": "USA",
-  "locale": "us",
-  "port": "8880",
-  "type": "RPC"
-},
-{
-  "protocol": "http",
-  "url": "test5.cityofzion.io",
-  "location": "USA",
-  "locale": "us",
-  "port": "8880",
-  "type": "RPC"
-}
+    {
+      "protocol": "http",
+      "url": "future.otcgo.cn",
+      "location": "China",
+      "address": "120.27.19.223",
+      "locale": "cn",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test1.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test2.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test3.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test4.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test5.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    }
 ]

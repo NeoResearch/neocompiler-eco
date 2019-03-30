@@ -794,6 +794,41 @@
                    </div>
                  </div>
                </div>
+               <div class="panel panel-primary">
+                 <div class="panel-heading">
+                     Automatic refreshing (ms)
+                 </div>
+                 <div class="panel-body">
+                   <div class="form-group">
+                     <div class="row">
+                       <div class="col-md-2">
+                         <span class="label label-success">Wallet balances</span>
+                         <br/><input type="text" id="cbx_refresh_wallet" placeholder="10000" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Headers info</span>
+                         <br/><input type="text" id="cbx_refresh_headers" placeholder="1300" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Ping compilers</span>
+                         <br/><input type="text" id="cbx_refresh_compilers" placeholder="20000" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Ping neo-clients</span>
+                         <br/><input type="text" id="cbx_refresh_neocli" placeholder="10000" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">GenesiBlock</span>
+                         <br/><input type="text" id="cbx_refresh_gen" placeholder="10000" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">Eco metadata</span>
+                         <br/><input type="text" id="cbx_refresh_ecometadata" placeholder="10000" size="7">
+                       </div>
+                      </div>
+                   </div>
+                 </div>
+               </div>
          </div>
          <!-- END CONFIGURATIONS INFO -->
          <!-- ======================================================== -->
@@ -1454,6 +1489,7 @@ def Main():
     {
       if(refreshIntervalWalletId!=0)
         clearInterval(refreshIntervalWalletId);
+      $("#cbx_refresh_wallet").val(intervalForRefreshing);
 
       refreshIntervalWalletId = setInterval(function() {
           populateAllWalletData();
@@ -1465,6 +1501,7 @@ def Main():
     {
       if(refreshIntervalEcoMetadataStatsId!=0)
         clearInterval(refreshIntervalEcoMetadataStatsId);
+      $("#cbx_refresh_ecometadata").val(intervalForRefreshing);
 
       refreshIntervalEcoMetadataStatsId = setInterval(function() {
           updateEcoMetadataInfo();
@@ -1475,6 +1512,7 @@ def Main():
     {
       if(refreshIntervalCompilers!=0)
         clearInterval(refreshIntervalCompilers);
+      $("#cbx_refresh_compilers").val(intervalForRefreshing);
 
       refreshIntervalCompilers = setInterval(function() {
           pingCompilers();
@@ -1485,6 +1523,7 @@ def Main():
     {
       if(refreshIntervalNeoCliNodes!=0)
         clearInterval(refreshIntervalNeoCliNodes);
+      $("#cbx_refresh_neocli").val(intervalForRefreshing);
 
       refreshIntervalNeoCliNodes = setInterval(function() {
           automaticNeoCliNodeSelection();
@@ -1495,6 +1534,7 @@ def Main():
     {
       if(refreshGenesisBlock!=0)
         clearInterval(refreshGenesisBlock);
+      $("#cbx_refresh_gen").val(intervalForRefreshing);
 
       refreshGenesisBlock = setInterval(function() {
           genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
@@ -1663,6 +1703,25 @@ def Main():
         $("#neoscan_path")[0].value = this.value;
     });
 
+    $("#cbx_refresh_wallet").on('change', function() {
+        setWalletRefreshInterval(this.value);
+    });
+    $("#cbx_refresh_headers").on('change', function() {
+        setRefreshingIntervalForHeadersInfo(this.value);
+    });
+    $("#cbx_refresh_compilers").on('change', function() {
+        setCompilersByPing(this.value);
+    });
+    $("#cbx_refresh_neocli").on('change', function() {
+        setIntervalAutomaticNeoCliNodeWithRandomSample(this.value);
+    });
+    $("#cbx_refresh_gen").on('change', function() {
+        setGenesisBlock(this.value);
+    });
+    $("#cbx_refresh_ecometadata").on('change', function() {
+        setEcoInfoRefreshInterval(this.value);
+    });
+
 
     /*
     //DEPRECATED SELECTION FOX FOR PYTHON REST SELECTION
@@ -1764,6 +1823,7 @@ def Main():
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(1300); //1.3s
+            $("#cbx_refresh_gen").val(1300); // this should be set here and not in function
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
@@ -1781,7 +1841,8 @@ def Main():
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(800); //0.8s
-            setCompilersByPing(30000);
+            $("#cbx_refresh_gen").val(800);
+            setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
@@ -1800,6 +1861,7 @@ def Main():
             setWalletRefreshInterval(15000); //10000 millisec
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
+            $("#cbx_refresh_gen").val(10000);
             setCompilersByPing(30000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
@@ -1819,6 +1881,7 @@ def Main():
             setWalletRefreshInterval(15000); //10000 millisec
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
+            $("#cbx_refresh_gen").val(10000);
             setCompilersByPing(30000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 

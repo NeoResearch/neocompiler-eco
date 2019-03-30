@@ -113,6 +113,7 @@ function queryNeoCliAndNeoScanHeaders(){
           $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
               $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
               $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
+              lastNeoCliHeight = resultBlockCount.result;
               $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
           }); // mempool
       }); // NEO block count

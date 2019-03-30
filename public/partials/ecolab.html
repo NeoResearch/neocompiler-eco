@@ -1136,8 +1136,8 @@ def Main():
 
                               <div class="col-md-3">
                                 <div class="form-group">
-                                  <label for="attachDeployGasFeeJS">Net fee (in GAS)</label>
-                                  <input id="attachDeployGasFeeJS" name="attachDeployGasFeeJS" class="form-control" value="0" placeholder="Send GAS NetFee"/>
+                                  <label for="attachDeployGasFeeJS">Network fee (in GAS)</label>
+                                  <input type="number" min="0" step="0.00000001" id="attachDeployGasFeeJS" name="attachDeployGasFeeJS" class="form-control" value="0" placeholder="Send GAS NetFee"/>
                                 </div>
                               </div>
 
@@ -1171,6 +1171,7 @@ def Main():
                     <!-- begin invokejs -->
                     <div class="tab-pane active cont" id="tabinvokejs">
                      <form id="forminvokejs" method="post">
+                      <div class="col-md-6">
                        <div class="row">
                          <div class="col-md-12 form-inline" style="margin-bottom: 10px">
                            <div class="form-group">
@@ -1180,25 +1181,43 @@ def Main():
                           </div>
                        </div>
                        <div class="row">
-                           <div class="col-md-12 form-inline" style="margin-bottom: 10px">
+                           <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="attachSystemgasjs">System fee (in GAS)</label>
-                                 <input id="attachSystemgasjs" name="attachSystemgasjs" class="form-control" value="0" placeholder="Send GAS Sys"/>
+                                 <label for="attachSystemgasjs">System fee (GAS) </label>
+                                 <input id="attachSystemgasjs" type="number" min="0" step="0.00000001" name="attachSystemgasjs" class="form-control"  value="0" placeholder="Send GAS Sys"/>
                              </div>
+                           </div>
+                           <div class="col-md-6">
                              <div class="form-group">
-                                 <label for="attachgasfeejs">Net fee (in GAS)</label>
-                                 <input id="attachgasfeejs" name="attachgasfeejs" class="form-control" value="0" placeholder="Send GAS NetFee"/>
-                             </div>
-                             <div class="form-group">
-                               <label for="attachneojs">Attach NEO</label>
-                               <input id="attachneojs" name="attachneojs" class="form-control" value="0" placeholder="Attach NEO"/>
-                             </div>
-                             <div class="form-group">
-                                 <label for="attachgas">GAS</label>
-                                 <input id="attachgasjs" name="attachgasjs" class="form-control" value="0" placeholder="Attach GAS"/>
+                                 <label for="attachgasfeejs">Network fee (GAS)</label>
+                                 <input id="attachgasfeejs" type="number" min="0" step="0.00000001" name="attachgasfeejs" class="form-control" value="0" placeholder="Send GAS NetFee"/>
                              </div>
                            </div>
                         </div>
+
+                        <div class="row">
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="attachneojs">Attach NEO</label>
+                                <input id="attachneojs" type="number" min="0" step="0.00000001" name="attachneojs" class="form-control" value="0" placeholder="Attach NEO"/>
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="attachgas">Attach GAS</label>
+                                  <input id="attachgasjs" type="number" min="0" step="0.00000001" name="attachgasjs" class="form-control" value="0" placeholder="Attach GAS"/>
+                              </div>
+                          </div>
+                        </div>
+
+                      </div> <!-- col6 -->
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="invokeparamsjs">Params JSON</label><br/>
+                          <textarea id="invokeparamsjs" name="invokeparamsjs" rows="5" cols="50"></textarea>
+                        </div>
+                      </div>
 
                         <div class="row">
                           <div class="col-md-6">
@@ -1210,8 +1229,8 @@ def Main():
 
                            <div class="col-md-6">
                              <div class="form-group">
-                               <label for="invokeparamsjs">Params</label>
-                               <input id="invokeparamsjs" name="invokeparamsjs" class="form-control" value='' placeholder="Invoke Parameters" style="width: 100%"></textarea>
+                               <label for="invokeparamsjs1">Params</label>
+                               <input id="invokeparamsjs1" name="invokeparamsjs1" class="form-control" value='' placeholder="Invoke Parameters" style="width: 100%"></textarea>
                              </div>
                            </div>
                         </div>

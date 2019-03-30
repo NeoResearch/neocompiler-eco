@@ -1450,27 +1450,70 @@ def Main():
     var vecRelayedTXs = [];
     drawRelayedTXs();
 
+    function setWalletRefreshInterval(intervalForRefreshing)
+    {
+      if(refreshIntervalWalletId!=0)
+        clearInterval(refreshIntervalWalletId);
+
+      refreshIntervalWalletId = setInterval(function() {
+          populateAllWalletData();
+          searchForTXs();
+      }, intervalForRefreshing);
+    }
+
+    function setEcoInfoRefreshInterval(intervalForRefreshing)
+    {
+      if(refreshIntervalEcoMetadataStatsId!=0)
+        clearInterval(refreshIntervalEcoMetadataStatsId);
+
+      refreshIntervalEcoMetadataStatsId = setInterval(function() {
+          updateEcoMetadataInfo();
+      }, intervalForRefreshing);
+    }
+
+    function setCompilersByPing(intervalForRefreshing)
+    {
+      if(refreshIntervalCompilers!=0)
+        clearInterval(refreshIntervalCompilers);
+
+      refreshIntervalCompilers = setInterval(function() {
+          pingCompilers();
+      }, intervalForRefreshing);
+    }
+
+    function setIntervalAutomaticNeoCliNodeWithRandomSample(intervalForRefreshing)
+    {
+      if(refreshIntervalNeoCliNodes!=0)
+        clearInterval(refreshIntervalNeoCliNodes);
+
+      refreshIntervalNeoCliNodes = setInterval(function() {
+          automaticNeoCliNodeSelection();
+      }, intervalForRefreshing);
+    }
+
+    function setGenesisBlock(intervalForRefreshing)
+    {
+      if(refreshGenesisBlock!=0)
+        clearInterval(refreshGenesisBlock);
+
+      refreshGenesisBlock = setInterval(function() {
+          genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+      }, intervalForRefreshing);
+    }
+
     //Check current webpage and starts with localhost or neocompiler public website
     $(document).ready(function() {
         //console.log("checking wallets");
-        refreshIntervalId = setInterval(function() {
-            populateAllWalletData();
-            searchForTXs();
-            updateEcoMetadataInfo();
-        }, 10000); // 30000 milsec
+        setWalletRefreshInterval(10000); //10000 millisec
+        setEcoInfoRefreshInterval(10000);
+        setCompilersByPing(20000);
+        setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+        setGenesisBlock(10000);
 
-        refreshIntervalCompilersAndNodes = setInterval(function() {
-            pingCompilers();
-            automaticNeoCliNodeSelection();
-        }, 20000); // 20s
         updateAddressSelectionBox();
         updateEcoMetadataInfo();
         changeWalletInfo();
         recoveringPageData();
-
-        refreshGenesisBlock = setInterval(function() {
-            genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU", "AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
-        }, 10000); // 30000 milsec
 
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if (window.location.href.indexOf("localhost") != -1) {
@@ -1716,7 +1759,13 @@ def Main():
 
         if (mynetworkIndex == 0) {
             $("#cbx_enable_neoscan")[0].checked = false;
+            ENABLE_NEOSCAN_TRACKING = false;
             $("#cbx_query_neoscan")[0].checked = false;
+            setWalletRefreshInterval(10000); //10000 millisec
+            setEcoInfoRefreshInterval(10000);
+            setRefreshingIntervalForHeadersInfo(1300); //1.3s
+            setCompilersByPing(20000);
+            setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
@@ -1727,7 +1776,13 @@ def Main():
 
         if (mynetworkIndex == 1) {
             $("#cbx_enable_neoscan")[0].checked = false;
+            ENABLE_NEOSCAN_TRACKING = false;
             $("#cbx_query_neoscan")[0].checked = false;
+            setWalletRefreshInterval(10000); //10000 millisec
+            setEcoInfoRefreshInterval(10000);
+            setRefreshingIntervalForHeadersInfo(800); //0.8s
+            setCompilersByPing(30000);
+            setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");
@@ -1740,7 +1795,13 @@ def Main():
         if (mynetworkIndex == 2) {
             // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
             $("#cbx_enable_neoscan")[0].checked = true;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
+            setWalletRefreshInterval(15000); //10000 millisec
+            setEcoInfoRefreshInterval(15000);
+            setRefreshingIntervalForHeadersInfo(10000); //10s
+            setCompilersByPing(30000);
+            setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
@@ -1753,7 +1814,13 @@ def Main():
         if (mynetworkIndex == 3) {
             // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
             $("#cbx_enable_neoscan")[0].checked = true;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
+            setWalletRefreshInterval(15000); //10000 millisec
+            setEcoInfoRefreshInterval(15000);
+            setRefreshingIntervalForHeadersInfo(10000); //10s
+            setCompilersByPing(30000);
+            setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
@@ -1766,6 +1833,7 @@ def Main():
         if (mynetworkIndex == 4) {
             // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
             $("#cbx_enable_neoscan")[0].checked = true;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");

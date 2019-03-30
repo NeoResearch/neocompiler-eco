@@ -6,8 +6,12 @@ var numberDeploys = 0;
 var numberInvokes = 0;
 
 /* Mostly used to get the current commit of GitHub repo */
-var refreshIntervalId = 0;
-var refreshIntervalCompilersAndNodes = 0;
+var refreshIntervalWalletId = 0;
+var refreshIntervalEcoMetadataStatsId = 0;
+var refreshIntervalNeoCliNodes = 0;
+var refreshIntervalCompilers = 0;
+var refreshGenesisBlock = 0;
+var refreshHeadersNeoCliNeoScan = 0;
 
 /* Set Default API Provider var for NEONJS */
 var NEON_API_PROVIDER;
@@ -20,6 +24,7 @@ var FULL_ACTIVITY_HISTORY = false;
 
 /* Automatic pic csharp node at best height */
 var AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH = true;
+var lastNeoCliHeight = 0;
 
 /* Mostly used to get the current commit of GitHub repo */
 var ENV_VARS = "";

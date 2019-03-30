@@ -1,19 +1,16 @@
 function automaticNeoCliNodeSelection() {
     if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH) {
         var availableNodes = $("#selectionBoxRPCNodes")[0].length;
-        var bestNode = $("#selectionBoxRPCNodes")[0][0].value;
-        var bestHeight = 0;
+        var bestNode = BASE_PATH_CLI;
+        var bestHeight = lastNeoCliHeight;
         var maxNumberOfNodesToTry = Math.min(3, availableNodes);
-        var randomNodes = new Array(maxNumberOfNodesToTry);
-        for (var i = 0; i < maxNumberOfNodesToTry; i++)
-            randomNodes[i] = -1;
+        var mapRandomNodes = new Map();
         for (var t = 0; t < maxNumberOfNodesToTry; t++) {
             var randomNode = Math.floor(Math.random() * maxNumberOfNodesToTry);
-            while (randomNodes[t] == randomNode)
+            while (mapRandomNodes.has(randomNode))
                 randomNode = Math.floor(Math.random() * maxNumberOfNodesToTry);
-            randomNodes[t] = randomNode;
+	    mapRandomNodes.set(randomNode, "true");
             var neoCliNodeToGetHeight = $("#selectionBoxRPCNodes")[0][randomNode].value;
-
             requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": " + randomNode + ", \"method\": \"getblockcount\", \"params\": [\"\"] }";
             //console.log(requestJson);
 

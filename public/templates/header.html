@@ -92,29 +92,43 @@ function startSocketIoConnections(firstInitialization = false) {
         var tLeft = dateGMT0.toTimeString();
         var output = '<i class="fas fa-stopwatch"></i> ' + tLeft.substring(0, 8);
         $("#online")[0].innerHTML = output + ' -> ' + onlineStats;
-
-        $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
-            $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
-                $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
-                    $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
-                    $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
-                    $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
-                }); // mempool
-            }); // NEO block count
-        }); // NEO useragent
-
-        if (ENABLE_NEOSCAN_TRACKING) {
-            $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_height", function(result) {
-                $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: " + result.height;
-            }); // neoscan top block
-            /*
-            $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
-                      $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
-            }); // Python user agent + block count*/
-        } else {
-            $("#postgreshighestblock")[0].innerHTML = "";
-            //$("#nodeRestHeader")[0].innerHTML = "";
-        }
     });
+}
+
+setRefreshingIntervalForHeadersInfo(800); //0.8s
+
+function setRefreshingIntervalForHeadersInfo(intervalForRefreshing)
+{
+  if(refreshHeadersNeoCliNeoScan!=0)
+    clearInterval(refreshHeadersNeoCliNeoScan);
+
+  refreshHeadersNeoCliNeoScan = setInterval(function() {
+      queryNeoCliAndNeoScanHeaders();
+  }, intervalForRefreshing);
+}
+
+function queryNeoCliAndNeoScanHeaders(){
+  $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
+      $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {
+          $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getrawmempool", "params": [1] }', function(resultRawMemPool) {
+              $("#nodeRPCHeader")[0].innerHTML = resultGetVersion.result.useragent;
+              $("#nodeRPCHeader")[0].innerHTML += " -> H: " + resultBlockCount.result;
+              $("#nodeRPCHeader")[0].innerHTML += " -> MemPool: " + resultRawMemPool.result.verified.length + "/" + resultRawMemPool.result.unverified.length;
+          }); // mempool
+      }); // NEO block count
+  }); // NEO useragent
+
+  if (ENABLE_NEOSCAN_TRACKING) {
+      $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_height", function(result) {
+          $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: " + result.height;
+      }); // neoscan top block
+      /*
+      $.getJSON(BASE_PATH_PY_REST+"/v1/status", function(result) {
+                $("#nodeRestHeader")[0].innerHTML = "REST: " + result.version + " -> H2: "+result.current_height;
+      }); // Python user agent + block count*/
+  } else {
+      $("#postgreshighestblock")[0].innerHTML = "";
+      //$("#nodeRestHeader")[0].innerHTML = "";
+  }
 }
 </script>

@@ -37,35 +37,62 @@ var app = angular.module('neoCompilerIoWebApp', [
 ]);
 
 /* Routes */
-app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-
+angular.
+module('neoCompilerIoWebApp').
+config(['$routeProvider',
+    function config($routeProvider) {
+        $routeProvider.
         //home page
-        .when("/", {
-            templateUrl: "public/partials/home.html",
-            controller: "PageCtrl"
-        })
-
+        when("/", {
+            templateUrl: "public/partials/home.html"
+        }).
         // Pages
-        .when("/neoeditor", {
-            templateUrl: "public/partials/neoeditor.html",
-            controller: "PageCtrl"
-        })
-        .when("/ecolab", {
-            templateUrl: "public/partials/ecolab.html",
-            controller: "PageCtrl"
-        })
-        .when("/about", {
-            templateUrl: "public/partials/about.html",
-            controller: "PageCtrl"
-        })
-
+        when("/neoeditor", {
+            templateUrl: "/public/partials/neoeditor.html"
+        }).
+        when("/ecolab", {
+            templateUrl: "/public/partials/ecolab.html",
+            reloadOnUrl: false,
+            reloadOnSearch: false
+        }).
+        when("/ecolab/:tab", {
+            templateUrl: "/public/partials/ecolab.html",
+            reloadOnUrl: false,
+            reloadOnSearch: false,
+            controller: routeLoaderPills
+        }).
+        when("/about", {
+            templateUrl: "/public/partials/about.html"
+        }).
         // else 404
-        .otherwise("/404", {
-            templateUrl: "public/partials/404.html",
-            controller: "PageCtrl"
-        });
-}]);
+        otherwise("/public/partials/404.html");
+    }
+]);
+
+function routeLoaderPills($scope, $location) {
+    currentURL = $location.url().slice(8);
+    //console.log("Loading Pills on startup: " + currentURL);
+    $('.nav-pills a[data-target="#' + currentURL + '"]').tab('show');
+}
+
+var currentURL = "";
+app.controller(
+    "AppController",
+    function AppController($scope, $location, $route) {
+        //var vm = this;
+        currentURL = "";
+        // When the location changes, capture the state of the full URL.
+        $scope.$on(
+            "$locationChangeSuccess",
+            function locationChanged() {
+                currentURL = $location.url().slice(8);
+                //vm.currentUrl = currentURL;			
+                //console.log("loading I." + currentURL);
+                $('.nav-pills a[data-target="#' + currentURL + '"]').tab('show');
+            }
+        );
+    }
+);
 
 /* Controls all other Pages */
 app.controller('PageCtrl', function($scope, /*$location, */ $http) {
@@ -79,8 +106,6 @@ app.controller('PageCtrl', function($scope, /*$location, */ $http) {
     }, function(error) {
         console.log("ENV_VARS error:" + JSON.stringify(error));
     });
-
-
     // Activates Tooltips for Social Links
     //$('.tooltip-social').tooltip({
     //  selector: "a[data-toggle=tooltip]"

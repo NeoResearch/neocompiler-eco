@@ -34,9 +34,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 
     Neon.default.sendAsset(config)
         .then(res => {
-            //console.log("createTxFromAccount:")
-            //console.log(res.response);
-            createNotificationOrAlert("SendTX", res.response.result, 5000);
+            createNotificationOrAlert("Asset_Send_Normal_Account", res.response.result, 5000);
 
             if (FULL_ACTIVITY_HISTORY) {
                 var sendParams = {
@@ -48,13 +46,9 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
                 }
                 updateVecRelayedTXsAndDraw(res.response.txid, "Send", "-", JSON.stringify(sendParams));
             }
-            /*if(typeof(res.response.result) == "boolean") // 2.X
-           createNotificationOrAlert("SendTX", res.response.result, 5000);
-        else // 3.X
-           createNotificationOrAlert("SendTX", "Status: " + res.response.result.succeed +  " Reason:" + res.response.result.reason, 5000);*/
         })
         .catch(e => {
-            createNotificationOrAlert("SendTX", "Transfer transaction has failed!", 5000);
+            createNotificationOrAlert("Asset_Send_Normal_Account", "Transfer transaction has failed!", 5000);
             console.log(e)
         })
 }
@@ -75,7 +69,7 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
         .then(res => {
             //console.log("createClaimGasTX:")
             //console.log(res.response)
-            createNotificationOrAlert("ClaimTX", res.response.result, 5000);
+            createNotificationOrAlert("GAS_Claim_Normal_Account", res.response.result, 5000);
 
             if (FULL_ACTIVITY_HISTORY) {
                 var claimParams = {
@@ -90,7 +84,7 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
             //   createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
         })
         .catch(e => {
-            createNotificationOrAlert("ClaimTX", "Claim transaction has failed!", 5000);
+            createNotificationOrAlert("GAS_Claim_Normal_Account", "Claim transaction has failed!", 5000);
             console.log(e)
         })
 }

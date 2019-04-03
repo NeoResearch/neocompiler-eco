@@ -465,11 +465,9 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">
                           Wallet
-                          <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button> <br>
+                          <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                         </div>
                         <div class="panel-body">
-
-                            <i>By clicking in the arrow it will self-transfer all NEO to that wallet, accessing UNCLAIMABLE->CLAIMABLE gas, claim will be done automatically</i>
                             <div id="divWalletsStatus" class="table-responsive"></div>
                         </div>
                     </div>
@@ -1045,22 +1043,31 @@ def Main():
         <!-- begin activity -->
         <div class="tab-pane fade" id="activity">
           <div class="panel panel-info" id="divNetworkRelayed">
-              <div class="panel-heading">Historical Relayed TX's</div>
+              <div class="panel-heading">Historical Relayed TX's
+                   <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-info btn-sm"> <i class="fas fa-sync-alt"></i></button>
+              </div>
               <div class="panel-body">
                   <span type="checkbox" class="label label-success">Full history</span>
                   <input type="checkbox" id="cbx_fullHistory"></input> <br>
-                  <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-success btn-sm"> <i class="fas fa-sync-alt"></i></button><br>
                   <div id="divRelayedTXs" class="table-responsive"></div>
-                  <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-download"></i> TX's Activity</button><br>
-                  <span type="checkbox" class="label label-info"><i class="fas fa-upload"></i> Historical Activity</span>
-                  <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()">
+                  <div class="row">
+                        <div class="col-md-2">
+                          <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-file-download"></i><font size='1'> DOWNLOAD</font></button><br>
+                        </div>
+                        <div class="col-md-2">
+                          <span type="checkbox" class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD</span>
+                          <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()">
+                        </div>
+                        <div class="col-md-2">
+                          <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm"><i class="fas fa-table"></i><font size='1'> Generate TX's Report (TODO)</font></button>
+                        </div>
+                   </div>
                   <span type="checkbox" class="label label-success">Open Replay TX's Tools</span>
                   <input type="checkbox" data-toggle="collapse" data-target="#replayTXsDiv" onClick="openReplayToolsTXs()" id="btnReplayTXsTools"></input><br>
                   <div id="replayTXsDiv" class="collapse">
                       <textarea id="txt_replayOrder" readonly="readonly" rows="5" cols="100" placeholder="Order to replay" class="form-control"></textarea>
-                      <button id="btnReplayTXs" onClick="replayTXs()" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-sm">Replay all TXs</button>
+                      <button id="btnReplayTXs" onClick="replayTXs()" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-primary btn-sm">Replay all TXs</button>
                   </div>
-                  <button type="submit" onClick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm">Generate TX's Report (TODO)</button><br>
               </div>
           </div>
         </div>
@@ -1561,9 +1568,6 @@ def Main():
         setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
         setGenesisBlock(10000);
 
-        updateAddressSelectionBox();
-        updateEcoMetadataInfo();
-        changeWalletInfo();
         recoveringPageData();
 
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
@@ -1573,7 +1577,8 @@ def Main():
         updatePATHS();
         //This should be after Paths update
         automaticNeoCliNodeSelection();
-        populateAllWalletData();
+        updateAllWalletData();
+        updateEcoMetadataInfo();
     });
 
     function updateEcoMetadataInfo() {
@@ -1930,6 +1935,7 @@ def Main():
         //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
         updateBASEPATHS();
+        populateAllWalletData();
     }
 
     function getCurrentNetworkNickname() {

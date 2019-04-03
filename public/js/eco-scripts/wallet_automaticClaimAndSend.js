@@ -1,3 +1,14 @@
+function fillSpanTextOrInputBox(boxToFill, contentToFill)
+{
+	if (boxToFill != "")
+	{
+		if(boxToFill != "#createtx_NEO" && boxToFill != "#createtx_GAS")
+			$(boxToFill)[0].innerHTML = contentToFill;
+		else
+			$(boxToFill).val(contentToFill);
+	}
+}
+
 function automaticClaim(amountClaimable, idToAutomaticClaim) {
     //console.log("amountClaimable is " +  amountClaimable + " of index "+ idToAutomaticClaim);
 
@@ -30,14 +41,15 @@ function callClaimableFromNeoCli(adddressToGet, boxToFill = "") {
                 var resultQueryAddress = resultClaimable.result.address;
                 idToAutomaticClaim = searchAddrIndexFromBase58(resultQueryAddress);
                 //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
-                if ($("#walletGas" + idToAutomaticClaim).val() == map[resultQueryAddress])
+		var currentGasAmmount = Number($("#walletGas" + idToAutomaticClaim)[0].innerHTML);
+                if (currentGasAmmount == map[resultQueryAddress])
                     automaticClaim(amountClaimable, idToAutomaticClaim);
-                map[resultQueryAddress] = $("#walletGas" + idToAutomaticClaim).val();
+                map[resultQueryAddress] = currentGasAmmount;
                 //console.log(map);
             }
 
-            if (boxToFill != "")
-                $(boxToFill).val(amountClaimable);
+	    fillSpanTextOrInputBox(boxToFill, amountClaimable);
+
             return amountClaimable;
         },
         "json" // The format the response should be in
@@ -46,7 +58,7 @@ function callClaimableFromNeoCli(adddressToGet, boxToFill = "") {
     }); //End of POST for search
 }
 
-function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "") {
+function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "", indexKA) {
     var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimed\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getclaimable request to: "+BASE_PATH_CLI);
     $.post(
@@ -59,8 +71,8 @@ function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "") {
             if (resultUnclaimed.result)
                 amountUnclaimable = resultUnclaimed.result.unavailable;
 
-            if (boxToFill != "")
-                $(boxToFill).val(amountUnclaimable);
+	    var selfTransferID = "selfTransfer("+indexKA+")";
+	    fillSpanTextOrInputBox(boxToFill, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ');
 
             return amountUnclaimable;
         },
@@ -86,17 +98,14 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
         function(resultJsonData) {
-            if (boxToFill != "")
-                $(boxToFill).val(0);
-
-
+	    fillSpanTextOrInputBox(boxToFill,0);
             if (resultJsonData.result) {
                 for (i = 0; i < resultJsonData.result.balances.length; ++i) {
                     if (resultJsonData.result.balances[i].asset == assetToGetHash) {
                         var availableAmount = resultJsonData.result.balances[i].value;
                         //console.log(assetToGet + " balance is:" + result.balance[i].amount);
-                        if (boxToFill != "")
-                            $(boxToFill).val(availableAmount);
+		        fillSpanTextOrInputBox(boxToFill, availableAmount);
+
                         if (automaticTransfer) {
                             if (to === "")
                                 to = adddressToGet;
@@ -122,7 +131,9 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
                         }
                     }
                 }
-            }
+            }else{
+                fillSpanTextOrInputBox(boxToFill,"-"); //fills with 0 if reponse does not have result
+	    }
         },
         "json" // The format the response should be in
     ).fail(function() {
@@ -142,7 +153,7 @@ function fillAllGas() {
 }
 
 function populateAllWalletData() {
-    drawWalletsStatus();
+    //drawWalletsStatus();
 
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
@@ -156,7 +167,7 @@ function populateAllWalletData() {
               callClaimableFromNeoScan(addressToGet, "#walletClaim" + ka);
 
             if(!$("#cbx_query_neoscan")[0].checked)
-              callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka);
+              callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka, ka);
             else
               callUnclaimedFromNeoScan(addressToGet, "#walletUnclaim" + ka);
         }

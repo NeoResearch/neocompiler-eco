@@ -5,27 +5,24 @@ function drawWalletsStatus() {
     table.style.width = '20px';
 
     var row = table.insertRow(-1);
-    var headers1 = document.createElement('div');
-    var headers2 = document.createElement('div');
-    var headers3 = document.createElement('div');
-    var headers4 = document.createElement('div');
-    var headers5 = document.createElement('div');
-    var headers6 = document.createElement('div');
-    var headersDetails = document.createElement('div');
-    headers1.innerHTML = "<b> ID </b>";
-    row.insertCell(-1).appendChild(headers1);
-    headersDetails.innerHTML = "<b> PUBKEY </b>";
-    row.insertCell(-1).appendChild(headersDetails);
-    headers2.innerHTML = "<b> NEO </b>";
-    row.insertCell(-1).appendChild(headers2);
-    headers3.innerHTML = "<b> GAS </b>";
-    row.insertCell(-1).appendChild(headers3);
-    headers4.innerHTML = "<b> CLAIMABLE </b>";
-    row.insertCell(-1).appendChild(headers4);
-    headers5.innerHTML = "<b> </b>";
-    row.insertCell(-1).appendChild(headers5);
-    headers6.innerHTML = "<b> UNCLAIMABLE </b>";
-    row.insertCell(-1).appendChild(headers6);
+    var headersID = document.createElement('div');
+    var headersNeoBalance = document.createElement('div');
+    var headersGasBalance = document.createElement('div');
+    var headersUnclaimed = document.createElement('div');
+    var headersUnavailable = document.createElement('div');
+    var headersAddress = document.createElement('div');
+    headersID.innerHTML = "<b><center><font size='1' color='green'>ID</font></b>";
+    row.insertCell(-1).appendChild(headersID);
+    headersAddress.innerHTML = "<b><center><font size='1' color='green'>ADDRESS</font></b>";
+    row.insertCell(-1).appendChild(headersAddress);
+    headersNeoBalance.innerHTML = "<b><center><font size='1' color='green'>NEO</font></b>";
+    row.insertCell(-1).appendChild(headersNeoBalance);
+    headersGasBalance.innerHTML = "<b><center><font size='1' color='green'>GAS</font></b>";
+    row.insertCell(-1).appendChild(headersGasBalance);
+    headersUnclaimed.innerHTML = "<b><center><font size='1' color='green'>UNCLAIMED</font></b>";
+    row.insertCell(-1).appendChild(headersUnclaimed);
+    headersUnavailable.innerHTML = "<b><center><font size='1' color='green'>UNAVAILABLE</font></b>";
+    row.insertCell(-1).appendChild(headersUnavailable);
 
     for (ka = 0; ka < ECO_WALLET.length; ka++) {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
@@ -34,7 +31,7 @@ function drawWalletsStatus() {
             //Insert button that remove rule
             var b = document.createElement('button');
             b.setAttribute('content', 'test content');
-            b.setAttribute('class', 'btn btn-danger');
+            b.setAttribute('class', 'btn btn-danger btn-sm');
             b.setAttribute('value', ka);
             //b.onclick = function () {buttonRemoveRule();};
             //b.onclick = function () {alert(this.value);};
@@ -46,7 +43,7 @@ function drawWalletsStatus() {
 
             var addressBase58 = document.createElement('button');
             addressBase58.setAttribute('content', 'test content');
-            addressBase58.setAttribute('class', 'btn btn-info');
+            addressBase58.setAttribute('class', 'btn btn-success btn-sm');
             addressBase58.setAttribute('value', i);
             addressBase58.setAttribute('id', "btnGetBalanceAddress" + i);
             addressBase58.onclick = function() {
@@ -55,43 +52,28 @@ function drawWalletsStatus() {
             addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 3) + "..." + ECO_WALLET[ka].account.address.slice(-3);
             txRow.insertCell(-1).appendChild(addressBase58);
 
-            var walletNeo = document.createElement('input');
+            var walletNeo = document.createElement('span');
             walletNeo.setAttribute('id', "walletNeo" + ka);
-            walletNeo.setAttribute("value", "-");
-            walletNeo.setAttribute("readonly", "true");
-            walletNeo.style.width = '90px'
+            walletNeo.setAttribute("class", "badge");
+            walletNeo.textContent = "-";
             txRow.insertCell(-1).appendChild(walletNeo);
 
-            var walletGas = document.createElement('input');
+            var walletGas = document.createElement('span');
             walletGas.setAttribute('id', "walletGas" + ka);
-            walletGas.setAttribute("value", "-");
-            walletGas.setAttribute("readonly", "true");
-            walletGas.style.width = '80px'
+            walletGas.setAttribute("class", "badge");
+            walletGas.textContent = "-";
             txRow.insertCell(-1).appendChild(walletGas);
 
-            var walletClaim = document.createElement('input');
+            var walletClaim = document.createElement('span');
             walletClaim.setAttribute('id', "walletClaim" + ka);
-            walletClaim.setAttribute("value", "-");
-            walletClaim.setAttribute("readonly", "true");
-            walletClaim.style.width = '80px'
+            walletClaim.setAttribute("class", "badge");
+	    walletClaim.textContent = "-";
             txRow.insertCell(-1).appendChild(walletClaim);
 
-            var b = document.createElement('button');
-            b.setAttribute('content', 'test content');
-            b.setAttribute('class', 'btn btn-warning');
-            b.setAttribute('value', ka);
-            b.onclick = function() {
-                selfTransfer(this.value);
-            };
-            b.innerHTML = '<i class="fas fa-sm fa-arrow-left"></i>';
-
-            txRow.insertCell(-1).appendChild(b);
-
-            var walletUnclaim = document.createElement('input');
+            var walletUnclaim = document.createElement('span');
             walletUnclaim.setAttribute('id', "walletUnclaim" + ka);
-            walletUnclaim.setAttribute("value", "-");
-            walletUnclaim.setAttribute("readonly", "true");
-            walletUnclaim.style.width = '80px'
+            walletUnclaim.setAttribute("class", "badge");
+	    walletUnclaim.textContent = "-";
             txRow.insertCell(-1).appendChild(walletUnclaim);
         } //Check print and encrypted status
     } //Finishes loop that draws each relayed transaction
@@ -315,7 +297,6 @@ function updateInfoMSOwners() {
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function updateAddressSelectionBox() {
     updateInfoMSOwners();
-    drawWalletsStatus();
     //Adding all known address to NeonInvokeSelectionBox
     addAllKnownAddressesToSelectionBox("wallet_invokejs");
     addAllKnownAddressesToSelectionBox("wallet_deployjs");
@@ -344,6 +325,7 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
 function updateAllWalletData() {
     populateAllWalletData();
     updateAddressSelectionBox();
+    drawWalletsStatus();
     changeWalletInfo();
 }
 

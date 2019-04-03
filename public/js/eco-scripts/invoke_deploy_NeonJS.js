@@ -112,11 +112,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
     }
 
     Neon.default.doInvoke(config).then(res => {
-        console.log(res);
-        if (typeof(res.response.result) == "boolean") // 2.X
-            createNotificationOrAlert("Invoke", "Response: " + res.response.result + " of " + contract_scripthash, 7000);
-        else // 3.X
-            createNotificationOrAlert("Invoke", "Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " of " + contract_scripthash + " id " + res.tx.hash, 7000);
+        createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res.response.result + " ScriptHash: " + contract_scripthash + " tx_hash: " + res.tx.hash, 7000);
 
         if (res.response.result) {
             var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
@@ -127,7 +123,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         }
     }).catch(err => {
         console.log(err);
-        createNotificationOrAlert("Invoke ERROR", "Response: " + err, 7000);
+        createNotificationOrAlert("InvocationTransaction_Invoke ERROR", "Response: " + err, 7000);
     });
 }
 
@@ -184,14 +180,11 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         gas: mysysgasfee
     }
 
-
+    // Do invoke for Deploy
     Neon.default.doInvoke(config).then(res => {
         console.log(res);
 
-        if (typeof(res.response.result) == "boolean") // 2.X
-            createNotificationOrAlert("Deploy", "Response: " + res.response.result, 7000);
-        else
-            createNotificationOrAlert("Deploy", "Response: " + res.response.result.succeed + " Reason:" + res.response.result.reason + " id " + res.tx.hash, 7000);
+        createNotificationOrAlert("InvocationTransaction_Deploy", "Response: " + res.response.result + " tx_hash: " + res.tx.hash, 7000);
 
         if (res.response.result) {
             var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
@@ -202,7 +195,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         }
     }).catch(err => {
         console.log(err);
-        createNotificationOrAlert("Deploy ERROR", "Response: " + err, 5000);
+        createNotificationOrAlert("InvocationTransaction_Deploy ERROR", "Response: " + err, 5000);
     }); //end doInvoke
 } // end deploy from acount
 

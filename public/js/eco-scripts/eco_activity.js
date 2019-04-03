@@ -166,10 +166,30 @@ function exportHistory() {
     download(file, ".json");
 }
 
+//===============================================================
+function ImportHistoricalActivityJSON() {
+    var file = document.getElementById("importActivityFile").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            var activityHistory = this.result;
+            console.log("Printing historical transactions to be loaded...")
+            console.log(activityHistory);
+            loadHistory(JSON.parse(activityHistory));
+        };
+        reader.readAsBinaryString(file);
+    }
+}
+//===============================================================
+
+//===============================================================
 function loadHistory(vecRelayedTXsToLoad) {
+    console.log(vecRelayedTXsToLoad);
     vecRelayedTXs = vecRelayedTXsToLoad;
     drawRelayedTXs();
 }
+//===============================================================
+
 //===============================================================
 //===============================================================
 //===============================================================

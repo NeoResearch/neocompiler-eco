@@ -1457,10 +1457,35 @@ def Main():
   <!-- ======================================================== -->
 
 
-
-
-    <script src="public/js/eco-scripts/ecolab_scripts_forms_functions.js"></script>
     <script>
+    window.onbeforeunload = function(event) {
+        storePageData();
+        //socket.disconnect();
+        return confirm("Confirm refresh");
+    }
+
+    //Check current webpage and starts with localhost or neocompiler public website
+    $(document).ready(function() {
+        //console.log("checking wallets");
+        setWalletRefreshInterval(10000); //10000 millisec
+        setEcoInfoRefreshInterval(10000);
+        setCompilersByPing(20000);
+        setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+        setGenesisBlock(10000);
+
+        recoveringPageData();
+
+        //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
+        if (window.location.href.indexOf("localhost") != -1) {
+            $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+        }
+        updatePATHS();
+        //This should be after Paths update
+        automaticNeoCliNodeSelection();
+        updateAllWalletData();
+        updateEcoMetadataInfo();
+    });
+
     /*
     function setURL() {
         //if(currentURL.length != 0)
@@ -1482,6 +1507,7 @@ def Main():
     }
     //===============================================================
 
+    //===============================================================
     var editorPython = createEditor("editorPython", "ace/mode/python");
     var editorGolang = createEditor("editorGolang", "ace/mode/golang");
     var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
@@ -1499,6 +1525,34 @@ def Main():
         ["/examples/csharp/MapExample/MapExample.cs"],
         ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
     ];
+
+    function createEditor(name, mode) {
+        var editor = ace.edit(name);
+        editor.setTheme("ace/theme/clouds");
+        editor.session.setMode(mode);
+        editor.setAutoScrollEditorIntoView(true);
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: false,
+            maxLines: 30
+        });
+        editor.commands.addCommand({
+            name: "showKeyboardShortcuts",
+            bindKey: {
+                win: "Ctrl-Alt-h",
+                mac: "Command-Alt-h"
+            },
+            exec: function(editor) {
+                ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+                    module.init(editor);
+                    //editor.showKeyboardShortcuts() just shows when tigger the hotkey
+                })
+            }
+        })
+        return editor
+    }
+    //===============================================================
 
     var vecRelayedTXs = [];
     drawRelayedTXs();
@@ -1559,28 +1613,6 @@ def Main():
       }, intervalForRefreshing);
     }
 
-    //Check current webpage and starts with localhost or neocompiler public website
-    $(document).ready(function() {
-        //console.log("checking wallets");
-        setWalletRefreshInterval(10000); //10000 millisec
-        setEcoInfoRefreshInterval(10000);
-        setCompilersByPing(20000);
-        setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-        setGenesisBlock(10000);
-
-        recoveringPageData();
-
-        //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
-        if (window.location.href.indexOf("localhost") != -1) {
-            $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
-        }
-        updatePATHS();
-        //This should be after Paths update
-        automaticNeoCliNodeSelection();
-        updateAllWalletData();
-        updateEcoMetadataInfo();
-    });
-
     function updateEcoMetadataInfo() {
         //$("#span_numberCompilations")[0].innerHTML = "Total compile calls: " + numberCompilations;
         //$("#span_numberDeploys")[0].innerHTML = "Total deploy calls: " + numberDeploys;
@@ -1623,12 +1655,6 @@ def Main():
                 });
             }
         } //automatic compiler checkbox
-    }
-
-    window.onbeforeunload = function(event) {
-        storePageData();
-        //socket.disconnect();
-        return confirm("Confirm refresh");
     }
 
     //=============================================================
@@ -1969,16 +1995,6 @@ def Main():
         setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
     }
     // =======================================================================
-
-    function Disassembly() {
-        var hexavm = $("#avmcode")[0].value;
-        hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
-        var shash = '0x' + getScriptHashFromAVM(hexavm);
-        $("#sc_scripthash")[0].value = shash;
-        $("#sc_address58")[0].value = toBase58(shash);
-        $("#opcodes").text("" + (hexavm.length / 2) + " bytes\n");
-        printOpcode(hexavm, $("#opcodes"));
-    };
 
     function str2hex() {
         var i = 0;
@@ -2593,5 +2609,323 @@ def Main():
             $("#textAreaOfIncrementalStorage").scrollTop($("#textAreaOfIncrementalStorage")[0].scrollHeight);
         });
     }
+
+    function setExample(selected_index) {
+        console.log("selecting example:" + selected_index);
+        editorCSharp.getSession().setValue("");
+        getfile(selected_index, 0);
+        /*
+    		  var numfiles = cSharpFiles[selected_index].length;
+    		  if(numfiles == 1) {
+    	        console.log("example file is: "+file);
+    		  } else {
+    			  var file_i = 0;
+    			  while(file_i < numfiles) {
+
+    			  }
+    		  }
+    		  */
+    }
+
+    function getfile(selected_index, index = 0) {
+        var numfiles = cSharpFiles[selected_index].length;
+        if (index < numfiles) {
+            var file = cSharpFiles[selected_index][index];
+            console.log("getting example file: " + file);
+            $.get(file, function(data) {
+                editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
+                getfile(selected_index, index + 1);
+            });
+        }
+    }
+    //===============================================================
+
+    //===============================================================
+    //============== FORMS ==========================================
+    //===============================================================
+    $("#formCompile").submit(function(e) {
+        $("#compilebtn")[0].disabled = true;
+        $("#code_cs").val("");
+        $("#code_python").val("");
+        $("#code_golang").val("");
+        $("#code_java").val("");
+        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+            $("#code_cs").val(ace.edit("editorCSharp").getSession().getValue());
+            console.log("C# Compile");
+        }
+        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+            $("#code_python").val(ace.edit("editorPython").getSession().getValue());
+            console.log("Python Compile");
+        }
+        if ($("#golangcode.tab-pane.active.cont").length != 0) {
+            $("#code_golang").val(ace.edit("editorGolang").getSession().getValue());
+            console.log("Golang Compile");
+        }
+        if ($("#javacode.tab-pane.active.cont").length != 0) {
+            $("#code_java").val(ace.edit("editorJava").getSession().getValue());
+            console.log("Java Compile");
+        }
+
+        $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
+        $("#codeavm").val("");
+        $("#opcodes").val("");
+        $("#codeabi").val("");
+        $("#invokehashjs").val("");
+        $("#contracthashjs").val("");
+        $("#contractparams").val("\"\"");
+        e.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+        $.post(
+            BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
+            indata, // Serializes form data in standard format
+            function(data) {
+                console.log("finished compiling");
+                $("#compilebtn")[0].disabled = false;
+                var coderr = atob(data.output);
+                $("#codewarnerr").val(coderr);
+                var hexcodeavm = atob(data.avm);
+                $("#codeavm").val(hexcodeavm);
+                hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+                $("#opcodes").val("");
+                //printOpcode(hexcodeavm, $("#opcodes"));
+                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
+                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
+                //$("#btn_download")[0].style = "";
+
+                //filling hashes
+    	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
+                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
+                $("#contracthashjs")[0].value = contractScriptHash;
+                $("#invokehashjs")[0].value = contractScriptHash;
+                $("#gsf_contracthash")[0].value = contractScriptHash;
+                $("#getnep5_contract")[0].value = contractScriptHash;
+
+
+                // ------------------------------------------
+    	    // calculating extra fee according to AVM size
+                var fixedAVGTxSize = 500; //TODO
+    	    var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
+                $("#contractInfo_AVMSize")[0].value = avmSize;
+    	    // TODO - Create a call on neo-plugins SimplePolicy
+    	    var freeSize = 1024;
+    	    var feePerExtraByte = 0.00001;
+    	    var extraGasNetFeeForBigTx = 0;
+    	    if (avmSize > freeSize)
+    		extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
+                $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
+                // ------------------------------------------
+
+                inputboxjs = document.getElementById("invokefunctionjs");
+                while (inputboxjs.options.length > 0)
+                    inputboxjs.remove(0);
+                option = document.createElement("option");
+                option.text = "Main";
+                option.value = "Main";
+                inputboxjs.add(option);
+
+                var codeabi = atob(data.abi);
+                console.log(codeabi);
+    	    updateAllABIDependencies(codeabi);
+
+            },
+            "json" // The format the response should be in
+        ); //End of POST for Compile
+
+        //Send info to EcoServices for counting number of compilations
+        $.post(
+            BASE_PATH_ECOSERVICES + "/compileCounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function(data) {},
+            "json" // The format the response should be in
+        ); //End of POST for Compile counter
+
+    }); //End of form Compile function
+    //===============================================================
+
+    //===============================================================
+    //Invoke JS
+    $("#forminvokejs").submit(function(e) {
+        //$("#contractmessages").text("");
+        //$("#contractmessagesnotify").text("");
+        e.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+
+        var wI = $("#wallet_invokejs")[0].selectedOptions[0].index;
+        var attachgasfeejs = Number($("#attachgasfeejs").val());
+        var attachsystemgasjs = Number($("#attachSystemgasjs").val());
+        var attachneojs = Number($("#attachneojs").val());
+        var attachgasjs = Number($("#attachgasjs").val());
+        var invokeScripthash = $("#invokehashjs").val();
+
+        var invokefunc = "";
+        // INVOKE function is already passed as a String parameter!!
+
+        //if($("#invokefunctionjs")[0].value != "Main")
+        //	invokefunc = $("#invokefunctionjs")[0].value;
+
+        var neonJSParams = [];
+        neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
+
+        InvokeFromAccount(wI, attachgasfeejs, attachsystemgasjs, attachneojs, attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
+
+        //Send info to EcoServices for counting number of invokes
+        $.post(
+            BASE_PATH_ECOSERVICES + "/invokecounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function(data) {},
+            "json" // The format the response should be in
+        ); //End of POST for Compile counter
+    }); //End of invoke function
+    //===============================================================
+
+    //===============================================================
+    //Deploy JS
+    $("#formdeployjs").submit(function(e) {
+        //$("#contractmessages").text("");
+        //$("#contractmessagesnotify").text("");
+        e.preventDefault(); // Prevents the page from refreshing
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+        var contractGasCost = 90;
+        var wI = $("#wallet_deployjs")[0].selectedOptions[0].index;
+        var storage = 0;
+
+        var rT = $("#contractreturnjs").val();
+        if ($("#contractreturnjs").val() == "f0" || $("#contractreturnjs").val() == "ff")
+            rT += "00"; // ff becomes 'ff00' (biginteger representation)
+
+        var params = $("#contractparamsjs").val();
+
+        //console.log("Parameter list: "+params);
+        //console.log("Return type: "+rT);
+
+        var script = $("#codeavm").val().replace(/(\r\n|\n|\r)/gm, "");
+
+        console.log("Deploying contract: '" + script + "' scripthash: '" + $("#contracthashjs").val() + "' storage: '" + $("#cbx_storagejs").val() + "' di: '" + $("#cbx_dynamicinvokejs").val() + "' RT: '" + $("#contractreturnjs").val() + "' RT: '" + $("#contractreturnjs").val() + "' with params '" + $("#contractparamsjs").val() + "'");
+
+        if ($("#cbx_storagejs")[0].checked) {
+            contractGasCost += 400;
+            storage += 1;
+        }
+
+        if ($("#cbx_dynamicinvokejs")[0].checked) {
+            contractGasCost += 500;
+            storage += 2;
+        }
+
+        if ($("#cbx_ispayablejs")[0].checked) {
+            storage += 4;
+        }
+
+        console.log("Final attached gas should be:" + contractGasCost)
+
+        var contract_name = $("#jsdeploy_name").val();
+        var contract_desc = $("#jsdeploy_desc").val();
+        var contract_email = $("#jsdeploy_email").val();
+        var contract_author = $("#jsdeploy_author").val();
+        var contract_version = $("#jsdeploy_version").val();
+
+        //console.log(contract_name+contract_desc+contract_email+contract_author+contract_version);
+
+        var attachDeploygasfeejs = Number($("#attachDeployGasFeeJS").val());
+
+        DeployFromAccount(wI, attachDeploygasfeejs, contractGasCost, BASE_PATH_CLI, getCurrentNetworkNickname(), script, storage, rT, params, contract_desc, contract_email, contract_author, contract_version, contract_name);
+
+        //Send info to EcoServices for counting number of deploys
+        $.post(
+            BASE_PATH_ECOSERVICES + "/deploycounter", // Gets the URL to sent the post to
+            null, // Serializes form data in standard format
+            function(data) {},
+            "json" // The format the response should be in
+        ); //End of POST for Compile counter
+
+    }); //End of deploy function
+    //===============================================================
+
+    $("#formgetstorage").submit(function(e) {
+        e.preventDefault(); // Prevents the page from refreshing
+        //Clean previous storage values
+        $("#gsf_contractvaluehex")[0].value = "";
+        $("#gsf_contractvaluestr")[0].value = "";
+
+        //Get the hash and key
+        sthash = $("#gsf_contracthash")[0].value;
+        stkey = $("#gsf_contractkey")[0].value;
+        if ($("#getStorageFormat")[0].value == "String (no quotes)") {
+            stkey = str2hexstring(stkey);
+        }
+
+        console.log("looking for storage key '" + stkey + "' at contract '" + sthash + "'" + " in the network " + $("#rpc_nodes_path")[0].value);
+        getStorage(sthash, stkey, $("#rpc_nodes_path")[0].value).then(function(data) {
+            $("#gsf_contractvaluehex")[0].value = data.result;
+            if (data.result != null)
+                $("#gsf_contractvaluestr")[0].value = hexstring2str(data.result);
+            else {
+                $.post(
+                    $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
+                    '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["' + sthash + '"] }', // Serializes form data in standard format
+                    function(data2) {
+                        if (data2.result) { // contract exists
+                            if (data2.result.properties.storage)
+                                $("#gsf_contractvaluehex")[0].value = "contract exists (but key does not)!";
+                            else
+                                $("#gsf_contractvaluehex")[0].value = "contract exists (but did not pay for Storage on deploy)!";
+                        } else if (data2.error.code == -100)
+                            $("#gsf_contractvaluehex")[0].value = "contract does not exist (must deploy first)!";
+                        else {
+                            $("#gsf_contractvaluehex")[0].value = "some strange error happened!";
+                            console.log(data2);
+                        }
+                    },
+                    "json" // The format the response should be in
+                ).fail(function() {
+                    $("#gsf_contractvaluehex")[0].value = "failed to invoke network!";
+                }); //End of POST for search
+            }
+        });
+    }); //End of storage read function
+    //===============================================================
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        //console.log(e.target.dataset.target)
+        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-mono-neo-compiler");
+            //console.log("C# Compile");
+        }
+        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-neo-boa");
+            //console.log("Python Compile");
+        }
+        if ($("#golangcode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-neo-go");
+            //console.log("Golang Compile");
+        }
+        if ($("#javacode.tab-pane.active.cont").length != 0) {
+            updateCompilersSelectionBox("docker-java-neo-compiler");
+            //console.log("Java Compile");
+        }
+    });
+
+    //===============================================================
+    $("#btn_downloadOpCode").click(function(e) {
+        e.preventDefault();
+        mydata = $('#frm_disassembly').contents().find('#opcodes').val();
+        console.log(mydata);
+        var file = new Blob([mydata], {
+            type: 'text/plain'
+        });
+        download(file, ".opcodes");
+    });
+    //===============================================================
+
+    //===============================================================
+    //============== END FORMS ======================================
+    //===============================================================
     </script>
 </div>

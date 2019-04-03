@@ -330,6 +330,26 @@ function printOpcode(hexavm, target) {
 }
 */
 
+//===============================================================
+function GetOpcodes() {
+    console.log("disassembly opcodes...");
+    $("#txt_opcodes").val("");
+    hexavm = $("#codeavm").val();
+    hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+    printOpcode(hexavm, $("#txt_opcodes"));
+}
+//===============================================================
+
+function Disassembly() {
+        var hexavm = $("#avmcode")[0].value;
+        hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
+        var shash = '0x' + getScriptHashFromAVM(hexavm);
+        $("#sc_scripthash")[0].value = shash;
+        $("#sc_address58")[0].value = toBase58(shash);
+        $("#opcodes").text("" + (hexavm.length / 2) + " bytes\n");
+        printOpcode(hexavm, $("#opcodes"));
+};
+
 function printOpcode(hexavm, target) {
     var avmsizebytes = hexavm.length/2;
     //console.log("printOpcode (target='"+target+"')");

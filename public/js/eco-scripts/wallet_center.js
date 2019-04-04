@@ -106,6 +106,7 @@ function addWalletFromForm() {
     addressBase58ToAdd = document.getElementById('addressToAddBox').value;
     pubKeyToAdd = document.getElementById('pubKeyToAddBox').value;
     wifToAdd = document.getElementById('wifToAddBox').value;
+    privKeyToAdd = document.getElementById('privKeyToAddBox').value;
     vsToAdd = document.getElementById('vsToAddBox').value;
     encryptedKeyToAdd = document.getElementById('encryptedKeyToAddBox').value;
     multiSigFlag = $("#cbx_multisig")[0].checked;
@@ -123,11 +124,15 @@ function addWalletFromForm() {
                 if (addressBase58ToAdd != '' && wifToAdd === '') {
                     accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
                 } else {
-                    if (wifToAdd != '') {
-                        accountToAdd = new Neon.wallet.Account(wifToAdd);
+                    if (privKeyToAdd != '') {
+                        accountToAdd = new Neon.wallet.Account(privKeyToAdd);
                     } else {
-                        alert("Error when adding wallet. Values looks all empty.");
-                        return false;
+		            if (wifToAdd != '') {
+		                accountToAdd = new Neon.wallet.Account(wifToAdd);
+		            } else {
+		                alert("Error when adding wallet. Values looks all empty.");
+		                return false;
+		            }
                     }
                 }
             }

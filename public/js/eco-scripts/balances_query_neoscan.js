@@ -13,7 +13,8 @@ function callClaimableFromNeoScan(adddressToGet, boxToFill = "") {
             amountClaimable = resultClaimable.unclaimed;
 
         if (resultClaimable.address && amountClaimable > 0) {
-            idToAutomaticClaim = searchAddrIndexFromBase58(resultClaimable.address);
+            var resultQueryAddress = resultClaimable.address;
+            idToAutomaticClaim = searchAddrIndexFromBase58(resultQueryAddress);
             //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
             var currentGasAmmount = Number($("#walletGas" + idToAutomaticClaim)[0].innerHTML);
             if (currentGasAmmount == map[resultQueryAddress])

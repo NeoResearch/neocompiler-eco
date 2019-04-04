@@ -109,6 +109,5 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
         "json" // The format the response should be in
     ).fail(function() {
         console.error("getAllNeoOrGasFromNeoCli problem. failed to pass request to RPC network!");
-        //createNotificationOrAlert("getAllNeoOrGasFromNeoCli problem", "failed to pass request to RPC network!", 3000);
     }); //End of POST for search
 }

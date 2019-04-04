@@ -111,15 +111,13 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         gas: mysysgasfee // systemfee
     }
 
-    Neon.default.doInvoke(config).then(res => {
-        createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res.response.result + " ScriptHash: " + contract_scripthash + " tx_hash: " + res.tx.hash, 7000);
-
+    Neon.default.doInvoke(config).then(res => {    
         if (res.response.result) {
             var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
             updateVecRelayedTXsAndDraw(res.response.txid, "Invoke", contract_scripthash, invokeParams);
-
             $('.nav-pills a[data-target="#activity"]').tab('show');
             document.getElementById('divNetworkRelayed').scrollIntoView();
+	    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res.response.result + " ScriptHash: " + contract_scripthash + " tx_hash: " + res.tx.hash, 7000);
         }
     }).catch(err => {
         console.log(err);
@@ -182,17 +180,14 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 
     // Do invoke for Deploy
     Neon.default.doInvoke(config).then(res => {
-        console.log(res);
-
-        createNotificationOrAlert("InvocationTransaction_Deploy", "Response: " + res.response.result + " tx_hash: " + res.tx.hash, 7000);
-
         if (res.response.result) {
             var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
             updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
 
             $('.nav-pills a[data-target="#activity"]').tab('show');
             document.getElementById('divNetworkRelayed').scrollIntoView();
-        }
+	    createNotificationOrAlert("InvocationTransaction_Deploy", "Response: " + res.response.result + " tx_hash: " + res.tx.hash, 7000);
+        }        
     }).catch(err => {
         console.log(err);
         createNotificationOrAlert("InvocationTransaction_Deploy ERROR", "Response: " + err, 5000);

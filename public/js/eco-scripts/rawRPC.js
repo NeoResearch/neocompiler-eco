@@ -12,27 +12,20 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
                    console.log(resultJsonData);
                    if(resultJsonData.result)
                    {
-			   createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
-
 			   if(FULL_ACTIVITY_HISTORY)
 			   {
 				var rawTXParams = { wtx: wtx}
 				updateVecRelayedTXsAndDraw(txHash,"RawTX","-",JSON.stringify(rawTXParams));
 			   }
-
-			   /*
-			   if(typeof(resultJsonData.result) == "boolean") // 2.X
-		  		createNotificationOrAlert("RPCRawTX", resultJsonData.result, 5000);
-			   else // 3.X
-		   		createNotificationOrAlert("RPCRawTX", "Status: " + resultJsonData.result.succeed +  " \nReason:" + resultJsonData.result.reason, 5000);*/
+			   createNotificationOrAlert("SendRaw_TX_NeoCli", "Status: " + resultJsonData.result, 5000);
 		   }else
 		   {
-			createNotificationOrAlert("RPCRawTX", "ERROR: " + resultJsonData.error.code +  " \nReason:" + resultJsonData.error.message, 5000);
+			createNotificationOrAlert("SendRaw_TX_NeoCli", "ERROR: " + resultJsonData.error.code +  " \nReason:" + resultJsonData.error.message, 5000);
 		   }
                 },
                 "json" // The format the response should be in
             ).fail(function() {
-		createNotificationOrAlert("RPCRawTX", "failed to pass transaction to network!", 5000);
+		createNotificationOrAlert("SendRaw_TX_NeoCli", "failed to pass transaction to network!", 5000);
             }); //End of POST for search
 }
 

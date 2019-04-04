@@ -34,7 +34,6 @@ function automaticNeoCliNodeSelection() {
                 "json" // The format the response should be in
             ).fail(function() {
                 console.error('Could not call the api of node URL', neoCliNodeToGetHeight);
-                //createNotificationOrAlert("automaticNeoCliNodeSelection", "failed to get node height " + neoCliNodeToGetHeight, 3000);
             }); //End of POST for search
         }
     } //automatic node checkbox

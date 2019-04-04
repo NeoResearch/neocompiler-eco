@@ -34,8 +34,6 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 
     Neon.default.sendAsset(config)
         .then(res => {
-            createNotificationOrAlert("Asset_Send_Normal_Account", res.response.result, 5000);
-
             if (FULL_ACTIVITY_HISTORY) {
                 var sendParams = {
                     caller: ECO_WALLET[idTransferFrom].account.address,
@@ -46,10 +44,11 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
                 }
                 updateVecRelayedTXsAndDraw(res.response.txid, "Send", "-", JSON.stringify(sendParams));
             }
+            createNotificationOrAlert("Asset_Send_Normal_Account", res.response.result, 5000);
         })
-        .catch(e => {
+        .catch(err => {
+            console.log(err);
             createNotificationOrAlert("Asset_Send_Normal_Account", "Transfer transaction has failed!", 5000);
-            console.log(e);
         })
 }
 
@@ -67,25 +66,17 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
 
     Neon.default.claimGas(config)
         .then(res => {
-            //console.log("createClaimGasTX:")
-            //console.log(res.response)
-            createNotificationOrAlert("GAS_Claim_Normal_Account", res.response.result, 5000);
-
             if (FULL_ACTIVITY_HISTORY) {
                 var claimParams = {
                     caller: ECO_WALLET[idTransferFrom].account.address
                 }
                 updateVecRelayedTXsAndDraw(res.response.txid, "Claim", "-", JSON.stringify(claimParams));
             }
-
-            //if(typeof(res.response.result) == "boolean") // 2.X
-            //   createNotificationOrAlert("ClaimTX", res.response.result, 5000);
-            //else // 3.X
-            //   createNotificationOrAlert("ClaimTX", "Status: " + res.response.result.succeed + " Reason:" + res.response.result.reason, 5000);
+	    createNotificationOrAlert("GAS_Claim_Normal_Account", "Status: " + res.response.result + " txID: " + res.response.txid, 5000);
         })
-        .catch(e => {
+        .catch(err => {
+            console.log(err);
             createNotificationOrAlert("GAS_Claim_Normal_Account", "Claim transaction has failed!", 5000);
-            console.log(e)
         })
 }
 

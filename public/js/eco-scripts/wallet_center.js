@@ -369,9 +369,9 @@ function decrypt() {
 
     ECO_WALLET[idToDecrypt].account.decrypt(passValue).then(decryptedWallet => {
         removeAccountFromEcoWallet(idToDecrypt);
-        createNotificationOrAlert("Wallet decrypted!", "Address: " + decryptedWallet.address, 5000);
         addToWallet(decryptedWallet);
         updateAllWalletData();
+        createNotificationOrAlert("Wallet decrypted!", "Address: " + decryptedWallet.address, 5000);
     }).catch(err => {
         console.log(err);
         createNotificationOrAlert("Wallet decryptation ERROR", "Response: " + err, 5000);

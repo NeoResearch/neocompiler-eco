@@ -25,7 +25,7 @@ function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet,heightToStar
             //console.log("Timestamp were obtained");
             //console.log(resultBlockTimestamps);
 	    if(resultBlockTimestamps.result[0].timestamp)
-	            filterBlockTimestamps(resultBlockTimestamps);
+	        filterBlockTimestamps(resultBlockTimestamps);
 	    else
 		createNotificationOrAlert("ERROR on getmetricblocktimestamp", resultBlockTimestamps.result, 5000);
         },

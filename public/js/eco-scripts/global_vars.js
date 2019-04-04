@@ -26,6 +26,9 @@ var FULL_ACTIVITY_HISTORY = false;
 var AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH = true;
 var LAST_BEST_HEIGHT_NEOCLI = 0;
 
+/* LAST ACTIVE TAB BEFORE ACTIVITY */
+var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";
 /* End Some Global Variables  */

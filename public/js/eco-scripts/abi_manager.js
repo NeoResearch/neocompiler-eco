@@ -1,8 +1,14 @@
 //=========== UPDATE ALL ABI DEPENDENCIES =======================
 //===============================================================
-function updateAllABIDependencies(codeabi){
-            if (codeabi.length != 0) {
-                jsonABI = JSON.parse(codeabi);
+function updateAllABIDependencies(jsonABI){
+            if (jsonABI.hash) {
+                inputboxjs = document.getElementById("invokefunctionjs");
+                while (inputboxjs.options.length > 0)
+                    inputboxjs.remove(0);
+                option = document.createElement("option");
+                option.text = "Main";
+                option.value = "Main";
+                inputboxjs.add(option);
 
                 var textAbi = "ScriptHash (big endian): " + jsonABI["hash"] + "\n";
                 textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
@@ -88,6 +94,40 @@ function updateAllABIDependencies(codeabi){
             }
 }
 //===============================================================
+
+function ImportABIFromFile()
+{
+    var file = document.getElementById("importABIFile").files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            var abiCodeFile = this.result;
+            console.log("Printing loaded abi....")
+            console.log(abiCodeFile);
+	    var abiCodeInJson = JSON.parse(abiCodeFile);    
+            console.log(abiCodeInJson);
+	    if(abiCodeInJson.hash)
+	    {
+		$("#codeabi").val("");
+		if($("#codeavm").val() != "")
+			console.log("ABI will be loaded. Be carefull if deploying. ABI may not correspond to your current AVM!");	
+	    	updateScriptHashesBoxes(abiCodeInJson.hash.slice(2));
+            	updateAllABIDependencies(abiCodeInJson);
+	    }
+        };
+        reader.readAsBinaryString(file);
+    }
+   $('#importABIFile').val(''); 
+}
+
+function updateScriptHashesBoxes(contractScriptHash){
+                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
+                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
+                $("#contracthashjs")[0].value = contractScriptHash;
+                $("#invokehashjs")[0].value = contractScriptHash;
+                $("#gsf_contracthash")[0].value = contractScriptHash;
+                $("#getnep5_contract")[0].value = contractScriptHash;
+}
 
 //===============================================================
 // self update neonjs invoke parameters (in json format)

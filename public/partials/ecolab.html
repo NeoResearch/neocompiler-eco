@@ -1052,10 +1052,15 @@ def Main():
                   <div id="divRelayedTXs" class="table-responsive"></div>
                   <div class="row">
                         <div class="col-md-2">
+                          <button onClick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i> Move back</button><br>
+                        </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-2">
                           <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-file-download"></i><font size='1'> DOWNLOAD</font></button><br>
                         </div>
                         <div class="col-md-2">
-                          <span type="checkbox" class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD</span>
+                          <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD</span>
                           <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()">
                         </div>
                         <div class="col-md-2">
@@ -1343,10 +1348,14 @@ def Main():
                                  </div>
                            </div> <!-- row -->
                            <div class="row">
-                               <div class="col-md-12">
+                               <div class="col-md-2">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-fire"></i> Invoke</button>
                                </div>
-                               <div class="col-md-12">
+                               <div class="col-md-2">
+                                 <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD ABI</span>
+                                 <input type="file" id="importABIFile" accept=".json,.JSON" onchange="ImportABIFromFile()">
+                               </div>
+                               <div class="col-md-2">
                                  <span id="span_numberInvokes" class="label label-info"></span>
                                </div>
                            </div> <!-- row -->
@@ -2682,40 +2691,26 @@ def Main():
 
                 //filling hashes
     	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
-                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
-                $("#contracthashjs")[0].value = contractScriptHash;
-                $("#invokehashjs")[0].value = contractScriptHash;
-                $("#gsf_contracthash")[0].value = contractScriptHash;
-                $("#getnep5_contract")[0].value = contractScriptHash;
-
+                updateScriptHashesBoxes(contractScriptHash);
 
                 // ------------------------------------------
-    	    // calculating extra fee according to AVM size
+    	          // calculating extra fee according to AVM size
                 var fixedAVGTxSize = 500; //TODO
-    	    var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
+    	          var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
                 $("#contractInfo_AVMSize")[0].value = avmSize;
-    	    // TODO - Create a call on neo-plugins SimplePolicy
-    	    var freeSize = 1024;
-    	    var feePerExtraByte = 0.00001;
-    	    var extraGasNetFeeForBigTx = 0;
-    	    if (avmSize > freeSize)
-    		extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
+    	          // TODO - Create a call on neo-plugins SimplePolicy
+    	          var freeSize = 1024;
+    	          var feePerExtraByte = 0.00001;
+    	          var extraGasNetFeeForBigTx = 0;
+    	          if (avmSize > freeSize)
+    		        extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
                 $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
                 // ------------------------------------------
 
-                inputboxjs = document.getElementById("invokefunctionjs");
-                while (inputboxjs.options.length > 0)
-                    inputboxjs.remove(0);
-                option = document.createElement("option");
-                option.text = "Main";
-                option.value = "Main";
-                inputboxjs.add(option);
-
+                // Loading all ABI related boxes
                 var codeabi = atob(data.abi);
                 console.log(codeabi);
-    	    updateAllABIDependencies(codeabi);
-
+    	          updateAllABIDependencies(JSON.parse(codeabi));
             },
             "json" // The format the response should be in
         ); //End of POST for Compile
@@ -2908,6 +2903,9 @@ def Main():
     });
     //===============================================================
 
+    function moveLastTab(){
+      $('.nav-pills a[data-target="#' + LAST_ACTIVE_TAB_BEFORE_ACTIVITY + '"]').tab('show');
+    }
     //===============================================================
     //============== END FORMS ======================================
     //===============================================================

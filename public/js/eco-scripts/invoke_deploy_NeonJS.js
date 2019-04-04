@@ -115,8 +115,12 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         if (res.response.result) {
             var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
             updateVecRelayedTXsAndDraw(res.response.txid, "Invoke", contract_scripthash, invokeParams);
+
+	    // Jump to acitivy tab and record last tab
             $('.nav-pills a[data-target="#activity"]').tab('show');
+	    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
             document.getElementById('divNetworkRelayed').scrollIntoView();
+
 	    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res.response.result + " ScriptHash: " + contract_scripthash + " tx_hash: " + res.tx.hash, 7000);
         }
     }).catch(err => {
@@ -184,8 +188,11 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
             var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
             updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", $("#contracthashjs").val(), deployParams);
 
+	    // Jump to acitivy tab and record last tab
             $('.nav-pills a[data-target="#activity"]').tab('show');
+	    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
             document.getElementById('divNetworkRelayed').scrollIntoView();
+
 	    createNotificationOrAlert("InvocationTransaction_Deploy", "Response: " + res.response.result + " tx_hash: " + res.tx.hash, 7000);
         }        
     }).catch(err => {

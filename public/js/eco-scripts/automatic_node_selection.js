@@ -2,7 +2,7 @@ function automaticNeoCliNodeSelection() {
     if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH) {
         var availableNodes = $("#selectionBoxRPCNodes")[0].length;
         var bestNode = BASE_PATH_CLI;
-        var bestHeight = lastNeoCliHeight;
+        var bestHeight = LAST_BEST_HEIGHT_NEOCLI;
         var maxNumberOfNodesToTry = Math.min(3, availableNodes);
         var mapRandomNodes = new Map();
         for (var t = 0; t < maxNumberOfNodesToTry; t++) {

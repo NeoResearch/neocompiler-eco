@@ -1486,16 +1486,6 @@ def Main():
         updateEcoMetadataInfo();
     });
 
-    /*
-    function setURL() {
-        //if(currentURL.length != 0)
-        //window.location.hash
-        //$('.nav-pills a[data-target="#wallet"]').tab('show');
-        //console.log("loading III..." + currentURL);
-        //$('.nav-pills a[href="#'+currentURL+'"]').tab('show');
-        // currently dealt by routeLoaderPills
-    }*/
-
     //===============================================================
     //============= ADD OPTION TO SELECTION BOX =====================
     function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
@@ -1986,7 +1976,7 @@ def Main():
         if (checkCookie("lastactivetab")) {
             index = getCookie("lastactivetab");
             //console.log("Cookie tests. Recovering active tab....");
-            if(currentURL.length == 0)
+            if(window.location.hash.slice(10).length == 0)
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
     }

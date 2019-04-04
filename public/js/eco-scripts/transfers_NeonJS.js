@@ -49,7 +49,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
         })
         .catch(e => {
             createNotificationOrAlert("Asset_Send_Normal_Account", "Transfer transaction has failed!", 5000);
-            console.log(e)
+            console.log(e);
         })
 }
 

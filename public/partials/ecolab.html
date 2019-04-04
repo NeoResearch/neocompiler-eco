@@ -2455,14 +2455,9 @@ def Main():
     // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
     // ==================================================================================
     function createSendTxForm() {
-        //e.preventDefault(); // Prevents the page from refreshing
         var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
         var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
         var addrToValue = ECO_WALLET[addrToIndex].account.address;
-        //var addrToValue = $("#createtx_to").val();
-        console.log(ECO_WALLET[addrFromIndex].type);
-        console.log(ECO_WALLET[addrFromIndex]);
-        console.log(addrFromIndex);
         if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
             var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
             //Multi-sig address
@@ -2471,7 +2466,6 @@ def Main():
             //TODO add verification for watch only
             createTxFromAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
         }
-        //updateHeaderNetworkInfo();
     };
 
     function createGasTxForm() {

@@ -329,6 +329,25 @@ function updateAllWalletData() {
     changeWalletInfo();
 }
 
+function populateAllWalletData() {
+    for (ka = 0; ka < ECO_WALLET.length; ++ka)
+        if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
+            addressToGet = ECO_WALLET[ka].account.address;
+            getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
+            getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
+
+            if(!$("#cbx_query_neoscan")[0].checked)
+              callClaimableFromNeoCli(addressToGet, "#walletClaim" + ka);
+            else
+              callClaimableFromNeoScan(addressToGet, "#walletClaim" + ka);
+
+            if(!$("#cbx_query_neoscan")[0].checked)
+              callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka, ka);
+            else
+              callUnclaimedFromNeoScan(addressToGet, "#walletUnclaim" + ka, ka);
+        }
+}
+
 //===============================================================
 function removeAccountFromEcoWallet(idToRemove) {
     if (idToRemove < ECO_WALLET.length && idToRemove > -1) {

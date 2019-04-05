@@ -3,46 +3,25 @@
 // contract_operation IS OBSOLET AS IT IS RIGHT NOW
 function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
     console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams + "'");
+    console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
 
     var i = 0;
     for (i = 0; i < neonJSParams.length; i++)
         console.log(JSON.stringify(neonJSParams[i]));
 
-    console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
-
     //Notify user if contract exists
     getContractState(contract_scripthash, false);
 
-    console.log("ok deploy");
     if (contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash)) {
         alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
         return;
     }
-
     if ($("#contracthashjs")[0].value == "") {
-        console.log("(INVOKE) hashs are empty, they are going to be fullfilled based on the contract_scripthash passed as parameter");
-        $("#contracthashjs")[0].value = contract_scripthash;
-        $("#invokehashjs")[0].value = contract_scripthash;
-        $("#gsf_contracthash")[0].value = contract_scripthash;
+        console.log("(INVOKE) selection box hash is empty, all selection boxes are going to be fullfilled based on the contract_scripthash passed as parameter");
+	updateScriptHashesBoxes(contract_scripthash);
     }
 
-    var intent;
-    if (neo > 0 && gas > 0)
-        intent = Neon.api.makeIntent({
-            NEO: neo,
-            GAS: gas
-        }, toBase58(contract_scripthash))
-
-    if (neo == 0 && gas > 0)
-        intent = Neon.api.makeIntent({
-            GAS: gas
-        }, toBase58(contract_scripthash))
-
-    if (neo > 0 && gas == 0)
-        intent = Neon.api.makeIntent({
-            NEO: neo
-        }, toBase58(contract_scripthash))
-
+    var intent = createGasAndNeoIntent(toBase58(contract_scripthash), neo, gas);
     //console.log(intent);
 
     /*
@@ -133,10 +112,10 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
 // DeployFromAccount(0,0.0000001,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 // DeployFromAccount(0,0.001,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
 function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
+    console.log("current gas fee is " + mysysgasfee);
+
     if (returntype.length == 1)
         returntype = returntype[0]; // remove array if single element
-
-    console.log("current gas fee is " + mysysgasfee);
 
     if (contract_script == "") {
         alert("ERROR (DEPLOY): Empty script (avm)!");
@@ -153,11 +132,10 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         return;
     }
 
-    if ($("#contracthashjs")[0].value == "") {
-        console.log("hashs are empty, they are going to be fullfilled based on the avm passed as parameter");
-        $("#contracthashjs")[0].value = contract_scripthash;
-        $("#invokehashjs")[0].value = contract_scripthash;
-        $("#gsf_contracthash")[0].value = contract_scripthash;
+    // for Deploy we should ensure that AVM Script to be deployed has the same contract_scripthash of the boxes (in order to ensure correctly full of activity parameters)
+    if ($("#contracthashjs")[0].value == "" || $("#contracthashjs")[0].value != contract_scripthash) {
+        console.log("(DEPLOY) contracthash on boxes are empty of different, they are going to be fullfilled based on the current AVM loaded to be deployed!");
+	updateScriptHashesBoxes(contract_scripthash);
     }
 
     const sb = Neon.default.create.scriptBuilder();

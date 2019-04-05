@@ -102,8 +102,8 @@ function getUnspentsForAddress(addressID) {
 //===============================================================
 //================ ADD NEW ADDRESS ==============================
 function addWalletFromForm() {
-    //console.log("addWallet()");
     addressBase58ToAdd = document.getElementById('addressToAddBox').value;
+    scriptHashToAdd = document.getElementById('scriptHashToAddBox').value;
     pubKeyToAdd = document.getElementById('pubKeyToAddBox').value;
     wifToAdd = document.getElementById('wifToAddBox').value;
     privKeyToAdd = document.getElementById('privKeyToAddBox').value;
@@ -124,16 +124,20 @@ function addWalletFromForm() {
                 if (addressBase58ToAdd != '' && wifToAdd === '') {
                     accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
                 } else {
-                    if (privKeyToAdd != '') {
-                        accountToAdd = new Neon.wallet.Account(privKeyToAdd);
-                    } else {
-		            if (wifToAdd != '') {
-		                accountToAdd = new Neon.wallet.Account(wifToAdd);
+		        if (scriptHashToAdd != '' && wifToAdd === '') {
+		            accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
+		        } else {
+		            if (privKeyToAdd != '') {
+		                accountToAdd = new Neon.wallet.Account(privKeyToAdd);
 		            } else {
-		                alert("Error when adding wallet. Values looks all empty.");
-		                return false;
+				    if (wifToAdd != '') {
+				        accountToAdd = new Neon.wallet.Account(wifToAdd);
+				    } else {
+				        alert("Error when adding wallet. Values looks all empty.");
+				        return false;
+				    }
 		            }
-                    }
+		        }
                 }
             }
         }
@@ -142,6 +146,20 @@ function addWalletFromForm() {
     var addedFlag = addToWallet(accountToAdd);
     if (addedFlag)
         updateAllWalletData();
+}
+
+function addContractToWallet(scriptHashToAdd) {
+
+    var accountToAdd;
+    if (scriptHashToAdd != '')
+    {
+	accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
+	if (addToWallet(accountToAdd))
+        	updateAllWalletData();
+
+        $('.nav-pills a[data-target="#wallet"]').tab('show');
+    }else
+	console.log("Nothing to add. Scripthash looks to be empty!");
 }
 
 //TODO Add suport for adding multisig and specialSC

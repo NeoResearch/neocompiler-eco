@@ -40,7 +40,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
                     to: to,
                     neo: neo,
                     gas: gas,
-                    sendingFromSCFlag: sendingFromSCFlag
+                    sendingFromSmartContract: sendingFromSCFlag
                 }
                 updateVecRelayedTXsAndDraw(res.response.txid, "Send", "-", JSON.stringify(sendParams));
             }

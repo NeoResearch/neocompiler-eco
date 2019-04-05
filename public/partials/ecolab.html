@@ -401,6 +401,11 @@
                                         <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
                                       </div>
                                     </div>
+                                    <div class="row">
+                                      <div class="col-md-6">
+                                        <button type="button" onClick="addContractToWallet($('#createtx_from_scripthash').val())" id="btnNewContractWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
+                                      </div>
+                                    </div>
                                     <label for="createtx_from_verification">Invocation in hex</label>
                                     <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
                                     <label for="createtx_from_verification_opcodes">Invocation script opcodes (readonly)</label>
@@ -474,8 +479,9 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Register new account</div>
                         <div class="panel-body">
-                            Address: <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address"/> <br>
-                            PubKey: <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62" title="public key"/> <br>
+                            Address: <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address (base58)"/> <br>
+                            ScriptHash: <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="40" title="scripthash"/> <br>
+                            PubKey: <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62"/> <br>
                             WIF: <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
                             PrivateKey: <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="62" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="62" /> <br>
                             VerificationScript: <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="20" /> <br>
@@ -1024,16 +1030,17 @@ def Main():
                                     <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control"></textarea>
                                     <button id="btn_downloadOpCode" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-warning"><i class="fas fa-download"></i> OpCodes</button>
                                 </div>
-                                <h4>ABI:</h4>
-                                <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
-
-                                <h4>Contract Info:</h4>
+                                <h4>Compiled contract info:</h4>
+                                <button type="button" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" id="btnNewContractWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button><br>
                                 <label for="contractInfo_ScriptHash">ScriptHash</label>
                                 <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;"/>
                                 <label for="contractInfo_Address">Address</label>
                                 <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address" class="form-control" placeholder="Address (base58)" style="width: 100%; margin-bottom: 10px;"/>
                                 <label for="contractInfo_AVMSize">AVM size (in bytes)</label>
                                 <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize" class="form-control" placeholder="AVM size (in bytes)" style="width: 100%; margin-bottom: 10px;"/>
+
+                                <h4>ABI:</h4>
+                                <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
                             </form> <!-- id="formCompile" -->
                             <!-- end of compilex form -->
                             <!-- /////////////////////////////////////////////////////////////////// -->
@@ -2692,6 +2699,8 @@ def Main():
 
                 //filling hashes
     	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
+                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
                 updateScriptHashesBoxes(contractScriptHash);
 
                 // ------------------------------------------

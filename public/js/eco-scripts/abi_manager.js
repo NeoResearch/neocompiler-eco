@@ -121,8 +121,6 @@ function ImportABIFromFile()
 }
 
 function updateScriptHashesBoxes(contractScriptHash){
-                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
-                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
                 $("#contracthashjs")[0].value = contractScriptHash;
                 $("#invokehashjs")[0].value = contractScriptHash;
                 $("#gsf_contracthash")[0].value = contractScriptHash;

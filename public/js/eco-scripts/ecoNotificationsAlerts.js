@@ -1,16 +1,8 @@
 function createNotificationOrAlert(notifyTitle, notifyBody, notificationTimeout) {
     if (!$("#cbx_ecoNotifications")[0].checked) {
-
-	if (!("Notification" in window)) {
-	    alert("This browser does not support system notifications");
-	}
-
         var permission = (Notification.permission === "granted");
-        if (!permission) {
-            //alert(Notification.permission);
-            //console.log(Notification.permission);
+        if (!permission)
             Notification.requestPermission();
-        }
 
         var options = {
             body: notifyBody,

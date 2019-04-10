@@ -102,6 +102,8 @@ function addAttributedAndTryToSign() {
 	console.log(transaction.serialize(true))
         $("#tx_AdvancedSigning_ScriptHash").val(transaction.hash);
         $("#txScript_advanced_signing").val(transaction.serialize(false));
+        $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);
+        $("#tx_AdvancedSigning_HeaderSize").val(transaction.serialize(false).length / 2);
         $("#txt_AdvancedSigning_Signatures").val(JSON.stringify(transaction.scripts));
 
         return transaction;

@@ -1388,6 +1388,10 @@ def Main():
                     <div class="col-md-6">
                       <label for="tx_AdvancedSigning_ScriptHash">ScriptHash</label>
                       <input id="tx_AdvancedSigning_ScriptHash" readonly="readonly" name="tx_AdvancedSigning_ScriptHash" class="form-control" placeholder="TX Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                      <label for="tx_AdvancedSigning_HeaderSize">TX Header Size</label>
+                      <input id="tx_AdvancedSigning_HeaderSize" readonly="readonly" name="tx_AdvancedSigning_HeaderSize" class="form-control" placeholder="TX Size (in bytes)" style="width: 100%; margin-bottom: 10px;"/>
+                      <label for="tx_AdvancedSigning_Size">TX Size</label>
+                      <input id="tx_AdvancedSigning_Size" readonly="readonly" name="tx_AdvancedSigning_Size" class="form-control" placeholder="TX Size (in bytes)" style="width: 100%; margin-bottom: 10px;"/>
                     </div>
                     <div class="col-md-6">
                       <label for="txScript_advanced_signing">Transaction Header</label>
@@ -2795,7 +2799,8 @@ def Main():
         //	invokefunc = $("#invokefunctionjs")[0].value;
 
         var neonJSParams = [];
-        neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
+        if($("#invokeparamsjs")[0].value != "")
+          neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
         InvokeFromAccount(wI, attachgasfeejs, attachsystemgasjs, attachneojs, attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 

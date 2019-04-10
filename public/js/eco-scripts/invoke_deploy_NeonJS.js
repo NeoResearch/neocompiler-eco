@@ -49,6 +49,8 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
 	PendingTX.then(transaction => {
 	        $("#tx_AdvancedSigning_ScriptHash").val(transaction.hash);
 	        $("#txScript_advanced_signing").val(transaction.serialize(false));
+                $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);
+                $("#tx_AdvancedSigning_HeaderSize").val(transaction.serialize(false).length / 2);
 	    });
      }else 
      {

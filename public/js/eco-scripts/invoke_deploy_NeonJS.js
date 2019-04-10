@@ -1,7 +1,95 @@
+
+var PendingTX = null;
+var SignedTX = null;
+function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
+    console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams + "'");
+    console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
+    setNeonApiProvider(networkToCall);
+
+    //Notify user if contract exists
+    getContractState(contract_scripthash, false);
+
+    if (contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash)) {
+        alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
+        return;
+    }
+    if ($("#contracthashjs")[0].value == "") {
+        console.log("(INVOKE) selection box hash is empty, all selection boxes are going to be fullfilled based on the contract_scripthash passed as parameter");
+	updateScriptHashesBoxes(contract_scripthash);
+    }
+
+    var intent = createGasAndNeoIntent(toBase58(contract_scripthash), neo, gas);
+
+    for (var i = 0; i < neonJSParams.length; i++)
+        console.log(JSON.stringify(neonJSParams[i]));
+    var sb = Neon.default.create.scriptBuilder(); //new ScriptBuilder();
+    // PUSH parameters BACKWARDS!!
+    for (var i = neonJSParams.length - 1; i >= 0; i--)
+        sb._emitParam(neonJSParams[i]);
+    sb._emitAppCall(contract_scripthash, false); // tailCall = false
+    var myscript = sb.str;
+    
+
+    var constructTx = NEON_API_PROVIDER.getBalance(ECO_WALLET[idToInvoke].account.address).then(balance => {
+        let transaction = new Neon.tx.InvocationTransaction({gas: mysysgasfee});
+        if (neo > 0)
+            transaction.addIntent("NEO", neo, toBase58(contract_scripthash));
+        if (gas > 0)
+            transaction.addIntent("GAS", gas, toBase58(contract_scripthash));
+
+	transaction.script = myscript;
+        transaction.calculate(balance, null, mynetfee);
+
+        return transaction;
+    });
+
+     if ($("#cbxAdvSignToggle")[0].checked)
+     {
+	PendingTX = constructTx;
+	PendingTX.then(transaction => {
+	        $("#tx_AdvancedSigning_ScriptHash").val(transaction.hash);
+	        $("#txScript_advanced_signing").val(transaction.serialize(false));
+	    });
+     }else 
+     {
+	    console.log("Signing...");
+	    const signTx = signTX(ECO_WALLET[idToInvoke].account, constructTx);
+
+	    console.log("Sending...");
+
+	    var txHash;
+	    const sendTx = signTx
+		  .then(transaction => {
+		    txHash = transaction.hash;
+		    const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+		    return client.sendRawTransaction(transaction.serialize(true));
+		  })
+		  .then(res => {
+		    console.log("\n\n--- Response ---");
+		    console.log(res);
+		    if (res) {
+					    var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
+					    updateVecRelayedTXsAndDraw(txHash, "Invoke", contract_scripthash, invokeParams);
+
+					    // Jump to acitivy tab and record last tab
+					    $('.nav-pills a[data-target="#activity"]').tab('show');
+					    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+					    document.getElementById('divNetworkRelayed').scrollIntoView();
+
+					    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + contract_scripthash + " tx_hash: " + txHash, 7000);
+		     }
+		  })
+		  .catch(err => {
+		    console.log(err);
+		    createNotificationOrAlert("InvocationTransaction_Invoke ERROR", "Response: " + err, 7000);
+		   })
+     }
+}
+
 // Example of invoke
 // InvokeFromAccount(0,0,3,1,1, "24f232ce7c5ff91b9b9384e32f4fd5038742952f", "operation", BASE_PATH_CLI, getCurrentNetworkNickname(), [])
 // contract_operation IS OBSOLET AS IT IS RIGHT NOW
-function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
+function InvokeFromAccountOld(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
     console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams + "'");
     console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
 
@@ -89,9 +177,10 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         fees: mynetfee, // net fees
         gas: mysysgasfee // systemfee
     }
-
+    console.log(config);
     Neon.default.doInvoke(config).then(res => {    
         if (res.response.result) {
+	    console.log(res);
             var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams);
             updateVecRelayedTXsAndDraw(res.response.txid, "Invoke", contract_scripthash, invokeParams);
 

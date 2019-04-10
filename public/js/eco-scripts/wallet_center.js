@@ -162,8 +162,24 @@ function addContractToWallet(scriptHashToAdd) {
 	console.log("Nothing to add. Scripthash looks to be empty!");
 }
 
+function addContractToWalletFromVerification() {
+
+    var verificationScriptToAdd = $("#createtx_from_contract").val();
+    var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
+
+    if (scriptHashToAdd != '')
+    {
+	var accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
+	if (addToWallet(accountToAdd, verificationScriptToAdd))
+        	updateAllWalletData();
+
+        $('.nav-pills a[data-target="#wallet"]').tab('show');
+    }else
+	console.log("Nothing to add. Scripthash looks to be empty!");
+}
+
 //TODO Add suport for adding multisig and specialSC
-function addToWallet(accountToAdd) {
+function addToWallet(accountToAdd, verificationScriptToAdd = "") {
     if (accountToAdd._encrypted != null) {
         if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
             alert("Encrypted key already registered. Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.");
@@ -220,11 +236,14 @@ function addToWallet(accountToAdd) {
             console.log("pubKey " + accountToAdd.publicKey + " is ok!");
         }
 
+	if (verificationScriptToAdd != "")
+		accountToAdd.contract.script = verificationScriptToAdd;
 
         ECO_WALLET.push({
             account: accountToAdd,
             print: true
         });
+
         return true;
     }
 
@@ -326,6 +345,7 @@ function updateAddressSelectionBox() {
     addAllKnownAddressesToSelectionBox("wallet_info");
     addAllKnownAddressesToSelectionBox("createtx_to");
     addAllKnownAddressesToSelectionBox("createtx_from");
+    addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }
 //===============================================================
 

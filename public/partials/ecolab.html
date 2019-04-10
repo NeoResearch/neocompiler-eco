@@ -403,7 +403,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-md-6">
-                                        <button type="button" onClick="addContractToWallet($('#createtx_from_scripthash').val())" id="btnNewVerificationContractToWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
+                                        <button type="button" onClick="addContractToWalletFromVerification()" id="btnNewVerificationContractToWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
                                       </div>
                                     </div>
                                     <label for="createtx_from_verification">Invocation in hex</label>
@@ -1238,14 +1238,6 @@ def Main():
                            </div>
                          </div>
                        </div>
-                       <div class="row">
-                         <div class="col-md-12 form-inline" style="margin-bottom: 10px">
-                           <div class="form-group">
-                             <label>Caller (AddressBase58)</label>
-                             <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
-                           </div>
-                          </div>
-                       </div>
 
                        <div class="row">
                            <div class="col-md-6">
@@ -1356,12 +1348,26 @@ def Main():
                                  </div>
                            </div> <!-- row -->
                            <div class="row">
+                              <div class="col-md-3">
+                               <div class="form-group">
+                                 <label>Caller (AddressBase58)</label>
+                                 <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
+                               </div>
+                              </div>
+                              <div class="col-md-3">
+                                <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD ABI</span>
+                                <input type="file" id="importABIFile" accept=".json,.JSON" onchange="ImportABIFromFile()">
+                              </div>
+                           </div>
+                           <div class="row">
                                <div class="col-md-2">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-fire"></i> Invoke</button>
                                </div>
                                <div class="col-md-2">
-                                 <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD ABI</span>
-                                 <input type="file" id="importABIFile" accept=".json,.JSON" onchange="ImportABIFromFile()">
+                                 <div class="form-group">
+                                   <span type="checkbox" class="label label-success">Advancing signing</span>
+                                   <input type="checkbox" data-toggle="collapse" data-target="#divAdvancedSigning" id="cbxAdvSignToggle"></input><br>
+                                  </div>
                                </div>
                                <div class="col-md-2">
                                  <span id="span_numberInvokes" class="label label-info"></span>
@@ -1369,11 +1375,41 @@ def Main():
                            </div> <!-- row -->
                      </form>
                    </div> <!-- end invokejs -->
-
                </div> <!-- tab-content -->
               </div> <!-- tab-container -->
             </div> <!-- body -->
           </div> <!-- panel warning -->
+
+          <div class="panel panel-info collapse" id="divAdvancedSigning">
+              <div class="panel-heading">Advanced signing
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                      <label for="tx_AdvancedSigning_ScriptHash">ScriptHash</label>
+                      <input id="tx_AdvancedSigning_ScriptHash" readonly="readonly" name="tx_AdvancedSigning_ScriptHash" class="form-control" placeholder="TX Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txScript_advanced_signing">Transaction Header</label>
+                      <textarea id="txScript_advanced_signing" readonly="readonly" rows="5" cols="100" placeholder="TX script" class="form-control"></textarea>
+                    </div>
+                </div> <!-- row -->
+                <div class="row">
+                    <div class="col-md-6">
+                      <select required multiple onchange="addAttributedAndTryToSign()" name="wallet_advanced_signing" id="wallet_advanced_signing" class="custom-select form-control" size="7"></select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txtAdvancedSigning">Scripts - Witness (json)</label>
+                      <textarea onchange="addScriptsToPendingTx()" id="txt_AdvancedSigning_Signatures" rows="5" cols="100" class="form-control" placeholder="Signature1 \n Signature2 \n SignatureN"/>
+                    </div>
+                </div> <!-- row -->
+                <div class="row">
+                    <div class="col-md-2">
+                      <button type="submit" id="sendRawTxBtn" class="btn btn-success btn-sm"><i class="fas fa-fire"></i> Send</button>
+                    </div>
+                </div> <!-- row -->
+              </div>
+          </div>
 
         </div>
         <!-- end deploy invoke -->

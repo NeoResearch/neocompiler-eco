@@ -80,43 +80,6 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
         })
 }
 
-function signMultiTXNeonJs(idToTransfer, constructTxPromise) {
-    jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
-    verificationScript = ECO_WALLET[idToTransfer].account;
-
-    const signTxPromise = constructTxPromise.then(transaction => {
-        const txHex = transaction.serialize(false);
-
-        invocationScriptClean = [];
-        //var signatures=0;
-        for (nA = 0; nA < jsonArrayWithPrivKeys.length; nA++) {
-            invocationScriptClean = fillSignaturesForMultiSign(txHex, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
-            //signatures++;
-            //if(signatures >= ECO_WALLET[idToTransfer].account.contract.parameters.length)
-            //	break;
-        }
-
-        const multiSigWitness = Neon.tx.Witness.buildMultiSig(
-            txHex,
-            invocationScriptClean,
-            ECO_WALLET[idToTransfer].account
-        );
-        transaction.addWitness(multiSigWitness);
-
-        console.log("\n\n--- Transaction ---");
-        console.log(JSON.stringify(transaction.export(), undefined, 2));
-
-        console.log("\n\n--- Transaction hash---");
-        console.log(transaction.hash)
-
-        console.log("\n\n--- Transaction string ---")
-        console.log(transaction.serialize(true));
-
-        return transaction;
-    });
-    return signTxPromise;
-}
-
 function sendingTxPromiseWithEcoRaw(txPromise) {
     const sendTxPromise = txPromise.then(transaction => {
             //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);

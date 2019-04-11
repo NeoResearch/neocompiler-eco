@@ -1608,6 +1608,7 @@ def Main():
       refreshIntervalWalletId = setInterval(function() {
           populateAllWalletData();
           searchForTXs();
+          stopRefreshingDueToConnectionProblems();
       }, intervalForRefreshing);
     }
 
@@ -1641,6 +1642,8 @@ def Main():
 
       refreshIntervalNeoCliNodes = setInterval(function() {
           automaticNeoCliNodeSelection();
+          // Automatic node selection may also find a good node
+          stopRefreshingDueToConnectionProblems();
       }, intervalForRefreshing);
     }
 
@@ -1896,10 +1899,40 @@ def Main():
         }
     }
     //===============================================================
+    function stopRefreshingDueToConnectionProblems(){
+      if(NUMBER_FAILS_REQUESTS > MAX_N_FAILLED_REQUEST_UNTIL_STOP)
+      {
+        //Check if it was already disabled
+        if(!NEO_CLI_REFRESHING_STOPED)
+        {
+          console.log(NUMBER_FAILS_REQUESTS + "/" + MAX_N_FAILLED_REQUEST_UNTIL_STOP);
+          console.log("Time to disable refreshing...");
+          // store the last refreshing rate for wallet
+          NEO_CLI_REFRESHING_STOPED = true;
+          $("#cbx_refresh_wallet").val(0);
+          if(refreshIntervalWalletId!=0)
+            clearInterval(refreshIntervalWalletId);
+
+          if(refreshHeadersNeoCliNeoScan!=0)
+            clearInterval(refreshHeadersNeoCliNeoScan);
+        }
+      }else {
+        if(NEO_CLI_REFRESHING_STOPED)
+        {
+          console.log(NUMBER_FAILS_REQUESTS + "/" + MAX_N_FAILLED_REQUEST_UNTIL_STOP);
+          console.log("Recovering automatic refreshing for balances and headers");
+          setWalletRefreshInterval(10000);
+          setRefreshingIntervalForHeadersInfo(800); //0.8s
+          NEO_CLI_REFRESHING_STOPED = false;
+        }
+      }
+    }
 
     function updatePATHS() {
         mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
-
+        stopAllEcoLabFrontEndTimeoutIntervals();
+        NEO_CLI_REFRESHING_STOPED = false;
+        
         if (mynetworkIndex == 0) {
             $("#cbx_enable_neoscan")[0].checked = false;
             ENABLE_NEOSCAN_TRACKING = false;

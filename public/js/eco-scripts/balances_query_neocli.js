@@ -69,6 +69,7 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
         function(resultJsonData) {
+	    NUMBER_FAILS_REQUESTS = 0;
 	    fillSpanTextOrInputBox(boxToFill,0);
             if (resultJsonData.result) {
                 for (i = 0; i < resultJsonData.result.balances.length; ++i) {
@@ -109,5 +110,6 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
         "json" // The format the response should be in
     ).fail(function() {
         console.error("getAllNeoOrGasFromNeoCli problem. failed to pass request to RPC network!");
+        NUMBER_FAILS_REQUESTS++;
     }); //End of POST for search
 }

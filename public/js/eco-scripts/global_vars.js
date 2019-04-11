@@ -33,3 +33,24 @@ var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 //var ENV_VARS = "";
 /* End Some Global Variables  */
 /* ======================================  */
+
+var NUMBER_FAILS_REQUESTS = 0;
+var MAX_N_FAILLED_REQUEST_UNTIL_STOP = 20;
+var NEO_CLI_REFRESHING_STOPED = FALSE;
+function stopAllEcoLabFrontEndTimeoutIntervals(){
+    //Check current if refresh interval was set and, then, cancel it
+    if(refreshIntervalWalletId!=0)
+      clearInterval(refreshIntervalWalletId);
+
+    if(refreshIntervalEcoMetadataStatsId!=0)
+      clearInterval(refreshIntervalEcoMetadataStatsId);
+
+    if(refreshIntervalNeoCliNodes!=0)
+      clearInterval(refreshIntervalNeoCliNodes);
+
+    if(refreshIntervalCompilers!=0)
+      clearInterval(refreshIntervalCompilers);
+
+    if(refreshGenesisBlock!=0)
+      clearInterval(refreshGenesisBlock);
+}

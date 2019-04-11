@@ -470,7 +470,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">
                           Wallet
-                          <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                          <button type="submit" onClick="populateAllWalletData();" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                         </div>
                         <div class="panel-body">
                             <div id="divWalletsStatus" class="table-responsive"></div>
@@ -487,83 +487,78 @@
                             VerificationScript: <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="20" /> <br>
                             EncryptedKey: <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="32" /> <br>
                             <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
-                            <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                            <button type="button" onClick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                         </div>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading">Accounts detailed info</div>
-                        <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
-                            <button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i></button> <br />
-                            <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Encrypted</strong><input id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <div id="dialog" title="Basic dialog" hidden>
-                              <input id="passwordNep2" type="password" size="25" />
-                              <button type="" onClick="decrypt()" class="btn btn-info btn-sm">Decrypt</button>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <span class="label label-primary">Pick an address:</span>
+                                <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
+                              </div>
                             </div>
-                            <strong>ScriptHash</strong><input id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>PublicKey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>VerificationScript</strong><input id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>WIF</strong><input id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>PrivateKey</strong><input id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Owners:</strong><input id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Print:</strong><input id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                        </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <span class="label label-success">AddressBase58:</span>
+                                <textarea id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">ScriptHash:</span>
+                                <textarea id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">PublicKey:</span>
+                                <textarea id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">VerificationScript:</span>
+                                <textarea id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)"/>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <span class="label label-success">WIF:</span>
+                                <textarea id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" />
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">PrivateKey:</span>
+                                <textarea id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">Print:</span>
+                                <textarea id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">Owners:</span>
+                                <textarea id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)"/>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <br /><button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">
+                                  <i class="fas fa-user-minus"></i> Remove account
+                                </button>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">EncryptedKey:</span>
+                                <textarea id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <div id="dialog" title="Basic dialog" hidden>
+                                  <input id="passwordNep2" type="password" size="25" />
+                                  <button type="" onClick="decrypt()" class="btn btn-info btn-sm">Decrypt</button>
+                                </div>
+                              </div>
+                            </div>
+
+                        </div> <!-- END PANEL BODY -->
                     </div>
-                    <!--
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 1</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</p>
-                              <strong>Publickey</strong><p class="tabu">031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a</p>
-                              <strong>WIF</strong><p class="tabu">KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 2</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL</p>
-                              <strong>Publickey</strong><p class="tabu">036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb</p>
-                              <strong>WIF</strong><p class="tabu">L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 3</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx</p>
-                              <strong>Publickey</strong><p class="tabu">0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d</p>
-                              <strong>WIF</strong><p class="tabu">KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 4</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9</p>
-                              <strong>Publickey</strong><p class="tabu">02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4</p>
-                              <strong>WIF</strong><p class="tabu">KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div><br>
-                    -->
            </div>
            <!-- END DIV WALLETS INFO -->
            <!-- ======================================================== -->

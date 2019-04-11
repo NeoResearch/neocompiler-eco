@@ -191,10 +191,9 @@ function addToWallet(accountToAdd, verificationScriptToAdd = "") {
         });
         return true;
     }
+    var addressBase58ToAdd = accountToAdd.address;
 
     if (!accountToAdd.isMultiSig) {
-        var addressBase58ToAdd = accountToAdd.address;
-
         console.log("pubAddressToAdd: '" + addressBase58ToAdd + "'");
         if (accountToAdd._WIF != null) {
             var wifToAdd = accountToAdd.WIF;
@@ -421,3 +420,22 @@ function decrypt() {
     });
 }
 
+function getAddressBase58FromMultiSig(verificationScript) {
+    jssonArrayWithAddr = [];
+    var jssonArrayWithPubKey = getPubKeysFromMultiSig(verificationScript);
+    for (a = 0; a < jssonArrayWithPubKey.length; a++)
+        jssonArrayWithAddr.push(new Neon.wallet.Account(jssonArrayWithPubKey[a].pubKey));
+    return jssonArrayWithAddr;
+}
+
+function getAccountFromMultiSigVerification(verificationScript) {
+    var jssonArrayWithAddr = getAddressBase58FromMultiSig(verificationScript);
+    var rawPubKeysForNeonJS = [];
+
+    // Create publicKeys: string[]
+    for (var a = 0; a < jssonArrayWithAddr.length; a++)
+        rawPubKeysForNeonJS.push(jssonArrayWithAddr[a].publicKey);
+
+    var nRequiredSignatures = getNRequiredSignatures(verificationScript);
+    return Neon.wallet.Account.createMultiSig(Number(nRequiredSignatures), rawPubKeysForNeonJS);
+}

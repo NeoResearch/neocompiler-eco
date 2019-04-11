@@ -163,7 +163,6 @@ function addContractToWallet(scriptHashToAdd) {
 }
 
 function addContractToWalletFromVerification() {
-
     var verificationScriptToAdd = $("#createtx_from_contract").val();
     var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
 
@@ -355,12 +354,14 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
     //var currentSelected = document.getElementById(walletSelectionBox).selectedOptions[0].index;
     document.getElementById(walletSelectionBox).options.length = 0;
     for (ka = 0; ka < ECO_WALLET.length; ++ka) {
+        // Removing .slice(0, 4)
+        // addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
+        // addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
         if (isEncryptedOnly(ka))
-            addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
+            addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted, "wallet_" + ka, walletSelectionBox);
         else
-            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
+            addOptionToSelectionBox(ECO_WALLET[ka].account.address, "wallet_" + ka, walletSelectionBox);
     }
-    //document.getElementById(walletSelectionBox)[0].selectedIndex = 0; //currentSelected
 }
 //===============================================================
 

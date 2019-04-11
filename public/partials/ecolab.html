@@ -336,16 +336,14 @@
                         <div class="panel-body">
                             <form id="createtx" action="">
                               <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
                                     <button type=button onClick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
                                     <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3"></select>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="createtx_to">To(Address)</label>
                                     <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3"></select>
@@ -442,7 +440,7 @@
                                     <label for="createtx_signature">Generate Signature (Optional)</label>
                                     <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
                                     <!-- document.getElementById("createtx_signature").checkValidity() -->
-                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i></button>
+                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i> Sign</button>
                                     <!-- Neon.wallet.generateSignature -->
                                     <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
                                   </div>
@@ -479,15 +477,45 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Register new account</div>
                         <div class="panel-body">
-                            Address: <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address (base58)"/> <br>
-                            ScriptHash: <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="40" title="scripthash"/> <br>
-                            PubKey: <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62"/> <br>
-                            WIF: <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
-                            PrivateKey: <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="62" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="62" /> <br>
-                            VerificationScript: <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="20" /> <br>
-                            EncryptedKey: <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="32" /> <br>
-                            <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
-                            <button type="button" onClick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                          <div class="row">
+                            <div class="col-md-6">
+                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address (base58)"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="38" title="scripthash"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="50" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                PrivateKey (32 bytes): <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="64" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="60" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="58" />
+                            </div>
+                          </div>
+                          <input data-toggle="collapse" data-target="#div_addMultiSig_byVerification" type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
+                          <div class="panel-body collapse" id="div_addMultiSig_byVerification">
+                              VerificationScript (? bytes): <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="40" /> <br>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" onClick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                            </div>
+                          </div>
                         </div>
                     </div>
                     <div class="panel panel-info">
@@ -495,7 +523,7 @@
                         <div class="panel-body">
 
                             <div class="row">
-                              <div class="col-md-2">
+                              <div class="col-md-4">
                                 <span class="label label-primary">Pick an address:</span>
                                 <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                               </div>
@@ -1932,7 +1960,7 @@ def Main():
         mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
         stopAllEcoLabFrontEndTimeoutIntervals();
         NEO_CLI_REFRESHING_STOPED = false;
-        
+
         if (mynetworkIndex == 0) {
             $("#cbx_enable_neoscan")[0].checked = false;
             ENABLE_NEOSCAN_TRACKING = false;

@@ -18,9 +18,7 @@ config(['$routeProvider',
             templateUrl: "/public/partials/neoeditor.html"
         }).
         when("/ecolab", {
-            templateUrl: "/public/partials/ecolab.html",
-            reloadOnUrl: false,
-            reloadOnSearch: false
+            redirectTo: "/ecolab/compilers"
         }).
         when("/ecolab/:tab", {
             templateUrl: "/public/partials/ecolab.html",

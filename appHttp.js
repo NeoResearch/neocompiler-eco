@@ -29,7 +29,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  //next(err);
+  res.send({ 'error': 'no route found!' });
 });
 
 module.exports = app;

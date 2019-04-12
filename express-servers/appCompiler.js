@@ -46,6 +46,12 @@ var optionsCompile = {
 }
 
 app.get('/', (req, res) => {
+    if(req.query["random-no-cache"])
+    {
+        res.send("Thanks for pinging with random-no-cache. Hope I am fast enought.");
+	return;
+    }
+
     console.log("Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch");
     var obj = {};
     obj["result"] = true;
@@ -58,6 +64,7 @@ app.get('/', (req, res) => {
         method: "/getCompilers"
     });
     obj["methods"] = arrMethods;
+
     res.send(obj);
 });
 

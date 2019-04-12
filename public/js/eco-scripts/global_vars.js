@@ -29,6 +29,9 @@ var LAST_BEST_HEIGHT_NEOCLI = 0;
 /* LAST ACTIVE TAB BEFORE ACTIVITY */
 var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 
+/* ARRAY VECTOR WITH ALL RELAYED TXs */
+var vecRelayedTXs = [];
+
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";
 /* End Some Global Variables  */

@@ -1540,6 +1540,7 @@ def Main():
 
 
     <script>
+    drawRelayedTXs();
     window.onbeforeunload = function(event) {
         storePageData();
         //socket.disconnect();
@@ -1566,18 +1567,10 @@ def Main():
         automaticNeoCliNodeSelection();
         updateAllWalletData();
         updateEcoMetadataInfo();
-    });
 
-    //===============================================================
-    //============= ADD OPTION TO SELECTION BOX =====================
-    function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
-        var option = document.createElement("option");
-        option.text = textToOption;
-        option.value = valueToOption;
-        var select = document.getElementById(walletSelectionBox);
-        select.appendChild(option);
-    }
-    //===============================================================
+        //The first call is done here as default
+        updateCompilersSelectionBox("docker-mono-neo-compiler");
+    });
 
     //===============================================================
     var editorPython = createEditor("editorPython", "ace/mode/python");
@@ -1625,9 +1618,6 @@ def Main():
         return editor
     }
     //===============================================================
-
-    var vecRelayedTXs = [];
-    drawRelayedTXs();
 
     function setWalletRefreshInterval(intervalForRefreshing)
     {
@@ -1894,11 +1884,18 @@ def Main():
         }
     }
 
-    //The first call is done here as default
-    updateCompilersSelectionBox("docker-mono-neo-compiler");
+    //===============================================================
+    //============= ADD OPTION TO SELECTION BOX =====================
+    function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
+        var option = document.createElement("option");
+        option.text = textToOption;
+        option.value = valueToOption;
+        var select = document.getElementById(walletSelectionBox);
+        select.appendChild(option);
+    }
+    //===============================================================
 
     function updateCompilersSelectionBox(compilerType) {
-
         $.get(BASE_PATH_COMPILERS + '/getcompilers',
             function(data) {
                 compilerSelectionBoxID = "compilers_versions-selection-box";
@@ -1915,7 +1912,6 @@ def Main():
             "json" // The format the response should be in
         );
     }
-
     //===============================================================
     //= UPDATE ALL KNOWN SERVICE TO THEIR CONFIGURATION SELELECTION =
     function addAllKnownServiceToSelectionBox(serviceType, networkServicesObj, selectionBoxToFill) {

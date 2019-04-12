@@ -578,10 +578,12 @@
                                 <textarea id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)"/>
                               </div>
                               <div class="col-md-2">
-                                <div id="dialog" title="Basic dialog" hidden>
-                                  <input id="passwordNep2" type="password" size="25" />
-                                  <button type="" onClick="decrypt()" class="btn btn-info btn-sm">Decrypt</button>
-                                </div>
+                                  <form class="form-group" onSubmit="decrypt()">
+                                    <div id="dialog" title="Basic dialog" hidden>
+                                      <input autocomplete=​"eco" id="passwordNep2" class="form-control" type="password" placeholder=​"EnterPassword" />
+                                      <button type="submit" class="form-control btn btn-info btn-sm">Decrypt</button>
+                                    </div>
+                                  <form>
                               </div>
                             </div>
 

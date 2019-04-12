@@ -1866,8 +1866,8 @@ def Main():
         mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
 
         if (mynetworkIndex == 0) {
-            $("#cbx_enable_neoscan")[0].checked = false;
-            ENABLE_NEOSCAN_TRACKING = false;
+            $("#cbx_enable_neoscan")[0].checked = true;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);

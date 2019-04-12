@@ -2,7 +2,7 @@
 source .env
 
 function usage {
-    echo "Usage: $0 [--stop-all]"
+    echo "Usage: $0 [--stop-express]"
 }
 
 STOP_EXPRESS=0

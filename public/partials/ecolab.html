@@ -1569,6 +1569,7 @@ def Main():
         updateEcoMetadataInfo();
 
         //The first call is done here as default
+        $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
     });
 
@@ -1906,6 +1907,7 @@ def Main():
                     if (data[c].compiler == compilerType)
                         addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
                 }
+                $("#compilebtn")[0].disabled = false;
                 //Select the latest as default
                 //compilerSelectionBoxObj.selectedIndex = (compilerSelectionBoxObj.length -1)
             },

@@ -31,16 +31,20 @@ function addScriptsToPendingTx() {
     }
 
     PendingTX.then(transaction => {
-        transaction.scripts = [];
         var newScripts = JSON.parse($("#txt_AdvancedSigning_Signatures").val());
-        console.log(newScripts);
+        transaction.scripts = [];
         for (var s = 0; s < newScripts.length; s++)
-            transaction.addWitness(newScripts[s]);
-        console.log("false");
-        console.log(transaction.serialize(false));
-        console.log("true");
-        console.log(transaction.serialize(true));
+        {
+                var accountSignature = new Neon.tx.Witness({
+                    invocationScript: newScripts[s].invocationScript,
+                    verificationScript: newScripts[s].verificationScript
+                });
+	    console.log(accountSignature)
+            transaction.addWitness(accountSignature);
+	}
 
+        $("#txt_AdvancedSigning_Signatures").val(JSON.stringify(transaction.scripts));
+        $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);
         return transaction;
     });
 }
@@ -51,7 +55,7 @@ function addAttributedAndTryToSign() {
         return;
     }
 
-    SignedTX = PendingTX.then(transaction => {
+    PendingTX.then(transaction => {
         transaction.attributes = [];
 
         if (transaction.inputs.length == 0)
@@ -78,22 +82,21 @@ function addAttributedAndTryToSign() {
                 accountSignature = Neon.tx.Witness.fromSignature(Neon.wallet.sign(txHex, ECO_WALLET[accountID].account.privateKey), ECO_WALLET[accountID].account.publicKey);
             } else {
                 var accountContractScript = ECO_WALLET[accountID].account.contract.script;
-                accountSignature = {
-                    _scriptHash: accountScriptHash,
+                var accountSignature = new Neon.tx.Witness({
                     invocationScript: "??????",
                     verificationScript: accountContractScript
-                };
+                });
             }
 
             transaction.addWitness(accountSignature);
         }
 
-        console.log(transaction.serialize(true))
+        console.log(transaction.serialize(true));
         $("#tx_AdvancedSigning_ScriptHash").val(transaction.hash);
         $("#txScript_advanced_signing").val(transaction.serialize(false));
-        $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);
         $("#tx_AdvancedSigning_HeaderSize").val(transaction.serialize(false).length / 2);
         $("#txt_AdvancedSigning_Signatures").val(JSON.stringify(transaction.scripts));
+        $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);
 
         return transaction;
     });

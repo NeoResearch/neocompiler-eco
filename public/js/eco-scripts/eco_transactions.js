@@ -84,18 +84,22 @@ function drawRelayedTXs() {
             bRestore.onclick = function() {};
         txRow.insertCell(-1).appendChild(bRestore);
 
-        var inputTxType = document.createElement("input");
+        var inputTxType = document.createElement("span");
         //input.setAttribute("type", "hidden");
         inputTxType.setAttribute("name", "textTxType" + i);
         inputTxType.setAttribute("readonly", "true");
         inputTxType.style.width = '70px';
-        inputTxType.setAttribute("value", vecRelayedTXs[i].txType);
+        inputTxType.innerHTML = vecRelayedTXs[i].txType;
         txRow.insertCell(-1).appendChild(inputTxType);
 
-        var inputParams = document.createElement("input");
+        var inputParams = document.createElement("span");
         inputParams.setAttribute("name", "textParams" + i);
+        inputParams.setAttribute("class", "col-md-10");
         inputParams.setAttribute("readonly", "true");
-        inputParams.setAttribute("value", vecRelayedTXs[i].txParams);
+        var tempTxParams = JSON.parse(vecRelayedTXs[i].txParams);
+	if(tempTxParams.contract_script)
+		tempTxParams.contract_script = tempTxParams.contract_script.slice(0, 26) + "..." + tempTxParams.contract_script.slice(-26);
+        inputParams.innerHTML = JSON.stringify(tempTxParams, undefined, 2);
         txRow.insertCell(-1).appendChild(inputParams);
 
         var inputTxHeight = document.createElement("input");

@@ -29,7 +29,14 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             }); //End of POST for search
 }
 
-function sendingTxPromiseWithEcoRaw(txPromise) {
+function sendingTxPromiseWithEcoRaw(txPromise, txLoggingParams = null) {
+    var txLoggingParams = [];
+    if (txLoggingParams != null)
+    {
+            txLoggingParams = txLoggingParams;
+	    console.log("sending pending tx!");
+    }
+
     const sendTxPromise = txPromise.then(transaction => {
             //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
             //return client.sendRawTransaction(transaction.serialize(true));
@@ -40,6 +47,15 @@ function sendingTxPromiseWithEcoRaw(txPromise) {
         .then(res => {
             console.log("\n\n--- A response was achieved---");
             //console.log(res);
+            if(txLoggingParams != null)
+            {
+                    updateVecRelayedTXsAndDraw(txHash, txParams.type, JSON.stringify(txLoggingParams));
+                    // Jump to acitivy tab and record last tab
+                    $('.nav-pills a[data-target="#activity"]').tab('show');
+                    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+                    document.getElementById('divNetworkRelayed').scrollIntoView();
+                    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + invokeParams.contract_scripthash + " tx_hash: " + txHash, 7000);
+            }
         })
         .catch(err => console.log(err));
     return sendTxPromise;

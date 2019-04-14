@@ -196,7 +196,8 @@ function transformInvokeParams(myaddress, mynetfee, mysysgasfee, neo, gas, neonJ
         mysysgasfee: mysysgasfee,
         neo: neo,
         gas: gas,
-        neonJSParams: neonJSParams
+        neonJSParams: neonJSParams,
+        type: "invoke"
     }
     return invokeParams;
 }
@@ -214,7 +215,8 @@ function transformDeployParams(myaddress, mynetfee, contract_scripthash, contrac
         contract_email: contract_email,
         contract_author: contract_author,
         contract_version: contract_version,
-        contract_appname: contract_appname
+        contract_appname: contract_appname,
+        type: "deploy"
     }
     return deployParams;
 }

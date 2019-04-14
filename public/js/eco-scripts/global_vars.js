@@ -54,7 +54,7 @@ var cSharpFiles = [
 
 /* PENDING TX */
 var PendingTX = null;
-var PendingTXParams = null;
+var PendingTXParams = [];
 
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";

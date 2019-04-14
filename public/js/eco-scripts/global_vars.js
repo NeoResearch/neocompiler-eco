@@ -52,6 +52,18 @@ var cSharpFiles = [
         ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
 ];
 
+var cPythonFiles = [
+        ["/examples/python/HelloWorld.py"]
+];
+
+var cJavaFiles = [
+        ["/examples/java/HelloWorld.java"]
+];
+
+var cGolangFiles = [
+        ["/examples/go/HelloWorld.go"]
+];
+
 /* PENDING TX */
 var PendingTX = null;
 var PendingTXParams = [];

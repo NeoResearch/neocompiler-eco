@@ -915,74 +915,26 @@
                                                         <span class="caret"></span>
                                                     </a>
                                                     <ul class="dropdown-menu" id="ExampleList">
-                                                        <li><a onclick="setExample('0')">HelloWorld.cs</a></li>
-                                                        <li><a onclick="setExample('1')">ICO_Template.cs</a></li>
-                                                        <li><a onclick="setExample('2')">MyCheckWitness.cs</a></li>
-                                                        <li><a onclick="setExample('3')">Lock.cs</a></li>
-                                                        <li><a onclick="setExample('4')">StructExample.cs</a></li>
-                                                        <li><a onclick="setExample('5')">MapExample.cs</a></li>
-                                                        <li><a onclick="setExample('6')">HelloWorldNotification.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '0')">HelloWorld.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '1')">ICO_Template.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '2')">MyCheckWitness.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '3')">Lock.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '4')">StructExample.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '5')">MapExample.cs</a></li>
+                                                        <li><a onclick="setExample('csharp', '6')">HelloWorldNotification.cs</a></li>
                                                     </ul>
                                                 </div>
                                                 <input type="hidden" id="code_cs" name="codesend_cs"/>
-                                                <pre id="editorCSharp">
-using Neo.SmartContract.Framework.Services.Neo;
-
-namespace Neo.SmartContract
-{
-    public class HelloWorld : Framework.SmartContract
-    {
-        public static void Main()
-        {
-            // writes value &quot;World&quot; on storage key &quot;Hello&quot;
-            // implicitly calls Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;)
-            Storage.Put(&quot;Hello&quot;, &quot;World&quot;);
-        }
-    }
-}
-                                      </pre>
-                                    </div>
+                                         </div>
+                                         <pre id="editorCSharp">
+                                         </pre>
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- end csharpcode -->
 
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- java div -->
                                     <div class="tab-pane cont" id="javacode">
-                                        <input type="hidden" id="code_java" name="codesend_java"/>
-                                        <pre id="editorJava">
-package teste;
-
-import org.neo.smartcontract.framework.services.neo.TriggerType;
-import org.neo.smartcontract.framework.services.system.ExecutionEngine;
-
-import java.math.BigInteger;
-
-import org.neo.smartcontract.framework.Helper;
-import org.neo.smartcontract.framework.SmartContract;
-import org.neo.smartcontract.framework.services.neo.Runtime;
-import org.neo.smartcontract.framework.services.neo.Storage;
-import org.neo.smartcontract.framework.services.neo.Transaction;
-import org.neo.smartcontract.framework.services.neo.TransactionOutput;
-
-public class JavaContract extends SmartContract {
-
-	public static Object Main(String operation, Object[] args) {
-		TriggerType trigger = Runtime.trigger();
-
-		if (trigger == TriggerType.Verification) {
-
-			return true;
-
-		} else if (trigger == TriggerType.Application) {
-
-
-		}
-
-		return false;
-	}
-
-}
-                                            </pre>
+                                          <input type="hidden" id="code_java" name="codesend_java"/>
                                           </div>
                                           <!-- /////////////////////////////////////////////////////////////////// -->
                                           <!-- end java -->
@@ -991,14 +943,6 @@ public class JavaContract extends SmartContract {
                                           <!-- golang div -->
                                           <div class="tab-pane cont" id="golangcode">
                                               <input type="hidden" id="code_golang" name="codesend_golang"/>
-                                              <pre id="editorGolang">
-package main
-
-func Main() int {
-	x := 10
-	return x
-}
-                                            </pre>
                                           </div>
                                           <!-- /////////////////////////////////////////////////////////////////// -->
                                           <!-- golang java -->
@@ -1007,18 +951,6 @@ func Main() int {
                                           <!-- python div -->
                                           <div class="tab-pane cont" id="pythoncode">
                                               <input type="hidden" id="code_python" name="codesend_python"/>
-                                              <pre id="editorPython">
-from boa.interop.Neo.Runtime import Notify, CheckWitness
-
-def Main():
-    #OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
-    OWNER=b'\x03\x1alo\xbb\xdf\x02\xca5\x17E\xfa\x86\xb9\xbaZ\x94R\xd7\x85\xacO\x7f\xc2\xb7T\x8c\xa2\xa4lO\xcfJ'
-    result = CheckWitness(OWNER)
-    if result:
-        print(&quot;OWNER is caller&quot;)
-        return True
-    return False
-                                            </pre>
                                         </div>
                                     </div>
                                 </div>
@@ -1575,10 +1507,8 @@ def Main():
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
-        editorPython = createEditor("editorPython", "ace/mode/python");
-        editorGolang = createEditor("editorGolang", "ace/mode/golang");
         editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
-        editorJava = createEditor("editorJava", "ace/mode/java");
+        setExample("csharp",'0');
     });
 
     function createEditor(name, mode) {
@@ -2564,33 +2494,6 @@ def Main():
     });
     // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
     // ==================================================================================
-    function createSendTxForm() {
-        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-        var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
-        var addrToValue = ECO_WALLET[addrToIndex].account.address;
-        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
-            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
-            //Multi-sig address
-            createTxFromMSAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
-        } else {
-            //TODO add verification for watch only
-            createTxFromAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
-        }
-    };
-
-    function createGasTxForm() {
-        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
-            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
-            //Multi-sig address
-            createClaimMSGasTX(addrFromIndex, jsonArrayWithPrivKeys, getCurrentNetworkNickname())
-        } else {
-            //TODO add verification for watch only
-            createClaimGasTX(addrFromIndex, BASE_PATH_CLI, getCurrentNetworkNickname());
-        }
-    };
-
-
     $("#createtx_from_contract").on('keyup', function() {
         var hexavm = $("#createtx_from_contract").val();
         hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
@@ -2719,36 +2622,61 @@ def Main():
         });
     }
 
-    function setExample(selected_index) {
+    function setExample(language, selected_index) {
         console.log("selecting example:" + selected_index);
         editorCSharp.getSession().setValue("");
-        getfile(selected_index, 0);
-        /*
-    		  var numfiles = cSharpFiles[selected_index].length;
-    		  if(numfiles == 1) {
-    	        console.log("example file is: "+file);
-    		  } else {
-    			  var file_i = 0;
-    			  while(file_i < numfiles) {
-
-    			  }
-    		  }
-    		  */
+        getfile(language, selected_index, 0);
     }
 
-    function getfile(selected_index, index = 0) {
-        var numfiles = cSharpFiles[selected_index].length;
+    function getfile(language, selected_index, index = 0) {
+        var vExamples = cSharpFiles;
+        if(language === "python")
+          vExamples = cPythonFiles;
+        if(language === "java")
+          vExamples = cJavaFiles;
+        if(language === "golang")
+          vExamples = cGolangFiles;
+
+        var numfiles = vExamples[selected_index].length;
         if (index < numfiles) {
-            var file = cSharpFiles[selected_index][index];
+            var file = vExamples[selected_index][index];
             console.log("getting example file: " + file);
             $.get(file, function(data) {
                 editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
-                getfile(selected_index, index + 1);
+                getfile(language, selected_index, index + 1);
             });
         }
     }
     //===============================================================
 
+    //===============================================================
+    //============== SEND TX FUNCTIONS FROM FORM ====================
+    //===============================================================
+    function createSendTxForm() {
+        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+        var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+        var addrToValue = ECO_WALLET[addrToIndex].account.address;
+        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
+            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+            //Multi-sig address
+            createTxFromMSAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
+        } else {
+            //TODO add verification for watch only
+            createTxFromAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+        }
+    };
+
+    function createGasTxForm() {
+        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
+            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+            //Multi-sig address
+            createClaimMSGasTX(addrFromIndex, jsonArrayWithPrivKeys, getCurrentNetworkNickname())
+        } else {
+            //TODO add verification for watch only
+            createClaimGasTX(addrFromIndex, BASE_PATH_CLI, getCurrentNetworkNickname());
+        }
+    };
     //===============================================================
     //============== FORMS ==========================================
     //===============================================================
@@ -2763,15 +2691,15 @@ def Main():
             console.log("C# Compile");
         }
         if ($("#pythoncode.tab-pane.active.cont").length != 0) {
-            $("#code_python").val(ace.edit("editorPython").getSession().getValue());
+            $("#code_python").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("Python Compile");
         }
         if ($("#golangcode.tab-pane.active.cont").length != 0) {
-            $("#code_golang").val(ace.edit("editorGolang").getSession().getValue());
+            $("#code_golang").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("Golang Compile");
         }
         if ($("#javacode.tab-pane.active.cont").length != 0) {
-            $("#code_java").val(ace.edit("editorJava").getSession().getValue());
+            $("#code_java").val(ace.edit("editorCSharp").getSession().getValue());
             console.log("Java Compile");
         }
 
@@ -2993,20 +2921,24 @@ def Main():
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         //console.log(e.target.dataset.target)
         if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+            editorCSharp.getSession().setMode("ace/mode/csharp");
+            setExample("csharp",'0');
             updateCompilersSelectionBox("docker-mono-neo-compiler");
-            //console.log("C# Compile");
         }
         if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+            editorCSharp.getSession().setMode("ace/mode/python");
+            setExample("python",'0');
             updateCompilersSelectionBox("docker-neo-boa");
-            //console.log("Python Compile");
         }
         if ($("#golangcode.tab-pane.active.cont").length != 0) {
+            editorCSharp.getSession().setMode("ace/mode/golang");
+            setExample("golang",'0');
             updateCompilersSelectionBox("docker-neo-go");
-            //console.log("Golang Compile");
         }
         if ($("#javacode.tab-pane.active.cont").length != 0) {
+            editorCSharp.getSession().setMode("ace/mode/java");
+            setExample("java",'0');
             updateCompilersSelectionBox("docker-java-neo-compiler");
-            //console.log("Java Compile");
         }
     });
 

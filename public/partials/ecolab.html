@@ -823,8 +823,8 @@
                            </div>
                             <div class="col-md-3">
                               <span class="label label-success">Password</span>
-                              <br/><input type="text" id="cbx_pwd_cn" placeholder="dockerreset" size="12">
-                              <br/><button type=button onClick="onClickPostServerToResetDockerService()" id="btc_reset_service_pwd" class="btn btn-warning btn-sm">Reset docker service</button>
+                              <br/><input type="text" id="cbx_pwd_reset_service" placeholder="dockerreset" size="12">
+                              <br/><button type=button onClick="onClickPostServerToResetDockerService()" id="btn_reset_service_pwd" class="btn btn-warning btn-sm">Reset docker service</button>
                             </div>
                        </div>
                    </div>
@@ -2704,14 +2704,14 @@ def Main():
     }
 
     function onClickPostServerToResetDockerService() {
-        postServerToResetDockerService($("#btc_reset_service_pwd").val());
+        postServerToResetDockerService($("#cbx_pwd_reset_service").val());
     }
 
     function postServerToResetDockerService(pwd) {
         if(getCurrentNetworkNickname() == "SharedPrivateNet")
         {
           $.get(BASE_PATH_ECOSERVICES + '/resetdockerservice/' + pwd, function(data) {
-              console.log(data)
+              console.log(data);
           });
         }else{
           console.error("Reset only works for SharedPrivateNet EcoService.")

@@ -126,7 +126,7 @@ app.get('/resetdockerservice/:pwd', function(req, res) {
         console.log("Someone is trying an unauthorized access. ");
         var obj = {};
         obj["error"] = false;
-        obj["info"] = "You have no acess to this call with password: " + process.env.PWD_RESET_SERVICE + ". Try a local privatenet.";
+        obj["info"] = "You have no acess to this call with password: " + process.env.PWD_RESET_SERVICE + ". Be careful. You are reset all docker services!";
         res.send(obj);
         return;
     }

@@ -1544,7 +1544,7 @@ def Main():
   <!-- ======================================================== -->
 
 
-    <script>
+    <script>    
     drawRelayedTXs();
     window.onbeforeunload = function(event) {
         storePageData();
@@ -1554,15 +1554,7 @@ def Main():
 
     //Check current webpage and starts with localhost or neocompiler public website
     $(document).ready(function() {
-        //console.log("checking wallets");
-        setWalletRefreshInterval(10000); //10000 millisec
-        setEcoInfoRefreshInterval(10000);
-        setCompilersByPing(20000);
-        setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-        setGenesisBlock(10000);
-
-        recoveringPageData();
-
+        // recoveringPageData(); //deprecated
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if (window.location.href.indexOf("localhost") != -1) {
             $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
@@ -1576,26 +1568,12 @@ def Main():
         //The first call is done here as default
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
-    });
 
-    //===============================================================
-    var editorPython = createEditor("editorPython", "ace/mode/python");
-    var editorGolang = createEditor("editorGolang", "ace/mode/golang");
-    var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
-    var editorJava = createEditor("editorJava", "ace/mode/java");
-    var cSharpFiles = [
-        //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/ICO_Template/ICO_Template.cs"],
-        ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
-        ["/examples/csharp/Lock/Lock.cs"],
-        [
-            "/examples/csharp/StructExample/Point.cs",
-            "/examples/csharp/StructExample/StructExample.cs"
-        ],
-        ["/examples/csharp/MapExample/MapExample.cs"],
-        ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
-    ];
+        var editorPython = createEditor("editorPython", "ace/mode/python");
+        var editorGolang = createEditor("editorGolang", "ace/mode/golang");
+        var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+        var editorJava = createEditor("editorJava", "ace/mode/java");
+    });
 
     function createEditor(name, mode) {
         var editor = ace.edit(name);
@@ -1966,6 +1944,7 @@ def Main():
         stopAllEcoLabFrontEndTimeoutIntervals();
         NEO_CLI_REFRESHING_STOPED = false;
 
+        // Eco shared privatenet
         if (mynetworkIndex == 0) {
             $("#cbx_enable_neoscan")[0].checked = true;
             ENABLE_NEOSCAN_TRACKING = true;
@@ -1976,14 +1955,15 @@ def Main():
             $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+            setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", ecoNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", ecoNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",ecoNodes,"selectionBoxRestNotifications");
         }
 
+        // Localhost services
         if (mynetworkIndex == 1) {
             $("#cbx_enable_neoscan")[0].checked = false;
             ENABLE_NEOSCAN_TRACKING = false;
@@ -1994,12 +1974,12 @@ def Main():
             $("#cbx_refresh_headers").val(800);
             setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+            setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", localHostNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", localHostNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
         }
 
         // MainNet
@@ -2091,16 +2071,22 @@ def Main():
     // =======================================================================
     // ======================= COOKIES TEST ==================================
     function recoveringPageData() {
+        /*
+        // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         if (checkCookie("lastactivetab")) {
             index = getCookie("lastactivetab");
             //console.log("Cookie tests. Recovering active tab....");
             if(window.location.hash.slice(10).length == 0)
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
+        */
     }
 
     function storePageData() {
+        /*
+        // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
+        */
     }
     // =======================================================================
 

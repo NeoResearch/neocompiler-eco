@@ -32,6 +32,27 @@ var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 /* ARRAY VECTOR WITH ALL RELAYED TXs */
 var vecRelayedTXs = [];
 
+/* EDITORS AND EXAMPLES */
+    var editorPython;
+    var editorGolang;
+    var editorCSharp;
+    var editorJava;
+    //===============================================================
+    var cSharpFiles = [
+        //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+        ["/examples/csharp/HelloWorld/HelloWorld.cs"],
+        ["/examples/csharp/ICO_Template/ICO_Template.cs"],
+        ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
+        ["/examples/csharp/Lock/Lock.cs"],
+        [
+            "/examples/csharp/StructExample/Point.cs",
+            "/examples/csharp/StructExample/StructExample.cs"
+        ],
+        ["/examples/csharp/MapExample/MapExample.cs"],
+        ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
+    ];
+
+
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";
 /* End Some Global Variables  */

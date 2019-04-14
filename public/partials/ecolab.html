@@ -928,6 +928,15 @@
 
                                        <!-- ACE EDITOR div pre -->
                                        <pre id="aceEditor"></pre>
+
+                                       <div class="row">
+                                           <div class="col-md-4">
+                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="12">
+                                             <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
+                                             <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
+                                           </div>
+                                       </div>
+
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
                                 <!-- <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p> -->
@@ -1462,7 +1471,7 @@
 
     //Check current webpage and starts with localhost or neocompiler public website
     $(document).ready(function() {
-        // recoveringPageData(); //deprecated
+        recoveringPageData();
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if (window.location.href.indexOf("localhost") != -1) {
             $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
@@ -1987,6 +1996,10 @@
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
         */
+        if (checkCookie("myexamples")) {
+            var mapCokies = decodeURIComponent(getCookie("myexamples"));
+            USER_EXAMPLES = new Map(JSON.parse(mapCokies));
+        }
     }
 
     function storePageData() {
@@ -1994,6 +2007,8 @@
         // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
         */
+        console.log(JSON.stringify([...USER_EXAMPLES]));
+        setCookie("myexamples", JSON.stringify([...USER_EXAMPLES]), 1);
     }
     // =======================================================================
 
@@ -2593,6 +2608,14 @@
         });
     }
 
+    function setExampleFromCookies(key) {
+        //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
+        aceEditor.getSession().setValue("");
+        console.log(key);
+        aceEditor.getSession().setValue(USER_EXAMPLES.get(key).code);
+        $("#cbx_example_name")[0].value = key;
+    }
+
     function setExample(language, selected_index) {
         //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
         aceEditor.getSession().setValue("");
@@ -2900,21 +2923,25 @@
             aceEditor.getSession().setMode("ace/mode/csharp");
             updateCompilersSelectionBox("docker-mono-neo-compiler");
             vExamples = cSharpFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.cs";
         }
         if (language === "python") {
             aceEditor.getSession().setMode("ace/mode/python");
             updateCompilersSelectionBox("docker-neo-boa");
             vExamples = cPythonFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.py";
         }
         if (language === "golang") {
             aceEditor.getSession().setMode("ace/mode/golang");
             updateCompilersSelectionBox("docker-neo-go");
             vExamples = cGolangFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.go";
         }
         if (language === "java") {
             aceEditor.getSession().setMode("ace/mode/java");
             updateCompilersSelectionBox("docker-java-neo-compiler");
             vExamples = cJavaFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.java";
         }
 
         var exampleListUl = document.getElementById("ExampleList");
@@ -2930,9 +2957,14 @@
           exampleToAdd.appendChild(document.createTextNode(exampleName));
           exampleListUl.appendChild(exampleToAdd);
         }
+
+        //Checking all cookies
+        USER_EXAMPLES.forEach(function(value, key) {
+            addCSContractFromLocalMap(value, key, language);
+        });
+
         setExample(language, 0);
     };
-
     //===============================================================
     $("#btn_downloadOpCode").click(function(e) {
         e.preventDefault();

@@ -35,6 +35,7 @@ var vecRelayedTXs = [];
 /* EDITORS AND EXAMPLES */
 var aceEditor;
 var SELECTED_COMPILER = "";
+var USER_EXAMPLES = new Map();
 //===============================================================
 var cSharpFiles = [
         //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],

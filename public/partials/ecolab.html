@@ -1085,15 +1085,21 @@ def Main():
                    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-info btn-sm"> <i class="fas fa-sync-alt"></i></button>
               </div>
               <div class="panel-body">
-                  <span type="checkbox" class="label label-success">Full history</span>
-                  <input type="checkbox" id="cbx_fullHistory"></input> <br>
-                  <div id="divRelayedTXs" class="table-responsive"></div>
                   <div class="row">
-                        <div class="col-md-2">
-                          <button onClick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i> Move back</button><br>
-                        </div>
+                      <div class="col-md-2">
+                        <span for="cbx_fullHistory" type="checkbox" class="label label-success">Enable full activity history</span>
+                        <input type="checkbox" id="cbx_fullHistory"></input>
+                      </div>
                   </div>
                   <div class="row">
+                      <div class="col-md-12">
+                        <div id="divRelayedTXs" class="table-responsive"></div>
+                      </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-2">
+                          <button onClick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i> Deploy&Invoke </button>
+                        </div>
                         <div class="col-md-2">
                           <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-file-download"></i><font size='1'> DOWNLOAD</font></button><br>
                         </div>

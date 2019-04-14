@@ -926,7 +926,7 @@
                                                 </div>
                                                 <input type="hidden" id="code_cs" name="codesend_cs"/>
                                          </div>
-                                         <pre id="editorCSharp">
+                                         <pre id="aceEditor">
                                          </pre>
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- end csharpcode -->
@@ -1507,7 +1507,7 @@
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
-        editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+        aceEditor = createEditor("aceEditor", "ace/mode/csharp");
         setExample("csharp",'0');
     });
 
@@ -2623,8 +2623,8 @@
     }
 
     function setExample(language, selected_index) {
-        console.log("selecting example:" + selected_index);
-        editorCSharp.getSession().setValue("");
+        //console.log("selecting example:" + selected_index);
+        aceEditor.getSession().setValue("");
         getfile(language, selected_index, 0);
     }
 
@@ -2640,9 +2640,9 @@
         var numfiles = vExamples[selected_index].length;
         if (index < numfiles) {
             var file = vExamples[selected_index][index];
-            console.log("getting example file: " + file);
+            //console.log("getting example file: " + file);
             $.get(file, function(data) {
-                editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
+                aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
                 getfile(language, selected_index, index + 1);
             });
         }
@@ -2687,19 +2687,19 @@
         $("#code_golang").val("");
         $("#code_java").val("");
         if ($("#csharpcode.tab-pane.active.cont").length != 0) {
-            $("#code_cs").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
             console.log("C# Compile");
         }
         if ($("#pythoncode.tab-pane.active.cont").length != 0) {
-            $("#code_python").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code_python").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Python Compile");
         }
         if ($("#golangcode.tab-pane.active.cont").length != 0) {
-            $("#code_golang").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code_golang").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Golang Compile");
         }
         if ($("#javacode.tab-pane.active.cont").length != 0) {
-            $("#code_java").val(ace.edit("editorCSharp").getSession().getValue());
+            $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Java Compile");
         }
 
@@ -2754,9 +2754,12 @@
                 // ------------------------------------------
 
                 // Loading all ABI related boxes
-                var codeabi = atob(data.abi);
-                console.log(codeabi);
-    	          updateAllABIDependencies(JSON.parse(codeabi));
+                if(data.abi != "")
+                {
+                  var codeabi = atob(data.abi);
+                  console.log(codeabi);
+    	            updateAllABIDependencies(JSON.parse(codeabi));
+                }
             },
             "json" // The format the response should be in
         ); //End of POST for Compile
@@ -2921,22 +2924,22 @@
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         //console.log(e.target.dataset.target)
         if ($("#csharpcode.tab-pane.active.cont").length != 0) {
-            editorCSharp.getSession().setMode("ace/mode/csharp");
+            aceEditor.getSession().setMode("ace/mode/csharp");
             setExample("csharp",'0');
             updateCompilersSelectionBox("docker-mono-neo-compiler");
         }
         if ($("#pythoncode.tab-pane.active.cont").length != 0) {
-            editorCSharp.getSession().setMode("ace/mode/python");
+            aceEditor.getSession().setMode("ace/mode/python");
             setExample("python",'0');
             updateCompilersSelectionBox("docker-neo-boa");
         }
         if ($("#golangcode.tab-pane.active.cont").length != 0) {
-            editorCSharp.getSession().setMode("ace/mode/golang");
+            aceEditor.getSession().setMode("ace/mode/golang");
             setExample("golang",'0');
             updateCompilersSelectionBox("docker-neo-go");
         }
         if ($("#javacode.tab-pane.active.cont").length != 0) {
-            editorCSharp.getSession().setMode("ace/mode/java");
+            aceEditor.getSession().setMode("ace/mode/java");
             setExample("java",'0');
             updateCompilersSelectionBox("docker-java-neo-compiler");
         }

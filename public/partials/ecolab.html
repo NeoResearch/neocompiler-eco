@@ -908,7 +908,7 @@
                                     <!-- /////////////////////////////////////////////////////////////////// -->
                                     <!-- csharpcode -->
                                     <div class="tab-content">
-                                        <div class="tab-pane active cont" id="csharpcode">
+                                         <div class="tab-pane active cont" id="csharpcode">
                                                 <div class="dropdown btn-group" style="margin-bottom: 10px">
                                                     <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
                                                         Select Example
@@ -925,16 +925,14 @@
                                                     </ul>
                                                 </div>
                                                 <input type="hidden" id="code_cs" name="codesend_cs"/>
-                                         </div>
-                                         <pre id="aceEditor">
-                                         </pre>
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- end csharpcode -->
+                                          </div>
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- end csharpcode -->
 
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- java div -->
-                                    <div class="tab-pane cont" id="javacode">
-                                          <input type="hidden" id="code_java" name="codesend_java"/>
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- java div -->
+                                          <div class="tab-pane cont" id="javacode">
+                                              <input type="hidden" id="code_java" name="codesend_java"/>
                                           </div>
                                           <!-- /////////////////////////////////////////////////////////////////// -->
                                           <!-- end java -->
@@ -951,7 +949,10 @@
                                           <!-- python div -->
                                           <div class="tab-pane cont" id="pythoncode">
                                               <input type="hidden" id="code_python" name="codesend_python"/>
-                                        </div>
+                                          </div>
+
+                                         <!-- ACE EDITOR div pre -->
+                                         <pre id="aceEditor"></pre>
                                     </div>
                                 </div>
                                 <!-- end python div -->
@@ -959,9 +960,8 @@
 
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
-                                <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font>
+                                <!-- <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p> -->
                                 <br><span id="span_numberCompilations" class="label label-info"></span>
-                                </p>
                                 <div class="dropdown btn-group" style="margin-bottom: 10px">
                                   <label for="compilers_versions-selection-box">Compiler version:</label>
                                   <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
@@ -1507,6 +1507,7 @@
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
+        // Setting default code example to csharp and hello world (example 0)
         aceEditor = createEditor("aceEditor", "ace/mode/csharp");
         setExample("csharp",'0');
     });
@@ -2688,19 +2689,19 @@
         $("#code_java").val("");
         if ($("#csharpcode.tab-pane.active.cont").length != 0) {
             $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("C# Compile");
+            console.log("Compiling C# code...");
         }
         if ($("#pythoncode.tab-pane.active.cont").length != 0) {
             $("#code_python").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Python Compile");
+            console.log("Compiling Python code...");
         }
         if ($("#golangcode.tab-pane.active.cont").length != 0) {
             $("#code_golang").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Golang Compile");
+            console.log("Compiling Golang code...");
         }
         if ($("#javacode.tab-pane.active.cont").length != 0) {
             $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Java Compile");
+            console.log("Compiling Java code...");
         }
 
         $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
@@ -2742,14 +2743,16 @@
                 // ------------------------------------------
     	          // calculating extra fee according to AVM size
                 var fixedAVGTxSize = 500; //TODO
-    	          var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
+    	          var avmSize = Math.ceil(hexcodeavm.length/2);
                 $("#contractInfo_AVMSize")[0].value = avmSize;
     	          // TODO - Create a call on neo-plugins SimplePolicy
     	          var freeSize = 1024;
     	          var feePerExtraByte = 0.00001;
     	          var extraGasNetFeeForBigTx = 0;
-    	          if (avmSize > freeSize)
-    		        extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
+                // TODO Extra size workaround due to inputs lenght
+                var avmWithExtraSize = avmSize + fixedAVGTxSize;
+    	          if ( avmWithExtraSize > freeSize)
+    		        extraGasNetFeeForBigTx = (avmWithExtraSize-freeSize)*feePerExtraByte;
                 $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
                 // ------------------------------------------
 

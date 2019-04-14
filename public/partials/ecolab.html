@@ -1569,10 +1569,10 @@ def Main():
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
-        var editorPython = createEditor("editorPython", "ace/mode/python");
-        var editorGolang = createEditor("editorGolang", "ace/mode/golang");
-        var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
-        var editorJava = createEditor("editorJava", "ace/mode/java");
+        editorPython = createEditor("editorPython", "ace/mode/python");
+        editorGolang = createEditor("editorGolang", "ace/mode/golang");
+        editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
+        editorJava = createEditor("editorJava", "ace/mode/java");
     });
 
     function createEditor(name, mode) {

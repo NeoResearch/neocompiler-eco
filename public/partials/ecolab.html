@@ -924,7 +924,7 @@
                                        <input type="hidden" id="code_golang" name="codesend_golang"/>
                                        <input type="hidden" id="code_python" name="codesend_python"/>
 
-                                       <input type="hidden" id="selected_compiler" name="codesend_selected_compiler"/>
+                                       <input type="hidden" id="selected_compiler_form" name="codesend_selected_compiler"/>
 
                                        <!-- ACE EDITOR div pre -->
                                        <pre id="aceEditor"></pre>
@@ -2652,12 +2652,19 @@
     //============== FORMS ==========================================
     //===============================================================
     $("#formCompile").submit(function(e) {
+        $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
         $("#compilebtn")[0].disabled = true;
         $("#code_cs").val("");
         $("#code_python").val("");
         $("#code_golang").val("");
         $("#code_java").val("");
-        $("#selected_compiler").val(SELECTED_COMPILER);
+        $("#codeavm").val("");
+        $("#opcodes").val("");
+        $("#codeabi").val("");
+        $("#invokehashjs").val("");
+        $("#contracthashjs").val("");
+        $("#contractparams").val("\"\"");
+        $("#selected_compiler_form").val(SELECTED_COMPILER);
         if (SELECTED_COMPILER == "csharp") {
             $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling C# code...");
@@ -2674,14 +2681,6 @@
             $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling Java code...");
         }
-
-        $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
-        $("#codeavm").val("");
-        $("#opcodes").val("");
-        $("#codeabi").val("");
-        $("#invokehashjs").val("");
-        $("#contracthashjs").val("");
-        $("#contractparams").val("\"\"");
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();

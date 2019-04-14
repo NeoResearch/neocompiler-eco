@@ -10,7 +10,6 @@ function drawRelayedTXs() {
     var headersAppLog = document.createElement('div');
     var headersRestore = document.createElement('div');
     var headersTxType = document.createElement('div');
-    var headerstxScriptHash = document.createElement('div');
     var headerstxParams = document.createElement('div');
     var headersTXHeight = document.createElement('div');
     var headerNeoScanLink = document.createElement('div');
@@ -22,8 +21,6 @@ function drawRelayedTXs() {
     row.insertCell(-1).appendChild(headersRestore);
     headersTxType.innerHTML = "<b> Type </b>";
     row.insertCell(-1).appendChild(headersTxType);
-    headerstxScriptHash.innerHTML = "<b> ScriptHash </b>";
-    row.insertCell(-1).appendChild(headerstxScriptHash);
     headerstxParams.innerHTML = "<b> Params </b>";
     row.insertCell(-1).appendChild(headerstxParams);
     headersTXHeight.innerHTML = "<b> Height </b>";
@@ -95,13 +92,6 @@ function drawRelayedTXs() {
         inputTxType.setAttribute("value", vecRelayedTXs[i].txType);
         txRow.insertCell(-1).appendChild(inputTxType);
 
-        var inputSH = document.createElement("input");
-        inputSH.setAttribute("name", "textScriptHash" + i);
-        inputSH.setAttribute("readonly", "true");
-        inputSH.style.width = '120px';
-        inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
-        txRow.insertCell(-1).appendChild(inputSH);
-
         var inputParams = document.createElement("input");
         inputParams.setAttribute("name", "textParams" + i);
         inputParams.setAttribute("readonly", "true");
@@ -164,11 +154,10 @@ function drawRelayedTXs() {
 
 //===============================================================
 //Update vector of relayed txs
-function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txParams) {
+function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txParams) {
     vecRelayedTXs.push({
         tx: relayedTXID,
         txType: actionType,
-        txScriptHash: txScriptHash,
         txParams: txParams
     });
     drawRelayedTXs();

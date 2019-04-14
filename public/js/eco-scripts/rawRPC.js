@@ -15,7 +15,7 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
 			   if(FULL_ACTIVITY_HISTORY)
 			   {
 				var rawTXParams = { wtx: wtx}
-				updateVecRelayedTXsAndDraw(txHash,"RawTX","-",JSON.stringify(rawTXParams));
+				updateVecRelayedTXsAndDraw(txHash,"RawTX", JSON.stringify(rawTXParams));
 			   }
 			   createNotificationOrAlert("SendRaw_TX_NeoCli", "Status: " + resultJsonData.result, 5000);
 		   }else
@@ -27,6 +27,22 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             ).fail(function() {
 		createNotificationOrAlert("SendRaw_TX_NeoCli", "failed to pass transaction to network!", 5000);
             }); //End of POST for search
+}
+
+function sendingTxPromiseWithEcoRaw(txPromise) {
+    const sendTxPromise = txPromise.then(transaction => {
+            //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+            //return client.sendRawTransaction(transaction.serialize(true));
+            console.log("sendingTxPromiseWithEcoRaw:");
+            console.log(transaction);
+            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);
+        })
+        .then(res => {
+            console.log("\n\n--- A response was achieved---");
+            //console.log(res);
+        })
+        .catch(err => console.log(err));
+    return sendTxPromise;
 }
 
 function getContractState(contractScriptHash, deployOrInvoke){

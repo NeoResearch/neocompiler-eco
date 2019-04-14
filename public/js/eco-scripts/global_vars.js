@@ -33,10 +33,7 @@ var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 var vecRelayedTXs = [];
 
 /* EDITORS AND EXAMPLES */
-var editorPython;
-var editorGolang;
-var editorCSharp;
-var editorJava;
+var aceEditor;
 //===============================================================
 var cSharpFiles = [
         //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],

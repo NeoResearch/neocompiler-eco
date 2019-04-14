@@ -121,6 +121,32 @@ app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
     });
 });
 
+app.get('/resetdockerservice/:pwd', function(req, res) {
+    if (!(req.params.pwd === process.env.PWD_RESET_SERVICE)) {
+        console.log("Someone is trying an unauthorized access. ");
+        var obj = {};
+        obj["error"] = false;
+        obj["info"] = "You have no acess to this call with password: " + process.env.PWD_RESET_SERVICE + ". Try a local privatenet.";
+        res.send(obj);
+        return;
+    }
+
+    var cmddocker = '~/reestartDockerAndInitializeAll.sh';
+    console.log(cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+        if (e instanceof Error) {
+            console.error(e);
+            res.send("Error:" + e);
+        } else {
+            var obj = {};
+            obj["result"] = true;
+            obj["info"] = "Command was passed to our server! Hopefully it will soon reestart all docker services";
+            res.send(obj);
+        }
+    });
+});
+
+
 app.get('/statusnode/:node', function(req, res) {
 
     // Node 0 is the RPC

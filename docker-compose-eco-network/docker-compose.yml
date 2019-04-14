@@ -164,7 +164,7 @@ services:
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   eco-neo-scan-api-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan/api:49607618-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan/api:56268341-master"
     container_name: "eco-neo-scan-api-running"
     ports:
       - "4000:4000"
@@ -172,8 +172,7 @@ services:
     environment:
       PORT: 4000
       HOST: localhost
-      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30337"
-      NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
+      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30334;http://eco-neo-csharp-noderpc1-running:30337"
       DB_HOSTNAME: eco-neo-scan-postgresql-running
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
@@ -182,7 +181,6 @@ services:
     depends_on:
       - eco-neo-scan-sync-running
       - eco-neo-scan-postgresql-running
-      - eco-neo-python-rest-running
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
       - eco-neo-csharp-node3-running
@@ -206,23 +204,21 @@ services:
 
   eco-neo-scan-sync-running:
     container_name: "eco-neo-scan-sync-running"
+    image: "registry.gitlab.com/cityofzion/neo-scan/sync:56268341-master"
     depends_on:
       - eco-neo-scan-postgresql-running
-      - eco-neo-python-rest-running
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
       - eco-neo-csharp-node3-running
       - eco-neo-csharp-node4-running
       - eco-neo-csharp-noderpc1-running
     environment:
-      NEO_NOTIFICATIONS_SERVER: "http://eco-neo-python-rest-running:8080/v1"
-      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30337"
+      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30334;http://eco-neo-csharp-noderpc1-running:30337"
       DB_HOSTNAME: eco-neo-scan-postgresql-running
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       DB_DATABASE: neoscan_prodv
       REPLACE_OS_VARS: "true"
-    image: "registry.gitlab.com/cityofzion/neo-scan/sync:49607618-master"
     links:
       - eco-neo-csharp-node1-running:30333
       - eco-neo-csharp-noderpc1-running:30337
@@ -240,7 +236,6 @@ services:
       - eco-neo-csharp-node3-running
       - eco-neo-csharp-node4-running
       - eco-neo-csharp-noderpc1-running
-      - eco-neo-python-rest-running
     environment:
       POSTGRES_DB: neoscan_prodv
       POSTGRES_PASSWORD: postgres
@@ -256,39 +251,6 @@ services:
       retries: 3
       start_period: 30s
 # ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
-# ================================================================================
-
-# ================================================================================
-# ================== BEGIN OF PYTHON CLIENT FOR RPC AND RESTFULL =================
-  eco-neo-python-rest-running:
-    image: eco-neo-python:latest
-    container_name: "eco-neo-python-rest-running"
-    ports:
-      - "8080:8080"
-    command: /bin/bash /opt/start_neopython_rest.sh
-    environment:
-      - CSHARP_NODES_CONTAINER_NAME=eco-neo-csharp-node1-running # loop until rpc curl response
-    depends_on:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-    volumes:
-      #- ./logs-neopython-rest-rpc/:/neo-python/logs
-      - ./neo-python/custom-config.json:/neo-python/neo/data/protocol.privnet.json
-    healthcheck:
-      test:
-        - CMD
-        - bash
-        - '-c'
-        - exec 6<>/dev/tcp/127.0.0.1/8080
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-# ===================== BEGIN TEMPORARY NOTIFICATIONS LOGGERS ====================
 # ================================================================================
 
 # ================================================================================

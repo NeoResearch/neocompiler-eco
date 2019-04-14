@@ -816,12 +816,17 @@
                  </div>
                  <div class="panel-body">
                    <div class="form-group">
-                     <div class="row">
+                      <div class="row">
                            <div class="col-md-2">
                              <span type="checkbox" class="label label-success"><i class="fas fa-bell-slash"></i> Disable notifications</span>
                              <br/><input type="checkbox" id="cbx_ecoNotifications"></input>
                            </div>
-                      </div>
+                            <div class="col-md-3">
+                              <span class="label label-success">Password</span>
+                              <br/><input type="text" id="cbx_pwd_cn" placeholder="dockerreset" size="12">
+                              <br/><button type=button onClick="onClickPostServerToResetDockerService()" id="btc_reset_service_pwd" class="btn btn-warning btn-sm">Reset docker service</button>
+                            </div>
+                       </div>
                    </div>
                  </div>
                </div>
@@ -1962,8 +1967,8 @@ def Main():
         NEO_CLI_REFRESHING_STOPED = false;
 
         if (mynetworkIndex == 0) {
-            $("#cbx_enable_neoscan")[0].checked = false;
-            ENABLE_NEOSCAN_TRACKING = false;
+            $("#cbx_enable_neoscan")[0].checked = true;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
             setEcoInfoRefreshInterval(10000);
@@ -2696,6 +2701,21 @@ def Main():
         $.get(BASE_PATH_ECOSERVICES + '/setconsensusnodesblocktime/4/' + blockTime + '/' + pwd, function(data) {
             console.log(data)
         });
+    }
+
+    function onClickPostServerToResetDockerService() {
+        postServerToResetDockerService($("#btc_reset_service_pwd").val());
+    }
+
+    function postServerToResetDockerService(pwd) {
+        if(getCurrentNetworkNickname() == "SharedPrivateNet")
+        {
+          $.get(BASE_PATH_ECOSERVICES + '/resetdockerservice/' + pwd, function(data) {
+              console.log(data)
+          });
+        }else{
+          console.error("Reset only works for SharedPrivateNet EcoService.")
+        }
     }
 
     //Route for getting incremental storage from node with statedumper

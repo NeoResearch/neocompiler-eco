@@ -2594,7 +2594,7 @@
     }
 
     function setExample(language, selected_index) {
-        console.log("selecting example:" + selected_index + " for compiler: " + language);
+        //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
         aceEditor.getSession().setValue("");
         getfile(language, selected_index, 0);
     }
@@ -2925,7 +2925,9 @@
           exampleToAdd.setAttribute('value', i);
           var onClickFunction = 'setExample("' + language + '","' + e + '");';
           exampleToAdd.setAttribute('onClick', onClickFunction)
-          exampleToAdd.appendChild(document.createTextNode(vExamples[e][0]));
+          var cutSize = "/examples/"+language+"/";
+          var exampleName = vExamples[e][0].slice(cutSize.length);
+          exampleToAdd.appendChild(document.createTextNode(exampleName));
           exampleListUl.appendChild(exampleToAdd);
         }
         setExample(language, 0);

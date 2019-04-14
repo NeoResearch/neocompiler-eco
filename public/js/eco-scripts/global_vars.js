@@ -34,6 +34,7 @@ var vecRelayedTXs = [];
 
 /* EDITORS AND EXAMPLES */
 var aceEditor;
+var SELECTED_COMPILER = "";
 //===============================================================
 var cSharpFiles = [
         //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
@@ -58,7 +59,7 @@ var cJavaFiles = [
 ];
 
 var cGolangFiles = [
-        ["/examples/go/HelloWorld.go"]
+        ["/examples/golang/HelloWorld.go"]
 ];
 
 /* PENDING TX */

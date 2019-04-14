@@ -1,18 +1,9 @@
-function signTX(signerAccount, constructTxPromise) {
+function signTXWithSingleSigner(signerAccount, constructTxPromise) {
     return signTxPromise = constructTxPromise.then(transaction => {
-        if (transaction)
-            transaction.addAttribute(32, "23ba2703c53263e8d6e522dc32203339dcd8eee9");
-        transaction.addAttribute(240, "313535343438373230303834323364663232303531");
+        transaction.addAttribute(32, revertHexString(signerAccount.scriptHash));
 
-        /*
-          if (config.tx!.inputs.length === 0 && config.tx!.outputs.length === 0) {
-            config.tx!.addAttribute(
-              tx.TxAttrUsage.Script,
-              u.reverseHex(wallet.getScriptHashFromAddress(config.account!.address))
-            );
-        */
-        //.addRemark(
-        //Date.now().toString() + u.ab2hexstring(u.generateRandomArray(4)) 
+        if (transaction.inputs.length == 0)
+            transaction.addRemark(Date.now().toString() + Neon.u.ab2hexstring(Neon.u.generateRandomArray(4)));
 
         const txHex = transaction.serialize(false);
 
@@ -34,39 +25,37 @@ function signTX(signerAccount, constructTxPromise) {
 }
 
 function addScriptsToPendingTx() {
-    if(PendingTX == null)
-    {
-	console.error("Trying to get null Pending TX");
-	return;
+    if (PendingTX == null) {
+        console.error("Trying to get null Pending TX");
+        return;
     }
 
     PendingTX.then(transaction => {
         transaction.scripts = [];
         var newScripts = JSON.parse($("#txt_AdvancedSigning_Signatures").val());
-	console.log(newScripts);
-        for(var s=0;s<newScripts.length;s++)
-		transaction.addWitness(newScripts[s]);
-	console.log("false");
-	console.log(transaction.serialize(false));
-	console.log("true");
-	console.log(transaction.serialize(true));
+        console.log(newScripts);
+        for (var s = 0; s < newScripts.length; s++)
+            transaction.addWitness(newScripts[s]);
+        console.log("false");
+        console.log(transaction.serialize(false));
+        console.log("true");
+        console.log(transaction.serialize(true));
 
         return transaction;
     });
 }
 
 function addAttributedAndTryToSign() {
-    if(PendingTX == null)
-    {
-	console.error("Trying to get null Pending TX");
-	return;
+    if (PendingTX == null) {
+        console.error("Trying to get null Pending TX");
+        return;
     }
 
     SignedTX = PendingTX.then(transaction => {
         transaction.attributes = [];
 
         if (transaction.inputs.length == 0)
-            transaction.addAttribute(240, "313535343438373230303834323364663232303531");
+            transaction.addRemark(Date.now().toString() + Neon.u.ab2hexstring(Neon.u.generateRandomArray(4)));
 
         var nSelectedAddresses = $("#wallet_advanced_signing")[0].selectedOptions.length;
         for (var i = 0; i < nSelectedAddresses; i++) {
@@ -99,7 +88,7 @@ function addAttributedAndTryToSign() {
             transaction.addWitness(accountSignature);
         }
 
-	console.log(transaction.serialize(true))
+        console.log(transaction.serialize(true))
         $("#tx_AdvancedSigning_ScriptHash").val(transaction.hash);
         $("#txScript_advanced_signing").val(transaction.serialize(false));
         $("#tx_AdvancedSigning_Size").val(transaction.serialize(true).length / 2);

@@ -897,67 +897,37 @@
                         <div class="panel-heading">Compile</div>
                         <div class="panel-body">
                             <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
-                                <div class="tab-container">
-                                    <ul class="nav nav-tabs" id="compilersnavtabs">
-                                        <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
-                                        <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
-                                        <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
-                                        <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
-                                    </ul>
+                                      <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                        <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                            Select Compiler
+                                            <span class="caret"></span>
+                                        </a>
+                                            <ul class="dropdown-menu" id="CompilersList">
+                                                <li><a onclick="setCompiler('csharp')">C#</a></li>
+                                                <li><a onclick="setCompiler('python')">Python</a></li>
+                                                <li><a onclick="setCompiler('golang')">Golang</a></li>
+                                                <li><a onclick="setCompiler('java')">Java</a></li>
+                                            </ul>
+                                      </div>
 
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- csharpcode -->
-                                    <div class="tab-content">
-                                         <div class="tab-pane active cont" id="csharpcode">
-                                                <div class="dropdown btn-group" style="margin-bottom: 10px">
-                                                    <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
-                                                        Select Example
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" id="ExampleList">
-                                                        <li><a onclick="setExample('csharp', '0')">HelloWorld.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '1')">ICO_Template.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '2')">MyCheckWitness.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '3')">Lock.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '4')">StructExample.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '5')">MapExample.cs</a></li>
-                                                        <li><a onclick="setExample('csharp', '6')">HelloWorldNotification.cs</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="hidden" id="code_cs" name="codesend_cs"/>
-                                          </div>
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- end csharpcode -->
+                                       <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                           <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                               Select Example
+                                               <span class="caret"></span>
+                                           </a>
+                                           <ul class="dropdown-menu" id="ExampleList">
+                                           </ul>
+                                       </div>
 
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- java div -->
-                                          <div class="tab-pane cont" id="javacode">
-                                              <input type="hidden" id="code_java" name="codesend_java"/>
-                                          </div>
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- end java -->
+                                       <input type="hidden" id="code_cs" name="codesend_cs"/>
+                                       <input type="hidden" id="code_java" name="codesend_java"/>
+                                       <input type="hidden" id="code_golang" name="codesend_golang"/>
+                                       <input type="hidden" id="code_python" name="codesend_python"/>
 
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- golang div -->
-                                          <div class="tab-pane cont" id="golangcode">
-                                              <input type="hidden" id="code_golang" name="codesend_golang"/>
-                                          </div>
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- golang java -->
+                                       <input type="hidden" id="selected_compiler" name="codesend_selected_compiler"/>
 
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- python div -->
-                                          <div class="tab-pane cont" id="pythoncode">
-                                              <input type="hidden" id="code_python" name="codesend_python"/>
-                                          </div>
-
-                                         <!-- ACE EDITOR div pre -->
-                                         <pre id="aceEditor"></pre>
-                                    </div>
-                                </div>
-                                <!-- end python div -->
-                                <!-- /////////////////////////////////////////////////////////////////// -->
-
+                                       <!-- ACE EDITOR div pre -->
+                                       <pre id="aceEditor"></pre>
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
                                 <!-- <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p> -->
@@ -1509,7 +1479,7 @@
 
         // Setting default code example to csharp and hello world (example 0)
         aceEditor = createEditor("aceEditor", "ace/mode/csharp");
-        setExample("csharp",'0');
+        setCompiler("csharp");
     });
 
     function createEditor(name, mode) {
@@ -2624,7 +2594,7 @@
     }
 
     function setExample(language, selected_index) {
-        //console.log("selecting example:" + selected_index);
+        console.log("selecting example:" + selected_index + " for compiler: " + language);
         aceEditor.getSession().setValue("");
         getfile(language, selected_index, 0);
     }
@@ -2687,19 +2657,20 @@
         $("#code_python").val("");
         $("#code_golang").val("");
         $("#code_java").val("");
-        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+        $("#selected_compiler").val(SELECTED_COMPILER);
+        if (SELECTED_COMPILER == "csharp") {
             $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling C# code...");
         }
-        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+        if (SELECTED_COMPILER == "python") {
             $("#code_python").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling Python code...");
         }
-        if ($("#golangcode.tab-pane.active.cont").length != 0) {
+        if (SELECTED_COMPILER == "golang") {
             $("#code_golang").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling Golang code...");
         }
-        if ($("#javacode.tab-pane.active.cont").length != 0) {
+        if (SELECTED_COMPILER == "java") {
             $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
             console.log("Compiling Java code...");
         }
@@ -2923,30 +2894,43 @@
         });
     }); //End of storage read function
     //===============================================================
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        //console.log(e.target.dataset.target)
-        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+    function setCompiler(language){
+        var vExamples;
+        SELECTED_COMPILER = language;
+        if (language === "csharp") {
             aceEditor.getSession().setMode("ace/mode/csharp");
-            setExample("csharp",'0');
             updateCompilersSelectionBox("docker-mono-neo-compiler");
+            vExamples = cSharpFiles;
         }
-        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+        if (language === "python") {
             aceEditor.getSession().setMode("ace/mode/python");
-            setExample("python",'0');
             updateCompilersSelectionBox("docker-neo-boa");
+            vExamples = cPythonFiles;
         }
-        if ($("#golangcode.tab-pane.active.cont").length != 0) {
+        if (language === "golang") {
             aceEditor.getSession().setMode("ace/mode/golang");
-            setExample("golang",'0');
             updateCompilersSelectionBox("docker-neo-go");
+            vExamples = cGolangFiles;
         }
-        if ($("#javacode.tab-pane.active.cont").length != 0) {
+        if (language === "java") {
             aceEditor.getSession().setMode("ace/mode/java");
-            setExample("java",'0');
             updateCompilersSelectionBox("docker-java-neo-compiler");
+            vExamples = cJavaFiles;
         }
-    });
+
+        var exampleListUl = document.getElementById("ExampleList");
+        exampleListUl.innerHTML = ""
+        for(var e=0; e < vExamples.length; e++)
+        {
+          var exampleToAdd = document.createElement("li");
+          exampleToAdd.setAttribute('value', i);
+          var onClickFunction = 'setExample("' + language + '","' + e + '");';
+          exampleToAdd.setAttribute('onClick', onClickFunction)
+          exampleToAdd.appendChild(document.createTextNode(vExamples[e][0]));
+          exampleListUl.appendChild(exampleToAdd);
+        }
+        setExample(language, 0);
+    };
 
     //===============================================================
     $("#btn_downloadOpCode").click(function(e) {

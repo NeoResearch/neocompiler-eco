@@ -1,5 +1,14 @@
 <p align="center">
     <img
+      src="https://github.com/NeoResearch/neoresearch.github.io/blob/master/assets/images/logo/Gemcut-butterfly/butterfly-banner.png"
+       />
+</p>
+
+
+## NeoCompiler Eco 3+
+
+<p align="center">
+    <img
       src="./public/images/logo_neoresearch.png"
       width="125px;" />
     <img
@@ -7,7 +16,6 @@
       width="125px;" />
 </p>
 
-## NeoCompiler Eco 3.1
 
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
@@ -33,8 +41,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 * [https://ecoservices.neocompiler.io](https://ecoservices.neocompiler.io)
 * C# RPC node with watch-only CN feature;
-* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io) or [http://localhost:4000/](http://localhost:4000/) - (disabled as default) - it can be enable by acessing [`.env` file](https://github.com/NeoResearch/neocompiler-eco/blob/master/.env);
-* Python Rest Notifications Server (enable with NEOSCAN).
+* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io) or [http://localhost:4000/](http://localhost:4000/) - (disabled as default) - it can be enable/disabled by acessing [`.env` file](https://github.com/NeoResearch/neocompiler-eco/blob/master/.env);
 
 
 ### What does it currently do
@@ -45,23 +52,21 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Tests with different wallets, synced and with able to provide historic data our activity;
 * Perform all up-to-date blockchain invocations and RPC calls;
 * Runs RPC with all enabled plugins and up-to-date features;
+* Provide basic statistical data;
 * Use websockets to provide some useful information;
 * It can be used on TestNet, or even MainNet (however, this is extremely not recommended).
 
-
 ### Roadmap
 
-* Integrate with `neolink` project (or any other), to allow secure key management for Test/MainNet
+* Integrate with `O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
-    - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on Neo's multi-language programming interface.
+    - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on NEO's multi-language programming interface.
 * Ideas? Collaborations are welcome :) The goal is to be didactic and bring it close to citizens and users: Smart Cities, Smart Governance and Smart Blockchain Technologies :P
 
 ### Dependencies
 
 For Debian-based systems:
-
-Start any recursive submodule: `git submodule update --recursive --remote`
 
 `apt install npm`
 
@@ -69,7 +74,11 @@ Start any recursive submodule: `git submodule update --recursive --remote`
 
 `npm install`
 
-Pull submodules: `git submodule update --init --recursive` (first time), then, `git submodule update --recursive --remote`
+#### Start any recursive submodule:
+
+Pull submodules: 
+* `git submodule update --init --recursive` (first time);
+* then, `git submodule update --recursive --remote`
 
 On Windows wget might be needed to be installed: https://eternallybored.org/misc/wget/
 
@@ -119,7 +128,7 @@ Adding user to docker group: `sudo usermod -a -G docker $USER`
 
 The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
 
-This will call a docker-compose with NeoCompiler Private Net (Eco)+NeoScan.
+This will call a docker-compose with NeoCompiler Private Net (Eco) + NeoScan (optional).
 Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
 
 `./build_everything.sh`
@@ -134,6 +143,8 @@ Both are described below.
 This script already builds the compilers and starts the server:
 
 `./buildCompilers.sh`
+
+* Build list with different versions for a given compiler, such as: `compilers/docker-compiler-csharp/docker_build_list_of_compilers.sh`
 
 
 ### Running express node servers
@@ -176,30 +187,26 @@ The backend for Java is provided by neoj compiler (in mono), only two steps are 
 
 `docker_build.sh`
 
-
-
 ## A2) Eco Network Funtionalities
 
-In order to add NeoScan `light wallet` functionalities, docker-compose is the main tools that acts for the creation of our micro-service .
+Docker-compose is the main tools that acts for the creation of our micro-service.
 
-This script will start all necessary backend functionalities, neo-csharp-nodes, neo-python and neo-scan.
+This script will start all necessary backend functionalities, neo-csharp-nodes and neo-scan (optional, check `.env`).
 
 In particular, we currently have:
 
 * csharp nodes are with TCP at 2033x and RPC at 3033X, websocket is not being used
-  * 4 csharp consensus node, one of then is also a RPC at port 30333
-  * 2 csharp pure RPC nodes, 30337 and 30338
-  * Thus, in summary, 3 csharp RPC nodes.
-* 7 python containers
-  * 4 wallets pre-synced
-  * 1 python REST api at 8080
-  * 1 python RPC api 10032
-  * 1 python for creating the genesis block and performing a first transaction
-* postgress container with a pre-compiled neo-scan image for fast startup  
+  * 4 csharp consensus node, two of them are also a RPC as default at port 30333 and 30334;
+  * 1 csharp pure RPC nodes at 30337;
+* optional [neoscan](https://github.com/CityOfZion/neo-scan) with 3 containers (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-api; neoscan-sync; and postgress container; 
 
 ### Dealing with docker-compose swarm of containers
 
 Start up the container, checking the messages and following warnings
+
+Simply run `runEco_network.sh` (integrated with `.env` file)
+
+or: 
 
 `cd ./docker-compose-eco-network`
 
@@ -239,16 +246,12 @@ Run `build_everything.sh` with an additional parameter `--no-build` and your mod
 
 #### Useful Commands
 
-# Open docker of python
-`docker exec -it eco-neo-python-first-multisig-transfer-running bash
-`
-
-`screen -ls`
-
 # open csharpnodes
 
-`docker exec -it eco-neo-csharp-nodes-running bash`
-`screen -ls` will show 4 consensus nodes and 2 pure RPCs nodes.
+* `docker exec -it eco-neo-csharp-node1-running bash`
+* `screen -dr` will show the screen
+* `/opt/run.sh` will start a new screen (if you killed the last process);
+* `/opt/start_node.sh` will start the node directly in the terminal.
 
 
 ## Contributing

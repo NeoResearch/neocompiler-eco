@@ -1375,7 +1375,7 @@
                 </div> <!-- row -->
                 <div class="row">
                     <div class="col-md-2">
-                      <button type="submit" id="sendRawTxBtn" class="btn btn-success btn-sm"><i class="fas fa-fire"></i> Send</button>
+                      <button type="submit" onclick="sendRawTXFromPendingTx()" id="sendRawTxBtn" class="btn btn-success btn-sm"><i class="fas fa-fire"></i> Send</button>
                     </div>
                 </div> <!-- row -->
               </div>
@@ -1759,15 +1759,6 @@
     $("#cbx_refresh_ecometadata").on('change', function() {
         setEcoInfoRefreshInterval(this.value);
     });
-
-
-    /*
-    //DEPRECATED SELECTION FOX FOR PYTHON REST SELECTION
-    $("#selectionBoxRestNotifications").on('change', function() {
-        BASE_PATH_PY_REST = this.value;
-        $("#rest_notifications_path")[0].value = this.value;
-    });
-    */
     //=============================================================
 
     //======== END ON-CHANGE FUNCTIONS ================================
@@ -3025,5 +3016,9 @@
     //===============================================================
     //============== END FORMS ======================================
     //===============================================================
+
+    function sendRawTXFromPendingTx(){
+      sendingTxPromiseWithEcoRaw(PendingTX,PendingTXParams);
+    }
     </script>
 </div>

@@ -30,31 +30,33 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
 }
 
 function sendingTxPromiseWithEcoRaw(txPromise, txLoggingParams = null) {
-    var txLoggingParams = [];
-    if (txLoggingParams != null)
-    {
-            txLoggingParams = txLoggingParams;
-	    console.log("sending pending tx!");
-    }
-
+    var txHash;
     const sendTxPromise = txPromise.then(transaction => {
-            //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-            //return client.sendRawTransaction(transaction.serialize(true));
+            txHash = transaction.hash;
+            
+            // Sending using NEON-JS interface
+	    const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+            return client.sendRawTransaction(transaction.serialize(true));
+
+	    /*
             console.log("sendingTxPromiseWithEcoRaw:");
             console.log(transaction);
-            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);
+            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);*/
         })
         .then(res => {
             console.log("\n\n--- A response was achieved---");
             //console.log(res);
-            if(txLoggingParams != null)
+            if(txLoggingParams != null && res)
             {
                     updateVecRelayedTXsAndDraw(txHash, JSON.stringify(txLoggingParams));
+
                     // Jump to acitivy tab and record last tab
                     $('.nav-pills a[data-target="#activity"]').tab('show');
                     LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
                     document.getElementById('divNetworkRelayed').scrollIntoView();
-                    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + invokeParams.contract_scripthash + " tx_hash: " + txHash, 7000);
+
+		    // TODO create personalized log for other types
+                    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + txLoggingParams.contract_scripthash + " tx_hash: " + txHash, 7000);
             }
         })
         .catch(err => console.log(err));

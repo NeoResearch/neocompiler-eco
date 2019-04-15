@@ -71,10 +71,11 @@ function addAttributedAndTryToSign() {
         var txHex = transaction.serialize(false);
 
         transaction.scripts = [];
+	PendingTXParams.caller = [];
+        // TODO - If number of signers exceds Network Fee we may need to generate transaction again
         for (var i = 0; i < nSelectedAddresses; i++) {
             var accountID = $("#wallet_advanced_signing")[0].selectedOptions[i].index;
-            var accountScriptHash = ECO_WALLET[accountID].account.scriptHash;
-
+            var accountScriptHash = ECO_WALLET[accountID].account.scriptHash;	    
             var accountSignature;
             if (ECO_WALLET[accountID].account.isMultiSig) {
                 accountSignature = getMultiSignWitnessFromAccountsWeKnown(accountID, txHex)
@@ -89,6 +90,9 @@ function addAttributedAndTryToSign() {
             }
 
             transaction.addWitness(accountSignature);
+
+            // Adding all signers to parameters
+	    PendingTXParams.caller.push(ECO_WALLET[accountID].account.address);
         }
 
         console.log(transaction.serialize(true));

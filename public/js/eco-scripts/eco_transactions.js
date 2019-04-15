@@ -162,9 +162,10 @@ function updateVecRelayedTXsAndDraw(relayedTXID, txParams) {
 //Call app log
 function callAppLogOrRawTx(txID, rawTX = false) {
     if (txID < vecRelayedTXs.length && txID > -1) {
+        var tempTxParams = JSON.parse(vecRelayedTXs[txID].txParams);
         var txHash = vecRelayedTXs[txID].tx;
         var appLogJson = [];
-        if ((vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke") && !rawTX)
+        if ((tempTxParams.type == "deploy" || tempTxParams.type == "invoke") && !rawTX)
         { 
             appLogJson.push({
                 "jsonrpc": "2.0",
@@ -211,9 +212,9 @@ function searchForTX(indexToUpdate) {
           document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
       });
 */
-    //console.log(vecRelayedTXs[indexToUpdate].txType)
     var jsonDataToCallNeoCli = [];
-    if (vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+    var tempTxParams = JSON.parse(vecRelayedTXs[indexToUpdate].txParams);
+    if (tempTxParams.type == "deploy" || tempTxParams.type == "invoke")
         jsonDataToCallNeoCli.push({
             "jsonrpc": "2.0",
             "id": 5,
@@ -234,7 +235,7 @@ function searchForTX(indexToUpdate) {
         function(data) {
             //console.log(data);
             if (data[0].result) {
-                if (vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+                if (tempTxParams.type == "deploy" || tempTxParams.type == "invoke")
                     document.getElementById("appLogNeoCli" + indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
                 else
                     document.getElementById("appLogNeoCli" + indexToUpdate).innerHTML = '<i class="fas fa-thumbs-up"></i>';

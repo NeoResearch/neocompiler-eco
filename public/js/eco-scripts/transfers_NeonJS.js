@@ -40,9 +40,10 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
                     to: to,
                     neo: neo,
                     gas: gas,
-                    sendingFromSmartContract: sendingFromSCFlag
+                    sendingFromSmartContract: sendingFromSCFlag,
+		    type: "send"
                 }
-                updateVecRelayedTXsAndDraw(res.response.txid, "Send", "-", JSON.stringify(sendParams));
+                updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(sendParams));
             }
             createNotificationOrAlert("Asset_Send_Normal_Account", res.response.result, 5000);
         })
@@ -60,17 +61,14 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
         account: ECO_WALLET[idTransferFrom].account // This is the address which the assets come from.
     }
 
-    //https://github.com/CityOfZion/neon-js/blob/6086ef5f601eb934593b0a0351ea763535298aa8/src/api/core.js#L38
-    //https://github.com/CityOfZion/neon-js/blob/c6a169a82a4d037e00dccd424f53cdc818d6b3ae/src/transactions/transaction.js#L80
-    //https://github.com/CityOfZion/neon-js/blob/fe588b7312cad90f20c4febe0e3f24d93b43ab20/src/wallet/Account.js#L19
-
     Neon.default.claimGas(config)
         .then(res => {
             if (FULL_ACTIVITY_HISTORY) {
                 var claimParams = {
-                    caller: ECO_WALLET[idTransferFrom].account.address
+                    caller: ECO_WALLET[idTransferFrom].account.address,
+                    type: "claim"
                 }
-                updateVecRelayedTXsAndDraw(res.response.txid, "Claim", "-", JSON.stringify(claimParams));
+                updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(claimParams));
             }
 	    createNotificationOrAlert("GAS_Claim_Normal_Account", "Status: " + res.response.result + " txID: " + res.response.txid, 5000);
         })
@@ -80,59 +78,8 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
         })
 }
 
-function signMultiTXNeonJs(idToTransfer, constructTxPromise) {
-    jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToTransfer);
-    verificationScript = ECO_WALLET[idToTransfer].account;
-
-    const signTxPromise = constructTxPromise.then(transaction => {
-        const txHex = transaction.serialize(false);
-
-        invocationScriptClean = [];
-        //var signatures=0;
-        for (nA = 0; nA < jsonArrayWithPrivKeys.length; nA++) {
-            invocationScriptClean = fillSignaturesForMultiSign(txHex, invocationScriptClean, Neon.wallet.getPrivateKeyFromWIF(jsonArrayWithPrivKeys[nA].privKey));
-            //signatures++;
-            //if(signatures >= ECO_WALLET[idToTransfer].account.contract.parameters.length)
-            //	break;
-        }
-
-        const multiSigWitness = Neon.tx.Witness.buildMultiSig(
-            txHex,
-            invocationScriptClean,
-            ECO_WALLET[idToTransfer].account
-        );
-        transaction.addWitness(multiSigWitness);
-
-        console.log("\n\n--- Transaction ---");
-        console.log(JSON.stringify(transaction.export(), undefined, 2));
-
-        console.log("\n\n--- Transaction hash---");
-        console.log(transaction.hash)
-
-        console.log("\n\n--- Transaction string ---")
-        console.log(transaction.serialize(true));
-
-        return transaction;
-    });
-    return signTxPromise;
-}
-
-function sendingTxPromiseWithEcoRaw(txPromise) {
-    const sendTxPromise = txPromise.then(transaction => {
-            //const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-            //return client.sendRawTransaction(transaction.serialize(true));
-            console.log("sendingTxPromiseWithEcoRaw:");
-            console.log(transaction);
-            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);
-        })
-        .then(res => {
-            console.log("\n\n--- A response was achieved---");
-            //console.log(res);
-        })
-        .catch(err => console.log(err));
-    return sendTxPromise;
-}
-
+/* ======================================================== */
+/* ================= MULTI SIG ASSETS TRANSFER ============ */
 function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall) {
     setNeonApiProvider(networkToCall);    
     console.log("Constructing " + to + " neo: " + neo + " gas: " + gas)
@@ -149,7 +96,6 @@ function createTxFromMSAccount(idToTransfer, to, neo, gas, networkToCall) {
 
     console.log("Signing...");
     const signTx = signMultiTXNeonJs(idToTransfer, constructTx);
-
 
     console.log("Sending...");
     const sendTx = sendingTxPromiseWithEcoRaw(signTx);
@@ -168,11 +114,12 @@ function createClaimMSGasTX(idToClaim, jsonArrayWithPrivKeys, networkToCall) {
         return transaction;
     });
 
-
     console.log("Signing...")
     signTx = signMultiTXNeonJs(idToClaim, constructTx);
-
 
     console.log("Sending...");
     const sendTx = sendingTxPromiseWithEcoRaw(signTx);
 }
+/* ================= MULTI SIG ASSETS TRANSFER ============ */
+/* ======================================================== */
+

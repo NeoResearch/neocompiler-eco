@@ -18,6 +18,7 @@ function automaticNeoCliNodeSelection() {
                 neoCliNodeToGetHeight, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
                 function(resultJsonData) {
+		    NUMBER_FAILS_REQUESTS = 0;
                     //console.log(resultJsonData);
                     var nodeHeight = resultJsonData.result;
                     var nodeId = resultJsonData.id;

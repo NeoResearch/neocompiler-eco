@@ -9,8 +9,6 @@ function drawRelayedTXs() {
     var headerID = document.createElement('div');
     var headersAppLog = document.createElement('div');
     var headersRestore = document.createElement('div');
-    var headersTxType = document.createElement('div');
-    var headerstxScriptHash = document.createElement('div');
     var headerstxParams = document.createElement('div');
     var headersTXHeight = document.createElement('div');
     var headerNeoScanLink = document.createElement('div');
@@ -20,11 +18,7 @@ function drawRelayedTXs() {
     row.insertCell(-1).appendChild(headersAppLog);
     headersRestore.innerHTML = "<b> Restore </b>";
     row.insertCell(-1).appendChild(headersRestore);
-    headersTxType.innerHTML = "<b> Type </b>";
-    row.insertCell(-1).appendChild(headersTxType);
-    headerstxScriptHash.innerHTML = "<b> ScriptHash </b>";
-    row.insertCell(-1).appendChild(headerstxScriptHash);
-    headerstxParams.innerHTML = "<b> Params </b>";
+    headerstxParams.innerHTML = "<b> Transaction parameters </b>";
     row.insertCell(-1).appendChild(headerstxParams);
     headersTXHeight.innerHTML = "<b> Height </b>";
     row.insertCell(-1).appendChild(headersTXHeight);
@@ -62,24 +56,27 @@ function drawRelayedTXs() {
         bGoToAppLog.innerHTML = '?';
         txRow.insertCell(-1).appendChild(bGoToAppLog);
 
+	// TX params
+        var tempTxParams = JSON.parse(vecRelayedTXs[i].txParams);
+
         var bRestore = document.createElement('button');
         bRestore.setAttribute('content', 'test content');
         bRestore.setAttribute('class', 'btn btn-info');
         bRestore.setAttribute('value', i);
         bRestore.innerHTML = '<i class="fas fa-reply"></i>';
-        if (vecRelayedTXs[i].txType === "Invoke")
+        if (tempTxParams.type === "invoke")
             bRestore.onclick = function() {
                 restoreInvokeTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Deploy")
+        else if (tempTxParams.type === "deploy")
             bRestore.onclick = function() {
                 restoreDeployTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Send")
+        else if (tempTxParams.type === "send")
             bRestore.onclick = function() {
                 restoreSendTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Claim")
+        else if (tempTxParams.type === "claim")
             bRestore.onclick = function() {
                 restoreClaimTX(this.value);
             };
@@ -87,25 +84,13 @@ function drawRelayedTXs() {
             bRestore.onclick = function() {};
         txRow.insertCell(-1).appendChild(bRestore);
 
-        var inputTxType = document.createElement("input");
-        //input.setAttribute("type", "hidden");
-        inputTxType.setAttribute("name", "textTxType" + i);
-        inputTxType.setAttribute("readonly", "true");
-        inputTxType.style.width = '70px';
-        inputTxType.setAttribute("value", vecRelayedTXs[i].txType);
-        txRow.insertCell(-1).appendChild(inputTxType);
-
-        var inputSH = document.createElement("input");
-        inputSH.setAttribute("name", "textScriptHash" + i);
-        inputSH.setAttribute("readonly", "true");
-        inputSH.style.width = '120px';
-        inputSH.setAttribute("value", vecRelayedTXs[i].txScriptHash);
-        txRow.insertCell(-1).appendChild(inputSH);
-
-        var inputParams = document.createElement("input");
+        var inputParams = document.createElement("span");
         inputParams.setAttribute("name", "textParams" + i);
+        inputParams.setAttribute("class", "col-md-12");
         inputParams.setAttribute("readonly", "true");
-        inputParams.setAttribute("value", vecRelayedTXs[i].txParams);
+	if(tempTxParams.contract_script)
+		tempTxParams.contract_script = tempTxParams.contract_script.slice(0, 26) + "..." + tempTxParams.contract_script.slice(-26);
+        inputParams.innerHTML = JSON.stringify(tempTxParams, undefined, 2);
         txRow.insertCell(-1).appendChild(inputParams);
 
         var inputTxHeight = document.createElement("input");
@@ -164,11 +149,9 @@ function drawRelayedTXs() {
 
 //===============================================================
 //Update vector of relayed txs
-function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txParams) {
+function updateVecRelayedTXsAndDraw(relayedTXID, txParams) {
     vecRelayedTXs.push({
         tx: relayedTXID,
-        txType: actionType,
-        txScriptHash: txScriptHash,
         txParams: txParams
     });
     drawRelayedTXs();
@@ -179,9 +162,10 @@ function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txScriptHash, txPar
 //Call app log
 function callAppLogOrRawTx(txID, rawTX = false) {
     if (txID < vecRelayedTXs.length && txID > -1) {
+        var tempTxParams = JSON.parse(vecRelayedTXs[txID].txParams);
         var txHash = vecRelayedTXs[txID].tx;
         var appLogJson = [];
-        if ((vecRelayedTXs[txID].txType == "Deploy" || vecRelayedTXs[txID].txType == "Invoke") && !rawTX)
+        if ((tempTxParams.type == "deploy" || tempTxParams.type == "invoke") && !rawTX)
         { 
             appLogJson.push({
                 "jsonrpc": "2.0",
@@ -228,9 +212,9 @@ function searchForTX(indexToUpdate) {
           document.getElementById("activationStatus"+indexToUpdate).innerHTML = "<font color=\"red\">FAILED</font>";
       });
 */
-    //console.log(vecRelayedTXs[indexToUpdate].txType)
     var jsonDataToCallNeoCli = [];
-    if (vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+    var tempTxParams = JSON.parse(vecRelayedTXs[indexToUpdate].txParams);
+    if (tempTxParams.type == "deploy" || tempTxParams.type == "invoke")
         jsonDataToCallNeoCli.push({
             "jsonrpc": "2.0",
             "id": 5,
@@ -251,7 +235,7 @@ function searchForTX(indexToUpdate) {
         function(data) {
             //console.log(data);
             if (data[0].result) {
-                if (vecRelayedTXs[indexToUpdate].txType == "Deploy" || vecRelayedTXs[indexToUpdate].txType == "Invoke")
+                if (tempTxParams.type == "deploy" || tempTxParams.type == "invoke")
                     document.getElementById("appLogNeoCli" + indexToUpdate).innerHTML = data[0].result.executions[0].vmstate;
                 else
                     document.getElementById("appLogNeoCli" + indexToUpdate).innerHTML = '<i class="fas fa-thumbs-up"></i>';

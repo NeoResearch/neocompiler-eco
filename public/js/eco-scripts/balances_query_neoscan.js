@@ -44,6 +44,7 @@ function callUnclaimedFromNeoScan(adddressToGet, boxToFill = "", indexKA) {
 // ==================================================
 
 
+/*
 // ==================================================
 //DEPRECATED
 function getAllNeoOrGasFromNeoScan(adddressToGet, assetToGet, boxToFill = "", automaticTransfer = false, to = "") {
@@ -88,7 +89,7 @@ function getAllNeoOrGasFromNeoScan(adddressToGet, assetToGet, boxToFill = "", au
 
 
     });
-}
+} */
 // ==================================================
 
 // ==================================================

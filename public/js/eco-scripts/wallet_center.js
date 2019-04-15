@@ -162,8 +162,23 @@ function addContractToWallet(scriptHashToAdd) {
 	console.log("Nothing to add. Scripthash looks to be empty!");
 }
 
+function addContractToWalletFromVerification() {
+    var verificationScriptToAdd = $("#createtx_from_contract").val();
+    var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
+
+    if (scriptHashToAdd != '')
+    {
+	var accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
+	if (addToWallet(accountToAdd, verificationScriptToAdd))
+        	updateAllWalletData();
+
+        $('.nav-pills a[data-target="#wallet"]').tab('show');
+    }else
+	console.log("Nothing to add. Scripthash looks to be empty!");
+}
+
 //TODO Add suport for adding multisig and specialSC
-function addToWallet(accountToAdd) {
+function addToWallet(accountToAdd, verificationScriptToAdd = "") {
     if (accountToAdd._encrypted != null) {
         if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
             alert("Encrypted key already registered. Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.");
@@ -175,10 +190,9 @@ function addToWallet(accountToAdd) {
         });
         return true;
     }
+    var addressBase58ToAdd = accountToAdd.address;
 
     if (!accountToAdd.isMultiSig) {
-        var addressBase58ToAdd = accountToAdd.address;
-
         console.log("pubAddressToAdd: '" + addressBase58ToAdd + "'");
         if (accountToAdd._WIF != null) {
             var wifToAdd = accountToAdd.WIF;
@@ -220,11 +234,14 @@ function addToWallet(accountToAdd) {
             console.log("pubKey " + accountToAdd.publicKey + " is ok!");
         }
 
+	if (verificationScriptToAdd != "")
+		accountToAdd.contract.script = verificationScriptToAdd;
 
         ECO_WALLET.push({
             account: accountToAdd,
             print: true
         });
+
         return true;
     }
 
@@ -326,6 +343,7 @@ function updateAddressSelectionBox() {
     addAllKnownAddressesToSelectionBox("wallet_info");
     addAllKnownAddressesToSelectionBox("createtx_to");
     addAllKnownAddressesToSelectionBox("createtx_from");
+    addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }
 //===============================================================
 
@@ -336,12 +354,14 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
     //var currentSelected = document.getElementById(walletSelectionBox).selectedOptions[0].index;
     document.getElementById(walletSelectionBox).options.length = 0;
     for (ka = 0; ka < ECO_WALLET.length; ++ka) {
+        // Removing .slice(0, 4)
+        // addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
+        // addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
         if (isEncryptedOnly(ka))
-            addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
+            addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted, "wallet_" + ka, walletSelectionBox);
         else
-            addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
+            addOptionToSelectionBox(ECO_WALLET[ka].account.address, "wallet_" + ka, walletSelectionBox);
     }
-    //document.getElementById(walletSelectionBox)[0].selectedIndex = 0; //currentSelected
 }
 //===============================================================
 
@@ -356,16 +376,17 @@ function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
-            getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
-            getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
+	    queryAccountStateNeoAndGasBalanceFromNeoCli(addressToGet, ka)
+            //getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
+            //getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
 
             if(!$("#cbx_query_neoscan")[0].checked)
-              callClaimableFromNeoCli(addressToGet, "#walletClaim" + ka);
+              callClaimableFromNeoCli(addressToGet, ka);
             else
               callClaimableFromNeoScan(addressToGet, "#walletClaim" + ka);
 
             if(!$("#cbx_query_neoscan")[0].checked)
-              callUnclaimedFromNeoCli(addressToGet, "#walletUnclaim" + ka, ka);
+              callUnclaimedFromNeoCli(addressToGet, ka);
             else
               callUnclaimedFromNeoScan(addressToGet, "#walletUnclaim" + ka, ka);
         }
@@ -401,3 +422,22 @@ function decrypt() {
     });
 }
 
+function getAddressBase58FromMultiSig(verificationScript) {
+    jssonArrayWithAddr = [];
+    var jssonArrayWithPubKey = getPubKeysFromMultiSig(verificationScript);
+    for (a = 0; a < jssonArrayWithPubKey.length; a++)
+        jssonArrayWithAddr.push(new Neon.wallet.Account(jssonArrayWithPubKey[a].pubKey));
+    return jssonArrayWithAddr;
+}
+
+function getAccountFromMultiSigVerification(verificationScript) {
+    var jssonArrayWithAddr = getAddressBase58FromMultiSig(verificationScript);
+    var rawPubKeysForNeonJS = [];
+
+    // Create publicKeys: string[]
+    for (var a = 0; a < jssonArrayWithAddr.length; a++)
+        rawPubKeysForNeonJS.push(jssonArrayWithAddr[a].publicKey);
+
+    var nRequiredSignatures = getNRequiredSignatures(verificationScript);
+    return Neon.wallet.Account.createMultiSig(Number(nRequiredSignatures), rawPubKeysForNeonJS);
+}

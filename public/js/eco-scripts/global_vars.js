@@ -12,12 +12,13 @@ var refreshIntervalNeoCliNodes = 0;
 var refreshIntervalCompilers = 0;
 var refreshGenesisBlock = 0;
 var refreshHeadersNeoCliNeoScan = 0;
+var refreshIntervalActivityId = 0;
 
 /* Set Default API Provider var for NEONJS */
 var NEON_API_PROVIDER;
 
 /* Enable NEOSCAN explorer on the frontend */
-var ENABLE_NEOSCAN_TRACKING = false;
+var ENABLE_NEOSCAN_TRACKING = true;
 
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;
@@ -29,10 +30,75 @@ var LAST_BEST_HEIGHT_NEOCLI = 0;
 /* LAST ACTIVE TAB BEFORE ACTIVITY */
 var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 
+/* ARRAY VECTOR WITH ALL RELAYED TXs */
+var vecRelayedTXs = [];
+
+/* SOCKET */
+var socket;
+
+/* EDITORS AND EXAMPLES */
+var aceEditor;
+var SELECTED_COMPILER = "";
+var USER_EXAMPLES = new Map();
+//===============================================================
+var cSharpFiles = [
+        //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+        ["/examples/csharp/HelloWorld/HelloWorld.cs"],
+        ["/examples/csharp/ICO_Template/ICO_Template.cs"],
+        ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
+        ["/examples/csharp/Lock/Lock.cs"],
+        [
+            "/examples/csharp/StructExample/Point.cs",
+            "/examples/csharp/StructExample/StructExample.cs"
+        ],
+        ["/examples/csharp/MapExample/MapExample.cs"],
+        ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
+];
+
+var cPythonFiles = [
+        ["/examples/python/HelloWorld.py"]
+];
+
+var cJavaFiles = [
+        ["/examples/java/HelloWorld.java"]
+];
+
+var cGolangFiles = [
+        ["/examples/golang/HelloWorld.go"]
+];
+
+/* PENDING TX */
+var PendingTX = null;
+var PendingTXParams = [];
+
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";
 /* End Some Global Variables  */
 /* ======================================  */
+
+var NUMBER_FAILS_REQUESTS = 0;
+var MAX_N_FAILLED_REQUEST_UNTIL_STOP = 20;
+var NEO_CLI_REFRESHING_STOPED = false;
+function stopAllEcoLabFrontEndTimeoutIntervals(){
+    //Check current if refresh interval was set and, then, cancel it
+    if(refreshIntervalWalletId!=0)
+      clearInterval(refreshIntervalWalletId);
+
+    if(refreshIntervalActivityId!=0)
+      clearInterval(refreshIntervalActivityId);
+
+    if(refreshIntervalEcoMetadataStatsId!=0)
+      clearInterval(refreshIntervalEcoMetadataStatsId);
+
+    if(refreshIntervalNeoCliNodes!=0)
+      clearInterval(refreshIntervalNeoCliNodes);
+
+    if(refreshIntervalCompilers!=0)
+      clearInterval(refreshIntervalCompilers);
+
+    if(refreshGenesisBlock!=0)
+      clearInterval(refreshGenesisBlock);
+}
 
 // ==============================================================================================
 // ======================= INITIALIZING BASE PATHS ==============================================
@@ -63,6 +129,9 @@ if (LOCAL_DEVELOPMENT) {
     //BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", localHostNodes);
 }
 // ==============================================================================================
+
+var NEO_ASSET = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
+var GAS_ASSET = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';

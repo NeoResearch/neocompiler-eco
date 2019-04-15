@@ -55,27 +55,6 @@ function getMultiSigPrivateKeys(multiSigIndex) {
     return jsonArrayWithPrivKeys;
 }
 
-function getAddressBase58FromMultiSig(verificationScript) {
-    jssonArrayWithAddr = [];
-    jssonArrayWithPubKey = getPubKeysFromMultiSig(verificationScript);
-    for (a = 0; a < jssonArrayWithPubKey.length; a++)
-        jssonArrayWithAddr.push(new Neon.wallet.Account(jssonArrayWithPubKey[a].pubKey));
-    return jssonArrayWithAddr;
-}
-
-function getAccountFromMultiSigVerification(verificationScript) {
-    var jssonArrayWithAddr = getAddressBase58FromMultiSig(verificationScript);
-    var rawPubKeysForNeonJS = [];
-    for (a = 0; a < jssonArrayWithPubKey.length; a++)
-        rawPubKeysForNeonJS.push(jssonArrayWithPubKey[a].pubKey);
-    var nRequiredSignatures = getNRequiredSignatures(verificationScript);
-
-    const genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(nRequiredSignatures, rawPubKeysForNeonJS);
-
-    return genesisMultiSigAccount;
-}
-
-
 function sortMultiSigInvocationScript(wtx, invocationScript, verificationScript) {
     arrayPubKey = getPubKeysFromMultiSig(verificationScript);
     jsonWithOrderedSignatures = [];

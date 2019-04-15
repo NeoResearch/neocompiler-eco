@@ -14,8 +14,8 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
                    {
 			   if(FULL_ACTIVITY_HISTORY)
 			   {
-				var rawTXParams = { wtx: wtx}
-				updateVecRelayedTXsAndDraw(txHash,"RawTX","-",JSON.stringify(rawTXParams));
+				var rawTXParams = { wtx: wtx, type: "RawTX"}
+				updateVecRelayedTXsAndDraw(txHash, JSON.stringify(rawTXParams));
 			   }
 			   createNotificationOrAlert("SendRaw_TX_NeoCli", "Status: " + resultJsonData.result, 5000);
 		   }else
@@ -27,6 +27,40 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             ).fail(function() {
 		createNotificationOrAlert("SendRaw_TX_NeoCli", "failed to pass transaction to network!", 5000);
             }); //End of POST for search
+}
+
+function sendingTxPromiseWithEcoRaw(txPromise, txLoggingParams = null) {
+    var txHash;
+    const sendTxPromise = txPromise.then(transaction => {
+            txHash = transaction.hash;
+            
+            // Sending using NEON-JS interface
+	    const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+            return client.sendRawTransaction(transaction.serialize(true));
+
+	    /*
+            console.log("sendingTxPromiseWithEcoRaw:");
+            console.log(transaction);
+            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);*/
+        })
+        .then(res => {
+            console.log("\n\n--- A response was achieved---");
+            //console.log(res);
+            if(txLoggingParams != null && res)
+            {
+                    updateVecRelayedTXsAndDraw(txHash, JSON.stringify(txLoggingParams));
+
+                    // Jump to acitivy tab and record last tab
+                    $('.nav-pills a[data-target="#activity"]').tab('show');
+                    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+                    document.getElementById('divNetworkRelayed').scrollIntoView();
+
+		    // TODO create personalized log for other types
+                    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + txLoggingParams.contract_scripthash + " tx_hash: " + txHash, 7000);
+            }
+        })
+        .catch(err => console.log(err));
+    return sendTxPromise;
 }
 
 function getContractState(contractScriptHash, deployOrInvoke){

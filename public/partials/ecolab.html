@@ -336,16 +336,14 @@
                         <div class="panel-body">
                             <form id="createtx" action="">
                               <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
                                     <button type=button onClick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
                                     <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3"></select>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="createtx_to">To(Address)</label>
                                     <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3"></select>
@@ -403,7 +401,7 @@
                                     </div>
                                     <div class="row">
                                       <div class="col-md-6">
-                                        <button type="button" onClick="addContractToWallet($('#createtx_from_scripthash').val())" id="btnNewVerificationContractToWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
+                                        <button type="button" onClick="addContractToWalletFromVerification()" id="btnNewVerificationContractToWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
                                       </div>
                                     </div>
                                     <label for="createtx_from_verification">Invocation in hex</label>
@@ -442,7 +440,7 @@
                                     <label for="createtx_signature">Generate Signature (Optional)</label>
                                     <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
                                     <!-- document.getElementById("createtx_signature").checkValidity() -->
-                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i></button>
+                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i> Sign</button>
                                     <!-- Neon.wallet.generateSignature -->
                                     <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
                                   </div>
@@ -470,7 +468,7 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">
                           Wallet
-                          <button type="submit" onClick="populateAllWalletData()" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                          <button type="submit" onClick="populateAllWalletData();" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                         </div>
                         <div class="panel-body">
                             <div id="divWalletsStatus" class="table-responsive"></div>
@@ -479,91 +477,118 @@
                     <div class="panel panel-info">
                         <div class="panel-heading">Register new account</div>
                         <div class="panel-body">
-                            Address: <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="34" title="public address (base58)"/> <br>
-                            ScriptHash: <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="40" title="scripthash"/> <br>
-                            PubKey: <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="62" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62"/> <br>
-                            WIF: <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="20" /> <br>
-                            PrivateKey: <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="62" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="62" /> <br>
-                            VerificationScript: <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="20" /> <br>
-                            EncryptedKey: <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="1000" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="32" /> <br>
-                            <input type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
-                            <button type="button" onClick="addWalletFromForm()" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                          <div class="row">
+                            <div class="col-md-6">
+                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address (base58)"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="38" title="scripthash"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62"/>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="50" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                PrivateKey (32 bytes): <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="64" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="60" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="58" />
+                            </div>
+                          </div>
+                          <input data-toggle="collapse" data-target="#div_addMultiSig_byVerification" type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig</input><br/>
+                          <div class="panel-body collapse" id="div_addMultiSig_byVerification">
+                              VerificationScript (? bytes): <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="40" /> <br>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                                <button type="button" onClick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                            </div>
+                          </div>
                         </div>
                     </div>
                     <div class="panel panel-info">
                         <div class="panel-heading">Accounts detailed info</div>
-                        <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
                         <div class="panel-body">
-                            <button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm"><i class="fas fa-user-minus"></i></button> <br />
-                            <strong>AddressBase58</strong><input id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Encrypted</strong><input id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <div id="dialog" title="Basic dialog" hidden>
-                              <input id="passwordNep2" type="password" size="25" />
-                              <button type="" onClick="decrypt()" class="btn btn-info btn-sm">Decrypt</button>
+
+                            <div class="row">
+                              <div class="col-md-4">
+                                <span class="label label-primary">Pick an address:</span>
+                                <select name="wallet_info" onChange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"></select>
+                              </div>
                             </div>
-                            <strong>ScriptHash</strong><input id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>PublicKey</strong><input id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>VerificationScript</strong><input id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>WIF</strong><input id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>PrivateKey</strong><input id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Owners:</strong><input id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                            <strong>Print:</strong><input id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)" style="width: 100%; margin-bottom: 10px;"/>
-                        </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <span class="label label-success">AddressBase58:</span>
+                                <textarea id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">ScriptHash:</span>
+                                <textarea id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">PublicKey:</span>
+                                <textarea id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">VerificationScript:</span>
+                                <textarea id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)"/>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <span class="label label-success">WIF:</span>
+                                <textarea id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)" />
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">PrivateKey:</span>
+                                <textarea id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">Print:</span>
+                                <textarea id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">Owners:</span>
+                                <textarea id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)"/>
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-md-2">
+                                <br /><button type="" onClick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">
+                                  <i class="fas fa-user-minus"></i> Remove account
+                                </button>
+                              </div>
+                              <div class="col-md-2">
+                                <span class="label label-success">EncryptedKey:</span>
+                                <textarea id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)"/>
+                              </div>
+                              <div class="col-md-2">
+                                  <form class="form-group" onSubmit="decrypt()">
+                                    <div id="dialog" title="Basic dialog" hidden>
+                                      <input autocomplete=​"eco" id="passwordNep2" class="form-control" type="password" placeholder=​"EnterPassword" />
+                                      <button type="submit" class="form-control btn btn-info btn-sm">Decrypt</button>
+                                    </div>
+                                  </form>
+                              </div>
+                            </div>
+
+                        </div> <!-- END PANEL BODY -->
                     </div>
-                    <!--
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 1</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</p>
-                              <strong>Publickey</strong><p class="tabu">031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a</p>
-                              <strong>WIF</strong><p class="tabu">KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 2</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL</p>
-                              <strong>Publickey</strong><p class="tabu">036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb</p>
-                              <strong>WIF</strong><p class="tabu">L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 3</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx</p>
-                              <strong>Publickey</strong><p class="tabu">0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d</p>
-                              <strong>WIF</strong><p class="tabu">KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-6">
-                        <div class="card">
-                          <div class="card-container">
-                            <h5 class="card-title">Wallet 4</h5>
-                            <p class="card-text">
-                              <strong>Address</strong><p class="tabu">AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9</p>
-                              <strong>Publickey</strong><p class="tabu">02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4</p>
-                              <strong>WIF</strong><p class="tabu">KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV</p>
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div><br>
-                    -->
            </div>
            <!-- END DIV WALLETS INFO -->
            <!-- ======================================================== -->
@@ -798,8 +823,8 @@
                            </div>
                             <div class="col-md-3">
                               <span class="label label-success">Password</span>
-                              <br/><input type="text" id="cbx_pwd_cn" placeholder="dockerreset" size="12">
-                              <br/><button type=button onClick="onClickPostServerToResetDockerService()" id="btc_reset_service_pwd" class="btn btn-warning btn-sm">Reset docker service</button>
+                              <br/><input type="text" id="cbx_pwd_reset_service" placeholder="dockerreset" size="12">
+                              <br/><button type=button onClick="onClickPostServerToResetDockerService()" id="btn_reset_service_pwd" class="btn btn-warning btn-sm">Reset docker service</button>
                             </div>
                        </div>
                    </div>
@@ -815,6 +840,10 @@
                        <div class="col-md-2">
                          <span class="label label-success">Wallet balances</span>
                          <br/><input type="text" id="cbx_refresh_wallet" placeholder="10000" size="7">
+                       </div>
+                       <div class="col-md-2">
+                         <span class="label label-success">TXs Activity</span>
+                         <br/><input type="text" id="cbx_refresh_activity" placeholder="10000" size="7">
                        </div>
                        <div class="col-md-2">
                          <span class="label label-success">Headers info</span>
@@ -872,145 +901,71 @@
                         <div class="panel-heading">Compile</div>
                         <div class="panel-body">
                             <form id="formCompile" action="/compilex" style="margin-top: 10px;" method="post">
-                                <div class="tab-container">
-                                    <ul class="nav nav-tabs" id="compilersnavtabs">
-                                        <li class="active"><a data-target="#csharpcode" data-toggle="tab">C#</a></li>
-                                        <li><a data-target="#pythoncode" data-toggle="tab">Python</a></li>
-                                        <li><a data-target="#golangcode" data-toggle="tab">Go</a></li>
-                                        <li><a data-target="#javacode" data-toggle="tab">Java</a></li>
-                                    </ul>
+                                      <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                        <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                            Select Compiler
+                                            <span class="caret"></span>
+                                        </a>
+                                            <ul class="dropdown-menu" id="CompilersList">
+                                                <li><a onclick="setCompiler('csharp')">C#</a></li>
+                                                <li><a onclick="setCompiler('python')">Python</a></li>
+                                                <li><a onclick="setCompiler('golang')">Golang</a></li>
+                                                <li><a onclick="setCompiler('java')">Java</a></li>
+                                            </ul>
+                                      </div>
 
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- csharpcode -->
-                                    <div class="tab-content">
-                                        <div class="tab-pane active cont" id="csharpcode">
-                                                <div class="dropdown btn-group" style="margin-bottom: 10px">
-                                                    <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
-                                                        Select Example
-                                                        <span class="caret"></span>
-                                                    </a>
-                                                    <ul class="dropdown-menu" id="ExampleList">
-                                                        <li><a onclick="setExample('0')">HelloWorld.cs</a></li>
-                                                        <li><a onclick="setExample('1')">ICO_Template.cs</a></li>
-                                                        <li><a onclick="setExample('2')">MyCheckWitness.cs</a></li>
-                                                        <li><a onclick="setExample('3')">Lock.cs</a></li>
-                                                        <li><a onclick="setExample('4')">StructExample.cs</a></li>
-                                                        <li><a onclick="setExample('5')">MapExample.cs</a></li>
-                                                        <li><a onclick="setExample('6')">HelloWorldNotification.cs</a></li>
-                                                    </ul>
-                                                </div>
-                                                <input type="hidden" id="code_cs" name="codesend_cs"/>
-                                                <pre id="editorCSharp">
-using Neo.SmartContract.Framework.Services.Neo;
+                                       <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                           <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                               Select Example
+                                               <span class="caret"></span>
+                                           </a>
+                                           <ul class="dropdown-menu" id="ExampleList">
+                                           </ul>
+                                       </div>
 
-namespace Neo.SmartContract
-{
-    public class HelloWorld : Framework.SmartContract
-    {
-        public static void Main()
-        {
-            // writes value &quot;World&quot; on storage key &quot;Hello&quot;
-            // implicitly calls Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;)
-            Storage.Put(&quot;Hello&quot;, &quot;World&quot;);
-        }
-    }
-}
-                                      </pre>
-                                    </div>
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- end csharpcode -->
+                                       <input type="hidden" id="code_cs" name="codesend_cs"/>
+                                       <input type="hidden" id="code_java" name="codesend_java"/>
+                                       <input type="hidden" id="code_golang" name="codesend_golang"/>
+                                       <input type="hidden" id="code_python" name="codesend_python"/>
 
-                                    <!-- /////////////////////////////////////////////////////////////////// -->
-                                    <!-- java div -->
-                                    <div class="tab-pane cont" id="javacode">
-                                        <input type="hidden" id="code_java" name="codesend_java"/>
-                                        <pre id="editorJava">
-package teste;
+                                       <input type="hidden" id="selected_compiler_form" name="codesend_selected_compiler"/>
 
-import org.neo.smartcontract.framework.services.neo.TriggerType;
-import org.neo.smartcontract.framework.services.system.ExecutionEngine;
-
-import java.math.BigInteger;
-
-import org.neo.smartcontract.framework.Helper;
-import org.neo.smartcontract.framework.SmartContract;
-import org.neo.smartcontract.framework.services.neo.Runtime;
-import org.neo.smartcontract.framework.services.neo.Storage;
-import org.neo.smartcontract.framework.services.neo.Transaction;
-import org.neo.smartcontract.framework.services.neo.TransactionOutput;
-
-public class JavaContract extends SmartContract {
-
-	public static Object Main(String operation, Object[] args) {
-		TriggerType trigger = Runtime.trigger();
-
-		if (trigger == TriggerType.Verification) {
-
-			return true;
-
-		} else if (trigger == TriggerType.Application) {
-
-
-		}
-
-		return false;
-	}
-
-}
-                                            </pre>
-                                          </div>
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- end java -->
-
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- golang div -->
-                                          <div class="tab-pane cont" id="golangcode">
-                                              <input type="hidden" id="code_golang" name="codesend_golang"/>
-                                              <pre id="editorGolang">
-package main
-
-func Main() int {
-	x := 10
-	return x
-}
-                                            </pre>
-                                          </div>
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- golang java -->
-
-                                          <!-- /////////////////////////////////////////////////////////////////// -->
-                                          <!-- python div -->
-                                          <div class="tab-pane cont" id="pythoncode">
-                                              <input type="hidden" id="code_python" name="codesend_python"/>
-                                              <pre id="editorPython">
-from boa.interop.Neo.Runtime import Notify, CheckWitness
-
-def Main():
-    #OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
-    OWNER=b'\x03\x1alo\xbb\xdf\x02\xca5\x17E\xfa\x86\xb9\xbaZ\x94R\xd7\x85\xacO\x7f\xc2\xb7T\x8c\xa2\xa4lO\xcfJ'
-    result = CheckWitness(OWNER)
-    if result:
-        print(&quot;OWNER is caller&quot;)
-        return True
-    return False
-                                            </pre>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end python div -->
-                                <!-- /////////////////////////////////////////////////////////////////// -->
-
+                                       <div class="row">
+                                           <div class="col-md-8">
+                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15">(CAUTION! LOCALSTORAGE MIGHT BE LOST!)</input><br>
+                                             <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
+                                             <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
+                                           <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
+                                           </div>
+                                       </div>
+                                       <!-- ACE EDITOR div pre -->
+                                       <div class="row">
+                                         <div class="col-md-12">
+                                           <br/><pre id="aceEditor"></pre>
+                                         </div>
+                                       </div>
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
-                                <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font>
-                                <br><span id="span_numberCompilations" class="label label-info"></span>
-                                </p>
-                                <div class="dropdown btn-group" style="margin-bottom: 10px">
-                                  <label for="compilers_versions-selection-box">Compiler version:</label>
-                                  <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
+                                <!-- <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p> -->
+                                <span id="span_numberCompilations" class="label label-info"></span>
+                                <div class="row">
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <label for="compilers_versions-selection-box">Compiler version:</label>
+                                      <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <input type="checkbox" id="cbx_compatible" name="cbx_compatible" checked>Compatible</input><br/>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <input type="checkbox" id="cbx_optimize">Optimize opcodes with <a href="https://github.com/NeoResearch/neo-avm-optimizer" target="_blank">neo-avm-optimizer</a> (BETA! USE WITH CAUTION!)</input>
+                                    </div>
+                                  </div>
                                 </div>
-                                <br/><input type="checkbox" id="cbx_optimize">Optimize opcodes with <a href="https://github.com/NeoResearch/neo-avm-optimizer" target="_blank">neo-avm-optimizer</a> (BETA! USE WITH CAUTION!)</input><br/>
-                                <br/><input type="checkbox" id="cbx_compatible" name="cbx_compatible" checked>Compatible</input><br/>
                                 <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal"><i class="fas fa-hammer"></i> Compile</button>
                                 <h4>Compile Warning/Errors:</h4>
                                 <!-- end common submit button -->
@@ -1060,15 +1015,21 @@ def Main():
                    <button type="submit" onClick="searchForTXs()" id="btndrawRelayedTXs" style="margin-bottom: 5px;" class="btn btn-info btn-sm"> <i class="fas fa-sync-alt"></i></button>
               </div>
               <div class="panel-body">
-                  <span type="checkbox" class="label label-success">Full history</span>
-                  <input type="checkbox" id="cbx_fullHistory"></input> <br>
-                  <div id="divRelayedTXs" class="table-responsive"></div>
                   <div class="row">
-                        <div class="col-md-2">
-                          <button onClick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i> Move back</button><br>
-                        </div>
+                      <div class="col-md-2">
+                        <span for="cbx_fullHistory" type="checkbox" class="label label-success">Enable full activity history</span>
+                        <input type="checkbox" id="cbx_fullHistory"></input>
+                      </div>
                   </div>
                   <div class="row">
+                      <div class="col-md-12">
+                        <div id="divRelayedTXs" class="table-responsive"></div>
+                      </div>
+                  </div>
+                  <div class="row">
+                        <div class="col-md-2">
+                          <button onClick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i> Deploy&Invoke </button>
+                        </div>
                         <div class="col-md-2">
                           <button type="submit" onClick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm"><i class="fas fa-file-download"></i><font size='1'> DOWNLOAD</font></button><br>
                         </div>
@@ -1243,14 +1204,6 @@ def Main():
                            </div>
                          </div>
                        </div>
-                       <div class="row">
-                         <div class="col-md-12 form-inline" style="margin-bottom: 10px">
-                           <div class="form-group">
-                             <label>Caller (AddressBase58)</label>
-                             <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
-                           </div>
-                          </div>
-                       </div>
 
                        <div class="row">
                            <div class="col-md-6">
@@ -1361,12 +1314,26 @@ def Main():
                                  </div>
                            </div> <!-- row -->
                            <div class="row">
+                              <div class="col-md-3">
+                               <div class="form-group">
+                                 <label>Caller (AddressBase58)</label>
+                                 <select name="wallet_invokejs" id="wallet_invokejs" class="custom-select form-control"></select>
+                               </div>
+                              </div>
+                              <div class="col-md-3">
+                                <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD ABI</span>
+                                <input type="file" id="importABIFile" accept=".json,.JSON" onchange="ImportABIFromFile()">
+                              </div>
+                           </div>
+                           <div class="row">
                                <div class="col-md-2">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-fire"></i> Invoke</button>
                                </div>
                                <div class="col-md-2">
-                                 <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD ABI</span>
-                                 <input type="file" id="importABIFile" accept=".json,.JSON" onchange="ImportABIFromFile()">
+                                 <div class="form-group">
+                                   <span type="checkbox" class="label label-success">Advancing signing</span>
+                                   <input type="checkbox" data-toggle="collapse" data-target="#divAdvancedSigning" id="cbxAdvSignToggle"></input><br>
+                                  </div>
                                </div>
                                <div class="col-md-2">
                                  <span id="span_numberInvokes" class="label label-info"></span>
@@ -1374,11 +1341,45 @@ def Main():
                            </div> <!-- row -->
                      </form>
                    </div> <!-- end invokejs -->
-
                </div> <!-- tab-content -->
               </div> <!-- tab-container -->
             </div> <!-- body -->
           </div> <!-- panel warning -->
+
+          <div class="panel panel-info collapse" id="divAdvancedSigning">
+              <div class="panel-heading">Advanced signing
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                      <label for="tx_AdvancedSigning_ScriptHash">ScriptHash</label>
+                      <input id="tx_AdvancedSigning_ScriptHash" readonly="readonly" name="tx_AdvancedSigning_ScriptHash" class="form-control" placeholder="TX Script Hash" style="width: 100%; margin-bottom: 10px;"/>
+                      <label for="tx_AdvancedSigning_HeaderSize">TX Header Size</label>
+                      <input id="tx_AdvancedSigning_HeaderSize" readonly="readonly" name="tx_AdvancedSigning_HeaderSize" class="form-control" placeholder="TX Size (in bytes)" style="width: 100%; margin-bottom: 10px;"/>
+                      <label for="tx_AdvancedSigning_Size">TX Size</label>
+                      <input id="tx_AdvancedSigning_Size" readonly="readonly" name="tx_AdvancedSigning_Size" class="form-control" placeholder="TX Size (in bytes)" style="width: 100%; margin-bottom: 10px;"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txScript_advanced_signing">Transaction Header</label>
+                      <textarea id="txScript_advanced_signing" readonly="readonly" rows="5" cols="100" placeholder="TX script" class="form-control"></textarea>
+                    </div>
+                </div> <!-- row -->
+                <div class="row">
+                    <div class="col-md-6">
+                      <select required multiple onchange="addAttributedAndTryToSign()" name="wallet_advanced_signing" id="wallet_advanced_signing" class="custom-select form-control" size="7"></select>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="txtAdvancedSigning">Scripts - Witness (json)</label>
+                      <textarea onchange="addScriptsToPendingTx()" id="txt_AdvancedSigning_Signatures" rows="5" cols="100" class="form-control" placeholder="Signature1 \n Signature2 \n SignatureN"/>
+                    </div>
+                </div> <!-- row -->
+                <div class="row">
+                    <div class="col-md-2">
+                      <button type="submit" onclick="sendRawTXFromPendingTx()" id="sendRawTxBtn" class="btn btn-success btn-sm"><i class="fas fa-fire"></i> Send</button>
+                    </div>
+                </div> <!-- row -->
+              </div>
+          </div>
 
         </div>
         <!-- end deploy invoke -->
@@ -1480,6 +1481,7 @@ def Main():
 
 
     <script>
+    drawRelayedTXs();
     window.onbeforeunload = function(event) {
         storePageData();
         //socket.disconnect();
@@ -1488,15 +1490,7 @@ def Main():
 
     //Check current webpage and starts with localhost or neocompiler public website
     $(document).ready(function() {
-        //console.log("checking wallets");
-        setWalletRefreshInterval(10000); //10000 millisec
-        setEcoInfoRefreshInterval(10000);
-        setCompilersByPing(20000);
-        setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-        setGenesisBlock(10000);
-
         recoveringPageData();
-
         //Function that verifies if page is localhost or neocompiler.io, changing neocli node and calling paths
         if (window.location.href.indexOf("localhost") != -1) {
             $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
@@ -1506,37 +1500,15 @@ def Main():
         automaticNeoCliNodeSelection();
         updateAllWalletData();
         updateEcoMetadataInfo();
+
+        //The first call is done here as default
+        $("#compilebtn")[0].disabled = true;
+        updateCompilersSelectionBox("docker-mono-neo-compiler");
+
+        // Setting default code example to csharp and hello world (example 0)
+        aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+        setCompiler("csharp");
     });
-
-    //===============================================================
-    //============= ADD OPTION TO SELECTION BOX =====================
-    function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
-        var option = document.createElement("option");
-        option.text = textToOption;
-        option.value = valueToOption;
-        var select = document.getElementById(walletSelectionBox);
-        select.appendChild(option);
-    }
-    //===============================================================
-
-    //===============================================================
-    var editorPython = createEditor("editorPython", "ace/mode/python");
-    var editorGolang = createEditor("editorGolang", "ace/mode/golang");
-    var editorCSharp = createEditor("editorCSharp", "ace/mode/csharp");
-    var editorJava = createEditor("editorJava", "ace/mode/java");
-    var cSharpFiles = [
-        //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/ICO_Template/ICO_Template.cs"],
-        ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
-        ["/examples/csharp/Lock/Lock.cs"],
-        [
-            "/examples/csharp/StructExample/Point.cs",
-            "/examples/csharp/StructExample/StructExample.cs"
-        ],
-        ["/examples/csharp/MapExample/MapExample.cs"],
-        ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
-    ];
 
     function createEditor(name, mode) {
         var editor = ace.edit(name);
@@ -1566,9 +1538,6 @@ def Main():
     }
     //===============================================================
 
-    var vecRelayedTXs = [];
-    drawRelayedTXs();
-
     function setWalletRefreshInterval(intervalForRefreshing)
     {
       if(refreshIntervalWalletId!=0)
@@ -1577,6 +1546,17 @@ def Main():
 
       refreshIntervalWalletId = setInterval(function() {
           populateAllWalletData();
+          stopRefreshingDueToConnectionProblems();
+      }, intervalForRefreshing);
+    }
+
+    function setActivityRefreshInterval(intervalForRefreshing)
+    {
+      if(refreshIntervalActivityId!=0)
+        clearInterval(refreshIntervalActivityId);
+      $("#cbx_refresh_activity").val(intervalForRefreshing);
+
+      refreshIntervalActivityId = setInterval(function() {
           searchForTXs();
       }, intervalForRefreshing);
     }
@@ -1611,6 +1591,8 @@ def Main():
 
       refreshIntervalNeoCliNodes = setInterval(function() {
           automaticNeoCliNodeSelection();
+          // Automatic node selection may also find a good node
+          stopRefreshingDueToConnectionProblems();
       }, intervalForRefreshing);
     }
 
@@ -1677,16 +1659,17 @@ def Main():
         } else {
             FULL_ACTIVITY_HISTORY = false;
         }
-        console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
+        //console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
     });
 
     //=================================================================
     //Neoscan selection box on loading
-    if (ENABLE_NEOSCAN_TRACKING) {
+    /*if (ENABLE_NEOSCAN_TRACKING) {
         $("#cbx_enable_neoscan")[0].checked = true;
     } else {
         $("#cbx_enable_neoscan")[0].checked = false;
-    }
+    }*/
+
     //onchange
     $("#cbx_enable_neoscan").on('change', function() {
         if ($("#cbx_enable_neoscan")[0].checked) {
@@ -1701,9 +1684,7 @@ def Main():
     //=================================================================
 
     $("#ecolabnetworkurlselection").on('change', function() {
-        //$("#neonodeurl")[0].value = this.value;
         updatePATHS();
-        startSocketIoConnections();
     });
 
     $("#createtx_input_utxo2").on('change', function() {
@@ -1760,6 +1741,9 @@ def Main():
     $("#cbx_refresh_wallet").on('change', function() {
         setWalletRefreshInterval(this.value);
     });
+    $("#cbx_refresh_activity").on('change', function() {
+        setActivityRefreshInterval(this.value);
+    });
     $("#cbx_refresh_headers").on('change', function() {
         setRefreshingIntervalForHeadersInfo(this.value);
     });
@@ -1775,15 +1759,6 @@ def Main():
     $("#cbx_refresh_ecometadata").on('change', function() {
         setEcoInfoRefreshInterval(this.value);
     });
-
-
-    /*
-    //DEPRECATED SELECTION FOX FOR PYTHON REST SELECTION
-    $("#selectionBoxRestNotifications").on('change', function() {
-        BASE_PATH_PY_REST = this.value;
-        $("#rest_notifications_path")[0].value = this.value;
-    });
-    */
     //=============================================================
 
     //======== END ON-CHANGE FUNCTIONS ================================
@@ -1831,11 +1806,18 @@ def Main():
         }
     }
 
-    //The first call is done here as default
-    updateCompilersSelectionBox("docker-mono-neo-compiler");
+    //===============================================================
+    //============= ADD OPTION TO SELECTION BOX =====================
+    function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
+        var option = document.createElement("option");
+        option.text = textToOption;
+        option.value = valueToOption;
+        var select = document.getElementById(walletSelectionBox);
+        select.appendChild(option);
+    }
+    //===============================================================
 
     function updateCompilersSelectionBox(compilerType) {
-
         $.get(BASE_PATH_COMPILERS + '/getcompilers',
             function(data) {
                 compilerSelectionBoxID = "compilers_versions-selection-box";
@@ -1846,13 +1828,13 @@ def Main():
                     if (data[c].compiler == compilerType)
                         addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
                 }
+                $("#compilebtn")[0].disabled = false;
                 //Select the latest as default
                 //compilerSelectionBoxObj.selectedIndex = (compilerSelectionBoxObj.length -1)
             },
             "json" // The format the response should be in
         );
     }
-
     //===============================================================
     //= UPDATE ALL KNOWN SERVICE TO THEIR CONFIGURATION SELELECTION =
     function addAllKnownServiceToSelectionBox(serviceType, networkServicesObj, selectionBoxToFill) {
@@ -1866,44 +1848,80 @@ def Main():
         }
     }
     //===============================================================
+    function stopRefreshingDueToConnectionProblems(){
+      if(NUMBER_FAILS_REQUESTS > MAX_N_FAILLED_REQUEST_UNTIL_STOP)
+      {
+        //Check if it was already disabled
+        if(!NEO_CLI_REFRESHING_STOPED)
+        {
+          console.log(NUMBER_FAILS_REQUESTS + "/" + MAX_N_FAILLED_REQUEST_UNTIL_STOP);
+          console.log("Time to disable refreshing...");
+          // store the last refreshing rate for wallet
+          NEO_CLI_REFRESHING_STOPED = true;
+          $("#cbx_refresh_wallet").val(0);
+          if(refreshIntervalWalletId!=0)
+            clearInterval(refreshIntervalWalletId);
+          if(refreshIntervalActivityId!=0)
+            clearInterval(refreshIntervalActivityId);
+          if(refreshHeadersNeoCliNeoScan!=0)
+            clearInterval(refreshHeadersNeoCliNeoScan);
+        }
+      }else {
+        if(NEO_CLI_REFRESHING_STOPED)
+        {
+          console.log(NUMBER_FAILS_REQUESTS + "/" + MAX_N_FAILLED_REQUEST_UNTIL_STOP);
+          console.log("Recovering automatic refreshing for balances and headers");
+          setWalletRefreshInterval(10000);
+          setActivityRefreshInterval(20000);
+          setRefreshingIntervalForHeadersInfo(800); //0.8s
+          NEO_CLI_REFRESHING_STOPED = false;
+        }
+      }
+    }
 
     function updatePATHS() {
         mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
+        stopAllEcoLabFrontEndTimeoutIntervals();
+        NEO_CLI_REFRESHING_STOPED = false;
 
+        // Eco shared privatenet
         if (mynetworkIndex == 0) {
             $("#cbx_enable_neoscan")[0].checked = true;
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
+            setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(1300); //1.3s
             $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+            setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", ecoNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", ecoNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",ecoNodes,"selectionBoxRestNotifications");
         }
 
+        // Localhost services
         if (mynetworkIndex == 1) {
             $("#cbx_enable_neoscan")[0].checked = false;
-            ENABLE_NEOSCAN_TRACKING = false;
+            ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
+            setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(800); //0.8s
             $("#cbx_refresh_headers").val(800);
             setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
+            setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", localHostNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", localHostNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",localHostNodes,"selectionBoxRestNotifications");
         }
 
         // MainNet
@@ -1913,6 +1931,7 @@ def Main():
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1933,6 +1952,7 @@ def Main():
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1946,6 +1966,7 @@ def Main():
             //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
         }
 
+        /*
         // CozTestnet TODO
         if (mynetworkIndex == 4) {
             // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
@@ -1953,6 +1974,7 @@ def Main():
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1964,7 +1986,7 @@ def Main():
             addAllKnownServiceToSelectionBox("RPC", cozNetNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", cozNetNodes, "selectionBoxNeoScan");
             //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
-        }
+        }*/
 
         $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
         $("#eco_services_path")[0].value = $("#selectionBoxEcoServices")[0].value;
@@ -1973,6 +1995,7 @@ def Main():
         //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
         updateBASEPATHS();
+        startSocketIoConnections();
         populateAllWalletData();
     }
 
@@ -1995,16 +2018,22 @@ def Main():
     // =======================================================================
     // ======================= COOKIES TEST ==================================
     function recoveringPageData() {
+        USER_EXAMPLES = getSmartContractExamplesFromLocalStorage();
+        /*
+        // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         if (checkCookie("lastactivetab")) {
             index = getCookie("lastactivetab");
             //console.log("Cookie tests. Recovering active tab....");
             if(window.location.hash.slice(10).length == 0)
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
+        */
     }
 
     function storePageData() {
-        setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
+        storeSmartContractExamplesToLocalStorage();
+        // DEPRECATED AFTER ANGULAR ROUTES TO TABS
+        // setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
     }
     // =======================================================================
 
@@ -2476,33 +2505,6 @@ def Main():
     });
     // ================== CREATE RAW UTXO WITHDRAW TRANSACTION FINISHES==================
     // ==================================================================================
-    function createSendTxForm() {
-        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-        var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
-        var addrToValue = ECO_WALLET[addrToIndex].account.address;
-        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
-            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
-            //Multi-sig address
-            createTxFromMSAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
-        } else {
-            //TODO add verification for watch only
-            createTxFromAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
-        }
-    };
-
-    function createGasTxForm() {
-        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
-            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
-            //Multi-sig address
-            createClaimMSGasTX(addrFromIndex, jsonArrayWithPrivKeys, getCurrentNetworkNickname())
-        } else {
-            //TODO add verification for watch only
-            createClaimGasTX(addrFromIndex, BASE_PATH_CLI, getCurrentNetworkNickname());
-        }
-    };
-
-
     $("#createtx_from_contract").on('keyup', function() {
         var hexavm = $("#createtx_from_contract").val();
         hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
@@ -2608,14 +2610,14 @@ def Main():
     }
 
     function onClickPostServerToResetDockerService() {
-        postServerToResetDockerService($("#btc_reset_service_pwd").val());
+        postServerToResetDockerService($("#cbx_pwd_reset_service").val());
     }
 
     function postServerToResetDockerService(pwd) {
         if(getCurrentNetworkNickname() == "SharedPrivateNet")
         {
           $.get(BASE_PATH_ECOSERVICES + '/resetdockerservice/' + pwd, function(data) {
-              console.log(data)
+              console.log(data);
           });
         }else{
           console.error("Reset only works for SharedPrivateNet EcoService.")
@@ -2631,69 +2633,104 @@ def Main():
         });
     }
 
-    function setExample(selected_index) {
-        console.log("selecting example:" + selected_index);
-        editorCSharp.getSession().setValue("");
-        getfile(selected_index, 0);
-        /*
-    		  var numfiles = cSharpFiles[selected_index].length;
-    		  if(numfiles == 1) {
-    	        console.log("example file is: "+file);
-    		  } else {
-    			  var file_i = 0;
-    			  while(file_i < numfiles) {
-
-    			  }
-    		  }
-    		  */
+    function SetExampleFromCookies(key) {
+        //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
+        aceEditor.getSession().setValue("");
+        aceEditor.getSession().setValue(USER_EXAMPLES.get(key).code);
+        $("#cbx_example_name")[0].value = key;
     }
 
-    function getfile(selected_index, index = 0) {
-        var numfiles = cSharpFiles[selected_index].length;
+    function setExample(language, selected_index) {
+        //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
+        aceEditor.getSession().setValue("");
+        getfile(language, selected_index, 0);
+
+        // cleaning file to Save name
+        $("#cbx_example_name")[0].value = "";
+    }
+
+    function getfile(language, selected_index, index = 0) {
+        var vExamples = cSharpFiles;
+        if(language === "python")
+          vExamples = cPythonFiles;
+        if(language === "java")
+          vExamples = cJavaFiles;
+        if(language === "golang")
+          vExamples = cGolangFiles;
+
+        var numfiles = vExamples[selected_index].length;
         if (index < numfiles) {
-            var file = cSharpFiles[selected_index][index];
-            console.log("getting example file: " + file);
+            var file = vExamples[selected_index][index];
+            //console.log("getting example file: " + file);
             $.get(file, function(data) {
-                editorCSharp.getSession().setValue(editorCSharp.getSession().getValue() + data);
-                getfile(selected_index, index + 1);
+                aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
+                getfile(language, selected_index, index + 1);
             });
         }
     }
     //===============================================================
 
     //===============================================================
+    //============== SEND TX FUNCTIONS FROM FORM ====================
+    //===============================================================
+    function createSendTxForm() {
+        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+        var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+        var addrToValue = ECO_WALLET[addrToIndex].account.address;
+        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
+            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+            //Multi-sig address
+            createTxFromMSAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), getCurrentNetworkNickname());
+        } else {
+            //TODO add verification for watch only
+            createTxFromAccount(addrFromIndex, addrToValue, $("#createtx_NEO").val(), $("#createtx_GAS").val(), BASE_PATH_CLI, getCurrentNetworkNickname());
+        }
+    };
+
+    function createGasTxForm() {
+        var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+        if (ECO_WALLET[addrFromIndex].account.isMultiSig) {
+            var jsonArrayWithPrivKeys = getMultiSigPrivateKeys(addrFromIndex);
+            //Multi-sig address
+            createClaimMSGasTX(addrFromIndex, jsonArrayWithPrivKeys, getCurrentNetworkNickname())
+        } else {
+            //TODO add verification for watch only
+            createClaimGasTX(addrFromIndex, BASE_PATH_CLI, getCurrentNetworkNickname());
+        }
+    };
+    //===============================================================
     //============== FORMS ==========================================
     //===============================================================
     $("#formCompile").submit(function(e) {
+        $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
         $("#compilebtn")[0].disabled = true;
         $("#code_cs").val("");
         $("#code_python").val("");
         $("#code_golang").val("");
         $("#code_java").val("");
-        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
-            $("#code_cs").val(ace.edit("editorCSharp").getSession().getValue());
-            console.log("C# Compile");
-        }
-        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
-            $("#code_python").val(ace.edit("editorPython").getSession().getValue());
-            console.log("Python Compile");
-        }
-        if ($("#golangcode.tab-pane.active.cont").length != 0) {
-            $("#code_golang").val(ace.edit("editorGolang").getSession().getValue());
-            console.log("Golang Compile");
-        }
-        if ($("#javacode.tab-pane.active.cont").length != 0) {
-            $("#code_java").val(ace.edit("editorJava").getSession().getValue());
-            console.log("Java Compile");
-        }
-
-        $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
         $("#codeavm").val("");
         $("#opcodes").val("");
         $("#codeabi").val("");
         $("#invokehashjs").val("");
         $("#contracthashjs").val("");
         $("#contractparams").val("\"\"");
+        $("#selected_compiler_form").val(SELECTED_COMPILER);
+        if (SELECTED_COMPILER == "csharp") {
+            $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
+            console.log("Compiling C# code...");
+        }
+        if (SELECTED_COMPILER == "python") {
+            $("#code_python").val(ace.edit("aceEditor").getSession().getValue());
+            console.log("Compiling Python code...");
+        }
+        if (SELECTED_COMPILER == "golang") {
+            $("#code_golang").val(ace.edit("aceEditor").getSession().getValue());
+            console.log("Compiling Golang code...");
+        }
+        if (SELECTED_COMPILER == "java") {
+            $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
+            console.log("Compiling Java code...");
+        }
         e.preventDefault(); // Prevents the page from refreshing
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();
@@ -2726,21 +2763,26 @@ def Main():
                 // ------------------------------------------
     	          // calculating extra fee according to AVM size
                 var fixedAVGTxSize = 500; //TODO
-    	          var avmSize = Math.ceil(hexcodeavm.length/2) + fixedAVGTxSize;
+    	          var avmSize = Math.ceil(hexcodeavm.length/2);
                 $("#contractInfo_AVMSize")[0].value = avmSize;
     	          // TODO - Create a call on neo-plugins SimplePolicy
     	          var freeSize = 1024;
     	          var feePerExtraByte = 0.00001;
     	          var extraGasNetFeeForBigTx = 0;
-    	          if (avmSize > freeSize)
-    		        extraGasNetFeeForBigTx = (avmSize-freeSize)*feePerExtraByte;
+                // TODO Extra size workaround due to inputs lenght
+                var avmWithExtraSize = avmSize + fixedAVGTxSize;
+    	          if ( avmWithExtraSize > freeSize)
+    		        extraGasNetFeeForBigTx = (avmWithExtraSize-freeSize)*feePerExtraByte;
                 $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
                 // ------------------------------------------
 
                 // Loading all ABI related boxes
-                var codeabi = atob(data.abi);
-                console.log(codeabi);
-    	          updateAllABIDependencies(JSON.parse(codeabi));
+                if(data.abi != "")
+                {
+                  var codeabi = atob(data.abi);
+                  console.log(codeabi);
+    	            updateAllABIDependencies(JSON.parse(codeabi));
+                }
             },
             "json" // The format the response should be in
         ); //End of POST for Compile
@@ -2779,7 +2821,8 @@ def Main():
         //	invokefunc = $("#invokefunctionjs")[0].value;
 
         var neonJSParams = [];
-        neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
+        if($("#invokeparamsjs")[0].value != "")
+          neonJSParams = JSON.parse($("#invokeparamsjs")[0].value);
 
         InvokeFromAccount(wI, attachgasfeejs, attachsystemgasjs, attachneojs, attachgasjs, invokeScripthash, invokefunc, BASE_PATH_CLI, getCurrentNetworkNickname(), neonJSParams);
 
@@ -2900,27 +2943,61 @@ def Main():
         });
     }); //End of storage read function
     //===============================================================
-
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-        //console.log(e.target.dataset.target)
-        if ($("#csharpcode.tab-pane.active.cont").length != 0) {
+    function setCompiler(language){
+        var vExamples;
+        SELECTED_COMPILER = language;
+        if (language === "csharp") {
+            aceEditor.getSession().setMode("ace/mode/csharp");
             updateCompilersSelectionBox("docker-mono-neo-compiler");
-            //console.log("C# Compile");
+            vExamples = cSharpFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.cs";
         }
-        if ($("#pythoncode.tab-pane.active.cont").length != 0) {
+        if (language === "python") {
+            aceEditor.getSession().setMode("ace/mode/python");
             updateCompilersSelectionBox("docker-neo-boa");
-            //console.log("Python Compile");
+            vExamples = cPythonFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.py";
         }
-        if ($("#golangcode.tab-pane.active.cont").length != 0) {
+        if (language === "golang") {
+            aceEditor.getSession().setMode("ace/mode/golang");
             updateCompilersSelectionBox("docker-neo-go");
-            //console.log("Golang Compile");
+            vExamples = cGolangFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.go";
         }
-        if ($("#javacode.tab-pane.active.cont").length != 0) {
+        if (language === "java") {
+            aceEditor.getSession().setMode("ace/mode/java");
             updateCompilersSelectionBox("docker-java-neo-compiler");
-            //console.log("Java Compile");
+            vExamples = cJavaFiles;
+            $("#cbx_example_name")[0].placeholder = "myexample.java";
         }
-    });
 
+        var exampleListUl = document.getElementById("ExampleList");
+        exampleListUl.innerHTML = ""
+        for(var e=0; e < vExamples.length; e++)
+        {
+          var exampleToAdd = document.createElement("li");
+          exampleToAdd.setAttribute('value', i);
+          var onClickFunction = 'setExample("' + language + '","' + e + '");';
+          exampleToAdd.setAttribute('onClick', onClickFunction)
+          exampleToAdd.setAttribute('id', "loadedExample" + i);
+          var cutSize = "/examples/"+language+"/";
+          var exampleName = vExamples[e][0].slice(cutSize.length);
+          exampleToAdd.appendChild(document.createTextNode(exampleName));
+          exampleListUl.appendChild(exampleToAdd);
+        }
+
+        //Checking all cookies
+        USER_EXAMPLES.forEach(function(value, key) {
+            addCSContractFromLocalMap(value, key, language);
+        });
+        if(USER_EXAMPLES.size == 0)
+        {
+            setExample(language, 0);
+        } else {
+            var firstMapKey = USER_EXAMPLES.entries().next().value[0];
+            SetExampleFromCookies(firstMapKey);
+        }
+    };
     //===============================================================
     $("#btn_downloadOpCode").click(function(e) {
         e.preventDefault();
@@ -2939,5 +3016,9 @@ def Main():
     //===============================================================
     //============== END FORMS ======================================
     //===============================================================
+
+    function sendRawTXFromPendingTx(){
+      sendingTxPromiseWithEcoRaw(PendingTX,PendingTXParams);
+    }
     </script>
 </div>

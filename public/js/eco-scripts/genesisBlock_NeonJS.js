@@ -1,16 +1,16 @@
 //==========================================================================
-//Call for Genesis Block
-//genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
+// Call for Genesis Block
+// genesisBlockTransfer("AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU","AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y");
 function genesisBlockTransfer(genesisAddress, newOwner) {
-    //console.log("Inside Genesis Block Transfers");
-    //Verification on the front-end if wallets already have funds, then, skip transfer
-    //console.log("newOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
-    newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner)).val();
-    newOwnerGasBalance = $("#walletGas" + searchAddrIndexFromBase58(newOwner)).val();
-    //console.log("newOwnerNEO with address: " + newOwner + " balance is: " + newOwnerNeoBalance);
-    //console.log("newOwnerGAS with address: " + newOwner + " balance is: " + newOwnerGasBalance);
+    //console.log("Inside Genesis Block Transfers. NewOwnerIndex: " + searchAddrIndexFromBase58(newOwner));
+    newOwnerNeoBalance = $("#walletNeo" + searchAddrIndexFromBase58(newOwner))[0].innerHTML;
+    newOwnerGasBalance = $("#walletGas" + searchAddrIndexFromBase58(newOwner))[0].innerHTML;
+    //console.log("newOwnerNEO/GAS with address: " + newOwner + " balance is: " + newOwnerNeoBalance + "/" + newOwnerGasBalance);
+
+    // Verification on the front-end if wallets already have funds, then, skip transfer
     if ((newOwnerNeoBalance > 0) && (newOwnerGasBalance > 0)) {
-        clearInterval(refreshGenesisBlock);
+        if(refreshGenesisBlock!=0)
+        	clearInterval(refreshGenesisBlock);
 	$("#cbx_refresh_gen").val(0);
     } else {
         if (!(newOwnerNeoBalance > 0))

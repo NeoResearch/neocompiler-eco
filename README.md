@@ -277,6 +277,6 @@ __AJX1jGfj3qPBbpAKjY527nPbnrnvSx9nCg__
 This project is part of NeoResearch initiative and it is freely available at [NeoCompiler.io](https://neocompiler.io).
 The website is rebooted periodically, in order to keep resource usage low, so that everyone is welcome to use it.
 
-*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho), [@vncoelho](https://github.com/vncoelho) and [@FabioRick](https://github.com/FabioRick)
+*NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
 
-Copyleft 2017-2018
+Copyleft 2017-2019

@@ -18,7 +18,7 @@ var refreshIntervalActivityId = 0;
 var NEON_API_PROVIDER;
 
 /* Enable NEOSCAN explorer on the frontend */
-var ENABLE_NEOSCAN_TRACKING = false;
+var ENABLE_NEOSCAN_TRACKING = true;
 
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;

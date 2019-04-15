@@ -1,7 +1,10 @@
-function startSocketIoConnections(firstInitialization = false) {
+function startSocketIoConnections() {
+    var shouldUpdateSocket = false;
     if (socket) {
-        //console.log("Disconnecting...");
-        socket.disconnect();
+	if(socket.io.uri != BASE_PATH_ECOSERVICES)
+                socket.disconnect();
+	else
+		return;
     }
 
     socket = io.connect(BASE_PATH_ECOSERVICES, {

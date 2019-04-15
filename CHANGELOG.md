@@ -175,6 +175,6 @@ Current development version is 4.0, so a new major version is coming out with ve
 - Project is born
 
 
-NeoResearch 2018
+NeoResearch 2017-2019
 
 MIT License

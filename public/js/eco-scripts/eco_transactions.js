@@ -9,7 +9,6 @@ function drawRelayedTXs() {
     var headerID = document.createElement('div');
     var headersAppLog = document.createElement('div');
     var headersRestore = document.createElement('div');
-    var headersTxType = document.createElement('div');
     var headerstxParams = document.createElement('div');
     var headersTXHeight = document.createElement('div');
     var headerNeoScanLink = document.createElement('div');
@@ -19,9 +18,7 @@ function drawRelayedTXs() {
     row.insertCell(-1).appendChild(headersAppLog);
     headersRestore.innerHTML = "<b> Restore </b>";
     row.insertCell(-1).appendChild(headersRestore);
-    headersTxType.innerHTML = "<b> Type </b>";
-    row.insertCell(-1).appendChild(headersTxType);
-    headerstxParams.innerHTML = "<b> Params </b>";
+    headerstxParams.innerHTML = "<b> Transaction parameters </b>";
     row.insertCell(-1).appendChild(headerstxParams);
     headersTXHeight.innerHTML = "<b> Height </b>";
     row.insertCell(-1).appendChild(headersTXHeight);
@@ -59,24 +56,27 @@ function drawRelayedTXs() {
         bGoToAppLog.innerHTML = '?';
         txRow.insertCell(-1).appendChild(bGoToAppLog);
 
+	// TX params
+        var tempTxParams = JSON.parse(vecRelayedTXs[i].txParams);
+
         var bRestore = document.createElement('button');
         bRestore.setAttribute('content', 'test content');
         bRestore.setAttribute('class', 'btn btn-info');
         bRestore.setAttribute('value', i);
         bRestore.innerHTML = '<i class="fas fa-reply"></i>';
-        if (vecRelayedTXs[i].txType === "Invoke")
+        if (tempTxParams.type === "invoke")
             bRestore.onclick = function() {
                 restoreInvokeTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Deploy")
+        else if (tempTxParams.type === "deploy")
             bRestore.onclick = function() {
                 restoreDeployTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Send")
+        else if (tempTxParams.type === "send")
             bRestore.onclick = function() {
                 restoreSendTX(this.value);
             };
-        else if (vecRelayedTXs[i].txType === "Claim")
+        else if (tempTxParams.type === "claim")
             bRestore.onclick = function() {
                 restoreClaimTX(this.value);
             };
@@ -84,19 +84,10 @@ function drawRelayedTXs() {
             bRestore.onclick = function() {};
         txRow.insertCell(-1).appendChild(bRestore);
 
-        var inputTxType = document.createElement("span");
-        //input.setAttribute("type", "hidden");
-        inputTxType.setAttribute("name", "textTxType" + i);
-        inputTxType.setAttribute("readonly", "true");
-        inputTxType.style.width = '70px';
-        inputTxType.innerHTML = vecRelayedTXs[i].txType;
-        txRow.insertCell(-1).appendChild(inputTxType);
-
         var inputParams = document.createElement("span");
         inputParams.setAttribute("name", "textParams" + i);
-        inputParams.setAttribute("class", "col-md-10");
+        inputParams.setAttribute("class", "col-md-12");
         inputParams.setAttribute("readonly", "true");
-        var tempTxParams = JSON.parse(vecRelayedTXs[i].txParams);
 	if(tempTxParams.contract_script)
 		tempTxParams.contract_script = tempTxParams.contract_script.slice(0, 26) + "..." + tempTxParams.contract_script.slice(-26);
         inputParams.innerHTML = JSON.stringify(tempTxParams, undefined, 2);
@@ -158,10 +149,9 @@ function drawRelayedTXs() {
 
 //===============================================================
 //Update vector of relayed txs
-function updateVecRelayedTXsAndDraw(relayedTXID, actionType, txParams) {
+function updateVecRelayedTXsAndDraw(relayedTXID, txParams) {
     vecRelayedTXs.push({
         tx: relayedTXID,
-        txType: actionType,
         txParams: txParams
     });
     drawRelayedTXs();

@@ -14,8 +14,8 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
                    {
 			   if(FULL_ACTIVITY_HISTORY)
 			   {
-				var rawTXParams = { wtx: wtx}
-				updateVecRelayedTXsAndDraw(txHash,"RawTX", JSON.stringify(rawTXParams));
+				var rawTXParams = { wtx: wtx, type: "RawTX"}
+				updateVecRelayedTXsAndDraw(txHash, JSON.stringify(rawTXParams));
 			   }
 			   createNotificationOrAlert("SendRaw_TX_NeoCli", "Status: " + resultJsonData.result, 5000);
 		   }else
@@ -49,7 +49,7 @@ function sendingTxPromiseWithEcoRaw(txPromise, txLoggingParams = null) {
             //console.log(res);
             if(txLoggingParams != null)
             {
-                    updateVecRelayedTXsAndDraw(txHash, txParams.type, JSON.stringify(txLoggingParams));
+                    updateVecRelayedTXsAndDraw(txHash, JSON.stringify(txLoggingParams));
                     // Jump to acitivy tab and record last tab
                     $('.nav-pills a[data-target="#activity"]').tab('show');
                     LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";

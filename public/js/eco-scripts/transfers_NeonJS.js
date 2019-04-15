@@ -40,9 +40,10 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
                     to: to,
                     neo: neo,
                     gas: gas,
-                    sendingFromSmartContract: sendingFromSCFlag
+                    sendingFromSmartContract: sendingFromSCFlag,
+		    type: "send"
                 }
-                updateVecRelayedTXsAndDraw(res.response.txid, "Send", JSON.stringify(sendParams));
+                updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(sendParams));
             }
             createNotificationOrAlert("Asset_Send_Normal_Account", res.response.result, 5000);
         })
@@ -64,9 +65,10 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
         .then(res => {
             if (FULL_ACTIVITY_HISTORY) {
                 var claimParams = {
-                    caller: ECO_WALLET[idTransferFrom].account.address
+                    caller: ECO_WALLET[idTransferFrom].account.address,
+                    type: "claim"
                 }
-                updateVecRelayedTXsAndDraw(res.response.txid, "Claim", JSON.stringify(claimParams));
+                updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(claimParams));
             }
 	    createNotificationOrAlert("GAS_Claim_Normal_Account", "Status: " + res.response.result + " txID: " + res.response.txid, 5000);
         })

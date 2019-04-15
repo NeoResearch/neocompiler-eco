@@ -4,9 +4,9 @@
 //Restore Invoke tx
 function restoreInvokeTX(txID) {
     if (txID < vecRelayedTXs.length && txID > -1) {
-        if (vecRelayedTXs[txID].txType === "Invoke") {
-            var invokeJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
-            $("#invokehashjs").val(vecRelayedTXs[txID].txScriptHash);
+        var invokeJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+        if (invokeJsonParams.type === "invoke") {
+            $("#invokehashjs").val(invokeJsonParams.contract_scripthash);
             $("#invokeparamsjs").val(JSON.stringify(invokeJsonParams.neonJSParams));
             $("#attachgasfeejs").val(invokeJsonParams.mynetfee);
             $("#attachSystemgasjs").val(invokeJsonParams.mysysgasfee);
@@ -23,9 +23,9 @@ function restoreInvokeTX(txID) {
 
 function restoreDeployTX(txID) {
     if (txID < vecRelayedTXs.length && txID > -1) {
-        if (vecRelayedTXs[txID].txType === "Deploy") {
-            var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
-            console.log(deployJsonParams);
+        var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+        console.log(deployJsonParams);
+        if (deployJsonParams.type === "deploy") {
             $("#attachDeployGasFeeJS").val(deployJsonParams.mynetfee);
             $("#jsdeploy_name").val(deployJsonParams.contract_appname);
             $("#jsdeploy_desc").val(deployJsonParams.contract_description);
@@ -92,9 +92,8 @@ function restoreDeployTX(txID) {
 
 function restoreSendTX(txID) {
     if (txID < vecRelayedTXs.length && txID > -1) {
-        if (vecRelayedTXs[txID].txType === "Send") {
-            var sendJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
-
+	var sendJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+        if (sendJsonParams.type === "send") {
             if (searchAddrIndexFromBase58(sendJsonParams.caller) == -1) {
                 createNotificationOrAlert("Restoring Send Problem!", "Account" + sendJsonParams.caller + "not found", 5000);
                 return;
@@ -126,12 +125,10 @@ function restoreSendTX(txID) {
 
 function restoreClaimTX(txID) {
     if (txID < vecRelayedTXs.length && txID > -1) {
-        if (vecRelayedTXs[txID].txType === "Claim") {
-            var claimJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
-
+        var claimJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
+        if (claimJsonParams.type === "claim") {        
             if (searchAddrIndexFromBase58(claimJsonParams.caller) != -1)
                 $("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(claimJsonParams.caller);
-
             $('.nav-pills a[data-target="#transaction"]').tab('show');
         }
     } else {

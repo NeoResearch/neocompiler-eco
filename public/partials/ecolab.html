@@ -930,28 +930,42 @@
 
                                        <input type="hidden" id="selected_compiler_form" name="codesend_selected_compiler"/>
 
-                                       <!-- ACE EDITOR div pre -->
-                                       <pre id="aceEditor"></pre>
-
                                        <div class="row">
                                            <div class="col-md-8">
                                              <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15">(CAUTION! LOCALSTORAGE MIGHT BE LOST!)</input><br>
                                              <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
                                              <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
-                                             <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
+                                           <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
                                            </div>
                                        </div>
-
+                                       <!-- ACE EDITOR div pre -->
+                                       <div class="row">
+                                         <div class="col-md-12">
+                                           <br/><pre id="aceEditor"></pre>
+                                         </div>
+                                       </div>
                                 <!-- /////////////////////////////////////////////////////////////////// -->
                                 <!-- common submit button -->
                                 <!-- <p><font size="1">Use CTRL+ALT+H to access the hotkeys informations</font></p> -->
-                                <br><span id="span_numberCompilations" class="label label-info"></span>
-                                <div class="dropdown btn-group" style="margin-bottom: 10px">
-                                  <label for="compilers_versions-selection-box">Compiler version:</label>
-                                  <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
+                                <span id="span_numberCompilations" class="label label-info"></span>
+                                <div class="row">
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <label for="compilers_versions-selection-box">Compiler version:</label>
+                                      <select name="compilers_versions" id="compilers_versions-selection-box" class="custom-select form-control"></select>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <input type="checkbox" id="cbx_compatible" name="cbx_compatible" checked>Compatible</input><br/>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                      <input type="checkbox" id="cbx_optimize">Optimize opcodes with <a href="https://github.com/NeoResearch/neo-avm-optimizer" target="_blank">neo-avm-optimizer</a> (BETA! USE WITH CAUTION!)</input>
+                                    </div>
+                                  </div>
                                 </div>
-                                <br/><input type="checkbox" id="cbx_optimize">Optimize opcodes with <a href="https://github.com/NeoResearch/neo-avm-optimizer" target="_blank">neo-avm-optimizer</a> (BETA! USE WITH CAUTION!)</input><br/>
-                                <br/><input type="checkbox" id="cbx_compatible" name="cbx_compatible" checked>Compatible</input><br/>
                                 <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal"><i class="fas fa-hammer"></i> Compile</button>
                                 <h4>Compile Warning/Errors:</h4>
                                 <!-- end common submit button -->

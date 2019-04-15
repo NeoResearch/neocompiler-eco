@@ -76,7 +76,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
                 //console.log("\n\n--- Response ---");
                 //console.log(res);
                 if (res) {
-                    updateVecRelayedTXsAndDraw(txHash, "Invoke", JSON.stringify(invokeParams));
+                    updateVecRelayedTXsAndDraw(txHash, JSON.stringify(invokeParams));
 
                     // Jump to acitivy tab and record last tab
                     $('.nav-pills a[data-target="#activity"]').tab('show');
@@ -149,7 +149,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
     Neon.default.doInvoke(config).then(res => {
         if (res.response.result) {
             var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
-            updateVecRelayedTXsAndDraw(res.response.txid, "Deploy", JSON.stringify(deployParams));
+            updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(deployParams));
 
             // Jump to acitivy tab and record last tab
             $('.nav-pills a[data-target="#activity"]').tab('show');
@@ -319,7 +319,7 @@ function InvokeFromAccountOld(idToInvoke, mynetfee, mysysgasfee, neo, gas, contr
         if (res.response.result) {
             console.log(res);
             var invokeParams = transformInvokeParams(ECO_WALLET[idToInvoke].account.address, mynetfee, mysysgasfee, neo, gas, neonJSParams, contract_scripthash);
-            updateVecRelayedTXsAndDraw(res.response.txid, "Invoke", JSON.stringify(invokeParams));
+            updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(invokeParams));
 
             // Jump to acitivy tab and record last tab
             $('.nav-pills a[data-target="#activity"]').tab('show');

@@ -8,15 +8,12 @@ The idea is to follow the semantic versioning format for the releases (MAJOR-MIN
 - The FIX number will be used when specific fixes are made on a previously launched release (but we intend to keep moving on the mainline, so do not be too much left behind :D)
 
 ### Release information
-Current development version is 3.0, so a new major version is coming out with very good things :) The directions we are following now are:
-- Further separation of NeoCompiler Eco components (but still keeping them integrated in a single repository)
-- Deprecating neo-python support. This decision was hard because we are using it since the beginning of the project and it definitely helped a lot! But it's time to move on and get more and more features directly on web client.
-- We also plan to release desktop versions of the tool (perhaps Windows, Mac and Linux if we are fast enough)
+Current development version is 4.0, so a new major version is coming out with very good things :) The directions we are following now are:
 - More embedded examples for all supported programming languages
 - Full integration with neon-opt project (when it's ready), so compiled AVM will be automatically optimized
 - Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
 
-### [3.0.0 until 3.4.0] - 2019-04-15
+### [3.4.0 - 3.1.0] - 2019-04-15
 - adding support for advaced signing (a transaction can be invoked from a single addres + multisg + contract + verification with a single interface);
 - smart contracts can be saved in local storage, persisting user session (use with caution, contract might be lost!);
 - support for UTXO and GAS claims via neo-cli;
@@ -46,7 +43,6 @@ Current development version is 3.0, so a new major version is coming out with ve
 - updated npm to 6.3.0
 - adding support to codemirror
 - deprecated invoke via neo-python
-- begin 3.0-beta
 
 ### [2.3.2] - 2018-08-04
 - converter from javascript int to big endian byte array

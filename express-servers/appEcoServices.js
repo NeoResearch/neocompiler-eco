@@ -131,7 +131,7 @@ app.get('/resetdockerservice/:pwd', function(req, res) {
         return;
     }
 
-    var cmddocker = '~/reestartDockerAndInitializeAll.sh';
+    var cmddocker = 'nohup ~/reestartDockerAndInitializeAll.sh &';
     console.log(cmddocker);
     var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
         if (e instanceof Error) {

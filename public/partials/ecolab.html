@@ -930,10 +930,11 @@
                                        <pre id="aceEditor"></pre>
 
                                        <div class="row">
-                                           <div class="col-md-4">
-                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="12">
+                                           <div class="col-md-8">
+                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15">(CAUTION! LOCALSTORAGE MIGHT BE LOST!)</input><br>
                                              <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
                                              <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
+                                             <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
                                            </div>
                                        </div>
 
@@ -1996,10 +1997,10 @@
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
         */
-        if (checkCookie("myexamples")) {
-            var mapCokies = decodeURIComponent(getCookie("myexamples"));
-            USER_EXAMPLES = new Map(JSON.parse(mapCokies));
-        }
+
+        var mapCokies = getLocalStorage("myexamples");
+        if(mapCokies)
+          USER_EXAMPLES = new Map(JSON.parse(decodeURIComponent(mapCokies)));
     }
 
     function storePageData() {
@@ -2007,8 +2008,7 @@
         // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
         */
-        console.log(JSON.stringify([...USER_EXAMPLES]));
-        setCookie("myexamples", JSON.stringify([...USER_EXAMPLES]), 1);
+        storeCookiesExamples();
     }
     // =======================================================================
 
@@ -2620,6 +2620,9 @@
         //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
         aceEditor.getSession().setValue("");
         getfile(language, selected_index, 0);
+
+        // cleaning file to Save name
+        $("#cbx_example_name")[0].value = "";
     }
 
     function getfile(language, selected_index, index = 0) {
@@ -2952,6 +2955,7 @@
           exampleToAdd.setAttribute('value', i);
           var onClickFunction = 'setExample("' + language + '","' + e + '");';
           exampleToAdd.setAttribute('onClick', onClickFunction)
+          exampleToAdd.setAttribute('id', "loadedExample" + i);
           var cutSize = "/examples/"+language+"/";
           var exampleName = vExamples[e][0].slice(cutSize.length);
           exampleToAdd.appendChild(document.createTextNode(exampleName));

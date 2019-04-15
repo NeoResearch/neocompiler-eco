@@ -1988,6 +1988,7 @@
     // =======================================================================
     // ======================= COOKIES TEST ==================================
     function recoveringPageData() {
+        USER_EXAMPLES = getSmartContractExamplesFromLocalStorage();
         /*
         // DEPRECATED AFTER ANGULAR ROUTES TO TABS
         if (checkCookie("lastactivetab")) {
@@ -1997,18 +1998,12 @@
                 $("#pillstab").children().eq(index).find('a').tab('show');
         }
         */
-
-        var mapCokies = getLocalStorage("myexamples");
-        if(mapCokies)
-          USER_EXAMPLES = new Map(JSON.parse(decodeURIComponent(mapCokies)));
     }
 
     function storePageData() {
-        /*
+        storeSmartContractExamplesToLocalStorage();
         // DEPRECATED AFTER ANGULAR ROUTES TO TABS
-        setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
-        */
-        storeCookiesExamples();
+        // setCookie("lastactivetab", $("ul#pillstab li.active").index(), 1);
     }
     // =======================================================================
 
@@ -2608,7 +2603,7 @@
         });
     }
 
-    function setExampleFromCookies(key) {
+    function SetExampleFromCookies(key) {
         //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
         aceEditor.getSession().setValue("");
         console.log(key);
@@ -2966,8 +2961,13 @@
         USER_EXAMPLES.forEach(function(value, key) {
             addCSContractFromLocalMap(value, key, language);
         });
-
-        setExample(language, 0);
+        if(USER_EXAMPLES.size == 0)
+        {
+            setExample(language, 0);
+        } else {
+            var firstMapKey = USER_EXAMPLES.entries().next().value[0];
+            SetExampleFromCookies(firstMapKey);
+        }
     };
     //===============================================================
     $("#btn_downloadOpCode").click(function(e) {

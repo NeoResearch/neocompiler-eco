@@ -1,4 +1,4 @@
-function callClaimableFromNeoCli(adddressToGet, boxToFill = "") {
+function callClaimableFromNeoCli(adddressToGet, indexKA) {
     var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getclaimable\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getclaimable request to: "+BASE_PATH_CLI);
     $.post(
@@ -20,7 +20,7 @@ function callClaimableFromNeoCli(adddressToGet, boxToFill = "") {
                     automaticClaim(amountClaimable, idToAutomaticClaim);
                 map[resultQueryAddress] = currentGasAmmount;
             }
-            fillSpanTextOrInputBox(boxToFill, amountClaimable);
+            fillSpanTextOrInputBox("#walletClaim" + indexKA, amountClaimable);
             return amountClaimable;
         },
         "json" // The format the response should be in
@@ -29,7 +29,7 @@ function callClaimableFromNeoCli(adddressToGet, boxToFill = "") {
     }); //End of POST for search
 }
 
-function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "", indexKA) {
+function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
     var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimed\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getclaimable request to: "+BASE_PATH_CLI);
     $.post(
@@ -43,7 +43,7 @@ function callUnclaimedFromNeoCli(adddressToGet, boxToFill = "", indexKA) {
                 amountUnclaimable = resultUnclaimed.result.unavailable;
 
             var selfTransferID = "selfTransfer(" + indexKA + ")";
-            fillSpanTextOrInputBox(boxToFill, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ');
+            fillSpanTextOrInputBox("#walletUnclaim" + indexKA, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ');
 
             return amountUnclaimable;
         },

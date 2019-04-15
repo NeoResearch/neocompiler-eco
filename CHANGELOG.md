@@ -14,29 +14,28 @@ Current development version is 4.0, so a new major version is coming out with ve
 - Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
 
 ### [3.4.0 - 3.1.0] - 2019-04-15
-- adding support for advaced signing (a transaction can be invoked from a single addres + multisg + contract + verification with a single interface);
-- smart contracts can be saved in local storage, persisting user session (use with caution, contract might be lost!);
-- support for UTXO and GAS claims via neo-cli;
-- ABI files can be loaded on the invoke page (useful feature when neocompiler eco service is used for testing smart contracts);
-- added initial support for saving historical activity and reload it - transactions can be replicated just by clicking in the activity table;
-- incremental storage tab (storage changes can be easily tracked);
-- support for automatic selection of best back-end for compiling smart contracts;
-- support for automatic selection of best neo-cli RPC node;
-- deprecated neo-python for neo-scan and from docker-compose;
-- improved addresses management with simple buttons for adding compiled contract or contracts from verification scripts;
-- statistical tool for generating graphs about block timestamps;
-- support for modifying consensus default time per block via front-end;
-- support for modifying reset reserver via front-end;
-- adding tx size info after compiling and automatic network fee based on this size (if exceed max. limit);
-- angular routes for ecolab tabs;
-- distinct minor front-end performance improvements;
-- for the first time, code has been a little bit indented.
+- adding support for advanced signing (an `InvocationTx` transaction can be easily invoked from multiple addresses, for example: a single address + multisg + contract + verification with a single interface)
+- smart contracts can be saved in local storage, persisting user session (use with caution, contract might be lost!)
+- support for UTXO and GAS claims via neo-cli
+- ABI files can be loaded on the invoke page (useful feature when neocompiler eco service is used for testing smart contracts)
+- added initial support for saving historical activity and reload it - transactions can be replicated just by clicking in the activity table
+- incremental storage tab (storage changes can be easily tracked)
+- support for automatic selection of best back-end for compiling smart contracts
+- support for automatic selection of best neo-cli RPC node
+- deprecated neo-python for neo-scan and from docker-compose
+- improved addresses management with simple buttons for adding compiled contract or contracts from verification scripts
+- statistical tool for generating graphs about block timestamps
+- support for modifying consensus default time per block via front-end
+- support for modifying reset reserver via front-end
+- adding tx size info after compiling and automatic network fee based on this size (if exceed max. limit)
+- angular routes for ecolab tabs
+- distinct minor front-end performance improvements
+- for the first time, code has been a little bit indented
 
 
 ### [3.0] - 2019-03-11
 - adding support for multi version compilers
 - adding support for multisig send and claim via javascript, using some tools from NeonJS 3.10.0
-- adding support for advaced signing (a transaction can be invoked from a single addres + multisg + contract + verification with a single interface);
 - deprecated genesis block via neo-python and replaced by javascript multi-sig transfer from genesis block
 - created a webchat on gitter
 - separating neo-cli nodes in different containers

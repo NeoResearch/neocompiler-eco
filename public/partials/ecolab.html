@@ -842,6 +842,10 @@
                          <br/><input type="text" id="cbx_refresh_wallet" placeholder="10000" size="7">
                        </div>
                        <div class="col-md-2">
+                         <span class="label label-success">TXs Activity</span>
+                         <br/><input type="text" id="cbx_refresh_activity" placeholder="10000" size="7">
+                       </div>
+                       <div class="col-md-2">
                          <span class="label label-success">Headers info</span>
                          <br/><input type="text" id="cbx_refresh_headers" placeholder="1300" size="7">
                        </div>
@@ -1528,8 +1532,18 @@
 
       refreshIntervalWalletId = setInterval(function() {
           populateAllWalletData();
-          searchForTXs();
           stopRefreshingDueToConnectionProblems();
+      }, intervalForRefreshing);
+    }
+
+    function setActivityRefreshInterval(intervalForRefreshing)
+    {
+      if(refreshIntervalActivityId!=0)
+        clearInterval(refreshIntervalActivityId);
+      $("#cbx_refresh_activity").val(intervalForRefreshing);
+
+      refreshIntervalActivityId = setInterval(function() {
+          searchForTXs();
       }, intervalForRefreshing);
     }
 
@@ -1631,16 +1645,17 @@
         } else {
             FULL_ACTIVITY_HISTORY = false;
         }
-        console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
+        //console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
     });
 
     //=================================================================
     //Neoscan selection box on loading
-    if (ENABLE_NEOSCAN_TRACKING) {
+    /*if (ENABLE_NEOSCAN_TRACKING) {
         $("#cbx_enable_neoscan")[0].checked = true;
     } else {
         $("#cbx_enable_neoscan")[0].checked = false;
-    }
+    }*/
+
     //onchange
     $("#cbx_enable_neoscan").on('change', function() {
         if ($("#cbx_enable_neoscan")[0].checked) {
@@ -1655,9 +1670,7 @@
     //=================================================================
 
     $("#ecolabnetworkurlselection").on('change', function() {
-        //$("#neonodeurl")[0].value = this.value;
         updatePATHS();
-        startSocketIoConnections();
     });
 
     $("#createtx_input_utxo2").on('change', function() {
@@ -1713,6 +1726,9 @@
 
     $("#cbx_refresh_wallet").on('change', function() {
         setWalletRefreshInterval(this.value);
+    });
+    $("#cbx_refresh_activity").on('change', function() {
+        setActivityRefreshInterval(this.value);
     });
     $("#cbx_refresh_headers").on('change', function() {
         setRefreshingIntervalForHeadersInfo(this.value);
@@ -1840,7 +1856,8 @@
           $("#cbx_refresh_wallet").val(0);
           if(refreshIntervalWalletId!=0)
             clearInterval(refreshIntervalWalletId);
-
+          if(refreshIntervalActivityId!=0)
+            clearInterval(refreshIntervalActivityId);
           if(refreshHeadersNeoCliNeoScan!=0)
             clearInterval(refreshHeadersNeoCliNeoScan);
         }
@@ -1850,6 +1867,7 @@
           console.log(NUMBER_FAILS_REQUESTS + "/" + MAX_N_FAILLED_REQUEST_UNTIL_STOP);
           console.log("Recovering automatic refreshing for balances and headers");
           setWalletRefreshInterval(10000);
+          setActivityRefreshInterval(20000);
           setRefreshingIntervalForHeadersInfo(800); //0.8s
           NEO_CLI_REFRESHING_STOPED = false;
         }
@@ -1867,6 +1885,7 @@
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
+            setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(1300); //1.3s
             $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
@@ -1886,6 +1905,7 @@
             ENABLE_NEOSCAN_TRACKING = false;
             $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
+            setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
             setRefreshingIntervalForHeadersInfo(800); //0.8s
             $("#cbx_refresh_headers").val(800);
@@ -1906,6 +1926,7 @@
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1926,6 +1947,7 @@
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1939,6 +1961,7 @@
             //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
         }
 
+        /*
         // CozTestnet TODO
         if (mynetworkIndex == 4) {
             // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
@@ -1946,6 +1969,7 @@
             ENABLE_NEOSCAN_TRACKING = true;
             $("#cbx_query_neoscan")[0].checked = true;
             setWalletRefreshInterval(15000); //10000 millisec
+            setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
             setRefreshingIntervalForHeadersInfo(10000); //10s
             $("#cbx_refresh_headers").val(10000);
@@ -1957,7 +1981,7 @@
             addAllKnownServiceToSelectionBox("RPC", cozNetNodes, "selectionBoxRPCNodes");
             addAllKnownServiceToSelectionBox("neoscan", cozNetNodes, "selectionBoxNeoScan");
             //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
-        }
+        }*/
 
         $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
         $("#eco_services_path")[0].value = $("#selectionBoxEcoServices")[0].value;
@@ -1966,6 +1990,7 @@
         //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
         updateBASEPATHS();
+        startSocketIoConnections();
         populateAllWalletData();
     }
 
@@ -2606,7 +2631,6 @@
     function SetExampleFromCookies(key) {
         //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
         aceEditor.getSession().setValue("");
-        console.log(key);
         aceEditor.getSession().setValue(USER_EXAMPLES.get(key).code);
         $("#cbx_example_name")[0].value = key;
     }

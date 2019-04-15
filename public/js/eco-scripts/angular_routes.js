@@ -27,7 +27,9 @@ config(['$routeProvider',
             controller: routeLoaderPills
         }).
         when("/about", {
-            templateUrl: "/public/partials/about.html"
+            templateUrl: "/public/partials/about.html",
+            reloadOnUrl: false,
+            reloadOnSearch: false
         }).
         // else 404
         otherwise("/public/partials/404.html");

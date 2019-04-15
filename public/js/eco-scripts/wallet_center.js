@@ -376,8 +376,9 @@ function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
-            getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
-            getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
+	    queryAccountStateNeoAndGasBalanceFromNeoCli(addressToGet, + ka)
+            //getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
+            //getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
 
             if(!$("#cbx_query_neoscan")[0].checked)
               callClaimableFromNeoCli(addressToGet, "#walletClaim" + ka);

@@ -24,7 +24,6 @@ function restoreInvokeTX(txID) {
 function restoreDeployTX(txID) {
     if (txID < vecRelayedTXs.length && txID > -1) {
         if (vecRelayedTXs[txID].txType === "Deploy") {
-
             var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
             console.log(deployJsonParams);
             $("#attachDeployGasFeeJS").val(deployJsonParams.mynetfee);

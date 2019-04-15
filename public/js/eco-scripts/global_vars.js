@@ -12,6 +12,7 @@ var refreshIntervalNeoCliNodes = 0;
 var refreshIntervalCompilers = 0;
 var refreshGenesisBlock = 0;
 var refreshHeadersNeoCliNeoScan = 0;
+var refreshIntervalActivityId = 0;
 
 /* Set Default API Provider var for NEONJS */
 var NEON_API_PROVIDER;
@@ -31,6 +32,9 @@ var LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
 
 /* ARRAY VECTOR WITH ALL RELAYED TXs */
 var vecRelayedTXs = [];
+
+/* SOCKET */
+var socket;
 
 /* EDITORS AND EXAMPLES */
 var aceEditor;
@@ -80,6 +84,9 @@ function stopAllEcoLabFrontEndTimeoutIntervals(){
     if(refreshIntervalWalletId!=0)
       clearInterval(refreshIntervalWalletId);
 
+    if(refreshIntervalActivityId!=0)
+      clearInterval(refreshIntervalActivityId);
+
     if(refreshIntervalEcoMetadataStatsId!=0)
       clearInterval(refreshIntervalEcoMetadataStatsId);
 
@@ -122,6 +129,9 @@ if (LOCAL_DEVELOPMENT) {
     //BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", localHostNodes);
 }
 // ==============================================================================================
+
+var NEO_ASSET = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
+var GAS_ASSET = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';

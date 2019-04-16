@@ -22,10 +22,13 @@ function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet,heightToStar
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
         function(resultBlockTimestamps) {
-            //console.log("Timestamp were obtained");
-            //console.log(resultBlockTimestamps);
+            console.log("Timestamp were obtained");
+            console.log(resultBlockTimestamps);
 	    if(resultBlockTimestamps.result[0].timestamp)
+            {
 	        filterBlockTimestamps(resultBlockTimestamps);
+	        calculateNumericalStatistics();
+	    }
 	    else
 		createNotificationOrAlert("ERROR on getmetricblocktimestamp", resultBlockTimestamps.result, 5000);
         },
@@ -33,6 +36,23 @@ function callCoreMetricsGetBlockTimestampsAndFillStats(nBlocksToGet,heightToStar
     ).fail(function() {
         createNotificationOrAlert("getmetricblocktimestamp", "failed to pass request to RPC network!", 3000);
     }); //End of POST for search
+}
+
+function calculateNumericalStatistics() {
+    var blockTime = [];
+    for (var b = 0; b < lastTS.length; b++)
+        blockTime.push(lastTS[b].y);
+    var avgTime = blockTime.reduce(addToArray, 0) / blockTime.length;
+    var percentage = (avgTime / Number($("#cbx_theoretical_blocktime")[0].value) - 1 ) * 100;
+
+    $("#txt_area_timestampsStats").val("Average blocktime: " + avgTime.toFixed(2) + "s\n");
+    $("#txt_area_timestampsStats").val($("#txt_area_timestampsStats").val() + "Blocktime delay (%): " + percentage.toFixed(2) + "%\n");
+	
+    console.log("avgTime:" + avgTime);
+}
+
+function addToArray(accumulator, a) {
+    return accumulator + a;
 }
 
 function filterBlockTimestamps(resultBlockTimestamps) {

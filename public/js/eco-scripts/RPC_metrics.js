@@ -42,11 +42,19 @@ function calculateNumericalStatistics() {
     var blockTime = [];
     for (var b = 0; b < lastTS.length; b++)
         blockTime.push(lastTS[b].y);
-    var avgTime = blockTime.reduce(addToArray, 0) / blockTime.length;
-    var percentage = (avgTime / Number($("#cbx_theoretical_blocktime")[0].value) - 1 ) * 100;
+    var totalTime = blockTime.reduce(addToArray, 0);
+    var avgTime = totalTime / blockTime.length;
+    // theoretical block time
+    var tt = Number($("#cbx_theoretical_blocktime")[0].value); 
+    var percentage = ( (avgTime /  tt ) - 1 ) * 100;
+
+    // theoretical number of blocks
+    var tNBlocks = totalTime / tt;
+    var percentageOfAccomplishedBlocks = ( lastTS.length /  tNBlocks) * 100;
 
     $("#txt_area_timestampsStats").val("Average blocktime: " + avgTime.toFixed(2) + "s\n");
-    $("#txt_area_timestampsStats").val($("#txt_area_timestampsStats").val() + "Blocktime delay (%): " + percentage.toFixed(2) + "%\n");
+    $("#txt_area_timestampsStats").val($("#txt_area_timestampsStats").val() + "Blocktime avg. delay (%): " + percentage.toFixed(2) + "%\n");
+    $("#txt_area_timestampsStats").val($("#txt_area_timestampsStats").val() + "Decrease in number generated blocks (%): " + percentageOfAccomplishedBlocks.toFixed(2) + "%\n");
 	
     console.log("avgTime:" + avgTime);
 }

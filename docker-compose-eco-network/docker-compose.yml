@@ -5,6 +5,7 @@ version: "3.7"
 
 networks:
   neo_scan_internal:
+    driver: bridge
     internal: true
   private_net:
     driver: bridge
@@ -196,12 +197,10 @@ services:
       DB_DATABASE: neoscan_prodv
       REPLACE_OS_VARS: "true"
     depends_on:
-      - eco-neo-scan-sync-running
       - eco-neo-scan-postgresql-running
+      - eco-neo-scan-sync-running
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
       - eco-neo-csharp-noderpc1-running
     entrypoint: bash -c "sleep 10 && /start.sh"
     healthcheck:

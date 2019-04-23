@@ -4,7 +4,7 @@
 function parseOpcode(opcode, hexavm, target) {
     var pvalue = parseInt(opcode, 16);
     if (opcode == "00")
-        target.val(target.val() + opcode + "\tPUSH0\t#An empty array of bytes is pushed onto the stack\n");
+        target.val(target.val() + opcode + "\tPUSH0\t#An emptyyy array of bytes is pushed onto the stack\n");
     else if ((pvalue >= 1) && (pvalue <= 75)) {
         target.val(target.val() + opcode + "\tPUSHBYTES" + pvalue + "\t # ");
         var i = 0;
@@ -363,7 +363,8 @@ function printOpcode(hexavm, target) {
     var oplist = [];
     //console.log("code ("+code+")");
     //hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
-    NeonOpt.parseOpcodeList(hexavm, oplist);
+    console.log("HEEERRRE");
+    NeonOpt.parseOpcodeList(0, hexavm, oplist);
 
     target.val("#"+avmsizebytes+" bytes\n");
     var i = 0;

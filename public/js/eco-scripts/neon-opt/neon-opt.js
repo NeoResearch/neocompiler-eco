@@ -21,24 +21,27 @@ function NeonOpcode(hexcode, opname, comment="", args="")
 
 class NeonOpt
 {
-   static parseOpcodeList(hexavm, oplist) {
+   static parseOpcodeList(position, hexavm, oplist) {
        if (hexavm.length == 0)
            return; // string is empty
        if (hexavm.length % 2 == 1)
            return; // must be even pairs
        var firstOpcode = "" + hexavm[0] + hexavm[1];
+       var size_before = hexavm.length;
        hexavm = hexavm.substr(2, hexavm.length);
        //console.log("code ("+code+")");
-       hexavm = NeonOpt.parseOpcode(firstOpcode, hexavm, oplist);
-       NeonOpt.parseOpcodeList(hexavm, oplist);
+       hexavm = NeonOpt.parseOpcode(position, firstOpcode, hexavm, oplist);
+       var size_after = hexavm.length;
+       position = position + (size_before-size_after);
+       NeonOpt.parseOpcodeList(position, hexavm, oplist);
    }
 
-   static parseOpcode(opcode, hexavm, oplist=[])
+   static parseOpcode(position, opcode, hexavm, oplist=[])
    {
        var pvalue = parseInt(opcode, 16);
 
        if (opcode == "00")
-           oplist.push(new NeonOpcode(opcode, "PUSH0", "#An empty array of bytes is pushed onto the stack"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH0", "#An empty array of bytes is pushed onto the stack"));
        else if ((pvalue >= 1) && (pvalue <= 75)) {
            var strcomment = "# ";
            var i = 0;
@@ -55,7 +58,7 @@ class NeonOpt
            }
            //strcomment = " \"" + spush + "\" ";
            strcomment += sfunc;
-           oplist.push(new NeonOpcode(opcode, "PUSHBYTES" + pvalue, strcomment, cpush));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSHBYTES" + pvalue, strcomment, cpush));
        }
        //else if(opcode == "01")
        // target.val(target.val() + opcode + "\tPUSHBYTES1\t#0x01-0x4B The next opcode bytes is data to be pushed onto the stack\n");
@@ -73,7 +76,7 @@ class NeonOpt
                hexavm = hexavm.substr(2, hexavm.length);
            }
            strcomment += "# " + bsize + " bytes pushed onto the stack";
-           oplist.push(new NeonOpcode(opcode, "PUSHDATA1", strcomment, cpush));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSHDATA1", strcomment, cpush));
        }
        else if (opcode == "4d") { // PUSHDATA2
            var bsize = 0;
@@ -90,7 +93,7 @@ class NeonOpt
                hexavm = hexavm.substr(2, hexavm.length);
            }
            strcomment += "# " + bsize + " bytes pushed onto the stack";
-           oplist.push(new NeonOpcode(opcode, "PUSHDATA2", strcomment, cpush));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSHDATA2", strcomment, cpush));
        }
        else if (opcode == "4e") { // PUSHDATA4
            var bsize = 0;
@@ -113,75 +116,75 @@ class NeonOpt
                hexavm = hexavm.substr(2, hexavm.length);
            }
            strcomment += "# " + bsize + " bytes pushed onto the stack";
-           oplist.push(new NeonOpcode(opcode, "PUSHDATA4", strcomment, cpush));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSHDATA4", strcomment, cpush));
        }
        else if (opcode == "4f")
-           oplist.push(new NeonOpcode(opcode, "PUSHM1","#The number -1 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSHM1","#The number -1 is pushed onto the stack."));
        else if (opcode == "51")
-           oplist.push(new NeonOpcode(opcode, "PUSH1", "# The number 1 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH1", "# The number 1 is pushed onto the stack."));
        else if (opcode == "52")
-           oplist.push(new NeonOpcode(opcode, "PUSH2", "# The number 2 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH2", "# The number 2 is pushed onto the stack."));
        else if (opcode == "53")
-           oplist.push(new NeonOpcode(opcode, "PUSH3", "# The number 3 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH3", "# The number 3 is pushed onto the stack."));
        else if (opcode == "54")
-           oplist.push(new NeonOpcode(opcode, "PUSH4", "# The number 4 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH4", "# The number 4 is pushed onto the stack."));
        else if (opcode == "55")
-           oplist.push(new NeonOpcode(opcode, "PUSH5", "# The number 5 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH5", "# The number 5 is pushed onto the stack."));
        else if (opcode == "56")
-           oplist.push(new NeonOpcode(opcode, "PUSH6", "# The number 6 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH6", "# The number 6 is pushed onto the stack."));
        else if (opcode == "57")
-           oplist.push(new NeonOpcode(opcode, "PUSH7", "# The number 7 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH7", "# The number 7 is pushed onto the stack."));
        else if (opcode == "58")
-           oplist.push(new NeonOpcode(opcode, "PUSH8", "# The number 8 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH8", "# The number 8 is pushed onto the stack."));
        else if (opcode == "59")
-           oplist.push(new NeonOpcode(opcode, "PUSH9", "# The number 9 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH9", "# The number 9 is pushed onto the stack."));
        else if (opcode == "5a")
-           oplist.push(new NeonOpcode(opcode, "PUSH10", "# The number 10 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH10", "# The number 10 is pushed onto the stack."));
        else if (opcode == "5b")
-           oplist.push(new NeonOpcode(opcode, "PUSH11", "# The number 11 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH11", "# The number 11 is pushed onto the stack."));
        else if (opcode == "5c")
-           oplist.push(new NeonOpcode(opcode, "PUSH12", "# The number 12 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH12", "# The number 12 is pushed onto the stack."));
        else if (opcode == "5d")
-           oplist.push(new NeonOpcode(opcode, "PUSH13", "# The number 13 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH13", "# The number 13 is pushed onto the stack."));
        else if (opcode == "5e")
-           oplist.push(new NeonOpcode(opcode, "PUSH14", "# The number 14 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH14", "# The number 14 is pushed onto the stack."));
        else if (opcode == "5f")
-           oplist.push(new NeonOpcode(opcode, "PUSH15", "# The number 15 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH15", "# The number 15 is pushed onto the stack."));
        else if (opcode == "60")
-           oplist.push(new NeonOpcode(opcode, "PUSH16", "# The number 16 is pushed onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PUSH16", "# The number 16 is pushed onto the stack."));
        else if (opcode == "61")
-           oplist.push(new NeonOpcode(opcode, "NOP", "# Does nothing."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NOP", "# Does nothing."));
        else if (opcode == "62") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
            strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
-           oplist.push(new NeonOpcode(opcode, "JMP", strcomment, nparfunc));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": JMP", strcomment, nparfunc));
        }
        else if (opcode == "63") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
            strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
-           oplist.push(new NeonOpcode(opcode, "JMPIF", strcomment, nparfunc));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": JMPIF", strcomment, nparfunc));
        }
        else if (opcode == "64") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
            hexavm = hexavm.substr(4, hexavm.length);
            strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
-           oplist.push(new NeonOpcode(opcode, "JMPIFNOT", strcomment, nparfunc));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": JMPIFNOT", strcomment, nparfunc));
        }
        else if (opcode == "65") {
           strcomment = "# ";
           var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
           hexavm = hexavm.substr(4, hexavm.length);
           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
-          oplist.push(new NeonOpcode(opcode, "CALL", strcomment, nparfunc));
-          //oplist.push(new NeonOpcode(opcode, "CALL", "#"));
+          oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CALL", strcomment, nparfunc));
+          //oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CALL", "#"));
        }
        else if (opcode == "66")
-           oplist.push(new NeonOpcode(opcode, "RET", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": RET", "#"));
        else if (opcode == "68") {
            strcomment = "# ";
            var nparfunc = "" + hexavm[0] + hexavm[1];
@@ -206,7 +209,7 @@ class NeonOpt
            }
            //target.val(target.val() + "\n");
            strcomment += sfunc;
-           oplist.push(new NeonOpcode(opcode, "SYSCALL", strcomment, cpush));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SYSCALL", strcomment, cpush));
        }
        else if ((opcode == "67") ||  (opcode == "69")) {  // read 20 bytes in reverse order
            var opname = "";
@@ -225,147 +228,147 @@ class NeonOpt
            oplist.push(new NeonOpcode(opcode, opname, strcomment, codecall));
        }
        else if (opcode == "6a")
-           oplist.push(new NeonOpcode(opcode, "DUPFROMALTSTACK", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DUPFROMALTSTACK", "#"));
        else if (opcode == "6b")
-           oplist.push(new NeonOpcode(opcode, "TOALTSTACK", "# Puts the input onto the top of the alt stack. Removes it from the main stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": TOALTSTACK", "# Puts the input onto the top of the alt stack. Removes it from the main stack."));
        else if (opcode == "6c")
-           oplist.push(new NeonOpcode(opcode, "FROMALTSTACK", "# Puts the input onto the top of the main stack. Removes it from the alt stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": FROMALTSTACK", "# Puts the input onto the top of the main stack. Removes it from the alt stack."));
        else if (opcode == "6d")
-           oplist.push(new NeonOpcode(opcode, "XDROP", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": XDROP", "#"));
        else if (opcode == "72")
-           oplist.push(new NeonOpcode(opcode, "XSWAP", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": XSWAP", "#"));
        else if (opcode == "73")
-           oplist.push(new NeonOpcode(opcode, "XTUCK", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": XTUCK", "#"));
        else if (opcode == "74")
-           oplist.push(new NeonOpcode(opcode, "DEPTH", "# Puts the number of stack items onto the stack."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DEPTH", "# Puts the number of stack items onto the stack."));
        else if (opcode == "75")
-           oplist.push(new NeonOpcode(opcode, "DROP", "# Removes the top stack item."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DROP", "# Removes the top stack item."));
        else if (opcode == "76")
-           oplist.push(new NeonOpcode(opcode, "DUP", "# Duplicates the top stack item."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DUP", "# Duplicates the top stack item."));
        else if (opcode == "77")
-           oplist.push(new NeonOpcode(opcode, "NIP", "# Removes the second-to-top stack item."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NIP", "# Removes the second-to-top stack item."));
        else if (opcode == "78")
-           oplist.push(new NeonOpcode(opcode, "OVER", "# Copies the second-to-top stack item to the top."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": OVER", "# Copies the second-to-top stack item to the top."));
        else if (opcode == "79")
-           oplist.push(new NeonOpcode(opcode, "PICK", "# The item n back in the stack is copied to the top."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PICK", "# The item n back in the stack is copied to the top."));
        else if (opcode == "7a")
-           oplist.push(new NeonOpcode(opcode, "ROLL", "# The item n back in the stack is moved to the top."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ROLL", "# The item n back in the stack is moved to the top."));
        else if (opcode == "7b")
-           oplist.push(new NeonOpcode(opcode, "ROT", "# The top three items on the stack are rotated to the left."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ROT", "# The top three items on the stack are rotated to the left."));
        else if (opcode == "7c")
-           oplist.push(new NeonOpcode(opcode, "SWAP", "# The top two items on the stack are swapped."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SWAP", "# The top two items on the stack are swapped."));
        else if (opcode == "7d")
-           oplist.push(new NeonOpcode(opcode, "TUCK", "# The item at the top of the stack is copied and inserted before the second-to-top item."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": TUCK", "# The item at the top of the stack is copied and inserted before the second-to-top item."));
        else if (opcode == "7e")
-           oplist.push(new NeonOpcode(opcode, "CAT", "# Concatenates two strings."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CAT", "# Concatenates two strings."));
        else if (opcode == "7f")
-           oplist.push(new NeonOpcode(opcode, "SUBSTR", "# Returns a section of a string."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SUBSTR", "# Returns a section of a string."));
        else if (opcode == "80")
-           oplist.push(new NeonOpcode(opcode, "LEFT", "# Keeps only characters left of the specified point in a string."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": LEFT", "# Keeps only characters left of the specified point in a string."));
        else if (opcode == "81")
-           oplist.push(new NeonOpcode(opcode, "RIGHT", "# Keeps only characters right of the specified point in a string."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": RIGHT", "# Keeps only characters right of the specified point in a string."));
        else if (opcode == "82")
-           oplist.push(new NeonOpcode(opcode, "SIZE", "# Returns the length of the input string."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SIZE", "# Returns the length of the input string."));
        else if (opcode == "83")
-           oplist.push(new NeonOpcode(opcode, "INVERT", "# Flips all of the bits in the input."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": INVERT", "# Flips all of the bits in the input."));
        else if (opcode == "84")
-           oplist.push(new NeonOpcode(opcode, "AND", "# Boolean and between each bit in the inputs."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": AND", "# Boolean and between each bit in the inputs."));
        else if (opcode == "85")
-           oplist.push(new NeonOpcode(opcode, "OR", "# Boolean or between each bit in the inputs."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": OR", "# Boolean or between each bit in the inputs."));
        else if (opcode == "86")
-           oplist.push(new NeonOpcode(opcode, "XOR", "# Boolean exclusive or between each bit in the inputs."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": XOR", "# Boolean exclusive or between each bit in the inputs."));
        else if (opcode == "87")
-           oplist.push(new NeonOpcode(opcode, "EQUAL", "# Returns 1 if the inputs are exactly equal, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": EQUAL", "# Returns 1 if the inputs are exactly equal, 0 otherwise."));
        else if (opcode == "8b")
-           oplist.push(new NeonOpcode(opcode, "INC", "# 1 is added to the input."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": INC", "# 1 is added to the input."));
        else if (opcode == "8c")
-           oplist.push(new NeonOpcode(opcode, "DEC", "# 1 is subtracted from the input."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DEC", "# 1 is subtracted from the input."));
        else if (opcode == "8d")
-           oplist.push(new NeonOpcode(opcode, "SIGN", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SIGN", "#"));
        else if (opcode == "8f")
-           oplist.push(new NeonOpcode(opcode, "NEGATE", "# The sign of the input is flipped."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NEGATE", "# The sign of the input is flipped."));
        else if (opcode == "90")
-           oplist.push(new NeonOpcode(opcode, "ABS", "# The input is made positive."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ABS", "# The input is made positive."));
        else if (opcode == "91")
-           oplist.push(new NeonOpcode(opcode, "NOT", "# If the input is 0 or 1, it is flipped. Otherwise the output will be 0."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NOT", "# If the input is 0 or 1, it is flipped. Otherwise the output will be 0."));
        else if (opcode == "92")
-           oplist.push(new NeonOpcode(opcode, "NZ", "# Returns 0 if the input is 0. 1 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NZ", "# Returns 0 if the input is 0. 1 otherwise."));
        else if (opcode == "93")
-           oplist.push(new NeonOpcode(opcode, "ADD", "# a is added to b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ADD", "# a is added to b."));
        else if (opcode == "94")
-           oplist.push(new NeonOpcode(opcode, "SUB", "# b is subtracted from a."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SUB", "# b is subtracted from a."));
        else if (opcode == "95")
-           oplist.push(new NeonOpcode(opcode, "MUL", "# a is multiplied by b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": MUL", "# a is multiplied by b."));
        else if (opcode == "96")
-           oplist.push(new NeonOpcode(opcode, "DIV", "# a is divided by b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": DIV", "# a is divided by b."));
        else if (opcode == "97")
-           oplist.push(new NeonOpcode(opcode, "MOD", "# Returns the remainder after dividing a by b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": MOD", "# Returns the remainder after dividing a by b."));
        else if (opcode == "98")
-           oplist.push(new NeonOpcode(opcode, "SHL", "# Shifts a left b bits, preserving sign."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SHL", "# Shifts a left b bits, preserving sign."));
        else if (opcode == "99")
-           oplist.push(new NeonOpcode(opcode, "SHR", "# Shifts a right b bits, preserving sign."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SHR", "# Shifts a right b bits, preserving sign."));
        else if (opcode == "9a")
-           oplist.push(new NeonOpcode(opcode, "BOOLAND", "# If both a and b are not 0, the output is 1. Otherwise 0."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": BOOLAND", "# If both a and b are not 0, the output is 1. Otherwise 0."));
        else if (opcode == "9b")
-           oplist.push(new NeonOpcode(opcode, "BOOLOR", "# If a or b is not 0, the output is 1. Otherwise 0."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": BOOLOR", "# If a or b is not 0, the output is 1. Otherwise 0."));
        else if (opcode == "9c")
-           oplist.push(new NeonOpcode(opcode, "NUMEQUAL", "# Returns 1 if the numbers are equal, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NUMEQUAL", "# Returns 1 if the numbers are equal, 0 otherwise."));
        else if (opcode == "9e")
-           oplist.push(new NeonOpcode(opcode, "NUMNOTEQUAL", "# Returns 1 if the numbers are not equal, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NUMNOTEQUAL", "# Returns 1 if the numbers are not equal, 0 otherwise."));
        else if (opcode == "9f")
-           oplist.push(new NeonOpcode(opcode, "LT", "# Returns 1 if a is less than b, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": LT", "# Returns 1 if a is less than b, 0 otherwise."));
        else if (opcode == "a0")
-           oplist.push(new NeonOpcode(opcode, "GT", "# Returns 1 if a is greater than b, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": GT", "# Returns 1 if a is greater than b, 0 otherwise."));
        else if (opcode == "a1")
-           oplist.push(new NeonOpcode(opcode, "LTE", "# Returns 1 if a is less than or equal to b, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": LTE", "# Returns 1 if a is less than or equal to b, 0 otherwise."));
        else if (opcode == "a2")
-           oplist.push(new NeonOpcode(opcode, "GTE", "# Returns 1 if a is greater than or equal to b, 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": GTE", "# Returns 1 if a is greater than or equal to b, 0 otherwise."));
        else if (opcode == "a3")
-           oplist.push(new NeonOpcode(opcode, "MIN", "# Returns the smaller of a and b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": MIN", "# Returns the smaller of a and b."));
        else if (opcode == "a4")
-           oplist.push(new NeonOpcode(opcode, "MAX", "# Returns the larger of a and b."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": MAX", "# Returns the larger of a and b."));
        else if (opcode == "a5")
-           oplist.push(new NeonOpcode(opcode, "WITHIN", "# Returns 1 if x is within the specified range (left-inclusive), 0 otherwise."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": WITHIN", "# Returns 1 if x is within the specified range (left-inclusive), 0 otherwise."));
        else if (opcode == "a7")
-           oplist.push(new NeonOpcode(opcode, "SHA1", "# The input is hashed using SHA-1."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SHA1", "# The input is hashed using SHA-1."));
        else if (opcode == "a8")
-           oplist.push(new NeonOpcode(opcode, "SHA256", "# The input is hashed using SHA-256."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SHA256", "# The input is hashed using SHA-256."));
        else if (opcode == "a9")
-           oplist.push(new NeonOpcode(opcode, "HASH160", "# The input is hashed using HASH160."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": HASH160", "# The input is hashed using HASH160."));
        else if (opcode == "aa")
-           oplist.push(new NeonOpcode(opcode, "HASH256", "# The input is hashed using HASH256."));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": HASH256", "# The input is hashed using HASH256."));
        else if (opcode == "ac")
-           oplist.push(new NeonOpcode(opcode, "CHECKSIG", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CHECKSIG", "#"));
        else if (opcode == "ae")
-           oplist.push(new NeonOpcode(opcode, "CHECKMULTISIG", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CHECKMULTISIG", "#"));
        else if (opcode == "c0")
-           oplist.push(new NeonOpcode(opcode, "ARRAYSIZE", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ARRAYSIZE", "#"));
        else if (opcode == "c1")
-           oplist.push(new NeonOpcode(opcode, "PACK", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PACK", "#"));
        else if (opcode == "c2")
-           oplist.push(new NeonOpcode(opcode, "UNPACK", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": UNPACK", "#"));
        else if (opcode == "c3")
-           oplist.push(new NeonOpcode(opcode, "PICKITEM", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": PICKITEM", "#"));
        else if (opcode == "c4")
-           oplist.push(new NeonOpcode(opcode, "SETITEM", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": SETITEM", "#"));
        else if (opcode == "c5")
-           oplist.push(new NeonOpcode(opcode, "NEWARRAY", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NEWARRAY", "#"));
        else if (opcode == "c6")
-           oplist.push(new NeonOpcode(opcode, "NEWSTRUCT", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NEWSTRUCT", "#"));
        else if (opcode == "c7")
-           oplist.push(new NeonOpcode(opcode, "NEWMAP", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": NEWMAP", "#"));
        else if (opcode == "c8")
-           oplist.push(new NeonOpcode(opcode, "APPEND", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": APPEND", "#"));
        else if (opcode == "c9")
-           oplist.push(new NeonOpcode(opcode, "REVERSE", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": REVERSE", "#"));
        else if (opcode == "ca")
-           oplist.push(new NeonOpcode(opcode, "REMOVE", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": REMOVE", "#"));
        else if (opcode == "cb")
-           oplist.push(new NeonOpcode(opcode, "HASKEY", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": HASKEY", "#"));
        else if (opcode == "cc")
-           oplist.push(new NeonOpcode(opcode, "KEYS", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": KEYS", "#"));
        else if (opcode == "cd")
-           oplist.push(new NeonOpcode(opcode, "VALUES", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": VALUES", "#"));
        else if (opcode == "e0") {
           strcomment = "# ";
           // load return count and parameter count
@@ -380,8 +383,8 @@ class NeonOpt
           var nparfunc = "" + hexavm[0] + hexavm[1] + hexavm[2] + hexavm[3];
           hexavm = hexavm.substr(4, hexavm.length);
           strcomment += ""+NeonOpt.byteArray2ToInt16(NeonOpt.littleHexStringToBigByteArray(nparfunc));
-          oplist.push(new NeonOpcode(opcode, "CALL_I", strcomment, nparfunc));
-          //oplist.push(new NeonOpcode(opcode, "CALL", "#"));
+          oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CALL_I", strcomment, nparfunc));
+          //oplist.push(new NeonOpcode(opcode, ""+(position/2)+": CALL", "#"));
        }
        else if ((opcode == "e1")|| (opcode == "e2")||  (opcode == "e3")||  (opcode == "e4")) {  // read 20 bytes in reverse order
            var opname = "";
@@ -425,13 +428,13 @@ class NeonOpt
            oplist.push(new NeonOpcode(opcode, opname, strcomment, codecall));
        }
        else if (opcode == "ca")
-           oplist.push(new NeonOpcode(opcode, "REMOVE", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": REMOVE", "#"));
        else if (opcode == "f0")
-           oplist.push(new NeonOpcode(opcode, "THROW", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": THROW", "#"));
        else if (opcode == "f1")
-           oplist.push(new NeonOpcode(opcode, "THROWIFNOT", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": THROWIFNOT", "#"));
        else {
-           oplist.push(new NeonOpcode(opcode, "???", "#"));
+           oplist.push(new NeonOpcode(opcode, ""+(position/2)+": ???", "#"));
        }
        return hexavm;
    }

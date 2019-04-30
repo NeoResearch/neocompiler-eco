@@ -6,5 +6,5 @@ node_modules
 .fuse*
 *.DS_Store
 eco-metadata.json
-nohup*
+*nohup*
 *.pdf

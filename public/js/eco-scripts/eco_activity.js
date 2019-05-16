@@ -239,7 +239,6 @@ function openReplayToolsTXs() {
 }
 
 function getOrderedReplayAndFillInfo() {
-    console.log("mapReplayByHeight");
     var mapReplayPerHeight = new Map();
     for (var t = 0; t < vecRelayedTXs.length; t++) {
         var height = Number(document.getElementById("textReplayHeight" + t).value);

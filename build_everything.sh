@@ -5,7 +5,7 @@ set -e
 
 source .env
 function usage {
-    echo "Usage: $0 [--no-build] [--dev] [--server-mode]"
+    echo "Usage: $0 [--no-build] [--dev] [--no-web]"
 }
 
 DISABLE_BUILD=0

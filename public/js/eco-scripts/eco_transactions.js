@@ -102,11 +102,14 @@ function drawRelayedTXs() {
         txRow.insertCell(-1).appendChild(inputTxHeight);
 
         if ($("#btnReplayTXsTools")[0].checked) {
+	    var lastValue = '-';
+	    if(document.getElementById("textReplayHeight" + i))
+            	lastValue = document.getElementById("textReplayHeight" + i).value
             var inputTxReplayHeight = document.createElement("input");
             inputTxReplayHeight.setAttribute("name", "textReplayHeight" + i);
             inputTxReplayHeight.style.width = '50px';
-            inputTxReplayHeight.setAttribute('value', '-');
-            inputTxReplayHeight.setAttribute('oninput', 'mapReplayByHeight()');
+            inputTxReplayHeight.setAttribute('value', lastValue);
+            inputTxReplayHeight.setAttribute('oninput', 'getOrderedReplayAndFillInfo()');
             inputTxReplayHeight.setAttribute('id', "textReplayHeight" + i);
             txRow.insertCell(-1).appendChild(inputTxReplayHeight);
         }
@@ -152,7 +155,8 @@ function drawRelayedTXs() {
 function updateVecRelayedTXsAndDraw(relayedTXID, txParams) {
     vecRelayedTXs.push({
         tx: relayedTXID,
-        txParams: txParams
+        txParams: txParams,
+	height: -100
     });
     drawRelayedTXs();
 }

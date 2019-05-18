@@ -935,11 +935,15 @@
                                        <input type="hidden" id="selected_compiler_form" name="codesend_selected_compiler"/>
 
                                        <div class="row">
-                                           <div class="col-md-8">
-                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15">(CAUTION! LOCALSTORAGE MIGHT BE LOST!)</input><br>
+                                           <div class="col-md-4">
                                              <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
-                                             <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
-                                           <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
+                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15"></input>                                             
+                                           </div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col-md-4">
+                                             <button type="button" onClick="deleteSCExample()" id="btnDeleteSCExample" class="btn btn-warning btn-sm"><i class="fas fa-user-plus"></i> Delete Example</button>
+                                             <button type="button" onClick="deleteAllSCExamples()" id="btnDeleteAllSCExamples" class="btn btn-danger btn-sm"><i class="fas fa-user-plus"></i> Clean All Examples</button>
                                            </div>
                                        </div>
                                        <!-- ACE EDITOR div pre -->

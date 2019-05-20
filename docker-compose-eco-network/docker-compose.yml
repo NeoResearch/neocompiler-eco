@@ -182,7 +182,7 @@ services:
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
   eco-neo-scan-api-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan/api:56268341-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan/api:62150786-better-logging"
     container_name: "eco-neo-scan-api-running"
     ports:
       - "4000:4000"
@@ -219,7 +219,7 @@ services:
 
   eco-neo-scan-sync-running:
     container_name: "eco-neo-scan-sync-running"
-    image: "registry.gitlab.com/cityofzion/neo-scan/sync:56268341-master"
+    image: "registry.gitlab.com/cityofzion/neo-scan/sync:62150786-better-logging"
     depends_on:
       - eco-neo-scan-postgresql-running
       - eco-neo-csharp-node1-running

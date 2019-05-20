@@ -195,7 +195,6 @@ function loadHistory(vecRelayedTXsToLoad) {
 //================= REPLAY TOOLS ================================
 //===============================================================
 function openReplayToolsTXs() {
-    console.log("openReplayToolsTxs");
     if (vecRelayedTXs.length > 0) {
         drawRelayedTXs();
 
@@ -203,9 +202,9 @@ function openReplayToolsTXs() {
             if (vecRelayedTXs[0].replayHeight) {
                 console.log("Loading replay with pre-defined values");
                 for (txID = 0; txID < vecRelayedTXs.length; txID++) {
-                    if (!vecRelayedTXs[txID].replayHeight) {
+                    if (vecRelayedTXs[txID].replayHeight == "-") {
                         console.error("Historical replay height of tx: " + txID + " could not be loaded properly!");
-                        return;
+			vecRelayedTXs[txID].replayHeight = Number(vecRelayedTXs[txID-1].replayHeight + 1);
                     }
                     document.getElementById("textReplayHeight" + txID).value = Number(vecRelayedTXs[txID].replayHeight);
                 }
@@ -235,6 +234,9 @@ function openReplayToolsTXs() {
 
             getOrderedReplayAndFillInfo();
         }
+    }else
+    {
+	document.getElementById("txt_replayOrder").value = '';
     }
 }
 

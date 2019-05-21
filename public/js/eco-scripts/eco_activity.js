@@ -232,7 +232,7 @@ function openReplayToolsTXs() {
                 }
             }
 
-            getOrderedReplayAndFillInfo();
+            ORDERED_MAP_LIST_REPLAY = getOrderedReplayAndFillInfo();
         }
     }else
     {
@@ -276,6 +276,61 @@ function getOrderedReplayAndFillInfo() {
     });
 
    return orderedMapList;
+}
+
+
+async function replayTXs() {
+	console.log(ORDERED_MAP_LIST_REPLAY);
+	// loop for each replay height
+	var lastReplayHeight = ORDERED_MAP_LIST_REPLAY[0].height;
+	var lastHeight = LAST_BEST_HEIGHT_NEOCLI;
+	for (var rH = 0; rH < ORDERED_MAP_LIST_REPLAY.length; rH++) {
+		var vec_txs = ORDERED_MAP_LIST_REPLAY[rH].txs;
+
+		// Replay all TXs for this current height
+		for (var t = 0; t < vec_txs.length; t++) {
+			console.log("tx index: " + vec_txs[t].txID);
+			// TX params
+			var tempTxParams = JSON.parse(vecRelayedTXs[vec_txs[t].txID].txParams);
+			console.log(tempTxParams);
+			$('#activityTableBtnRestore' + vec_txs[t].txID).click(); 
+			if (tempTxParams.type === "invoke")
+			{
+			   $('#invokebtn').click(); 
+			}
+			if (tempTxParams.type === "deploy")
+			{
+			    $('#deploybtnjs').click(); 
+			}
+			if (tempTxParams.type === "send")
+			{
+			    createSendTxForm(); 
+			}
+			if (tempTxParams.type === "claim")
+			{
+			    createGasTxForm();
+			}			
+		}
+
+		// Wait until height is according
+		if(rH < ORDERED_MAP_LIST_REPLAY.length)
+		{
+			var heightDiff = ORDERED_MAP_LIST_REPLAY[rH+1].height - lastReplayHeight;
+			while(LAST_BEST_HEIGHT_NEOCLI - lastHeight <= heightDiff)
+			{
+				console.log("Inside automatic replay. Waiting for next desired height difference of: " + heightDiff);
+				console.log("Best known height is:" + LAST_BEST_HEIGHT_NEOCLI + " and last relayed was " + lastHeight);
+				await sleep(1000);
+			}
+			lastReplayHeight = ORDERED_MAP_LIST_REPLAY[rH].height;
+			var lastHeight = LAST_BEST_HEIGHT_NEOCLI;
+		}
+	}
+
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /*

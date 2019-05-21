@@ -71,6 +71,7 @@ var cGolangFiles = [
 var PendingTX = null;
 var PendingTXParams = [];
 
+var ORDERED_MAP_LIST_REPLAY = [];
 /* Mostly used to get the current commit of GitHub repo */
 //var ENV_VARS = "";
 /* End Some Global Variables  */

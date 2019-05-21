@@ -63,6 +63,7 @@ function drawRelayedTXs() {
         bRestore.setAttribute('content', 'test content');
         bRestore.setAttribute('class', 'btn btn-info');
         bRestore.setAttribute('value', i);
+        bRestore.setAttribute('id', "activityTableBtnRestore" + i);
         bRestore.innerHTML = '<i class="fas fa-reply"></i>';
         if (tempTxParams.type === "invoke")
             bRestore.onclick = function() {

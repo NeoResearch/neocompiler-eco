@@ -23,6 +23,12 @@ var ENABLE_NEOSCAN_TRACKING = true;
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;
 
+/* Full activity history of all transactions */
+var DISABLE_ACTIVITY_HISTORY = false;
+
+/* DISABLE AUTOMATIC CLAIM */
+var DISABLE_AUTOMATIC_CLAIM = false;
+
 /* Automatic pic csharp node at best height */
 var AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH = true;
 var LAST_BEST_HEIGHT_NEOCLI = 0;

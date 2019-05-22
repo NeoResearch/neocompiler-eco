@@ -75,7 +75,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
             .then(res => {
                 //console.log("\n\n--- Response ---");
                 //console.log(res);
-                if (res) {
+                if (res && !DISABLE_ACTIVITY_HISTORY) {
                     updateVecRelayedTXsAndDraw(txHash, JSON.stringify(invokeParams));
 
                     // Jump to acitivy tab and record last tab
@@ -147,7 +147,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 
     // Do invoke for Deploy
     Neon.default.doInvoke(config).then(res => {
-        if (res.response.result) {
+        if (res.response.result && !DISABLE_ACTIVITY_HISTORY) {
             var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
             updateVecRelayedTXsAndDraw(res.response.txid, JSON.stringify(deployParams));
 

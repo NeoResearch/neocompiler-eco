@@ -14,7 +14,9 @@ function restoreInvokeTX(txID) {
             $("#attachgasjs").val(invokeJsonParams.gas);
             if (searchAddrIndexFromBase58(invokeJsonParams.caller) != -1)
                 $("#wallet_invokejs")[0].selectedIndex = searchAddrIndexFromBase58(invokeJsonParams.caller);
-            $('.nav-pills a[data-target="#network"]').tab('show');
+
+	    if(!DISABLE_ACTIVITY_HISTORY)
+            	$('.nav-pills a[data-target="#network"]').tab('show');
         }
     } else {
         alert("Cannot restore invoke of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
@@ -82,7 +84,8 @@ function restoreDeployTX(txID) {
             if (searchAddrIndexFromBase58(deployJsonParams.caller) != -1)
                 $("#wallet_deployjs")[0].selectedIndex = searchAddrIndexFromBase58(deployJsonParams.caller);
 
-            $('.nav-pills a[data-target="#network"]').tab('show');
+	    if(!DISABLE_ACTIVITY_HISTORY)
+	            $('.nav-pills a[data-target="#network"]').tab('show');
         }
 
     } else {
@@ -116,7 +119,8 @@ function restoreSendTX(txID) {
             else
               $("#cbx_storagejs")[0].checked = false;*/
 
-            $('.nav-pills a[data-target="#transaction"]').tab('show');
+	    if(!DISABLE_ACTIVITY_HISTORY)
+	            $('.nav-pills a[data-target="#transaction"]').tab('show');
         }
     } else {
         createNotificationOrAlert("Restoring Send Problem!", "Size of requested index was not found correctly", 5000);
@@ -129,7 +133,9 @@ function restoreClaimTX(txID) {
         if (claimJsonParams.type === "claim") {        
             if (searchAddrIndexFromBase58(claimJsonParams.caller) != -1)
                 $("#createtx_from")[0].selectedIndex = searchAddrIndexFromBase58(claimJsonParams.caller);
-            $('.nav-pills a[data-target="#transaction"]').tab('show');
+
+	    if(!DISABLE_ACTIVITY_HISTORY)
+	            $('.nav-pills a[data-target="#transaction"]').tab('show');
         }
     } else {
         alert("Cannot restore claim of TX with ID " + txID + " from set of relayed transactions with size " + vecRelayedTXs.length)
@@ -197,8 +203,12 @@ function loadHistory(vecRelayedTXsToLoad) {
 function openReplayToolsTXs() {
     if (vecRelayedTXs.length > 0) {
         drawRelayedTXs();
-
         if ($("#btnReplayTXsTools")[0].checked) {
+	    $("#cbx_disableHistory")[0].checked = true;
+            $("#cbx_disableAutomaticClaim")[0].checked = true;
+            DISABLE_ACTIVITY_HISTORY = true;
+            DISABLE_AUTOMATIC_CLAIM = true;
+
             if (vecRelayedTXs[0].replayHeight) {
                 console.log("Loading replay with pre-defined values");
                 for (txID = 0; txID < vecRelayedTXs.length; txID++) {
@@ -233,7 +243,13 @@ function openReplayToolsTXs() {
             }
 
             ORDERED_MAP_LIST_REPLAY = getOrderedReplayAndFillInfo();
-        }
+        }else{
+	
+		$("#cbx_disableHistory")[0].checked = false;
+		$("#cbx_disableAutomaticClaim")[0].checked = false;
+		DISABLE_ACTIVITY_HISTORY = false;
+		DISABLE_AUTOMATIC_CLAIM = false;
+	}
     }else
     {
 	document.getElementById("txt_replayOrder").value = '';
@@ -295,25 +311,20 @@ async function replayTXs() {
 			console.log(tempTxParams);
 			$('#activityTableBtnRestore' + vec_txs[t].txID).click(); 
 			if (tempTxParams.type === "invoke")
-			{
 			   $('#invokebtn').click(); 
-			}
+
 			if (tempTxParams.type === "deploy")
-			{
 			    $('#deploybtnjs').click(); 
-			}
+
 			if (tempTxParams.type === "send")
-			{
 			    createSendTxForm(); 
-			}
+
 			if (tempTxParams.type === "claim")
-			{
 			    createGasTxForm();
-			}			
 		}
 
 		// Wait until height is according
-		if(rH < ORDERED_MAP_LIST_REPLAY.length)
+		if(rH < (ORDERED_MAP_LIST_REPLAY.length - 1))
 		{
 			var heightDiff = ORDERED_MAP_LIST_REPLAY[rH+1].height - lastReplayHeight;
 			while(LAST_BEST_HEIGHT_NEOCLI - lastHeight <= heightDiff)

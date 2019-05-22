@@ -937,7 +937,7 @@
                                        <div class="row">
                                            <div class="col-md-4">
                                              <button type="button" onClick="saveSCExample()" id="btnSaveSCExample" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Save Example</button>
-                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15"></input>                                             
+                                             <input type="text" id="cbx_example_name" placeholder="myexample.??" size="15"></input>
                                            </div>
                                        </div>
                                        <div class="row">
@@ -1053,6 +1053,14 @@
                   <input type="checkbox" data-toggle="collapse" data-target="#replayTXsDiv" onClick="openReplayToolsTXs()" id="btnReplayTXsTools"></input><br>
                   <div id="replayTXsDiv" class="collapse">
                       <textarea id="txt_replayOrder" readonly="readonly" rows="5" cols="100" placeholder="Order to replay" class="form-control"></textarea>
+                      <div class="col-md-2">
+                        <span for="cbx_disableHistory" type="checkbox" class="label label-success">Disable activity history</span>
+                        <input type="checkbox" id="cbx_disableHistory"></input>
+                      </div>
+                      <div class="col-md-2">
+                        <span for="cbx_disableAutomaticClaim" type="checkbox" class="label label-success">Disable automatic claims</span>
+                        <input type="checkbox" id="cbx_disableAutomaticClaim"></input>
+                      </div>
                       <button id="btnReplayTXs" onClick="replayTXs()" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-primary btn-sm">Replay all TXs</button>
                   </div>
               </div>
@@ -1670,6 +1678,21 @@
         //console.log("New FULL_ACTIVITY_HISTORY flag is " + FULL_ACTIVITY_HISTORY);
     });
 
+    $("#cbx_disableHistory").on('change', function() {
+        if ($("#cbx_disableHistory")[0].checked) {
+            DISABLE_ACTIVITY_HISTORY = true;
+        } else {
+            DISABLE_ACTIVITY_HISTORY = false;
+        }
+    });
+
+    $("#cbx_disableAutomaticClaim").on('change', function() {
+        if ($("#cbx_disableAutomaticClaim")[0].checked) {
+            DISABLE_AUTOMATIC_CLAIM = true;
+        } else {
+            DISABLE_AUTOMATIC_CLAIM = false;
+        }
+    });
     //=================================================================
     //Neoscan selection box on loading
     /*if (ENABLE_NEOSCAN_TRACKING) {

@@ -11,7 +11,7 @@ function callClaimableFromNeoCli(adddressToGet, indexKA) {
             if (resultClaimable.result)
                 amountClaimable = resultClaimable.result.unclaimed;
 
-            if (resultClaimable.result.address && amountClaimable > 0) {
+            if (resultClaimable.result.address && amountClaimable > 0 && !DISABLE_AUTOMATIC_CLAIM) {
                 var resultQueryAddress = resultClaimable.result.address;
                 idToAutomaticClaim = searchAddrIndexFromBase58(resultQueryAddress);
                 //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );

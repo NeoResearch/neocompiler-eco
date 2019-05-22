@@ -34,7 +34,7 @@ function createTxFromAccount(idTransferFrom, to, neo, gas, nodeToCall, networkTo
 
     Neon.default.sendAsset(config)
         .then(res => {
-            if (FULL_ACTIVITY_HISTORY) {
+            if (FULL_ACTIVITY_HISTORY && !DISABLE_ACTIVITY_HISTORY) {
                 var sendParams = {
                     caller: ECO_WALLET[idTransferFrom].account.address,
                     to: to,
@@ -63,7 +63,7 @@ function createClaimGasTX(idTransferFrom, nodeToCall, networkToCall) {
 
     Neon.default.claimGas(config)
         .then(res => {
-            if (FULL_ACTIVITY_HISTORY) {
+            if (FULL_ACTIVITY_HISTORY && !DISABLE_ACTIVITY_HISTORY) {
                 var claimParams = {
                     caller: ECO_WALLET[idTransferFrom].account.address,
                     type: "claim"

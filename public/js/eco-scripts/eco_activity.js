@@ -288,7 +288,14 @@ function getOrderedReplayAndFillInfo() {
     //mapReplayPerHeightSorted.forEach(printMap);
     orderedMapList.forEach(function(entry) {
         document.getElementById("txt_replayOrder").value += "Reference Height: " + entry.height + " - ";
-        document.getElementById("txt_replayOrder").value += JSON.stringify(entry.txs) + "\n";
+        document.getElementById("txt_replayOrder").value += JSON.stringify(entry.txs) + " - [{";
+	for (var t = 0; t < entry.txs.length; t++)
+	{
+		document.getElementById("txt_replayOrder").value += JSON.parse(vecRelayedTXs[entry.txs[t].txID].txParams).type + "}";
+		if(t < (entry.txs.length-1))
+			document.getElementById("txt_replayOrder").value += ",{";	
+	}
+	document.getElementById("txt_replayOrder").value += "]\n";
     });
 
    return orderedMapList;
@@ -335,9 +342,10 @@ async function replayTXs() {
 			    createGasTxForm();
 		}
 
-		// Update last heights for next iteration
+		// Update last replay height and last persisted height for next iteration
 		lastReplayHeight = ORDERED_MAP_LIST_REPLAY[rH].height;
-		lastHeight = LAST_BEST_HEIGHT_NEOCLI;
+		// we sum plus +1 because it will take one block to deploy
+		lastHeight = LAST_BEST_HEIGHT_NEOCLI + 1;
 	}
 
 }

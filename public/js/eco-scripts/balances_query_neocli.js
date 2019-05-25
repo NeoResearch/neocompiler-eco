@@ -43,7 +43,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
                 amountUnclaimable = resultUnclaimed.result.unavailable;
 
             var selfTransferID = "selfTransfer(" + indexKA + ")";
-            fillSpanTextOrInputBox("#walletUnclaim" + indexKA, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ');
+            fillSpanTextOrInputBox("#walletUnclaim" + indexKA, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ', amountUnclaimable);
 
             return amountUnclaimable;
         },

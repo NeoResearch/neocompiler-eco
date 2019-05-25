@@ -1,11 +1,17 @@
-function fillSpanTextOrInputBox(boxToFill, contentToFill)
+function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1)
 {
 	if (boxToFill != "")
 	{
 		if(boxToFill != "#createtx_NEO" && boxToFill != "#createtx_GAS")
+		{
 			$(boxToFill)[0].innerHTML = contentToFill;
+			if(amountUnclaimable != -1)
+				$(boxToFill).val(amountUnclaimable);
+		}
 		else
+		{
 			$(boxToFill).val(contentToFill);
+		}
 	}
 }
 

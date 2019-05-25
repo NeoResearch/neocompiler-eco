@@ -15,6 +15,28 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         updateScriptHashesBoxes(contract_scripthash);
     }
 
+    // ================================================================================
+    // automatic claim 
+    var availableGAS = Number($("#walletGas"+idToInvoke)[0].innerHTML);
+    var availableClaim = Number($("#walletUnclaim"+idToInvoke).val());
+    var totalGasNeeded = mynetfee+mysysgasfee+gas;
+    if( totalGasNeeded < availableGAS)
+    {
+	    console.log("availableGAS: "+ availableGAS + "\t availableClaim:" + availableClaim + " - totalGasNeeded:" + totalGasNeeded);
+	    if( totalGasNeeded >= (availableGAS + availableClaim))
+	    {		
+		console.log("Self transfer activated. Required amount of GAS will be claimed!");
+		createNotificationOrAlert("InvocationTransaction_Invoke", "Self transfer activated. Required amount of GAS will be claimed!", 7000);
+		selfTransfer(idToInvoke);
+		return;
+	    }else
+	    {
+		console.error("No GAS for this transfer, even if claiming!");
+		return;
+	    }	
+    }
+    // ================================================================================
+
     var intent = createGasAndNeoIntent(toBase58(contract_scripthash), neo, gas);
 
     for (var i = 0; i < neonJSParams.length; i++)
@@ -116,6 +138,28 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         alert("ERROR (DEPLOY): Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
         return;
     }
+
+    // ================================================================================
+    // automatic claim 
+    var availableGAS = Number($("#walletGas"+idToDeploy)[0].innerHTML);
+    var availableClaim = Number($("#walletUnclaim"+idToDeploy).val());
+    var totalGasNeeded = mynetfee+mysysgasfee;
+    if( totalGasNeeded > availableGAS)
+    {
+	    console.log("availableGAS: "+ availableGAS + "\t availableClaim:" + availableClaim + " - totalGasNeeded:" + totalGasNeeded);
+	    if( totalGasNeeded <= (availableGAS + availableClaim))
+	    {		
+		console.log("Self transfer activated. Required amount of GAS will be claimed!");
+		createNotificationOrAlert("InvocationTransaction_Deploy", "Self transfer activated. Required amount of GAS will be claimed!", 7000);
+		selfTransfer(idToDeploy);
+		return;
+	    }else
+	    {
+		console.error("No GAS for this transfer, even if claiming!");
+		return;
+	    }	
+    }
+    // ================================================================================
 
     // for Deploy we should ensure that AVM Script to be deployed has the same contract_scripthash of the boxes (in order to ensure correctly full of activity parameters)
     if ($("#contracthashjs")[0].value == "" || $("#contracthashjs")[0].value != contract_scripthash) {

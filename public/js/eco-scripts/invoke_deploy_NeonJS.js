@@ -16,24 +16,27 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
     }
 
     // ================================================================================
-    // automatic claim 
+    // automatic claim
     var availableGAS = Number($("#walletGas"+idToInvoke)[0].innerHTML);
     var availableClaim = Number($("#walletUnclaim"+idToInvoke).val());
     var totalGasNeeded = mynetfee+mysysgasfee+gas;
-    if( totalGasNeeded < availableGAS)
+    if( totalGasNeeded > availableGAS)
     {
+       // needs more than availableGAS, will try to claim
+      
 	    console.log("availableGAS: "+ availableGAS + "\t availableClaim:" + availableClaim + " - totalGasNeeded:" + totalGasNeeded);
 	    if( totalGasNeeded >= (availableGAS + availableClaim))
-	    {		
-		console.log("Self transfer activated. Required amount of GAS will be claimed!");
-		createNotificationOrAlert("InvocationTransaction_Invoke", "Self transfer activated. Required amount of GAS will be claimed!", 7000);
-		selfTransfer(idToInvoke);
-		return;
-	    }else
 	    {
-		console.error("No GAS for this transfer, even if claiming!");
-		return;
-	    }	
+      		console.log("Self transfer activated. Required amount of GAS will be claimed!");
+      		createNotificationOrAlert("InvocationTransaction_Invoke", "Self transfer activated. Required amount of GAS will be claimed!", 7000);
+      		selfTransfer(idToInvoke);
+      		return;
+	    }
+       else
+	    {
+      		console.error("No GAS for this transfer, even if claiming!");
+      		return;
+	    }
     }
     // ================================================================================
 
@@ -115,7 +118,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
     }
 }
 
-// Examples of Deploy 
+// Examples of Deploy
 // DeployFromAccount(0,0.0000001,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 // DeployFromAccount(0,0.001,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
 function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networkToCall, contract_script, storage = 0x00, returntype = '05', par = '', contract_description = 'appdescription', contract_email = 'email', contract_author = 'author', contract_version = 'v1.0', contract_appname = 'appname') {
@@ -140,7 +143,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
     }
 
     // ================================================================================
-    // automatic claim 
+    // automatic claim
     var availableGAS = Number($("#walletGas"+idToDeploy)[0].innerHTML);
     var availableClaim = Number($("#walletUnclaim"+idToDeploy).val());
     var totalGasNeeded = mynetfee+mysysgasfee;
@@ -148,7 +151,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
     {
 	    console.log("availableGAS: "+ availableGAS + "\t availableClaim:" + availableClaim + " - totalGasNeeded:" + totalGasNeeded);
 	    if( totalGasNeeded <= (availableGAS + availableClaim))
-	    {		
+	    {
 		console.log("Self transfer activated. Required amount of GAS will be claimed!");
 		createNotificationOrAlert("InvocationTransaction_Deploy", "Self transfer activated. Required amount of GAS will be claimed!", 7000);
 		selfTransfer(idToDeploy);
@@ -157,7 +160,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 	    {
 		console.error("No GAS for this transfer, even if claiming!");
 		return;
-	    }	
+	    }
     }
     // ================================================================================
 

@@ -44,8 +44,8 @@ function drawWalletsStatus() {
             var addressBase58 = document.createElement('button');
             addressBase58.setAttribute('content', 'test content');
             addressBase58.setAttribute('class', 'btn btn-success btn-sm');
-            addressBase58.setAttribute('value', i);
-            addressBase58.setAttribute('id', "btnGetBalanceAddress" + i);
+            addressBase58.setAttribute('value', ka);
+            addressBase58.setAttribute('id', "btnGetBalanceAddress" + ka);
             addressBase58.onclick = function() {
                 getUnspentsForAddress(this.value);
             };
@@ -376,7 +376,8 @@ function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
-	    queryAccountStateNeoAndGasBalanceFromNeoCli(addressToGet, ka)
+
+	          queryAccountStateNeoAndGasBalanceFromNeoCli(addressToGet, ka);
             //getAllNeoOrGasFromNeoCli(addressToGet, "NEO", "#walletNeo" + ka);
             //getAllNeoOrGasFromNeoCli(addressToGet, "GAS", "#walletGas" + ka);
 

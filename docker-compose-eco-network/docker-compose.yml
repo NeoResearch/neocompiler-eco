@@ -181,12 +181,12 @@ services:
 
 # ================================================================================
 # ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
-  eco-neo-scan-api-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan/api:62150786-better-logging"
-    container_name: "eco-neo-scan-api-running"
+  eco-neo-scan-full-running:
+    image: "registry.gitlab.com/cityofzion/neo-scan/full:63461477-master"
+    container_name: "eco-neo-scan-full-running"
     ports:
       - "4000:4000"
-    #command: /bin/true #disable neo-scan
+    #command: /bin/true 
     environment:
       PORT: 4000
       HOST: localhost
@@ -198,7 +198,6 @@ services:
       REPLACE_OS_VARS: "true"
     depends_on:
       - eco-neo-scan-postgresql-running
-      - eco-neo-scan-sync-running
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
       - eco-neo-csharp-noderpc1-running
@@ -213,28 +212,6 @@ services:
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/4000
       timeout: 10s
-    networks:
-      - neo_scan_internal
-      - private_net
-
-  eco-neo-scan-sync-running:
-    container_name: "eco-neo-scan-sync-running"
-    image: "registry.gitlab.com/cityofzion/neo-scan/sync:62150786-better-logging"
-    depends_on:
-      - eco-neo-scan-postgresql-running
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-    environment:
-      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30334;http://eco-neo-csharp-noderpc1-running:30337"
-      DB_HOSTNAME: eco-neo-scan-postgresql-running
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_DATABASE: neoscan_prodv
-      REPLACE_OS_VARS: "true"
-    entrypoint: bash -c "sleep 5 && /start.sh"
     networks:
       - neo_scan_internal
       - private_net

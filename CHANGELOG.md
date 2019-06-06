@@ -13,6 +13,13 @@ Current development version is 4.0, so a new major version is coming out with ve
 - Full integration with neon-opt project (when it's ready), so compiled AVM will be automatically optimized
 - Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
 
+### [3.5.0] - 2019-06-06
+- improving automatic claim mechanism for deploy and invoke
+- simplifying neo-scan for a single full container
+- improving ability to reset server via front-end
+- replay activity is almost working 100%!
+- added counters to decompiler
+
 ### [3.4.0 - 3.1.0] - 2019-04-15
 - adding support for advanced signing (an `InvocationTx` transaction can be easily invoked from multiple addresses, for example: a single address + multisg + contract + verification with a single interface)
 - smart contracts can be saved in local storage, persisting user session (use with caution, contract might be lost!)

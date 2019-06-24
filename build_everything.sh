@@ -63,14 +63,13 @@ fi
 echo "BUILDING compilers";
 ./buildCompilers.sh
 
-# BUILDING, STOPPING AND RUNNING EXPRESS FOR FRONT-END ONLY
+echo "TRYING TO STOP express front-end";
+(cd docker-http-express; docker-compose down)
+
+# BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
 	echo "BUILDING front-end";
 	(cd docker-http-express; ./docker_build.sh)
-
-	echo "STOPPPING front-end";
-	(cd docker-http-express; docker-compose down)
-
 	echo "RUNNING front-end";
 	(cd docker-http-express; docker-compose up -d)
 fi

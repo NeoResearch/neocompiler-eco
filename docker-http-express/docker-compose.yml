@@ -1,0 +1,24 @@
+version: "3.7"
+
+networks:
+  frontend_http:
+    driver: bridge
+
+services:
+  eco-neo-frontend-express-running:
+    image: eco-neo-frontend-express:latest
+    container_name: "eco-neo-frontend-express-running"
+    ports:
+      - "8000:8000"
+    environment:
+      DOOR_HTTP: 8000
+    volumes:
+      - ./appHttp.js:/opt/appHttp.js
+      - ./runHttpExpress.sh:/opt/runHttpExpress.sh
+      - ./package.json:/opt/package.json
+      - ./node_modules:/opt/node_modules
+      - ../index.html:/opt/index.html
+      - ../public:/opt/public/
+      - ../examples:/opt/examples/
+    networks:
+      - frontend_http

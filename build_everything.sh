@@ -49,7 +49,7 @@ if ((!$DISABLE_BUILD)); then
 fi
 
 if (($NEO_SCAN)); then
-        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly], [neoscan api, neoscan sync, postgress, Neo-Python Rest]";
+        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly], [neoscan full & postgress]";
 	./stopEco_network.sh
 	echo "BUILDING using NEO-SCAN";	
 	./runEco_network.sh
@@ -63,9 +63,16 @@ fi
 echo "BUILDING compilers";
 ./buildCompilers.sh
 
+# BUILDING, STOPPING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
+	echo "BUILDING front-end";
+	(cd docker-http-express; ./docker_build.sh)
+
+	echo "STOPPPING front-end";
+	(cd docker-http-express; docker-compose down)
+
 	echo "RUNNING front-end";
-	nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &
+	(cd docker-http-express; docker-compose up -d)
 fi
 
 echo "RUNNING express servers: compilers and ecoservices";

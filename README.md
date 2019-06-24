@@ -66,22 +66,6 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ### Dependencies
 
-For Debian-based systems:
-
-`apt install npm`
-
-`apt install nodejs-legacy`
-
-`npm install`
-
-#### Start any recursive submodule:
-
-Pull submodules: 
-* `git submodule update --init --recursive` (first time);
-* then, `git submodule update --recursive --remote`
-
-On Windows wget might be needed to be installed: https://eternallybored.org/misc/wget/
-
 ### Installing docker-compose 1.19.0+
 
 We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:
@@ -149,7 +133,12 @@ This script already builds the compilers and starts the server:
 
 ### Running express node servers
 
-**Http front-end**: `./runHttpExpress.sh` or `nohup ./runHttpExpress.sh > ./express-servers/outputs/nohupOutputRunHttpExpress.out 2> ./express-servers/outputs/nohupOutputRunHttpExpress.err < /dev/null &`
+**Http front-end**: 
+`cd docker-http-express`
+
+`docker_build.sh`
+
+`docker-compose up`
 
 **Compilers RPC API**: `(cd express-servers; ./run-CompilerExpress-RPC.sh)`
 
@@ -198,7 +187,7 @@ In particular, we currently have:
 * csharp nodes are with TCP at 2033x and RPC at 3033X, websocket is not being used
   * 4 csharp consensus node, two of them are also a RPC as default at port 30333 and 30334;
   * 1 csharp pure RPC nodes at 30337;
-* optional [neoscan](https://github.com/CityOfZion/neo-scan) with 3 containers (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-api; neoscan-sync; and postgress container; 
+* optional [neoscan](https://github.com/CityOfZion/neo-scan) full (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-full and postgress container; 
 
 ### Dealing with docker-compose swarm of containers
 
@@ -234,12 +223,12 @@ docker-compose start
 
 #### Other functionalities and integrations are possible and some are implemented
 
-It is also possible to integrate the Eco Network with Neondb and NeoTracker.
+It is also possible to integrate the Eco Network with lighwallet and explorers.
 
 #### Other parameters
 
 One could check docker docker-compose.yml, picking up a combination of your choice from `docker-compose-eco-network` folder.
-This can be done for locally modifying some characteristic of NeoCompiler.
+This can be done for locally modifying some characteristics.
 
 Run `build_everything.sh` with an additional parameter `--no-build` and your modified files of the private net will be called.
 

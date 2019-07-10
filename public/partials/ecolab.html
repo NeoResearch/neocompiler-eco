@@ -45,6 +45,7 @@
                       <option title="Localhost services">Localhost</option>
                       <option title="MainNet services">NEO MainNet (unsafe)</option>
                       <option title="Testnet services">NEO TestNet</option>
+                      <option title="NEOLine services">NEOLine</option>
                       <!-- <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>  -->
                     </select>
                 </div>
@@ -2040,6 +2041,8 @@
             return "MainNet";
         if (mynetworkIndex == 3)
             return "TestNet";
+        if (mynetworkIndex == 4)
+            return "NEOLine";
     }
 
     function goToWalletCentral() {

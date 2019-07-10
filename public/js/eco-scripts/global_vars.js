@@ -167,3 +167,7 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
             return serviceUrlToAdd;
     }
 }
+
+window.addEventListener('neoline.ready', () => {
+  window.neoline = new NEOLine.Init();
+});

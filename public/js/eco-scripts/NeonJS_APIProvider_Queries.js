@@ -24,7 +24,9 @@ function addSharedPrivateNet() {
 
 function setNeonApiProvider(networkToCall)
 {	
-            if($("#cbx_query_neoscan")[0].checked)
+            if(networkToCall=="NEOLine")
+            	NEON_API_PROVIDER = new NEOLine.Init();
+            else if($("#cbx_query_neoscan")[0].checked)
             	NEON_API_PROVIDER = new Neon.api.neoscan.instance(networkToCall);
             else 
             	NEON_API_PROVIDER = new Neon.api.neoCli.instance(BASE_PATH_CLI);

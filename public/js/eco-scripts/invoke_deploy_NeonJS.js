@@ -1,10 +1,6 @@
 function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
     console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams + "'");
     console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
-    setNeonApiProvider(networkToCall);
-
-    //Notify user if contract exists
-    getContractState(contract_scripthash, false);
 
     if (contract_scripthash == "" || !Neon.default.is.scriptHash(contract_scripthash)) {
         alert("Contract scripthash " + contract_scripthash + " is not being recognized as a scripthash.");
@@ -14,6 +10,68 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         console.log("(INVOKE) selection box hash is empty, all selection boxes are going to be fullfilled based on the contract_scripthash passed as parameter");
         updateScriptHashesBoxes(contract_scripthash);
     }
+
+    if(networkToCall == "NEOLine"){
+        const argConversion = {
+            7:'String' ,
+            2:'Integer',
+            16:'Array',
+            5:'ByteArray',
+            //5:'Address'
+            //1:'Boolean',
+            //3:'Hash160',
+            //4:'Hash256',
+        }
+        let tx={
+                 scriptHash: contract_scripthash,
+                 operation: '',
+                 args: [],
+                 attachedAssets: {
+                   NEO: String(neo),
+                   GAS: String(gas)
+                 },
+                 fee: String(mynetfee),
+                 broadcastOverride: false
+                }
+        if(neonJSParams.length>0){
+            if(neonJSParams[0].type==7){
+                tx.operation=neonJSParams.shift().value;
+            }
+            if(neonJSParams.length>0 && neonJSParams[0].type==16){
+                for(let i=0; i<neonJSParams[0].length; i++){
+                    tx.args.push({
+                        type: argConversion[neonJSParams[0][i].type],
+                        value: neonJSParams[0][i].value
+                    });
+                }
+            }
+        }
+        return neoline.invoke(tx)
+        .then(res => {
+            if (res && !DISABLE_ACTIVITY_HISTORY) {
+                updateVecRelayedTXsAndDraw(res.txid, JSON.stringify(tx));
+
+                // Jump to acitivy tab and record last tab
+                $('.nav-pills a[data-target="#activity"]').tab('show');
+                LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+                document.getElementById('divNetworkRelayed').scrollIntoView();
+
+                createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + contract_scripthash + " tx_hash: " + res.txid, 7000);
+	    }
+        })
+        /*
+        .catch(err => {
+            console.log(err);
+            createNotificationOrAlert("InvocationTransaction_Invoke ERROR", "Response: " + err, 7000);
+        });
+        */
+    }
+
+    setNeonApiProvider(networkToCall);
+
+    //Notify user if contract exists
+    getContractState(contract_scripthash, false);
+
 
     // ================================================================================
     // automatic claim
@@ -142,6 +200,42 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         return;
     }
 
+    if(networkToCall == "NEOLine"){
+        return neoline.deploy({
+            name: contract_appname,
+            version: contract_version,
+            author: contract_author,
+            email: contract_email,
+            description: contract_description,
+            needsStorage: Boolean(storage & 0x01),
+            dynamicInvoke: Boolean(storage & 0x02),
+            isPayable: Boolean(storage & 0x04),
+            parameterList: par,
+            returnType: returntype,
+            code: contract_script,
+            networkFee: String(mynetfee)
+        })
+        .then((res) => {
+            if (res && !DISABLE_ACTIVITY_HISTORY) {
+                neoline.getAccount()
+		.then(account => {
+                    var deployParams = transformDeployParams(account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+                    updateVecRelayedTXsAndDraw(res.txid, JSON.stringify(deployParams));
+
+                    // Jump to activity tab and record last tab
+                    $('.nav-pills a[data-target="#activity"]').tab('show');
+                    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
+                    document.getElementById('divNetworkRelayed').scrollIntoView();
+
+                    createNotificationOrAlert("InvocationTransaction_Deploy", "tx_hash: " + res.txid, 7000);
+		});
+            }
+        }).catch(err => {
+            console.log(err);
+            createNotificationOrAlert("InvocationTransaction_Deploy ERROR", "Response: " + err, 5000);
+        });
+    }
+
     // ================================================================================
     // automatic claim
     var availableGAS = Number($("#walletGas"+idToDeploy)[0].innerHTML);
@@ -176,7 +270,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         .emitPush(Neon.u.str2hexstring(contract_author)) // author
         .emitPush(Neon.u.str2hexstring(contract_version)) // code_version
         .emitPush(Neon.u.str2hexstring(contract_appname)) // name
-        .emitPush(storage) // storage: {none: 0x00, storage: 0x01, dynamic: 0x02, storage+dynamic:0x03}
+        .emitPush(storage) // storage: {none: 0x00, storage: 0x01, dynamic: 0x02, storage+dynamic:0x03}, if the third bit is set => payable
         .emitPush(returntype) // expects hexstring  (_emitString) // usually '05'
         .emitPush(par) // expects hexstring  (_emitString) // usually '0710'
         .emitPush(contract_script) //script

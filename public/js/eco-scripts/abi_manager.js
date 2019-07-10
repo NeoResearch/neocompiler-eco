@@ -184,5 +184,6 @@ function updateArrayInvokeParamsJs() {
         $("#cbx_inarray_js3")[0].checked = false;
         $("#cbx_inarray_js3")[0].disabled = true;
     }
+    updateInvokeParamsJs();
 }
 // ==============================================================

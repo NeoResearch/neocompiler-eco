@@ -200,7 +200,7 @@ const EcoData = require('./socket-js/eco-metadata-class.js');
 let ecoInfo = new EcoData();
 
 var io = require('socket.io').listen(server);
-var timeleft = (12 * 60 * 60 * 1000);
+var timeleft = (7 * 24 * 60 * 60 * 1000);
 setInterval(function() {
     timeleft -= 1000;
     io.emit('timeleft', {

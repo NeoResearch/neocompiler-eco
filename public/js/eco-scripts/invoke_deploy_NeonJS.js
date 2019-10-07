@@ -1,3 +1,47 @@
+function providerInvoke(networkToCall, contract_scripthash, neo, gas, mynetfee, neonJSParams){
+	checkProviderNetwork(networkToCall);
+	const argConversion = {
+		7:'String' ,
+		2:'Integer',
+		16:'Array',
+		5:'ByteArray',
+		//5:'Address'
+		//1:'Boolean',
+		//3:'Hash160',
+		//4:'Hash256',
+	}
+	let tx = {
+		scriptHash: contract_scripthash,
+		operation: '',
+		args: [],
+		attachedAssets: {
+			NEO: String(neo),
+			GAS: String(gas)
+		},
+		fee: String(mynetfee),
+		broadcastOverride: false,
+		network: networkToCall
+	}
+	if(neonJSParams.length>0){
+		if(neonJSParams[0].type==7){
+			tx.operation=neonJSParams.shift().value;
+		}
+		if(neonJSParams.length>0 && neonJSParams[0].type==16){
+			for(let i=0; i<neonJSParams[0].length; i++){
+				tx.args.push({
+					type: argConversion[neonJSParams[0][i].type],
+					value: neonJSParams[0][i].value
+				});
+			}
+		}
+	}
+	return window.provider.invoke(tx)
+		.then(res => {
+			handleInvoke(res, res.txid, tx, contract_scripthash);
+		})
+		.catch(handleErrorInvoke);
+}
+
 function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract_scripthash, contract_operation, nodeToCall, networkToCall, neonJSParams) {
     console.log("Invoke '" + contract_scripthash + "' function '" + contract_operation + "' with params '" + neonJSParams + "'");
     console.log("mynetfee '" + mynetfee + " mygasfee '" + mysysgasfee + "' neo '" + neo + "' gas '" + gas + "'");
@@ -12,47 +56,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
     }
 
 	if($("#ecolabproviderselection").val() !== "None") {
-		checkProviderNetwork(networkToCall);
-        const argConversion = {
-            7:'String' ,
-            2:'Integer',
-            16:'Array',
-            5:'ByteArray',
-            //5:'Address'
-            //1:'Boolean',
-            //3:'Hash160',
-            //4:'Hash256',
-        }
-		let tx = {
-			scriptHash: contract_scripthash,
-			operation: '',
-			args: [],
-			attachedAssets: {
-				NEO: String(neo),
-				GAS: String(gas)
-			},
-			fee: String(mynetfee),
-			broadcastOverride: false,
-			network: networkToCall
-		}
-		if(neonJSParams.length>0){
-			if(neonJSParams[0].type==7){
-				tx.operation=neonJSParams.shift().value;
-			}
-			if(neonJSParams.length>0 && neonJSParams[0].type==16){
-				for(let i=0; i<neonJSParams[0].length; i++){
-					tx.args.push({
-						type: argConversion[neonJSParams[0][i].type],
-						value: neonJSParams[0][i].value
-                    });
-                }
-            }
-        }
-		return window.provider.invoke(tx)
-			.then(res => {
-				handleInvoke(res, res.txid, tx, contract_scripthash);
-			})
-			.catch(handleErrorInvoke);
+		return providerInvoke(networkToCall, contract_scripthash, neo, gas, mynetfee, neonJSParams);
     }
 
     setNeonApiProvider(networkToCall);
@@ -168,6 +172,34 @@ function handleErrorInvoke(err){
 	createNotificationOrAlert("InvocationTransaction_Invoke ERROR", "Response: " + err, 7000);
 }
 
+function providerDeploy(mynetfee, networkToCall, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname){
+	checkProviderNetwork(networkToCall);
+	return window.provider.deploy({
+		name: contract_appname,
+		version: contract_version,
+		author: contract_author,
+		email: contract_email,
+		description: contract_description,
+		needsStorage: Boolean(storage & 0x01),
+		dynamicInvoke: Boolean(storage & 0x02),
+		isPayable: Boolean(storage & 0x04),
+		parameterList: par,
+		returnType: returntype,
+		code: contract_script,
+		networkFee: String(mynetfee),
+		network: networkToCall
+	})
+		.then((res) => {
+			if (res && !DISABLE_ACTIVITY_HISTORY) {
+				window.provider.getAccount()
+					.then(account => {
+						handleDeploy(account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname, res.txid, "Success");
+					});
+			}
+		})
+		.catch(handleDeployError);
+}
+
 // Examples of Deploy
 // DeployFromAccount(0,0.0000001,90,BASE_PATH_CLI, getCurrentNetworkNickname(),script,false,01,'')
 // DeployFromAccount(0,0.001,490,BASE_PATH_CLI, getCurrentNetworkNickname(),'00c56b611423ba2703c53263e8d6e522dc32203339dcd8eee96168184e656f2e52756e74696d652e436865636b5769746e65737364320051c576000f4f574e45522069732063616c6c6572c46168124e656f2e52756e74696d652e4e6f7469667951616c756600616c7566', false,01,'')
@@ -193,31 +225,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
     }
 
 	if($("#ecolabproviderselection").val() !== "None") {
-		checkProviderNetwork(networkToCall);
-		return window.provider.deploy({
-			name: contract_appname,
-			version: contract_version,
-			author: contract_author,
-			email: contract_email,
-			description: contract_description,
-			needsStorage: Boolean(storage & 0x01),
-			dynamicInvoke: Boolean(storage & 0x02),
-			isPayable: Boolean(storage & 0x04),
-			parameterList: par,
-			returnType: returntype,
-			code: contract_script,
-			networkFee: String(mynetfee),
-			network: networkToCall
-		})
-			.then((res) => {
-				if (res && !DISABLE_ACTIVITY_HISTORY) {
-					window.provider.getAccount()
-						.then(account => {
-							handleDeploy(account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname, res.txid, "Success");
-						});
-				}
-			})
-			.catch(handleDeployError);
+		return providerDeploy(mynetfee, networkToCall, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
 	}
 
     // ================================================================================

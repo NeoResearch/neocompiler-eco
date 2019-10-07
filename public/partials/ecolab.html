@@ -45,8 +45,16 @@
                       <option title="Localhost services">Localhost</option>
                       <option title="MainNet services">NEO MainNet (unsafe)</option>
                       <option title="Testnet services">NEO TestNet</option>
-                      <option title="NEOLine services">NEOLine</option>
                       <!-- <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>  -->
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <i class="fas fa-chart-network"></i>
+                    <select id="ecolabproviderselection" class="custom-select form-control">
+                      <option title="None">None</option>
+                      <option title="O3">O3</option>
+                      <option title="Neologin">Neologin</option>
+                      <option title="NeoLine">NeoLine</option>
                     </select>
                 </div>
             </div>
@@ -1719,6 +1727,28 @@
         updatePATHS();
     });
 
+    $("#ecolabproviderselection").on('change', function() {
+		switch($("#ecolabproviderselection").val()){
+			case "None":
+				window.provider = null;
+				break;
+			case "O3":
+				window.provider = window.neoDapi;
+				break;
+			case "Neologin":
+				window.provider = window.neologin;
+				break;
+			case "NeoLine":
+				if (window.neoline) {
+					window.provider = window.neoline;
+				} else {
+					alert("NeoLine is not installed!");
+					$("#ecolabproviderselection").val("None");
+				}
+				break;
+		}
+    });
+
     $("#createtx_input_utxo2").on('change', function() {
         console.log("input UTXO tx ID is: " + JSON.parse($("#createtx_input_utxo2").val()).txid);
     });
@@ -1797,10 +1827,12 @@
     //=============================================================
 
     function updateBASEPATHS() {
+											       /*
         BASE_PATH_COMPILERS = $("#compilers_path")[0].value;
         BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
         BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
         BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
+											       */
         //BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
 
         updateNeoScanLinkIfEnable();
@@ -2041,8 +2073,6 @@
             return "MainNet";
         if (mynetworkIndex == 3)
             return "TestNet";
-        if (mynetworkIndex == 4)
-            return "NEOLine";
     }
 
     function goToWalletCentral() {
@@ -3106,4 +3136,6 @@
       sendingTxPromiseWithEcoRaw(PendingTX,PendingTXParams);
     }
     </script>
+	<script src="https://cdn.jsdelivr.net/npm/neo-dapi@2.0.4/lib/neo-dapi.min.js"></script>
+	<script src="https://neologin.io/neologin.js"></script>
 </div>

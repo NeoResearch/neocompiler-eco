@@ -52,9 +52,7 @@
                     <i class="fas fa-chart-network"></i>
                     <select id="ecolabproviderselection" class="custom-select form-control">
                       <option title="None">None</option>
-                      <option title="O3">O3</option>
-                      <option title="Neologin">Neologin</option>
-                      <option title="NeoLine">NeoLine</option>
+                      <option title="NeoLogin">NeoLogin</option>
                     </select>
                 </div>
             </div>
@@ -1735,7 +1733,7 @@
 			case "O3":
 				window.provider = window.neoDapi;
 				break;
-			case "Neologin":
+			case "NeoLogin":
 				window.provider = window.neologin;
 				break;
 			case "NeoLine":
@@ -3136,6 +3134,6 @@
       sendingTxPromiseWithEcoRaw(PendingTX,PendingTXParams);
     }
     </script>
-	<script src="https://cdn.jsdelivr.net/npm/neo-dapi@2.0.4/lib/neo-dapi.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/neo-dapi@1.0.2/lib/neo-dapi.min.js"></script>
 	<script src="https://neologin.io/neologin.js"></script>
 </div>

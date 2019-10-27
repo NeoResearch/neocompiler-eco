@@ -125,8 +125,8 @@ var BASE_PATH_NEOSCAN = getFirstAvailableService("neoscan", ecoNodes);
 //var BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", ecoNodes);
 
 var LOCAL_DEVELOPMENT = false;
-if (this.window.location.href.indexOf("localhost") != -1)
-    LOCAL_DEVELOPMENT = true;
+//if (this.window.location.href.indexOf("localhost") != -1)
+//    LOCAL_DEVELOPMENT = true;
 
 if (LOCAL_DEVELOPMENT) {
     BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", localHostNodes);
@@ -169,5 +169,14 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
 }
 
 window.addEventListener('neoline.ready', () => {
-  window.neoline = new NEOLine.Init();
+	if(window.neoline)
+		return
+	window.neoline = new NEOLine.Init();
+	$("#ecolabproviderselection").append('<option title="NeoLine">NeoLine</option>');
+});
+
+$(window).on('load', ()=>{
+	window.neoDapi.addEventListener(neoDapi.Constants.EventName.READY, data => {
+		$("#ecolabproviderselection").append('<option title="O3">O3</option>');
+	})
 });

@@ -70,7 +70,7 @@ function filterBlockTimestamps(resultBlockTimestamps) {
     for (var bh = 1; bh < resultBlockTimestamps.result.length; bh++) {
         heights.push(resultBlockTimestamps.result[bh].height);
         blockTime.push(resultBlockTimestamps.result[bh].timestamp - resultBlockTimestamps.result[bh - 1].timestamp);
-        blockTimeStamps.push(moment.unix(resultBlockTimestamps.result[bh].timestamp));
+        blockTimeStamps.push(moment.unix(resultBlockTimestamps.result[bh].timestamp/1000));
     }
     generateTimeDiffGraph(false, heights, blockTime, blockTimeStamps);
 }
@@ -99,7 +99,7 @@ function generateTimeDiffGraph(useTSInCache, heights = null, blockTime = null, b
 	    for (var a = 0; a < blockTime.length; a++) {
 		ts.push({
 		    t: blockTimeStamps[a],
-		    y: blockTime[a],
+		    y: blockTime[a]/1000,
 		    height: heights[a]
 		});
 	    }
@@ -114,6 +114,10 @@ function generateTimeDiffGraph(useTSInCache, heights = null, blockTime = null, b
 
     var maxYTickValue = Number($("#cbx_max_yTick_ts_value").val());
     var minYTickValue = Number($("#cbx_min_yTick_ts_value").val());   
+
+    var stepSize = 1;
+    if (maxYTickValue < 2)
+	stepSize = 0.1;
 
     chartBlockTimeStamp = new Chart(ctx, {
         // The type of chart we want to create
@@ -137,7 +141,7 @@ function generateTimeDiffGraph(useTSInCache, heights = null, blockTime = null, b
                 yAxes: [{
                     ticks: {
                         min: minYTickValue,
-                        stepSize: 1,
+                        stepSize: stepSize,
                         max: maxYTickValue
                     }
                 }]

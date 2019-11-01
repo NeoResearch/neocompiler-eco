@@ -17,13 +17,19 @@ function startSocketIoConnections() {
     });
 
     socket.on('timeleft', function(data) {
-        var date = new Date(data['timeleft']);
+
         numberCompilations = data['compilations'];
         numberDeploys = data['deploys'];
         numberInvokes = data['invokes'];
-        var dateGMT0 = new Date(date.valueOf() + date.getTimezoneOffset() * 60000);
-        var tLeft = dateGMT0.toTimeString();
-        var output = '<i class="fas fa-stopwatch"></i> ' + tLeft.substring(0, 8);
+
+        var timeToSeconds = Number((data['timeleft']));
+	var hours = Math.floor(timeToSeconds / 60 / 60);
+	var minutes = Math.floor(timeToSeconds / 60) % 60;
+	var seconds = Math.floor(timeToSeconds) % 60;
+        var output = '<i class="fas fa-stopwatch"></i> ' + hours + ':' + minutes + ':' + seconds;
+
         $("#online")[0].innerHTML = output + ' -> ' + onlineStats;
     });
 }
+
+

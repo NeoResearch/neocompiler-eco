@@ -125,8 +125,8 @@ var BASE_PATH_NEOSCAN = getFirstAvailableService("neoscan", ecoNodes);
 //var BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", ecoNodes);
 
 var LOCAL_DEVELOPMENT = false;
-//if (this.window.location.href.indexOf("localhost") != -1)
-//    LOCAL_DEVELOPMENT = true;
+if (this.window.location.href.indexOf("localhost") != -1)
+    LOCAL_DEVELOPMENT = true;
 
 if (LOCAL_DEVELOPMENT) {
     BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", localHostNodes);

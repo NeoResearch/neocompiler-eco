@@ -283,7 +283,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         if (res.response.result && !DISABLE_ACTIVITY_HISTORY) {
 			handleDeploy(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname, res.response.txid, res.response.result);
         }
-    }).catch(handleInvokeError); //end doInvoke
+    }).catch(handleDeployError); //end doInvoke
 } // end deploy from acount
 
 function checkProviderNetwork(networkToCall){

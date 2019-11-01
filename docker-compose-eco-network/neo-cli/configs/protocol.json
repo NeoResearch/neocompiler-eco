@@ -2,8 +2,7 @@
     "ProtocolConfiguration": {
         "Magic": 56753,
         "AddressVersion": 23,
-        "SecondsPerBlock": 20,
-        "LowPriorityThreshold": 0.001,
+        "MillisecondsPerBlock": 100,
         "StandbyValidators": [
             "027735202727a54527ee162814e77aca197966206b26e24012c9680b5c1feaab3b",
             "0370a0f365a447bdbae529ca4258f127a6bee28c72d7b2f761bdd29aeb3853af4d",
@@ -15,12 +14,6 @@
             "eco-neo-csharp-node2-running:20334",
             "eco-neo-csharp-node3-running:20335",
             "eco-neo-csharp-node4-running:20336"
-        ],
-        "SystemFee": {
-            "EnrollmentTransaction": 1000,
-            "IssueTransaction": 500,
-            "PublishTransaction": 500,
-            "RegisterTransaction": 10000
-        }
+        ]
     }
 }

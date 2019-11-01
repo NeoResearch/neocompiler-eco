@@ -442,3 +442,49 @@ function getAccountFromMultiSigVerification(verificationScript) {
     var nRequiredSignatures = getNRequiredSignatures(verificationScript);
     return Neon.wallet.Account.createMultiSig(Number(nRequiredSignatures), rawPubKeysForNeonJS);
 }
+
+function generateRandomAccounts(nAccounts) {
+    var randomAccounts = [];
+
+    for (var o = 0; o < nAccounts; o++)
+        randomAccounts.push(new Neon.wallet.Account(Neon.wallet.generatePrivateKey()));
+
+    return randomAccounts;
+}
+
+function generateMultiSigFromAccounts(threshold, accounts) {
+    var pubKeys = [];
+
+    for (var o = 0; o < accounts.length; o++)
+        pubKeys.push(accounts[o].publicKey)
+    
+    return Neon.wallet.Account.createMultiSig(threshold,pubKeys);
+}
+
+function createWallet(walletName, accounts) {  
+    return Neon.default.create.wallet({ name: walletName, accounts: accounts});
+}
+
+function createRandomWalletsForValidators(nAccounts,threshold) {  
+    var randomAccount = generateRandomAccounts(nAccounts);
+    randomAccount.push(generateMultiSigFromAccounts(threshold,randomAccount));
+    var randomWallets = [];
+
+    for (var o = 0; o < (randomAccount.length - 1); o++)
+    {
+     	var tempAccounts = [];
+	tempAccounts.push(randomAccount[0]);
+	tempAccounts.push(randomAccount[randomAccount.length-1]);
+ 	randomWallets.push(createWallet("wallet"+o,tempAccounts));
+    }
+
+    /*	
+    for (var w = 0; w < randomWallets.length; w++)
+    {
+	randomWallets[w].encryptAll(w);
+    	randomWallets[w].export();
+    }*/
+
+    return randomWallets;
+}
+

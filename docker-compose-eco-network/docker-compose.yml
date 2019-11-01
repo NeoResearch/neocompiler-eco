@@ -27,9 +27,9 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
-      - ./logs-neocli-node1:/opt/node/neo-cli/Logs
+      - ./logs-neocli-node1:/opt/node/neo-cli/SystemLogs_0000DDB1/ConsensusService
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 1
@@ -61,9 +61,9 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
-      - ./logs-neocli-node2:/opt/node/neo-cli/Logs
+      - ./logs-neocli-node2:/opt/node/neo-cli/SystemLogs_0000DDB1/ConsensusService
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 1
@@ -93,8 +93,9 @@ services:
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - ./logs-neocli-node3:/opt/node/neo-cli/Logs
+      - ./logs-neocli-node3:/opt/node/neo-cli/SystemLogs_0000DDB1/ConsensusService
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 0
@@ -124,8 +125,9 @@ services:
       - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - ./logs-neocli-node4:/opt/node/neo-cli/Logs
+      - ./logs-neocli-node4:/opt/node/neo-cli/SystemLogs_0000DDB1/ConsensusService
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 0
@@ -158,9 +160,9 @@ services:
       - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
-      - ./logs-neocli-noderpc:/opt/node/neo-cli/Logs
+      - ./logs-neocli-noderpc:/opt/node/neo-cli/SystemLogs_0000DDB1/ConsensusService
     depends_on:
       - eco-neo-csharp-node1-running
     environment:

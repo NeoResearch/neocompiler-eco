@@ -294,7 +294,7 @@ function checkProviderNetwork(networkToCall){
 }
 
 function handleDeploy(address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname, txid, result){
-	var deployParams = transformDeployParams(ECO_WALLET[idToDeploy].account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
+	var deployParams = transformDeployParams(address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
 	updateVecRelayedTXsAndDraw(txid, JSON.stringify(deployParams));
 
 	// Jump to acitivy tab and record last tab

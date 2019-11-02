@@ -1737,13 +1737,25 @@
 				window.provider = window.neologin;
 				break;
 			case "NeoLine":
-				if (window.neoline) {
-					window.provider = window.neoline;
-				} else {
-					alert("NeoLine is not installed!");
-					$("#ecolabproviderselection").val("None");
-				}
+				window.provider = window.neoline;
 				break;
+		}
+		if($("#ecolabproviderselection").val() === "None"){
+			ECO_WALLET = window.storedECO_WALLET;
+			populateAllWalletData();
+			updateAddressSelectionBox();
+			drawWalletsStatus();
+		} else {
+			window.provider.getAccount()
+				.then((providerAccount) => {
+					ECO_WALLET = [{
+						account: new Neon.wallet.Account(providerAccount.address),
+						print: true
+					}];
+					populateAllWalletData();
+					updateAddressSelectionBox();
+					drawWalletsStatus();
+				})
 		}
     });
 

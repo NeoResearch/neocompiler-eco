@@ -16,6 +16,10 @@ while [[ "$#" > 0 ]]; do case $1 in
         STOP_EXPRESS=1
         shift
         ;;
+    --all)
+        STOP_EXPRESS=1
+        shift
+        ;;
     *)
         usage
         exit 1

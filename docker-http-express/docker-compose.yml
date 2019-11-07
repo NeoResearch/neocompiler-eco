@@ -9,9 +9,9 @@ services:
     image: eco-neo-frontend-express:latest
     container_name: "eco-neo-frontend-express-running"
     ports:
-      - "8000:8000"
+      - "$DOOR_FRONTEND_HTTP:$DOOR_FRONTEND_HTTP"
     environment:
-      DOOR_HTTP: 8000
+      DOOR_HTTP: $DOOR_FRONTEND_HTTP
     volumes:
       - ./appHttp.js:/opt/appHttp.js
       - ./runHttpExpress.sh:/opt/runHttpExpress.sh
@@ -20,5 +20,15 @@ services:
       - ../index.html:/opt/index.html
       - ../public:/opt/public/
       - ../examples:/opt/examples/
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/$DOOR_FRONTEND_HTTP
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     networks:
       - frontend_http

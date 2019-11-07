@@ -60,9 +60,6 @@ else
 	./runEco_network.sh
 fi
 
-echo "BUILDING compilers";
-./buildCompilers.sh
-
 echo "TRYING TO STOP express front-end";
 (cd docker-http-express; docker-compose down)
 
@@ -74,5 +71,11 @@ if ((!$DISABLE_WEB)); then
 	(cd docker-http-express; docker-compose up -d)
 fi
 
-echo "RUNNING express servers: compilers and ecoservices";
+echo "TRYING TO STOP compilers express";
+(cd docker-express-compilers; docker-compose down)
+
+echo "RUNNING express compilers";
+(cd docker-express-compilers; docker-compose up -d)
+
+echo "RUNNING ecoservices express";
 (cd express-servers; ./startAllExpressNohup.sh)

@@ -1,0 +1,40 @@
+version: "3.7"
+networks:
+  compilers_express:
+    driver: bridge
+
+services:
+  eco-neo-compilers-express-running:
+    image: eco-neo-compilers-express:latest
+    container_name: "eco-neo-compilers-express-running"
+    ports:
+      - "$DOOR_COMPILERS:$DOOR_COMPILERS"
+    environment:
+      - BUILD_ALL_CSHARP=$BUILD_ALL_CSHARP
+      - BUILD_CSHARP=$BUILD_CSHARP
+      - BUILD_GO=$BUILD_GO
+      - BUILD_BOA=$BUILD_BOA
+      - BUILD_JAVA=$BUILD_JAVA
+    volumes:
+      - ./appCompiler.js:/opt/appCompiler.js
+      - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
+      - ./buildCompilers.sh:/opt/buildCompilers.sh
+      - ./compilers:/opt/compilers
+      - ./package.json:/opt/package.json
+      - ./node_modules:/opt/node_modules
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
+      - ../index.html:/opt/index.html
+      - ../public:/opt/public/
+      - ../examples:/opt/examples/
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/$DOOR_COMPILERS
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - compilers_express

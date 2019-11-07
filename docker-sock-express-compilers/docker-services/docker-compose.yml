@@ -1,0 +1,37 @@
+version: "3.7"
+networks:
+  ecoservices_express:
+    driver: bridge
+
+services:
+  eco-neo-services-express-running:
+    image: eco-neo-ubuntu-docker-node-express
+    container_name: "eco-neo-services-express-running"
+    ports:
+      - "$DOOR_ECOSERVICES:$DOOR_ECOSERVICES"
+    environment:
+      - DOOR_ECOSERVICES=$DOOR_ECOSERVICES
+      - PWD_CN_BLOCKTIME=$PWD_CN_BLOCKTIME
+      - PWD_RESET_SERVICE=$PWD_RESET_SERVICE
+    volumes:
+      - ./appEcoServices.js:/opt/appEcoServices.js
+      - ./run-EcoServicesExpress-RPC-SocketIo.sh:/opt/run-EcoServicesExpress-RPC-SocketIo.sh
+      - ./socket-js:/opt/socket-js
+      - ./eco-metadata.json:/opt/eco-metadata.json
+      - ./package.json:/opt/package.json
+      - ./node_modules:/opt/node_modules
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
+      - ../../docker-compose-eco-network/nodes-logs:/opt/nodes-logs
+    healthcheck:
+      test:
+        - CMD
+        - bash
+        - '-c'
+        - exec 6<>/dev/tcp/127.0.0.1/$DOOR_ECOSERVICES
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - ecoservices_express
+    command: /opt/run-EcoServicesExpress-RPC-SocketIo.sh

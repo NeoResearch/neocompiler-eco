@@ -2626,6 +2626,12 @@
 
     // Set CN blockTime
     function setConsensusNodesBlockTime(blockTime, pwd) {
+        if(!blockTime || !pwd)
+        {
+          console.log("Password or blockTime can not be empty. pwd: " + pwd + " blockTime:" + blockTime);
+          return;
+        }
+
         $.get(BASE_PATH_ECOSERVICES + '/setconsensusnodesblocktime/1/' + blockTime + '/' + pwd, function(data) {
             console.log(data)
         });

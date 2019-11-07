@@ -2,22 +2,18 @@
 source .env
 
 function usage {
-    echo "Usage: $0 [--stop-express]"
+    echo "Usage: $0 [--cancel-stop-docker-express]"
 }
 
-STOP_EXPRESS=0
+STOP_EXPRESS=1
 
 while [[ "$#" > 0 ]]; do case $1 in
     -h)
         usage
         exit 0
         ;;
-    --stop-express)
-        STOP_EXPRESS=1
-        shift
-        ;;
-    --all)
-        STOP_EXPRESS=1
+    --cancel-stop-docker-express)
+        STOP_EXPRESS=0
         shift
         ;;
     *)
@@ -40,5 +36,5 @@ fi
 
 if (($STOP_EXPRESS)); then
 	echo "STOPPING compilers, ecoservices and http";
-	./stopExpressServers.sh
+	./stopDockersExpressServers.sh
 fi

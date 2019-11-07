@@ -10,6 +10,7 @@ services:
     ports:
       - "$DOOR_COMPILERS:$DOOR_COMPILERS"
     environment:
+      - DOOR_COMPILERS=$DOOR_COMPILERS
       - BUILD_ALL_CSHARP=$BUILD_ALL_CSHARP
       - BUILD_CSHARP=$BUILD_CSHARP
       - BUILD_GO=$BUILD_GO

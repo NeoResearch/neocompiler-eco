@@ -57,21 +57,3 @@ app.controller(
         );
     }
 );
-
-/* Controls all other Pages */
-app.controller(
-    'AppFooter', 
-    function($scope, /*$location, */ $http) {
-    $http({
-        method: 'GET',
-        url: BASE_PATH_ECOSERVICES + '/getvars'
-    }).then(function(response) {
-        $("#footerversion")[0].innerHTML = '<a href="https://github.com/neoresearch/neocompiler-eco/commit/' + response.data.commit + '">Get Source on <i class="fab fa-lg fa-github"></i></a>';
-    }, function(error) {
-        console.log("Controller AppFooter GET error:" + JSON.stringify(error));
-    });
-    // Activates Tooltips for Social Links
-    //$('.tooltip-social').tooltip({
-    //  selector: "a[data-toggle=tooltip]"
-    //})
-});

@@ -58,22 +58,13 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ### Roadmap
 
-* Integrate with `O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet
+* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
     - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on NEO's multi-language programming interface.
 * Ideas? Collaborations are welcome :) The goal is to be didactic and bring it close to citizens and users: Smart Cities, Smart Governance and Smart Blockchain Technologies :P
 
 ### Dependencies
-
-For Debian-based systems:
-
-`sudo snap install --edge node --classic`, which installs bleeding edge node version.
-Or `apt install nodejs-legacy`
-
-Install npm normally: `apt install npm`
-
-Update npm packages locally (specially express server): `npm install`
 
 ### Installing docker-compose 1.19.0+
 
@@ -142,7 +133,7 @@ This script already builds the compilers and starts the server:
 
 ### Running express node servers
 
-**Http front-end**: 
+**Http front-end**:
 `cd docker-http-express`
 
 `docker_build.sh`
@@ -196,7 +187,7 @@ In particular, we currently have:
 * csharp nodes are with TCP at 2033x and RPC at 3033X, websocket is not being used
   * 4 csharp consensus node, two of them are also a RPC as default at port 30333 and 30334;
   * 1 csharp pure RPC nodes at 30337;
-* optional [neoscan](https://github.com/CityOfZion/neo-scan) full (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-full and postgress container; 
+* optional [neoscan](https://github.com/CityOfZion/neo-scan) full (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-full and postgress container;
 
 ### Dealing with docker-compose swarm of containers
 
@@ -204,7 +195,7 @@ Start up the container, checking the messages and following warnings
 
 Simply run `runEco_network.sh` (integrated with `.env` file)
 
-or: 
+or:
 
 `cd ./docker-compose-eco-network`
 

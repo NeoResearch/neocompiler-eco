@@ -43,12 +43,20 @@ app.get('/', (req, res) => {
         info: "CN Routes"
     });
     arrMethods.push({
-        method: "/getvars",
-        info: "get commit"
+        method: "/incstorage/:height",
+        info: "get incremental storage differences for desired height parameter"
     });
     arrMethods.push({
         method: "socket.io",
         info: "{ timeleft: timeleft, compilations: ecoInfo.compilationsSince, deploys: ecoInfo.deploysSince, invokes: ecoInfo.invokesSince }"
+    });
+    arrMethods.push({
+        method: "/resetdockerservice/:pwd",
+        info: "Reset docker service (current not working)"
+    });
+    arrMethods.push({
+        method: "/setconsensusnodesblocktime/:node/:spb/:pwd",
+        info: "Reset a node (node) with desired block time (spb). Only works with the correct pwd."
     });
     obj["methods"] = arrMethods;
     res.send(obj);
@@ -60,47 +68,86 @@ var optionsDefault = {
     killSignal: 'SIGKILL'
 }
 
-app.get('/getvars', function(req, res) {
-    var cmddocker = "git log --format='%H' -n 1";
-    var child = require('child_process').exec(cmddocker, optionsDefault, (e, stdout, stderr) => {
-        if (e instanceof Error) {
-            console.error(e);
-            var msg64 = new Buffer("Error on getting git version!", 'ascii').toString('base64');
-            var msgret = "{\"output\":\"" + msg64 + "\"}";
-            res.send(msgret);
-        } else {
-            //console.log(stdout.substr(0,stdout.length - 1))
-            jsonOutput = '{"commit":"' + stdout.substr(0, stdout.length - 1) + '"}';
-            res.send(jsonOutput);
-        }
-    }); // child
-});
-
 function isInt(value) {
     var x = parseFloat(value);
     return !isNaN(value) && (x | 0) === x;
 }
 
+// ============================================================
+// ================== GET NODE LOGS ===========================
+app.get('/statusnode/:node', function(req, res) {
+    // Node 0 is the RPC
+    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
+        console.log("Someone is doing something crazy. Compiler does not exist.");
+        res.send("This is not a valid node parameter");
+    }
+
+    res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+    var cmddocker = 'cat /opt/nodes-logs/logs-neocli-node' + req.params.node + '/*.log | tail -n 500';
+    if (req.params.node == 0)
+        cmddocker = 'cat ./opt/nodes-logs/logs-neocli-noderpc/*.log | tail -n 500';
+    console.log("cmddocker is " + cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+        if (e instanceof Error) {
+            res.send("Error:" + e);
+            console.error(e);
+        } else {
+            x = stdout1.replace(/[^\x00-\x7F]/g, "");
+            res.send(x);
+        }
+    });
+});
+// ============================================================
+
+// ============================================================
+// ================== GET INCREMENTAL STORAGE =================
+app.get('/incstorage/:height', function(req, res) {
+    if (!isInt(req.params.height) || req.params.height < 0) {
+        console.log("Someone is doing something crazy. Height lower than 0 or not int.");
+        res.send("This is not a valid height parameter");
+    }
+    var getIncStorage = "'/opt/getIncStorage.sh " + req.params.height + "'";
+    var cmddocker = 'docker exec -t eco-neo-csharp-noderpc1-running dash -i -c ' + getIncStorage;
+    console.log(cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+        if (e instanceof Error) {
+            res.send("Error:" + e);
+            console.error(e);
+        } else {
+            //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+            res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+            res.send(stdout1);
+        }
+    });
+});
+// ============================================================
+
+// ============================================================
+// ================== Set Node Block Time =====================
 app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
     //console.log("Local enviroment password is " + process.env.PWD_CN_BLOCKTIME);
+
+console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env.PWD_CN_BLOCKTIME);
 
     if (!(req.params.pwd === process.env.PWD_CN_BLOCKTIME)) {
         console.log("Someone is trying an unauthorized access. ");
         var obj = {};
         obj["error"] = false;
-        obj["info"] = "You have no acess to this call with password: " + process.env.PWD_CN_BLOCKTIME + ". Try a local privatenet.";
+        obj["info"] = "You have no acess to this call with password: " + req.params.pwd + ". Try a local privatenet.";
         res.send(obj);
         return;
     }
+
+    var maxSecondsPerBlock = 15;
 
     if (!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4) {
         console.log("Someone is doing something crazy. Compiler does not exist.");
         res.send("This is not a valid node parameter");
     }
 
-    if (!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > 15) {
-        console.log("Someone is doing something crazy. This seconds per block sounds bad.");
-        res.send("This is not a valid node parameter");
+    if (!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > maxSecondsPerBlock) {
+        console.log("Someone is doing something crazy. This seconds per block sounds bad with param:" + req.params.spb + ". Maximum is: " + maxSecondsPerBlock);
+        res.send("This is not a valid block time parameter");
     }
 
     var getIncStorage = "'/opt/updateConsensusCharacteristics.sh " + req.params.spb + "'";
@@ -120,79 +167,7 @@ app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
         }
     });
 });
-
-app.get('/resetdockerservice/:pwd', function(req, res) {
-    if (!(req.params.pwd === process.env.PWD_RESET_SERVICE)) {
-        console.log("Someone is trying an unauthorized access. ");
-        var obj = {};
-        obj["error"] = false;
-        obj["info"] = "You have no acess to this call with password: " + process.env.PWD_RESET_SERVICE + ". Be careful. You are reset all docker services!";
-        res.send(obj);
-        return;
-    }
-
-    var cmddocker = '(cd ~; nohup ./reestartDockerAndInitializeAll.sh > saida_nohup.out 2> saida_nohup.err < /dev/null 2>&1 &)';
-    console.log(cmddocker);	
-    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
-        if (e instanceof Error) {
-            console.error(e);
-            res.send("Error:" + e);
-        } else {
-            var obj = {};
-            obj["result"] = true;
-            obj["info"] = "Command was passed to our server! Hopefully it will soon reestart all docker services";
-            res.send(obj);
-        }
-    });
-});
-
-
-app.get('/statusnode/:node', function(req, res) {
-
-    // Node 0 is the RPC
-    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
-        console.log("Someone is doing something crazy. Compiler does not exist.");
-        res.send("This is not a valid node parameter");
-    }
-
-    res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-    var cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-node' + req.params.node + '/*.log | tail -n 500';
-    if (req.params.node == 0)
-        cmddocker = 'cat ../docker-compose-eco-network/logs-neocli-noderpc/*.log | tail -n 500';
-    console.log("cmddocker is " + cmddocker);
-    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
-        if (e instanceof Error) {
-            res.send("Error:" + e);
-            console.error(e);
-        } else {
-            x = stdout1.replace(/[^\x00-\x7F]/g, "");
-            res.send(x);
-        }
-    });
-});
-
-
-app.get('/incstorage/:height', function(req, res) {
-
-    if (!isInt(req.params.height) || req.params.height < 0) {
-        console.log("Someone is doing something crazy. Height lower than 0 or not int.");
-        res.send("This is not a valid height parameter");
-    }
-    var getIncStorage = "'/opt/getIncStorage.sh " + req.params.height + "'";
-    var cmddocker = 'docker exec -t eco-neo-csharp-noderpc1-running dash -i -c ' + getIncStorage;
-    console.log(cmddocker);
-    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
-        if (e instanceof Error) {
-            res.send("Error:" + e);
-            console.error(e);
-        } else {
-            //x = stdout1.replace(/[^\x00-\x7F]/g, "");
-            res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-            res.send(stdout1);
-        }
-    });
-});
-
+// ============================================================
 
 // ============================================================
 // ================== Socket io ===============================
@@ -251,6 +226,34 @@ app.post('/invokeCounter', function(req, res) {
     //console.log("Current number of invoke requests is " + ecoInfo.invokesSince);
     res.send("true");
 });
+
+app.get('/resetdockerservice/:pwd', function(req, res) {
+
+    if (!(req.params.pwd === process.env.PWD_RESET_SERVICE)) {
+        console.log("Someone is trying an unauthorized access. ");
+        var obj = {};
+        obj["error"] = false;
+        obj["info"] = "You have no acess to this call with password: " + req.params.pwd + ". Be careful. You are going to reset all docker services!";
+        res.send(obj);
+        return;
+    }
+
+    var cmddocker = '(cd ~; nohup ./reestartDockerAndInitializeAll.sh > saida_nohup.out 2> saida_nohup.err < /dev/null 2>&1 &)';
+    console.log(cmddocker);	
+    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+        if (e instanceof Error) {
+            console.error(e);
+            res.send("Error:" + e);
+        } else {
+            var obj = {};
+            obj["result"] = true;
+            obj["info"] = "Command was passed to our server! Hopefully it will soon reestart all docker services";
+            res.send(obj);
+        }
+    });
+});
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

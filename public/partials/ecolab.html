@@ -1740,22 +1740,30 @@
 				window.provider = window.neoline;
 				break;
 		}
+		for(const providerCandidate of ["neoDapi", "neologin", "neoline"]){
+			if(window[providerCandidate]){
+				window[providerCandidate].removeEventListener("ACCOUNT_CHANGED");
+			}
+		}
 		if($("#ecolabproviderselection").val() === "NeoCompiler-Eco"){
-			ECO_WALLET = window.storedECO_WALLET;
+			changeAccount(window.storedECO_WALLET);
+		} else {
+			window.provider.getAccount()
+				.then(createProviderECO_WALLET);
+			window.provider.addEventListener("ACCOUNT_CHANGED", createProviderECO_WALLET);
+		}
+
+		function createProviderECO_WALLET(providerAccount){
+			changeAccount([{ 
+				account: new Neon.wallet.Account(providerAccount.address),
+				print: true
+			}]);
+		}
+		function changeAccount(newAccounts){
+			ECO_WALLET = newAccounts;
 			populateAllWalletData();
 			updateAddressSelectionBox();
 			drawWalletsStatus();
-		} else {
-			window.provider.getAccount()
-				.then((providerAccount) => {
-					ECO_WALLET = [{
-						account: new Neon.wallet.Account(providerAccount.address),
-						print: true
-					}];
-					populateAllWalletData();
-					updateAddressSelectionBox();
-					drawWalletsStatus();
-				})
 		}
     });
 

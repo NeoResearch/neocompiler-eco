@@ -16,7 +16,6 @@
       width="125px;" />
 </p>
 
-
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
 In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.
@@ -140,11 +139,23 @@ This script already builds the compilers and starts the server:
 
 `docker-compose up`
 
-**Compilers RPC API**: `(cd express-servers; ./run-CompilerExpress-RPC.sh)`
+**Compilers RPC API**:
+`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
 
-**Eco Services**: `(cd express-servers; ./run-EcoServicesExpress-RPC-SocketIo.sh)`
+`docker_build.sh`
 
-**Compilers and Eco Services with nohup**: `(cd express-servers; ./startAllExpressNohup.sh)`
+`docker-sock-express-compilers/docker-compilers`
+
+`docker-compose up`
+
+**Eco Services**:
+`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
+
+`docker_build.sh`
+
+`docker-sock-express-compilers/docker-services`
+
+`docker-compose up`
 
 ### Building compiling backends (C#, Python, Java and Go)
 

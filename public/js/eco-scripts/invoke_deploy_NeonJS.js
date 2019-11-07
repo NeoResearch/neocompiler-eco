@@ -55,7 +55,7 @@ function InvokeFromAccount(idToInvoke, mynetfee, mysysgasfee, neo, gas, contract
         updateScriptHashesBoxes(contract_scripthash);
     }
 
-	if($("#ecolabproviderselection").val() !== "None") {
+	if($("#ecolabproviderselection").val() !== "NeoCompiler-Eco") {
 		return providerInvoke(networkToCall, contract_scripthash, neo, gas, mynetfee, neonJSParams);
     }
 
@@ -224,7 +224,7 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
         return;
     }
 
-	if($("#ecolabproviderselection").val() !== "None") {
+	if($("#ecolabproviderselection").val() !== "NeoCompiler-Eco") {
 		return providerDeploy(mynetfee, networkToCall, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname);
 	}
 

@@ -51,7 +51,7 @@
                 <div class="col-md-2">
                     <i class="fas fa-chart-network"></i>
                     <select id="ecolabproviderselection" class="custom-select form-control">
-                      <option title="None">None</option>
+                      <option title="NeoCompiler-Eco">NeoCompiler-Eco</option>
                       <option title="NeoLogin">NeoLogin</option>
                     </select>
                 </div>
@@ -1727,7 +1727,7 @@
 
     $("#ecolabproviderselection").on('change', function() {
 		switch($("#ecolabproviderselection").val()){
-			case "None":
+			case "NeoCompiler-Eco":
 				window.provider = null;
 				break;
 			case "O3":
@@ -1740,7 +1740,7 @@
 				window.provider = window.neoline;
 				break;
 		}
-		if($("#ecolabproviderselection").val() === "None"){
+		if($("#ecolabproviderselection").val() === "NeoCompiler-Eco"){
 			ECO_WALLET = window.storedECO_WALLET;
 			populateAllWalletData();
 			updateAddressSelectionBox();

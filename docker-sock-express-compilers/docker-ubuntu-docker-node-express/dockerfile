@@ -3,9 +3,13 @@ FROM ubuntu:18.04
 LABEL maintainer="NeoResearch"
 ENV DEBIAN_FRONTEND noninteractive
 
+# =====================================================================
+# Nodejs packages & npm
 RUN apt-get update \
     && apt-get install -y npm nodejs psmisc
+# =====================================================================
 
+# =====================================================================
 # Docker packages
 RUN apt-get update \
     && apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
@@ -15,17 +19,12 @@ RUN apt-key fingerprint 0EBFCD88
 RUN add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 RUN apt-get update \
     && apt-get -y install docker-ce docker-ce-cli
-
-RUN apt-get update \
-    && apt-get -y install containerd.io
+# =====================================================================
 
 RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/
 
-ADD package.json /opt/
+ADD package_basic_express.json /opt/package.json
 
 RUN npm install
-
-# On docker run, start the consensus nodes
-CMD ["/bin/bash", "/opt/run-CompilerExpress-RPC.sh"]

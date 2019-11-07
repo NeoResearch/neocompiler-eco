@@ -71,11 +71,14 @@ if ((!$DISABLE_WEB)); then
 	(cd docker-http-express; docker-compose up -d)
 fi
 
-echo "TRYING TO STOP compilers express";
-(cd docker-express-compilers; docker-compose down)
 
+echo "BUILDING docker with docker and express";
+(cd docker-sock-express-compilers/docker-ubuntu-docker-node-express; ./docker_build.sh)
+
+echo "TRYING TO STOP compilers express";
+(cd docker-sock-express-compilers/docker-compilers; docker-compose down)
 echo "RUNNING express compilers";
-(cd docker-express-compilers; docker-compose up -d)
+(cd docker-sock-express-compilers/docker-compilers; docker-compose up -d)
 
 echo "RUNNING ecoservices express";
 (cd express-servers; ./startAllExpressNohup.sh)

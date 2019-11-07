@@ -66,6 +66,15 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ### Dependencies
 
+For Debian-based systems:
+
+`sudo snap install --edge node --classic`, which installs bleeding edge node version.
+Or `apt install nodejs-legacy`
+
+Install npm normally: `apt install npm`
+
+Update npm packages locally (specially express server): `npm install`
+
 ### Installing docker-compose 1.19.0+
 
 We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:

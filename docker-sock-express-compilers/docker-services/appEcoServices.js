@@ -138,14 +138,14 @@ console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env
         return;
     }
 
-    var maxSecondsPerBlock = 15;
+    var maxMilliSecondsPerBlock = 15000;
 
     if (!isInt(req.params.node) || req.params.node <= 0 || req.params.node > 4) {
         console.log("Someone is doing something crazy. Compiler does not exist.");
         res.send("This is not a valid node parameter");
     }
 
-    if (!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > maxSecondsPerBlock) {
+    if (!isInt(req.params.spb) || req.params.spb <= 0 || req.params.spb > maxMilliSecondsPerBlock) {
         console.log("Someone is doing something crazy. This seconds per block sounds bad with param:" + req.params.spb + ". Maximum is: " + maxSecondsPerBlock);
         res.send("This is not a valid block time parameter");
     }

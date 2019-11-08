@@ -25,16 +25,11 @@ done
 
 # Setting all container in the docker-compose-eco-network folder down for avoiding leaving containers running after changing enviroment parameters
 
-# Both are the same kind of stop
-if (($NEO_SCAN)); then
-	echo "STOPPING docker swarm with NEO-SCAN";
-	(cd docker-compose-eco-network; docker-compose down)
-else
-	echo "STOPPING minimal custom version";
-	(cd docker-compose-eco-network; docker-compose down)
-fi
+echo "STOPPING all network related services";
+(cd docker-compose-eco-network; docker-compose down)
+
 
 if (($STOP_EXPRESS)); then
-	echo "STOPPING compilers, ecoservices and http";
+	echo "(DEFAULT) STOPPING all docker with express services: compilers, ecoservices and front-end-http";
 	./stopDockersExpressServers.sh
 fi

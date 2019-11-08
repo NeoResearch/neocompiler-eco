@@ -38,6 +38,7 @@ while [[ "$#" > 0 ]]; do case $1 in
   esac;
 done
 
+# ===================== BUILDS ===============================
 if ((!$DISABLE_BUILD)); then
 	if (($DEV_MODE)); then
 		echo "BUILDING docker-neo-csharp-node with modified neo-cli (DEV MODE)";
@@ -48,39 +49,29 @@ if ((!$DISABLE_BUILD)); then
 	fi
 fi
 
-if (($NEO_SCAN)); then
-        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly], [neoscan full & postgress]";
-	./stopEco_network.sh
-	echo "BUILDING using NEO-SCAN";	
-	./runEco_network.sh
-else
-        echo "STOPPPING/BUILDING/RUNNING Docker-compose with a set of components: [4 neo-cli CN + 1RPC watchonly]";
-	./stopEco_network.sh
-	echo "BUILDING minimal version";
-	./runEco_network.sh
-fi
-
-echo "TRYING TO STOP express front-end";
-(cd docker-http-express; docker-compose down)
-
 # BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
-	echo "BUILDING front-end";
+	echo "BUILDING docker with node express for front-end only";
 	(cd docker-http-express; ./docker_build.sh)
-	echo "RUNNING front-end";
-	(cd docker-http-express; docker-compose up -d)
 fi
 
 echo "BUILDING docker with docker and express";
 (cd docker-sock-express-compilers/docker-ubuntu-docker-node-express; ./docker_build.sh)
+# ===================== BUILDS  END =========================
 
-echo "TRYING TO STOP compilers express";
-(cd docker-sock-express-compilers/docker-compilers; docker-compose down)
+echo "TRYING TO STOP all eco related services - including docker services with express servers";
+./stopEco_network.sh
+./runEco_network.sh
+
+# BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
+if ((!$DISABLE_WEB)); then
+	echo "RUNNING docker with node express for front-end only";
+	(cd docker-http-express; docker-compose up -d)
+fi
+
 echo "RUNNING express compilers";
 (cd docker-sock-express-compilers/docker-compilers; docker-compose up -d)
 
-echo "TRYING TO STOP ecoservice express";
-(cd docker-sock-express-compilers/docker-services; docker-compose down)
 echo "RUNNING express ecoservice";
 (cd docker-sock-express-compilers/docker-services; docker-compose up -d)
 

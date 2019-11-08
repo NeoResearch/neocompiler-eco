@@ -190,7 +190,8 @@ services:
     environment:
       PORT: 4000
       HOST: localhost
-      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-noderpc1-running:30334;http://eco-neo-csharp-noderpc1-running:30337"
+      NEO_SEEDS: >-
+        http://eco-neo-csharp-node1-running:30334;http://eco-neo-csharp-noderpc1-running:30333;http://eco-neo-csharp-noderpc1-running:30337
       DB_HOSTNAME: eco-neo-scan-postgresql-running
       DB_USERNAME: postgres
       DB_PASSWORD: postgres

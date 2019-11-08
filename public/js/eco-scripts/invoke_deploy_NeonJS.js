@@ -288,8 +288,8 @@ function DeployFromAccount(idToDeploy, mynetfee, mysysgasfee, nodeToCall, networ
 
 function checkProviderNetwork(networkToCall){
 	if (networkToCall !== "MainNet" && networkToCall !== "TestNet"){
-		alert("ERROR (DEPLOY): Only MainNet and TestNet are supported by wallet providers.");
-		throw "ERROR (DEPLOY): Only MainNet and TestNet are supported by wallet providers.";
+		createNotificationOrAlert("ERROR (DEPLOY/INVOKE)", "Only MainNet and TestNet are supported by the current wallet providers.", 7000);
+		throw "ERROR (DEPLOY/INVOKE): Only MainNet and TestNet are supported by the current wallet providers.";
 	}
 }
 

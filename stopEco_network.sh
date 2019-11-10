@@ -30,6 +30,6 @@ echo "STOPPING all network related services";
 
 
 if (($STOP_EXPRESS)); then
-	echo "(DEFAULT) STOPPING all docker with express services: compilers, ecoservices and front-end-http";
+	echo "STOPPING all docker with express services (default) : compilers, ecoservices and front-end-http";
 	./stopDockersExpressServers.sh
 fi

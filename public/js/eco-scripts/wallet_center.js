@@ -143,9 +143,13 @@ function addWalletFromForm() {
         }
     }
 
-    var addedFlag = addToWallet(accountToAdd);
-    if (addedFlag)
+    if (addToWallet(accountToAdd))
         updateAllWalletData();
+}
+
+function cacheWalletForProviders() {
+        // Updated cache of ECO_WALLET in case of user changing to providers
+        window.storedECO_WALLET = ECO_WALLET
 }
 
 function addContractToWallet(scriptHashToAdd) {
@@ -370,6 +374,8 @@ function updateAllWalletData() {
     updateAddressSelectionBox();
     drawWalletsStatus();
     changeWalletInfo();
+
+    cacheWalletForProviders();
 }
 
 function populateAllWalletData() {

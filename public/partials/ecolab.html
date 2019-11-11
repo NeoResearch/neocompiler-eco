@@ -1761,9 +1761,7 @@
 		}
 		function changeAccount(newAccounts){
 			ECO_WALLET = newAccounts;
-			populateAllWalletData();
-			updateAddressSelectionBox();
-			drawWalletsStatus();
+			updateAllWalletData(false);
 		}
     });
 

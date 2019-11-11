@@ -149,7 +149,7 @@ function addWalletFromForm() {
 
 function cacheWalletForProviders() {
         // Updated cache of ECO_WALLET in case of user changing to providers
-        window.storedECO_WALLET = ECO_WALLET
+        window.storedECO_WALLET = ECO_WALLET;
 }
 
 function addContractToWallet(scriptHashToAdd) {

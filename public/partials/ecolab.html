@@ -1759,7 +1759,10 @@
 			}]);
 		}
 		function changeAccount(newAccounts){
-			ECO_WALLET = newAccounts;
+      // Cancel genesisBlock
+      clearInterval(refreshGenesisBlock);
+
+      ECO_WALLET = newAccounts;
 			updateAllWalletData(false);
 		}
     });
@@ -1972,7 +1975,8 @@
             $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-            setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
+            if($("#ecolabproviderselection").val() === "NeoCompiler-Eco")
+              setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
@@ -1992,7 +1996,8 @@
             $("#cbx_refresh_headers").val(800);
             setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-            setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
+            if($("#ecolabproviderselection").val() === "NeoCompiler-Eco")
+              setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");

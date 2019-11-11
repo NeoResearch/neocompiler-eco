@@ -1754,7 +1754,7 @@
 		}
 
 		function createProviderECO_WALLET(providerAccount){
-			changeAccount([{ 
+			changeAccount([{
 				account: new Neon.wallet.Account(providerAccount.address),
 				print: true
 			}]);
@@ -1845,13 +1845,10 @@
     //=============================================================
 
     function updateBASEPATHS() {
-											       /*
         BASE_PATH_COMPILERS = $("#compilers_path")[0].value;
         BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
         BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
         BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
-											       */
-        //BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
 
         updateNeoScanLinkIfEnable();
     }

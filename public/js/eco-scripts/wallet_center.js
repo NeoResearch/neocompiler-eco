@@ -369,13 +369,14 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
 }
 //===============================================================
 
-function updateAllWalletData() {
+function updateAllWalletData(updateCache=true) {
     populateAllWalletData();
     updateAddressSelectionBox();
     drawWalletsStatus();
     changeWalletInfo();
 
-    cacheWalletForProviders();
+    if(updateCache)
+    	cacheWalletForProviders();
 }
 
 function populateAllWalletData() {

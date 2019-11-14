@@ -143,9 +143,13 @@ function addWalletFromForm() {
         }
     }
 
-    var addedFlag = addToWallet(accountToAdd);
-    if (addedFlag)
+    if (addToWallet(accountToAdd))
         updateAllWalletData();
+}
+
+function cacheWalletForProviders() {
+        // Updated cache of ECO_WALLET in case of user changing to providers
+        window.storedECO_WALLET = ECO_WALLET;
 }
 
 function addContractToWallet(scriptHashToAdd) {
@@ -365,11 +369,14 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
 }
 //===============================================================
 
-function updateAllWalletData() {
+function updateAllWalletData(updateCache=true) {
     populateAllWalletData();
     updateAddressSelectionBox();
     drawWalletsStatus();
     changeWalletInfo();
+
+    if(updateCache)
+    	cacheWalletForProviders();
 }
 
 function populateAllWalletData() {

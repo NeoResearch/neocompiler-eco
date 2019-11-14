@@ -167,3 +167,16 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
             return serviceUrlToAdd;
     }
 }
+
+window.addEventListener('neoline.ready', () => {
+	if(window.neoline)
+		return
+	window.neoline = new NEOLine.Init();
+	$("#ecolabproviderselection").append('<option title="NeoLine">NeoLine</option>');
+});
+
+$(window).on('load', ()=>{
+	window.neoDapi.addEventListener(neoDapi.Constants.EventName.READY, data => {
+		$("#ecolabproviderselection").append('<option title="O3">O3</option>');
+	})
+});

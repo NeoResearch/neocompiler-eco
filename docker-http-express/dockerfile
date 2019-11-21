@@ -1,15 +1,18 @@
 FROM ubuntu:18.04
+
 LABEL maintainer="NeoResearch"
 ENV DEBIAN_FRONTEND noninteractive
 
+# =====================================================================
+# Nodejs packages & npm
 RUN apt-get update \
     && apt-get install -y npm nodejs psmisc
+# =====================================================================
+
+RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/
 
-ADD package.json /opt/
+ADD package.json /opt/package.json
 
 RUN npm install
-
-# On docker run, start the consensus nodes
-CMD ["/bin/bash", "/opt/runHttpExpress.sh"]

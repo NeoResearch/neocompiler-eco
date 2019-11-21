@@ -1,4 +1,5 @@
 version: "3.7"
+
 networks:
   compilers_express:
     driver: bridge
@@ -22,7 +23,7 @@ services:
       - ./buildCompilers.sh:/opt/buildCompilers.sh
       - ./compilers:/opt/compilers
       - ./package.json:/opt/package.json
-      - ./node_modules:/opt/node_modules
+#      - ./node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
     healthcheck:
       test:

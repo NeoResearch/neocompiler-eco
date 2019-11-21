@@ -2,9 +2,6 @@
 echo "fuser -k at port $DOOR_ECOSERVICES"
 fuser -k  $DOOR_ECOSERVICES/tcp
 
-echo "pruning npm packages"
-npm prune
-
 echo "Refreshing npm install"
 npm install
 

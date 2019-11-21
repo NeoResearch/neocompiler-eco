@@ -1,12 +1,12 @@
 #!/bin/bash
-echo "fuser -k on port $DOOR_HTTP"
-fuser -k  $DOOR_HTTP/tcp
-
-echo "pruning npm packages"
-npm prune
+echo "fuser -k at port $DOOR_FRONTEND_HTTP"
+fuser -k  $DOOR_FRONTEND_HTTP/tcp
 
 echo "Refreshing npm install"
 npm install
 
-echo "starting appHttp.js at port $DOOR_HTTP"
+echo "Updating package.json (you should commit if changed)"
+npm update
+
+echo "starting appHttp.js at port $DOOR_FRONTEND_HTTP"
 node appHttp.js

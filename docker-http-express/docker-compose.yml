@@ -6,17 +6,17 @@ networks:
 
 services:
   eco-neo-frontend-express-running:
-    image: eco-neo-frontend-express:latest
+    image: eco-neo-frontend-express
     container_name: "eco-neo-frontend-express-running"
     ports:
       - "$DOOR_FRONTEND_HTTP:$DOOR_FRONTEND_HTTP"
     environment:
-      DOOR_HTTP: $DOOR_FRONTEND_HTTP
+      - DOOR_FRONTEND_HTTP=$DOOR_FRONTEND_HTTP
     volumes:
       - ./appHttp.js:/opt/appHttp.js
       - ./runHttpExpress.sh:/opt/runHttpExpress.sh
       - ./package.json:/opt/package.json
-      - ./node_modules:/opt/node_modules
+#      - ./node_modules:/opt/node_modules
       - ../index.html:/opt/index.html
       - ../public:/opt/public/
       - ../examples:/opt/examples/
@@ -32,3 +32,4 @@ services:
       start_period: 30s
     networks:
       - frontend_http
+    command: /opt/runHttpExpress.sh

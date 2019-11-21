@@ -79,3 +79,5 @@ ECO_WALLET.push({
     account: new Neon.wallet.Account("6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU"),
     print: true
 });
+
+window.storedECO_WALLET = ECO_WALLET;

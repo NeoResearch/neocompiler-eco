@@ -39,13 +39,19 @@
                 <div class="col-md-2">
                     <!--<p><strong>Current Url</strong>: {{ vm.currentUrl }}</p>-->
                     Network<span class="label label-success"><i class="fas fa-network-wired"></i></span>
-                    <i class="fas fa-chart-network"></i>
                     <select id="ecolabnetworkurlselection" class="custom-select form-control">
                       <option title="NeoCompiler Eco services">NeoCompiler Eco</option>
                       <option title="Localhost services">Localhost</option>
                       <option title="MainNet services">NEO MainNet (unsafe)</option>
                       <option title="Testnet services">NEO TestNet</option>
                       <!-- <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>  -->
+                    </select>
+                </div>
+                <div class="col-md-2">
+                  Provider<span class="label label-success"><i class="fas fa-wallet"></i></span>
+                    <select id="ecolabproviderselection" class="custom-select form-control">
+                      <option title="NeoCompiler-Eco">NeoCompiler-Eco</option>
+                      <option title="NeoLogin">NeoLogin</option>
                     </select>
                 </div>
             </div>
@@ -1718,6 +1724,49 @@
         updatePATHS();
     });
 
+    $("#ecolabproviderselection").on('change', function() {
+		switch($("#ecolabproviderselection").val()){
+			case "NeoCompiler-Eco":
+				window.provider = null;
+				break;
+			case "O3":
+				window.provider = window.neoDapi;
+				break;
+			case "NeoLogin":
+				window.provider = window.neologin;
+				break;
+			case "NeoLine":
+				window.provider = window.neoline;
+				break;
+		}
+		for(const providerCandidate of ["neoDapi", "neologin", "neoline"]){
+			if(window[providerCandidate]){
+				window[providerCandidate].removeEventListener("ACCOUNT_CHANGED");
+			}
+		}
+		if($("#ecolabproviderselection").val() === "NeoCompiler-Eco"){
+			changeAccount(window.storedECO_WALLET);
+		} else {
+			window.provider.getAccount()
+				.then(createProviderECO_WALLET);
+			window.provider.addEventListener("ACCOUNT_CHANGED", createProviderECO_WALLET);
+		}
+
+		function createProviderECO_WALLET(providerAccount){
+			changeAccount([{
+				account: new Neon.wallet.Account(providerAccount.address),
+				print: true
+			}]);
+		}
+		function changeAccount(newAccounts){
+      // Cancel genesisBlock
+      clearInterval(refreshGenesisBlock);
+
+      ECO_WALLET = newAccounts;
+			updateAllWalletData(false);
+		}
+    });
+
     $("#createtx_input_utxo2").on('change', function() {
         console.log("input UTXO tx ID is: " + JSON.parse($("#createtx_input_utxo2").val()).txid);
     });
@@ -1800,7 +1849,6 @@
         BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
         BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
         BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
-        //BASE_PATH_PY_REST = $("#rest_notifications_path")[0].value;
 
         updateNeoScanLinkIfEnable();
     }
@@ -1927,7 +1975,8 @@
             $("#cbx_refresh_headers").val(1300); // Headers refreshing is declared at headers.html
             setCompilersByPing(20000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-            setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
+            if($("#ecolabproviderselection").val() === "NeoCompiler-Eco")
+              setGenesisBlock(10000);  //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
@@ -1947,7 +1996,8 @@
             $("#cbx_refresh_headers").val(800);
             setCompilersByPing(25000);
             setIntervalAutomaticNeoCliNodeWithRandomSample(10000);
-            setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
+            if($("#ecolabproviderselection").val() === "NeoCompiler-Eco")
+              setGenesisBlock(10000); //set genesis block for both sharedprivatenet (neocompiler) and localhost
 
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");

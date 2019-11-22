@@ -22,8 +22,7 @@ services:
       - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
       - ./buildCompilers.sh:/opt/buildCompilers.sh
       - ./compilers:/opt/compilers
-      - ./package.json:/opt/package.json
-#      - ./node_modules:/opt/node_modules
+      - ./node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
     healthcheck:
       test:

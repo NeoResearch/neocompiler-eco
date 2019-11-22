@@ -15,8 +15,7 @@ services:
     volumes:
       - ./appHttp.js:/opt/appHttp.js
       - ./runHttpExpress.sh:/opt/runHttpExpress.sh
-      - ./package.json:/opt/package.json
-#      - ./node_modules:/opt/node_modules
+      - ./node_modules:/opt/node_modules
       - ../index.html:/opt/index.html
       - ../public:/opt/public/
       - ../examples:/opt/examples/

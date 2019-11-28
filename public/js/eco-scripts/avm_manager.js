@@ -17,6 +17,9 @@ function ImportAVM() {
             $("#opcodes").text("");
             $("#codeabi").text("");
             $("#codewarnerr").text("");
+            $("#invokehashjs").val("");
+            $("#contracthashjs").val("");
+            $("#contractparams").val("\"\"");
 
             var hexavm = hex;
             hexavm = hexavm.replace(/(\r\n|\n|\r)/gm, "");
@@ -25,10 +28,10 @@ function ImportAVM() {
             var shash = revertHexString(sjcl.codec.hex.fromBits(bitshash160));
             //printOpcode(hexavm, $("#opcodes"));
 
-            $("#contracthash")[0].value = shash;
-            $("#invokehash")[0].value = shash;
-            $("#contracthashjs")[0].value = shash;
-            $("#invokehashjs")[0].value = shash;
+            updateScriptHashesBoxes(shash);
+	    var avmSize = Math.ceil(hexavm.length/2);
+
+            updateCompiledOrLoadedContractInfo(shash,avmSize);
 
             // assuming canonical format
             $("#contractparamsjs")[0].value = "0710"; // string array

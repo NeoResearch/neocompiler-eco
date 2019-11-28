@@ -2843,26 +2843,8 @@
 
                 //filling hashes
     	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-                $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
-                $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
-                updateScriptHashesBoxes(contractScriptHash);
-
-                // ------------------------------------------
-    	          // calculating extra fee according to AVM size
-                var fixedAVGTxSize = 500; //TODO
-    	          var avmSize = Math.ceil(hexcodeavm.length/2);
-                $("#contractInfo_AVMSize")[0].value = avmSize;
-    	          // TODO - Create a call on neo-plugins SimplePolicy
-    	          var freeSize = 1024;
-    	          var feePerExtraByte = 0.00001;
-    	          var extraGasNetFeeForBigTx = 0;
-                // TODO Extra size workaround due to inputs lenght
-                var avmWithExtraSize = avmSize + fixedAVGTxSize;
-    	          if ( avmWithExtraSize > freeSize)
-    		        extraGasNetFeeForBigTx = (avmWithExtraSize-freeSize)*feePerExtraByte;
-                $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
-                // ------------------------------------------
-
+                var avmSize = Math.ceil(hexcodeavm.length/2);
+                updateCompiledOrLoadedContractInfo(contractScriptHash,avmSize);
                 // Loading all ABI related boxes
                 if(data.abi != "")
                 {
@@ -2885,6 +2867,26 @@
     }); //End of form Compile function
     //===============================================================
 
+    function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
+      $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
+      $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
+      updateScriptHashesBoxes(contractScriptHash);
+
+      // ------------------------------------------
+      // calculating extra fee according to AVM size
+      var fixedAVGTxSize = 500; //TODO
+      $("#contractInfo_AVMSize")[0].value = avmSize;
+      // TODO - Create a call on neo-plugins SimplePolicy
+      var freeSize = 1024;
+      var feePerExtraByte = 0.00001;
+      var extraGasNetFeeForBigTx = 0;
+      // TODO Extra size workaround due to inputs lenght
+      var avmWithExtraSize = avmSize + fixedAVGTxSize;
+      if ( avmWithExtraSize > freeSize)
+      extraGasNetFeeForBigTx = (avmWithExtraSize-freeSize)*feePerExtraByte;
+      $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
+      // ------------------------------------------
+    }
     //===============================================================
     //Invoke JS
     $("#forminvokejs").submit(function(e) {

@@ -8,7 +8,7 @@ testNetNodes = [
 },
 {
   "service": "neoScan",
-  "url": "https://neoscan-testnet.io/",
+  "url": "https://neoscan-testnet.io",
   "location": "United States",
   "address": "104.25.126.31",
   "locale": "us",

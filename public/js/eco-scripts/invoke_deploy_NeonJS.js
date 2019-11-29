@@ -25,12 +25,14 @@ function providerInvoke(networkToCall, contract_scripthash, neo, gas, mynetfee, 
 	if(neonJSParams.length>0){
 		if(neonJSParams[0].type==7){
 			tx.operation=neonJSParams.shift().value;
+		} else if (neonJSParams[0].type==16){
+			tx.operation=neonJSParams[0].value.shift().value;
 		}
 		if(neonJSParams.length>0 && neonJSParams[0].type==16){
-			for(let i=0; i<neonJSParams[0].length; i++){
+			for(let i=0; i<neonJSParams[0].value.length; i++){
 				tx.args.push({
-					type: argConversion[neonJSParams[0][i].type],
-					value: neonJSParams[0][i].value
+					type: argConversion[neonJSParams[0].value[i].type],
+					value: neonJSParams[0].value[i].value
 				});
 			}
 		}

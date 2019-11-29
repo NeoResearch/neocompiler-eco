@@ -1,13 +1,5 @@
 testNetNodes = [
 {
-  "service": "neoScan",
-  "url": "https://neoscan-testnet.io/api/test_net/v1/",
-  "location": "United States",
-  "locale": "us",
-  "type": "REST"
-},
-{
-  "service": "neoScan",
   "url": "https://neoscan-testnet.io",
   "location": "United States",
   "address": "104.25.126.31",
@@ -20,6 +12,55 @@ testNetNodes = [
   "location": "United States",
   "locale": "us",
   "type": "REST"
+},
+    {
+      "protocol": "https",
+      "url": "test1.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test2.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test3.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test4.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "test5.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+{
+  "protocol": "https",
+  "url": "seed1.neo.org",
+  "location": "China",
+  "address": "47.94.164.49",
+  "locale": "cn",
+  "port": "20331",
+  "type": "RPC"
 },
     {
       "protocol": "http",
@@ -102,15 +143,6 @@ testNetNodes = [
       "type": "RPC"
     },
 {
-  "protocol": "https",
-  "url": "seed1.neo.org",
-  "location": "China",
-  "address": "47.94.164.49",
-  "locale": "cn",
-  "port": "20331",
-  "type": "RPC"
-},
-{
   "protocol": "http",
   "url": "seed2.neo.org",
   "location": "China",
@@ -152,46 +184,6 @@ testNetNodes = [
       "location": "China",
       "address": "120.27.19.223",
       "locale": "cn",
-      "type": "RPC"
-    },
-    {
-      "protocol": "https",
-      "url": "test1.cityofzion.io",
-      "location": "USA",
-      "locale": "us",
-      "port": "443",
-      "type": "RPC"
-    },
-    {
-      "protocol": "https",
-      "url": "test2.cityofzion.io",
-      "location": "USA",
-      "locale": "us",
-      "port": "443",
-      "type": "RPC"
-    },
-    {
-      "protocol": "https",
-      "url": "test3.cityofzion.io",
-      "location": "USA",
-      "locale": "us",
-      "port": "443",
-      "type": "RPC"
-    },
-    {
-      "protocol": "https",
-      "url": "test4.cityofzion.io",
-      "location": "USA",
-      "locale": "us",
-      "port": "443",
-      "type": "RPC"
-    },
-    {
-      "protocol": "https",
-      "url": "test5.cityofzion.io",
-      "location": "USA",
-      "locale": "us",
-      "port": "443",
       "type": "RPC"
     }
 ]

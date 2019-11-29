@@ -1,13 +1,5 @@
     mainNetNodes = [
       {
-        "service": "neoScan",
-        "url": "https://neoscan.io/api/main_net/v1/",
-        "location": "United States",
-        "address": "104.25.126.31",
-        "locale": "us",
-        "type": "REST"
-      },
-      {
         "url": "https://neoscan.io",
         "location": "United States",
         "address": "104.25.126.31",

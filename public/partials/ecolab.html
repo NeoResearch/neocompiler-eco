@@ -44,7 +44,6 @@
                       <option title="Localhost services">Localhost</option>
                       <option title="MainNet services">NEO MainNet (unsafe)</option>
                       <option title="Testnet services">NEO TestNet</option>
-                      <!-- <option title="CozTestnet services" value="http://188.68.34.29:10004">CoZ TestNet (incomplete)</option>  -->
                     </select>
                 </div>
                 <div class="col-md-2">
@@ -1873,10 +1872,6 @@
             if (mynetworkIndex == 3)
                 $("#headerNeoScanLink")[0].innerHTML += "NeoScan-Testnet";
 
-            // CozTestnet TODO
-            if (mynetworkIndex == 4)
-                $("#headerNeoScanLink")[0].innerHTML += "NeoScan-CozNet";
-
             document.getElementById("headerNeoScanLink").setAttribute("target", "_blank");
             document.getElementById("headerNeoScanLink").setAttribute("href", BASE_PATH_NEOSCAN);
         } else {
@@ -2046,28 +2041,6 @@
             addAllKnownServiceToSelectionBox("neoscan", testNetNodes, "selectionBoxNeoScan");
             //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
         }
-
-        /*
-        // CozTestnet TODO
-        if (mynetworkIndex == 4) {
-            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
-            $("#cbx_enable_neoscan")[0].checked = true;
-            ENABLE_NEOSCAN_TRACKING = true;
-            $("#cbx_query_neoscan")[0].checked = true;
-            setWalletRefreshInterval(15000); //10000 millisec
-            setActivityRefreshInterval(25000);
-            setEcoInfoRefreshInterval(15000);
-            setRefreshingIntervalForHeadersInfo(10000); //10s
-            $("#cbx_refresh_headers").val(10000);
-            setCompilersByPing(30000);
-            setIntervalAutomaticNeoCliNodeWithRandomSample(15000);
-
-            addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
-            addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
-            addAllKnownServiceToSelectionBox("RPC", cozNetNodes, "selectionBoxRPCNodes");
-            addAllKnownServiceToSelectionBox("neoscan", cozNetNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
-        }*/
 
         $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
         $("#eco_services_path")[0].value = $("#selectionBoxEcoServices")[0].value;

@@ -195,6 +195,7 @@ function providerDeploy(mynetfee, networkToCall, contract_script, storage, retur
 			if (res && !DISABLE_ACTIVITY_HISTORY) {
 				window.provider.getAccount()
 					.then(account => {
+						var contract_scripthash = getScriptHashFromAVM(contract_script);
 						handleDeploy(account.address, mynetfee, contract_scripthash, contract_script, storage, returntype, par, contract_description, contract_email, contract_author, contract_version, contract_appname, res.txid, "Success");
 					});
 			}

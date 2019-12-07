@@ -9,6 +9,8 @@ networks:
     internal: true
   private_net:
     driver: bridge
+  inside_auto_heal:
+    internal: true
 
 services:
 # ================================================================================
@@ -40,12 +42,15 @@ services:
         - bash
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/20333
-      interval: 30s
+      interval: 20s
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - private_net
+      - inside_auto_heal
 
   eco-neo-csharp-node2-running:
     image: eco-neo-csharp-node:latest
@@ -74,12 +79,15 @@ services:
         - bash
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/20334
-      interval: 30s
+      interval: 20s
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - private_net
+      - inside_auto_heal
 
   eco-neo-csharp-node3-running:
     image: eco-neo-csharp-node:latest
@@ -105,12 +113,15 @@ services:
         - bash
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/20335
-      interval: 30s
+      interval: 20s
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - private_net
+      - inside_auto_heal
 
   eco-neo-csharp-node4-running:
     image: eco-neo-csharp-node:latest
@@ -136,12 +147,15 @@ services:
         - bash
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/20336
-      interval: 30s
+      interval: 20s
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - private_net
+      - inside_auto_heal
 
   eco-neo-csharp-noderpc1-running:
     image: eco-neo-csharp-node:latest
@@ -169,12 +183,15 @@ services:
       NUMBER_SERVER: 5
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30337"]
-      interval: 30s
+      interval: 20s
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
         - private_net
+        - inside_auto_heal
 
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
 # ================================================================================
@@ -212,9 +229,12 @@ services:
         - '-c'
         - exec 6<>/dev/tcp/127.0.0.1/4000
       timeout: 10s
+    labels:
+      autoheal: 'true'
     networks:
       - neo_scan_internal
       - private_net
+      - inside_auto_heal
 
   eco-neo-scan-postgresql-running:
     image: postgres:10.5
@@ -241,9 +261,35 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - neo_scan_internal
-# ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
+      - inside_auto_heal
+# ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ========
+# ================================================================================
+
+# ================================================================================
+# ================== AUTO REAL ===================================================
+  eco-neo-autoheal:
+    image: willfarrell/autoheal
+    container_name: eco-neo-autoheal
+    depends_on:
+      - eco-neo-scan-postgresql-running
+      - eco-neo-csharp-node1-running
+      - eco-neo-csharp-node2-running
+      - eco-neo-csharp-noderpc1-running
+      - eco-neo-scan-full-running
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=5
+      - DOCKER_SOCK=/var/run/docker.sock
+    networks:
+      - inside_auto_heal
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+# ================== AUTO REAL ===================================================
 # ================================================================================
 
 

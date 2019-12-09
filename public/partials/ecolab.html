@@ -23,7 +23,6 @@
               <li><a href="#!/ecolab/utils"  data-target="#utils" data-toggle="tab">Storage Query</a></li>
               <li><a href="#!/ecolab/wallet"  data-target="#wallet" data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
               <li><a href="#!/ecolab/conversor" data-target="#conversor" data-toggle="tab">Conversors</a></li>
-              <li><a href="#!/ecolab/incrementalstorage"  data-target="#incrementalstorage" data-toggle="tab">Inc-Storage</a></li>
               <li><a href="#!/ecolab/cnnodesinfo"  data-target="#cnnodesinfo" data-toggle="tab" onclick="getNodeInfo()">Consensus <i class="fas fa-info"></i></a></li>
               <li><a href="#!/ecolab/statistics" data-target="#statistics" data-toggle="tab" onclick="callCoreMetricsFromForm()">Statistics <i class="fas fa-chart-bar"></i></a></li>
               <li><a href="#!/ecolab/configurations"  data-target="#configurations" data-toggle="tab">Settings <i class="fas fa-cogs"></i></a></li>
@@ -324,6 +323,21 @@
                             </div>
                          </form>
                        </div>
+                  </div>
+
+                  <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        Incremental storage
+                        <button type="submit" onClick="getIncrementalStorageInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button><br>
+                        <input id="heightForIncStorage" class="form-control" value="0" placeholder="0" oninput="getIncrementalStorageInfo()"/>
+                      </div>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-md-12">
+                             <textarea id="textAreaOfIncrementalStorage" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Incremental storage for any height..." class="form-control"></textarea><br>
+                           </div>
+                         </div>
+                      </div>
                   </div>
 
                 </div>
@@ -881,27 +895,6 @@
          </div>
          <!-- END CONFIGURATIONS INFO -->
          <!-- ======================================================== -->
-
-         <!-- ======================================================== -->
-         <!-- BEGIN INCREMENTAL STORAGE  -->
-          <div class="tab-pane fade" id="incrementalstorage">
-              <div class="panel panel-primary">
-                  <div class="panel-heading">
-                    Incremental storage
-                    <button type="submit" onClick="getIncrementalStorageInfo()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button><br>
-                    <input id="heightForIncStorage" class="form-control" value="0" placeholder="0" oninput="getIncrementalStorageInfo()"/>
-                  </div>
-                  <div class="panel-body">
-                    <div class="row">
-                      <div class="col-md-12">
-                         <textarea id="textAreaOfIncrementalStorage" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Incremental storage for any height..." class="form-control"></textarea><br>
-                       </div>
-                     </div>
-                  </div>
-              </div>
-          </div>
-        <!-- END DIV INCREMENTAL STORAGE  -->
-        <!-- ======================================================== -->
 
           <!-- ======================================================== -->
           <!-- BEGIN DIV COMPILERS -->

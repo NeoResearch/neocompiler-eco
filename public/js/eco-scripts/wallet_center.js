@@ -485,12 +485,11 @@ function createRandomWalletsForValidators(nAccounts,threshold) {
  	randomWallets.push(createWallet("wallet"+o,tempAccounts));
     }
 
-    /*	
+    	
     for (var w = 0; w < randomWallets.length; w++)
     {
-	randomWallets[w].encryptAll(w);
-    	randomWallets[w].export();
-    }*/
+	randomWallets[w].accounts[0].encrypt(w);
+    }	
 
     return randomWallets;
 }

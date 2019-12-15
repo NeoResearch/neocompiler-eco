@@ -324,13 +324,7 @@ function pushParams(neonJSParams, type, value) {
         // Decimal fixed 8 seems to break at transition 92233720368.54775807 -> 92233720368.54775808
         neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
     } else if (type == 'Integer') {
-        if ((typeof(value) == "string") && (Number(value).toString() != value))
-            value = "0"; // imprecision in javascript? // JAVASCRIPT MAXIMUM NUMBER SEEMS TO BE: 9223372036854775000
-        if (Number(value) < 0) // neon-js int conversion will fail for negative values: "expected hexstring but found..."
-            neonJSParams.push(Neon.default.create.contractParam('ByteArray', negbigint2behex(value)));
-        else
-            neonJSParams.push(Neon.default.create.contractParam('Integer', Number(value)));
-        //console.log("INTEGER="+value+" -> "+Number(value));
+    	neonJSParams.push(Neon.sc.ContractParam.integer(value));
     } else if (type == 'Array')
         neonJSParams.push(Neon.default.create.contractParam(type, value));
     else

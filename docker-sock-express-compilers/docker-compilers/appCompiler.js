@@ -75,7 +75,7 @@ app.get('/getCompilers', (req, res) => {
     //docker images | tail -n +2
 
     var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr) => {
-        if (e instanceof Error || ) {
+        if (e instanceof Error) {
             res.send("Error:" + e);
             console.error(e);
         } else if (stdout1 == null){

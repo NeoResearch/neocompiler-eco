@@ -4,8 +4,6 @@ var logger = require('morgan'); // log requests to the console (express4)
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
 var app = express();
 
-
-//app.use(express.static(__dirname + '/'));                 // set the static files location /public/img will be /img for users
 app.use(logger('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({ // parse application/x-www-form-urlencoded
     parameterLimit: 100000, // bigger parameter sizes
@@ -31,7 +29,6 @@ app.use(function(req, res, next) {
 var server = http.createServer(app);
 var compilers = [];
 
-//app.listen(9000);
 server.listen(10000 || process.env.PORT, (err) => {
     if (err) {
         return console.log('something bad happened', err)

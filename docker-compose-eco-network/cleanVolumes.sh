@@ -1,2 +1,2 @@
 #!/bin/bash
-rm -rf logs* Storage*
+rm -rf nodes-logs/* Storage*

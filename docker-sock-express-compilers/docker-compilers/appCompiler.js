@@ -75,21 +75,24 @@ app.get('/getCompilers', (req, res) => {
     //docker images | tail -n +2
 
     var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr) => {
-        if (e instanceof Error) {
+        if (e instanceof Error || ) {
             res.send("Error:" + e);
             console.error(e);
-        } else {
-            //x = stdout1.replace(/[^\x00-\x7F]/g, "");
-            //res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-            var arr = [];
-            var stdout1 = stdout1.match(/[^\s]+/g);
-            // we loop from 1 to 1 less than the length because
-            // the first two elements are empty due to the way the split worked
-            for (var i = 0, l = stdout1.length - 1; i < l; i = i + 2) {
-                var obj = {};
-                obj["compiler"] = stdout1[i];
-                obj["version"] = stdout1[i + 1];
-                arr.push(obj);
+        } else if (stdout1 == null){
+            	res.send("Error stdout1 is null...");
+            	console.error(e);
+	    } else { 	
+		    //x = stdout1.replace(/[^\x00-\x7F]/g, "");
+		    //res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+		    var arr = [];
+		    var stdout1 = stdout1.match(/[^\s]+/g);
+		    // we loop from 1 to 1 less than the length because
+		    // the first two elements are empty due to the way the split worked
+		    for (var i = 0, l = stdout1.length - 1; i < l; i = i + 2) {
+		        var obj = {};
+		        obj["compiler"] = stdout1[i];
+		        obj["version"] = stdout1[i + 1];
+		        arr.push(obj);
             }
             compilers = arr;
             res.send(JSON.stringify(arr));

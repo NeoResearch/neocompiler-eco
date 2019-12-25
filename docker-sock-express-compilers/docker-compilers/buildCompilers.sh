@@ -1,11 +1,13 @@
 #!/bin/bash
 #================================================
 #Building lastest version of compilers
+source .env
+
 if (($BUILD_CSHARP)); then
-	echo "BUILDING BUILDING mono-neo-compiler"
+	echo "BUILDING BUILDING mono-neo-compiler $BUILD_CSHARP"
 	(cd compilers/docker-compiler-csharp; ./docker_build.sh)
 else
-	echo "SKIPING BUILDING mono-neo-compiler";
+	echo "SKIPING BUILDING mono-neo-compiler $BUILD_CSHARP";
 fi
 
 if (($BUILD_GO)); then

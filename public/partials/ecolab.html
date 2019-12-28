@@ -281,6 +281,9 @@
                                 <div class="col-md-6">
                                     <input id="gsf_contractvaluestr" class="form-control" placeholder="Storage Value (String)" readonly/>
                                 </div>
+                                <div class="col-md-6">
+                                    <input id="gsf_contractvalueint" class="form-control" placeholder="Storage Value (BigInteger)" readonly/>
+                                </div>
                               </div>
                           </form>
                       </div>
@@ -3005,6 +3008,7 @@
         //Clean previous storage values
         $("#gsf_contractvaluehex")[0].value = "";
         $("#gsf_contractvaluestr")[0].value = "";
+        $("#gsf_contractvalueint")[0].value = "";
 
         //Get the hash and key
         sthash = $("#gsf_contracthash")[0].value;
@@ -3016,9 +3020,10 @@
         console.log("looking for storage key '" + stkey + "' at contract '" + sthash + "'" + " in the network " + $("#rpc_nodes_path")[0].value);
         getStorage(sthash, stkey, $("#rpc_nodes_path")[0].value).then(function(data) {
             $("#gsf_contractvaluehex")[0].value = data.result;
-            if (data.result != null)
+            if (data.result != null){
                 $("#gsf_contractvaluestr")[0].value = hexstring2str(data.result);
-            else {
+                $("#gsf_contractvalueint")[0].value = parseInt("0x"+hex2xeh(data.result));
+            } else {
                 $.post(
                     $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to
                     '{ "jsonrpc": "2.0", "id": 5, "method": "getcontractstate", "params": ["' + sthash + '"] }', // Serializes form data in standard format

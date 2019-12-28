@@ -946,8 +946,12 @@
                                        </div>
                                        <!-- ACE EDITOR div pre -->
                                        <div class="row">
-                                         <div class="col-md-12">
-                                           <br/><pre id="aceEditor"></pre>
+										   <div class="col-md-12"> 
+											   <br />
+											 <div  id="smyles_editor_wrap" style="background-color: #cccccc; border-bottom: 1px solid #222222; margin-bottom:11px;">
+                                           <div id="aceEditor" style="margin-bottom:0px; height:215px;"></div>
+										   <div id="dragbar" style="cursor:row-resize; height: 10px; width:100%;"></div>
+											 </div>
                                          </div>
                                        </div>
                                 <!-- /////////////////////////////////////////////////////////////////// -->
@@ -1519,8 +1523,45 @@
         $("#compilebtn")[0].disabled = true;
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
-        // Setting default code example to csharp and hello world (example 0)
-        aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+		aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+		var dragging = false;
+		var wpoffset = 0;
+		$( '#dragbar' ).mousedown( function ( e ) {
+			e.preventDefault();
+			window.dragging = true;
+			var smyles_editor = $( '#aceEditor' );
+			var top_offset = smyles_editor.offset().top - wpoffset;
+			// Set editor opacity to 0 to make transparent so our wrapper div shows
+			smyles_editor.css( 'opacity', 0 );
+			// handle mouse movement
+			$( document ).mousemove( function ( e ) {
+				var actualY = e.pageY - wpoffset;
+				// editor height
+				var eheight = actualY - top_offset;
+				// Set wrapper height
+				$( '#smyles_editor_wrap' ).css( 'height', eheight);
+				// Set dragbar opacity while dragging (set to 0 to not show)
+				$( '#dragbar' ).css( 'opacity', 0.15 );
+			} );
+		} );
+
+		$( document ).mouseup( function ( e ) {
+			if ( window.dragging )
+			{
+				var smyles_editor = $( '#aceEditor' );
+				var actualY = e.pageY - wpoffset;
+				var top_offset = smyles_editor.offset().top - wpoffset;
+				var eheight = actualY - top_offset;
+				$( document ).unbind( 'mousemove' );
+				// Set dragbar opacity back to 1
+				$( '#dragbar' ).css( 'opacity', 1 );
+				// Set height on actual editor element, and opacity back to 1
+				smyles_editor.css( 'height', eheight ).css( 'opacity', 1 );
+				// Trigger ace editor resize()
+				smyles_editor.resize();
+				window.dragging = false;
+			}
+		} );
         setCompiler("csharp");
     });
 
@@ -1533,7 +1574,6 @@
             enableBasicAutocompletion: true,
             enableSnippets: true,
             enableLiveAutocompletion: false,
-            maxLines: 30
         });
         editor.commands.addCommand({
             name: "showKeyboardShortcuts",

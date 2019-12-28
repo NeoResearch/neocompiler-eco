@@ -28,7 +28,7 @@ function restoreDeployTX(txID) {
         var deployJsonParams = JSON.parse(vecRelayedTXs[txID].txParams);
         console.log(deployJsonParams);
         if (deployJsonParams.type === "deploy") {
-            $("#attachDeployGasFeeJS").val(deployJsonParams.mynetfee);
+            $("#attachDeployGasFeeJS").val(deployJsonParams.mynetfee.slice(0,10));
             $("#jsdeploy_name").val(deployJsonParams.contract_appname);
             $("#jsdeploy_desc").val(deployJsonParams.contract_description);
             $("#jsdeploy_email").val(deployJsonParams.contract_email);

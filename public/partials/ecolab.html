@@ -3062,7 +3062,7 @@
             $("#gsf_contractvaluehex")[0].value = data.result;
             if (data.result != null){
                 $("#gsf_contractvaluestr")[0].value = hexstring2str(data.result);
-                $("#gsf_contractvalueint")[0].value = parseInt("0x"+hex2xeh(data.result));
+                $("#gsf_contractvalueint")[0].value = parseInt("0x"+revertHexString(data.result));
             } else {
                 $.post(
                     $("#rpc_nodes_path")[0].value, // Gets the URL to sent the post to

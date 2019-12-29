@@ -1347,8 +1347,11 @@
                               </div>
                            </div>
                            <div class="row">
-                               <div class="col-md-2">
+                               <div class="col-md-1">
                                  <button type="submit" id="invokebtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-fire"></i> Invoke</button>
+                               </div>
+                               <div class="col-md-2">
+								   <span id="addparamsbtn" class="btn btn-success btn-sm" data-toggle="modal"><i class="fas fa-plus"></i> Add params</button>
                                </div>
                                <div class="col-md-2">
                                  <div class="form-group">
@@ -2933,6 +2936,15 @@
         ); //End of POST for Compile counter
     }); //End of invoke function
     //===============================================================
+
+
+	$("#addparamsbtn").click(()=>{
+		var lastParam = 1;
+		while($("#invokeparamsjs"+lastParam).length>0){
+			lastParam++;
+		}
+		$($("#forminvokejs>.row")[1]).append($([lastParam, lastParam+1, lastParam+2, lastParam+3].map(id=>`<div class="col-md-1"><div class="form-group"><label>Type</label><select id="invokeparamjsbox${id}" class="custom-select form-control" onchange="updateInvokeParamsJs()"><option value="None">None</option><option value="String">String</option><option value="Address">Address</option><option value="Hex">Hex</option><option value="Integer">Integer</option><option value="DecFixed8">DecFixed8</option></select></div></div><div class="col-md-2"><div class="form-group"><label>Param ${id}: </label> <input type="checkbox" id="cbx_inarray_js${id}" checked="" onchange="updateInvokeParamsJs()"> in array<br><input id="invokeparamsjs${id}" class="form-control" value="" placeholder="Script Param ${id}" oninput="updateInvokeParamsJs()"></div></div>`).join('')))
+	});
 
     //===============================================================
     //Deploy JS

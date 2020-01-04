@@ -2896,7 +2896,7 @@
       var avmWithExtraSize = avmSize + fixedAVGTxSize;
       if ( avmWithExtraSize > freeSize)
       extraGasNetFeeForBigTx = (avmWithExtraSize-freeSize)*feePerExtraByte;
-      $("#attachDeployGasFeeJS")[0].value = extraGasNetFeeForBigTx;
+      $("#attachDeployGasFeeJS")[0].value = Number(String(extraGasNetFeeForBigTx).slice(0,10));
       // ------------------------------------------
     }
     //===============================================================

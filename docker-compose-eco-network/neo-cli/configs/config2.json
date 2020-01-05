@@ -1,19 +1,12 @@
 {
   "ApplicationConfiguration": {
-    "Paths": {
-      "Chain": "Chain_{0}"
+    "Storage": {
+      "Engine": "LevelDBStore"
     },
     "P2P": {
       "Port": 20334,
       "WsPort": 10334,
       "MaxConnectionsPerAddress": 10
-    },
-    "RPC": {
-      "BindAddress": "0.0.0.0",
-      "Port": 30334,
-      "SslCert": "",
-      "SslCertPassword": "",
-      "MaxGasInvoke": "0"
     },
     "UnlockWallet": {
       "Path": "wallet2.json",

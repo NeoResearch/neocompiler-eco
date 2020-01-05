@@ -59,11 +59,9 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 #	sleep 1
 #fi
 
-echo "LAUNCHING neo-cli node$NUMBER_SERVER with params: IS_CONSENSUS=$IS_CONSENSUS, IS_RPC=$IS_RPC";
+echo "LAUNCHING neo-cli node$NUMBER_SERVER with params: IS_CONSENSUS=$IS_CONSENSUS";
 screen -L -dmS node${NUMBER_SERVER} /opt/start_node.sh
 
 service cron restart
-
-# (cd /opt/node1/neo-cli/; dotnet neo-cli.dll --rpc)
 
 sleep infinity

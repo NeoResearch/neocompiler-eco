@@ -25,16 +25,16 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
+      - ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
+      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      IS_RPC: 1
       NUMBER_SERVER: 1
     healthcheck:
       test:
@@ -62,16 +62,15 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
+      - ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
+      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      IS_RPC: 1
       NUMBER_SERVER: 2
     healthcheck:
       test:
@@ -98,15 +97,13 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
+      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
+      - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      IS_RPC: 0
       NUMBER_SERVER: 3
     healthcheck:
       test:
@@ -133,15 +130,13 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
+      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
+      - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
-      IS_RPC: 0
       NUMBER_SERVER: 4
     healthcheck:
       test:
@@ -169,19 +164,18 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
+      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
+      - ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
+      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
+      - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs
     depends_on:
       - eco-neo-csharp-node1-running
     environment:
       IS_CONSENSUS: 0
-      IS_RPC: 1
       NUMBER_SERVER: 5
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30337"]

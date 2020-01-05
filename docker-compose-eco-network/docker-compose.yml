@@ -4,9 +4,6 @@
 version: "3.7"
 
 networks:
-  neo_scan_internal:
-    driver: bridge
-    internal: true
   private_net:
     driver: bridge
   inside_auto_heal:
@@ -192,78 +189,6 @@ services:
 # ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
 # ================================================================================
 
-# ================================================================================
-# ================== BEGIN NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ======
-  eco-neo-scan-full-running:
-    image: "registry.gitlab.com/cityofzion/neo-scan/full:91548737-master"
-    container_name: "eco-neo-scan-full-running"
-    ports:
-      - "4000:4000"
-    #command: /bin/true 
-    environment:
-      PORT: 4000
-      HOST: localhost
-      NEO_SEEDS: "http://eco-neo-csharp-node1-running:30333;http://eco-neo-csharp-node2-running:30334;http://eco-neo-csharp-noderpc1-running:30337"
-      DB_HOSTNAME: eco-neo-scan-postgresql-running
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_DATABASE: neoscan_prodv
-      REPLACE_OS_VARS: "true"
-    depends_on:
-      - eco-neo-scan-postgresql-running
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-noderpc1-running
-    entrypoint: bash -c "sleep 10 && /start.sh"
-    healthcheck:
-      interval: 30s
-      retries: 3
-      start_period: 20s
-      test:
-        - CMD
-        - bash
-        - '-c'
-        - exec 6<>/dev/tcp/127.0.0.1/4000
-      timeout: 10s
-    labels:
-      autoheal: 'true'
-    networks:
-      - neo_scan_internal
-      - private_net
-      - inside_auto_heal
-
-  eco-neo-scan-postgresql-running:
-    image: postgres:10.5
-    container_name: "eco-neo-scan-postgresql-running"
-    expose:
-      - 5432
-    depends_on:
-      - eco-neo-csharp-node1-running
-      - eco-neo-csharp-node2-running
-      - eco-neo-csharp-node3-running
-      - eco-neo-csharp-node4-running
-      - eco-neo-csharp-noderpc1-running
-    environment:
-      POSTGRES_DB: neoscan_prodv
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-    healthcheck:
-      test:
-        - CMD
-        - bash
-        - '-c'
-        - exec 6<>/dev/tcp/127.0.0.1/5432
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-    labels:
-      autoheal: 'true'
-    networks:
-      - neo_scan_internal
-      - inside_auto_heal
-# ================== END NEO-SCAN LIGHT WALLET INTERFACE AND POSTGRESS DB ========
-# ================================================================================
 
 # ================================================================================
 # ================== AUTO REAL ===================================================
@@ -271,11 +196,9 @@ services:
     image: willfarrell/autoheal
     container_name: eco-neo-autoheal
     depends_on:
-      - eco-neo-scan-postgresql-running
       - eco-neo-csharp-node1-running
       - eco-neo-csharp-node2-running
       - eco-neo-csharp-noderpc1-running
-      - eco-neo-scan-full-running
     environment:
       - AUTOHEAL_CONTAINER_LABEL=autoheal
       - AUTOHEAL_INTERVAL=5

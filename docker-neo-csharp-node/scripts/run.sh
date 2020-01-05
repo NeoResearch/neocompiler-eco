@@ -2,7 +2,6 @@
 #
 # This script starts a consensus or rpc node (or both)
 #
-#  env variable IS_CONSENSUS=1 or 0
 #  env variable RPC_SERVER=0 or ="callRPC"
 #  env variable NUMBER_SERVER=1 (server "node1", but if it's rpc and not consensus, it would be node1RPC")
 #  env variable WALLET_PWD_SERVER="one"
@@ -59,8 +58,8 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 #	sleep 1
 #fi
 
-echo "LAUNCHING neo-cli node$NUMBER_SERVER with params: IS_CONSENSUS=$IS_CONSENSUS";
-screen -L -dmS node${NUMBER_SERVER} /opt/start_node.sh
+echo "LAUNCHING neo-cli...";
+screen -L -dmS node /opt/start_node.sh
 
 service cron restart
 

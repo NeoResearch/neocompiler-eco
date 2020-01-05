@@ -18,7 +18,7 @@ services:
     privileged: true
     ports:
       - "20333:20333"
-      - "30333:30333"
+      - "30333:10332"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
@@ -55,7 +55,7 @@ services:
     privileged: true
     ports:
       - "20334:20334"
-      - "30334:30334"
+      - "30334:10332"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
@@ -157,7 +157,7 @@ services:
     privileged: true
     ports:
       - "20337:20337"
-      - "30337:30337"
+      - "30337:10332"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
@@ -171,9 +171,6 @@ services:
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs
     depends_on:
       - eco-neo-csharp-node1-running
-    environment:
-      IS_CONSENSUS: 0
-      NUMBER_SERVER: 5
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:30337"]
       interval: 20s

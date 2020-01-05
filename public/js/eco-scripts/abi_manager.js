@@ -81,10 +81,6 @@ function updateAllABIDependencies(jsonABI){
                     $("#contractparamnamesjs")[0].value = "no parameters";
 
                 // set invoke params to many empty strings (at least one is desirable for now)
-                // JS
-                $("#cbx_usearray_js")[0].checked = false;
-                if (paramhex == "0710") // enable array passing
-                    $("#cbx_usearray_js")[0].checked = true;
                 updateArrayInvokeParamsJs(); // update auxiliary check boxes
                 updateInvokeParamsJs(); // update simple example
 
@@ -141,25 +137,17 @@ function updateInvokeParamsJs() {
 
     if (invokefunc != "")
         pushParams(neonJSParams, "String", invokefunc);
-
-    if ($("#invokeparamjsbox1")[0].value != "None") {
-        if ($("#cbx_inarray_js1")[0].checked)
-            pushParams(arrayparam, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
-        else
-            pushParams(neonJSParams, $("#invokeparamjsbox1")[0].value, $("#invokeparamsjs1")[0].value);
-    }
-    if ($("#invokeparamjsbox2")[0].value != "None") {
-        if ($("#cbx_inarray_js2")[0].checked)
-            pushParams(arrayparam, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
-        else
-            pushParams(neonJSParams, $("#invokeparamjsbox2")[0].value, $("#invokeparamsjs2")[0].value);
-    }
-    if ($("#invokeparamjsbox3")[0].value != "None") {
-        if ($("#cbx_inarray_js3")[0].checked)
-            pushParams(arrayparam, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
-        else
-            pushParams(neonJSParams, $("#invokeparamjsbox3")[0].value, $("#invokeparamsjs3")[0].value);
-    }
+    
+	var i = 1;
+	while($("#invokeparamjsbox"+i).length > 0){
+		if ($("#invokeparamjsbox"+i)[0].value != "None") {
+			if ($("#cbx_inarray_js"+i)[0].checked)
+				pushParams(arrayparam, $("#invokeparamjsbox"+i)[0].value, $("#invokeparamsjs"+i)[0].value);
+			else
+				pushParams(neonJSParams, $("#invokeparamjsbox"+i)[0].value, $("#invokeparamsjs"+i)[0].value);
+		}
+		i++;
+	}
 
     if ($("#cbx_usearray_js")[0].checked)
         pushParams(neonJSParams, 'Array', arrayparam);
@@ -169,20 +157,19 @@ function updateInvokeParamsJs() {
 
 // block and unblock array checkboxes
 function updateArrayInvokeParamsJs() {
+	var paramId = 1;
     if ($("#cbx_usearray_js")[0].checked) {
-        $("#cbx_inarray_js1")[0].checked = true;
-        $("#cbx_inarray_js1")[0].disabled = false;
-        $("#cbx_inarray_js2")[0].checked = true;
-        $("#cbx_inarray_js2")[0].disabled = false;
-        $("#cbx_inarray_js3")[0].checked = true;
-        $("#cbx_inarray_js3")[0].disabled = false;
+		while($("#cbx_inarray_js"+paramId).length>0){
+			$("#cbx_inarray_js"+paramId)[0].checked = true;
+			$("#cbx_inarray_js"+paramId)[0].disabled = false;
+			paramId++;
+		}
     } else {
-        $("#cbx_inarray_js1")[0].checked = false;
-        $("#cbx_inarray_js1")[0].disabled = true;
-        $("#cbx_inarray_js2")[0].checked = false;
-        $("#cbx_inarray_js2")[0].disabled = true;
-        $("#cbx_inarray_js3")[0].checked = false;
-        $("#cbx_inarray_js3")[0].disabled = true;
+		while($("#cbx_inarray_js"+paramId).length>0){
+			$("#cbx_inarray_js"+paramId)[0].checked = false;
+			$("#cbx_inarray_js"+paramId)[0].disabled = true;
+			paramId++;
+		}
     }
     updateInvokeParamsJs();
 }

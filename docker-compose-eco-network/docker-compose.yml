@@ -19,7 +19,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node1-running"
     privileged: true
-    ports: # config1.json
+    ports:
       - "20333:20333"
       - "30333:30333"
     volumes:
@@ -56,7 +56,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node2-running"
     privileged: true
-    ports: #config2.json
+    ports:
       - "20334:20334"
       - "30334:30334"
     volumes:
@@ -93,7 +93,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node3-running"
     privileged: true
-    ports: #config3.json
+    ports:
       - "20335:20335"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
@@ -127,7 +127,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node4-running"
     privileged: true
-    ports: #config4.json
+    ports:
       - "20336:20336"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
@@ -161,7 +161,7 @@ services:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-noderpc1-running"
     privileged: true
-    ports: #config1RPC.json
+    ports:
       - "20337:20337"
       - "30337:30337"
     volumes:

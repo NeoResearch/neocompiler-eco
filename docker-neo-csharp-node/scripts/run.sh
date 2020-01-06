@@ -1,10 +1,6 @@
 #!/bin/bash
 #
-# This script starts a consensus or rpc node (or both)
-#
-#  env variable RPC_SERVER=0 or ="callRPC"
-#  env variable NUMBER_SERVER=1 (server "node1", but if it's rpc and not consensus, it would be node1RPC")
-#  env variable WALLET_PWD_SERVER="one"
+# This script starts a neo-cli node
 
 #screen -L -dmS node1RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/
 #screen -L -dmS node2RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/

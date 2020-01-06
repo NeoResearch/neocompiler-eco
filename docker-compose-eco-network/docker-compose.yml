@@ -30,9 +30,6 @@ services:
       - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs
-    environment:
-      IS_CONSENSUS: 1
-      NUMBER_SERVER: 1
     healthcheck:
       test:
         - CMD
@@ -42,7 +39,7 @@ services:
       interval: 20s
       timeout: 10s
       retries: 3
-      start_period: 30s
+      start_period: 3000s
     labels:
       autoheal: 'true'
     networks:
@@ -66,9 +63,6 @@ services:
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs
-    environment:
-      IS_CONSENSUS: 1
-      NUMBER_SERVER: 2
     healthcheck:
       test:
         - CMD
@@ -99,9 +93,6 @@ services:
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs
-    environment:
-      IS_CONSENSUS: 1
-      NUMBER_SERVER: 3
     healthcheck:
       test:
         - CMD
@@ -132,9 +123,6 @@ services:
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs
-    environment:
-      IS_CONSENSUS: 1
-      NUMBER_SERVER: 4
     healthcheck:
       test:
         - CMD

@@ -9,10 +9,10 @@
       "MaxConnectionsPerAddress": 10
     },
     "UnlockWallet": {
-      "Path": "wallet1.json",
-      "Password": "one",
-      "StartConsensus": true,
-      "IsActive": true
+      "Path": "",
+      "Password": "",
+      "StartConsensus": false,
+      "IsActive": false
     }
   }
 }

@@ -25,10 +25,10 @@ ARG commitNeoCompiler
 ARG commitDevpackDotnet
 
 #Clone NeoCompiler up-to-date NeoCompiler from Neo-Project
-RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout $commitNeoCompiler)
+RUN git clone https://github.com/neo-project/neo-compiler.git && (cd /neo-compiler && git checkout master-2.x && git checkout $commitNeoCompiler)
 RUN (cd /neo-compiler/neon && dotnet restore)
 RUN (cd /neo-compiler/neon && msbuild /p:Configuration=Release)
-RUN (cd /neo-compiler/neon && dotnet publish)
+RUN (cd /neo-compiler/neon && dotnet publish -f netcoreapp2.0)
 
 #Create standard SC C# project
 COPY NeoContractTeste /tmp/
@@ -37,7 +37,7 @@ COPY NeoContractTeste /tmp/
 RUN cp /neo-compiler/neon/bin/Release/netcoreapp2.0/* /tmp/NeoContract1/bin/Release/
 
 #Adding latest Neo.SmartContract.TargetFramework
-RUN git clone https://github.com/neo-project/neo-devpack-dotnet.git && (cd /neo-devpack-dotnet && git checkout $commitDevpackDotnet)
+RUN git clone https://github.com/neo-project/neo-devpack-dotnet.git && (cd /neo-devpack-dotnet && git checkout master-2.x && git checkout $commitDevpackDotnet)
 RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && dotnet restore)
 RUN (cd /neo-devpack-dotnet/Neo.SmartContract.Framework && msbuild /p:Configuration=Release)
 RUN mkdir -p /tmp/packages/Neo.SmartContract.Framework-latest/lib/net40

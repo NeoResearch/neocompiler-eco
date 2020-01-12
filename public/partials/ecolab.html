@@ -949,7 +949,7 @@
                                        </div>
                                        <!-- ACE EDITOR div pre -->
                                        <div class="row">
-										   <div class="col-md-12"> 
+										   <div class="col-md-12">
 											   <br />
 											 <div  id="smyles_editor_wrap" style="background-color: #cccccc; border-bottom: 1px solid #222222; margin-bottom:11px;">
                                            <div id="aceEditor" style="margin-bottom:0px; height:215px;"></div>
@@ -1937,13 +1937,18 @@
                 compilerSelectionBoxObj = document.getElementById(compilerSelectionBoxID);
                 compilerSelectionBoxObj.options.length = 0;
 
+                indexToSelect = 0;
                 for (c = 0; c < data.length; c++) {
                     if (data[c].compiler == compilerType)
-                        addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
+                        {
+                          addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
+                          if(data[c].version === "latest")
+                            indexToSelect = compilerSelectionBoxObj.length - 1;
+                        }
                 }
                 $("#compilebtn")[0].disabled = false;
                 //Select the latest as default
-                //compilerSelectionBoxObj.selectedIndex = (compilerSelectionBoxObj.length -1)
+                compilerSelectionBoxObj.selectedIndex = indexToSelect;
             },
             "json" // The format the response should be in
         );

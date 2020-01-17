@@ -32,6 +32,23 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+    labels:
+      autoheal: 'true'
     networks:
       - ecoservices_express
     command: /opt/run-EcoServicesExpress-RPC-SocketIo.sh
+
+  eco-neo-autoheal-services:
+    image: willfarrell/autoheal
+    container_name: eco-neo-autoheal-services
+    depends_on:
+      - eco-neo-services-express-running
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=5
+      - DOCKER_SOCK=/var/run/docker.sock
+    networks:
+      - ecoservices_express
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'

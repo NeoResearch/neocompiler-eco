@@ -37,4 +37,21 @@ services:
       start_period: 30s
     networks:
       - compilers_express
+    labels:
+      autoheal: 'true'
     command: /opt/run-CompilerExpress-RPC.sh
+
+  eco-neo-autoheal-services-compilers:
+    image: willfarrell/autoheal
+    container_name: eco-neo-autoheal-services-compilers
+    depends_on:
+      - eco-neo-compilers-express-running
+    environment:
+      - AUTOHEAL_CONTAINER_LABEL=autoheal
+      - AUTOHEAL_INTERVAL=5
+      - DOCKER_SOCK=/var/run/docker.sock
+    networks:
+      - compilers_express
+    restart: always
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'

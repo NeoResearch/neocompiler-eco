@@ -1,7 +1,7 @@
 {
   "PluginConfiguration": {
-    "BindAddress": "0.0.0.0",
-    "Port": 10332,
+    "BindAddress": "127.0.0.1",
+    "Port": 30333,
     "SslCert": "",
     "SslCertPassword": "",
     "TrustedAuthorities": [],

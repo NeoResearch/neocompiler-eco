@@ -49,10 +49,17 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 #Trying to normally all dockers
 #sleep 1
 
-#if [[ ${NUMBER_SERVER} = "4" ]]; then
-#	echo "Sleeping because I will be the primary."
-#	sleep 1
-#fi
+if [[ ${IS_RPC_SERVER} = "0" ]]; then
+	echo "Deleting RPCServer"
+	rm /opt/node/neo-cli/Plugins/RpcServer.dll
+	sleep 1
+fi
+
+if [[ ${IS_RPC_CLIENT} = "0" ]]; then
+	echo "Deleting RpcClient"
+	rm /opt/node/neo-cli/Plugins/RpcClient.dll
+	sleep 1
+fi
 
 echo "LAUNCHING neo-cli...";
 screen -L -dmS node /opt/start_node.sh

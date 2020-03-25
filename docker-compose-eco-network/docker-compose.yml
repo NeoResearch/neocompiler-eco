@@ -18,14 +18,14 @@ services:
     privileged: true
     ports:
       - "20333:20333"
-      - "30333:10332"
+      - "30333:30333"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
-      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
+      - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
@@ -41,7 +41,7 @@ services:
       retries: 3
       start_period: 3000s
     labels:
-      autoheal: 'true'
+      autoheal: 'false'
     networks:
       - private_net
       - inside_auto_heal
@@ -52,15 +52,16 @@ services:
     privileged: true
     ports:
       - "20334:20334"
-      - "30334:10332"
+      - "30334:30334"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
-      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
+      - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs
     healthcheck:
@@ -74,7 +75,7 @@ services:
       retries: 3
       start_period: 30s
     labels:
-      autoheal: 'true'
+      autoheal: 'false'
     networks:
       - private_net
       - inside_auto_heal
@@ -91,6 +92,7 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs
     healthcheck:
@@ -104,7 +106,7 @@ services:
       retries: 3
       start_period: 30s
     labels:
-      autoheal: 'true'
+      autoheal: 'false'
     networks:
       - private_net
       - inside_auto_heal
@@ -121,6 +123,7 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs
     healthcheck:
@@ -134,7 +137,7 @@ services:
       retries: 3
       start_period: 30s
     labels:
-      autoheal: 'true'
+      autoheal: 'false'
     networks:
       - private_net
       - inside_auto_heal
@@ -145,16 +148,17 @@ services:
     privileged: true
     ports:
       - "20337:20337"
-      - "30337:10332"
+      - "30337:30337"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
-      - ./neo-cli/configs/plugins/rpcServer.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
+      - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
+      - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs
     depends_on:
@@ -166,7 +170,7 @@ services:
       retries: 3
       start_period: 30s
     labels:
-      autoheal: 'true'
+      autoheal: 'false'
     networks:
         - private_net
         - inside_auto_heal

@@ -1,10 +1,8 @@
 # NEO csharp-nodes network simulator
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-bionic
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.3-bionic
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
-
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	    unzip \
@@ -21,11 +19,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	    tcpdump \
 	    iproute2 \
     && rm -rf /var/lib/apt/lists/*
-
-# iptables = iptables
-# psmisc = fuser
-# tcpdump = tcpdump
-# iproute2 = tc
 
 # Add the neo-cli package
 ADD ./neo-cli.zip /opt/neo-cli.zip

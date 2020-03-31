@@ -118,15 +118,6 @@ app.post('/compilex', function(req, res) {
     var code64 = "";
 
 	// Code is decoded and re-encoded again to prevent remote execution attacks (because result is later injected into a command)
-    if (req.body.codesend_selected_compiler === "python") { // Python
-        code64 = Buffer.from(req.body.codesend_python, 'base64').toString('base64');
-    }
-    if (req.body.codesend_selected_compiler === "golang") { // Golang
-        code64 = Buffer.from(req.body.codesend_golang, 'base64').toString('base64');
-    } 
-    if (req.body.codesend_selected_compiler === "java") { // Java
-        code64 = Buffer.from(req.body.codesend_java, 'base64').toString('base64');
-    } 
     if (req.body.codesend_selected_compiler === "csharp") { // C#
         code64 = Buffer.from(req.body.codesend_cs, 'base64').toString('base64');
     }

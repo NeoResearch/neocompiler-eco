@@ -9,27 +9,6 @@ if (($BUILD_CSHARP)); then
 else
 	echo "SKIPING BUILDING mono-neo-compiler $BUILD_CSHARP";
 fi
-
-if (($BUILD_GO)); then
-	echo "BUILDING BUILDING neo-go-compiler"
-	(cd compilers/docker-compiler-go; ./docker_build.sh)
-else
-	echo "SKIPING BUILDING neo-go-compiler";
-fi
-
-if (($BUILD_BOA)); then
-	echo "BUILDING neo-boa-compiler"
-	(cd compilers/docker-compiler-python; ./docker_build.sh)
-else
-	echo "SKIPING neo-boa-compiler";
-fi
-
-if (($BUILD_JAVA)); then
-	echo "BUILDING neo-java-compiler"
-	(cd compilers/docker-compiler-java; ./docker_build.sh)
-else
-	echo "SKIPING neo-java-compiler";
-fi
 #================================================
 
 #================================================

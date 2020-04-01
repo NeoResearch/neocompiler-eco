@@ -1,14 +1,20 @@
-﻿using Neo.SmartContract.Framework.Services.Neo;
+using Neo.SmartContract.Framework;
+using Neo.SmartContract.Framework.Services.Neo;
+using System;
+using System.ComponentModel;
+using System.Numerics;
+using System.Runtime.CompilerServices;
 
-namespace Neo.SmartContract
+namespace Template
 {
-    public class HelloWorld : Framework.SmartContract
+    [Features(ContractFeatures.HasStorage)]
+    public class Contract1 : SmartContract
     {
-        public static void Main()
+        public static object Main(string operation, object[] args)
         {
-            // writes value "World" on storage key "Hello"
-            // implicitly calls Storage.Put(Storage.CurrentContext, "Hello", "World")
             Storage.Put("Hello", "World");
+            return true;
         }
     }
 }
+

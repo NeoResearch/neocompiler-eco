@@ -14,9 +14,6 @@ services:
       - DOOR_COMPILERS=$DOOR_COMPILERS
       - BUILD_ALL_CSHARP=$BUILD_ALL_CSHARP
       - BUILD_CSHARP=$BUILD_CSHARP
-      - BUILD_GO=$BUILD_GO
-      - BUILD_BOA=$BUILD_BOA
-      - BUILD_JAVA=$BUILD_JAVA
     volumes:
       - ./appCompiler.js:/opt/appCompiler.js
       - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh

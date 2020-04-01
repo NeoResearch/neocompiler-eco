@@ -49,29 +49,9 @@ var USER_EXAMPLES = new Map();
 //===============================================================
 var cSharpFiles = [
         //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/ICO_Template/ICO_Template.cs"],
-        ["/examples/csharp/MyCheckWitness/MyCheckWitness.cs"],
-        ["/examples/csharp/Lock/Lock.cs"],
-        [
-            "/examples/csharp/StructExample/Point.cs",
-            "/examples/csharp/StructExample/StructExample.cs"
-        ],
-        ["/examples/csharp/MapExample/MapExample.cs"],
-        ["/examples/csharp/HelloWorldNotification/HelloWorldNotification.cs"],
+        ["/examples/csharp/HelloWorld/HelloWorld.cs"]
 ];
 
-var cPythonFiles = [
-        ["/examples/python/HelloWorld.py"]
-];
-
-var cJavaFiles = [
-        ["/examples/java/HelloWorld.java"]
-];
-
-var cGolangFiles = [
-        ["/examples/golang/HelloWorld.go"]
-];
 
 /* PENDING TX */
 var PendingTX = null;

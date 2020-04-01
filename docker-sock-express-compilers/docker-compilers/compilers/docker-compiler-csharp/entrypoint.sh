@@ -1,25 +1,21 @@
 #!/bin/bash
-export PATH=$PATH:/neo-compiler/neon/bin/Release/netcoreapp2.0/
-echo $COMPILECODE | base64 --decode | funzip > /tmp/NeoContract1/Contract1.cs
-rm -f /tmp/NeoContract1/bin/Release/NeoContract1.*
-cd /tmp
-cp /usr/lib/mono/4.5/mscorlib.dll /tmp/NeoContract1/bin/Release # needed for Actions in ICO_Template
+rm -rf /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/Contract1.cs
+echo $COMPILECODE | base64 --decode | funzip > /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/Contract1.cs
 echo -n "{ \"output\": \""
 echo "Neo compiler version (latest): " >> /tmp/output.txt
-cat /neo-compiler/neon/*.csproj | grep "<Version>" >> /tmp/output.txt
-(cd /neo-compiler && git log --format="%H" -n 1) >> /tmp/output.txt
-echo "Smart Contract Framework version (latest): " >> /tmp/output.txt
-cat /neo-devpack-dotnet/Neo.SmartContract.Framework/*.csproj | grep "<Version>" >> /tmp/output.txt
+cat /neo-devpack-dotnet/src/Neo.Compiler.MSIL/*.csproj | grep "<Version>" >> /tmp/output.txt
+echo "Git log: " >> /tmp/output.txt
 (cd /neo-devpack-dotnet && git log --format="%H" -n 1) >> /tmp/output.txt
-#xbuild /p:Configuration=Release | base64 -w 0
-msbuild /p:Configuration=Release >> /tmp/output.txt
+echo "Smart Contract Framework version (latest): " >> /tmp/output.txt
+cat /neo-devpack-dotnet/src/Neo.SmartContract.Framework/*.csproj | grep "<Version>" >> /tmp/output.txt
+(cd /neo-devpack-dotnet/ && dotnet build ./templates/Template.CSharpNeoCompiler/Template.CSharpNeoCompiler.csproj) >> /tmp/output.txt
 cat /tmp/output.txt | base64 -w 0
 echo -n "\", \"avm\": \""
-if [ -f /tmp/NeoContract1/bin/Release/NeoContract1.avm ]; then
-   cat /tmp/NeoContract1/bin/Release/NeoContract1.avm | xxd -p | base64 -w 0
+if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.nef ]; then
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.nef | xxd -p | base64 -w 0
 fi
 echo -n "\", \"abi\":\""
-if [ -f /tmp/NeoContract1/bin/Release/NeoContract1.abi.json ]; then
-   cat /tmp/NeoContract1/bin/Release/NeoContract1.abi.json | base64 -w 0
+if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.abi.json ]; then
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.abi.json | base64 -w 0
 fi
 echo "\"}"

@@ -913,9 +913,6 @@
                                         </a>
                                             <ul class="dropdown-menu" id="CompilersList">
                                                 <li><a onclick="setCompiler('csharp')">C#</a></li>
-                                                <li><a onclick="setCompiler('python')">Python</a></li>
-                                                <li><a onclick="setCompiler('golang')">Golang</a></li>
-                                                <li><a onclick="setCompiler('java')">Java</a></li>
                                             </ul>
                                       </div>
 
@@ -929,9 +926,6 @@
                                        </div>
 
                                        <input type="hidden" id="code_cs" name="codesend_cs"/>
-                                       <input type="hidden" id="code_java" name="codesend_java"/>
-                                       <input type="hidden" id="code_golang" name="codesend_golang"/>
-                                       <input type="hidden" id="code_python" name="codesend_python"/>
 
                                        <input type="hidden" id="selected_compiler_form" name="codesend_selected_compiler"/>
 
@@ -2096,6 +2090,8 @@
         $("#neoscan_path")[0].value = $("#selectionBoxNeoScan")[0].value;
         //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
+//TODO remove
+setWalletRefreshInterval(1000000000)
         updateBASEPATHS();
         startSocketIoConnections();
         populateAllWalletData();
@@ -2759,12 +2755,6 @@
 
     function getfile(language, selected_index, index = 0) {
         var vExamples = cSharpFiles;
-        if(language === "python")
-          vExamples = cPythonFiles;
-        if(language === "java")
-          vExamples = cJavaFiles;
-        if(language === "golang")
-          vExamples = cGolangFiles;
 
         var numfiles = vExamples[selected_index].length;
         if (index < numfiles) {
@@ -2813,9 +2803,6 @@
         $("#codewarnerr").val("Remote compiling at "+BASE_PATH_COMPILERS+"...");
         $("#compilebtn")[0].disabled = true;
         $("#code_cs").val("");
-        $("#code_python").val("");
-        $("#code_golang").val("");
-        $("#code_java").val("");
         $("#codeavm").val("");
         $("#opcodes").val("");
         $("#codeabi").val("");
@@ -2823,68 +2810,63 @@
         $("#contracthashjs").val("");
         $("#contractparams").val("\"\"");
         $("#selected_compiler_form").val(SELECTED_COMPILER);
-        e.preventDefault(); // Prevents the page from refreshing
-		var zip = new JSZip();
-		zip.file("contract", ace.edit("aceEditor").getSession().getValue());
-		zip.generateAsync({
-			type : "base64",
-			compression: "DEFLATE",
-			compressionOptions: {
-				level: 9
-			}
-		}).then((code)=>{
-			if (SELECTED_COMPILER == "csharp") {
-				$("#code_cs").val(code);
-				console.log("Compiling C# code...");
-			}
-			if (SELECTED_COMPILER == "python") {
-				$("#code_python").val(code);
-				console.log("Compiling Python code...");
-			}
-			if (SELECTED_COMPILER == "golang") {
-				$("#code_golang").val(code);
-				console.log("Compiling Golang code...");
-			}
-			if (SELECTED_COMPILER == "java") {
-				$("#code_java").val(code);
-				console.log("Compiling Java code...");
-			}
-			var $this = $(this); // `this` refers to the current form element
-			var indata = $(this).serialize();
-			$.post(
-				BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
-				indata, // Serializes form data in standard format
-				function(data) {
-					console.log("finished compiling");
-					$("#compilebtn")[0].disabled = false;
-					var coderr = atob(data.output);
-					$("#codewarnerr").val(coderr);
-					var hexcodeavm = atob(data.avm);
-					$("#codeavm").val(hexcodeavm);
-					hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-					$("#opcodes").val("");
-					//printOpcode(hexcodeavm, $("#opcodes"));
-					//console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-					localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
-					//datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
-					//console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-					//console.log(localStorage.getItem('avmFile').charCodeAt(0));
-					//$("#btn_download")[0].style = "";
 
-					//filling hashes
-					  var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-					var avmSize = Math.ceil(hexcodeavm.length/2);
-					updateCompiledOrLoadedContractInfo(contractScriptHash,avmSize);
-					// Loading all ABI related boxes
-					if(data.abi != "")
-					{
-					  var codeabi = atob(data.abi);
-					  console.log(codeabi);
-						updateAllABIDependencies(JSON.parse(codeabi));
-					}
-				},
-				"json" // The format the response should be in
-			); //End of POST for Compile
+        e.preventDefault(); // Prevents the page from refreshing
+		    var zip = new JSZip();
+		    zip.file("contract", ace.edit("aceEditor").getSession().getValue());
+		    zip.generateAsync({type : "base64"}).then((code)=>{
+			  if (SELECTED_COMPILER == "csharp") {
+				   $("#code_cs").val(code);
+				   console.log("Compiling C# code...");
+        }
+        var $this = $(this); // `this` refers to the current form element
+        var indata = $(this).serialize();
+        $.post(
+            BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
+            indata, // Serializes form data in standard format
+            function(data) {
+                console.log("finished compiling");
+                $("#compilebtn")[0].disabled = false;
+                var coderr = atob(data.output);
+                $("#codewarnerr").val(coderr);
+                var hexcodeavm = atob(data.avm);
+                $("#codeavm").val(hexcodeavm);
+                hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+                $("#opcodes").val("");
+                //printOpcode(hexcodeavm, $("#opcodes"));
+                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
+                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
+                //$("#btn_download")[0].style = "";
+
+                //filling hashes
+    	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+                var avmSize = Math.ceil(hexcodeavm.length/2);
+                updateCompiledOrLoadedContractInfo(contractScriptHash,avmSize);
+                // Loading all ABI related boxes
+                if(data.abi != "")
+                {
+                  var codeabi = atob(data.abi);
+                  console.log(codeabi);
+    	            updateAllABIDependencies(JSON.parse(codeabi));
+                }
+            },
+            "json" // The format the response should be in
+        ).done(function() { alert('Request done!'); })
+        .fail(function(jqxhr, settings, ex) {
+          alert('failed, ' + ex);
+          console.log(jqxhr);
+          console.log(settings);
+          $("#compilebtn")[0].disabled = false;
+          var coderr = atob(data.output);
+          $("#codewarnerr").val(coderr);
+          var hexcodeavm = atob(data.avm);
+          $("#codeavm").val(hexcodeavm);
+          hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+          $("#opcodes").val("");
+        });
 
 			//Send info to EcoServices for counting number of compilations
 			$.post(
@@ -2894,6 +2876,7 @@
 				"json" // The format the response should be in
 			); //End of POST for Compile counter
 		});
+
 
     }); //End of form Compile function
     //===============================================================
@@ -3127,24 +3110,6 @@
             updateCompilersSelectionBox("docker-mono-neo-compiler");
             vExamples = cSharpFiles;
             $("#cbx_example_name")[0].placeholder = "myexample.cs";
-        }
-        if (language === "python") {
-            aceEditor.getSession().setMode("ace/mode/python");
-            updateCompilersSelectionBox("docker-neo-boa");
-            vExamples = cPythonFiles;
-            $("#cbx_example_name")[0].placeholder = "myexample.py";
-        }
-        if (language === "golang") {
-            aceEditor.getSession().setMode("ace/mode/golang");
-            updateCompilersSelectionBox("docker-neo-go");
-            vExamples = cGolangFiles;
-            $("#cbx_example_name")[0].placeholder = "myexample.go";
-        }
-        if (language === "java") {
-            aceEditor.getSession().setMode("ace/mode/java");
-            updateCompilersSelectionBox("docker-java-neo-compiler");
-            vExamples = cJavaFiles;
-            $("#cbx_example_name")[0].placeholder = "myexample.java";
         }
 
         var exampleListUl = document.getElementById("ExampleList");

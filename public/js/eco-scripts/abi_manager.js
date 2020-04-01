@@ -9,31 +9,31 @@ function updateAllABIDependencies(jsonABI){
                 option.text = "Main";
                 option.value = "Main";
                 inputboxjs.add(option);
-
                 var textAbi = "ScriptHash (big endian): " + jsonABI["hash"] + "\n";
                 textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
-                textAbi += "Functions:" + "\n";
-
-                for (var i = 0; i < jsonABI["functions"].length; i++) {
+                textAbi += "Methods:" + "\n";
+		console.log("oi3")
+                for (var i = 0; i < jsonABI["methods"].length; i++) {
                     textAbi += "\t" +
-                        jsonABI["functions"][i]["returntype"] + " " +
-                        jsonABI["functions"][i]["name"] + "(";
+                        jsonABI["methods"][i]["returntype"] + " " +
+                        jsonABI["methods"][i]["name"] + "(";
 
-                    if (jsonABI["functions"][i]["name"] != "Main") {
+                    if (jsonABI["methods"][i]["name"] != "Main") {
                         option2 = document.createElement("option");
-                        option2.text = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
-                        option2.value = firstCharToLowerCase(jsonABI["functions"][i]["name"]);
+                        option2.text = firstCharToLowerCase(jsonABI["methods"][i]["name"]);
+                        option2.value = firstCharToLowerCase(jsonABI["methods"][i]["name"]);
                         inputboxjs.add(option2);
                     }
 
-                    for (var f = 0; f < jsonABI["functions"][i]["parameters"].length; f++) {
-                        textAbi += jsonABI["functions"][i]["parameters"][f]["type"] + " " +
-                            jsonABI["functions"][i]["parameters"][f]["name"];
-                        if (f != jsonABI["functions"][i]["parameters"].length - 1)
+                    for (var f = 0; f < jsonABI["methods"][i]["parameters"].length; f++) {
+                        textAbi += jsonABI["methods"][i]["parameters"][f]["type"] + " " +
+                            jsonABI["methods"][i]["parameters"][f]["name"];
+                        if (f != jsonABI["methods"][i]["parameters"].length - 1)
                             textAbi += ", ";
                     }
                     textAbi += ");\n";
                 }
+		console.log("oi4")
                 textAbi += "Events:" + "\n";
                 for (var e = 0; e < jsonABI["events"].length; e++) {
                     textAbi += "\t" +
@@ -47,7 +47,7 @@ function updateAllABIDependencies(jsonABI){
                     }
                     textAbi += ");\n";
                 }
-
+		console.log("oi5")
                 $("#codeabi").val(textAbi);
 		//console.log(textAbi);
 

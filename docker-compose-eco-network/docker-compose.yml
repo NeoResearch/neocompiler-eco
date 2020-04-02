@@ -24,7 +24,6 @@ services:
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
-      #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
       - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
@@ -61,7 +60,6 @@ services:
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
-      #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
       - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/systemLog.json:/opt/node/neo-cli/Plugins/SystemLog/config.json
@@ -166,7 +164,6 @@ services:
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
-      #- ./neo-cli/configs/plugins/rpcClient.json:/opt/node/neo-cli/Plugins/RpcClient/config.json
       - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json

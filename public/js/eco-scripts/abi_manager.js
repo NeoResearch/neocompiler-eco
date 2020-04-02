@@ -12,7 +12,6 @@ function updateAllABIDependencies(jsonABI){
                 var textAbi = "ScriptHash (big endian): " + jsonABI["hash"] + "\n";
                 textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
                 textAbi += "Methods:" + "\n";
-		console.log("oi3")
                 for (var i = 0; i < jsonABI["methods"].length; i++) {
                     textAbi += "\t" +
                         jsonABI["methods"][i]["returntype"] + " " +
@@ -33,7 +32,6 @@ function updateAllABIDependencies(jsonABI){
                     }
                     textAbi += ");\n";
                 }
-		console.log("oi4")
                 textAbi += "Events:" + "\n";
                 for (var e = 0; e < jsonABI["events"].length; e++) {
                     textAbi += "\t" +
@@ -47,7 +45,6 @@ function updateAllABIDependencies(jsonABI){
                     }
                     textAbi += ");\n";
                 }
-		console.log("oi5")
                 $("#codeabi").val(textAbi);
 		//console.log(textAbi);
 

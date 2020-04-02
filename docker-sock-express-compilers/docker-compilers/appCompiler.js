@@ -95,7 +95,9 @@ app.get('/getCompilers', (req, res) => {
 		        var obj = {};
 		        obj["compiler"] = stdout1[i];
 		        obj["version"] = stdout1[i + 1];
-		        arr.push(obj);
+			// Remove later TODO
+			if(obj["version"] == "v3.0")
+			        arr.push(obj);
             }
             compilers = arr;
             res.send(JSON.stringify(arr));
@@ -108,10 +110,7 @@ app.post('/compilex', function(req, res) {
     // Specifies which URL to listen for
     // req.body -- contains form data
 
-    //console.log("python: "+req.body.codesend_python);
     //console.log("cs: "+req.body.codesend_cs);
-    //console.log("go: "+req.body.codesend_golang);
-    //console.log("java: "+req.body.codesend_java);
     //console.log(req.body.csharp_compilers_versions);
 
     var imagename = req.body.compilers_versions;
@@ -144,7 +143,7 @@ app.post('/compilex', function(req, res) {
             res.send(msgret);
         } else {
             var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
-	    console.log(cmddocker);
+	    //console.log(cmddocker);
             var start = new Date();
             var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
                 var end = new Date() - start;
@@ -158,13 +157,9 @@ app.post('/compilex', function(req, res) {
                         message = "Timeout on " + end + "ms (limit: " + optionsCompilex.timeout + "ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
                     var msg64 = Buffer.from(message, 'ascii').toString('base64');
                     var msgret = "{\"output\":\"" + msg64 + "\",\"avm\":\"\",\"abi\":\"\"}";
-		    console.log('Finished with error');
                     res.send(msgret);
                     //throw e;
                 } else {
-                    console.log('stdout ', stdout);
-                    console.log('stderr ', stderr);
-		    console.log('Finished compiling');
                     res.send(stdout);
                 }
             }); // child

@@ -44,8 +44,8 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 
 ### What does it currently do
-* Compile input C#, Python, Go or Java code using reliable and safe servers (backend) compilers;
-* Return AVM and ABI codes (more precise of C# compiler);
+* Compile input C# code using reliable and safe servers (backend) compilers;
+* Return NEF compatible files: AVM, ABI and MANIFEST codes;
 * Deploy and invoke code to private net, shared privatenet, testnet (unsafe), mainet (unsafe);
 * Save your history of activies for testing a given smart contract;
 * Tests with different wallets, synced and with able to provide historic data our activity;
@@ -57,7 +57,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ### Roadmap
 
-* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet
+* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet (previously tested on NeoCompiler Eco for NEO master-2x only)
 * Move towards client-based compiling (more secure, robust and much more scalable).
     - Some efforts have been done here already, but many technical challenges are still being dealt with;
     - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on NEO's multi-language programming interface.

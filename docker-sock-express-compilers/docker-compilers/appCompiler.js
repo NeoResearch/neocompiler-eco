@@ -42,6 +42,12 @@ var optionsCompile = {
     killSignal: 'SIGKILL'
 }
 
+var optionsCompilex = {
+    timeout: 40000, // 5 seconds is already a lot... but C# is requiring 20!
+    maxBuffer: 1024 * 500,
+    killSignal: 'SIGKILL'
+}
+
 app.get('/', (req, res) => {
     if(req.query["random-no-cache"])
     {
@@ -147,13 +153,13 @@ app.post('/compilex', function(req, res) {
         } else {
             var cmddocker = "docker run -e COMPILECODE=" + code64 + " -e COMPATIBLE=" + compatible + " -t --rm " + imagename;
             var start = new Date();
-            var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout, stderr) => {
+            var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
                 var end = new Date() - start;
                 if (e instanceof Error) {
                     console.error(e);
                     var message = "Internal Error:\n" + e;
-                    if (end > optionsCompile.timeout)
-                        message = "Timeout on " + end + "ms (limit: " + optionsCompile.timeout + "ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
+                    if (end > optionsCompilex.timeout)
+                        message = "Timeout on " + end + "ms (limit: " + optionsCompilex.timeout + "ms)\nCan you try again, or switch to an alternative compiling server? Please see the options at 'Configurations' tab.";
                     var msg64 = Buffer.from(message, 'ascii').toString('base64');
                     var msgret = "{\"output\":\"" + msg64 + "\",\"avm\":\"\",\"abi\":\"\"}";
                     res.send(msgret);

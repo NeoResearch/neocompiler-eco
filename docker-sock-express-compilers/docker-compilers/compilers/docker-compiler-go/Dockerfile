@@ -2,7 +2,7 @@ FROM golang:alpine
 LABEL maintainers="anthdm,stevenjack"
 ENV APP_DIRECTORY /go/src/github.com/CityOfZion/neo-go
 
-RUN apk update && apk add git make && rm -rf /var/cache/apk/*
+RUN apk update && apk add git make unzip && rm -rf /var/cache/apk/*
 
 RUN mkdir -p $APP_DIRECTORY
 

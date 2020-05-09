@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo $COMPILECODE | base64 -d > /tmp/contract.go
+echo $COMPILECODE | base64 -d | funzip > /tmp/contract.go
 
 echo -n "{ \"output\": \""
  ./bin/neo-go contract compile -i /tmp/contract.go -d -o /tmp/contract.avm > /tmp/output.txt 2> /tmp/output.err

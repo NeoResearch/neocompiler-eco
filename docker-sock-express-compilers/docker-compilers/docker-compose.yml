@@ -21,6 +21,7 @@ services:
       - ./appCompiler.js:/opt/appCompiler.js
       - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
       - ./buildCompilers.sh:/opt/buildCompilers.sh
+      - ./.env:/opt/.env
       - ./package.json:/opt/package.json
       - ./compilers:/opt/compilers
       - ./node_modules:/opt/node_modules

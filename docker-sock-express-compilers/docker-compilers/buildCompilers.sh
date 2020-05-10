@@ -5,7 +5,7 @@ source .env
 
 if (($BUILD_CSHARP)); then
 	echo "BUILDING BUILDING mono-neo-compiler $BUILD_CSHARP"
-	(cd compilers/docker-compiler-csharp; ./docker_build.sh)
+	(cd compilers/docker-compiler-csharp; ./docker_build.sh; ./docker_build_list_of_compilers.sh)
 else
 	echo "SKIPING BUILDING mono-neo-compiler $BUILD_CSHARP";
 fi

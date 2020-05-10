@@ -1,6 +1,6 @@
 #!/bin/bash
 export PATH=$PATH:/neo-compiler/neon/bin/Release/netcoreapp2.0/
-echo $COMPILECODE | base64 --decode > /tmp/NeoContract1/Contract1.cs
+echo $COMPILECODE | base64 --decode | funzip > /tmp/NeoContract1/Contract1.cs
 rm -f /tmp/NeoContract1/bin/Release/NeoContract1.*
 cd /tmp
 cp /usr/lib/mono/4.5/mscorlib.dll /tmp/NeoContract1/bin/Release # needed for Actions in ICO_Template

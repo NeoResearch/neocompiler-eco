@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # =====================================================================
 # Nodejs packages & npm
 RUN apt-get update \
-    && apt-get install -y npm nodejs psmisc
+    && apt-get install -y npm nodejs psmisc screen
 # =====================================================================
 
 # =====================================================================

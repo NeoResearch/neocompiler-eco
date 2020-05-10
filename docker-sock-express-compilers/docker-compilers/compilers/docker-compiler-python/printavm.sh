@@ -1,5 +1,5 @@
 #!/bin/bash
-echo $COMPILECODE | base64 --decode > /tmp/NeoContract.py
+echo $COMPILECODE | base64 --decode | funzip > /tmp/NeoContract.py
 
 echo -n "{ \"output\": \""
 python3 compiler.py > /tmp/output.txt 2> /tmp/output.err

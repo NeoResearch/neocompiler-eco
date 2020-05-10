@@ -1,6 +1,6 @@
 #!/bin/bash
 #export PATH=$PATH:/neo-compiler/neoj/bin/Debug/netcoreapp1.1/
-echo $COMPILECODE | base64 --decode > /tmp/JavaContract.java
+echo $COMPILECODE | base64 --decode | funzip > /tmp/JavaContract.java
 #cp /usr/lib/mono/4.5/mscorlib.dll /neo-compiler/neoj/bin/Debug/netcoreapp1.1/
 echo -n "{ \"output\": \""
 #/usr/lib/jvm/java-8-openjdk-amd64/bin/javac -version > /tmp/out.txt

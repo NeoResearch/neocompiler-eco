@@ -2819,67 +2819,71 @@
         $("#contracthashjs").val("");
         $("#contractparams").val("\"\"");
         $("#selected_compiler_form").val(SELECTED_COMPILER);
-        if (SELECTED_COMPILER == "csharp") {
-            $("#code_cs").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Compiling C# code...");
-        }
-        if (SELECTED_COMPILER == "python") {
-            $("#code_python").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Compiling Python code...");
-        }
-        if (SELECTED_COMPILER == "golang") {
-            $("#code_golang").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Compiling Golang code...");
-        }
-        if (SELECTED_COMPILER == "java") {
-            $("#code_java").val(ace.edit("aceEditor").getSession().getValue());
-            console.log("Compiling Java code...");
-        }
         e.preventDefault(); // Prevents the page from refreshing
-        var $this = $(this); // `this` refers to the current form element
-        var indata = $(this).serialize();
-        $.post(
-            BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
-            indata, // Serializes form data in standard format
-            function(data) {
-                console.log("finished compiling");
-                $("#compilebtn")[0].disabled = false;
-                var coderr = atob(data.output);
-                $("#codewarnerr").val(coderr);
-                var hexcodeavm = atob(data.avm);
-                $("#codeavm").val(hexcodeavm);
-                hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-                $("#opcodes").val("");
-                //printOpcode(hexcodeavm, $("#opcodes"));
-                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
-                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
-                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
-                //$("#btn_download")[0].style = "";
+		var zip = new JSZip();
+		zip.file("contract", ace.edit("aceEditor").getSession().getValue());
+		zip.generateAsync({type : "base64"}).then((code)=>{
+			if (SELECTED_COMPILER == "csharp") {
+				$("#code_cs").val(code);
+				console.log("Compiling C# code...");
+			}
+			if (SELECTED_COMPILER == "python") {
+				$("#code_python").val(code);
+				console.log("Compiling Python code...");
+			}
+			if (SELECTED_COMPILER == "golang") {
+				$("#code_golang").val(code);
+				console.log("Compiling Golang code...");
+			}
+			if (SELECTED_COMPILER == "java") {
+				$("#code_java").val(code);
+				console.log("Compiling Java code...");
+			}
+			var $this = $(this); // `this` refers to the current form element
+			var indata = $(this).serialize();
+			$.post(
+				BASE_PATH_COMPILERS + $this.attr("action"), // Gets the URL to sent the post to
+				indata, // Serializes form data in standard format
+				function(data) {
+					console.log("finished compiling");
+					$("#compilebtn")[0].disabled = false;
+					var coderr = atob(data.output);
+					$("#codewarnerr").val(coderr);
+					var hexcodeavm = atob(data.avm);
+					$("#codeavm").val(hexcodeavm);
+					hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+					$("#opcodes").val("");
+					//printOpcode(hexcodeavm, $("#opcodes"));
+					//console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+					localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
+					//datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+					//console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+					//console.log(localStorage.getItem('avmFile').charCodeAt(0));
+					//$("#btn_download")[0].style = "";
 
-                //filling hashes
-    	          var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-                var avmSize = Math.ceil(hexcodeavm.length/2);
-                updateCompiledOrLoadedContractInfo(contractScriptHash,avmSize);
-                // Loading all ABI related boxes
-                if(data.abi != "")
-                {
-                  var codeabi = atob(data.abi);
-                  console.log(codeabi);
-    	            updateAllABIDependencies(JSON.parse(codeabi));
-                }
-            },
-            "json" // The format the response should be in
-        ); //End of POST for Compile
+					//filling hashes
+					  var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+					var avmSize = Math.ceil(hexcodeavm.length/2);
+					updateCompiledOrLoadedContractInfo(contractScriptHash,avmSize);
+					// Loading all ABI related boxes
+					if(data.abi != "")
+					{
+					  var codeabi = atob(data.abi);
+					  console.log(codeabi);
+						updateAllABIDependencies(JSON.parse(codeabi));
+					}
+				},
+				"json" // The format the response should be in
+			); //End of POST for Compile
 
-        //Send info to EcoServices for counting number of compilations
-        $.post(
-            BASE_PATH_ECOSERVICES + "/compileCounter", // Gets the URL to sent the post to
-            null, // Serializes form data in standard format
-            function(data) {},
-            "json" // The format the response should be in
-        ); //End of POST for Compile counter
+			//Send info to EcoServices for counting number of compilations
+			$.post(
+				BASE_PATH_ECOSERVICES + "/compileCounter", // Gets the URL to sent the post to
+				null, // Serializes form data in standard format
+				function(data) {},
+				"json" // The format the response should be in
+			); //End of POST for Compile counter
+		});
 
     }); //End of form Compile function
     //===============================================================

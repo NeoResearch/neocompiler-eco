@@ -10,7 +10,7 @@
     },
     "UnlockWallet": {
       "Path": "./wallet4.json",
-      "Password": "four",
+      "Password": "one",
       "StartConsensus": true,
       "IsActive": true
     }

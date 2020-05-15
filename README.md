@@ -24,7 +24,7 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 #### Browsers/Devices
 
-* Tested with Firefox Quantum - 61.0.1
+* Tested with Firefox Quantum - 76.0.1
 * Tested with Chromium - Version 73
 
 #####  The current front-end interface can be acessed from:
@@ -32,16 +32,12 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 ##### Compilers RPC API services are available at:
 
-* [https://compilers2.neocompiler.io/](https://compilers2.neocompiler.io/) or [http://178.128.203.47:10000/](http://178.128.203.47:10000/)
-
 * [https://compilers.neocompiler.io/](https://compilers.neocompiler.io)
 
 ##### Other useful services
 
 * [https://ecoservices.neocompiler.io](https://ecoservices.neocompiler.io)
 * C# RPC node with watch-only CN feature;
-* [https://neoscan.neocompiler.io](https://neoscan.neocompiler.io) or [http://localhost:4000/](http://localhost:4000/) - (disabled as default) - it can be enable/disabled by acessing [`.env` file](https://github.com/NeoResearch/neocompiler-eco/blob/master/.env);
-
 
 ### What does it currently do
 * Compile input C# code using reliable and safe servers (backend) compilers;
@@ -54,13 +50,11 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 * Provide basic statistical data;
 * Use websockets to provide some useful information;
 * It can be used on TestNet, or even MainNet (however, this is extremely not recommended).
+* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet ((previously tested on NeoCompiler Eco for NEO master-2x only - Waiting for third-party updates on NEO 3x).
 
 ### Roadmap
 
-* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet (previously tested on NeoCompiler Eco for NEO master-2x only)
 * Move towards client-based compiling (more secure, robust and much more scalable).
-    - Some efforts have been done here already, but many technical challenges are still being dealt with;
-    - It has not been easy, still, to accomplish all necessary invocations only in the client side. On the other hand, the server has been responding smooth and nice, providing a nice didactic infrastructure to be used by professors, researchers and those interested on NEO's multi-language programming interface.
 * Ideas? Collaborations are welcome :) The goal is to be didactic and bring it close to citizens and users: Smart Cities, Smart Governance and Smart Blockchain Technologies :P
 
 ### Dependencies
@@ -127,8 +121,17 @@ This script already builds the compilers and starts the server:
 
 `./buildCompilers.sh`
 
-* Build list with different versions for a given compiler, such as: `compilers/docker-compiler-csharp/docker_build_list_of_compilers.sh`
+* Build list with different versions for a given compiler, such as: `docker-sock-express-compilers/docker-compilers/compilers/docker-compiler-csharp/docker_build_list_of_compilers.sh`
 
+* Please note that in the first build the `./buildCompilers.sh` will execute in parallel as a `screen` on the container, then, you may need to wait until the building process if finished. You can easily check the checkly by using `screen -d`
+
+#### Building C# Neo Core Compiler entrypoint based image
+
+The backend for C# is provided using native `github/neo-project` tools, only two steps are necessary to build and tag image:
+
+`cd /docker-sock-express-compilers/docker-compilers/compilers/docker-compiler-csharp`
+
+`docker_build.sh`
 
 ### Running express node servers
 
@@ -139,59 +142,28 @@ This script already builds the compilers and starts the server:
 
 `docker-compose up`
 
-**Compilers RPC API**:
-`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
-
-`docker_build.sh`
-
+**Compilers RPC API Backend**:
 `docker-sock-express-compilers/docker-compilers`
 
 `docker-compose up`
 
 **Eco Services**:
-`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
-
-`docker_build.sh`
-
 `docker-sock-express-compilers/docker-services`
 
 `docker-compose up`
 
-### Building compiling backends (C#, Python, Java and Go)
+**Base images for both previously mentioned services**
 
-#### Building docker-neo-mono backend
-The backend for C# is provided by mono, only two steps are necessary to build and tag image `docker-mono-neo-compiler`:
+`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
 
-`cd docker-neo-mono`
+`./docker_build.sh`
 
-`docker_build.sh`
-
-#### Building docker-neo-boa backend
-The backend for Python is provided by neo-boa compiler, only two steps are necessary to build and tag image `docker-neo-boa`:
-
-`cd docker-neo-boa`
-
-`docker_build.sh`
-
-#### Building docker-neo-go backend
-The backend for Go is provided by neo-go team, only two steps are necessary to build and tag image `docker-neo-go`:
-
-`cd docker-neo-go`
-
-`docker_build.sh`
-
-#### Building docker-java backend
-The backend for Java is provided by neoj compiler (in mono), only two steps are necessary to build and tag image `docker-neo-java-compiler`:
-
-`cd docker-java`
-
-`docker_build.sh`
 
 ## A2) Eco Network Funtionalities
 
 Docker-compose is the main tools that acts for the creation of our micro-service.
 
-This script will start all necessary backend functionalities, neo-csharp-nodes and neo-scan (optional, check `.env`).
+This script will start all necessary backend functionalities and neo-csharp-nodes (optional parameter can be modified on `.env`).
 
 In particular, we currently have:
 
@@ -241,7 +213,7 @@ It is also possible to integrate the Eco Network with lighwallet and explorers.
 One could check docker docker-compose.yml, picking up a combination of your choice from `docker-compose-eco-network` folder.
 This can be done for locally modifying some characteristics.
 
-Run `build_everything.sh` with an additional parameter `--no-build` and your modified files of the private net will be called.
+Run `build_everything.sh` with an additional parameter `--no-build` and your modified node `zip` of the private net will be called, use the name `neo-cli-built.zip`.
 
 
 #### Useful Commands

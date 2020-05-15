@@ -2,11 +2,12 @@
     "ProtocolConfiguration": {
         "Magic": 56753,
         "MillisecondsPerBlock": 1000,
+        "ValidatorsCount": 4,
         "StandbyValidators": [
-            "020b434ab388ae1db815ef581b401954864f86cbffdfb06397378f07b5f2b1ea55",
-            "03500382782316935edc87473960046d38cb3246dcda47bbc6e743e048fb1df4ea",
-            "0290ed1088aeae89147154a1acd5b2a4fb75f49adce1ce5dfb8b7b70ab065b6117",
-            "022540bec02d4ef9dbf36c7081798bf1cbfff611a10bad789b95e8156271e9a680"
+            "03a2544def5cabea5c2007d16ae1f20ab0453ef01cfa4a76da299a486d3425c540",
+            "0360500e0ca373e941e7ae9bcb955b81567eb75251dc65959ad4af61fa8ab161f8",
+            "02eadf0ac71951cd8a399cb92c1ae7cb192c869a010835521dfc266fbd46727b76",
+            "026e6c503d09efb8f0e650de10977eaaab6fadbdbc724a9bed9fa410c586658e50"
         ],
         "SeedList": [
             "eco-neo-csharp-node1-running:20333",

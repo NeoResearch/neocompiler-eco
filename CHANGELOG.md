@@ -13,8 +13,6 @@ Current development version of NeoCompiler Eco 3 is 3.0.
 ### [3.0.1] - 2020-07-31
 - Keep the same version number in order to cross the version with NEO version of 3x branch.
 
-
-
 ### [3.0.0] - 2019-06-06
 - improving automatic claim mechanism for deploy and invoke
 - simplifying neo-scan for a single full container

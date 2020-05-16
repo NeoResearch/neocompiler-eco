@@ -21,8 +21,6 @@ function drawWalletsStatus() {
     row.insertCell(-1).appendChild(headersGasBalance);
     headersUnclaimed.innerHTML = "<b><center><font size='1' color='green'>UNCLAIMED</font></b>";
     row.insertCell(-1).appendChild(headersUnclaimed);
-    headersUnavailable.innerHTML = "<b><center><font size='1' color='green'>UNAVAILABLE</font></b>";
-    row.insertCell(-1).appendChild(headersUnavailable);
 
     for (ka = 0; ka < ECO_WALLET.length; ka++) {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
@@ -47,7 +45,7 @@ function drawWalletsStatus() {
             addressBase58.setAttribute('value', ka);
             addressBase58.setAttribute('id', "btnGetBalanceAddress" + ka);
             addressBase58.onclick = function() {
-                getUnspentsForAddress(this.value);
+                getNep5TokensForAddress(this.value);
             };
             addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 3) + "..." + ECO_WALLET[ka].account.address.slice(-3);
             txRow.insertCell(-1).appendChild(addressBase58);
@@ -64,16 +62,10 @@ function drawWalletsStatus() {
             walletGas.textContent = "-";
             txRow.insertCell(-1).appendChild(walletGas);
 
-            var walletClaim = document.createElement('span');
-            walletClaim.setAttribute('id', "walletClaim" + ka);
-            walletClaim.setAttribute("class", "badge");
-	    walletClaim.textContent = "-";
-            txRow.insertCell(-1).appendChild(walletClaim);
-
             var walletUnclaim = document.createElement('span');
             walletUnclaim.setAttribute('id', "walletUnclaim" + ka);
             walletUnclaim.setAttribute("class", "badge");
-	    walletUnclaim.textContent = "-";
+	        walletUnclaim.textContent = "-";
             txRow.insertCell(-1).appendChild(walletUnclaim);
         } //Check print and encrypted status
     } //Finishes loop that draws each relayed transaction
@@ -83,20 +75,6 @@ function drawWalletsStatus() {
     //Append new table
     document.getElementById("divWalletsStatus").appendChild(table);
 } //Finishe DrawWallets function
-//===============================================================
-
-//===============================================================
-//Call address balance
-function getUnspentsForAddress(addressID) {
-    if (addressID < ECO_WALLET.length && addressID > -1) {
-        var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunspents\", \"params\": [\"" + ECO_WALLET[addressID].account.address + "\"] }";
-        $("#txtRPCJson").val(requestJson);
-        $('#btnCallJsonRPC').click();
-        $('.nav-pills a[data-target="#rawRPC"]').tab('show');
-    } else {
-        alert("Cannot get unspents of addrs with ID " + addressID + " from set of address with size " + ECO_WALLET.length)
-    }
-}
 //===============================================================
 
 //===============================================================
@@ -384,8 +362,8 @@ function populateAllWalletData() {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
 
-	        queryAccountStateNeoAndGasBalanceFromNeoCli(addressToGet, ka);
-            callClaimableFromNeoCli(addressToGet, ka);
+	        queryTofillNeoGasNep5FromNeoCli(addressToGet, ka);
+            callUnclaimedFromNeoCli(addressToGet, ka);
         }
 }
 
@@ -483,3 +461,37 @@ function createRandomWalletsForValidators(nAccounts,threshold) {
     return randomWallets;
 }
 
+function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1)
+{
+	if (boxToFill != "")
+	{
+		if(boxToFill != "#createtx_NEO" && boxToFill != "#createtx_GAS")
+		{
+			$(boxToFill)[0].innerHTML = contentToFill;
+			if(amountUnclaimable != -1)
+				$(boxToFill).val(amountUnclaimable);
+		}
+		else
+		{
+			$(boxToFill).val(contentToFill);
+		}
+	}
+}
+
+function fillAllNeo() {
+    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");
+}
+
+function fillAllGas() {
+    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#createtx_GAS");
+}
+
+function selfTransfer(idToTransfer) {
+    if (idToTransfer < ECO_WALLET.length && idToTransfer > -1) {
+        getAllNeoOrGasFromNeoCli(ECO_WALLET[idToTransfer].account.address, "NEO", "", true);
+    } else {
+        alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length)
+    }
+}

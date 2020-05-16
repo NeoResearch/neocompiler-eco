@@ -13,10 +13,6 @@ config(['$routeProvider',
         when("/", {
             redirectTo: "/ecolab/compilers"
         }).
-        // Pages
-        when("/neoeditor", {
-            templateUrl: "/public/partials/neoeditor.html"
-        }).
         when("/ecolab", {
             redirectTo: "/ecolab/compilers"
         }).

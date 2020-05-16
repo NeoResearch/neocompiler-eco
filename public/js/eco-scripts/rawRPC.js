@@ -1,3 +1,8 @@
+function createJsonRpcCall(method, params)
+{
+
+}
+
 function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             console.log("formating as json for RPC request...");
             wtxjson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"sendrawtransaction\", \"params\": [\""+wtx+"\"] }";
@@ -29,39 +34,18 @@ function sendRawTXToTheRPCNetwork(wtx,txHash = "00"){
             }); //End of POST for search
 }
 
-function sendingTxPromiseWithEcoRaw(txPromise, txLoggingParams = null) {
-    var txHash;
-    const sendTxPromise = txPromise.then(transaction => {
-            txHash = transaction.hash;
-            
-            // Sending using NEON-JS interface
-	    const client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-            return client.sendRawTransaction(transaction.serialize(true));
-
-	    /*
-            console.log("sendingTxPromiseWithEcoRaw:");
-            console.log(transaction);
-            return sendRawTXToTheRPCNetwork(transaction.serialize(true), transaction.hash);*/
-        })
-        .then(res => {
-            console.log("\n\n--- A response was achieved---");
-            //console.log(res);
-            if(txLoggingParams != null && res)
-            {
-                    updateVecRelayedTXsAndDraw(txHash, JSON.stringify(txLoggingParams));
-
-                    // Jump to acitivy tab and record last tab
-                    $('.nav-pills a[data-target="#activity"]').tab('show');
-                    LAST_ACTIVE_TAB_BEFORE_ACTIVITY = "network";
-                    document.getElementById('divNetworkRelayed').scrollIntoView();
-
-		    // TODO create personalized log for other types
-                    createNotificationOrAlert("InvocationTransaction_Invoke", "Response: " + res + " ScriptHash: " + txLoggingParams.contract_scripthash + " tx_hash: " + txHash, 7000);
-            }
-        })
-        .catch(err => console.log(err));
-    return sendTxPromise;
+//Call nep5tokens balance
+function getNep5TokensForAddress(addressID) {
+    if (addressID < ECO_WALLET.length && addressID > -1) {
+        var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep5balances\", \"params\": [\"" + ECO_WALLET[addressID].account.address + "\"] }";
+        $("#txtRPCJson").val(requestJson);
+        $('#btnCallJsonRPC').click();
+        $('.nav-pills a[data-target="#rawRPC"]').tab('show');
+    } else {
+        alert("Cannot get unspents of addrs with ID " + addressID + " from set of address with size " + ECO_WALLET.length)
+    }
 }
+//===============================================================
 
 function getContractState(contractScriptHash, deployOrInvoke){
             console.log("formating as json for RPC request...");

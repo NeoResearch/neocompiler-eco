@@ -1,4 +1,3 @@
-
 // converts avm in hex to script hashe
 // example: '21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac' => 'e9eed8dc39332032dc22e5d6e86332c50327ba23'
 function getScriptHashFromAVM(avm)
@@ -24,8 +23,8 @@ function toBase58FromPublicKey(pubKeyToConvert)
 {
     if(!Neon.default.is.publicKey(pubKeyToConvert))
     {
-	console.log( pubKeyToConvert + " does not seems to be a valid publicKey.")
-	return;
+	    console.log( pubKeyToConvert + " does not seems to be a valid publicKey.")
+	    return;
     }
 
     return toBase58(getScriptHashFromAVM("21" + pubKeyToConvert + "ac"));

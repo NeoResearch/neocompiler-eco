@@ -1,7 +1,7 @@
 /* ======================================  */
 /* Some Global Variables  */
-var NEO_ASSET = 0x8c23f196d8a1bfd103a9dcb1f9ccf0c611377d3b;
-var GAS_ASSET = 0x9bde8f209c88dd0e7ca3bf0af0f476cdd8207789;
+var NEO_ASSET = 0x9bde8f209c88dd0e7ca3bf0af0f476cdd8207789;
+var GAS_ASSET = 0x8c23f196d8a1bfd103a9dcb1f9ccf0c611377d3b;
 
 /* Basic counters */
 var numberCompilations = 0;

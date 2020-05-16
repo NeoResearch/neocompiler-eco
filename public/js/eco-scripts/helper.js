@@ -17,13 +17,6 @@ function download(file, ext) {
     }
 }
 
-function elipsisMiddle(str) {
-    if (str.length > 8) {
-        return str.substr(0, 4) + '...' + str.substr(str.length - 4, str.length);
-    }
-    return str;
-}
-
 // javascript big integer to big-endian byte array (C# representation)
 function bigint2bebytearray(bigint) {
     if (bigint >= 0) {

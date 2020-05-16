@@ -1,34 +1,3 @@
-function callClaimableFromNeoCli(adddressToGet, indexKA) {
-    var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getclaimable\", \"params\": [\"" + adddressToGet + "\"] }";
-    //console.log("getclaimable request to: "+BASE_PATH_CLI);
-    $.post(
-        BASE_PATH_CLI, // Gets the URL to sent the post to
-        requestJson, // Serializes form data in standard format
-        function(resultClaimable) {
-            //console.log("resultClaimable")
-            //console.log(resultClaimable);
-            var amountClaimable = 0;
-            if (resultClaimable.result)
-                amountClaimable = resultClaimable.result.unclaimed;
-
-            if (resultClaimable.result.address && amountClaimable > 0 && !DISABLE_AUTOMATIC_CLAIM) {
-                var resultQueryAddress = resultClaimable.result.address;
-                idToAutomaticClaim = searchAddrIndexFromBase58(resultQueryAddress);
-                //console.log("Current gas inside claimable query is " + $("#walletGas" + idToAutomaticClaim).val() );
-                var currentGasAmmount = Number($("#walletGas" + idToAutomaticClaim)[0].innerHTML);
-                if (currentGasAmmount == map[resultQueryAddress])
-                    automaticClaim(amountClaimable, idToAutomaticClaim);
-                map[resultQueryAddress] = currentGasAmmount;
-            }
-            fillSpanTextOrInputBox("#walletClaim" + indexKA, amountClaimable);
-            return amountClaimable;
-        },
-        "json" // The format the response should be in
-    ).fail(function() {
-        console.error("callClaimableFromNeoCli problem. failed to pass request to RPC network!");
-    }); //End of POST for search
-}
-
 function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
     var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimed\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getclaimable request to: "+BASE_PATH_CLI);
@@ -53,7 +22,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
     }); //End of POST for search
 }
 
-function queryAccountStateNeoAndGasBalanceFromNeoCli(adddressToGet, addressID) {
+function queryTofillNeoGasNep5FromNeoCli(adddressToGet, addressID) {
     requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep5balances\", \"params\": [\"" + adddressToGet + "\"] }";
 
     $.post(
@@ -65,15 +34,15 @@ function queryAccountStateNeoAndGasBalanceFromNeoCli(adddressToGet, addressID) {
             fillSpanTextOrInputBox("#walletGas" + addressID, 0);
             if (resultJsonData.result) {
                 for (i = 0; i < resultJsonData.result.balance.length; ++i) {
-                    var availableAmount = resultJsonData.result.balances[i].amount;
-                    if(resultJsonData.result.balances[i].asset_hash == NEO_ASSET)
-		    	fillSpanTextOrInputBox("#walletNeo" + addressID, availableAmount);
-                    if(resultJsonData.result.balances[i].asset_hash == GAS_ASSET)
-		    	fillSpanTextOrInputBox("#walletGas" + addressID, availableAmount);
+                    var availableAmount = resultJsonData.result.balance[i].amount;
+                    if(resultJsonData.result.balance[i].asset_hash == NEO_ASSET)
+		    	        fillSpanTextOrInputBox("#walletNeo" + addressID, availableAmount);
+                    if(resultJsonData.result.balance[i].asset_hash == GAS_ASSET)
+		    	        fillSpanTextOrInputBox("#walletGas" + addressID, availableAmount/100000000);
                 } // end loop for every asset
             } else {
             	fillSpanTextOrInputBox("#walletNeo" + addressID, "-");
-           	fillSpanTextOrInputBox("#walletGas" + addressID, "-");
+           	    fillSpanTextOrInputBox("#walletGas" + addressID, "-");
             }
         },
         "json" // The format the response should be in

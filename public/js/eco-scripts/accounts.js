@@ -34,7 +34,7 @@ ECO_WALLET.push({
 // Signing order: [NODE2, NODE1, NODE3, NODE4]
 //Node1
 const accountMS1 = new Neon.wallet.Account("Ni1TcUxH9kWjgoko8F34Lc896WeXxdVvar");
-const accountMS2 = new Neon.wallet.Account("KzfPUYDC9n2yf4fK5ro4C8KMcdeXtFuEnStycbZgX3GomiUsvX6W");
+const accountMS2 = new Neon.wallet.Account("NTh3f8oDgUYQBfxm18HoAak4YUHvjaYBNv");
 const accountMS3 = new Neon.wallet.Account("L2oEXKRAAMiPEZukwR5ho2S6SMeQLhcK9mF71ZnF7GvT8dU4Kkgz");
 const accountMS4 = new Neon.wallet.Account("KzgWE3u3EDp13XPXXuTKZxeJ3Gi8Bsm8f9ijY3ZsCKKRvZUo1Cdn");
 ECO_WALLET.push({
@@ -44,7 +44,7 @@ ECO_WALLET.push({
 //Node2
 ECO_WALLET.push({
     account: accountMS2,
-    print: false
+    print: true
 });
 //Node3
 ECO_WALLET.push({

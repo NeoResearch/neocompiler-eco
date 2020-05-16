@@ -2097,64 +2097,6 @@
             $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"" + $("#rpcMethod").val() + "\", \"params\": [\"\"] }");
     };
 
-    var createtx_balance = null;
-
-    function verifyRPCNetworkForWithdrawUTXO() {
-        myaddress = $("#createtx_from_address")[0].value;
-        console.log('getBalance: for: ' + myaddress);
-        if (myaddress != "") {
-            setNeonApiProvider(getCurrentNetworkNickname());
-            NEON_API_PROVIDER.getBalance(myaddress).then(res => updateUTXOSCapture(res));
-        }
-    }
-
-    function updateUTXOSCapture(res) {
-        if (res.address == "not found") {
-            alert("address not found!");
-            console.log(JSON.stringify(res));
-            return;
-        }
-        createtx_balance = res;
-        assetBox = $("#createtx_input_assetid")[0];
-        asset = assetBox.options[assetBox.selectedIndex].text;
-        //alert("asset:"+this.value+asset);
-
-        //inputbox = document.getElementById("createtx_input_utxo");
-        //for(i = inputbox.options.length - 1 ; i >= 0 ; i--)
-        //  inputbox.remove(i);
-
-        inputbox2 = document.getElementById("createtx_input_utxo2");
-        while (inputbox2.options.length > 0)
-            inputbox2.remove(0);
-
-        //console.log(createtx_balance);
-
-        if (asset == "GAS") {
-            for (i = 0; i < createtx_balance.assets.GAS.unspent.length; ++i) {
-                option = document.createElement("option");
-                option.text = "utxo: " + elipsisMiddle(createtx_balance.assets.GAS.unspent[i].txid) + " #" + createtx_balance.assets.GAS.unspent[i].index + " GAS: " + createtx_balance.assets.GAS.unspent[i].value;
-                option.value = JSON.stringify(createtx_balance.assets.GAS.unspent[i]);
-                //console.log(JSON.parse(option.value).txid);
-                //console.log(JSON.parse(option.value).index);
-                //console.log(JSON.parse(option.value).value);
-                inputbox2.add(option);
-            }
-        }
-        if (asset == "NEO") {
-            for (i = 0; i < createtx_balance.assets.NEO.unspent.length; ++i) {
-                option = document.createElement("option");
-                option.text = "utxo: " + elipsisMiddle(createtx_balance.assets.NEO.unspent[i].txid) + " #" + createtx_balance.assets.NEO.unspent[i].index + " NEO: " + createtx_balance.assets.NEO.unspent[i].value;
-                option.value = JSON.stringify(createtx_balance.assets.NEO.unspent[i]);
-                //inputbox.add(option);
-                inputbox2.add(option);
-            }
-        }
-
-        $("#createtx_output_addresses").val("");
-        $("#createtx_output_values").val("");
-        updateOutputValues();
-    }
-
     function ConvertJsonNotifications() {
         //console.log(jsonObj);
         if ($("#txtRPCJsonOut").val() != "") {

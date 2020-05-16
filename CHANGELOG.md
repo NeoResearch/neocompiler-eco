@@ -8,12 +8,14 @@ The idea is to follow the semantic versioning format for the releases (MAJOR-MIN
 - The FIX number will be used when specific fixes are made on a previously launched release (but we intend to keep moving on the mainline, so do not be too much left behind :D)
 
 ### Release information
-Current development version is 4.0, so a new major version is coming out with very good things :) The directions we are following now are:
-- More embedded examples for all supported programming languages
-- Full integration with neon-opt project (when it's ready), so compiled AVM will be automatically optimized
-- Full integration with neon-sim project (when it's ready), so the invocations could be made locally on the web client simulator. That will bring more information on possible "fault" situations, with instant results on screen.
+Current development version of NeoCompiler Eco 3 is 3.0.
 
-### [3.5.0] - 2019-06-06
+### [3.0.1] - 2020-07-31
+- Keep the same version number in order to cross the version with NEO version of 3x branch.
+
+
+
+### [3.0.0] - 2019-06-06
 - improving automatic claim mechanism for deploy and invoke
 - simplifying neo-scan for a single full container
 - improving ability to reset server via front-end
@@ -182,6 +184,6 @@ Current development version is 4.0, so a new major version is coming out with ve
 - Project is born
 
 
-NeoResearch 2017-2019
+NeoResearch 2017-2020
 
 MIT License

@@ -17,11 +17,10 @@
             <ul class="nav nav-pills nav-stacked" id="pillstab">
               <li class="active"><a href="#!/ecolab/compilers" data-target="#compilers" data-toggle="tab">Compilers</a></li>
               <li><a href="#!/ecolab/network" data-target="#network" data-toggle="tab" >Deploy & Invoke</a></li>
-              <li><a href="#!/ecolab/transaction"  data-target="#transaction" data-toggle="tab" >Send & Build</a></li>
+              <li><a href="#!/ecolab/wallet"  data-target="#wallet" data-toggle="tab" onclick="populateAllWalletData()">Wallet Manager</a></li>
               <li><a href="#!/ecolab/rawRPC" data-target="#rawRPC" data-toggle="tab">Raw RPC</a></li>
               <li><a href="#!/ecolab/activity" data-target="#activity" data-toggle="tab">Activity</a></li>
-              <li><a href="#!/ecolab/utils"  data-target="#utils" data-toggle="tab">Storage Query</a></li>
-              <li><a href="#!/ecolab/wallet"  data-target="#wallet" data-toggle="tab" onclick="populateAllWalletData()">Wallet/Addresses</a></li>
+              <li><a href="#!/ecolab/utils"  data-target="#utils" data-toggle="tab">Storage Query</a></li>              
               <li><a href="#!/ecolab/conversor" data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a href="#!/ecolab/cnnodesinfo"  data-target="#cnnodesinfo" data-toggle="tab" onclick="getNodeInfo()">Consensus <i class="fas fa-info"></i></a></li>
               <li><a href="#!/ecolab/statistics" data-target="#statistics" data-toggle="tab" onclick="callCoreMetricsFromForm()">Statistics <i class="fas fa-chart-bar"></i></a></li>
@@ -348,12 +347,21 @@
                 <!-- ======================================================== -->
 
                 <!-- ======================================================== -->
-                <!-- BEGIN DIV TRANSACTION -->
-                <div class="tab-pane fade" id="transaction">
+                <!-- BEGIN DIV WALLETS INFO -->
+                <div class="tab-pane fade" id="wallet">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                          Wallet
+                          <button type="submit" onClick="populateAllWalletData();" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                        <div class="panel-body">
+                            <div id="divWalletsStatus" class="table-responsive"></div>
+                        </div>
+                    </div>
 
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Create TX: Transfer UTXO Assets<br>
-                          <button type=button onClick="goToWalletCentral()" id="btn_register_new_address" class="btn btn-warning btn-sm">Register new address</button>
+                     <div class="panel panel-info">
+                        <div class="panel-heading">Transfer NEP5 Assets<br>
+                          <button type=button onClick="document.getElementById('RegisterAddress').scrollIntoView();" id="btn_register_new_address" class="btn btn-warning btn-sm">Register new address</button>
                         </div>
                         <div class="panel-body">
                             <form id="createtx" action="">
@@ -362,13 +370,13 @@
                                   <div class="form-group">
                                     <label for="createtx_from">From(Address)</label>
                                     <button type=button onClick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
-                                    <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3"></select>
+                                    <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="4"></select>
                                   </div>
                                 </div>
                                 <div class="col-md-4">
                                   <div class="form-group">
                                     <label for="createtx_to">To(Address)</label>
-                                    <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3"></select>
+                                    <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="4"></select>
                                     <!-- <input name="createtx_to" id="createtx_to" placeholder="Destination Address" size="40"></input>-->
                                   </div>
                                 </div>
@@ -399,104 +407,9 @@
                               </div>
                            </form>
                          </div>
-                    </div>
+                    </div>  
 
-                    <!-- BEGIN Create TX Withdraw -->
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">Create TX: Withdraw UTXO Assets from Contract</div>
-                        <div class="panel-body">
-                            <form id="frm_createtx_withdraw" action="">
-                              <div class="row">
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label for="createtx_from_contract">From: Verification Script in hex</label>
-                                    <textarea id="createtx_from_contract" class="form-control" placeholder="From Contract Hex Script"/>
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <label for="createtx_from_scripthash">Scripthash big-endian (readonly)</label>
-                                        <input id="createtx_from_scripthash" class="form-control" placeholder="scripthash" required readonly/>
-                                      </div>
-                                      <div class="col-md-6">
-                                        <label for="createtx_from_address">Address (readonly)</label>
-                                        <input id="createtx_from_address" class="form-control" placeholder="address" required readonly/>
-                                      </div>
-                                    </div>
-                                    <div class="row">
-                                      <div class="col-md-6">
-                                        <button type="button" onClick="addContractToWalletFromVerification()" id="btnNewVerificationContractToWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i> Add to wallet</button>
-                                      </div>
-                                    </div>
-                                    <label for="createtx_from_verification">Invocation in hex</label>
-                                    <textarea id="createtx_from_verification" class="form-control" placeholder="Verification/Withdraw Hex Script" required/>
-                                    <label for="createtx_from_verification_opcodes">Invocation script opcodes (readonly)</label>
-                                    <textarea id="createtx_from_verification_opcodes" class="form-control" placeholder="Verification/Withdraw Hex Script Opcodes" readonly/>
-                                    <label for="createtx_script_attributes">Script Attributes</label>
-                                    <textarea id="createtx_script_attributes" class="form-control" placeholder="Script Attributes, one per line"/>
-                                    <label for="createtx_attributes">Attributes: 20 Script big-end (20B), 30 Vote, (32B), f0-ff remarks (variable), a1-af hashes (32B)</label>
-                                    <textarea id="createtx_attributes" class="form-control" placeholder="Attributes, one per line"/>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <select id="createtx_input_assetid" onchange="verifyRPCNetworkForWithdrawUTXO();" required>
-                                      <option>Select an asset</option>
-                                      <option value="c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b">NEO</option>
-                                      <option value="602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7">GAS</option>
-                                    </select><br/>
-                                    <label for="createtx_input_utxo2">Input UTXO</label><br/>
-                                    <select id="createtx_input_utxo2" name="createtx_input_utxo2" required multiple></select>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <label for="createtx_output_addresses">Output/To Address (One per line)</label>
-                                    <textarea id="createtx_output_addresses" class="form-control" placeholder="Address1 \n Address2 \n OriginalAddress (For Change)"/>
-                                    <label for="createtx_output_addresses">Output/To Values (One per line)</label>
-                                    <textarea id="createtx_output_values" class="form-control" placeholder="1 \n 5 \n 3"/>
-                                  </div>
-                                </div>
-                                <div class="col-md-6">
-                                  <div class="form-group">
-                                    <input type="checkbox" id="createtx_cbx_change" checked>Add change automatically</input><br/>
-                                    <label id="createtx_output_total">Total: 0 NEO (expected 0)</label><br/>
-                                    <label for="createtx_signature">Generate Signature (Optional)</label>
-                                    <input id="createtx_signature" class="form-control" placeholder="Private Key (32 bytes)" pattern=".{0}|.{64,64}" title="Must be 32 bytes hex string (or empty)"/>
-                                    <!-- document.getElementById("createtx_signature").checkValidity() -->
-                                    <button type="button" id="createtx_create_sign" class="btn btn-info btn-sm" onclick="createtx_sign();"><i class="fas fa-file-signature"></i> Sign</button>
-                                    <!-- Neon.wallet.generateSignature -->
-                                    <!-- https://github.com/CityOfZion/neon-js/blob/cf5f92e4124c45a154449bf5852bcab28ddc1b32/src/wallet/core.js#L126 -->
-                                  </div>
-                                </div>
-                                <div class="col-md-12">
-                                  <label for="createtx_txhex">Transaction Header/Message Hash</label>&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="transaction hash (big endian UInt256/32 bytes)" id="createtx_txhash" size="50"></input><br/>
-                                  <textarea id="createtx_txhex" class="form-control" placeholder="transaction hex"/>
-                                </div>
-                                <div class="col-md-12">
-                                  <button id="txcreate_withdraw" type="button" class="btn btn-info btn-sm" onclick="create_withdrawtx();">Create Withdraw Transaction</button>
-                                  <button type="submit" id="txcreatesubmit_withdraw" class="btn btn-info btn-sm">Submit Withdraw Transaction</button>
-                                </div>
-                              </div>
-                           </form>
-                         </div>
-                       </div>
-                       <!-- END Create TX Withdraw -->
-                </div>
-                <!-- END DIV TRANSACTION -->
-                <!-- ======================================================== -->
-
-                <!-- ======================================================== -->
-                <!-- BEGIN DIV WALLETS INFO -->
-                <div class="tab-pane fade" id="wallet">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                          Wallet
-                          <button type="submit" onClick="populateAllWalletData();" id="btnReloadall" style="margin-bottom: 10px;" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
-                        </div>
-                        <div class="panel-body">
-                            <div id="divWalletsStatus" class="table-responsive"></div>
-                        </div>
-                    </div>
-                    <div class="panel panel-info">
+                    <div class="panel panel-info" id="RegisterAddress">
                         <div class="panel-heading">Register new account</div>
                         <div class="panel-body">
                           <div class="row">
@@ -2000,10 +1913,6 @@
             return "MainNet";
         if (mynetworkIndex == 3)
             return "TestNet";
-    }
-
-    function goToWalletCentral() {
-        $('.nav-pills a[data-target="#wallet"]').tab('show');
     }
 
     // =======================================================================

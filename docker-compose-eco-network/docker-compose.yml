@@ -38,7 +38,7 @@ services:
       interval: 20s
       timeout: 10s
       retries: 3
-      start_period: 3000s
+      start_period: 30s
     environment:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0

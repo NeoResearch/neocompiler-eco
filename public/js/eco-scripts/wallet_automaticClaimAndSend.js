@@ -15,21 +15,6 @@ function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1
 	}
 }
 
-function automaticClaim(amountClaimable, idToAutomaticClaim) {
-    //console.log("amountClaimable is " +  amountClaimable + " of index "+ idToAutomaticClaim);
-
-    if (idToAutomaticClaim != -1) {
-        if (ECO_WALLET[idToAutomaticClaim].account.isMultiSig) {
-            jsonArrayWithPrivKeys = getMultiSigPrivateKeys(idToAutomaticClaim);
-            //Multi-sig address
-            createClaimMSGasTX(idToAutomaticClaim, jsonArrayWithPrivKeys, getCurrentNetworkNickname());
-        } else //not multisig- normal address
-        {
-            createClaimGasTX(idToAutomaticClaim, BASE_PATH_CLI, getCurrentNetworkNickname());
-        }
-    }
-}
-
 function fillAllNeo() {
     var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
     getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");

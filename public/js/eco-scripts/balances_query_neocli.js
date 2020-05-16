@@ -54,7 +54,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
 }
 
 function queryAccountStateNeoAndGasBalanceFromNeoCli(adddressToGet, addressID) {
-    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getaccountstate\", \"params\": [\"" + adddressToGet + "\"] }";
+    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep5balances\", \"params\": [\"" + adddressToGet + "\"] }";
 
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
@@ -64,11 +64,11 @@ function queryAccountStateNeoAndGasBalanceFromNeoCli(adddressToGet, addressID) {
             fillSpanTextOrInputBox("#walletNeo" + addressID, 0);
             fillSpanTextOrInputBox("#walletGas" + addressID, 0);
             if (resultJsonData.result) {
-                for (i = 0; i < resultJsonData.result.balances.length; ++i) {
-                    var availableAmount = resultJsonData.result.balances[i].value;
-                    if(resultJsonData.result.balances[i].asset == NEO_ASSET)
+                for (i = 0; i < resultJsonData.result.balance.length; ++i) {
+                    var availableAmount = resultJsonData.result.balances[i].amount;
+                    if(resultJsonData.result.balances[i].asset_hash == NEO_ASSET)
 		    	fillSpanTextOrInputBox("#walletNeo" + addressID, availableAmount);
-                    if(resultJsonData.result.balances[i].asset == GAS_ASSET)
+                    if(resultJsonData.result.balances[i].asset_hash == GAS_ASSET)
 		    	fillSpanTextOrInputBox("#walletGas" + addressID, availableAmount);
                 } // end loop for every asset
             } else {
@@ -89,7 +89,7 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
     var assetToGetHash = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
     if (assetToGet == "GAS")
         assetToGetHash = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
-    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getaccountstate\", \"params\": [\"" + adddressToGet + "\"] }";
+    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep5balances\", \"params\": [\"" + adddressToGet + "\"] }";
 
     //console.log("getaccountstate request to: "+BASE_PATH_CLI);
     $.post(

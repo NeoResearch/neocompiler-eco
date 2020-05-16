@@ -29,9 +29,6 @@
                 <div class="row">
                   <span id="timeleft" class="label label-info"></span>
                 </div>
-                <div class="row">
-                  <span id="postgreshighestblock" class="label label-info"></span>
-                </div>
               </div>
             </li>
           </ul>
@@ -68,10 +65,10 @@ setRefreshingIntervalForHeadersInfo(800); //0.8s
 startSocketIoConnections();
 
 function setRefreshingIntervalForHeadersInfo(intervalForRefreshing) {
-    if (refreshHeadersNeoCliNeoScan != 0)
-        clearInterval(refreshHeadersNeoCliNeoScan);
+    if (refreshHeadersNeoCli != 0)
+        clearInterval(refreshHeadersNeoCli);
 
-    refreshHeadersNeoCliNeoScan = setInterval(function() {
+        refreshHeadersNeoCli = setInterval(function() {
         queryNeoCliAndNeoScanHeaders();
     }, intervalForRefreshing);
 }
@@ -87,13 +84,5 @@ function queryNeoCliAndNeoScanHeaders() {
             }); // mempool
         }); // NEO block count
     }); // NEO useragent
-
-    if (ENABLE_NEOSCAN_TRACKING) {
-        $.getJSON(BASE_PATH_NEOSCAN + "/api/main_net/v1/get_height", function(result) {
-            $("#postgreshighestblock")[0].innerHTML = "NEOSCAN -> H: " + result.height;
-        }); // neoscan top block
-    } else {
-        $("#postgreshighestblock")[0].innerHTML = "";
-    }
 }
 </script>

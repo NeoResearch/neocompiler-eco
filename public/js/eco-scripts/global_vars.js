@@ -1,5 +1,8 @@
 /* ======================================  */
 /* Some Global Variables  */
+var NEO_ASSET = 0x8c23f196d8a1bfd103a9dcb1f9ccf0c611377d3b;
+var GAS_ASSET = 0x9bde8f209c88dd0e7ca3bf0af0f476cdd8207789;
+
 /* Basic counters */
 var numberCompilations = 0;
 var numberDeploys = 0;
@@ -11,14 +14,11 @@ var refreshIntervalEcoMetadataStatsId = 0;
 var refreshIntervalNeoCliNodes = 0;
 var refreshIntervalCompilers = 0;
 var refreshGenesisBlock = 0;
-var refreshHeadersNeoCliNeoScan = 0;
+var refreshHeadersNeoCli = 0;
 var refreshIntervalActivityId = 0;
 
 /* Set Default API Provider var for NEONJS */
 var NEON_API_PROVIDER;
-
-/* Enable NEOSCAN explorer on the frontend */
-var ENABLE_NEOSCAN_TRACKING = true;
 
 /* Full activity history of all transactions */
 var FULL_ACTIVITY_HISTORY = false;
@@ -51,7 +51,6 @@ var cSharpFiles = [
         //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
         ["/examples/csharp/HelloWorld/HelloWorld.cs"]
 ];
-
 
 /* PENDING TX */
 var PendingTX = null;
@@ -98,12 +97,6 @@ var BASE_PATH_CLI = getFirstAvailableService("RPC", ecoNodes);
 // ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", ecoNodes);
 
-// NEOSCAN PATH PATH 
-var BASE_PATH_NEOSCAN = getFirstAvailableService("neoscan", ecoNodes);
-
-// PYTHON REST NOTIFICATIONS
-//var BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", ecoNodes);
-
 var LOCAL_DEVELOPMENT = false;
 if (this.window.location.href.indexOf("localhost") != -1)
     LOCAL_DEVELOPMENT = true;
@@ -112,18 +105,13 @@ if (LOCAL_DEVELOPMENT) {
     BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", localHostNodes);
     BASE_PATH_CLI = getFirstAvailableService("RPC", localHostNodes);
     BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", localHostNodes);
-    BASE_PATH_NEOSCAN = getFirstAvailableService("neoscan", localHostNodes);
-    //BASE_PATH_PY_REST = getFirstAvailableService("RESTNotifications", localHostNodes);
 }
 // ==============================================================================================
-
-var NEO_ASSET = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
-var GAS_ASSET = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
 
-    if ((serviceType == "RPC") && ((networkService.type == serviceType) || (networkService.type + "-Python" == serviceType + "-Python"))) {
+    if ((serviceType == "RPC") && (networkService.type == serviceType)) {
         if (networkService.protocol)
             serviceUrlToAdd = networkService.protocol + "://" + networkService.url;
         if (networkService.port)

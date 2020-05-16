@@ -115,17 +115,6 @@ function drawRelayedTXs() {
             txRow.insertCell(-1).appendChild(inputTxReplayHeight);
         }
 
-        if (ENABLE_NEOSCAN_TRACKING) {
-            var txIDCell = document.createElement("a");
-            var urlToGet = BASE_PATH_NEOSCAN + "/api/main_net/v1/get_transaction/" + vecRelayedTXs[i].tx;
-            txIDCell.text = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
-            txIDCell.href = urlToGet;
-            txIDCell.target = '_blank';
-            txIDCell.onclick = urlToGet;
-            txIDCell.style.width = '70px';
-            txIDCell.style.display = 'block';
-            txRow.insertCell(-1).appendChild(txIDCell);
-        } else {
             var txIDCell = document.createElement('button');
             txIDCell.setAttribute('content', 'test content');
             txIDCell.setAttribute('class', 'btn btn-info');
@@ -136,7 +125,6 @@ function drawRelayedTXs() {
             };
             txIDCell.innerHTML = vecRelayedTXs[i].tx.slice(0, 6) + "..." + vecRelayedTXs[i].tx.slice(-6);
             txRow.insertCell(-1).appendChild(txIDCell);
-        }
 
         //Check activation status ends	
     } //Finishes loop that draws each relayed transaction

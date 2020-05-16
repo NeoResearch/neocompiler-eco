@@ -762,20 +762,6 @@
                        <span class="label label-info">Selected service</span>
                        <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
                    </div>
-                   <div class="col-md-2">
-                       <span class="label label-success">NEOSCAN</span>
-                       <select id="selectionBoxNeoScan" class="custom-select form-control"></select>
-                       <span class="label label-info">Selected service</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
-                   </div>
-                   <!--
-                   <div class="col-md-2">
-                       <span class="label label-success">REST Notifications</span>
-                       <input type="text" onchange="updateBASEPATHS()" id="rest_notifications_path" value="------">
-                       <span class="label label-info">Selected service</span>
-                       <select id="selectionBoxRestNotifications" class="custom-select form-control"></select>
-                   </div>
-                 -->
                  </div>
                </div>
                <div class="panel panel-primary">
@@ -813,25 +799,6 @@
                             <div class="col-md-2">
                               <button type=button onClick="onClickBtnSetCNBlockTime()" id="btc_set_cn_pwd" class="btn btn-sucess btn-sm">Set</button>
                             </div>
-                      </div>
-                   </div>
-                 </div>
-               </div>
-               <div class="panel panel-primary">
-                 <div class="panel-heading">
-                     Explorers
-                 </div>
-                 <div class="panel-body">
-                   <div class="form-group">
-                     <div class="row">
-                           <div class="col-md-2">
-                             <span class="label label-success">View NEOSCAN</span>
-                             <br/><input type="checkbox" id="cbx_enable_neoscan">View links and statistics of NEOSCAN</input>
-                           </div>
-                           <div class="col-md-2">
-                             <span class="label label-success">Perform Queries using NEOSCAN</span>
-                             <br/><input type="checkbox" id="cbx_query_neoscan">Queries (UTXO, Claims, Neon.ApiProvide) with NEOSCAN</input>
-                           </div>
                       </div>
                    </div>
                  </div>
@@ -1739,26 +1706,6 @@
         }
     });
     //=================================================================
-    //Neoscan selection box on loading
-    /*if (ENABLE_NEOSCAN_TRACKING) {
-        $("#cbx_enable_neoscan")[0].checked = true;
-    } else {
-        $("#cbx_enable_neoscan")[0].checked = false;
-    }*/
-
-    //onchange
-    $("#cbx_enable_neoscan").on('change', function() {
-        if ($("#cbx_enable_neoscan")[0].checked) {
-            ENABLE_NEOSCAN_TRACKING = true;
-        } else {
-            ENABLE_NEOSCAN_TRACKING = false;
-        }
-        updateNeoScanLinkIfEnable();
-        drawRelayedTXs();
-        console.log("New ENABLE_NEOSCAN_TRACKING flag is " + ENABLE_NEOSCAN_TRACKING);
-    });
-    //=================================================================
-
     $("#ecolabnetworkurlselection").on('change', function() {
         updatePATHS();
     });
@@ -1852,11 +1799,6 @@
         $("#rpc_nodes_path")[0].value = this.value;
     });
 
-    $("#selectionBoxNeoScan").on('change', function() {
-        BASE_PATH_NEOSCAN = this.value;
-        $("#neoscan_path")[0].value = this.value;
-    });
-
     $("#cbx_refresh_wallet").on('change', function() {
         setWalletRefreshInterval(this.value);
     });
@@ -1887,37 +1829,6 @@
         BASE_PATH_COMPILERS = $("#compilers_path")[0].value;
         BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
         BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
-        BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
-
-        updateNeoScanLinkIfEnable();
-    }
-
-    function updateNeoScanLinkIfEnable() {
-        if (ENABLE_NEOSCAN_TRACKING) {
-            mynetworkIndex = $("#ecolabnetworkurlselection")[0].options[$("#ecolabnetworkurlselection")[0].selectedIndex].index;
-            $("#headerNeoScanLink")[0].innerHTML = '<i class="fa fa-th-large" aria-hidden="true"></i> '
-            //neocompiler eco
-            if (mynetworkIndex == 0)
-                $("#headerNeoScanLink")[0].innerHTML += "NeoScan-SharedPrivatenet";
-
-            //local
-            if (mynetworkIndex == 1)
-                $("#headerNeoScanLink")[0].innerHTML += "NeoScan-PrivateNet";
-
-            // MainNet
-            if (mynetworkIndex == 2)
-                $("#headerNeoScanLink")[0].innerHTML += "NeoScan-Mainet";
-
-            // Tesnet
-            if (mynetworkIndex == 3)
-                $("#headerNeoScanLink")[0].innerHTML += "NeoScan-Testnet";
-
-            document.getElementById("headerNeoScanLink").setAttribute("target", "_blank");
-            document.getElementById("headerNeoScanLink").setAttribute("href", BASE_PATH_NEOSCAN);
-        } else {
-            document.getElementById("headerNeoScanLink").setAttribute("href", null);
-            $("#headerNeoScanLink")[0].innerHTML = "";
-        }
     }
 
     //===============================================================
@@ -1982,8 +1893,8 @@
             clearInterval(refreshIntervalWalletId);
           if(refreshIntervalActivityId!=0)
             clearInterval(refreshIntervalActivityId);
-          if(refreshHeadersNeoCliNeoScan!=0)
-            clearInterval(refreshHeadersNeoCliNeoScan);
+          if(refreshHeadersNeoCli!=0)
+            clearInterval(refreshHeadersNeoCli);
         }
       }else {
         if(NEO_CLI_REFRESHING_STOPED)
@@ -2005,9 +1916,6 @@
 
         // Eco shared privatenet
         if (mynetworkIndex == 0) {
-            $("#cbx_enable_neoscan")[0].checked = true;
-            ENABLE_NEOSCAN_TRACKING = true;
-            $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
             setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
@@ -2021,14 +1929,10 @@
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", ecoNodes, "selectionBoxRPCNodes");
-            addAllKnownServiceToSelectionBox("neoscan", ecoNodes, "selectionBoxNeoScan");
         }
 
         // Localhost services
         if (mynetworkIndex == 1) {
-            $("#cbx_enable_neoscan")[0].checked = true;
-            ENABLE_NEOSCAN_TRACKING = true;
-            $("#cbx_query_neoscan")[0].checked = false;
             setWalletRefreshInterval(10000); //10000 millisec
             setActivityRefreshInterval(20000);
             setEcoInfoRefreshInterval(10000);
@@ -2042,15 +1946,11 @@
             addAllKnownServiceToSelectionBox("ecocompilers", localHostNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", localHostNodes, "selectionBoxEcoServices");
             addAllKnownServiceToSelectionBox("RPC", localHostNodes, "selectionBoxRPCNodes");
-            addAllKnownServiceToSelectionBox("neoscan", localHostNodes, "selectionBoxNeoScan");
         }
 
         // MainNet
         if (mynetworkIndex == 2) {
-            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
-            $("#cbx_enable_neoscan")[0].checked = true;
-            ENABLE_NEOSCAN_TRACKING = true;
-            $("#cbx_query_neoscan")[0].checked = true;
+            // TODO - Automatic enable NeoCli clients are running plugin UTXO and claim
             setWalletRefreshInterval(15000); //10000 millisec
             setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
@@ -2062,16 +1962,11 @@
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
             addAllKnownServiceToSelectionBox("RPC", mainNetNodes, "selectionBoxRPCNodes");
-            addAllKnownServiceToSelectionBox("neoscan", mainNetNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
         }
 
         // Tesnet
         if (mynetworkIndex == 3) {
-            // TODO - Automatic enable neoscan until NeoCli clients are running plugin UTXO and claim
-            $("#cbx_enable_neoscan")[0].checked = true;
-            ENABLE_NEOSCAN_TRACKING = true;
-            $("#cbx_query_neoscan")[0].checked = true;
+            // TODO - Automatic enable until NeoCli clients are running plugin UTXO and claim
             setWalletRefreshInterval(15000); //10000 millisec
             setActivityRefreshInterval(25000);
             setEcoInfoRefreshInterval(15000);
@@ -2083,18 +1978,13 @@
             addAllKnownServiceToSelectionBox("ecocompilers", ecoNodes, "selectionBoxCompilers");
             addAllKnownServiceToSelectionBox("ecoservices", ecoNodes, "selectionBoxEcoServices"); //TODO
             addAllKnownServiceToSelectionBox("RPC", testNetNodes, "selectionBoxRPCNodes");
-            addAllKnownServiceToSelectionBox("neoscan", testNetNodes, "selectionBoxNeoScan");
-            //addAllKnownServiceToSelectionBox("RESTNotifications",mainNetNodes,"selectionBoxRestNotifications");
         }
 
         $("#compilers_path")[0].value = $("#selectionBoxCompilers")[0].value;
         $("#eco_services_path")[0].value = $("#selectionBoxEcoServices")[0].value;
         $("#rpc_nodes_path")[0].value = $("#selectionBoxRPCNodes")[0].value;
-        $("#neoscan_path")[0].value = $("#selectionBoxNeoScan")[0].value;
-        //$("#rest_notifications_path")[0].value = $("#selectionBoxRestNotifications")[0].value;
 
-//TODO remove
-setWalletRefreshInterval(1000000000)
+        setWalletRefreshInterval(1000000000)
         updateBASEPATHS();
         startSocketIoConnections();
         populateAllWalletData();
@@ -2891,7 +2781,7 @@ setWalletRefreshInterval(1000000000)
 				function(data) {},
 				"json" // The format the response should be in
 			); //End of POST for Compile counter
-		});
+		});                                                                                                                                                                                                                   
 
 
     }); //End of form Compile function

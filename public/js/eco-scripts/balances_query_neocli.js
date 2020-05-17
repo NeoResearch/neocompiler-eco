@@ -1,5 +1,5 @@
 function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
-    var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimed\", \"params\": [\"" + adddressToGet + "\"] }";
+    var requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getunclaimedgas\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getclaimable request to: "+BASE_PATH_CLI);
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
@@ -9,7 +9,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
             //console.log(resultUnclaimed);
             var amountUnclaimable = 0;
             if (resultUnclaimed.result)
-                amountUnclaimable = resultUnclaimed.result.unavailable;
+                amountUnclaimable = resultUnclaimed.result.unclaimed / 100000000;
 
             var selfTransferID = "selfTransfer(" + indexKA + ")";
             fillSpanTextOrInputBox("#walletUnclaim" + indexKA, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ', amountUnclaimable);

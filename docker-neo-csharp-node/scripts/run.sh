@@ -52,6 +52,7 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"
 	rm /opt/node/neo-cli/Plugins/RpcServer.dll
+	rm /opt/node/neo-cli/Plugins/RpcNep5Tracker.dll
 	sleep 1
 fi
 

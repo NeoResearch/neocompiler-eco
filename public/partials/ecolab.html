@@ -2559,10 +2559,16 @@
         e.preventDefault(); // Prevents the page from refreshing
 		    var zip = new JSZip();
 		    zip.file("contract", ace.edit("aceEditor").getSession().getValue());
-		    zip.generateAsync({type : "base64"}).then((code)=>{
-			  if (SELECTED_COMPILER == "csharp") {
-				   $("#code_cs").val(code);
-				   console.log("Compiling C# code...");
+        zip.generateAsync({
+          type : "base64",
+          compression: "DEFLATE",
+          compressionOptions: {
+            level: 9
+          }
+        }).then((code)=>{
+          if (SELECTED_COMPILER == "csharp") {
+            $("#code_cs").val(code);
+            console.log("Compiling C# code...");
         }
         var $this = $(this); // `this` refers to the current form element
         var indata = $(this).serialize();

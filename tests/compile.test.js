@@ -5,6 +5,7 @@ describe('Compilation', () => {
   });
 
   test('compile 2.9.3', async () => {
+    await delay(1000);
     const compilerSelection = await page.$("#compilers_versions-selection-box")
     await compilerSelection.select('docker-mono-neo-compiler:2.9.3');
     await testCompilation();

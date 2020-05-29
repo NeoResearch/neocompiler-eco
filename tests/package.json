@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "compile.test.js",
   "scripts": {
     "test": "jest"
   },

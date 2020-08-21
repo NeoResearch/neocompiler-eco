@@ -3,7 +3,7 @@
 #================ BEGIN OTHER VERSIONS =======================
 
 #================ vxxx =====================================
-COMPILER_COMMIT_DEVPACK=970e82f75441388567d293e09514389cf4fd9cdd
+COMPILER_COMMIT_DEVPACK=6dabc1f1c18c41d6d8476ba9d88cec0fde33a8de
 REPO_DEVPACK=https://github.com/neo-project/neo-devpack-dotnet.git
 BRANCH_DEVPACK=master
 ARGS="--build-arg --build-arg COMPILER_COMMIT_DEVPACK=$COMPILER_COMMIT_DEVPACK --build-arg BRANCH_DEVPACK=$BRANCH_DEVPACK --build-arg REPO_DEVPACK=$REPO_DEVPACK"

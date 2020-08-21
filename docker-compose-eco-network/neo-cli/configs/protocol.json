@@ -4,10 +4,10 @@
         "MillisecondsPerBlock": 1000,
         "ValidatorsCount": 4,
         "StandbyValidators": [
-            "03a2544def5cabea5c2007d16ae1f20ab0453ef01cfa4a76da299a486d3425c540",
-            "0360500e0ca373e941e7ae9bcb955b81567eb75251dc65959ad4af61fa8ab161f8",
-            "02eadf0ac71951cd8a399cb92c1ae7cb192c869a010835521dfc266fbd46727b76",
-            "026e6c503d09efb8f0e650de10977eaaab6fadbdbc724a9bed9fa410c586658e50"
+            "02f054588f8e48da6626f0000463294a3b3408fde8ee4cd2f04ac1d9a2fe9299e7",
+            "03b58dc798ee8635a130a92ec76ae7fc54d030b0ea5b63b3c0cd5ce258fd0b90c8",
+            "0285d57106beb051982c1f3228db9f00e24bf2564f41078fc6a93a3c652afc715b",
+            "023dd1d74babb78eaf99624e252f9f292d34f031f8e0e5c9300a89833f69c7bc67"
         ],
         "SeedList": [
             "eco-neo-csharp-node1-running:20333",

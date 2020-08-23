@@ -33,10 +33,10 @@ ECO_WALLET.push({
 // Genesis Multi-sig - Owners of 'AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU'
 // Signing order: [NODE2, NODE1, NODE3, NODE4]
 //Node1
-const accountMS1 = new Neon.wallet.Account("NgwaBkm2kPCTABxsodFLfx1g6KfMSrt3DN");
-const accountMS2 = new Neon.wallet.Account("NTh3f8oDgUYQBfxm18HoAak4YUHvjaYBNv");
-const accountMS3 = new Neon.wallet.Account("L4K1KDEmrNDaN3ZbhUSQNuG9nz3oMogKdaKbsk67p6TTMpjWGi8f");
-const accountMS4 = new Neon.wallet.Account("02eadf0ac71951cd8a399cb92c1ae7cb192c869a010835521dfc266fbd46727b76");
+const accountMS1 = new Neon.wallet.Account("02f054588f8e48da6626f0000463294a3b3408fde8ee4cd2f04ac1d9a2fe9299e7");
+const accountMS2 = new Neon.wallet.Account("03b58dc798ee8635a130a92ec76ae7fc54d030b0ea5b63b3c0cd5ce258fd0b90c8");
+const accountMS3 = new Neon.wallet.Account("0285d57106beb051982c1f3228db9f00e24bf2564f41078fc6a93a3c652afc715b");
+const accountMS4 = new Neon.wallet.Account("023dd1d74babb78eaf99624e252f9f292d34f031f8e0e5c9300a89833f69c7bc67");
 ECO_WALLET.push({
     account: accountMS1,
     print: true
@@ -58,18 +58,19 @@ ECO_WALLET.push({
 });
 // ==============================================================================================
 
-const genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, [
-    accountMS2.publicKey,
-    accountMS4.publicKey,
-    accountMS1.publicKey,
-    accountMS3.publicKey
-]);
 
+const genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, [
+    accountMS1.publicKey,
+    accountMS2.publicKey,
+    accountMS3.publicKey,
+    accountMS4.publicKey
+]);
+/*
 ECO_WALLET.push({
     account: genesisMultiSigAccount,
     print: true,
     owners: ''
-});
+});*/
 
 // NEP-2 Encrypted wallet
 // newWallet = new Neon.wallet.Account("02eaa8dcf4e94fbb2c0e6d10500b4c14f1deecf68720769d29b163555fe8202e")

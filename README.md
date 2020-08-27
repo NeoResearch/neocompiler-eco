@@ -24,7 +24,9 @@ In particular, we provide simple interact and didactic interfaces for allowing o
 
 [![Documentation Status](https://readthedocs.org/projects/neocompiler-eco/badge/?version=latest)](https://neocompiler-eco.readthedocs.io/en/latest/?badge=latest)
 
+#### Building Sphinx Documentation Locally
 
+Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as *ReadTheDocs*)
 
 ### Suggestions
 

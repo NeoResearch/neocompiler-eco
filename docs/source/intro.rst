@@ -68,13 +68,13 @@ See complete :doc:`license <../license>`.
 |neoresearch_official|
 NeoResearch Logo
 
-.. |neoresearch_official| image:: _figs/logo_neoresearch.png
+.. |neoresearch_official| image:: ./_figs/logo_neoresearch.png
    :width: 300
    :alt: NeoResearch Logo
 
 |neoresearch_pioneer|
 NeoResearch First Logo (Historical)
 
-.. |neoresearch_pioneer| image:: _figs/logo_pionner.png
+.. |neoresearch_pioneer| image:: ./_figs/logo_pionner.png
    :width: 100
    :alt: NeoResearch First Logo

@@ -2,9 +2,9 @@ Introduction
 ============
 
 NeoCompiler-Eco project started in early 2018, seeking to provide easy online access to
-`Neo Blockchain <https://neo.org>`_ compile suite for C# `Smart Contracts <https://en.wikipedia.org/wiki/Smart_contract>`_ 
-on Neo, also called *NeoContract*.
-The project evolved quickly by providing other popular languages for NeoContract,
+`Neo Blockchain <https://neo.org>`_ compiling suite for C# `Smart Contracts <https://en.wikipedia.org/wiki/Smart_contract>`_,
+also called *NeoContract*.
+The project evolved quickly by supporting other popular languages for NeoContract,
 such as Python, Java and Go, and also supporting online testing network, a concept called `Shared PrivateNet <./concepts#shared-privatenet.html>`_.
 
 The first version was published online on `<https://neocompiler.io>`_, which is still under frequent maintainance up to 2020.
@@ -35,7 +35,7 @@ for Neo Blockchain itself, named *EcoLab*:
 - Monitoring of storage states for Neo Blockchain, including latest NeoX cross-chain operations
 
 .. hint::
-   All of this can be done in **your machine**! Just `clone the repository <./install.html>`_ and run things locally.
+   All of this can also be done in **your machine**! Just `clone the repository <./install.html>`_ and run things locally.
 
 Acknowledgements
 -----------------

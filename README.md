@@ -20,6 +20,14 @@ This is an open-source initiative for providing an easy access to on NEO ecosyst
 
 In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.
 
+**Official Documentation on [ReadTheDocs](https://neocompiler-eco.readthedocs.io)**
+
+[![Documentation Status](https://readthedocs.org/projects/neocompiler-eco/badge/?version=latest)](https://neocompiler-eco.readthedocs.io/en/latest/?badge=latest)
+
+#### Building Sphinx Documentation Locally
+
+Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as *ReadTheDocs*)
+
 ### Suggestions
 
 #### Browsers/Devices

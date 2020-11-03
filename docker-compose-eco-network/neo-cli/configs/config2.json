@@ -14,7 +14,8 @@
       "Port": 30334,
       "SslCert": "",
       "SslCertPassword": "",
-      "MaxGasInvoke": "0"
+      "ExtraGasInvoke": "0",
+      "MaxConcurrentConnections": "10"
     },
     "UnlockWallet": {
       "Path": "wallet2.json",

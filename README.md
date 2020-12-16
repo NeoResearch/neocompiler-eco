@@ -5,7 +5,7 @@
 </p>
 
 
-## NeoCompiler Eco 3+
+## NeoCompiler Eco (Neo 2x)
 
 <p align="center">
     <img

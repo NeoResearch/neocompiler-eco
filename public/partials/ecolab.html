@@ -23,7 +23,6 @@
               <li><a href="#!/ecolab/utils"  data-target="#utils" data-toggle="tab">Storage Query</a></li>              
               <li><a href="#!/ecolab/conversor" data-target="#conversor" data-toggle="tab">Conversors</a></li>
               <li><a href="#!/ecolab/cnnodesinfo"  data-target="#cnnodesinfo" data-toggle="tab" onclick="getNodeInfo()">Consensus <i class="fas fa-info"></i></a></li>
-              <li><a href="#!/ecolab/statistics" data-target="#statistics" data-toggle="tab" onclick="callCoreMetricsFromForm()">Statistics <i class="fas fa-chart-bar"></i></a></li>
               <li><a href="#!/ecolab/configurations"  data-target="#configurations" data-toggle="tab">Settings <i class="fas fa-cogs"></i></a></li>
             </ul>
         </div>
@@ -600,53 +599,6 @@
           <!-- END DIV NODES INFO -->
           <!-- ======================================================== -->
 
-          <!-- ======================================================== -->
-          <!-- BEGIN STATISTICS NODEINFO -->
-           <div class="tab-pane fade" id="statistics">
-               <div class="panel panel-primary">
-                   <div class="panel-heading">
-                       Blocks timestamps
-                       <button type="submit" onClick="callCoreMetricsFromForm()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
-                   </div>
-
-                   <div class="panel-body">
-                     <div class="row">
-                       <div class="col-md-2">
-                         <span class="label label-success">Max nBlocks to query</span>
-                         <br/><input type="text" onchange="callCoreMetricsFromForm()" id="cbx_blocks_toQuery" value="50" size="2">
-                       </div>
-                       <div class="col-md-2">
-                         <span class="label label-success">Height to start</span>
-                         <br/><input type="text" onchange="callCoreMetricsFromForm()" id="cbx_height_toQuery" value="-1" size="2" data-toggle="tooltip" data-placement="top" title="Leave -1 if you want to get blocks from ending in the last known height.">
-                       </div>
-                       <div class="col-md-2">
-                         <span class="label label-success">Min/Max yTick timeseries</span>
-                         <br/><input type="text" onchange="reloadTSGraph()" id="cbx_min_yTick_ts_value" value="-1" size="1">
-                         <input type="text" onchange="reloadTSGraph()" id="cbx_max_yTick_ts_value" value="3" size="1">
-                       </div>
-                       <div class="col-md-2">
-                         <span class="label label-success">Theoretical blocktime</span>
-                         <br/><input type="text" onchange="calculateNumericalStatistics()" id="cbx_theoretical_blocktime" value="1" size="2">
-                       </div>
-                     </div>
-
-                     <div class="row">
-                       <div class="col-md-8">
-                         <textarea id="txt_area_timestampsStats" placeholder="Block time statistics..." class="form-control" style="font-size: 12px;" rows=5 readonly></textarea>
-                       </div>
-                     </div>
-
-                     <div class="row">
-                       <div class="col-md-8">
-                         <canvas id="canvas_blocktime_chart"></canvas>
-                       </div>
-                     </div>
-                   </div>
-
-               </div> <!-- Statis end -->
-           </div>
-         <!-- END DIV STATISTICS INFO -->
-         <!-- ======================================================== -->
 
           <!-- ======================================================== -->
           <!-- BEGIN CONFIGURATIONS NODEINFO -->
@@ -700,8 +652,8 @@
                    <div class="form-group">
                      <div class="row">
                            <div class="col-md-2">
-                             <span class="label label-success">Seconds per block</span>
-                             <br/><input type="text" id="cbx_spb_cn" placeholder="15" size="2">
+                             <span class="label label-success">Block time (ms)</span>
+                             <br/><input type="text" id="cbx_spb_cn" placeholder="15000" size="5">
                            </div>
                            <div class="col-md-2">
                              <span class="label label-success">Password</span>

@@ -96,7 +96,8 @@ app.get('/getCompilers', (req, res) => {
 		        obj["compiler"] = stdout1[i];
 		        obj["version"] = stdout1[i + 1];
 			// Remove later TODO
-			if(obj["version"] == "v3.0")
+			console.log(obj["version"].substring(1,4))
+			if(obj["version"].substring(0,4) == "v3.0")
 			        arr.push(obj);
             }
             compilers = arr;

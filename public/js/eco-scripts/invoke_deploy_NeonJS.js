@@ -321,8 +321,7 @@ function pushParams(neonJSParams, type, value) {
     else if (type == 'Hex')
         neonJSParams.push(Neon.default.create.contractParam('ByteArray', value));
     else if (type == 'DecFixed8') {
-        // Decimal fixed 8 seems to break at transition 92233720368.54775807 -> 92233720368.54775808
-        neonJSParams.push(Neon.sc.ContractParam.byteArray(value, 'fixed8'));
+        neonJSParams.push(Neon.default.u.num2fixed8(value));
     } else if (type == 'Integer') {
         neonJSParams.push(Neon.sc.ContractParam.integer(value));
     } else if (type == 'Array')

@@ -15,24 +15,24 @@ config(['$routeProvider',
         }).
         // Pages
         when("/neoeditor", {
-            templateUrl: "/public/partials/neoeditor.html"
+            templateUrl: "./public/partials/neoeditor.html"
         }).
         when("/ecolab", {
             redirectTo: "/ecolab/compilers"
         }).
         when("/ecolab/:tab", {
-            templateUrl: "/public/partials/ecolab.html",
+            templateUrl: "./public/partials/ecolab.html",
             reloadOnUrl: false,
             reloadOnSearch: false,
             controller: routeLoaderPills
         }).
         when("/about", {
-            templateUrl: "/public/partials/about.html",
+            templateUrl: "./public/partials/about.html",
             reloadOnUrl: false,
             reloadOnSearch: false
         }).
         // else 404
-        otherwise("/public/partials/404.html");
+        otherwise("./public/partials/404.html");
     }
 ]);
 

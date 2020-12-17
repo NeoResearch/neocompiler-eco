@@ -8,49 +8,49 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="description" content="NeoCompiler Eco">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="public/images/prototype-icon-eco.png" />
+    <link rel="icon" href="./public/images/prototype-icon-eco.png" />
 
     <!-- Bootstrap Stylesheets -->
     <!--
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     -->
-    <link rel="stylesheet" href="public/css/bootstrap-3.2.0.min.css">
-    <link rel="stylesheet" href="public/css/bootwatch-theme.min.css">
+    <link rel="stylesheet" href="./public/css/bootstrap-3.2.0.min.css">
+    <link rel="stylesheet" href="./public/css/bootwatch-theme.min.css">
 
     <!-- Last fontawesome is 5.0.13 - Rember to updated webfonts folder -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"> -->
-    <link rel="stylesheet" href="public/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="./public/css/fontawesome-all.min.css">
 
     <!-- CSS codemirror -->
-    <link rel="stylesheet" href="public/css/codemirror.css">
+    <link rel="stylesheet" href="./public/css/codemirror.css">
 
     <!-- CSS NeoCompiler personalized styles -->
-    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="./public/css/main.css">
 </head>
 <body ng-controller="AppController as vm">
 
 <!-- Web Contests -->
-<div ng-include='"public/templates/header.html"'></div>
-<div ng-include='"public/templates/modal.html"'></div>
+<div ng-include='"./public/templates/header.html"'></div>
+<div ng-include='"./public/templates/modal.html"'></div>
 <div ng-view style="margin-top: 5px;"></div>
-<div ng-include='"public/templates/footer.html"'></div>
+<div ng-include='"./public/templates/footer.html"'></div>
 
 <!-- Javascripts -->
 <!-- JQuery TODO UPDATE -->
 <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> -->
-<script src="public/js/jquery-3.3.1.min.js"></script>
+<script src="./public/js/jquery-3.3.1.min.js"></script>
 
 <!-- Bootstrap -->
-<script src="public/js/bootstrap-3.2.0.min.js"></script>
+<script src="./public/js/bootstrap-3.2.0.min.js"></script>
 
 <!-- Angular, followed by our custom Javascripts -->
 <!--
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
 -->
-<script src="public/js/angular-1.7.8.min.js"></script>
-<script src="public/js/angular-route-1.7.8.min.js"></script>
+<script src="./public/js/angular-1.7.8.min.js"></script>
+<script src="./public/js/angular-route-1.7.8.min.js"></script>
 
 <!-- Code editor -->
 <!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script> -->
@@ -61,75 +61,75 @@
 -->
 
 <!-- ace 10.04.19 -->
-<script type="text/javascript" src="public/js/ace-v143-min-noconflict/ace.js"></script>
-<script type="text/javascript" src="public/js/ace-v143-min-noconflict/ext-language_tools.js"></script>
+<script type="text/javascript" src="./public/js/ace-v143-min-noconflict/ace.js"></script>
+<script type="text/javascript" src="./public/js/ace-v143-min-noconflict/ext-language_tools.js"></script>
 
 <!-- Code Mirror editor -->
-<script src="public/js/codemirror.js"></script>
+<script src="./public/js/codemirror.js"></script>
 
 <!-- Zip compression library -->
-<script src="public/js/jszip.min.js"></script>
+<script src="./public/js/jszip.min.js"></script>
 
 <!-- Load socket-io-->
-<script src="public/js/socket.io-2.1.1.js"></script>
+<script src="./public/js/socket.io-2.1.1.js"></script>
 
 <!-- Our Website Javascripts -->
-<script type="text/javascript" src="public/assets/localhost.json"></script>
-<script type="text/javascript" src="public/assets/eco-shared-privanet.json"></script>
-<script type="text/javascript" src="public/assets/mainnet.json"></script>
-<script type="text/javascript" src="public/assets/testnet.json"></script>
+<script type="text/javascript" src="./public/assets/localhost.json"></script>
+<script type="text/javascript" src="./public/assets/eco-shared-privanet.json"></script>
+<script type="text/javascript" src="./public/assets/mainnet.json"></script>
+<script type="text/javascript" src="./public/assets/testnet.json"></script>
 
 <!-- Load Neon-JS Browser version tools-->
-<script src="public/js/neon-js-browser-4.7.1.js"></script>
+<script src="./public/js/neon-js-browser-4.7.1.js"></script>
 
 <!-- Load ECO personalized functions tools-->
-<script src="public/js/eco-scripts/global_vars.js"></script>
-<script src="public/js/eco-scripts/angular_routes.js"></script>
-<script src="public/js/eco-scripts/socket.js"></script>
-<script src="public/js/eco-scripts/accounts.js"></script>
-<script src="public/js/eco-scripts/accounts_helper.js"></script>
-<script src="public/js/eco-scripts/ecoNotificationsAlerts.js"></script>
-<script src="public/js/eco-scripts/rawMultiSigConversions.js"></script>
-<script src="public/js/eco-scripts/signatures_manager.js"></script>
-<script src="public/js/eco-scripts/transfers_NeonJS.js"></script>
-<script src="public/js/eco-scripts/genesisBlock_NeonJS.js"></script>
-<script src="public/js/eco-scripts/rawRPC.js"></script>
-<script src="public/js/eco-scripts/NeonJS_APIProvider_Queries.js"></script>
-<script src="public/js/eco-scripts/RPC_metrics.js"></script>
-<script src="public/js/eco-scripts/invoke_deploy_NeonJS.js"></script>
-<script src="public/js/eco-scripts/automatic_node_selection.js"></script>
-<script src="public/js/eco-scripts/eco_transactions.js"></script>
-<script src="public/js/eco-scripts/eco_activity.js"></script>
-<script src="public/js/eco-scripts/helper.js"></script>
-<script src="public/js/eco-scripts/neon-opt/neon-opt.js"></script>
-<script src="public/js/eco-scripts/opcodes.js"></script>
-<script src="public/js/eco-scripts/crypto.js"></script>
+<script src="./public/js/eco-scripts/global_vars.js"></script>
+<script src="./public/js/eco-scripts/angular_routes.js"></script>
+<script src="./public/js/eco-scripts/socket.js"></script>
+<script src="./public/js/eco-scripts/accounts.js"></script>
+<script src="./public/js/eco-scripts/accounts_helper.js"></script>
+<script src="./public/js/eco-scripts/ecoNotificationsAlerts.js"></script>
+<script src="./public/js/eco-scripts/rawMultiSigConversions.js"></script>
+<script src="./public/js/eco-scripts/signatures_manager.js"></script>
+<script src="./public/js/eco-scripts/transfers_NeonJS.js"></script>
+<script src="./public/js/eco-scripts/genesisBlock_NeonJS.js"></script>
+<script src="./public/js/eco-scripts/rawRPC.js"></script>
+<script src="./public/js/eco-scripts/NeonJS_APIProvider_Queries.js"></script>
+<script src="./public/js/eco-scripts/RPC_metrics.js"></script>
+<script src="./public/js/eco-scripts/invoke_deploy_NeonJS.js"></script>
+<script src="./public/js/eco-scripts/automatic_node_selection.js"></script>
+<script src="./public/js/eco-scripts/eco_transactions.js"></script>
+<script src="./public/js/eco-scripts/eco_activity.js"></script>
+<script src="./public/js/eco-scripts/helper.js"></script>
+<script src="./public/js/eco-scripts/neon-opt/neon-opt.js"></script>
+<script src="./public/js/eco-scripts/opcodes.js"></script>
+<script src="./public/js/eco-scripts/crypto.js"></script>
 <!-- Load Tests on Cookies or LocalStorage -->
-<script src="public/js/eco-scripts/cookies_localstorage_manager.js"></script>
-<script src="public/js/eco-scripts/smart_contracts_localstorage.js"></script>
+<script src="./public/js/eco-scripts/cookies_localstorage_manager.js"></script>
+<script src="./public/js/eco-scripts/smart_contracts_localstorage.js"></script>
 
 <!-- SCRIPTS USED IN THE ECOLAB ONLY - DO NOT USE ON HOME -->
-<script src="public/js/eco-scripts/wallet_center.js"></script>
-<script src="public/js/eco-scripts/balances_query_neocli.js"></script>
-<script src="public/js/eco-scripts/balances_query_neoscan.js"></script>
-<script src="public/js/eco-scripts/wallet_automaticClaimAndSend.js"></script>
-<script src="public/js/eco-scripts/abi_manager.js"></script>
-<script src="public/js/eco-scripts/avm_manager.js"></script>
+<script src="./public/js/eco-scripts/wallet_center.js"></script>
+<script src="./public/js/eco-scripts/balances_query_neocli.js"></script>
+<script src="./public/js/eco-scripts/balances_query_neoscan.js"></script>
+<script src="./public/js/eco-scripts/wallet_automaticClaimAndSend.js"></script>
+<script src="./public/js/eco-scripts/abi_manager.js"></script>
+<script src="./public/js/eco-scripts/avm_manager.js"></script>
 <!----------------------------------------->
 
 
 <!-- Other usefull scripts: Used in TODO -->
-<script type="text/javascript" src="public/js/eco-scripts/rawgit/sjcl.js"></script>
-<script type="text/javascript" src="public/js/eco-scripts/rawgit/sha256.js"></script>
-<script type="text/javascript" src="public/js/eco-scripts/rawgit/ripemd160.js"></script>
-<script type="text/javascript" src="public/js/eco-scripts/rawgit/biginteger.js"></script>
+<script type="text/javascript" src="./public/js/eco-scripts/rawgit/sjcl.js"></script>
+<script type="text/javascript" src="./public/js/eco-scripts/rawgit/sha256.js"></script>
+<script type="text/javascript" src="./public/js/eco-scripts/rawgit/ripemd160.js"></script>
+<script type="text/javascript" src="./public/js/eco-scripts/rawgit/biginteger.js"></script>
 
 
-<script type="text/javascript" src="public/js/ping.js"></script>
+<script type="text/javascript" src="./public/js/ping.js"></script>
 
 <!-- CHART.JS dependencies with moment due to timeseries -->
-<script src="public/js/moment.min-2.24.0.js"></script>
-<script src="public/js/Chart.min-2.8.0.js"></script>
+<script src="./public/js/moment.min-2.24.0.js"></script>
+<script src="./public/js/Chart.min-2.8.0.js"></script>
 
 <!-- crypto libs -->
 <!--
@@ -174,8 +174,8 @@ document.querySelector('.gitter-chat-embed').addEventListener('gitter-chat-toggl
         $("#neocompilertopbar")[0].className = "navbar navbar-default navbar-fixed-top ng-scope";
 });
 </script>
-<script src="/public/js/neo-dapi-1.0.2.min.js"></script>
-<script src="/public/js/neologin-1.2.4.js"></script>
+<script src="./public/js/neo-dapi-1.0.2.min.js"></script>
+<script src="./public/js/neologin-1.2.4.js"></script>
 
 </body>
 </html>

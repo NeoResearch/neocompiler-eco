@@ -1,0 +1,113 @@
+
+.menu-mobile{
+    display: none;
+}
+.menuMobile{
+    display: none;
+}
+
+
+@media (max-width: 1000px){
+    .menu-mobile{
+        display: block;
+        padding: 30px;
+        position: absolute;
+        right: 0;
+    }
+
+    .menu-mobile a{
+        padding-top: 10px;
+        float: right;
+    }
+
+    .menu-mobile i{
+        color: white!important;
+        margin-top: 20px!important;
+    }
+
+    .tab-pane.fade{
+        margin-top: 120px;
+    }
+    .version-compile{
+        float: left;
+        margin-top: 30px;
+    }
+
+
+    header ul{
+        height: 200px!important;
+    }
+
+    .nav-link img{
+
+        width: 180px!important;
+        margin-top: -15px!important;
+    }
+
+
+    header ul li{
+        height: 200px!important;
+        width: 250px!important;
+    }
+    #collapseExample{
+        position: absolute;
+        margin-top: 200px;
+        z-index: 60000000000000!important;
+        right: 0;
+    }
+
+    #collapseExample {
+        float: right;
+        width: 50% !important;
+    }
+
+    #collapseExample ul{
+        float: left;
+        width: 50% !important;
+        height: 85%!important;
+        overflow-x: scroll!important;
+        border-left: 5px solid #0aac7c;
+    }
+
+    #collapseExample a{
+        color: white;
+        font-size: 20px;
+    }
+
+    #collapseExample li{
+        float: left;
+        padding: 10px;
+        width: 100% !important;
+    }
+
+    #collapseExample li i{
+        float: left;
+        margin-right: 10px;
+    }
+    #collapseExample li p{
+        padding: 10px;
+        font-size: 30px;
+    }
+
+    .nav li{
+        height: 200px!important;
+        background: transparent;
+    }
+
+    #collapseExample ul .nav-item{
+        height: 100px!important;
+    }
+
+
+    .btn-compile{
+        float: left;
+        width: 100%;
+    }
+
+
+    .errors-warnings{
+        float: left;
+        width: 100%;
+    }
+
+}

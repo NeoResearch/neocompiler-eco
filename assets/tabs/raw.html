@@ -1,0 +1,153 @@
+<div id="raw">
+
+<form>
+    <select class="compiler-select w-seta selectclass">
+        <option>SELECT COMPILER</option>
+    </select>
+
+    <select class="compiler-select w-seta selectclass">
+        <option>SELECT EXAMPLE</option>
+    </select>
+</form>
+
+<div class="errors-warnings">
+
+
+    <div class="display-erros n-padding deploy-bg" style="height: 610px;">
+        <h4 class="gree-title">Invoke neo nodes (JSON RPC)</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="rpcMethod">Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
+                                target="_blank">Official API</a> or put cursor on top for tooltip)</label>
+                        <select name="rpcMethod" id="rpcMethod" class="custom-select form-control"
+                            onchange="frmRPCJson()">
+                            <option title="select" value="Select a method">Select a method</option>
+                            <option title=":Gets the number of blocks in the main chain" value="getblockcount">
+                                getblockcount</option>
+                            <option
+                                title="<address> :	Export the private key of the specified address (Need to open the wallet)"
+                                value="dumpprivkey">dumpprivkey</option>
+                            <option title="<address> :	Check account asset information according to account address"
+                                value="getaccountstate">getaccountstate</option>
+                            <option
+                                title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging plugin)"
+                                value="getapplicationlog">getapplicationlog</option>
+                            <option title="<asset_id> :	Query asset information according to the specified asset number"
+                                value="getassetstate">getassetstate</option>
+                            <option
+                                title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)"
+                                value="getbalance">getbalance</option>
+                            <option title=": Gets the hash of the tallest block in the main chain"
+                                value="getbestblockhash">getbestblockhash</option>
+                            <option
+                                title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value"
+                                value="getblock">getblock</option>
+                            <option
+                                title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index"
+                                value="getblock">getblock</option>
+                            <option
+                                title="<index>: 	Returns the hash value of the corresponding block based on the specified index"
+                                value="getblockhash">getblockhash</option>
+                            <option
+                                title="<index>: 	Returns the system fees before the block according to the specified index"
+                                value="getblocksysfee">getblocksysfee</option>
+                            <option title=": Gets the current number of connections for the node"
+                                value="getconnectioncount">getconnectioncount</option>
+                            <option
+                                title="<script_hash>: 	Returns information about the contract based on the specified script hash"
+                                value="getcontractstate">getcontractstate</option>
+                            <option title=": Create a new address (Need to open the wallet)" value="getnewaddress">
+                                getnewaddress</option>
+                            <option
+                                title="<number_of_blocks> <height_to_end (optional)> Return block timestamps (Need to enable CoreMetrics plugin)"
+                                value="getmetricblocktimestamp">getmetricblocktimestamp</option>
+                            <option title=": Get a list of unconfirmed transactions in memory" value="getrawmempool">
+                                getrawmempool</option>
+                            <option
+                                title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value"
+                                value="getrawtransaction">getrawtransaction</option>
+                            <option
+                                title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key"
+                                value="getstorage">getstorage</option>
+                            <option
+                                title="<txid>: 	Returns the corresponding transaction height information based on the specified txid"
+                                value="gettransactionheight">gettransactionheight</option>
+                            <option
+                                title="<txid> <n>: 	Returns the corresponding transaction output (change) information based on the specified hash and index"
+                                value="gettxout">gettxout</option>
+                            <option title=": Get a list of nodes that are currently connected/disconnected by this node"
+                                value="getpeers">getpeers</option>
+                            <option title=": Returns the current NEO consensus nodes information and voting status."
+                                value="getvalidators">getvalidators</option>
+                            <option title=": Get version information of this node" value="getversion">getversion
+                            </option>
+                            <option
+                                title="<script_hash> <params>:	Invokes a smart contract at specified script hash with the given parameters"
+                                value="invoke">invoke</option>
+                            <option
+                                title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params"
+                                value="invokefunction">invokefunction</option>
+                            <option title="<script>: 	Runs a script through the virtual machine and returns the results"
+                                value="invokescript">invokescript</option>
+                            <option title=": Lists all the addresses in the current wallet (Need to open the wallet)"
+                                value="listaddress">listaddress</option>
+                            <option title=": Lists all the plugins loaded in the RPC node" value="listplugins">
+                                listplugins</option>
+                            <option
+                                title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation."
+                                value="sendrawtransaction">sendrawtransaction</option>
+                            <option
+                                title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)"
+                                value="sendtoaddress">sendtoaddress</option>
+                            <option
+                                title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)"
+                                value="sendmany">sendmany</option>
+                            <option title="<hex>: 	Submit new blocks (Needs to be a consensus node)"
+                                value="submitblock">submitblock</option>
+                            <option title="<address>:	Verify that the address is a correct NEO address"
+                                value="validateaddress">validateaddress</option>
+                            <option title=": Get state height" value="getstateheight">getstateheight</option>
+                            <option title="<index>:	Get state root from a specific height" value="getstateroot">
+                                getstateroot</option>
+                            <option title="<state_root,script_hash>: 	Get proof" value="getproof">getproof</option>
+                            <option title="<state_root>: 	Verify Proof" value="verifyproof">verifyproof</option>
+                            <option title=": create your invoke function manually!" value=""></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="txtRPCJson">RPC Json Model</label>
+                        <input id="txtRPCJson" name="contracthash" class="form-control" placeholder="RPC Json Model">
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="txtRPCJsonOut">Output RPC</label>
+                        <textarea id="txtRPCJsonOut" rows="9" class="form-control"
+                            style="background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+                    <button type="submit" id="btnCallJsonRPC" class="btn btn-info btn-sm"><i
+                            class="fas fa-phone"></i></button>
+                    <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
+                        class="btn btn-info btn-sm" onclick="ConvertJsonNotifications()"><i
+                            class="fas fa-exchange-alt"></i> Notifications</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

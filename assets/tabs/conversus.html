@@ -1,0 +1,300 @@
+<div id="conversus">
+<form>
+    <select class="compiler-select w-seta selectclass">
+        <option>SELECT COMPILER</option>
+    </select>
+
+    <select class="compiler-select w-seta selectclass">
+        <option>SELECT EXAMPLE</option>
+    </select>
+</form>
+
+
+<div class="errors-warnings">
+
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">String <-> Hex</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+                    <form id="str2hash" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="strhex_str">String</label>
+                                    <input id="strhex_str" class="form-control" placeholder="String"
+                                        oninput="str2hex()">
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label for="strhex_hex">Hex</label>
+                                    <input id="strhex_hex" class="form-control" placeholder="Hex" oninput="hex2str()">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="hex_length">Length (in bytes)</label>
+                                    <input id="hex_length" class="form-control" placeholder="Length (in bytes)">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">Hex <-> xeH</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="frmreverse" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="hexxeh_hex">Hex</label>
+                                    <input id="hexxeh_hex" class="form-control" placeholder="Hex" oninput="hex2xeh()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="hexxeh_xeh">xeH</label>
+                                    <input id="hexxeh_xeh" class="form-control" placeholder="xeH" oninput="xeh2hex()">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">Number <-> Fixed8 Hex</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="num2fixed8" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fx8_number">Number</label>
+                                    <input type="number" id="fx8_number" class="form-control" placeholder="Number"
+                                        oninput="num2fixed8()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fx8_hex">Fixed8</label>
+                                    <input id="fx8_hex" class="form-control" placeholder="Fixed8 hex"
+                                        oninput="fixed82num()">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">Number <-> Fixed8 Hex</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="addressscripthash" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input id="address" class="form-control" placeholder="Address"
+                                        oninput="address2scripthash()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="scripthash">ScriptHash (big endian, should start with 0x)</label>
+                                    <input id="scripthash" class="form-control" placeholder="ScriptHash"
+                                        oninput="scripthash2address()">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">Address <-> ScriptHash (big endian)</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="convert_bigint_to_bytearray" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="convert_bigint">BigInteger</label>
+                                    <input id="convert_bigint" class="form-control" placeholder="BigInteger"
+                                        oninput="conv_bigint2bebytearray()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="convert_bytearray">Little-Endian ByteArray</label>
+                                    <input id="convert_bytearray" class="form-control"
+                                        placeholder="Little Endian ByteArray" oninput="conv_bebytearray2bigint()">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+        <h4 class="gree-title">BigInteger <-> Little-Endian ByteArray</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="convert_bigint_to_bytearray" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="convert_bigint">BigInteger</label>
+                                    <input id="convert_bigint" class="form-control" placeholder="BigInteger"
+                                        oninput="conv_bigint2bebytearray()">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="convert_bytearray">Little-Endian ByteArray</label>
+                                    <input id="convert_bytearray" class="form-control"
+                                        placeholder="Little Endian ByteArray" oninput="conv_bebytearray2bigint()">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 200px;">
+        <h4 class="gree-title">Hex String -> Hash</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+                    <form id="convert_string_to_hash" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="convert_string_hash">Hex String</label>
+                                    <input id="convert_string_hash" class="form-control"
+                                        placeholder="Input String to Hash" oninput="conv_string_hash()">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="convert_string_hash160">Hash160 (scripthash little endian
+                                        format)</label>
+                                    <input id="convert_string_hash160" class="form-control"
+                                        placeholder="Hash160 (Sha256+Ripemd160)"
+                                        style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="convert_string_sha256">Sha256</label>
+                                    <input id="convert_string_sha256" class="form-control" placeholder="Sha256"
+                                        style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="convert_string_hash256">Hash256</label>
+                                    <input id="convert_string_hash256" class="form-control"
+                                        placeholder="Hash256 (Sha256+Sha256)"
+                                        style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+        <h4 class="gree-title">Disassembly opcodes</h4>
+        <div class="container">
+            <div class="row">
+
+                <div class="container">
+
+                    <form id="frm_disassembly" class="ng-pristine ng-valid">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="avmcode">AVM hex</label>
+                                    <textarea id="avmcode" class="form-control" placeholder="AVM code"
+                                        oninput="Disassembly()"
+                                        style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sc_scripthash">ScriptHash (big endian, starting with 0x)</label>
+                                <input type="text" id="sc_scripthash" class="form-control" placeholder="Script Hash"
+                                    style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sc_address58">Address</label>
+                                <input type="text" id="sc_address58" class="form-control" placeholder="Address (Base58)"
+                                    style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="opcodes">OpCodes</label>
+                                    <textarea id="opcodes" class="form-control" rows="5" cols="100"
+                                        style="width: 100%;background: none; border:none; border-bottom: 5px solid #00AF92; resize: none;  outline: none; color: white;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>

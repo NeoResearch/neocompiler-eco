@@ -1,4 +1,4 @@
 [submodule "neo2"]
 	path = neo2
-	url = https://github.com/NeoResearch/neocompiler-eco.git
+	url = https://github.com/NeoResearch/neocompiler-eco
 	branch = master-2x

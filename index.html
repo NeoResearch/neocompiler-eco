@@ -69,9 +69,7 @@
 
     <header>
 
-
         <ul class="nav">
-
 
             <li class="nav-item logo-item">
                 <a class="nav-link " href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
@@ -88,13 +86,10 @@
 
             </li>
 
-
             <li class="menu-mobile">
                 <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-5x fa-bars"></i></a>
 
             </li>
-
-
         </ul>
 
         <div class="opt-options-header">
@@ -186,6 +181,7 @@
                 <p>Settings</p>
             </a>
             </li>
+
         </ul>
 
     </header>
@@ -303,16 +299,11 @@
 
                         <form class="compilertopselect" style="float: left;">
                             <select class="compiler-select w-seta selectclass">
-                            <option disabled selected>SELECT COMPILER</option>
-                            <option>C#</option>
-                            <option>Python</option>
-                            <option>Golang</option>
-                            <option>Java</option>
-                        </select>
+                                <option disabled selected>SELECT COMPILER</option>
+                                <option>C#</option>
+                            </select>
 
-                            <select class="compiler-select w-seta selectclass" id="ExampleList">
-                        </select>
-
+                            <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
                         </form>
 
 
@@ -328,8 +319,11 @@
 
                         </div>
 
-
                         <br>
+                        <div id="aceEditor"></div>
+
+                        <a class="btn btn-default btn-compile">COMPILE</a>
+
                         <div class="collapse container-colapse" id="collapseMore">
 
                             <div class="">
@@ -344,15 +338,14 @@
                                     </div>
                                     <div class="dropdown show">
                                         <a class="btn btn-warning text-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        AVM
-                                    </a>
+                                            <i class="fas fa-upload"></i> AVM
+                                        </a>
                                         <button data-toggle="collapse" data-target="#opcodesDiv" type="button" class="btn btn-info collapsed">AVM OPCODES
                                     </button>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <a class="dropdown-item" href="#">Something else here</a>
+                                            <a class="dropdown-item" href="#">binary code</a>
+                                            <a class="dropdown-item" href="#">hex code</a>
                                         </div>
 
                                         &nbsp;&nbsp;&nbsp; <i class="fas fa-upload"></i> AVM:
@@ -372,10 +365,9 @@
                                 </div>
 
 
-                                <div class="errors-warnings" style="height: 520px;">
-                                    <h4>Compiled contract info:
-                                    </h4>
-                                    <a href="#" class="btn btn-info collapsed"> Add to wallet</a>
+                                <div class="errors-warnings" style="height: 690px;">
+                                    <h4>Compiled contract info:</h4>
+                                    <a id="btnNewContractWallet" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
                                     <div class="display-erros" style="background: transparent">
 
@@ -383,26 +375,25 @@
                                         <label for="contractInfo_ScriptHash">ScriptHash</label>
                                         <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
 
-                                        <label for="contractInfo_ScriptHash">Address</label>
+                                        <label for="contractInfo_Address">Address</label>
                                         <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address" class="form-control" placeholder="Address (base58)" style="width: 100%; margin-bottom: 10px;">
 
 
-                                        <label for="contractInfo_ScriptHash">AVM size (in bytes)</label>
+                                        <label for="contractInfo_AVMSize">AVM size (in bytes)</label>
                                         <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize" class="form-control" placeholder="AVM size (in bytes)" style="width: 100%; margin-bottom: 10px;">
 
 
-                                        <label for="contractInfo_ScriptHash">ABI:</label>
+                                        <h4>ABI:</h4>
                                         <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
+
+                                        <h4>MANIFEST:</h4>
+                                        <textarea id="codemanifest" readonly="readonly" rows="5" cols="100" placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
 
-                        <div id="aceEditor"></div>
 
-                        <a class="btn btn-default btn-compile">COMPILE</a>
                         <!--
     <span class="opts-compilers">
               <label>
@@ -416,6 +407,7 @@
             </label>
         </span>
     -->
+                        <br>
                         <div class="errors-warnings">
                             <h4>Compile Warning/Errors:</h4>
 

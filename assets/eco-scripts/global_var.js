@@ -1,5 +1,5 @@
 var cSharpFiles = [
-    ["./examples/csharp/HelloWorld/HelloWorld.cs"]
+    ["/assets/sc_examples/csharp/HelloWorld/HelloWorld.cs"]
 ];
 
 var USER_EXAMPLES = new Map();

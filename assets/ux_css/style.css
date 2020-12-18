@@ -380,13 +380,9 @@ html,body{
 .collapseMore{
 
     position: absolute;
-    top: 50%;
     right: 0;
+    top: 50%;
 
-}
-
-
-.collapseMore img{
 }
 .container-colapse{
     margin-top:20px;
@@ -507,7 +503,7 @@ textarea{
        display: none;
     }
     .opt-options-header{
-        display: none;
+        display: none;s
     }
 }
 
@@ -551,38 +547,4 @@ textarea{
 
 .select2-dropdown{
     z-index: 2000000!important;
-}
-
-
-
-
-.pulse {
-    animation: pulse 0.7s infinite;
-    margin: 0 auto;
-    display: table;
-    margin-top: 50px;
-    animation-direction: alternate;
-    -webkit-animation-name: pulse;
-    animation-name: pulse;
-    font-size: 15px!important;
-}
-
-@-webkit-keyframes pulse {
-    0% {
-        -webkit-transform: scale(1);
-        -webkit-filter: brightness(100%);
-    }
-    100% {
-        -webkit-transform: scale(1.1);
-        -webkit-filter: brightness(200%);
-    }
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.1);
-    }
 }

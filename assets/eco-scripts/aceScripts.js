@@ -2,12 +2,13 @@ function createEditor(name, mode) {
     var editor = ace.edit(name);
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode(mode);
-    /*editor.setAutoScrollEditorIntoView(true);
-    //editor.setOptions({
-    //    enableBasicAutocompletion: true,
-    //    enableSnippets: true,
-    //    enableLiveAutocompletion: false,
-    // });
+    editor.setAutoScrollEditorIntoView(true);
+    // the next commands requires package ext-language_tools.js
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false,
+    });
     editor.commands.addCommand({
         name: "showKeyboardShortcuts",
         bindKey: {
@@ -20,7 +21,7 @@ function createEditor(name, mode) {
                 //editor.showKeyboardShortcuts() just shows when tigger the hotkey
             })
         }
-    })*/
+    })
     return editor
 }
 
@@ -40,7 +41,7 @@ function getfile(language, selected_index, index = 0) {
     if (index < numfiles) {
         var file = vExamples[selected_index][index];
         //console.log("getting example file: " + file);
-        $.get(file, function (data) {
+        $.get(file, function(data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
             getfile(language, selected_index, index + 1);
         });
@@ -73,7 +74,7 @@ function setCompiler(language) {
     }
 
     //Checking all cookies
-    USER_EXAMPLES.forEach(function (value, key) {
+    USER_EXAMPLES.forEach(function(value, key) {
         addCSContractFromLocalMap(value, key, language);
     });
     if (USER_EXAMPLES.size == 0) {

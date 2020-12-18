@@ -67,7 +67,7 @@ function setCompiler(language) {
         var onClickFunction = 'setExample("' + language + '","' + e + '");';
         exampleToAdd.setAttribute('onClick', onClickFunction)
         exampleToAdd.setAttribute('id', "loadedExample" + e);
-        var cutSize = "/examples/" + language + "/";
+        var cutSize = "/assets/sc_examples/" + language + "/";
         var exampleName = vExamples[e][0].slice(cutSize.length);
         exampleToAdd.appendChild(document.createTextNode(exampleName));
         exampleListUl.add(exampleToAdd);

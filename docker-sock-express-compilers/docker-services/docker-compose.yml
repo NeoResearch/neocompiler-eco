@@ -18,7 +18,6 @@ services:
       - ./run-EcoServicesExpress-RPC-SocketIo.sh:/opt/run-EcoServicesExpress-RPC-SocketIo.sh
       - ./socket-js:/opt/socket-js
       - ./eco-metadata.json:/opt/eco-metadata.json
-      - ./package.json:/opt/package.json
       - ./node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
       - ../../docker-compose-eco-network/nodes-logs:/opt/nodes-logs

@@ -24,8 +24,8 @@ app.use(function(req, res, next) {
 });
 
 var server = http.createServer(app);
-
-server.listen(9000 || process.env.PORT, (err) => {
+var door = 9000;
+server.listen(door || process.env.PORT, (err) => {
     if (err) {
         return console.log('something bad happened', err)
     }
@@ -174,7 +174,8 @@ console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env
 const EcoData = require('./socket-js/eco-metadata-class.js');
 let ecoInfo = new EcoData();
 
-var io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
+
 var timeleft = (7 * 24 * 60 * 60);
 setInterval(function() {
     timeleft -= 1;
@@ -186,7 +187,7 @@ setInterval(function() {
     });
 }, 1000);
 
-io.set('origins', '*:*');
+//io.set('origins', '*:*');
 
 io.on('connection', function(socket) {
     ecoInfo.addConnection();

@@ -6,7 +6,7 @@ networks:
 
 services:
   eco-neo-compilers-express-running:
-    image: eco-neo-ubuntu-docker-node-express
+    image: eco-neo-ubuntu-express-docker
     container_name: "eco-neo-compilers-express-running"
     ports:
       - "$DOOR_COMPILERS:$DOOR_COMPILERS"

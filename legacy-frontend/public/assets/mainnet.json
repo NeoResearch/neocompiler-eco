@@ -1,0 +1,417 @@
+    mainNetNodes = [
+      {
+        "url": "https://neoscan.io",
+        "location": "United States",
+        "address": "104.25.126.31",
+        "locale": "us",
+        "type": "neoscan"
+      },
+      {
+        "url": "http://notifications1.neeeo.org/",
+        "location": "United States",
+        "locale": "us",
+        "type": "RESTNotification"
+      },
+      {
+        "url": "http://notifications2.neeeo.org/",
+        "location": "United States",
+        "locale": "us",
+        "type": "RESTNotification"
+      },
+      {
+        "url": "http://notifications3.neeeo.org/",
+        "location": "United States",
+        "locale": "us",
+        "type": "RESTNotification"
+      },
+      {
+        "service": "neon",
+        "url": "http://api.neonwallet.com/v2/",
+        "location": "United States",
+        "address": "54.221.228.80",
+        "locale": "us",
+        "type": "REST"
+      },
+    {
+      "protocol": "https",
+      "url": "seed1.switcheo.network",
+      "location": "Singapore",
+      "port": "10331",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed2.switcheo.network",
+      "location": "Singapore",
+      "port": "10331",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed3.switcheo.network",
+      "location": "Singapore",
+      "port": "10331",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed4.switcheo.network",
+      "location": "Singapore",
+      "port": "10331",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed5.switcheo.network",
+      "location": "Singapore",
+      "port": "10331",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed1.neo.org",
+      "location": "China",
+      "address": "47.94.164.49",
+      "locale": "cn",
+      "port": "10331",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed2.neo.org",
+      "location": "China",
+      "address": "139.219.106.33",
+      "locale": "cn",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed3.neo.org",
+      "location": "Canada",
+      "address": "47.89.178.72",
+      "locale": "ca",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed4.neo.org",
+      "location": "Canada",
+      "address": "47.88.53.224",
+      "locale": "ca",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed5.neo.org",
+      "location": "Canada",
+      "address": "47.91.92.192",
+      "locale": "ca",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "nep5.otcgo.cn",
+      "location": "China",
+      "address": "114.215.30.71",
+      "locale": "cn",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed1.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed2.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed3.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed4.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed5.cityofzion.io",
+      "location": "USA",
+      "locale": "us",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed0.cityofzion.io",
+      "location": "CH",
+      "locale": "ch",
+      "port": "443",
+      "type": "RPC"
+    },
+        {
+      "protocol": "https",
+      "url": "seed6.cityofzion.io",
+      "location": "CH",
+      "locale": "ch",
+      "port": "443",
+      "type": "RPC"
+    },
+        {
+      "protocol": "https",
+      "url": "seed7.cityofzion.io",
+      "location": "AT",
+      "locale": "at",
+      "port": "443",
+      "type": "RPC"
+    },
+        {
+      "protocol": "https",
+      "url": "seed8.cityofzion.io",
+      "location": "AT",
+      "locale": "at",
+      "port": "443",
+      "type": "RPC"
+    },
+        {
+      "protocol": "https",
+      "url": "seed9.cityofzion.io",
+      "location": "AT",
+      "locale": "at",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node1.ams2.bridgeprotocol.io",
+      "location": "Netherlands",
+      "address": "198.211.127.188",
+      "locale": "nl",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node2.ams2.bridgeprotocol.io",
+      "location": "Netherlands",
+      "address": "37.139.22.119",
+      "locale": "nl",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node1.nyc3.bridgeprotocol.io",
+      "location": "USA",
+      "address": "165.227.186.72",
+      "locale": "us",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node2.nyc3.bridgeprotocol.io",
+      "location": "USA",
+      "address": "159.65.244.191",
+      "locale": "us",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node1.sgp1.bridgeprotocol.io",
+      "location": "Singapore",
+      "address": "206.189.94.221",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node2.sgp1.bridgeprotocol.io",
+      "location": "Singapore",
+      "address": "206.189.152.158",
+      "locale": "sg",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed1.redpulse.com",
+      "location": "Frankfurt",
+      "locale": "de",
+      "port": "443",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed2.redpulse.com",
+      "location": "Singapore",
+      "locale": "sg",
+      "port": "443",
+      "type": "RPC"
+    },
+   {
+     "protocol": "http",
+     "url": "seed1.aphelion-neo.com",
+     "location": "London",
+     "address": "35.178.126.129",
+     "locale": "gb",
+     "port": "10332",
+     "type": "RPC"
+   },
+   {
+     "protocol": "http",
+     "url": "seed2.aphelion-neo.com",
+     "location": "Frankfurt",
+     "address": "18.197.136.206",
+     "locale": "de",
+     "port": "10332",
+     "type": "RPC"
+   },
+   {
+     "protocol": "http",
+     "url": "seed3.aphelion-neo.com",
+     "location": "Seoul",
+     "address": "52.78.136.233",
+     "locale": "kr",
+     "port": "10332",
+     "type": "RPC"
+   },
+   {
+     "protocol": "http",
+     "url": "seed4.aphelion-neo.com",
+     "location": "Sao Paulo",
+     "address": "54.233.224.215",
+     "locale": "br",
+     "port": "10332",
+     "type": "RPC"
+   },
+    {
+      "protocol": "http",
+      "url": "seed1.ngd.network",
+      "location": "USA",
+      "locale": "us",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed2.ngd.network",
+      "location": "USA",
+      "locale": "us",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed3.ngd.network",
+      "location": "Hong Kong",
+      "locale": "hk",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed4.ngd.network",
+      "location": "Hong Kong",
+      "locale": "hk",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed5.ngd.network",
+      "location": "China",
+      "locale": "cn",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed6.ngd.network",
+      "location": "USA",
+      "locale": "us",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed7.ngd.network",
+      "location": "USA",
+      "locale": "us",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed8.ngd.network",
+      "location": "USA",
+      "locale": "us",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed9.ngd.network",
+      "location": "Hong Kong",
+      "locale": "hk",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed10.ngd.network",
+      "location": "Hong Kong",
+      "locale": "hk",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "https",
+      "url": "seed1.red4sec.com",
+      "location": "France",
+      "locale": "fr",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed.neoeconomy.io",
+      "location": "Canada",
+      "locale": "ca",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "node1.plutolo.gy",
+      "location": "France",
+      "locale": "fr",
+      "port": "10332",
+      "type": "RPC"
+    },
+    {
+      "protocol": "http",
+      "url": "seed1.cryptoholics.cc",
+      "address": "91.121.221.54",
+      "location": "France",
+      "locale": "fr",
+      "port": "10332",
+      "type": "RPC"
+    },
+  ]

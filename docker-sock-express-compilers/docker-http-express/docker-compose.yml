@@ -6,7 +6,7 @@ networks:
 
 services:
   eco-neo-frontend-express-running:
-    image: eco-neo-frontend-express
+    image: eco-neo-ubuntu-express
     container_name: "eco-neo-frontend-express-running"
     ports:
       - "$DOOR_FRONTEND_HTTP:$DOOR_FRONTEND_HTTP"
@@ -16,9 +16,9 @@ services:
       - ./appHttp.js:/opt/appHttp.js
       - ./runHttpExpress.sh:/opt/runHttpExpress.sh
       - ./node_modules:/opt/node_modules
-      - ../index.html:/opt/index.html
-      - ../public:/opt/public/
-      - ../examples:/opt/examples/
+      - ../../index.html:/opt/index.html
+      - ../../assets:/opt/assets/
+      - ../../examples:/opt/examples/
     healthcheck:
       test:
         - CMD

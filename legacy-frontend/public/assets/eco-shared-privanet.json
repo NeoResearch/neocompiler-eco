@@ -1,0 +1,47 @@
+ecoNodes = [
+  {
+    "url": "https://compilers.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "ecocompilers"
+  },
+  {
+    "url": "https://ecoservices.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "ecoservices"
+  },
+  {
+    "url": "https://neoscan.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "neoscan"
+  },
+  {
+    "url": "https://rest.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "RESTNotifications"
+  },
+  {
+    "protocol": "https",
+    "url": "node1.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "RPC"
+  },
+  {
+    "protocol": "https",
+    "url": "node2.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "RPC"
+  },
+  {
+    "protocol": "https",
+    "url": "node3.neocompiler.io",
+    "location": "worldwide",
+    "locale": "worldwide",
+    "type": "RPC"
+  }
+]

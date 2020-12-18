@@ -13,6 +13,6 @@ RUN rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt/
 
-ADD package_basic_http_frontend_express.json /opt/package.json
+ADD package_basic_express.json /opt/package.json
 
 RUN npm install

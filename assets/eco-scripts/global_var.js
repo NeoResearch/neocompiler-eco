@@ -8,6 +8,7 @@ var LOCAL_DEVELOPMENT = false;
 if (this.window.location.href.indexOf("localhost") != -1)
     LOCAL_DEVELOPMENT = true;
 
+var default_nodes = ecoNodes;
 if (LOCAL_DEVELOPMENT) {
     default_nodes = localHostNodes
 }

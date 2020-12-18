@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ecoV3WebApp">
+<html lang="en">
 
 <head>
     <title>NEO COMPILER</title>
@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="assets/ux_css/select2.min-4.1.0.css">
     <link rel="stylesheet" href="assets/ux_css/style.css">
     <link rel="stylesheet" href="assets/ux_css/responsive.css">
+    <link href="assets/ux_css/fontawesome-free-5.15.1-web/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="assets/neocompiler.png">
-    <!-- TODO CHANGE THIS TO LOCAL AS WELL -->
-    <script src="https://kit.fontawesome.com/99cb2d722b.js" crossorigin="anonymous"></script>
+
 </head>
 <style>
     @media (max-width: 1024px) {}
@@ -57,9 +57,9 @@
     </div>
 </div>
 
-<!-- ng-controller="AppController as vm" -->
 
 <body>
+
 
     <div class="preloader" style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;padding: 1px;background: #1D2C30;z-index: 1000000!important;">
         <div class="spinner-grow text-center" style="width: 5rem; height: 5rem;" role="status">
@@ -2220,15 +2220,11 @@
 <!-- LOADING UX Only specialized interface scritps -->
 <script src="assets/ux_js/ux-scripts.js"></script>
 
-<script src="assets/ux_js/angular-1.8.2.min.js"></script>
-<script src="assets/ux_js/angular-route-1.8.2.min.js"></script>
-
-
 <!-- DYNAMIC ASSETS OF IDS -->
 <script type="text/javascript" src="assets/info/localhost.js"></script>
 <script type="text/javascript" src="assets/info/eco-shared-privanet.js"></script>
-<script type="text/javascript" src="assets/info/mainnet.js"></script>
-<script type="text/javascript" src="assets/info/testnet.js"></script>
+<!--<script type="text/javascript" src="assets/info/mainnet.js"></script>-->
+<!--<script type="text/javascript" src="assets/info/testnet.js"></script>-->
 
 <!-- LOADING Global Vars -->
 <script src="assets/eco-scripts/global_var.js"></script>
@@ -2237,14 +2233,11 @@
 <script src="assets/eco-scripts/aceScripts.js"></script>
 
 
-<!-- Loading Angular Routes - mostly for tabs -->
-<script src="assets/eco-scripts/angular_routes.js"></script>
+<!-- Loading Tab Routes - Pure JS -->
+<script src="assets/eco-scripts/tab-routes.js"></script>
 
 <!-- Consensus node info -->
 <script src="assets/eco-scripts/consensus-info.js"></script>
-
-
-
 
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->

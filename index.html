@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="neoCompilerIoWebApp">
+<html lang="en" ng-app="ecoV3WebApp">
 
 <head>
     <title>NEO COMPILER</title>
@@ -58,7 +58,9 @@
     </div>
 </div>
 
-<body ng-controller="AppController as vm">
+<!-- ng-controller="AppController as vm" -->
+
+<body>
 
     <div class="preloader" style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;padding: 1px;background: #1D2C30;z-index: 1000000!important;">
         <div class="spinner-grow text-center" style="width: 5rem; height: 5rem;" role="status">
@@ -2215,6 +2217,12 @@
 
 <!-- Loading ACE Scripts -->
 <script src="assets/eco-scripts/aceScripts.js"></script>
+
+<script src="public/js/angular-1.7.8.min.js"></script>
+<script src="public/js/angular-route-1.7.8.min.js"></script>
+
+<!-- Loading ACE Scripts -->
+<script src="assets/eco-scripts/angular_routes.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

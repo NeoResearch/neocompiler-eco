@@ -49,14 +49,9 @@ if ((!$DISABLE_BUILD)); then
 	fi
 fi
 
-# BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
-if ((!$DISABLE_WEB)); then
-	echo "BUILDING docker with node express for front-end only";
-	(cd docker-http-express; ./docker_build.sh)
-fi
 
 echo "BUILDING docker with docker and express";
-(cd docker-sock-express-compilers/docker-ubuntu-docker-node-express; ./docker_build.sh)
+(cd docker-sock-express-compilers/docker-ubuntu-docker-node-express; ./docker_build-all.sh)
 # ===================== BUILDS  END =========================
 
 echo "TRYING TO STOP all eco related services - including docker services with express servers";

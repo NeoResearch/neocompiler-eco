@@ -1,12 +1,14 @@
     localHostNodes = [
       {
-        "url": "http://localhost:10000",
+        "protocol": "http",      
+        "url": "localhost:10000",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "ecocompilers"
       },
       {
-        "url": "http://localhost:9000",
+        "protocol": "http",
+        "url": "localhost:9000",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "ecoservices"

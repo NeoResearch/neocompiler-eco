@@ -61,7 +61,7 @@ echo "TRYING TO STOP all eco related services - including docker services with e
 # BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
 	echo "RUNNING docker with node express for front-end only";
-	(cd docker-http-express; docker-compose up -d)
+	(cd docker-sock-express-compilers/docker-http-express; docker-compose up -d)
 fi
 
 echo "RUNNING express compilers";

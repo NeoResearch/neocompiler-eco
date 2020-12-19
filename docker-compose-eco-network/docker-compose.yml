@@ -164,6 +164,7 @@ services:
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
+      - ./neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     depends_on:
       - eco-neo-csharp-node1-running

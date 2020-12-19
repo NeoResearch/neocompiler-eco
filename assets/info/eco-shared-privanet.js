@@ -1,35 +1,35 @@
 ecoNodes = [
   {
     "protocol": "https",
-    "url": "compilers.neocompiler.io",
+    "url": "compilers-neo3.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "ecocompilers"
   },
   {
     "protocol": "https",
-    "url": "ecoservices.neocompiler.io",
+    "url": "ecoservices-neo3.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "ecoservices"
   },
   {
     "protocol": "https",
-    "url": "node1.neocompiler.io",
+    "url": "node1-neo3.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"
   },
   {
     "protocol": "https",
-    "url": "node2.neocompiler.io",
+    "url": "node2-neo3.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"
   },
   {
     "protocol": "https",
-    "url": "node3.neocompiler.io",
+    "url": "node3-neo3.neocompiler.io",
     "location": "worldwide",
     "locale": "worldwide",
     "type": "RPC"

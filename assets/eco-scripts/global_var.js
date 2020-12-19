@@ -21,7 +21,8 @@ var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_node
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
 
-    if ((serviceType == "RPC") && ((networkService.type == serviceType) || (networkService.type + "-Python" == serviceType + "-Python"))) {
+    //if ((serviceType == "RPC") && (networkService.type == serviceType)) {
+    if (networkService.type == serviceType) {    
         if (networkService.protocol)
             serviceUrlToAdd = networkService.protocol + "://" + networkService.url;
         if (networkService.port)
@@ -30,9 +31,9 @@ function getServiceURLByTypeAndNetwork(serviceType, networkService) {
         return serviceUrlToAdd;
     }
 
-    if (networkService.type == serviceType) {
-        serviceUrlToAdd = networkService.url;
-    }
+    //if (networkService.type == serviceType) {
+    //    serviceUrlToAdd = networkService.url;
+    //}
 
     return serviceUrlToAdd;
 }

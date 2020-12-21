@@ -20,3 +20,23 @@ function getNodeInfo() {
         $("#noderpcdata").scrollTop($("#noderpcdata")[0].scrollHeight);
     });
 }
+
+function getNodeInfo() {
+    var jsonForGetValidators = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getnextblockvalidators",
+        "params": []
+    };
+
+    $.post(
+        BASE_PATH_CLI, // Gets the URL to sent the post to
+        JSON.stringify(jsonForGetValidators), // Serializes form data in standard format
+        function(data) {
+            console.log(data);
+        },
+        "json" // The format the response should be in
+    ).fail(function() {
+        alert("Error when trying to get nextvalidators");
+    }); //End of POST for search
+}

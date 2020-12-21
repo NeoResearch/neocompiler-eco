@@ -16,7 +16,7 @@ if (LOCAL_DEVELOPMENT) {
 // ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
 var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
-
+var BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';

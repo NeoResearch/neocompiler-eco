@@ -15,14 +15,14 @@ if (LOCAL_DEVELOPMENT) {
 
 // ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
-
+var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
 
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
 
     //if ((serviceType == "RPC") && (networkService.type == serviceType)) {
-    if (networkService.type == serviceType) {    
+    if (networkService.type == serviceType) {
         if (networkService.protocol)
             serviceUrlToAdd = networkService.protocol + "://" + networkService.url;
         if (networkService.port)
@@ -47,3 +47,6 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
             return serviceUrlToAdd;
     }
 }
+
+
+var code_cs = "";

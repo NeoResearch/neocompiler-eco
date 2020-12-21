@@ -298,9 +298,8 @@
                     <div id="compiler">
 
                         <form class="compilertopselect" style="float: left;">
-                            <select class="compiler-select w-seta selectclass">
-                                <option disabled selected>SELECT COMPILER</option>
-                                <option>C#</option>
+                            <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
+                                <option selected>C#</option>
                             </select>
 
                             <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
@@ -310,7 +309,7 @@
                         <div class="version-compile">
                             <span style="margin-right:15px;padding-top: 10px;float: left;">VERSION:</span>
                             <form style="float:right;margin-right: 15px;">
-                                <select class="compiler-select w-seta selectclass">
+                                <select id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
                                 <option>latest</option>
                             </select>
 
@@ -322,7 +321,7 @@
                         <br>
                         <div id="aceEditor"></div>
 
-                        <a class="btn btn-default btn-compile">COMPILE</a>
+                        <a id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE</a>
 
                         <div class="collapse container-colapse" id="collapseMore">
 
@@ -343,9 +342,9 @@
                                         <button data-toggle="collapse" data-target="#opcodesDiv" type="button" class="btn btn-info collapsed">AVM OPCODES
                                     </button>
 
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="#">binary code</a>
-                                            <a class="dropdown-item" href="#">hex code</a>
+                                        <div id="downloadMenu" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a onclick="downloadAVM('0')" class="dropdown-item" href="#">binary code</a>
+                                            <a onclick="downloadAVM('1')" class="dropdown-item" href="#">hex code</a>
                                         </div>
 
                                         &nbsp;&nbsp;&nbsp; <i class="fas fa-upload"></i> AVM:
@@ -353,21 +352,17 @@
                                         <br>
                                         <br>
                                         <div class="collapse" id="opcodesDiv">
-
-
                                             <div class="display-erros" style="margin-bottom: 10px;height: 150px">
                                                 <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control" style="background: none;border: none;resize: none;outline: none;"></textarea>
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
 
 
                                 <div class="errors-warnings" style="height: 690px;">
                                     <h4>Compiled contract info:</h4>
-                                    <a id="btnNewContractWallet" class="btn btn-info collapsed"> Add to wallet</a>
+                                    <a id="btnNewContractWallet" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
                                     <div class="display-erros" style="background: transparent">
 
@@ -384,7 +379,7 @@
 
 
                                         <h4>ABI:</h4>
-                                        <textarea id="codeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
+                                        <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
 
                                         <h4>MANIFEST:</h4>
                                         <textarea id="codemanifest" readonly="readonly" rows="5" cols="100" placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
@@ -410,11 +405,9 @@
                         <br>
                         <div class="errors-warnings">
                             <h4>Compile Warning/Errors:</h4>
+                            <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
 
-
-                            <div class="display-erros">
-
-                            </div>
+                            <!--<div id="codewarnerr" class="display-erros"> </div>  -->
 
                         </div>
 
@@ -618,11 +611,12 @@
                                                 <div class="form-group">
                                                     <div class="checkbox">
                                                         <label>
-                                                        Function to Invoke <input type="checkbox"
-                                                                                  name="cbx_ispayable"
-                                                                                  id="cbx_ispayablejs" checked>&nbsp;
-                                                        use param array
-                                                    </label>
+                                                        Function to Invoke 
+                                                       </label>
+                                                        <select id="invokefunctionjs" class="custom-select form-control" onchange="updateInvokeParamsJs()">
+                                                        <option>Main</option>
+                                                    </select>
+                                                        <input type="checkbox" name="cbx_ispayable" id="cbx_ispayablejs" checked>&nbsp; use param array
                                                     </div>
                                                 </div>
 
@@ -2231,6 +2225,18 @@
 <!-- Consensus node info -->
 <script src="assets/eco-scripts/consensus-info.js"></script>
 
+<!-- Zip compression library -->
+<script src="assets/third_party_js/jszip.min.js"></script>
+
+<!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
+<script src="assets/third_party_js/neon-js-browser-5.0.0-next.4.js"></script>
+
+<script src="assets/eco-scripts/crypto.js"></script>
+<script src="assets/eco-scripts/helper.js"></script>
+
+<script src="assets/eco-scripts/abi_manager.js"></script>
+
+<script src="assets/eco-scripts/compile.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

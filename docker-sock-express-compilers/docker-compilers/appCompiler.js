@@ -8,7 +8,7 @@ app.use(logger('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({ // parse application/x-www-form-urlencoded
     parameterLimit: 100000, // bigger parameter sizes
     limit: '5mb', // bigger parameter sizes
-    extended: false
+    extended: true
 }));
 app.use(bodyParser.json()); // parse application/json
 app.use(bodyParser.json({
@@ -108,28 +108,17 @@ app.get('/getCompilers', (req, res) => {
 });
 
 app.post('/compilex', function(req, res) {
-    // Specifies which URL to listen for
-    // req.body -- contains form data
-
-    //console.log("cs: "+req.body.codesend_cs);
-    //console.log(req.body.csharp_compilers_versions);
-
     var imagename = req.body.compilers_versions;
-    var code64 = "";
-
-	// Code is decoded and re-encoded again to prevent remote execution attacks (because result is later injected into a command)
-    if (req.body.codesend_selected_compiler === "csharp") { // C#
-        code64 = Buffer.from(req.body.codesend_cs, 'base64').toString('base64');
-    }
-
-    var compatible = "";
-    if (req.body.cbx_compatible)
-        compatible = "--compatible";
-
+    var compilerLanguage=  req.body.codesend_selected_compiler;
+    var code64 = Buffer.from(req.body.codesend, 'base64').toString('base64');
+    console.log("imagename: " + imagename)
+    console.log("language: " + compilerLanguage)
+    console.log("code64: " + code64)
+    
     if (imagename != "") {
         //Check if compiler request exists
-        //console.log("Current compilers");
-        //console.log(compilers);
+        console.log("Current compilers");
+        console.log(compilers);
         var compilerExists = false;
         for (c = 0; c < compilers.length; c++) {
             var compilerName = compilers[c].compiler + ":" + compilers[c].version;
@@ -144,7 +133,7 @@ app.post('/compilex', function(req, res) {
             res.send(msgret);
         } else {
             var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
-	    //console.log(cmddocker);
+	    console.log(cmddocker);
             var start = new Date();
             var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
                 var end = new Date() - start;

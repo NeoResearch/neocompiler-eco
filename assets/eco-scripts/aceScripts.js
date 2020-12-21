@@ -48,12 +48,43 @@ function getfile(language, selected_index, index = 0) {
     }
 }
 
+function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
+    var option = document.createElement("option");
+    option.text = textToOption;
+    option.value = valueToOption;
+    var select = document.getElementById(walletSelectionBox);
+    select.appendChild(option);
+}
+
+function updateCompilersSelectionBox(compilerType) {
+    $.get(BASE_PATH_COMPILERS + '/getcompilers',
+        function(data) {
+            compilerSelectionBoxID = "compilers_versions-selection-box";
+            compilerSelectionBoxObj = document.getElementById(compilerSelectionBoxID);
+            compilerSelectionBoxObj.options.length = 0;
+
+            indexToSelect = 0;
+            for (c = 0; c < data.length; c++) {
+                if (data[c].compiler == compilerType) {
+                    addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
+                    if (data[c].version === "latest")
+                        indexToSelect = compilerSelectionBoxObj.length - 1;
+                }
+            }
+            $("#compilebtn")[0].disabled = false;
+            //Select the latest as default
+            compilerSelectionBoxObj.selectedIndex = indexToSelect;
+        },
+        "json" // The format the response should be in
+    );
+}
+
 function setCompiler(language) {
     var vExamples;
     SELECTED_COMPILER = language;
     if (language === "csharp") {
         aceEditor.getSession().setMode("ace/mode/csharp");
-        //updateCompilersSelectionBox("docker-mono-neo-compiler");
+        updateCompilersSelectionBox("docker-mono-neo-compiler");
         vExamples = cSharpFiles;
         //$("#cbx_example_name")[0].placeholder = "myexample.cs";
     }

@@ -1,5 +1,4 @@
 #!/bin/bash
-# Call script to stop HTTP server
 echo "STOPPING docker-compose at docker-http-express";
 (cd docker-sock-express-compilers/docker-http-express; docker-compose down)
 

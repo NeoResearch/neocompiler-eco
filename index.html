@@ -339,7 +339,7 @@
                                         <a class="btn btn-warning text-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fas fa-upload"></i> AVM
                                         </a>
-                                        <button data-toggle="collapse" data-target="#opcodesDiv" type="button" class="btn btn-info collapsed">AVM OPCODES
+                                        <button onclick="GetOpcodes()" data-toggle="collapse" data-target="#opcodesDiv" type="button" class="btn btn-info collapsed">AVM OPCODES
                                     </button>
 
                                         <div id="downloadMenu" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -2237,6 +2237,8 @@
 <script src="assets/eco-scripts/abi_manager.js"></script>
 
 <script src="assets/eco-scripts/compile.js"></script>
+
+<script src="assets/eco-scripts/opcodes.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

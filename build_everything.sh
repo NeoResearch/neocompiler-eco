@@ -64,10 +64,14 @@ if ((!$DISABLE_WEB)); then
 	(cd docker-sock-express-compilers/docker-http-express; docker-compose up -d)
 fi
 
+echo "RUNNING express ecoservice";
+(cd docker-sock-express-compilers/docker-services; docker-compose up -d)
+
+echo "BUILDING compilers";
+cd docker-sock-express-compilers/docker-compilers/buildCompilers.sh
+
 echo "RUNNING express compilers";
 (cd docker-sock-express-compilers/docker-compilers; docker-compose up -d)
 
-echo "RUNNING express ecoservice";
-(cd docker-sock-express-compilers/docker-services; docker-compose up -d)
 
 echo "EVERYTHING has been built and running!";

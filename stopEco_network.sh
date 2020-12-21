@@ -1,6 +1,4 @@
 #!/bin/bash
-source .env
-
 function usage {
     echo "Usage: $0 [--cancel-stop-docker-express]"
 }

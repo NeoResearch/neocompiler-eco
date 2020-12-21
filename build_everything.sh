@@ -67,7 +67,7 @@ echo "RUNNING express ecoservice";
 (cd docker-sock-express-compilers/docker-services; docker-compose up -d)
 
 echo "BUILDING compilers";
-cd docker-sock-express-compilers/docker-compilers/buildCompilers.sh
+(cd docker-sock-express-compilers/docker-compilers; buildCompilers.sh)
 
 echo "RUNNING express compilers";
 (cd docker-sock-express-compilers/docker-compilers; docker-compose up -d)

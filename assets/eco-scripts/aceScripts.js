@@ -52,6 +52,7 @@ function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox
     var option = document.createElement("option");
     option.text = textToOption;
     option.value = valueToOption;
+    option.title = "Selected code example is " + valueToOption;
     var select = document.getElementById(walletSelectionBox);
     select.appendChild(option);
 }
@@ -100,6 +101,8 @@ function setCompiler(language) {
         exampleToAdd.setAttribute('id', "loadedExample" + e);
         var cutSize = "/assets/sc_examples/" + language + "/";
         var exampleName = vExamples[e][0].slice(cutSize.length);
+        var exampleInfo = "Selected code example is from " + language + ": " + exampleName;
+        exampleToAdd.setAttribute('title', exampleInfo);
         exampleToAdd.appendChild(document.createTextNode(exampleName));
         exampleListUl.add(exampleToAdd);
     }

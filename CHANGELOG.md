@@ -10,9 +10,16 @@ The idea is to follow the semantic versioning format for the releases (MAJOR-MIN
 - The FIX number will be used when specific fixes are made on a previously launched release (but we intend to keep moving on the mainline, so do not be too much left behind :D)
 
 
+### [3.0.0-prerelease-II] - 2020-12-21
+- New User Interface is now running and under fine-tunning
+- Compiler functionality has been migrated
+
 ### [3.0.0-prerelease] - 2020-11-10
 - Initiating development for Neo 3 compatible system
 
-NeoResearch 2020-2020
+### Historical changelog of NeoCompiler Eco compatible with Neo2x
+- https://github.com/NeoResearch/neocompiler-eco/blob/master-2x/CHANGELOG.md
+
+NeoResearch 2017-2020
 
 MIT License

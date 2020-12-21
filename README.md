@@ -9,10 +9,10 @@
 
 <p align="center">
     <img
-      src="./public/images/logo_neoresearch.png"
+      src="./assets/logo_neoresearch.png"
       width="125px;" />
     <img
-      src="./public/images/prototype-icon-eco.png"
+      src="./assets/neocompiler-legacy-v2.png"
       width="125px;" />
 </p>
 
@@ -32,19 +32,19 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 
 #### Browsers/Devices
 
-* Tested with Firefox Quantum - 76.0.1
-* Tested with Chromium - Version 73
+* Tested with Firefox Quantum - 84.0
 
 #####  The current front-end interface can be acessed from:
 * [https://neocompiler.io](https://neocompiler.io), automatically generated from the source code located in this current repository.
 
 ##### Compilers RPC API services are available at:
 
-* [https://compilers.neocompiler.io/](https://compilers.neocompiler.io)
+* [https://compilers-neo3.neocompiler.io/](https://compilers-neo3.neocompiler.io)
 
 ##### Other useful services
 
-* [https://ecoservices.neocompiler.io](https://ecoservices.neocompiler.io)
+* [https://ecoservices-neo3.neocompiler.io](https://ecoservices-neo3.neocompiler.io)
+* Shared privatenet with 4 consensus nodes as default;
 * C# RPC node with watch-only CN feature;
 
 ### What does it currently do
@@ -57,8 +57,7 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 * Runs RPC with all enabled plugins and up-to-date features;
 * Provide basic statistical data;
 * Use websockets to provide some useful information;
-* It can be used on TestNet, or even MainNet (however, this is extremely not recommended).
-* Integrate with `neologin`/`O3wallet`/`neolink` project (or any other), to allow secure key management for Test/MainNet ((previously tested on NeoCompiler Eco for NEO master-2x only - Waiting for third-party updates on NEO 3x).
+* It can be used on TestNet, or even MainNet.
 
 ### Roadmap
 
@@ -87,11 +86,9 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-
 
 Docker technology is essential for sandboxing all compilers in different environments (for different languages).
 
-We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker docker-engine docker.io`.
-
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository):
 
-`sudo apt-get install apt-transport-https ca-certificates curl software-properties-common gnupg2`
+`sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common`
 
 `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
 
@@ -101,13 +98,9 @@ We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker doc
 
 `sudo apt update`
 
-`sudo apt install docker-ce`
+`sudo apt-get install docker-ce docker-ce-cli containerd.io`
 
-* Deepin users can follow Ubuntu instructions and use `bionic` (Ubuntu 18.04) repository:
-`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"`
-- `sudo apt install apparmor=2.12-4ubuntu5` (the official `2.12-4` version was denying network access to docker)
-
-Adding user to docker group: `sudo usermod -a -G docker $USER`
+If necessary, add user to docker group: `sudo usermod -a -G docker $USER`
 
 # Build everything
 
@@ -127,11 +120,10 @@ Both are described below.
 
 This script already builds the compilers and starts the server:
 
-`./buildCompilers.sh`
+`./docker-sock-express-compilers/docker-compilers/buildCompilers.sh`
 
-* Build list with different versions for a given compiler, such as: `docker-sock-express-compilers/docker-compilers/compilers/docker-compiler-csharp/docker_build_list_of_compilers.sh`
-
-* Please note that in the first build the `./buildCompilers.sh` will execute in parallel as a `screen` on the container, then, you may need to wait until the building process if finished. You can easily check the checkly by using `screen -d`
+* Edit `./docker-sock-express-compilers/docker-compilers/.env` if you want to build other compilers, for example `BUILD_ALL_CSHARP=0`
+  * Build list with different versions for a given compiler, such as: `docker-sock-express-compilers/docker-compilers/compilers/docker-compiler-csharp/docker_build_list_of_compilers.sh`
 
 #### Building C# Neo Core Compiler entrypoint based image
 
@@ -143,42 +135,40 @@ The backend for C# is provided using native `github/neo-project` tools, only two
 
 ### Running express node servers
 
-**Http front-end**:
-`cd docker-http-express`
 
-`docker_build.sh`
+**Base images express nodes and dockers**
+
+`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
+
+`./docker_build-all.sh` will build both:
+* essential docker image for express and node `docker_build-express.sh`
+* the aforementioned image with docker `docker_build-express-docker.sh`
+
+**Http front-end**:
+`cd /docker-sock-express-compilers/docker-http-express`
 
 `docker-compose up`
 
 **Compilers RPC API Backend**:
-`docker-sock-express-compilers/docker-compilers`
+`cd docker-sock-express-compilers/docker-compilers`
 
 `docker-compose up`
 
 **Eco Services**:
-`docker-sock-express-compilers/docker-services`
+`cd docker-sock-express-compilers/docker-services`
 
 `docker-compose up`
-
-**Base images for both previously mentioned services**
-
-`docker-sock-express-compilers/docker-ubuntu-docker-node-express`
-
-`./docker_build.sh`
-
 
 ## A2) Eco Network Funtionalities
 
 Docker-compose is the main tools that acts for the creation of our micro-service.
-
-This script will start all necessary backend functionalities and neo-csharp-nodes (optional parameter can be modified on `.env`).
+This script will start all necessary backend functionalities and neo-csharp-nodes.
 
 In particular, we currently have:
 
 * csharp nodes are with TCP at 2033x and RPC at 3033X, websocket is not being used
   * 4 csharp consensus node, two of them are also a RPC as default at port 30333 and 30334;
   * 1 csharp pure RPC nodes at 30337;
-* optional [neoscan](https://github.com/CityOfZion/neo-scan) full (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-full and postgress container;
 
 ### Dealing with docker-compose swarm of containers
 
@@ -259,4 +249,4 @@ The website is rebooted periodically, in order to keep resource usage low, so th
 
 *NeoCompiler Eco team* [@igormcoelho](https://github.com/igormcoelho) and [@vncoelho](https://github.com/vncoelho)
 
-Copyleft 2017-2019
+Copyleft 2017-2020

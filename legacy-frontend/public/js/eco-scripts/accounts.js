@@ -38,8 +38,6 @@ const accountMS2 = new Neon.wallet.Account("03b58dc798ee8635a130a92ec76ae7fc54d0
 const accountMS3 = new Neon.wallet.Account("0285d57106beb051982c1f3228db9f00e24bf2564f41078fc6a93a3c652afc715b");
 const accountMS4 = new Neon.wallet.Account("023dd1d74babb78eaf99624e252f9f292d34f031f8e0e5c9300a89833f69c7bc67");
 
-
-
 ECO_WALLET.push({
     account: accountMS1,
     print: true
@@ -59,36 +57,14 @@ ECO_WALLET.push({
     account: accountMS4,
     print: true
 });
-// ==============================================================================================
-
-
-/*
-                foreach (ECPoint publicKey in publicKeys.OrderBy(p => p))
-                {
-                    sb.EmitPush(publicKey.EncodePoint(true));
-                }
-*/                
-
-const genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, [
-    accountMS4.publicKey,
-    accountMS3.publicKey,
-    accountMS2.publicKey,
-    accountMS1.publicKey
-]);
-
-ECO_WALLET.push({
-    account: genesisMultiSigAccount,
-    print: true,
-    owners: ''
-});
 
 // NEP-2 Encrypted wallet
 // newWallet = new Neon.wallet.Account("02eaa8dcf4e94fbb2c0e6d10500b4c14f1deecf68720769d29b163555fe8202e")
 // password = "eco" for AbotXHRH1xRhLCf74mvm8Uv49kQaCayQzr
 // encrypted NEP2 = 6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU"),
-    print: true
-});
+//ECO_WALLET.push({
+//    account: new Neon.wallet.Account("6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU"),
+//    print: true
+//});
 
 window.storedECO_WALLET = ECO_WALLET;

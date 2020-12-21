@@ -1031,6 +1031,7 @@
                                                 <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
                                                     <option title="select">Select a method</option>
                                                     <option title=":Gets the number of blocks in the main chain">getblockcount</option>
+                                                    <option title="<script_hash> :	Get Balance of Nep17">getnep17balances</option>                                                    
                                                     <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">dumpprivkey</option>
                                                     <option title="<address> :	Check account asset information according to account address">getaccountstate</option>
                                                     <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging plugin)">getapplicationlog</option>
@@ -2068,6 +2069,9 @@
 <script src="assets/ux_js/ace-v1.4.12-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="assets/ux_js/ace-v1.4.12-min-noconflict/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
 
+<!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
+<script src="assets/third_party_js/neon-js-browser-next-dc100.js"></script>
+
 <!-- LOADING UX Only specialized interface scritps -->
 <script src="assets/ux_js/ux-scripts.js"></script>
 
@@ -2079,6 +2083,8 @@
 
 <!-- LOADING Global Vars -->
 <script src="assets/eco-scripts/global_var.js"></script>
+
+<script src="assets/eco-scripts/accounts.js"></script>
 
 <!-- Loading ACE Scripts -->
 <script src="assets/eco-scripts/aceScripts.js"></script>
@@ -2093,8 +2099,7 @@
 <!-- Zip compression library -->
 <script src="assets/third_party_js/jszip.min.js"></script>
 
-<!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
-<script src="assets/third_party_js/neon-js-browser-next-dc100.js"></script>
+
 
 <script src="assets/eco-scripts/crypto.js"></script>
 <script src="assets/eco-scripts/helper.js"></script>
@@ -2106,6 +2111,8 @@
 <script src="assets/eco-scripts/opcodes.js"></script>
 
 <script src="assets/eco-scripts/rawRpc.js"></script>
+
+
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

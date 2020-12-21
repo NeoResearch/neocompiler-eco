@@ -21,11 +21,12 @@ function getNodeInfo() {
     });
 }
 
-function getNodeInfo() {
+
+function createMultiSigFromNextValidators() {
     var jsonForGetValidators = {
         "jsonrpc": "2.0",
         "id": 5,
-        "method": "getnextblockvalidators",
+        "method": "getcommittee",
         "params": []
     };
 
@@ -33,10 +34,18 @@ function getNodeInfo() {
         BASE_PATH_CLI, // Gets the URL to sent the post to
         JSON.stringify(jsonForGetValidators), // Serializes form data in standard format
         function(data) {
-            console.log(data);
+            var arrayMSValidators = [];
+            for (i = 0; i < data.result.length; i++) {
+                var tempAccount = new Neon.wallet.Account(data.result[i]);
+                arrayMSValidators.push(tempAccount.publicKey);
+            }
+            var genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, arrayMSValidators);
+            ECO_WALLET.push(genesisMultiSigAccount);
         },
         "json" // The format the response should be in
     ).fail(function() {
         alert("Error when trying to get nextvalidators");
     }); //End of POST for search
 }
+
+createMultiSigFromNextValidators()

@@ -84,9 +84,9 @@ function setCompiler(language) {
     var vExamples;
     SELECTED_COMPILER = language;
     if (language === "csharp") {
+        vExamples = cSharpFiles;
         aceEditor.getSession().setMode("ace/mode/csharp");
         updateCompilersSelectionBox("docker-mono-neo-compiler");
-        vExamples = cSharpFiles;
         //$("#cbx_example_name")[0].placeholder = "myexample.cs";
     }
 
@@ -158,6 +158,7 @@ function setCompiler(language) {
      }
  });
  */
+
 
 var aceEditor = createEditor("aceEditor", "ace/mode/csharp");
 setCompiler("csharp");

@@ -19,7 +19,6 @@ function compilerCall() {
     $("#contracthashjs").val("");
     $("#contractparams").val("\"\"");
     $("#selected_compiler_form").val(SELECTED_COMPILER);
-    $('#collapseMore').collapse('hide');
 
     //e.preventDefault(); // Prevents the page from refreshing
     var zip = new JSZip();
@@ -75,12 +74,12 @@ function compilerCall() {
                         var codeabi = atob(data.abi);
                         updateAllABIDependencies(JSON.parse(codeabi));
                     }
-                    $('#collapseMore').collapse('show');
+
                 },
                 "json" // The format the response should be in
-            ).done(function() { console.log('Compiled with sucess!'); })
+            ).done(function() { alert('Request done!'); })
             .fail(function(jqxhr, settings, ex) {
-                console.log('failed, ' + ex);
+                alert('failed, ' + ex);
                 console.log(jqxhr);
                 console.log(settings);
                 $("#compilebtn")[0].disabled = false;

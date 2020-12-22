@@ -20,6 +20,5 @@ function queryHeaderSummary() {
     }); // NEO useragent
 }
 
-$(window).on("load", function() {
-    setRefreshingIntervalForHeadersInfo(800); //0.8s
-});
+setRefreshingIntervalForHeadersInfo(800); //0.8s
+startSocketIoConnections();

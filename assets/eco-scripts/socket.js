@@ -30,7 +30,3 @@ function startSocketIoConnections() {
         $("#online")[0].innerHTML = output + ' -> ' + onlineStats;
     });
 }
-
-$(window).on("load", function() {
-    startSocketIoConnections();
-});

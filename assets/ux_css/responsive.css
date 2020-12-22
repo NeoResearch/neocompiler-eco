@@ -6,7 +6,6 @@
     display: none;
 }
 
-
 @media (max-width: 1024px){
 
 
@@ -40,7 +39,9 @@
     .version-compile{
         float: left;
         margin-top: 30px;
+        width: 100%;
     }
+
 
 
     header ul{
@@ -220,11 +221,22 @@
     .btn-compile{
         font-size: 35px;
     }
-   .compilertopselect .select2{
+   #compiler .select2{
         float: left!important;
        padding-right: 10px;
         width: 49%!important;
     }
+
+    #version-compile  .select2{
+        width: 100%!important;
+        float: left!important;
+    }
+
+    .fas .fa-lg .fa-code-branch{
+        position: absolute;
+        z-index: 300000!important;
+    }
+
     input{
         font-size: 25px!important;
     }
@@ -277,5 +289,18 @@
 
     .preloader{
         display: none!important;
+    }
+
+    .container, .container-lg, .container-md, .container-sm{
+        max-width: 100%;
+    }
+}
+
+
+
+@media (max-width: 1350px) {
+
+    .container, .container-lg, .container-md, .container-sm{
+        max-width: 800px;
     }
 }

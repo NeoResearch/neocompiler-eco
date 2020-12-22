@@ -116,9 +116,9 @@
 
         <li class="nav-item">
             <a class="nav-link active" style="margin-top: 0!important;" id="nav-home-tab" data-toggle="tab"
-               href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true"><i
-                    class="fab fa-500px fa-3x"></i>
-                <p>COMPILERS</p>
+               href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Compilers</p>
             </a>
         </li>
 
@@ -131,69 +131,81 @@
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/deploy.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Deploy & Invoke</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home"
-               aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-selected="true">
+                <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Raw RPC</p>
             </a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item" style="background: #0aab7b;">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Activity</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/storage.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Storage Query</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+
+                <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Wallet</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/conversus.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Conversors</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()"
-               role="tab" aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               role="tab" aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Consensus</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-statistics" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+
+                <img src="./assets/icons/statistics.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Statistics</p>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/settings.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Settings</p>
             </a>
         </li>
         <li class="nav-item small-screen">
             <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab"
-               aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+               aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/settings.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Settings</p>
             </a>
         </li>
@@ -332,7 +344,7 @@
                     <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
 
 
-                    <div class="version-compile">
+                    <div class="version-compile" id="version-compile">
                         <span style="margin-right:10px;padding-top: 10px;float: left;"><i
                                 class="fas fa-lg fa-code-branch"></i></span>
                         <select title="Select compiler version" id="compilers_versions-selection-box"

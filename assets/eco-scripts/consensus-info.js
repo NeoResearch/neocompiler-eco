@@ -44,7 +44,7 @@ function createMultiSigFromNextValidators() {
         },
         "json" // The format the response should be in
     ).fail(function() {
-        alert("Error when trying to get nextvalidators");
+        console.log("Error when trying to get nextvalidators");
     }); //End of POST for search
 }
 

@@ -127,7 +127,7 @@ app.get('/incstorage/:height', function(req, res) {
 app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
     //console.log("Local enviroment password is " + process.env.PWD_CN_BLOCKTIME);
 
-console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env.PWD_CN_BLOCKTIME);
+    console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env.PWD_CN_BLOCKTIME);
 
     if (!(req.params.pwd === process.env.PWD_CN_BLOCKTIME)) {
         console.log("Someone is trying an unauthorized access. ");
@@ -174,9 +174,10 @@ console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env
 const EcoData = require('./socket-js/eco-metadata-class.js');
 let ecoInfo = new EcoData();
 
-const io = require('socket.io')(server);
-
+var io = require('socket.io').listen(server);
+io.set('origins', '*:*');
 var timeleft = (7 * 24 * 60 * 60);
+
 setInterval(function() {
     timeleft -= 1;
     io.emit('timeleft', {
@@ -186,8 +187,6 @@ setInterval(function() {
         invokes: ecoInfo.invokesSince
     });
 }, 1000);
-
-//io.set('origins', '*:*');
 
 io.on('connection', function(socket) {
     ecoInfo.addConnection();
@@ -240,7 +239,7 @@ app.get('/resetdockerservice/:pwd', function(req, res) {
     }
 
     var cmddocker = '(cd ~; nohup ./reestartDockerAndInitializeAll.sh > saida_nohup.out 2> saida_nohup.err < /dev/null 2>&1 &)';
-    console.log(cmddocker);	
+    console.log(cmddocker);
     var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
         if (e instanceof Error) {
             console.error(e);

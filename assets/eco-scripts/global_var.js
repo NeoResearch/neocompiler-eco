@@ -53,3 +53,8 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
 
 
 var code_cs = "";
+
+/* SOCKET */
+var socket;
+
+var refreshHeadersNeoCli = 0;

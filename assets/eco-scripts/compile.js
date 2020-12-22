@@ -19,6 +19,7 @@ function compilerCall() {
     $("#contracthashjs").val("");
     $("#contractparams").val("\"\"");
     $("#selected_compiler_form").val(SELECTED_COMPILER);
+    $('#collapseMore').collapse('hide');
 
     //e.preventDefault(); // Prevents the page from refreshing
     var zip = new JSZip();
@@ -74,7 +75,7 @@ function compilerCall() {
                         var codeabi = atob(data.abi);
                         updateAllABIDependencies(JSON.parse(codeabi));
                     }
-
+                    $('#collapseMore').collapse('show');
                 },
                 "json" // The format the response should be in
             ).done(function() { alert('Request done!'); })

@@ -78,9 +78,9 @@ function compilerCall() {
                     $('#collapseMore').collapse('show');
                 },
                 "json" // The format the response should be in
-            ).done(function() { alert('Request done!'); })
+            ).done(function() { console.log('Compiled with sucess!'); })
             .fail(function(jqxhr, settings, ex) {
-                alert('failed, ' + ex);
+                console.log('failed, ' + ex);
                 console.log(jqxhr);
                 console.log(settings);
                 $("#compilebtn")[0].disabled = false;

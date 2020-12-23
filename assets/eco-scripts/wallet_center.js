@@ -6,14 +6,14 @@ function drawWalletsStatus() {
 
     var headerRow = document.createElement('tr');
     headerRow.className = "headerrd";
-    var headersID = document.createElement('td');
+    var headersLabel = document.createElement('td');
     var headersNeoBalance = document.createElement('td');
     var headersGasBalance = document.createElement('td');
     var headersUnclaimed = document.createElement('td');
     var headersAddress = document.createElement('td');
 
-    headersID.innerHTML = "<b><center><font size='1'>ID</font></b>";
-    headerRow.insertCell(-1).appendChild(headersID);
+    headersLabel.innerHTML = "<b><center><font size='1'>LABEL</font></b>";
+    headerRow.insertCell(-1).appendChild(headersLabel);
     headersAddress.innerHTML = "<b><center><font size='1'>ADDRESS</font></b>";
     headerRow.insertCell(-1).appendChild(headersAddress);
     headersNeoBalance.innerHTML = "<b><center><font size='1'>NEO</font></b>";
@@ -34,12 +34,10 @@ function drawWalletsStatus() {
             b.setAttribute('content', 'test content');
             b.setAttribute('class', 'btn btn-danger btn-sm');
             b.setAttribute('value', ka);
-            //b.onclick = function () {buttonRemoveRule();};
-            //b.onclick = function () {alert(this.value);};
             b.onclick = function() {
                 removeAccountFromEcoWallet(this.value);
             };
-            b.innerHTML = ka;
+            b.innerHTML = ECO_WALLET[ka].label;
             txRow.insertCell(-1).appendChild(b);
 
             var addressBase58 = document.createElement('button');
@@ -368,10 +366,34 @@ function populateAllWalletData() {
 }
 
 //===============================================================
+function deleteAccount(idToRemove) {
+    ECO_WALLET.splice(idToRemove, 1);
+    drawPopulate();
+}
+
 function removeAccountFromEcoWallet(idToRemove) {
     if (idToRemove < ECO_WALLET.length && idToRemove > -1) {
-        ECO_WALLET.splice(idToRemove, 1);
-        updateAllWalletData();
+        swal({
+            title: "Delete " + ECO_WALLET[idToRemove].label + "?",
+            text: " Address " + ECO_WALLET[idToRemove].account.address + " will be removed.",
+            type: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                deleteAccount(idToRemove);
+                swal("Address has been deleted!", {
+                    icon: "success",
+                });
+            } else {
+                swal("Safe! Account " + ECO_WALLET[idToRemove].label + " has not deleted.");
+            }
+        });
+
+
+        //if (confirm("Remove " + ECO_WALLET[idToRemove].label + " Address " + ECO_WALLET[idToRemove].account.address)) {
+
+        //}
     } else {
         alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + ECO_WALLET.length)
     }

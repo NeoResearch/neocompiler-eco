@@ -7,21 +7,13 @@ var ECO_WALLET = [];
 //AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 ECO_WALLET.push({
     account: new Neon.wallet.Account("KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr"),
+    label: "Default1",
     print: true
 });
 //APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 ECO_WALLET.push({
     account: new Neon.wallet.Account("L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA"),
-    print: true
-});
-//AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("KwNkjjrC5BLwG7bQuzuVbFb5J4LN38o1A8GDX4eUEL1JRNcVNs9p"),
-    print: true
-});
-//AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("KxPHsCAWkxY9bgNjAiPmQD87ckAGR79z41GtwZiLwxdPo7UmqFXV"),
+    label: "Default2",
     print: true
 });
 

@@ -84,14 +84,14 @@ function compilerCall() {
                 swal("Compiled with success!", {
                     icon: "success",
                     buttons: false,
-                    timer: 600,
+                    timer: 1100,
                 });
             })
             .fail(function(jqxhr, settings, ex) {
                 swal("Failed" + ex + " Something went wrong!", {
                     icon: "error",
                     buttons: false,
-                    timer: 600,
+                    timer: 2500,
                 });
                 console.log("Failed " + ex);
                 console.log(jqxhr);

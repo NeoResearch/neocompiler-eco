@@ -135,7 +135,6 @@ function checkIfCompilerExists(nameToCheck) {
 }
 
 app.post('/compilex', function(req, res) {
-    req.setTimeout(360000); // 5 minutes
     var imagename = req.body.compilers_versions;
     var compilerLanguage = req.body.codesend_selected_compiler;
     var code64 = Buffer.from(req.body.codesend, 'base64').toString('base64');

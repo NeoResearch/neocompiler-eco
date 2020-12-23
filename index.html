@@ -315,14 +315,11 @@
 
                         <br>
                         <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
+
                         <div id="aceEditor"></div>
 
-
-
                         <div class="collapse container-colapse" id="collapseMore">
-
                             <div class="">
-
                                 <div class="errors-warnings" style="height: auto!important;">
                                     <h4>AVM (in hex):
                                     </h4>
@@ -361,8 +358,6 @@
                                     <a id="btnNewContractWallet" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
                                     <div class="display-erros" style="background: transparent">
-
-
                                         <label for="contractInfo_ScriptHash">ScriptHash</label>
                                         <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
 
@@ -382,7 +377,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- END DIV EMPTY CLASS -->
                         </div>
+                        <!-- END COLLAPSE MORE -->
 
 
                         <!--
@@ -398,19 +395,15 @@
                                     </label>
                                 </span>
                             -->
-                        <br><br>
-                        <div class="errors-warnings" style="height: auto!important;margin-top: 20px;">
-                            <h4>Compile Warning/Errors:</h4>
-                            <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
 
-                            <!--<div id="codewarnerr" class="display-erros"> </div>  -->
-
+                        <div class="errors-warnings" style="height: auto!important; margin-top: 20px; margin-bottom: 20px;">
+                            <h4>Compiler Warning/Errors:</h4>
+                            <textarea id="codewarnerr" readonly="readonly" rows="10" cols="100" placeholder="COMPILER OUTPUT" class="form-control"></textarea>
                         </div>
 
                         <a class="btn btn-default collapseMore" data-toggle="collapse" href="#collapseMore" role="button" aria-expanded="false" aria-controls="collapseMore">
                             <img src="assets/left-arrow.png" style="width: 40px;">
                         </a>
-
                     </div>
                 </div>
 

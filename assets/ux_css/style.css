@@ -588,6 +588,19 @@ textarea{
 
 }
 
+.reg-wallet{
+
+    margin-bottom: 60px!important;
+}
+
+.col-walet input{
+    float:left;
+    width: 100%;
+}
+.col-walet .col-6{
+    margin-bottom: 10px;
+}
+
 .table .headerrd td, .table th{
     border-top: transparent!important;
 }

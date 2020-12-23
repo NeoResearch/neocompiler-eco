@@ -336,7 +336,7 @@
 
                             <div class="">
 
-                                <div class="errors-warnings">
+                                <div class="errors-warnings" style="height: auto!important;">
                                     <h4>AVM (in hex):
                                     </h4>
 
@@ -369,7 +369,7 @@
                                 </div>
 
 
-                                <div class="errors-warnings" style="height: 690px;">
+                                <div class="errors-warnings" style="height: 1000px!important;">
                                     <h4>Compiled contract info:</h4>
                                     <a id="btnNewContractWallet" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
@@ -411,8 +411,8 @@
         </label>
     </span>
 -->
-                        <br>
-                        <div class="errors-warnings">
+                        <br><br>
+                        <div class="errors-warnings" style="height: auto!important;margin-top: 20px;">
                             <h4>Compile Warning/Errors:</h4>
                             <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
 
@@ -1471,6 +1471,137 @@
                         </div>
                     </div>
 
+
+                    <div class="errors-warnings reg-wallet">
+                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                            <h4 class="gree-title">Register new account
+                            </h4>
+                            <div class="container">
+                                <div class="row" style="padding:0 20px 0 20px;">
+
+                                    <div class="panel-body">
+                                        <div class="row col-walet">
+                                            <div class="col-6">
+                                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address (base58)">
+                                            </div>
+
+                                            <div class="col-6">
+                                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="38" title="scripthash">
+                                            </div>
+
+                                            <div class="col-6">
+                                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62">
+                                            </div>
+
+                                            <div class="col-6">
+                                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="50">
+                                            </div>
+
+                                            <div class="col-6">
+                                                PrivateKey (32 bytes): <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="64" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="60">
+                                            </div>
+
+                                            <div class="col-6">
+                                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU" size="58">
+                                            </div>
+                                        </div>
+                                        <input data-toggle="collapse" data-target="#div_addMultiSig_byVerification" type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig<br>
+                                        <div class="panel-body collapse" id="div_addMultiSig_byVerification">
+                                            VerificationScript (? bytes): <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac" size="40"> <br>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button type="button" onclick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div><br><br>
+                    <div class="errors-warnings">
+                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                            <h4 class="gree-title">Accounts detailed info
+                            </h4>
+                            <div class="container">
+                                <div class="row" style="padding:0 20px 0 20px;">
+
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <span class="label label-primary">Pick an address:</span>
+                                                <select name="wallet_info" onchange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"><option value="wallet_0">AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</option><option value="wallet_1">APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL</option><option value="wallet_2">AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx</option><option value="wallet_3">AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9</option><option value="wallet_4">AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs</option><option value="wallet_5">AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17</option><option value="wallet_6">AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F</option><option value="wallet_7">AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF</option><option value="wallet_8">AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU</option><option value="wallet_9">Encrypted: 6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU</option></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <span class="label label-success">AddressBase58:</span>
+                                                <textarea id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-4">
+                                                <span class="label label-success">ScriptHash:</span>
+                                                <textarea id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <span class="label label-success">PublicKey:</span>
+                                                <textarea id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <span class="label label-success">VerificationScript:</span>
+                                                <textarea id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <span class="label label-success">WIF:</span>
+                                                <textarea id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-4">
+                                                <span class="label label-success">PrivateKey:</span>
+                                                <textarea id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <span class="label label-success">Print:</span>
+                                                <textarea id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-2">
+                                                <span class="label label-success">Owners:</span>
+                                                <textarea id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <br><button type="" onclick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-user-minus"></i> Remove account
+                                            </button>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <span class="label label-success">EncryptedKey:</span>
+                                                <textarea id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)"></textarea>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <form class="form-group ng-pristine ng-valid" onsubmit="decrypt()">
+                                                    <div id="dialog" title="Basic dialog" hidden="" style="display: none;">
+                                                        <input autocomplete="&#8203;&quot;eco&quot;" id="passwordNep2" class="form-control" type="password" placeholder="&#8203;&quot;EnterPassword&quot;">
+                                                        <button type="submit" class="form-control btn btn-info btn-sm">Decrypt</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br>
                 </div>
 
 

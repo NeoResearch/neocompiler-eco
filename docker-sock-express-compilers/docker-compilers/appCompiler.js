@@ -28,22 +28,24 @@ app.use(function(req, res, next) {
 
 var server = http.createServer(app);
 var compilers = [];
-
+var getCompilersBashCall = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-neo-boa| tail -n +2) | awk '{ print $1,$2 }'";
+    
 server.listen(10000 || process.env.PORT, (err) => {
     if (err) {
         return console.log('something bad happened', err)
     }
+    updateCompilers();
     console.log('Compiler RPC server is up')
 })
 
 
-var optionsCompile = {
-    timeout: 40000, // 5 seconds is already a lot... but C# is requiring 20!
+var optionsGetCompilers = {
+    timeout: 5000, // 5 seconds is already a lot... but C# is requiring 20!
     killSignal: 'SIGKILL'
 }
 
 var optionsCompilex = {
-    timeout: 40000, // 5 seconds is already a lot... but C# is requiring 20!
+    timeout: 40000, // 40 seconds is already a lot... but C# is requiring 20!
     maxBuffer: 1024 * 500,
     killSignal: 'SIGKILL'
 }
@@ -71,19 +73,16 @@ app.get('/', (req, res) => {
     res.send(obj);
 });
 
-app.get('/getCompilers', (req, res) => {
-    var cmddocker = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-java-neo-compiler | tail -n +2; docker images docker-neo-boa| tail -n +2; docker images docker-neo-go| tail -n +2) | awk '{ print $1,$2 }'";
+function updateCompilers()
+{    
     //(docker images docker-mono-neo-compiler | tail -n +2) | awk '{ print $2 }'
     //(docker images | tail -n 1)
     //docker images | tail -n +2
-
-    var child = require('child_process').exec(cmddocker, optionsCompile, (e, stdout1, stderr) => {
+    var child = require('child_process').exec(getCompilersBashCall, optionsGetCompilers, (e, stdout1, stderr) => {
         if (e instanceof Error) {
-            res.send("Error:" + e);
-            console.error(e);
+            return;
         } else if (stdout1 == null){
-            	res.send("Error stdout1 is null...");
-            	console.error(e);
+            	return;
 	    } else { 	
 		    //x = stdout1.replace(/[^\x00-\x7F]/g, "");
 		    //res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
@@ -96,15 +95,25 @@ app.get('/getCompilers', (req, res) => {
 		        obj["compiler"] = stdout1[i];
 		        obj["version"] = stdout1[i + 1];
 			// Remove later TODO
-			console.log(obj["version"].substring(1,4))
+			console.log("Inside updateCompilers - Printing " + obj["version"].substring(1,4))
 			if(obj["version"].substring(0,4) == "v3.0")
 			        arr.push(obj);
             }
             compilers = arr;
-            res.send(JSON.stringify(arr));
+            return;
             //res.send(stdout1);
         } // if e instanceof Error
-    }); // child
+    }); // child    
+}
+
+
+app.get('/getCompilers', (req, res) => {
+        if(compilers.length == 0)
+        {
+        	console.log("Calling updateCompilers...");
+		updateCompilers();
+	}
+	res.send(JSON.stringify(compilers));
 });
 
 app.post('/compilex', function(req, res) {
@@ -120,25 +129,28 @@ app.post('/compilex', function(req, res) {
         console.log("Current compilers");
         console.log(compilers);
         var compilerExists = false;
+        
         for (c = 0; c < compilers.length; c++) {
             var compilerName = compilers[c].compiler + ":" + compilers[c].version;
             if (compilerName == imagename)
                 compilerExists = true;
         }
 
+
         if (!compilerExists) {
-            console.log("Someone is doing something crazy. Compiler does not exist.");
+            console.log("Someone is doing something crazy. Compiler does not exist including name and version.");
             var msg64 = Buffer.from("Unknown Compiler! Please use something from the list!", 'ascii').toString('base64');
             var msgret = "{\"output\":\"" + msg64 + "\",\"avm\":\"\",\"abi\":\"\"}";
             res.send(msgret);
         } else {
             var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+            console.log("Compiler Exists! Calling it to compile...");
 	    console.log(cmddocker);
             var start = new Date();
             var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
                 var end = new Date() - start;
                 if (e instanceof Error) {
-                    console.error(e);
+                    console.error("Error:" + e);
                     console.log('stdout ', stdout);
                     console.log('stderr ', stderr);
                     console.log('inside error');
@@ -156,6 +168,7 @@ app.post('/compilex', function(req, res) {
         } //Compiler exists if
     } // if imagename!= ""
     else {
+         console.log("Someone is doing something crazy. Compiler does not exist imagename.");
         var msg64 = Buffer.from("Unknown Compiler!", 'ascii').toString('base64');
         var msgret = "{\"output\":\"" + msg64 + "\",\"avm\":\"\",\"abi\":\"\"}";
         res.send(msgret);

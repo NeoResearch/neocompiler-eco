@@ -377,7 +377,7 @@ function removeAccountFromEcoWallet(idToRemove) {
             title: "Delete " + ECO_WALLET[idToRemove].label + "?",
             text: " Address " + ECO_WALLET[idToRemove].account.address + " will be removed.",
             type: "warning",
-            buttons: true,
+            buttons: ["Cancel", "Delete it!"],
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {

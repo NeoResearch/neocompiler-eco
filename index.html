@@ -336,7 +336,7 @@
 
                             <div class="">
 
-                                <div class="errors-warnings">
+                                <div class="errors-warnings" style="height: auto!important;">
                                     <h4>AVM (in hex):
                                     </h4>
 
@@ -369,7 +369,7 @@
                                 </div>
 
 
-                                <div class="errors-warnings" style="height: 690px;">
+                                <div class="errors-warnings" style="height: 1000px!important;">
                                     <h4>Compiled contract info:</h4>
                                     <a id="btnNewContractWallet" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
@@ -411,8 +411,8 @@
         </label>
     </span>
 -->
-                        <br>
-                        <div class="errors-warnings">
+                        <br><br>
+                        <div class="errors-warnings" style="height: auto!important;margin-top: 20px;">
                             <h4>Compile Warning/Errors:</h4>
                             <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
 

@@ -3,6 +3,7 @@ var http = require('http');
 var logger = require('morgan'); // log requests to the console (express4)
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
 var app = express();
+var cors = require('cors');
 
 app.use(logger('dev')); // log every request to the console
 app.use(bodyParser.urlencoded({ // parse application/x-www-form-urlencoded
@@ -15,6 +16,9 @@ app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 })); // parse application/vnd.api+json as json
 
+app.use(cors())
+
+/*
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
@@ -22,6 +26,7 @@ app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     next();
 });
+*/
 
 var server = http.createServer(app);
 var door = 9000;

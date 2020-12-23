@@ -2,7 +2,9 @@ var express  = require('express');
 var http = require('http');
 var logger = require('morgan');             // log requests to the console (express4)
 var app = express();
+var cors = require('cors');
 app.use(express.static(__dirname + '/'));                 // set the static files location /public/img will be /img for users
+app.use(cors())
 
 var server = http.createServer(app);
 

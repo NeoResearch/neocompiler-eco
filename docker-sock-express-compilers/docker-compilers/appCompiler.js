@@ -1,6 +1,7 @@
 var express = require('express');
 var http = require('http');
 var logger = require('morgan'); // log requests to the console (express4)
+var cors = require('cors');
 var bodyParser = require('body-parser'); // pull information from HTML POST (express4)
 var app = express();
 
@@ -15,7 +16,9 @@ app.use(bodyParser.json({
     type: 'application/vnd.api+json'
 })); // parse application/vnd.api+json as json
 
-app.use(function(req, res, next) {
+app.use(cors())
+
+/*app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -24,7 +27,7 @@ app.use(function(req, res, next) {
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
     next();
-});
+});*/
 
 var server = http.createServer(app);
 var compilers = [];

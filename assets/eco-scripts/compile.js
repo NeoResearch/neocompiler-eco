@@ -42,7 +42,8 @@ function compilerCall() {
                 url: BASE_PATH_COMPILERS + "/compilex",
                 data: indata,
                 timeout: 120000, //120s
-                dataType: "json"
+                dataType: "json",
+                crossDomain: true
             }).done(function(data) {
                 console.log("finished compiling");
                 console.log(data);

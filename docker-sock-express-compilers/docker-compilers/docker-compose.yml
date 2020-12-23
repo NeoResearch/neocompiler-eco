@@ -20,7 +20,6 @@ services:
       - ./buildCompilers.sh:/opt/buildCompilers.sh
       - ./.env:/opt/.env
       - ./compilers:/opt/compilers
-      - ./node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
     healthcheck:
       test:

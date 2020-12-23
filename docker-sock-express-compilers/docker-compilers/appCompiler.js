@@ -162,6 +162,7 @@ app.post('/compilex', function(req, res) {
                     res.send(msgret);
                     //throw e;
                 } else {
+                    console.error("Sucess");
                     res.send(stdout);
                 }
             }); // child

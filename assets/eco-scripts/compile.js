@@ -41,7 +41,7 @@ function compilerCall() {
                 type: "POST",
                 url: BASE_PATH_COMPILERS + "/compilex",
                 data: indata,
-                timeout: 120000, //120s
+                timeout: 360000, //5minutes
                 dataType: "json",
                 crossDomain: true
             }).done(function(data) {

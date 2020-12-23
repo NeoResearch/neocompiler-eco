@@ -135,7 +135,7 @@ function addContractToWallet(scriptHashToAdd) {
     var accountToAdd;
     if (scriptHashToAdd != '') {
         accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-        labelToAdd = scriptHashToAdd.slice(0, 3) + "..." + scriptHashToAdd.slice(0, 3)
+        labelToAdd = scriptHashToAdd.slice(0, 3) + "..." + scriptHashToAdd.slice(-3)
         if (addToWallet(accountToAdd, labelToAdd))
             drawPopulate();
 
@@ -389,14 +389,9 @@ function removeAccountFromEcoWallet(idToRemove) {
                     icon: "success",
                 });
             } else {
-                swal("Safe! Account " + ECO_WALLET[idToRemove].label + " has not deleted.");
+                swal("Safe! Account " + ECO_WALLET[idToRemove].label + " was not deleted.");
             }
         });
-
-
-        //if (confirm("Remove " + ECO_WALLET[idToRemove].label + " Address " + ECO_WALLET[idToRemove].account.address)) {
-
-        //}
     } else {
         alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + ECO_WALLET.length)
     }

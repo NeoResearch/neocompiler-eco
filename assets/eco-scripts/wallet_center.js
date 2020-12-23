@@ -135,10 +135,11 @@ function addContractToWallet(scriptHashToAdd) {
     var accountToAdd;
     if (scriptHashToAdd != '') {
         accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-        if (addToWallet(accountToAdd))
-            updateAllWalletData();
+        labelToAdd = scriptHashToAdd.slice(0, 3) + "..." + scriptHashToAdd.slice(0, 3)
+        if (addToWallet(accountToAdd, labelToAdd))
+            drawPopulate();
 
-        $('.nav-pills a[data-target="#wallet"]').tab('show');
+        $('.nav a[href="#nav-wallet"]').tab('show');
     } else
         console.log("Nothing to add. Scripthash looks to be empty!");
 }
@@ -158,7 +159,7 @@ function addContractToWalletFromVerification() {
 }
 
 //TODO Add suport for adding multisig and specialSC
-function addToWallet(accountToAdd, verificationScriptToAdd = "") {
+function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
     if (accountToAdd._encrypted != null) {
         if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
             alert("Encrypted key already registered. Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.");
@@ -166,6 +167,7 @@ function addToWallet(accountToAdd, verificationScriptToAdd = "") {
         }
         ECO_WALLET.push({
             account: accountToAdd,
+            label: labelToAdd,
             print: true
         });
         return true;
@@ -219,6 +221,7 @@ function addToWallet(accountToAdd, verificationScriptToAdd = "") {
 
         ECO_WALLET.push({
             account: accountToAdd,
+            label: labelToAdd,
             print: true
         });
 

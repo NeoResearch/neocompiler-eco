@@ -163,6 +163,9 @@ app.post('/compilex', function(req, res) {
                     //throw e;
                 } else {
                     console.error("Sucess");
+                    console.error(e);
+                    console.error(stderr);
+                    console.error(stdout);                                        
                     res.send(stdout);
                 }
             }); // child

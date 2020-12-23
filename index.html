@@ -301,26 +301,23 @@
                     </nav>
 
                     <div id="compiler">
-
-
                         <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
-                        <option selected>C#</option>
-                    </select>
+                            <option selected>C#</option>
+                        </select>
                         <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
 
-
                         <div class="version-compile" id="version-compile">
-                            <span style="margin-right:10px;padding-top: 10px;float: left;"><i
-                                class="fas fa-lg fa-code-branch"></i></span>
+                            <span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>
                             <select title="Select compiler version" id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
-                            <option>latest</option>
-                        </select>
+                                <option>latest</option>
+                            </select>
                         </div>
 
                         <br>
+                        <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
                         <div id="aceEditor"></div>
 
-                        <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE</button>
+
 
                         <div class="collapse container-colapse" id="collapseMore">
 
@@ -1195,7 +1192,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home "></i></a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page"><a>ACTIVITY</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a>Activity</a></li>
                         </ol>
                     </nav>
 

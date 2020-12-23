@@ -37,48 +37,49 @@ function compilerCall() {
         }
         var indata = createCompilexJson(code_cs);
         console.log(indata)
-        $.post(
-                BASE_PATH_COMPILERS + "/compilex", // Gets the URL to sent the post to
-                indata, // Serializes form data in standard format
-                function(data) {
-                    console.log("finished compiling");
-                    console.log(data);
-                    $("#compilebtn")[0].disabled = false;
-                    var coderr = atob(data.output);
-                    $("#codewarnerr").val(coderr);
-                    var hexcodeavm = atob(data.avm);
-                    $("#codeavm").val(hexcodeavm);
-                    hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-                    $("#opcodes").val("");
-                    //printOpcode(hexcodeavm, $("#opcodes"));
-                    //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                    localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
-                    //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
-                    //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                    //console.log(localStorage.getItem('avmFile').charCodeAt(0));
-                    //$("#btn_download")[0].style = "";
+        $.ajax({
+                type: "POST",
+                url: BASE_PATH_COMPILERS + "/compilex",
+                data: indata,
+                timeout: 120000, //120s
+                dataType: "json"
+            }).done(function(data) {
+                console.log("finished compiling");
+                console.log(data);
+                $("#compilebtn")[0].disabled = false;
+                var coderr = atob(data.output);
+                $("#codewarnerr").val(coderr);
+                var hexcodeavm = atob(data.avm);
+                $("#codeavm").val(hexcodeavm);
+                hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+                $("#opcodes").val("");
+                //printOpcode(hexcodeavm, $("#opcodes"));
+                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
+                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
+                //$("#btn_download")[0].style = "";
 
-                    //filling hashes
-                    var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-                    var avmSize = Math.ceil(hexcodeavm.length / 2);
-                    updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
+                //filling hashes
+                var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+                var avmSize = Math.ceil(hexcodeavm.length / 2);
+                updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
 
-                    // Loading Manifest Info
-                    console.log("loading manifest");
-                    if (data.manifest != "") {
-                        var textmanifest = atob(data.manifest);
-                        $("#codemanifest").val(textmanifest);
-                    }
+                // Loading Manifest Info
+                console.log("loading manifest");
+                if (data.manifest != "") {
+                    var textmanifest = atob(data.manifest);
+                    $("#codemanifest").val(textmanifest);
+                }
 
-                    // Loading all ABI related boxes
-                    if (data.abi != "") {
-                        var codeabi = atob(data.abi);
-                        updateAllABIDependencies(JSON.parse(codeabi));
-                    }
-                    $('#collapseMore').collapse('show');
-                },
-                "json" // The format the response should be in
-            ).done(function() {
+                // Loading all ABI related boxes
+                if (data.abi != "") {
+                    var codeabi = atob(data.abi);
+                    updateAllABIDependencies(JSON.parse(codeabi));
+                }
+                $('#collapseMore').collapse('show');
+
                 swal("Compiled with success!", {
                     icon: "success",
                     buttons: false,

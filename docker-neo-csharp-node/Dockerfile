@@ -1,5 +1,5 @@
 # NEO csharp-nodes network simulator
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.3-bionic
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.1-focal
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

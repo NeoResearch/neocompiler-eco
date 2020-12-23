@@ -23,7 +23,6 @@ services:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
@@ -58,7 +57,6 @@ services:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
@@ -92,7 +90,6 @@ services:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
@@ -125,7 +122,6 @@ services:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
@@ -159,7 +155,6 @@ services:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/levelDBConfig.json:/opt/node/neo-cli/Plugins/LevelDBStore/config.json
       - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json

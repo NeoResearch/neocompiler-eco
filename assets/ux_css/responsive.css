@@ -1,259 +1,208 @@
-
-.menu-mobile{
-    display: none;
-}
-.menuMobile{
+.menu-mobile {
     display: none;
 }
 
-@media (max-width: 1024px){
+.menuMobile {
+    display: none;
+}
 
-
-
-
-    .select2-container--default .select2-selection--single{
+@media (max-width: 1024px) {
+    .select2-container--default .select2-selection--single {
         background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
-
     }
-
-    .menu-mobile{
+    .menu-mobile {
         display: block;
         padding: 30px;
         position: absolute;
         right: 0;
     }
-
-    .menu-mobile a{
+    .menu-mobile a {
         padding-top: 10px;
         float: left;
     }
-
-    .menu-mobile i{
+    .menu-mobile i {
         color: white!important;
         margin-top: 20px!important;
     }
-
-    .tab-pane.fade{
+    .tab-pane.fade {
         margin-top: 120px;
     }
-    .version-compile{
+    .version-compile {
         float: left;
         margin-top: 30px;
         width: 100%;
     }
-
-
-
-    header ul{
+    header ul {
         height: 200px!important;
     }
-
-    .nav-link img{
-
+    .nav-link img {
         width: 180px!important;
         margin-top: -15px!important;
     }
-
-
-    header ul li{
+    header ul li {
         height: 200px!important;
         width: 250px!important;
     }
-    #collapseExample{
+    #collapseMenuMobile {
         position: absolute;
         margin-top: 200px;
         z-index: 60000000000000!important;
         right: 0;
     }
-
-    #collapseExample {
+    #collapseMenuMobile {
         float: right;
         width: 50% !important;
     }
-
-    #collapseExample ul{
+    #collapseMenuMobile ul {
         float: left;
         width: 50% !important;
         height: 85%!important;
         overflow-x: scroll!important;
         border-left: 5px solid #0aac7c;
     }
-
-    #collapseExample a{
+    #collapseMenuMobile a {
         color: white;
         font-size: 20px;
     }
-
-    #collapseExample li{
+    #collapseMenuMobile li {
         float: left;
         padding: 10px;
         width: 100% !important;
     }
-
-    #collapseExample li i{
+    #collapseMenuMobile li i {
         float: left;
         margin-right: 10px;
     }
-    #collapseExample li p{
+    #collapseMenuMobile li p {
         padding: 10px;
         font-size: 40px;
     }
-    .collapseMore{
+    .collapseMore {
         position: fixed;
     }
-    .errors-warnings .display-erros{
+    .errors-warnings .display-erros {
         height: 600px!important;
     }
-.collapseMore img{
-    width: 150px!important;
-    right: 0;
-}
-    #collapseExample li i{
+    .collapseMore img {
+        width: 150px!important;
+        right: 0;
+    }
+    #collapseMenuMobile li i {
         font-size: 100px;
     }
-    .container, .container-md, .container-sm{
+    .container,
+    .container-md,
+    .container-sm {
         max-width: 100%;
     }
-
-    .nav li{
+    .nav li {
         height: 200px!important;
         background: transparent;
     }
-
-    #collapseExample ul .nav-item{
+    #collapseMenuMobile ul .nav-item {
         height: 150px!important;
     }
-
-
-    .btn-compile{
+    .btn-compile {
         float: left;
         width: 100%;
     }
-
-
-    .errors-warnings{
+    .errors-warnings {
         float: left;
         width: 100%;
     }
-
-    #aceEditor{
+    #aceEditor {
         font-size: 25px!important;
         height: 1000px!important;
     }
-
-
-    .select2-container--default .select2-selection--single{
-        background:#00AF92!important;
+    .select2-container--default .select2-selection--single {
+        background: #00AF92!important;
         color: white!important;
         -webkit-appearance: caret!important;
-        -moz-appearance:    caret!important;
-        appearance:         caret!important;
-
+        -moz-appearance: caret!important;
+        appearance: caret!important;
         border-color: #00AF92;
         height: 120px!important;
-
-
     }
-
-
-
-    .select2-container--default .select2-selection--single .select2-selection__rendered{
-        line-height:130px!important;
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 130px!important;
         font-size: 35px!important;
     }
     .select2-results__option {
-
         font-size: 50px!important;
     }
-
-    .select2-container--default .select2-results>.select2-results__options{
+    .select2-container--default .select2-results>.select2-results__options {
         max-height: 900px!important;
     }
-    .nav{
+    .nav {
         right: 0!important;
     }
-    .version-compile{
+    .version-compile {
         float: left;
         width: 100%;
     }
-    .version-compile form{
+    .version-compile form {
         float: left!important;
         width: 70%!important;
     }
-    .version-compile select{
+    .version-compile select {
         float: left!important;
         width: 100% !important;
     }
-    li .label-success{
-
+    li .label-success {
         font-size: 20px!important;
-
     }
-    li .label-info{
-
+    li .label-info {
         font-size: 20px!important;
         margin-top: 10px;
-
     }
-
     .compilertopselect {
         float: left!important;
         width: 100% !important;
-
     }
-
-    .compilertopselect select{
+    .compilertopselect select {
         float: left!important;
         width: 49%!important;
         height: 150px!important;
     }
-
-    .errors-warnings h4{
+    .errors-warnings h4 {
         font-size: 56px;
     }
-
-    .version-compile span{
+    .version-compile span {
         float: left;
         width: 100%;
         font-size: 45px;
     }
-
-    .btn-compile{
+    .btn-compile {
         font-size: 35px;
     }
-   #compiler .select2{
+    #compiler .select2 {
         float: left!important;
-       padding-right: 10px;
+        padding-right: 10px;
         width: 49%!important;
     }
-
-    #version-compile  .select2{
+    #version-compile .select2 {
         width: 100%!important;
         float: left!important;
     }
-
-    .fas .fa-lg .fa-code-branch{
+    .fas .fa-lg .fa-code-branch {
         position: absolute;
         z-index: 300000!important;
     }
-
-    input{
+    input {
         font-size: 25px!important;
     }
-    textarea{
+    textarea {
         font-size: 25px!important;
-
     }
-    select{
+    select {
         font-size: 25px!important;
-
     }
-    button{
+    button {
         float: left!important;
-        width:100%!important;
+        width: 100%!important;
         font-size: 22px!important;
     }
-    .pulse{
+    .pulse {
         float: left!important;
         width: 90% !important;
         opacity: 0.9!important;
@@ -262,18 +211,13 @@
         top: 85%!important;
         position: fixed!important;
     }
-
-
-
-    .breadcrumb i{
+    .breadcrumb i {
         font-size: 45px!important;
     }
-    .breadcrumb a{
+    .breadcrumb a {
         font-size: 45px!important;
     }
-
-    .containerprincipal{
-
+    .containerprincipal {
         position: absolute!important;
         float: left!important;
         width: 100% !important;
@@ -282,25 +226,24 @@
         min-width: 100%!important;
     }
     #aceEditor {
-
         font-size: 35px!important;
-
     }
-
-    .preloader{
+    .preloader {
         display: none!important;
     }
-
-    .container, .container-lg, .container-md, .container-sm{
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
         max-width: 100%;
     }
 }
 
-
-
 @media (max-width: 1350px) {
-
-    .container, .container-lg, .container-md, .container-sm{
+    .container,
+    .container-lg,
+    .container-md,
+    .container-sm {
         max-width: 800px;
     }
 }

@@ -22,5 +22,6 @@ $(document).ready(() => {
         newUrl = url.split("#")[0] + hash;
         newUrl += "/";
         history.replaceState(null, null, newUrl);
+        $(window).scrollTop(0);
     });
 });

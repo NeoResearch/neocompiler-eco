@@ -41,7 +41,7 @@ services:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
     labels:
-      autoheal: 'false'
+      autoheal: 'true'
     networks:
       - private_net
       - inside_auto_heal
@@ -75,7 +75,7 @@ services:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
     labels:
-      autoheal: 'false'
+      autoheal: 'true'
     networks:
       - private_net
       - inside_auto_heal
@@ -107,7 +107,7 @@ services:
       IS_RPC_SERVER: 0
       IS_RPC_CLIENT: 0
     labels:
-      autoheal: 'false'
+      autoheal: 'true'
     networks:
       - private_net
       - inside_auto_heal
@@ -139,7 +139,7 @@ services:
       IS_RPC_SERVER: 0
       IS_RPC_CLIENT: 0
     labels:
-      autoheal: 'false'
+      autoheal: 'true'
     networks:
       - private_net
       - inside_auto_heal
@@ -173,7 +173,7 @@ services:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
     labels:
-      autoheal: 'false'
+      autoheal: 'true'
     networks:
         - private_net
         - inside_auto_heal

@@ -38,9 +38,19 @@ function createMultiSigFromNextValidators() {
             for (i = 0; i < data.result.length; i++) {
                 var tempAccount = new Neon.wallet.Account(data.result[i]);
                 arrayMSValidators.push(tempAccount.publicKey);
+                ECO_WALLET.push({
+                    account: new Neon.wallet.Account(tempAccount.publicKey),
+                    label: "CN" + i,
+                    print: true
+                });
             }
             var genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, arrayMSValidators);
-            ECO_WALLET.push(genesisMultiSigAccount);
+            ECO_WALLET.push({
+                account: genesisMultiSigAccount,
+                label: "CN-MultiSig",
+                print: true
+            });
+            drawPopulate();
         },
         "json" // The format the response should be in
     ).fail(function() {

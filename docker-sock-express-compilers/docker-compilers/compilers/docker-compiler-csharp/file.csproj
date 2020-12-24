@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="dotnet /neo-devpack-dotnet/src/Neo.Compiler.MSIL/bin/$(ConfigurationName)/netcoreapp3.1/neon.dll -f &quot;$(TargetPath)&quot; -o" />
+    <Exec Command="dotnet /neo-devpack-dotnet/src/Neo.Compiler.MSIL/bin/$(ConfigurationName)/net5.0/neon.dll -f &quot;$(TargetPath)&quot; -o" />
   </Target>
   
 </Project>

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1.201-bionic
+FROM mcr.microsoft.com/dotnet/sdk:5.0.101-focal
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
@@ -18,7 +18,7 @@ RUN (cd /neo-devpack-dotnet/src/Neo.SmartContract.Framework && dotnet restore)
 RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.MSIL && dotnet restore)
 RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.MSIL && dotnet build)
 
-COPY file.csproj /neo-devpack-dotnet/templates/Template.NEP5.CSharp/Template.NEP5.CSharp.csproj
+COPY file.csproj /neo-devpack-dotnet/templates/Template.NEP17.CSharp/Template.NEP17.CSharp.csproj
 
 RUN mkdir /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler
 COPY file.csproj /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/Template.CSharpNeoCompiler.csproj

@@ -15,15 +15,17 @@ cat /tmp/output.txt | base64 -w 0
 
 # Add new output related to the AVM, ABI and MANIFEST
 echo -n "\", \"avm\": \""
-if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.nef ]; then
-   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.nef | xxd -p | base64 -w 0
+if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.nef ]; then
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.nef | xxd -p | base64 -w 0
 fi
 echo -n "\", \"abi\":\""
-if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.abi.json ]; then
-   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.abi.json | base64 -w 0
+if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.abi.json ]; then
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.abi.json | base64 -w 0
 fi
 echo -n "\", \"manifest\":\""
-if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.abi.json ]; then
-   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/netstandard2.1/Template.CSharpNeoCompiler.manifest.json | base64 -w 0
+if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.abi.json ]; then
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.manifest.json | base64 -w 0
 fi
 echo "\"}"
+
+#sleep infinity

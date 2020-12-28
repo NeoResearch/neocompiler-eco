@@ -52,7 +52,7 @@ var optionsGetCompilers = {
 }
 
 var optionsCompilex = {
-    timeout: 40000, // 40 seconds is already a lot... but C# is requiring 20!
+    timeout: 360000, // 40 seconds is already a lot... but C# is requiring 20!
     maxBuffer: 1024 * 50000
 }
 
@@ -154,7 +154,7 @@ app.post('/compilex', function(req, res) {
             var end = new Date() - start;
             console.log("EndTime " + end);
             if (e) {
-                // Usually enter here in timeouts from optionsCompilex Exec config
+                // Usually enter here in timeouts from options Compilex Exec config
                 console.error("Error:" + e);
                 console.log('stdout ', stdout);
                 console.log('stderr ', stderr);

@@ -81,7 +81,7 @@
         position: fixed;
     }
     .errors-warnings .display-erros {
-        height: 600px!important;
+        height: auto!important;
     }
     .collapseMore img {
         width: 150px!important;

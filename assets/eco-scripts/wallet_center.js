@@ -491,6 +491,12 @@ function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1
     }
 }
 
+function fillMaxNeoGas() {
+    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#txcreatesendallneo");
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#txcreatesendallgas");
+}
+
 function fillAllNeo() {
     var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
     getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");

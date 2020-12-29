@@ -58,3 +58,5 @@ var code_cs = "";
 var socket;
 
 var refreshHeadersNeoCli = 0;
+
+var NUMBER_FAILS_REQUESTS = 0;

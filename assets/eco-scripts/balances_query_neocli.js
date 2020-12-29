@@ -55,11 +55,10 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
 //GAS: 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7
 //NEO: 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b
 function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", automaticTransfer = false, to = "") {
-    var assetToGetHash = 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b;
+    var assetToGetHash = NEO_ASSET;
     if (assetToGet == "GAS")
-        assetToGetHash = 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7;
-    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep5balances\", \"params\": [\"" + adddressToGet + "\"] }";
-
+        assetToGetHash = GAS_ASSET;
+    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\"" + adddressToGet + "\"] }";
     //console.log("getaccountstate request to: "+BASE_PATH_CLI);
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
@@ -68,10 +67,11 @@ function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", aut
             NUMBER_FAILS_REQUESTS = 0;
             fillSpanTextOrInputBox(boxToFill, 0);
             if (resultJsonData.result) {
-                for (i = 0; i < resultJsonData.result.balances.length; ++i) {
-                    if (resultJsonData.result.balances[i].asset == assetToGetHash) {
-                        var availableAmount = resultJsonData.result.balances[i].value;
-                        //console.log(assetToGet + " balance is:" + result.balance[i].amount);
+                for (i = 0; i < resultJsonData.result.balance.length; ++i) {
+                    if (resultJsonData.result.balance[i].assethash == assetToGetHash) {
+                        var availableAmount = resultJsonData.result.balance[i].amount;
+                        if (assetToGet == "GAS")
+                            availableAmount = availableAmount / 100000000;
                         fillSpanTextOrInputBox(boxToFill, availableAmount);
 
                         if (automaticTransfer) {

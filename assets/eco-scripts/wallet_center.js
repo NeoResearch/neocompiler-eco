@@ -321,12 +321,12 @@ function updateInfoMSOwners() {
 function updateAddressSelectionBox() {
     updateInfoMSOwners();
     //Adding all known address to NeonInvokeSelectionBox
-    addAllKnownAddressesToSelectionBox("wallet_invokejs");
-    addAllKnownAddressesToSelectionBox("wallet_deployjs");
-    addAllKnownAddressesToSelectionBox("wallet_info");
+    //addAllKnownAddressesToSelectionBox("wallet_invokejs");
+    //addAllKnownAddressesToSelectionBox("wallet_deployjs");
+    //addAllKnownAddressesToSelectionBox("wallet_info");
     addAllKnownAddressesToSelectionBox("createtx_to");
     addAllKnownAddressesToSelectionBox("createtx_from");
-    addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
+    //addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }
 //===============================================================
 
@@ -512,6 +512,7 @@ function selfTransfer(idToTransfer) {
 function drawPopulate() {
     drawWalletsStatus();
     populateAllWalletData();
+    updateAddressSelectionBox();
 }
 
 drawPopulate()

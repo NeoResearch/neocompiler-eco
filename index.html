@@ -203,8 +203,8 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-sbuild" role="tab" aria-controls="nav-home" aria-selected="true">
-                <p>Send & Build</p>
-            </a>
+                    <p>Send & Build</p>
+                </a>
             </li>
 
             <li class="nav-item">
@@ -387,10 +387,10 @@
                             -->
 
                         <div class="errors-warnings" style="height: auto!important; margin-top: 20px; margin-bottom: 20px;">
-                         <div class="display-erros" style="height: auto!important;">
-                            <h4>Compiler Warning/Errors:</h4>
-                            <textarea id="codewarnerr" readonly="readonly" rows="10"  placeholder="COMPILER OUTPUT" class="form-control"></textarea>
-                        </div>
+                            <div class="display-erros" style="height: auto!important;">
+                                <h4>Compiler Warning/Errors:</h4>
+                                <textarea id="codewarnerr" readonly="readonly" rows="10" placeholder="COMPILER OUTPUT" class="form-control"></textarea>
+                            </div>
                         </div>
 
                         <a class="btn btn-default collapseMore" data-toggle="collapse" href="#collapseMore" role="button" aria-expanded="false" aria-controls="collapseMore">
@@ -741,76 +741,13 @@
                                                             <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim
                                                         </button>
                                                             <br> <br>
-                                                            <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3">
-                                                            <option value="wallet_0">
-                                                                AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-                                                            </option>
-                                                            <option value="wallet_1">
-                                                                APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
-                                                            </option>
-                                                            <option value="wallet_2">
-                                                                AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx
-                                                            </option>
-                                                            <option value="wallet_3">
-                                                                AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9
-                                                            </option>
-                                                            <option value="wallet_4">
-                                                                AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs
-                                                            </option>
-                                                            <option value="wallet_5">
-                                                                AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17
-                                                            </option>
-                                                            <option value="wallet_6">
-                                                                AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F
-                                                            </option>
-                                                            <option value="wallet_7">
-                                                                AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF
-                                                            </option>
-                                                            <option value="wallet_8">
-                                                                AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU
-                                                            </option>
-                                                            <option value="wallet_9">Encrypted:
-                                                                6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU
-                                                            </option>
-                                                        </select>
+                                                            <select name="createtx_from" id="createtx_from" class="custom-select form-control" size="3"></select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="createtx_to">To(Address)</label><br> <br>
-                                                            <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3">
-                                                            <option value="wallet_0">
-                                                                AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
-                                                            </option>
-                                                            <option value="wallet_1">
-                                                                APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
-                                                            </option>
-                                                            <option value="wallet_2">
-                                                                AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx
-                                                            </option>
-                                                            <option value="wallet_3">
-                                                                AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9
-                                                            </option>
-                                                            <option value="wallet_4">
-                                                                AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs
-                                                            </option>
-                                                            <option value="wallet_5">
-                                                                AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17
-                                                            </option>
-                                                            <option value="wallet_6">
-                                                                AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F
-                                                            </option>
-                                                            <option value="wallet_7">
-                                                                AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF
-                                                            </option>
-                                                            <option value="wallet_8">
-                                                                AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU
-                                                            </option>
-                                                            <option value="wallet_9">Encrypted:
-                                                                6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU
-                                                            </option>
-                                                        </select>
-                                                            <!-- <input name="createtx_to" id="createtx_to" placeholder="Destination Address" size="40"></input>-->
+                                                            <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="3"> </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -818,9 +755,7 @@
 
                                                     <div class="col-md-6">
                                                         <div class="form-group">
-                                                            <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">All
-                                                            Neo
-                                                        </button>
+                                                            <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">All Neo</button>
                                                             <br><br><input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required="">
                                                         </div>
                                                     </div>
@@ -2282,7 +2217,7 @@
 <script src="assets/ux_js/sweetalert.min-23-12-2020.js" type="text/javascript"></script>
 
 <!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
-<script src="assets/third_party_js/neon-js-browser-next-dc100.js"></script>
+<script src="assets/third_party_js/neon-js-browser-next-4dbc0b.js"></script>
 
 <!-- Load socket-io-->
 <script src="assets/third_party_js/socket.io-2.3.1.js"></script>

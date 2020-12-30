@@ -196,11 +196,11 @@ function getfile(language, selected_index, index = 0) {
     }
 }
 
-function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox) {
+function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {
     var option = document.createElement("option");
     option.text = textToOption;
     option.value = valueToOption;
-    option.title = "Selected code example is " + valueToOption;
+    option.title = title;
     var select = document.getElementById(walletSelectionBox);
     select.appendChild(option);
 }
@@ -215,7 +215,8 @@ function updateCompilersSelectionBox(compilerType) {
             indexToSelect = 0;
             for (c = 0; c < data.length; c++) {
                 if (data[c].compiler == compilerType) {
-                    addOptionToSelectionBox(data[c].version, compilerType + ":" + data[c].version, compilerSelectionBoxID);
+                    var valueToOption = compilerType + ":" + data[c].version;
+                    addOptionToSelectionBox(data[c].version, valueToOption, compilerSelectionBoxID, "Selected code example is " + valueToOption);
                     if (data[c].version === "latest")
                         indexToSelect = compilerSelectionBoxObj.length - 1;
                 }

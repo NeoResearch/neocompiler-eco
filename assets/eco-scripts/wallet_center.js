@@ -340,10 +340,12 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
         // Removing .slice(0, 4)
         // addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
         // addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
+        var addressInfoToAdd = ECO_WALLET[ka].label + " - " + ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
+        var titleToOption = "Click to select wallet " + ECO_WALLET[ka].label;
         if (isEncryptedOnly(ka))
             addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted, "wallet_" + ka, walletSelectionBox);
         else
-            addOptionToSelectionBox(ECO_WALLET[ka].account.address, "wallet_" + ka, walletSelectionBox);
+            addOptionToSelectionBox(addressInfoToAdd, "wallet_" + ka, walletSelectionBox, titleToOption);
     }
 }
 //===============================================================

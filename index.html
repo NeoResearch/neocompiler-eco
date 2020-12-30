@@ -1265,6 +1265,7 @@
                     <div class="errors-warnings reg-wallet">
                         <div class="display-erros n-padding deploy-bg" id="RegisterAddress" style="height:auto!important;">
                             <h4 class="gree-title">Register new account
+                                <button type="button" onclick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                             </h4>
                             <div class="container">
                                 <div class="row" style="padding:0 20px 0 20px;">
@@ -1272,19 +1273,35 @@
                                     <div class="panel-body">
                                         <div class="row col-walet">
                                             <div class="col-6">
-                                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" placeholder="AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y" size="32" title="public address (base58)">
+                                                <select id="type_to_register" class="compiler-select w-seta selectclass">
+                                                    <option value="wallet_0">Address (17 bytes) - WatchOnly </option>
+                                                    <option value="wallet_1">ScriptHash (20 bytes) - WatchOnly </option>
+                                                    <option value="wallet_1">PublicKey (33 bytes)</option>
+                                                    <option value="wallet_1">WIF (26 bytes)</option>
+                                                    <option value="wallet_1">PrivateKey (32 bytes)</option>
+                                                    <option value="wallet_1">EncryptedKey (29 bytes)</option>
+                                                    <option value="wallet_1">VerificationScript (?bytes)</option>
+                                                </select>
+                                                <br>
+                                            </div>
+                                            <div class="col-6">
+                                                <input style="color: green;" placeholder="Insert account info" type="text" id="accountToAddInfo" maxlength="58" value="" size="58">
+                                            </div>
+                                            <!--
+                                            <div class="col-6">
+                                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" size="32" title="public address (base58)">
                                             </div>
 
                                             <div class="col-6">
-                                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" placeholder="e9eed8dc39332032dc22e5d6e86332c50327ba23" size="38" title="scripthash">
+                                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" size="38" title="scripthash">
                                             </div>
 
                                             <div class="col-6">
-                                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" placeholder="031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a" size="62">
+                                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" size="62">
                                             </div>
 
                                             <div class="col-6">
-                                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" placeholder="KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr" size="50">
+                                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" size="50">
                                             </div>
 
                                             <div class="col-6">
@@ -1292,26 +1309,18 @@
                                             </div>
 
                                             <div class="col-6">
-                                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" placeholder="6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU"
-                                                    size="58">
+                                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" size="58">
                                             </div>
-                                        </div>
-                                        <input data-toggle="collapse" data-target="#div_addMultiSig_byVerification" type="checkbox" id="cbx_multisig" name="cbx_multisig">Multisig<br>
-                                        <div class="panel-body collapse" id="div_addMultiSig_byVerification">
-                                            VerificationScript (? bytes): <input style="color: green;" type="text" name="vsToAddBox" id="vsToAddBox" maxlength="1000" value="" placeholder="21031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4aac"
-                                                size="40"> <br>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <button type="button" onclick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
-                                            </div>
+                                        -->
                                         </div>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                    </div><br><br>
+                    </div>
+                    <!--
+                    <br><br>
                     <div class="errors-warnings">
                         <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
                             <h4 class="gree-title">Accounts detailed info
@@ -1392,7 +1401,7 @@
                             </div>
                         </div>
                     </div>
-
+                    -->
                     <br><br>
                 </div>
 

@@ -1,17 +1,32 @@
-function transferAssetNeonJS(idTransferFrom, to, assethashToTransfer, amount, nodeToCall) {
-    var fromAccount = ECO_WALLET[idTransferFrom].account.address;
-    client = new rpc.NeoServerRpcClient(nodeToCall);
+async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amount, nodeToCall) {
+    const facade = await Neon.api.NetworkFacade.fromConfig({ node: nodeToCall });
+    var fromAccount = ECO_WALLET[idTransferFrom].account;
+    client = new Neon.rpc.NeoServerRpcClient(nodeToCall);
     const txid = await facade.transferToken(
         [{
             from: fromAccount,
             to: to,
-            contractHash: Neon.CONST.NATIVE_CONTRACT_HASH.GasToken,
+            contractHash: assetHashToTransfer,
             decimalAmt: 0.00000001,
         }, ], {
-            signingCallback: signWithAccount(fromAccount),
+            signingCallback: Neon.api.signWithAccount(fromAccount),
         }
     );
 }
+
+/*
+facade.transferToken(
+    [{
+        from: ECO_WALLET[5].account,
+        to: ECO_WALLET[5].account.address,
+        contractHash: Neon.CONST.NATIVE_CONTRACT_HASH.GasToken,
+        decimalAmt: 0.00000001,
+    }, ], {
+        signingCallback: Neon.api.signWithAccount(ECO_WALLET[5].account),
+    }
+);
+*/
+//transferAssetNeonJS(5,"NTrezR3C4X8aMLVg7vozt5wguyNfFhwuFx",Neon.CONST.NATIVE_CONTRACT_HASH.GasToken,10,BASE_PATH_CLI)
 
 //==========================================================================
 function createGasAndNeoIntent(to, neo, gas) {

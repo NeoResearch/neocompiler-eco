@@ -495,6 +495,12 @@ function fillMaxNeoGas() {
     var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
     getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#txcreatesendallneo");
     getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#txcreatesendallgas");
+    $("#labelForTransferFrom")[0].textContent = "From " + ECO_WALLET[addrFromIndex].label;
+}
+
+function fillTransferToLabel() {
+    var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+    $("#labelForTransferTo")[0].textContent = "To " + ECO_WALLET[addrToIndex].label;
 }
 
 function fillAllNeo() {

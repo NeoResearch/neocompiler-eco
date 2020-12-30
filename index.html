@@ -118,7 +118,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
-                <p>Send</p>
+                <p>Transfer</p>
             </a>
             </li>
 
@@ -203,7 +203,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <p>Send & Build</p>
+                    <p>Transfer</p>
                 </a>
             </li>
 
@@ -388,8 +388,8 @@
 
                         <div class="errors-warnings" style="height: auto!important; margin-top: 20px; margin-bottom: 20px;">
                             <div class="display-erros" style="height: auto!important;">
-                                <h4>Compiler Warning/Errors:</h4>
-                                <textarea id="codewarnerr" readonly="readonly" rows="10" placeholder="COMPILER OUTPUT" class="form-control"></textarea>
+                                <h4>Compiler Output (Warning/Errors):</h4>
+                                <textarea id="codewarnerr" readonly="readonly" rows="10" class="form-control"></textarea>
                             </div>
                         </div>
 
@@ -728,62 +728,70 @@
                                     <div class="row">
 
                                         <div class="container">
-                                            <form id="createtx" action="" class="ng-pristine ng-valid mt-2">
-                                                <div class="row mb-2">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="createtx_from">From</label>
-                                                            <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
-                                                            <br><br>
-                                                            <select name="createtx_from" onclick="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="createtx_to">To</label><br> <br>
-                                                            <select name="createtx_to" id="createtx_to" class="custom-select form-control" size="6"> </select>
-                                                        </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select name="createtx_from" onclick="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
+                                                        <br>
+                                                        <label id="labelForTransferFrom">From</label>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="txcreatesendallneo">NEO Max.</label>
-                                                            <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">0</button>
-                                                            <br><br><input type="number" id="createtx_NEO" value="0" class="form-control" placeholder="NEO" required="">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="txcreatesendallgas">GAS Max.</label>
-                                                            <button type="button" onclick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">0</button>
-                                                            <br> <br> <input type="number" id="createtx_GAS" value="0" class="form-control" placeholder="GAS" required="">
-                                                        </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <select name="createtx_to" onclick="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
+                                                        <br>
+                                                        <label id="labelForTransferTo">To</label>
                                                     </div>
                                                 </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i
-                                                                class="fas fa-space-shuttle"></i> Send
-                                                        </button>
-                                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="txcreatesendallneo">NEO Max.</label>
+                                                        <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">0</button>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <button type=button onClick="document.getElementById('RegisterAddress').scrollIntoView();" id="btn_register_new_address" class="btn btn-info btn-sm">Register new address</button>
-                                                        </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="txcreatesendallgas">GAS Max.</label>
+                                                        <button type="button" onclick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">0</button>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                            </form>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="number" id="createtx_NEO" value="0" class="form-control" required="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input type="number" id="createtx_GAS" value="0" class="form-control" required="">
+                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i class="fas fa-space-shuttle"></i> Transfer </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">GAS Claim</button>
+                                                    </div>
+                                                </div>
+                                            </div>
 
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <button type=button onClick="document.getElementById('RegisterAddress').scrollIntoView();" id="btn_register_new_address" class="btn btn-info btn-sm">Register new address</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2146,6 +2154,8 @@
 <script src="assets/eco-scripts/accounts_helper.js"></script>
 
 <script src="assets/eco-scripts/wallet_center.js"></script>
+
+<script src="assets/eco-scripts/transferAsset_NeonJS.js"></script>
 
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->

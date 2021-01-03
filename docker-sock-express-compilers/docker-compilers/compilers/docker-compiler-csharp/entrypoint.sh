@@ -27,7 +27,7 @@ echo -n "\", \"manifest\":\"" >> /tmp/return.txt
 if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.abi.json ]; then
    cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.manifest.json | base64 -w 0 >> /tmp/return.txt
 fi
-echo "\"}" >> /tmp/return.txt
+echo -n "\"}" >> /tmp/return.txt
 
 # display result in stdout
 cat /tmp/return.txt

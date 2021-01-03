@@ -18,7 +18,8 @@ app.use(bodyParser.json({
 
 app.use(cors())
 
-/*app.use(function(req, res, next) {
+/*
+app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -26,6 +27,7 @@ app.use(cors())
     res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
     res.header('Expires', '-1');
     res.header('Pragma', 'no-cache');
+    res.setHeader('Content-Type', 'application/json')
     next();
 });*/
 
@@ -53,7 +55,8 @@ var optionsGetCompilers = {
 
 var optionsCompilex = {
     timeout: 360000, // 40 seconds is already a lot... but C# is requiring 20!
-    maxBuffer: 1024 * 50000
+    maxBuffer: 1024 * 50000,
+    killSignal: 'SIGKILL'
 }
 
 app.get('/', (req, res) => {
@@ -141,14 +144,49 @@ app.post('/compilex', function(req, res) {
     console.log("imagename: " + imagename)
     console.log("language: " + compilerLanguage)
     console.log("code64: " + code64)
-    //console.log(req)
+        //console.log(req)
 
     if (imagename != "" && checkIfCompilerExists(imagename)) {
         var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
         console.log("Compiler Exists! Calling it to compile...");
         console.log(cmddocker);
         var start = new Date();
-        console.log("Calling child_process exec...\n\n");
+        console.log("Calling child_process " + start + "...\n");
+
+        const { spawn } = require('child_process');
+        const dockerRun = spawn(cmddocker, {
+            shell: true
+        });
+
+        dockerRun.stdout.on('data', (data) => {
+            var dataToSend = data.toString();
+            console.log(dataToSend);
+
+            if (res.headersSent) {
+                console.error("Already sent inside dockerRun.stdout.on");
+            }
+            res.write(dataToSend); // write data to response stream
+        });
+
+        dockerRun.on('close', (code) => {
+            if (code !== 0) {
+                console.log(`grep process exited with code ${code}`);
+            }
+            if (res.headersSent) {
+                console.error("Already sent before close res.end too");
+            }
+            res.end(); // finish the request, `end` not `send`
+        });
+
+        dockerRun.on('exit', (code) => {
+            if (code !== 0) {
+                console.log(`EXIT ${code}`);
+            }
+            if (res.headersSent) {
+                console.error("Already sent before close EXIT too");
+            }
+        });
+        /*
         var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
             console.log("Inside Child process");
             var end = new Date() - start;
@@ -175,7 +213,7 @@ app.post('/compilex', function(req, res) {
                 res.send(stdout);
                 console.log("\nReturned from Compilex\n");
             }
-        }); // child exec // TODO it is finishsing earlier and do not return correctly
+        }); // child exec // TODO it is finishsing earlier and do not return correctly*/
     } else { // if imagename!= ""
         console.log("Someone is doing something crazy. Compiler does not exist imagename and version.");
         var msg64 = Buffer.from("Unknown Compiler!", 'ascii').toString('base64');
@@ -183,6 +221,8 @@ app.post('/compilex', function(req, res) {
         res.send(msgret);
     }; // else of imagename
 }); // End of compilex
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

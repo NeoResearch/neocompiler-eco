@@ -15,6 +15,7 @@ async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amou
 }
 
 /*
+const facade = await Neon.api.NetworkFacade.fromConfig({ node: BASE_PATH_CLI });
 facade.transferToken(
     [{
         from: ECO_WALLET[5].account,

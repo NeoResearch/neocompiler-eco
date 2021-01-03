@@ -172,13 +172,12 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <!--<li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-home" aria-selected="true">
-
                     <img src="./assets/icons/statistics.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Statistics</p>
                 </a>
-            </li>
+            </li>-->
 
             <li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -196,70 +195,68 @@
     <div class="collapse colapsemenumobile" id="collapseMenuMobile">
         <ul class="nav" id="nav-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" style="margin-top: 0!important;" id="nav-home-tab" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link active" onclick="$('.colapsemenumobile').collapse('hide');" style="margin-top: 0!important;" id="nav-home-tab" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Compilers</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Transfer</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Deploy & Invoke</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Raw RPC</p>
                 </a>
             </li>
 
             <!--<li class="nav-item" style="background: #0aab7b;">-->
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Storage Query</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
-
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Wallet</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Conversors</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Consensus</p>
                 </a>
             </li>
-
+            <!--
             <li class="nav-item">
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-home" aria-selected="true">
-
                     <p>Statistics</p>
                 </a>
-            </li>
+            </li> -->
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Settings</p>
                 </a>
             </li>
@@ -316,7 +313,7 @@
 
 
                                     <div class="" style="margin-bottom: 10px;">
-                                        <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control" style="background: none;border: none;resize: none;outline: none;"></textarea>
+                                        <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control" style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
                                     </div>
                                     <div class="dropdown show">
                                         <a class="btn btn-warning text-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -2108,7 +2105,7 @@
 <script src="assets/ux_js/sweetalert.min-23-12-2020.js" type="text/javascript"></script>
 
 <!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
-<script src="assets/third_party_js/neon-js-browser-next-4dbc0b.js"></script>
+<script src="assets/third_party_js/neon-js-browser-next-919c31f.js"></script>
 
 <!-- Load socket-io-->
 <script src="assets/third_party_js/socket.io-2.3.1.js"></script>

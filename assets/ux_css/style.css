@@ -22,6 +22,13 @@
 }
 
 .deploy-bg input {
+    background: #373b3b;
+    border-color: #00AF92;
+    color: white!important;
+}
+
+
+.deploy-bg input:focus {
     background: #00AF92;
     border-color: #00AF92;
     color: white!important;

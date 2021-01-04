@@ -4,6 +4,7 @@ function createCompilexJson(code_cs) {
     compilexJson.codesend_selected_compiler = $("#codesend_selected_compiler")[0].value;
     compilexJson.cbx_compatible = 1;
     compilexJson.codesend = code_cs;
+    compilexJson.socketID = socketCompilers.id;
     return compilexJson;
 }
 
@@ -36,7 +37,7 @@ function compilerCall() {
             console.log("Compiling C# code...");
         }
         var indata = createCompilexJson(code_cs);
-        console.log(indata)
+        console.log(indata);
         $.ajax({
                 type: "POST",
                 url: BASE_PATH_COMPILERS + "/compilex",
@@ -45,60 +46,25 @@ function compilerCall() {
                 dataType: "json",
                 crossDomain: true
             }).done(function(data) {
-                console.log("finished compiling");
-                console.log(data);
-                $("#compilebtn")[0].disabled = false;
-                var coderr = atob(data.output);
-                $("#codewarnerr").val(coderr);
-                var hexcodeavm = atob(data.avm);
-                $("#codeavm").val(hexcodeavm);
-                hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-                $("#opcodes").val("");
-                //printOpcode(hexcodeavm, $("#opcodes"));
-                //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
-                //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
-                //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-                //console.log(localStorage.getItem('avmFile').charCodeAt(0));
-                //$("#btn_download")[0].style = "";
-
-                //filling hashes
-                var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
-                var avmSize = Math.ceil(hexcodeavm.length / 2);
-                updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
-
-                // Loading Manifest Info
-                console.log("loading manifest");
-                if (data.manifest != "") {
-                    var textmanifest = atob(data.manifest);
-                    $("#codemanifest").val(textmanifest);
-                }
-
-                // Loading all ABI related boxes
-                if (data.abi != "") {
-                    var codeabi = atob(data.abi);
-                    updateAllABIDependencies(JSON.parse(codeabi));
-                }
-                $('#collapseMore').collapse('show');
-
-                swal("Compiled with success!", {
-                    icon: "success",
-                    buttons: false,
-                    timer: 1100,
-                });
+                console.log("Waiting for socket response from my client: " + indata.socketID);
+                $("#codewarnerr").val($("#codewarnerr").val() + "\nWaiting reply from socket connection : " + indata.socketID);
             })
             .fail(function(jqxhr, settings, ex) {
+                if (jqxhr.status == 0 && jqxhr.readyState == 0) {
+                    console.error("Restarting request");
+                }
                 swal("Failed" + ex + " Something went wrong!", {
                     icon: "error",
                     buttons: false,
                     timer: 2500,
                 });
                 console.log("Failed " + ex);
+                console.log(ex);
                 console.log(jqxhr);
                 console.log(settings);
                 $("#compilebtn")[0].disabled = false;
-                $("#codewarnerr").val("failed" + ex);
-                $("#codeavm").val("failed" + ex);
+                $("#codewarnerr").val("failed" + ex + "settings " + settings + " status " + jqxhr.status + " rs " + jqxhr.readyState);
+                $("#codeavm").val("failed" + ex + "settings " + settings + " status " + jqxhr.status + " rs " + jqxhr.readyState);
                 $("#opcodes").val("");
             });
 

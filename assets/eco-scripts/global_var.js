@@ -56,6 +56,7 @@ var code_cs = "";
 
 /* SOCKET */
 var socket;
+var socketCompilers;
 
 var refreshHeadersNeoCli = 0;
 

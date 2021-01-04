@@ -22,10 +22,17 @@
 }
 
 .deploy-bg input {
+    background: #444444;
+    border-color: #00AF92;
+    color: white!important;
+}
+
+.deploy-bg select {
     background: #373b3b;
     border-color: #00AF92;
     color: white!important;
 }
+
 
 
 .deploy-bg input:focus {
@@ -94,11 +101,22 @@
     /* Most modern browsers support this now. */
     color: #fff!important;
 }
-
+.btn-info{
+background: #1e1e1e!important;
+    border-color: #ffffff!important;
+}
+.btn-info:hover{
+background: #1e1e1e!important;
+    border-color: #ffffff!important;
+}
+.btn-info:focus{
+    background: #00AF92!important;
+    border-color: #ffffff!important;
+}
 .gree-title {
     float: left;
     width: 100%;
-    background: #9b03c1;
+    background: #747287;
     color: white;
     position: relative;
     top: 0;

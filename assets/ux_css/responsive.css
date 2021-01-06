@@ -7,9 +7,13 @@
 }
 
 @media (max-width: 1024px) {
+    #aceEditor {
+        font-size: 35px!important;
+        height: 1000px!important;
+    }
     .btn-compile {
-        height: 100px;
-        font-size: 55px!important;
+        height: 80px;
+        font-size: 45px!important;
         float: left;
         width: 100%;
     }
@@ -108,15 +112,15 @@
     .collapseMore {
         position: fixed;
     }
-    .errors-warnings .display-erros {
-        height: auto!important;
-    }
     .collapseMore img {
         width: 150px!important;
         right: 0;
     }
     #collapseMenuMobile li i {
         font-size: 100px;
+    }
+    #collapseMenuMobile ul .nav-item {
+        height: 150px!important;
     }
     .container,
     .container-md,
@@ -126,17 +130,6 @@
     .nav li {
         height: 200px!important;
         background: transparent;
-    }
-    #collapseMenuMobile ul .nav-item {
-        height: 150px!important;
-    }
-    .errors-warnings {
-        float: left;
-        width: 100%;
-    }
-    #aceEditor {
-        font-size: 25px!important;
-        height: 1000px!important;
     }
     .select2-container--default .select2-selection--single {
         background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
@@ -178,6 +171,13 @@
         float: left!important;
         width: 49%!important;
         height: 150px!important;
+    }
+    .errors-warnings .display-erros {
+        height: auto!important;
+    }
+    .errors-warnings {
+        float: left;
+        width: 100%;
     }
     .errors-warnings h4 {
         font-size: 56px;
@@ -227,9 +227,6 @@
         padding: 0 15px 0 50px!important;
         max-width: 100%!important;
         min-width: 100%!important;
-    }
-    #aceEditor {
-        font-size: 35px!important;
     }
     .preloader {
         display: none!important;

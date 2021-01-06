@@ -401,7 +401,7 @@ body {
 }
 
 .version-compile {
-    float: right;
+    float: left;
     color: white;
 }
 
@@ -486,14 +486,6 @@ body {
     width: 100%;
 }
 
-.opts-compilers {
-    padding-top: 15px;
-    max-width: 200px;
-    color: white;
-    margin-left: 25px;
-    float: right;
-}
-
 .form-control:disabled,
 .form-control[readonly] {
     background: transparent;
@@ -523,9 +515,20 @@ textarea:focus {
     border-color: transparent!important;
 }
 
+
+/* Not used anymore - it was for compilers options
+.opts-compilers {
+    padding-top: 15px;
+    max-width: 200px;
+    color: white;
+    margin-left: 25px;
+    float: right;
+}
+
 .opts-compilers input {
     width: 30px;
 }
+*/
 
 .config-class .col-md-2 {
     float: left;

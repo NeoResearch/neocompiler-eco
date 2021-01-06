@@ -291,15 +291,18 @@
                         </select>
                         <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
 
-                        <div class="version-compile" id="version-compile">
-                            <span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>
+                        <div class="version-compile">
+                            <!--<span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>-->
                             <select title="Select compiler version" id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
                                 <option>latest</option>
                             </select>
                         </div>
 
-                        <br>
-                        <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
+                        <div class="clearfix"></div>
+
+                        <div class="version-compile">
+                            <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
+                        </div>
 
                         <div id="aceEditor"></div>
 

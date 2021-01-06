@@ -10,6 +10,13 @@
     .select2-container--default .select2-selection--single {
         background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
     }
+
+    .col-xs-12{
+        float: left!important;
+        flex: 100%!important;
+        max-width: 100%!important;
+        width: 100% !important;
+    }
     .menu-mobile {
         display: block;
         padding: 30px;

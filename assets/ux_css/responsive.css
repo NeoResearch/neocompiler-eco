@@ -132,9 +132,6 @@
         background: transparent;
     }
     .select2-container--default .select2-selection--single {
-        background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
-    }
-    .select2-container--default .select2-selection--single {
         background: #00AF92!important;
         color: white!important;
         -webkit-appearance: caret!important;

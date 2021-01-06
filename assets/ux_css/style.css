@@ -99,11 +99,6 @@
 }
 
 .btn-info {
-    background: #1e1e1e!important;
-    border-color: #ffffff!important;
-}
-
-.btn-info {
     background: #00AF92!important;
     border-color: #00AF92!important;
 }
@@ -295,14 +290,8 @@ body {
 .compiler-select {
     padding: 10px 0 10px 0!important;
     float: left!important;
-    ;
     margin-left: 15px!important;
-    ;
     text-align: center!important;
-    ;
-}
-
-.compiler-select {
     border: none!important;
     color: white!important;
     -webkit-appearance: none!important;

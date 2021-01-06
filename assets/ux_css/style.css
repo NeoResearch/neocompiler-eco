@@ -437,9 +437,21 @@ body {
 }
 
 .collapseMore {
+    background: #00AF92;
+    border-radius: 50% 0 0 50%;
     position: absolute;
     top: 50%;
     right: 0;
+}
+
+#collapseMore {
+    transition: height 0.5s;
+    -moz-transition: height 0.5s;
+    /* Firefox 4 */
+    -webkit-transition: height 0.5s;
+    /* Safari and Chrome */
+    -o-transition: height 0.5s;
+    /* Opera */
 }
 
 .collapseMore img {}
@@ -456,11 +468,6 @@ body {
 
 .container-colapse .container .errors-warnings {}
 
-.collapseMore {
-    background: #00AF92;
-    border-radius: 50% 0 0 50%;
-}
-
 .btn-warning {
     background: #162124!important;
     border-color: #162124!important;
@@ -469,16 +476,6 @@ body {
 .btn-info {
     background: #00AF92!important;
     border-color: #00AF92!important;
-}
-
-#collapseMore {
-    transition: height 0.5s;
-    -moz-transition: height 0.5s;
-    /* Firefox 4 */
-    -webkit-transition: height 0.5s;
-    /* Safari and Chrome */
-    -o-transition: height 0.5s;
-    /* Opera */
 }
 
 .row {

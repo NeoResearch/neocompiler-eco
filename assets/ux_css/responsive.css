@@ -10,12 +10,13 @@
     .select2-container--default .select2-selection--single {
         background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
     }
-
-    .btn-compile{
-        height: 150px;
+    .btn-compile {
+        height: 100px;
         font-size: 55px!important;
+        float: left;
+        width: 100%;
     }
-    .col-xs-12{
+    .col-xs-12 {
         float: left!important;
         flex: 100%!important;
         max-width: 100%!important;
@@ -80,8 +81,6 @@
         margin-top: 200px;
         z-index: 60000000000000!important;
         right: 0;
-    }
-    #collapseMenuMobile {
         float: right;
         width: 50% !important;
     }
@@ -134,10 +133,6 @@
     #collapseMenuMobile ul .nav-item {
         height: 150px!important;
     }
-    .btn-compile {
-        float: left;
-        width: 100%;
-    }
     .errors-warnings {
         float: left;
         width: 100%;
@@ -186,9 +181,6 @@
     }
     .errors-warnings h4 {
         font-size: 56px;
-    }
-    .btn-compile {
-        font-size: 35px;
     }
     #compiler .select2 {
         float: left!important;

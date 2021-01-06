@@ -287,24 +287,22 @@
 
                     <div id="compiler">
 
-                       <div class="row">
-                           <div class="col-md-8 col-sm-8 col-xs-12">
-                        <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
-                            <option selected>C#</option>
-                        </select>
-                        <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
-                           </div>
-
-                           <div class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0!important;">
-                        <div class="version-compile" style="float: right!important;">
-                            <!--<span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>-->
-                            <select title="Select compiler version" id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
-                                <option>latest</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
+                                    <option selected>C#</option>
+                                </select>
+                                <select class="compiler-select w-seta selectclass" id="ExampleList"></select>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0!important;">
+                                <div class="version-compile" style="float: right!important;">
+                                    <!--<span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>-->
+                                    <select title="Select compiler version" id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
+                                        <option>latest</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-
-                       </div>
 
                         <div class="clearfix"></div>
 
@@ -732,19 +730,18 @@
                                 </h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <select name="createtx_from" onclick="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
+                                                        <select name="createtx_from" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
                                                         <br>
                                                         <label id="labelForTransferFrom">From</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <select name="createtx_to" onclick="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
+                                                        <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
                                                         <br>
                                                         <label id="labelForTransferTo">To</label>
                                                     </div>

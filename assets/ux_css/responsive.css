@@ -32,6 +32,27 @@
         margin-top: 30px;
         width: 100%;
     }
+    /*#version-compile .select2 {
+        width: 100%!important;
+        float: left!important;
+    }
+    .version-compile span {
+        float: left;
+        width: 100%;
+        font-size: 45px;
+    }
+    .version-compile {
+        float: left;
+        width: 100%;
+    }
+    .version-compile form {
+        float: left!important;
+        width: 100%!important;
+    }
+    .version-compile select {
+        float: left!important;
+        width: 100% !important;
+    }*/
     header ul {
         height: 200px!important;
     }
@@ -136,18 +157,6 @@
     .nav {
         right: 0!important;
     }
-    .version-compile {
-        float: left;
-        width: 100%;
-    }
-    .version-compile form {
-        float: left!important;
-        width: 70%!important;
-    }
-    .version-compile select {
-        float: left!important;
-        width: 100% !important;
-    }
     li .label-success {
         font-size: 20px!important;
     }
@@ -167,11 +176,6 @@
     .errors-warnings h4 {
         font-size: 56px;
     }
-    .version-compile span {
-        float: left;
-        width: 100%;
-        font-size: 45px;
-    }
     .btn-compile {
         font-size: 35px;
     }
@@ -179,10 +183,6 @@
         float: left!important;
         padding-right: 10px;
         width: 49%!important;
-    }
-    #version-compile .select2 {
-        width: 100%!important;
-        float: left!important;
     }
     .fas .fa-lg .fa-code-branch {
         position: absolute;

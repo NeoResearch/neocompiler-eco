@@ -88,18 +88,20 @@
 
         <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
         <div class="opt-options-header">
-            <select id="ecolabnetworkurlselection" class="compiler-select hw-seta selectclass" title="Select network">
+            <select id="ecolabnetworkurlselection" class="compiler-select w-seta selectclass" title="Select network">
                 <option disabled>Network</option>
                 <option selected>NeoCompiler-Eco</option>
                 <option>Localhost</option>
-                <option>NEO TestNet</option>
-                <option>NEO MainNet</option>
+                <option disabled>NEO TestNet</option>
+                <option disabled>NEO MainNet</option>
             </select>
 
-            <select id="ecolabproviderselection" class="compiler-select hw-seta selectclass" title="Select wallet provider">
-                <option disabled>Wallet Provider</option>
+            <select id="ecolabproviderselection" class="compiler-select w-seta selectclass" title="Select wallet provider">
+                <option disabled value="1">Wallet Provider</option>
                 <option selected>NeoCompiler-Eco</option>
-                <option>NeoLogin</option>
+                <option disabled>NeoLogin</option>
+                <option disabled>O3</option>
+                <option disabled>NeoLine</option>
             </select>
         </div>
         <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->

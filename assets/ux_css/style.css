@@ -242,6 +242,11 @@ body {
     border-bottom: 5px solid #00AF92;
 }
 
+.tab-content {
+    float: left;
+    width: 100%;
+}
+
 #aceEditor {
     position: relative;
     margin-top: 10px;
@@ -254,11 +259,6 @@ body {
     height: 350px;
     border-top: 8px solid #00AF92;
     background: #223237;
-}
-
-.tab-content {
-    float: left;
-    width: 100%;
 }
 
 .ace_print-margin {
@@ -317,6 +317,11 @@ body {
     box-shadow: none!important;
 }
 
+.compiler-select option {
+    background: #00AF92!important;
+    color: white!important;
+}
+
 .btn-compile {
     background: #00AF92;
     color: white;
@@ -372,11 +377,6 @@ body {
     border-color: #00AF92;
 }
 
-.compiler-select option {
-    background: #00AF92!important;
-    color: white!important;
-}
-
 .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
     background: #00AF92!important;
 }
@@ -398,13 +398,16 @@ body {
     text-align-last: center!important;
 }
 
+
+/*
+// Was used for ecolabproviderselection and ecolabnetworkurlselection - But removed
 .hw-seta {
     padding: 9px 6% 9px 0!important;
     width: 230px!important;
     font-size: 14px!important;
     background: #00AF92 url('../down-arrow.png') 115% 45% no-repeat!important;
     text-align-last: center!important;
-}
+}*/
 
 .version-compile {
     float: left;

@@ -1,12 +1,10 @@
-
-@media(min-width: 1300px){
-    #collapseMenuMobile{
+@media(min-width: 1300px) {
+    #collapseMenuMobile {
         display: none!important;
     }
 }
-.colapsemenumobile{
 
-}
+.colapsemenumobile {}
 
 .deploy-bg label {
     font-size: 13px!important;
@@ -32,8 +30,6 @@
     border-color: #00AF92;
     color: white!important;
 }
-
-
 
 .deploy-bg input:focus {
     background: #00AF92;
@@ -101,18 +97,22 @@
     /* Most modern browsers support this now. */
     color: #fff!important;
 }
-.btn-info{
-background: #1e1e1e!important;
+
+.btn-info {
+    background: #1e1e1e!important;
     border-color: #ffffff!important;
 }
-.btn-info:hover{
-background: #1e1e1e!important;
+
+.btn-info:hover {
+    background: #1e1e1e!important;
     border-color: #ffffff!important;
 }
-.btn-info:focus{
+
+.btn-info:focus {
     background: #00AF92!important;
     border-color: #ffffff!important;
 }
+
 .gree-title {
     float: left;
     width: 100%;
@@ -168,16 +168,6 @@ body {
     right: 0;
     top: 0;
     padding: 15px 25px 0 0;
-}
-
-.compiler-select {
-    padding: 10px 0 10px 0!important;
-    float: left!important;
-    ;
-    margin-left: 15px!important;
-    ;
-    text-align: center!important;
-    ;
 }
 
 .logo-item {
@@ -297,6 +287,16 @@ body {
 }
 
 .compiler-select {
+    padding: 10px 0 10px 0!important;
+    float: left!important;
+    ;
+    margin-left: 15px!important;
+    ;
+    text-align: center!important;
+    ;
+}
+
+.compiler-select {
     border: none!important;
     color: white!important;
     -webkit-appearance: none!important;
@@ -309,6 +309,26 @@ body {
     outline: none!important;
     -webkit-box-shadow: none!important;
     box-shadow: none!important;
+}
+
+.btn-compile {
+    background: #00AF92;
+    color: white;
+    margin-top: 30px;
+    width: 150px;
+    border-radius: 20px!important;
+    border: 1px solid #1D2C30;
+    font-weight: bold!important;
+    font-size: 12px!important;
+    text-align: center!important;
+    padding: 10px 0 10px 0!important;
+    float: left!important;
+}
+
+.btn-compile:hover {
+    background: white;
+    border: 1px solid #00AF92;
+    color: #00AF92;
 }
 
 .select2-selection__arrow {
@@ -383,21 +403,6 @@ body {
 .version-compile {
     float: right;
     color: white;
-}
-
-.btn-compile {
-    background: #00AF92;
-    color: white;
-    margin-top: 30px;
-    width: 150px;
-    border: 1px solid #1D2C30;
-    font-weight: bold;
-}
-
-.btn-compile:hover {
-    background: white;
-    border: 1px solid #00AF92;
-    color: #00AF92;
 }
 
 .errors-warnings {

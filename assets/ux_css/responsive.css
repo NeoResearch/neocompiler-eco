@@ -11,6 +11,10 @@
         background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
     }
 
+    .btn-compile{
+        height: 150px;
+        font-size: 55px!important;
+    }
     .col-xs-12{
         float: left!important;
         flex: 100%!important;

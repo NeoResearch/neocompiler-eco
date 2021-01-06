@@ -7,9 +7,6 @@
 }
 
 @media (max-width: 1024px) {
-    .select2-container--default .select2-selection--single {
-        background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
-    }
     .btn-compile {
         height: 100px;
         font-size: 55px!important;
@@ -140,6 +137,9 @@
     #aceEditor {
         font-size: 25px!important;
         height: 1000px!important;
+    }
+    .select2-container--default .select2-selection--single {
+        background: #00AF92 url('../down-arrow.png') 110% 100% no-repeat!important;
     }
     .select2-container--default .select2-selection--single {
         background: #00AF92!important;

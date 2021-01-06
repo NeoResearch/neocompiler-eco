@@ -103,6 +103,11 @@
     border-color: #ffffff!important;
 }
 
+.btn-info {
+    background: #00AF92!important;
+    border-color: #00AF92!important;
+}
+
 .btn-info:hover {
     background: #1e1e1e!important;
     border-color: #ffffff!important;
@@ -113,7 +118,7 @@
     border-color: #ffffff!important;
 }
 
-.gree-title {
+.green-title {
     float: left;
     width: 100%;
     background: #747287;
@@ -168,21 +173,12 @@ body {
     right: 0;
     top: 0;
     padding: 15px 25px 0 0;
+    z-index: 2000000!important;
 }
 
 .logo-item {
     background: #1D2C30;
     width: 100px;
-}
-
-.menu-vertical {
-    position: fixed;
-    top: 80px;
-    float: left;
-    width: 100px;
-    display: block;
-    height: 100%!important;
-    background: #1D2C30;
 }
 
 .breadcrumb {
@@ -195,6 +191,16 @@ body {
 
 .nav-links {
     padding-top: 20px;
+}
+
+.menu-vertical {
+    position: fixed;
+    top: 80px;
+    float: left;
+    width: 100px;
+    display: block;
+    height: 100%!important;
+    background: #1D2C30;
 }
 
 .menu-vertical li {
@@ -473,11 +479,6 @@ body {
     border-color: #162124!important;
 }
 
-.btn-info {
-    background: #00AF92!important;
-    border-color: #00AF92!important;
-}
-
 .row {
     float: left;
     width: 100%;
@@ -498,16 +499,7 @@ input {
     outline: none!important;
 }
 
-textarea {
-    outline: none!important;
-}
-
 input:focus {
-    outline: none!important;
-    border-color: transparent!important;
-}
-
-textarea:focus {
     outline: none!important;
     border-color: transparent!important;
 }
@@ -553,8 +545,13 @@ textarea {
     border: none;
     border-bottom: 5px solid #00AF92;
     resize: none;
-    outline: none;
+    outline: none!important;
     color: white;
+}
+
+textarea:focus {
+    outline: none!important;
+    border-color: transparent!important;
 }
 
 .small-screen {
@@ -599,16 +596,12 @@ textarea {
     z-index: 1000000!important;
 }
 
-.opt-options-header {
-    z-index: 2000000!important;
-}
-
 .select2-dropdown {
     z-index: 2000000!important;
 }
 
 .pulse {
-    animation: pulse 0.7s infinite;
+    animation: pulse 0.7s infinite, fade 500ms;
     margin: 0 auto;
     display: table;
     margin-top: 50px;

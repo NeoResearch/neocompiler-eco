@@ -117,9 +117,10 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
-                <p>Transfer</p>
-            </a>
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                    <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
+                    <p>Wallet</p>
+                </a>
             </li>
 
             <li class="nav-item">
@@ -127,6 +128,12 @@
                     <img src="./assets/icons/deploy.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Deploy & Invoke</p>
                 </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true"><i class="fab fa-500px fa-3x"></i>
+                <p>Transfer</p>
+            </a>
             </li>
 
             <li class="nav-item">
@@ -147,14 +154,6 @@
                 <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/storage.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Storage Query</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
-
-                    <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Wallet</p>
                 </a>
             </li>
 
@@ -201,8 +200,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <p>Transfer</p>
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                    <p>Wallet</p>
                 </a>
             </li>
 
@@ -211,6 +210,13 @@
                     <p>Deploy & Invoke</p>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
+                    <p>Transfer</p>
+                </a>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -228,12 +234,6 @@
             <li class="nav-item">
                 <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Storage Query</p>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <p>Wallet</p>
                 </a>
             </li>
 
@@ -1158,54 +1158,6 @@
                                 </div>
                             </div>
 
-
-                            <div class="display-erros n-padding deploy-bg" style="height: 310px;">
-                                <h4 class="green-title">NEP5 Balance</h4>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="container">
-                                            <form id="getnep5balance" action="" class="ng-pristine ng-valid">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="getnep5_contract">Contract (scripthash)</label>
-                                                            <input id="getnep5_contract" class="form-control" placeholder="Contract" required="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="getnep5_address">Address (base58)</label>
-                                                            <input id="getnep5_address" class="form-control" placeholder="Address" required="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <button type="submit" style="margin-bottom: 10px;" id="txgetnep5balance" class="btn btn-info"><i
-                                                            class="fas fa-phone"></i></button>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="output_getnep5">Output</label>
-                                                            <input id="output_getnep5" class="form-control" placeholder="NEP5 balance" required="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="output_getnep5_extra">Address (base58) +
-                                                            Height</label>
-                                                            <input id="output_getnep5_extra" class="form-control" placeholder="NEP5 extra info" required="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
                             <div class="display-erros n-padding deploy-bg" style="height: 460px;">
                                 <h4 class="green-title">Incremental storage
                                     <button type="submit" onclick="getIncrementalStorageInfo()" class="btn btn-info btn-sm">
@@ -1570,7 +1522,7 @@
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="convert_string_hash160">Hash160 (scripthash little endian format)</label>
+                                                        <label for="convert_string_hash160" title="Scripthash little endian format">Hash160</label>
                                                         <input id="convert_string_hash160" class="form-control" placeholder="Hash160 (Sha256+Ripemd160)" readonly>
                                                     </div>
                                                 </div>

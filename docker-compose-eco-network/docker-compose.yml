@@ -25,6 +25,7 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/dBFT.json.json:/opt/node/neo-cli/Plugins/dBFT/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     healthcheck:
@@ -59,6 +60,7 @@ services:
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/dBFT.json.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     healthcheck:
@@ -89,8 +91,7 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/dBFT.json.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
       - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     healthcheck:
@@ -121,8 +122,7 @@ services:
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/dBFT.json.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
       - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     healthcheck:
@@ -159,6 +159,7 @@ services:
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
+      - ./neo-cli/configs/plugins/dBFT.json.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
     depends_on:

@@ -207,7 +207,9 @@ body {
 }
 
 .menu-vertical li a p {
-    margin-bottom: 13px!important;
+    margin-bottom: 10px!important;
+    padding-right: 5px;
+    padding-left: 5px;
 }
 
 .menu-vertical li a:hover {

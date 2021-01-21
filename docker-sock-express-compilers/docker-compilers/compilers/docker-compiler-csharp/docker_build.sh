@@ -1,9 +1,9 @@
 #!/bin/bash
 #https://github.com/neo-project/neo-devpack-dotnet/commits/master
 COMPILER_VERSION=v3.0.0-preview4-net5.0
-COMPILER_COMMIT_DEVPACK=17d56c6
-REPO_DEVPACK=https://github.com/Tommo-L/neo-devpack-dotnet.git
-BRANCH_DEVPACK=sync_neo
+COMPILER_COMMIT_DEVPACK=c7e0f0349a6a39bc188acecb4f5c2e66340de583
+REPO_DEVPACK=https://github.com/neo-project/neo-devpack-dotnet.git
+BRANCH_DEVPACK=master
 
 ARGS="--build-arg COMPILER_COMMIT_DEVPACK=$COMPILER_COMMIT_DEVPACK --build-arg BRANCH_DEVPACK=$BRANCH_DEVPACK --build-arg REPO_DEVPACK=$REPO_DEVPACK"
 

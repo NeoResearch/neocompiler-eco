@@ -131,9 +131,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" onshow="getNativeInfo()" onclick="getNativeInfo()" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/transfer.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Transfer</p>
+                    <p>Native Contracts</p>
                 </a>
             </li>
 
@@ -166,7 +166,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onshow="getNodeInfo()" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Consensus</p>
                 </a>
@@ -213,8 +213,8 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-send" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <p>Transfer</p>
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" onclick="getNativeInfo()" id="nav-home-tab" data-toggle="tab" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
+                    <p>Native Contracts</p>
                 </a>
             </li>
 
@@ -419,8 +419,6 @@
                     <div class="deploy">
 
                         <div class="errors-warnings">
-
-
                             <div class="display-erros n-padding deploy-bg" style="height: 410px;">
                                 <h4 class="green-title">Deploy contract into the Blockchain</h4>
                                 <div class="container">
@@ -710,10 +708,10 @@
                 </div>
 
 
-                <!-- PAGINA SEND&BUILD INICIO -->
+                <!-- PAGINA Native Contracts INICIO -->
 
 
-                <div class="tab-pane fade" id="nav-send" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="tab-pane fade" id="nav-native" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
@@ -722,83 +720,51 @@
                     </nav>
 
                     <div id="sbuild">
-
                         <div class="errors-warnings">
                             <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                                <h4 class="green-title">Transfer NEP17 Tokens
+                                <h4 class="green-title">Native Contracts
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
                                             <div class="row mb-2">
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <select name="createtx_from" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
-                                                        <br>
-                                                        <label id="labelForTransferFrom">From</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
-                                                        <br>
-                                                        <label id="labelForTransferTo">To</label>
+                                                        <select name="native_contract" onchange="createNativeManifest()" id="native_contract" class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="txcreatesendallneo">NEO Max.</label>
-                                                        <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">0</button>
+                                                        <label for="native_hash">Contract ScriptHash</label>
+                                                        <input id="native_hash" name="native_hash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="txcreatesendallgas">GAS Max.</label>
-                                                        <button type="button" onclick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">0</button>
+                                                        <label for="native_name">Name</label>
+                                                        <input id="native_name" name="native_name" class="form-control" placeholder="Manisfest name" style="width: 100%; margin-bottom: 10px;">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input type="number" id="createtx_NEO" value="0" class="form-control" required="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input type="number" id="createtx_GAS" value="0" class="form-control" required="">
+                                                        <label for="native_methods">Methods</label>
+                                                        <select name="native_methods" id="native_methods" class="custom-select form-control" size="4"></select>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i class="fas fa-space-shuttle"></i> Transfer </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">GAS Claim</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <button type=button onClick="document.getElementById('RegisterAddress').scrollIntoView();" id="btn_register_new_address" class="btn btn-info btn-sm">Register new address</button>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
 
                     </div>
 
@@ -1210,6 +1176,82 @@
                         </div>
                     </div>
 
+                    <div class="errors-warnings">
+                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                            <h4 class="green-title">Transfer NEP17 Tokens
+                            </h4>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row mb-2">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <select name="createtx_from" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
+                                                    <br>
+                                                    <label id="labelForTransferFrom">From</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
+                                                    <br>
+                                                    <label id="labelForTransferTo">To</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="txcreatesendallneo">NEO Max.</label>
+                                                    <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">0</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="txcreatesendallgas">GAS Max.</label>
+                                                    <button type="button" onclick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">0</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="number" id="createtx_NEO" value="0" class="form-control" required="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <input type="number" id="createtx_GAS" value="0" class="form-control" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i class="fas fa-space-shuttle"></i> Transfer </button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">GAS Claim</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <button type=button onClick="document.getElementById('RegisterAddress').scrollIntoView();" id="btn_register_new_address" class="btn btn-info btn-sm">Register new address</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="errors-warnings reg-wallet">
                         <div class="display-erros n-padding deploy-bg" id="RegisterAddress" style="height:auto!important;">
@@ -1268,6 +1310,8 @@
                             </div>
                         </div>
                     </div>
+
+
                     <!--
                     <br><br>
                     <div class="errors-warnings">
@@ -2052,6 +2096,7 @@
 
 <script src="assets/eco-scripts/conversors.js"></script>
 
+<script src="assets/eco-scripts/native_contracts.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

@@ -46,7 +46,7 @@ function createNativeManifest() {
     document.getElementById(selectionBox).options.length = 0;
     var methods = NATIVE_CONTRACTS[cI].manifest.abi.methods;
     for (m = 0; m < methods.length; ++m) {
-        var infoToAdd = methods[m].name + "(" + methods[m].returntype + ")" + " - params" + methods[m].parameters.length;
+        var infoToAdd = methods[m].name + "(" + methods[m].returntype + ")" + " - " + methods[m].parameters.length + " parameters";
         var titleToOption = "Click to select native method contract " + methods[m].name;
         addOptionToSelectionBox(infoToAdd, "native_method_" + ka, selectionBox, titleToOption);
     }

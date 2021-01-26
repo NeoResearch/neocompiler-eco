@@ -88,12 +88,13 @@ services:
     privileged: true
     ports:
       - "20335:20335"
+      - "30335:30335"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService    
     healthcheck:
       test:
         - CMD
@@ -119,12 +120,13 @@ services:
     privileged: true
     ports:
       - "20336:20336"
+      - "30336:30336"
     volumes:
       - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/dBFT/config.json      
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService         
     healthcheck:
       test:
         - CMD

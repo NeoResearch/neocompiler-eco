@@ -1,7 +1,7 @@
 #!/bin/bash
 #https://github.com/neo-project/neo-devpack-dotnet/commits/master
-COMPILER_VERSION=v3.0.0-preview4-8785377
-COMPILER_COMMIT_DEVPACK=8785377f7ef69b114b747f624fb94851fdc54a4a
+COMPILER_VERSION=v3.0.0-preview4-ea956dda8
+COMPILER_COMMIT_DEVPACK=ea956dda8b0d1bb6b1af320d10d25d36f2a13fa3
 REPO_DEVPACK=https://github.com/neo-project/neo-devpack-dotnet.git
 BRANCH_DEVPACK=master
 

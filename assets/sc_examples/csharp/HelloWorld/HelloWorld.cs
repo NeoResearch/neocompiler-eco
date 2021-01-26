@@ -1,50 +1,44 @@
 using Neo;
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
+using Neo.SmartContract.Framework.Services.System;
 using System;
+using System.ComponentModel;
 using System.Numerics;
 
-namespace Template
+namespace OracleContract
 {
+    [DisplayName("Oracle Demo")]
     [ManifestExtra("Author", "Neo")]
     [ManifestExtra("Email", "dev@neo.org")]
-    [ManifestExtra("Description", "This is a contract example")]
-    public class Contract1 : SmartContract
+    [ManifestExtra("Description", "This is an oracle example")]
+    public class OracleDemo : SmartContract
     {
-        //TODO: Replace it with your own address.
-        static readonly UInt160 Owner = "NiNmXL8FjEUEs1nfX9uHFBNaenxDHJtmuB".ToScriptHash();
-
-        private static bool IsOwner() => Runtime.CheckWitness(Owner);
-
-        // When this contract address is included in the transaction signature,
-        // this method will be triggered as a VerificationTrigger to verify that the signature is correct.
-        // For example, this method needs to be called when withdrawing token from the contract.
-        public static bool Verify() => IsOwner();
-
-        // TODO: Replace it with your methods.
-        public static byte[] MyMethod()
+        public static void DoRequest()
         {
-            return Storage.Get("Hello");
+            string url = "https://127.0.0.1:8080/test"; // the return value is  { "value": "hello world" }, and when we use private host for testing, don't forget to set `AllowPrivateHost` true
+            string filter = "$.value";  // JSONPath format https://github.com/atifaziz/JSONPath
+            string callback = "callback"; // callback method
+            object userdata = "userdata"; // arbitrary type
+            long gasForResponse = Oracle.MinimumResponseFee;
+
+            Oracle.Request(url, filter, callback, userdata, gasForResponse);
         }
 
-        public static void _deploy(object data, bool update)
+        public static void Callback(string url, string userdata, int code, string result)
         {
-            if (update) return;
+            if (code != (int)OracleResponseCode.Success)
+            {
+                Runtime.Log("Oracle response failure with code " + Binary.Itoa(code));
+                return;
+            }
 
-            // It will be executed during deploy
-            Storage.Put("Hello", "World");
-        }
+            object ret = Json.Deserialize(result); // [ "hello world" ]
+            object[] arr = (object[])ret;
+            string value = (string)arr[0];
 
-        public static void Update(byte[] nefFile, string manifest)
-        {
-            if (!IsOwner()) throw new Exception("No authorization.");
-            ContractManagement.Update(nefFile, manifest, null);
-        }
-
-        public static void Destroy()
-        {
-            if (!IsOwner()) throw new Exception("No authorization.");
-            ContractManagement.Destroy();
+            Runtime.Log("userdata: " + userdata);
+            Runtime.Log("response value: " + value);
         }
     }
 }

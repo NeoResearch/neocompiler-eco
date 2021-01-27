@@ -117,9 +117,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-desktop-native" data-toggle="tab" onclick="getNativeInfo()" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" onclick="getNativeInfo()" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Native Contracts</p>
+                    <p>Contracts</p>
                 </a>
             </li>
 
@@ -203,7 +203,7 @@
 
             <li class="nav-item">
                 <a class="nav-link" id="nav-mobile-native" onclick="getNativeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <p>Native Contracts</p>
+                    <p>Contracts</p>
                 </a>
             </li>
 
@@ -455,46 +455,37 @@
                 </div>
 
 
-                <!-- PAGINA Native Contracts INICIO -->
+                <!-- PAGINA Contracts INICIO -->
 
 
                 <div class="tab-pane fade" id="nav-native" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
-                            <li id="breadcrumb-native-contracts" class="breadcrumb-item active" aria-current="page"><a> Native Contracts</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a> Contracts</a></li>
                         </ol>
                     </nav>
 
                     <div id="sbuild">
                         <div class="errors-warnings">
                             <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                                <h4 id="switch_contracts_title" class="green-title">
-                                    Native Contracts
+                                <h4 class="green-title">
+                                    Contracts
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
-
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <button id="switch_contracts" type="submit" onclick="switchNativeContractsToContracts()" class="btn btn-info btn-sm">Switch to Contracts <i class="fas fa-toggle-on"></i></button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label for="native_hash">Contract ScriptHash</label>
-                                                        <input id="native_hash" readonly name="native_hash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
+                                                        <label for="contract_hash">Contract ScriptHash</label>
+                                                        <input id="contract_hash" name="contract_hash" readonly class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="native_name">Name</label>
-                                                        <input id="native_name" readonly name="native_name" class="form-control" placeholder="Contract name" style="width: 100%; margin-bottom: 10px;">
+                                                        <label for="contract_name">Name</label>
+                                                        <input id="contract_name" name="contract_name" readonly class="form-control" placeholder="Contract name" style="width: 100%; margin-bottom: 10px;">
                                                     </div>
                                                 </div>
                                             </div>
@@ -502,33 +493,44 @@
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <select name="native_contract" onchange="createNativeManifest()" id="native_contract" class="custom-select form-control" size="8"></select>
+                                                        <label for="native_contracts">Native Contracts</label>
+                                                        <select id="native_contracts" name="native_contracts" onchange="createNativeManifest()" class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <!--<label for="native_methods">Methods</label>-->
-                                                        <select name="native_methods" onchange="drawParametersTable()" id="native_methods" class="custom-select form-control" size="8"></select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="errors-warnings">
-                                                <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                                                    <h4 class="green-title">Parameters</h4>
-                                                    <div class="container">
-                                                        <div class="row" style="padding:0 20px 0 20px;">
-                                                            <table id="tableNativeParameters" class="table text-white twalllet">
-                                                            </table>
-                                                        </div>
+                                                        <label for="local_contracts">Local Contracts</label>
+                                                        <select id="local_contracts" name="local_contracts" onchange="createLocalManifest()" class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-2">
-
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="native_methods">ABI Methods</label>
+                                                        <select onchange="drawParametersTable()" id="contract_methods" class="custom-select form-control" size="8"></select>
+                                                    </div>
+                                                </div>
                                             </div>
+
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <button type="button" onclick="invokeFunction()" class="btn btn-info btn-sm"><i class="fas fa-cubes"></i> InvokeFunction </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <label for="tableNativeParameters">Parameters</label>
+                                                    <table id="tableNativeParameters" class="table text-white twalllet">
+                                                    </table>
+                                                </div>
+                                            </div>
+
 
                                         </div>
                                     </div>
@@ -1856,7 +1858,7 @@
 
 <script src="assets/eco-scripts/conversors.js"></script>
 
-<script src="assets/eco-scripts/native_contracts.js"></script>
+<script src="assets/eco-scripts/contracts.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

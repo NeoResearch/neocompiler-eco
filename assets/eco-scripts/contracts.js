@@ -1,6 +1,5 @@
 var NATIVE_CONTRACTS = [];
 var LOCAL_CONTRACTS = [];
-var SWITCHED_CONTRACTS = false;
 var CONTRACTS_TO_LIST = [];
 
 function getNativeInfo() {
@@ -31,7 +30,7 @@ function getNativeInfo() {
 }
 
 function addNativeToSelectionBox() {
-    var selectionBox = "native_contract";
+    var selectionBox = "native_contracts";
     document.getElementById(selectionBox).options.length = 0;
 
     if (CONTRACTS_TO_LIST.length > 0) {
@@ -46,23 +45,42 @@ function addNativeToSelectionBox() {
 }
 
 function createNativeManifest() {
-    var selectionBox = "native_methods";
+    CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
+    $("#local_contracts")[0].selectedIndex = -1
+    createManifest();
+}
+
+function createLocalManifest() {
+    CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
+    $("#native_contracts")[0].selectedIndex = -1
+    createManifest();
+}
+
+function getCurrentSelectedContract() {
+    var cI = $("#native_contracts")[0].selectedIndex;
+    if (cI == -1)
+        cI = $("#local_contracts")[0].selectedIndex;
+    return cI;
+}
+
+function createManifest() {
+    var selectionBox = "contract_methods";
     document.getElementById(selectionBox).options.length = 0;
 
     if (CONTRACTS_TO_LIST.length > 0) {
-        var cI = $("#native_contract")[0].selectedIndex;
-        $("#native_hash").val(CONTRACTS_TO_LIST[cI].hash);
-        $("#native_name").val(CONTRACTS_TO_LIST[cI].manifest.name);
+        var cI = getCurrentSelectedContract();
+        $("#contract_hash").val(CONTRACTS_TO_LIST[cI].hash);
+        $("#contract_name").val(CONTRACTS_TO_LIST[cI].manifest.name);
         var methods = CONTRACTS_TO_LIST[cI].manifest.abi.methods;
 
         for (m = 0; m < methods.length; ++m) {
             var infoToAdd = methods[m].name + "(" + methods[m].parameters.length + " params)" + ": " + methods[m].returntype;
-            var titleToOption = "Click to select native method contract " + methods[m].name;
-            addOptionToSelectionBox(infoToAdd, "native_method_" + ka, selectionBox, titleToOption);
+            var titleToOption = "Click to select contract method contract " + methods[m].name;
+            addOptionToSelectionBox(infoToAdd, "contract_method_" + ka, selectionBox, titleToOption);
         }
         document.getElementById(selectionBox).selectedIndex = 0;
     }
-    drawParametersTable();
+    drawParametersTable(cI);
 }
 
 function drawParametersTable() {
@@ -85,9 +103,8 @@ function drawParametersTable() {
     //Clear previous data
     document.getElementById("tableNativeParameters").innerHTML = "";
     if (CONTRACTS_TO_LIST.length > 0) {
-        var nC = $("#native_contract")[0].selectedIndex;
-        var m = $("#native_methods")[0].selectedIndex;
-        var method = CONTRACTS_TO_LIST[nC].manifest.abi.methods[m];
+        var m = $("#contract_methods")[0].selectedIndex;
+        var method = CONTRACTS_TO_LIST[getCurrentSelectedContract()].manifest.abi.methods[m];
 
         for (p = 0; p < method.parameters.length; p++) {
             var txRow = table.insertRow(-1);
@@ -114,27 +131,21 @@ function drawParametersTable() {
 } //Finishes DrawWallets function
 //===============================================================
 
-function switchNativeContractsToContracts() {
-    if (!SWITCHED_CONTRACTS) {
-        $("#switch_contracts")[0].innerHTML = "Switch to Native Contracts <i class=\"fas fa-toggle-off\"></i>";
-        $("#switch_contracts_title")[0].innerHTML = "Local Contracts";
-        $("#breadcrumb-native-contracts")[0].innerHTML = "<a> Local Contracts</a>";
-        $("#nav-desktop-native")[0].innerHTML = "<img src=\"./assets/icons/contracts.png\" style=\"width: 35px;padding-bottom: 4px;\"><p>Local Contracts</p>"
-        $("#nav-mobile-native")[0].innerHTML = "<p>Local Contracts</p>"
-        CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
-    } else {
-        $("#switch_contracts")[0].innerHTML = "Switch to Contracts <i class=\"fas fa-toggle-on\"></i>";
-        $("#switch_contracts_title")[0].innerHTML = "Native Contracts";
-        $("#breadcrumb-native-contracts")[0].innerHTML = "<a> Native Contracts</a>";
-        $("#nav-desktop-native")[0].innerHTML = "<img src=\"./assets/icons/contracts.png\" style=\"width: 35px;padding-bottom: 4px;\"><p>Native Contracts</p>"
-        $("#nav-mobile-native")[0].innerHTML = "<p>Native Contracts</p>"
-        CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
+function invokeFunction() {
+    var m = $("#contract_methods")[0].selectedIndex;
+    var method = CONTRACTS_TO_LIST[getCurrentSelectedContract()].manifest.abi.methods[m];
+    for (p = 0; p < method.parameters.length; p++) {
+        var inputVar = "#paramInput" + p;
+        if ($(inputVar)[0].value === "") {
+            var content = document.createElement('div');
+            content.innerHTML = '<b>' + method.parameters[p].name + '</b> Parameter should be filled.';
+            swal("Error. There are parameters that need to be filled.", {
+                icon: "error",
+                content: content,
+                buttons: false,
+                timer: 3500,
+            });
+            break;
+        }
     }
-
-    // Clean script hashes and names
-    $("#native_hash").val("");
-    $("#native_name").val("");
-
-    SWITCHED_CONTRACTS = !SWITCHED_CONTRACTS;
-    addNativeToSelectionBox();
 }

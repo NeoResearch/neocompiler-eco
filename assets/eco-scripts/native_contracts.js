@@ -53,4 +53,53 @@ function createNativeManifest() {
         addOptionToSelectionBox(infoToAdd, "native_method_" + ka, selectionBox, titleToOption);
     }
     document.getElementById(selectionBox).selectedIndex = 0;
+    drawParametersTable();
 }
+
+function drawParametersTable() {
+    var table = document.createElement("tbody");
+    var headerRow = document.createElement('tr');
+    headerRow.className = "headerrd";
+    var headersName = document.createElement('td');
+    var headersReturnType = document.createElement('td');
+    var headersInput = document.createElement('td');
+
+    headersName.innerHTML = "<b><center><font size='1'>NAME</font></b>";
+    headerRow.insertCell(-1).appendChild(headersName);
+    headersReturnType.innerHTML = "<b><center><font size='1'>RETURN TYPE</font></b>";
+    headerRow.insertCell(-1).appendChild(headersReturnType);
+    headersInput.innerHTML = "<b><center><font size='1'>INPUT</font></b>";
+    headerRow.insertCell(-1).appendChild(headersInput);
+
+    table.appendChild(headerRow);
+
+    var nC = $("#native_contract")[0].selectedIndex;
+    var m = $("#native_methods")[0].selectedIndex;
+    var method = NATIVE_CONTRACTS[nC].manifest.abi.methods[m];
+
+    for (p = 0; p < method.parameters.length; p++) {
+        var txRow = table.insertRow(-1);
+
+        var paramName = document.createElement('span');
+        paramName.setAttribute("class", "badge");
+        paramName.textContent = method.parameters[p].name;
+        txRow.insertCell(-1).appendChild(paramName);
+
+        var paramType = document.createElement('span');
+        paramType.setAttribute("class", "badge");
+        paramType.textContent = method.parameters[p].type;
+        txRow.insertCell(-1).appendChild(paramType);
+
+        var paramInput = document.createElement('input');
+        paramInput.setAttribute('id', "paramInput" + p);
+        paramInput.placeholder = "Input " + p;
+        txRow.insertCell(-1).appendChild(paramInput);
+    } //Finishes loop that draws each relayed transaction
+
+    //Clear previous data
+    document.getElementById("tableNativeParameters").innerHTML = "";
+    //Append new table
+    if (method.parameters.length > 0)
+        document.getElementById("tableNativeParameters").appendChild(table);
+} //Finishe DrawWallets function
+//===============================================================

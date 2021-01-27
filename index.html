@@ -726,13 +726,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
-                                            <div class="row mb-2">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <select name="native_contract" onchange="createNativeManifest()" id="native_contract" class="custom-select form-control" size="8"></select>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -749,12 +743,34 @@
                                             </div>
 
                                             <div class="row mb-2">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="native_methods">Methods</label>
-                                                        <select name="native_methods" id="native_methods" class="custom-select form-control" size="4"></select>
+                                                        <select name="native_contract" onchange="createNativeManifest()" id="native_contract" class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <!--<label for="native_methods">Methods</label>-->
+                                                        <select name="native_methods" onchange="drawParametersTable()" id="native_methods" class="custom-select form-control" size="8"></select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="errors-warnings">
+                                                <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                                                    <h4 class="green-title">Parameters</h4>
+                                                    <div class="container">
+                                                        <div class="row" style="padding:0 20px 0 20px;">
+                                                            <table id="tableNativeParameters" class="table text-white twalllet">
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-2">
+
                                             </div>
 
                                         </div>

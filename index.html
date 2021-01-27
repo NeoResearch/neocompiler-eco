@@ -540,6 +540,34 @@
 
 
 
+                        <div class="errors-warnings" style="height: auto!important; margin-bottom: 30px;">
+                            <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                                <h4 class="green-title">
+                                    Import Contract
+                                </h4>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="import_contract_hash">Contract ScriptHash</label>
+                                                <input id="import_contract_hash" name="import_contract_hash" class="form-control" placeholder="Insert contract script hash">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="import_contract_hash_button">Import to Local Contracts</label>
+                                                <br>
+                                                <button id="import_contract_hash_button" type="button" onclick="saveLocalContract()" class="btn btn-info btn-sm"><i class="fas fa-file-contract"></i> Save contract</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -707,11 +735,11 @@
 
                                         <div class="col-md-12">
                                             <button onclick="rawRpcCall()" id="btnCallJsonRPC" class="btn btn-info btn-sm">
-                                            <i
-                                                    class="fas fa-phone"></i></button>
-                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info btn-sm" onclick="convertJsonNotifications()"><i
-                                                class="fas fa-exchange-alt"></i> Notifications
-                                        </button>
+                                                <i class="fas fa-phone"></i>
+                                            </button>
+                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info btn-sm" onclick="convertJsonNotifications()">
+                                                <i class="fas fa-exchange-alt"></i> Notifications
+                                            </button>
 
                                             <textarea id="txt_notifications" readonly="readonly" rows="5" cols="100" placeholder="Listing Notifications"></textarea>
                                         </div>

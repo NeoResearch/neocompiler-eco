@@ -20,28 +20,36 @@ function getNativeInfo() {
                 NATIVE_CONTRACTS = data.result;
                 CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
                 //console.log(NATIVE_CONTRACTS);
-                addNativeToSelectionBox();
+                addNativeToSelectionBox("native_contracts", "native");
             },
             "json" // The format the response should be in
         ).fail(function() {
             console.log("Error when trying to get getnativecontracts");
         }); //End of POST for search
     }
+
+    if (LOCAL_CONTRACTS.length == 0) {
+        addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
+    }
 }
 
-function addNativeToSelectionBox() {
-    var selectionBox = "native_contracts";
+function addNativeToSelectionBox(selectionBox, info) {
     document.getElementById(selectionBox).options.length = 0;
 
     if (CONTRACTS_TO_LIST.length > 0) {
         for (ka = 0; ka < CONTRACTS_TO_LIST.length; ++ka) {
             var infoToAdd = CONTRACTS_TO_LIST[ka].manifest.name + "(" + CONTRACTS_TO_LIST[ka].id + ")" + " - " + CONTRACTS_TO_LIST[ka].hash.slice(0, 4) + "..." + NATIVE_CONTRACTS[ka].hash.slice(-4);
-            var titleToOption = "Click to select native contract " + CONTRACTS_TO_LIST[ka].manifest.name;
-            addOptionToSelectionBox(infoToAdd, "native_" + ka, selectionBox, titleToOption);
+            var titleToOption = "Click to select " + info + " contract " + CONTRACTS_TO_LIST[ka].manifest.name;
+            addOptionToSelectionBox(infoToAdd, info + "_" + ka, selectionBox, titleToOption);
         }
         document.getElementById(selectionBox).selectedIndex = 0;
     }
-    createNativeManifest();
+
+    if (selectionBox === "native_contracts") {
+        createNativeManifest();
+    } else {
+        createLocalManifest();
+    }
 }
 
 function createNativeManifest() {
@@ -148,4 +156,32 @@ function invokeFunction() {
             break;
         }
     }
+}
+
+function saveLocalContract() {
+    var contractHashToAdd = $("#import_contract_hash").val();
+    var jsonForGetContractsState = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getcontractstate",
+        "params": [contractHashToAdd]
+    };
+
+
+    $.post(
+        BASE_PATH_CLI, // Gets the URL to sent the post to
+        JSON.stringify(jsonForGetContractsState), // Serializes form data in standard format
+        function(data) {
+            if (data.result) {
+                console.log(data);
+                LOCAL_CONTRACTS.push(data.result);
+                CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
+                addNativeToSelectionBox("local_contracts", "local_contract");
+                $("#local_contracts")[0].selectedIndex = $("#local_contracts")[0].length - 1;
+            }
+        },
+        "json" // The format the response should be in
+    ).fail(function() {
+        console.log("Error when trying to get getnativecontracts");
+    }); //End of POST for search
 }

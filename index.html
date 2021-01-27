@@ -110,63 +110,63 @@
         <ul class="nav menu-vertical" id="nav-tab" role="tablist">
 
             <li class="nav-item">
-                <a class="nav-link active" style="margin-top: 0!important;" id="nav-home-tab" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link active" onclick="" style="margin-top: 0!important;" id="nav-home-tab" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Compilers</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" onshow="getNativeInfo()" onclick="getNativeInfo()" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" onclick="getNativeInfo()" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/deploy.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Native Contracts</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Wallet</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/transfer.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Deploy & Invoke</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Raw RPC</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/storage.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Storage Query</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/conversus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Conversors</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onshow="getNodeInfo()" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Consensus</p>
                 </a>
@@ -180,7 +180,7 @@
             </li>-->
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/settings.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Settings</p>
                 </a>
@@ -201,50 +201,50 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" onclick="getNativeInfo()" id="nav-home-tab" data-toggle="tab" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="getNativeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-native" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Native Contracts</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Wallet</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-deploy" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Deploy & Invoke</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Raw RPC</p>
                 </a>
             </li>
 
             <!--<li class="nav-item" style="background: #0aab7b;">-->
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Storage Query</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Conversors</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="getNodeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-consensus" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Consensus</p>
                 </a>
             </li>
@@ -256,7 +256,7 @@
             </li> -->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" id="nav-home-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Settings</p>
                 </a>
             </li>
@@ -1185,7 +1185,7 @@
                                         <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <select name="createtx_from" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
+                                                    <select name="createtx_from" onselect="fillMaxNeoGas()" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
                                                     <br>
                                                     <label id="labelForTransferFrom">From</label>
                                                 </div>

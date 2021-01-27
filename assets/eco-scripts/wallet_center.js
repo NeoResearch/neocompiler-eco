@@ -347,6 +347,8 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
         else
             addOptionToSelectionBox(addressInfoToAdd, "wallet_" + ka, walletSelectionBox, titleToOption);
     }
+    document.getElementById(walletSelectionBox).selectedIndex = 0;
+    document.getElementById(walletSelectionBox).onchange();
 }
 //===============================================================
 
@@ -364,7 +366,6 @@ function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
-
             queryTofillNeoGasNep17FromNeoCli(addressToGet, ka);
             callUnclaimedFromNeoCli(addressToGet, ka);
         }

@@ -35,6 +35,8 @@ function addNativeToSelectionBox() {
         var titleToOption = "Click to select native contract " + NATIVE_CONTRACTS[ka].manifest.name;
         addOptionToSelectionBox(infoToAdd, "native_" + ka, selectionBox, titleToOption);
     }
+    document.getElementById(selectionBox).selectedIndex = 0;
+    createNativeManifest();
 }
 
 function createNativeManifest() {
@@ -50,5 +52,5 @@ function createNativeManifest() {
         var titleToOption = "Click to select native method contract " + methods[m].name;
         addOptionToSelectionBox(infoToAdd, "native_method_" + ka, selectionBox, titleToOption);
     }
-
+    document.getElementById(selectionBox).selectedIndex = 0;
 }

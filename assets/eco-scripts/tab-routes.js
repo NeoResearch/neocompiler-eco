@@ -5,6 +5,8 @@ $(document).ready(() => {
         const pairSplitByHash = url.split("#");
         console.log("url is:" + pairSplitByHash)
         $('.nav a[href="#' + pairSplitByHash[1] + '"]').tab('show');
+        // Simulate on click event as well
+        $('.nav a[href="#' + pairSplitByHash[1] + '"]')[0].onclick();
         url = location.href.replace(/\/#/, "#");
         history.replaceState(null, null, url);
         setTimeout(() => {

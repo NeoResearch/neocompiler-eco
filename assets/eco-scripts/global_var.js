@@ -2,8 +2,8 @@ var cSharpFiles = [
     ["./assets/sc_examples/csharp/HelloWorld/HelloWorld.cs"]
 ];
 
-var GAS_ASSET = "0x9ac04cf223f646de5f7faccafe34e30e5d4382a2";
-var NEO_ASSET = "0x4961bf0ab79370b23dc45cde29f568d0e0fa6e93";
+var GAS_ASSET = "0x70e2301955bf1e74cbb31d18c2f96972abadb328";
+var NEO_ASSET = "0xf61eebf573ea36593fd43aa150c055ad7906ab83";
 
 var USER_EXAMPLES = new Map();
 

@@ -142,6 +142,10 @@ function drawParametersTable() {
 function invokeFunction() {
     var m = $("#contract_methods")[0].selectedIndex;
     var method = CONTRACTS_TO_LIST[getCurrentSelectedContract()].manifest.abi.methods[m];
+    var invokeparams = [];
+    invokeparams.push(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash);
+    invokeparams.push(method.name);
+    var params = [];
     for (p = 0; p < method.parameters.length; p++) {
         var inputVar = "#paramInput" + p;
         if ($(inputVar)[0].value === "") {
@@ -155,7 +159,35 @@ function invokeFunction() {
             });
             break;
         }
+        var parameter = {
+            type: method.parameters[p].type,
+            value: $(inputVar)[0].value
+        };
+        params.push(parameter);
     }
+    invokeparams.push(params);
+
+    console.log(invokeparams);
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "invokefunction",
+        "params": invokeparams
+    };
+
+    console.log(jsonForInvokingFunction);
+    console.log(JSON.stringify(jsonForInvokingFunction));
+    $.post(
+        BASE_PATH_CLI, // Gets the URL to sent the post to
+        JSON.stringify(jsonForInvokingFunction), // Serializes form data in standard format
+        function(data) {
+            console.log(data);
+        },
+        "json" // The format the response should be in
+    ).fail(function() {
+        console.log("Error when trying to get jsonForInvokingFunction");
+    }); //End of POST for search
+
 }
 
 function saveLocalContract() {

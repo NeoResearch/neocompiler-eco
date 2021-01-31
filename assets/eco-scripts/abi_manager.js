@@ -1,6 +1,7 @@
 //=========== UPDATE ALL ABI DEPENDENCIES =======================
 //===============================================================
 function updateAllABIDependencies(jsonABI) {
+    /*
     if (jsonABI.methods) {
         inputboxjs = document.getElementById("invokefunctionjs");
         while (inputboxjs.options.length > 0)
@@ -86,7 +87,7 @@ function updateAllABIDependencies(jsonABI) {
         // get return hexcode
         rettype = jsonABI["methods"][i]["returntype"];
         $("#contractreturnjs")[0].value = getHexForType(rettype);
-    }
+    }*/
 }
 //===============================================================
 

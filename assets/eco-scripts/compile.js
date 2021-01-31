@@ -225,7 +225,7 @@ function socketCompilerCompilexResult() {
             var textmanifest = atob(dataSocket.manifest);
             $("#codemanifest").val(textmanifest);
 
-            // UPDATE LOCAL CONTRACTS
+            // UPDATE LOCAL CONTRACTS AND CALL FUNCTIONS TO FILL THE BOX
             var jsonLocalContract = ({
                 hash: contractScriptHash,
                 manifest: JSON.parse(textmanifest)

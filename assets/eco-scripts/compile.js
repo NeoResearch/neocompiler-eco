@@ -96,7 +96,7 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
     var avmWithExtraSize = avmSize + fixedAVGTxSize;
     if (avmWithExtraSize > freeSize)
         extraGasNetFeeForBigTx = (avmWithExtraSize - freeSize) * feePerExtraByte;
-    $("#attachDeployGasFeeJS")[0].value = Number(String(extraGasNetFeeForBigTx).slice(0, 10));
+    // Required deploy fee = Number(String(extraGasNetFeeForBigTx).slice(0, 10));
     // ------------------------------------------
 }
 

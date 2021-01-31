@@ -5,20 +5,17 @@ function updateAllABIDependencies(jsonABI) {
     textAbi += "Entry Point:" + jsonABI["entrypoint"] + "\n";
     textAbi += "Methods:" + "\n";
     for (var i = 0; i < jsonABI["methods"].length; i++) {
-        textAbi += "\t" +
-            jsonABI["methods"][i]["returntype"] + " " +
-            jsonABI["methods"][i]["name"] + "(";
+        textAbi += "\t" + jsonABI["methods"][i]["returntype"] + " " + jsonABI["methods"][i]["name"] + "(";
 
-        if (jsonABI["methods"][i]["name"] != "Main") {
+        /*if (jsonABI["methods"][i]["name"] != "Main") {
             option2 = document.createElement("option");
             option2.text = firstCharToLowerCase(jsonABI["methods"][i]["name"]);
             option2.value = firstCharToLowerCase(jsonABI["methods"][i]["name"]);
             inputboxjs.add(option2);
-        }
+        }*/
 
         for (var f = 0; f < jsonABI["methods"][i]["parameters"].length; f++) {
-            textAbi += jsonABI["methods"][i]["parameters"][f]["type"] + " " +
-                jsonABI["methods"][i]["parameters"][f]["name"];
+            textAbi += jsonABI["methods"][i]["parameters"][f]["type"] + " " + jsonABI["methods"][i]["parameters"][f]["name"];
             if (f != jsonABI["methods"][i]["parameters"].length - 1)
                 textAbi += ", ";
         }
@@ -26,12 +23,9 @@ function updateAllABIDependencies(jsonABI) {
     }
     textAbi += "Events:" + "\n";
     for (var e = 0; e < jsonABI["events"].length; e++) {
-        textAbi += "\t" +
-            jsonABI["events"][e]["returntype"] + " " +
-            jsonABI["events"][e]["name"] + "(";
+        textAbi += "\t" + jsonABI["events"][e]["returntype"] + " " + jsonABI["events"][e]["name"] + "(";
         for (var f = 0; f < jsonABI["events"][e]["parameters"].length; f++) {
-            textAbi += jsonABI["events"][e]["parameters"][f]["type"] + " " +
-                jsonABI["events"][e]["parameters"][f]["name"];
+            textAbi += jsonABI["events"][e]["parameters"][f]["type"] + " " + jsonABI["events"][e]["parameters"][f]["name"];
             if (f != jsonABI["events"][e]["parameters"].length - 1)
                 textAbi += ", ";
         }

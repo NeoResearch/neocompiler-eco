@@ -29,6 +29,7 @@ function getNativeInfo() {
     }
 
     if (LOCAL_CONTRACTS.length == 0) {
+        document.getElementById("local_contracts").options.length = 0;
         addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
     }
 }

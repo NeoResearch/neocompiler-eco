@@ -224,12 +224,22 @@ function socketCompilerCompilexResult() {
         if (dataSocket.manifest != "") {
             var textmanifest = atob(dataSocket.manifest);
             $("#codemanifest").val(textmanifest);
+
+            // UPDATE LOCAL CONTRACTS
+            var jsonLocalContract = ({
+                hash: contractScriptHash,
+                manifest: JSON.parse(textmanifest)
+
+            });
+            LOCAL_CONTRACTS.push(jsonLocalContract);
+            CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
+            addNativeToSelectionBox("local_contracts", "local_contract");
         }
 
         // Loading all ABI related boxes
         if (dataSocket.abi != "") {
             var codeabi = atob(dataSocket.abi);
-            updateAllABIDependencies(JSON.parse(codeabi));
+            updateABITextarea(JSON.parse(codeabi));
         }
         $('#collapseMore').collapse('show');
 

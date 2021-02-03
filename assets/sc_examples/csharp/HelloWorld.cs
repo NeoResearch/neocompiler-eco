@@ -3,9 +3,11 @@ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services.Neo;
 using System;
 using System.Numerics;
+using System.ComponentModel;
 
 namespace HelloWorldDemo
 {
+    [DisplayName("Hello World NeoCompiler.io")]
     [ManifestExtra("Author", "Neo")]
     [ManifestExtra("Email", "dev@neo.org")]
     [ManifestExtra("Description", "This is a contract example")]

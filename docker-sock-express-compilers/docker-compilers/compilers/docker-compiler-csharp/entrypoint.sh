@@ -15,9 +15,9 @@ cat /neo-devpack-dotnet/src/Neo.SmartContract.Framework/*.csproj | grep "<Versio
 cat /tmp/output.txt | base64 -w 0 >> /tmp/return.txt
 
 # Add new output related to the AVM, ABI and MANIFEST
-echo -n "\", \"avm\": \"" >> /tmp/return.txt
+echo -n "\", \"nef\": \"" >> /tmp/return.txt
 if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.nef ]; then
-   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.nef | xxd -p | base64 -w 0 >> /tmp/return.txt
+   cat /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.nef | base64 -w 0 >> /tmp/return.txt
 fi
 echo -n "\", \"abi\":\"" >> /tmp/return.txt
 if [ -f /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/bin/Debug/net5.0/Template.CSharpNeoCompiler.abi.json ]; then

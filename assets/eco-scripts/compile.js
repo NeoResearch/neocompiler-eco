@@ -202,6 +202,17 @@ function updateCompilersSelectionBox(compilerType) {
     );
 }
 
+function convertBase64ToHexByte(base64ToConvert) {
+    var hexcode = "";
+    for (b = 0; b < base64ToConvert.length; b++) {
+        var hexByte = base64ToConvert.charCodeAt(b).toString(16);
+        if (hexByte.length == 1)
+            hexByte = "0" + hexByte;
+        hexcode += hexByte;
+    }
+    return hexcode;
+}
+
 function socketCompilerCompilexResult() {
     socketCompilers.on('compilexResult', function(socketData) {
         dataSocket = JSON.parse(socketData.stdout);
@@ -209,7 +220,8 @@ function socketCompilerCompilexResult() {
         $("#compilebtn")[0].disabled = false;
         var coderr = atob(dataSocket.output);
         $("#codewarnerr").val(coderr);
-        var hexcodeavm = atob(dataSocket.avm);
+        var nefByteArray = atob(dataSocket.nef);
+        var hexcodeavm = convertBase64ToHexByte(nefByteArray);
         $("#codeavm").val(hexcodeavm);
         hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
         $("#opcodes").val("");
@@ -236,8 +248,8 @@ function socketCompilerCompilexResult() {
             // UPDATE LOCAL CONTRACTS AND CALL FUNCTIONS TO FILL THE BOX
             var jsonLocalContract = ({
                 hash: contractScriptHash,
-                manifest: JSON.parse(textmanifest)
-
+                manifest: JSON.parse(textmanifest),
+                nef: dataSocket.nef
             });
             contractExists = checkIfNative(jsonLocalContract.hash) || checkIfLocalContractExists(jsonLocalContract.hash) != -1;
             if (!contractExists) {

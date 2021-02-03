@@ -139,6 +139,13 @@ function setCompiler(language) {
     }
 };
 
+function setExampleOnChange() {
+    var selectedLanguage = SELECTED_COMPILER;
+    var selectedExampleIndex = $("#ExampleList")[0].selectedIndex;
+    setExample(selectedLanguage, selectedExampleIndex);
+}
+
+
 function setExample(language, selected_index) {
     //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
     aceEditor.getSession().setValue("");

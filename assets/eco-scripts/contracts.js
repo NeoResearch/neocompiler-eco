@@ -41,7 +41,7 @@ function addNativeToSelectionBox(selectionBox, info) {
         for (ka = 0; ka < CONTRACTS_TO_LIST.length; ++ka) {
             var contractID = CONTRACTS_TO_LIST[ka].id;
             if (!contractID)
-                contractID = "Not yet deployed."
+                contractID = "Not yet deployed"
             var infoToAdd = CONTRACTS_TO_LIST[ka].manifest.name + "(" + contractID + ")" + " - " + CONTRACTS_TO_LIST[ka].hash.slice(0, 4) + "..." + NATIVE_CONTRACTS[ka].hash.slice(-4);
             var titleToOption = "Click to select " + info + " contract " + CONTRACTS_TO_LIST[ka].manifest.name;
             addOptionToSelectionBox(infoToAdd, info + "_" + ka, selectionBox, titleToOption);

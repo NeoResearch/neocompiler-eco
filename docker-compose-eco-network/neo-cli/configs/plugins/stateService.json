@@ -1,0 +1,9 @@
+{
+  "PluginConfiguration": {
+    "Path": "Data_MPT_{0}",
+    "FullState": false,
+    "VerifierUrls": [
+      "eco-neo-csharp-node1-running:20333"
+    ]
+  }
+}

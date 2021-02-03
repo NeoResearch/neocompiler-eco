@@ -49,14 +49,13 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/proto
 #Trying to normally all dockers
 #sleep 1
 
-rm /opt/node/neo-cli/Plugins/StateService.dll
-
 if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"
 	rm /opt/node/neo-cli/Plugins/RpcServer.dll
 	rm /opt/node/neo-cli/Plugins/RpcNep17Tracker.dll
 	rm /opt/node/neo-cli/Plugins/OracleService.dll
 	rm /opt/node/neo-cli/Plugins/ApplicationLogs.dll
+	rm /opt/node/neo-cli/Plugins/StateService.dll	
 	sleep 1
 fi
 

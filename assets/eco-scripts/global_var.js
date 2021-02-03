@@ -1,5 +1,6 @@
 var cSharpFiles = [
-    ["./assets/sc_examples/csharp/HelloWorld/HelloWorld.cs"]
+    ["./assets/sc_examples/csharp/HelloWorld.cs"],
+    ["./assets/sc_examples/csharp/OracleDemo.cs"]
 ];
 
 var GAS_ASSET = "0x70e2301955bf1e74cbb31d18c2f96972abadb328";

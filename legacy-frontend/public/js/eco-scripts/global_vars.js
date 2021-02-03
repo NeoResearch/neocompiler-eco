@@ -48,8 +48,8 @@ var SELECTED_COMPILER = "";
 var USER_EXAMPLES = new Map();
 //===============================================================
 var cSharpFiles = [
-        //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
-        ["/examples/csharp/HelloWorld/HelloWorld.cs"]
+    //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+    ["/examples/csharp/HelloWorld/HelloWorld.cs"]
 ];
 
 /* PENDING TX */
@@ -65,25 +65,26 @@ var ORDERED_MAP_LIST_REPLAY = [];
 var NUMBER_FAILS_REQUESTS = 0;
 var MAX_N_FAILLED_REQUEST_UNTIL_STOP = 20;
 var NEO_CLI_REFRESHING_STOPED = false;
-function stopAllEcoLabFrontEndTimeoutIntervals(){
+
+function stopAllEcoLabFrontEndTimeoutIntervals() {
     //Check current if refresh interval was set and, then, cancel it
-    if(refreshIntervalWalletId!=0)
-      clearInterval(refreshIntervalWalletId);
+    if (refreshIntervalWalletId != 0)
+        clearInterval(refreshIntervalWalletId);
 
-    if(refreshIntervalActivityId!=0)
-      clearInterval(refreshIntervalActivityId);
+    if (refreshIntervalActivityId != 0)
+        clearInterval(refreshIntervalActivityId);
 
-    if(refreshIntervalEcoMetadataStatsId!=0)
-      clearInterval(refreshIntervalEcoMetadataStatsId);
+    if (refreshIntervalEcoMetadataStatsId != 0)
+        clearInterval(refreshIntervalEcoMetadataStatsId);
 
-    if(refreshIntervalNeoCliNodes!=0)
-      clearInterval(refreshIntervalNeoCliNodes);
+    if (refreshIntervalNeoCliNodes != 0)
+        clearInterval(refreshIntervalNeoCliNodes);
 
-    if(refreshIntervalCompilers!=0)
-      clearInterval(refreshIntervalCompilers);
+    if (refreshIntervalCompilers != 0)
+        clearInterval(refreshIntervalCompilers);
 
-    if(refreshGenesisBlock!=0)
-      clearInterval(refreshGenesisBlock);
+    if (refreshGenesisBlock != 0)
+        clearInterval(refreshGenesisBlock);
 }
 
 // ==============================================================================================
@@ -137,14 +138,14 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
 }
 
 window.addEventListener('neoline.ready', () => {
-	if(window.neoline)
-		return
-	window.neoline = new NEOLine.Init();
-	$("#ecolabproviderselection").append('<option title="NeoLine">NeoLine</option>');
+    if (window.neoline)
+        return
+    window.neoline = new NEOLine.Init();
+    $("#ecolabproviderselection").append('<option title="NeoLine">NeoLine</option>');
 });
 
-$(window).on('load', ()=>{
-	window.neoDapi.addEventListener(neoDapi.Constants.EventName.READY, data => {
-		$("#ecolabproviderselection").append('<option title="O3">O3</option>');
-	})
+$(window).on('load', () => {
+    window.neoDapi.addEventListener(neoDapi.Constants.EventName.READY, data => {
+        $("#ecolabproviderselection").append('<option title="O3">O3</option>');
+    })
 });

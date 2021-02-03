@@ -42,7 +42,7 @@ function addNativeToSelectionBox(selectionBox, info) {
             var contractID = CONTRACTS_TO_LIST[ka].id;
             if (!contractID)
                 contractID = "Not yet deployed"
-            var infoToAdd = CONTRACTS_TO_LIST[ka].manifest.name + "(" + contractID + ")" + " - " + CONTRACTS_TO_LIST[ka].hash.slice(0, 4) + "..." + NATIVE_CONTRACTS[ka].hash.slice(-4);
+            var infoToAdd = CONTRACTS_TO_LIST[ka].manifest.name + "(" + contractID + ")" + " - " + CONTRACTS_TO_LIST[ka].hash.slice(0, 4) + "..." + CONTRACTS_TO_LIST[ka].hash.slice(-4);
             var titleToOption = "Click to select " + info + " contract " + CONTRACTS_TO_LIST[ka].manifest.name;
             addOptionToSelectionBox(infoToAdd, info + "_" + ka, selectionBox, titleToOption);
         }

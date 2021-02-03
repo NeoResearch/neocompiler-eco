@@ -350,7 +350,6 @@
 
                                 <div class="errors-warnings" style="min-height:700px;height: auto!important;">
                                     <h4>Compiled contract info:</h4>
-                                    <a id="btnNewContractWallet" onClick="addContractToWallet($('#contractInfo_ScriptHash').val())" class="btn btn-info collapsed"> Add to wallet</a>
                                     <div class="clearfix"></div>
                                     <div class="display-erros" style="background: transparent">
                                         <label for="contractInfo_ScriptHash">ScriptHash</label>
@@ -487,6 +486,18 @@
                                                         <label for="contract_name">Name</label>
                                                         <input id="contract_name" name="contract_name" readonly class="form-control" placeholder="Contract name" style="width: 100%; margin-bottom: 10px;">
                                                     </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-2 collapse" id="collapseLocalContractsOptions">
+                                                <div class="col-md-4">
+                                                    <a id="btnNewContractDeloy" onClick="addContractToWallet($('#contract_hash').val())" class="btn btn-success"><i class="fas fa-file-contract"></i> Deploy Contract</a>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a id="btnNewContractToWallet" onClick="addContractToWallet($('#contract_hash').val())" class="btn btn-info "><i class="fas fa-wallet"></i> Import to wallet</a>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a id="btnRemoveLocalContract" onClick="deleteLocalContract()" class="btn btn-danger "><i class="fas fa-trash"></i> Remove local contract</a>
                                                 </div>
                                             </div>
 

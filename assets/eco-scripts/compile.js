@@ -238,9 +238,11 @@ function socketCompilerCompilexResult() {
                 manifest: JSON.parse(textmanifest)
 
             });
-            LOCAL_CONTRACTS.push(jsonLocalContract);
-            CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
-            addNativeToSelectionBox("local_contracts", "local_contract");
+            if (!checkNativeOrLocalExistedAndSwal(jsonLocalContract.hash)) {
+                LOCAL_CONTRACTS.push(jsonLocalContract);
+                CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
+                addContractsToSelectionBox("local_contracts", "local_contract");
+            }
         }
 
         // Loading all ABI related boxes

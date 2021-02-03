@@ -162,7 +162,13 @@ function addContractToWalletFromVerification() {
 function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
     if (accountToAdd._encrypted != null) {
         if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
-            alert("Encrypted key already registered. Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.");
+            swal({
+                title: "Encrypted key already registered.",
+                text: " Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.",
+                icon: "error",
+                button: "Ok!",
+                timer: 5500,
+            });
             return false;
         }
         ECO_WALLET.push({
@@ -190,7 +196,13 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
             }
 
             if (searchAddrIndexFromWif(wifToAdd) != -1) {
-                alert("WIF already registered. Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.");
+                swal({
+                    title: "WIF already registered.",
+                    text: "Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.",
+                    icon: "error",
+                    button: "Ok!",
+                    timer: 5500,
+                });
                 return false;
             }
             console.log("wif " + wifToAdd + " is ok!");
@@ -198,7 +210,13 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
 
         //TODO Check if addressBase58 already exists by getting it from wif
         if (searchAddrIndexFromBase58(addressBase58ToAdd) != -1) {
-            alert("Public addressBase58 already registered. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
+            swal({
+                title: "Public addressBase58 already registered.",
+                text: "Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.",
+                icon: "error",
+                button: "Ok!",
+                timer: 5500,
+            });
             return false;
         }
 
@@ -241,7 +259,13 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
         }
 
         if (searchAddrIndexFromBase58(addressBase58ToAdd) != -1) {
-            alert("Public addressBase58 already registered for this MultiSig. Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.");
+            swal({
+                title: "Public addressBase58 already registered for this MultiSig.",
+                text: "Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.",
+                icon: "error",
+                button: "Ok!",
+                timer: 5500,
+            });
             return false;
         }
         ECO_WALLET.push({

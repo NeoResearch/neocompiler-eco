@@ -20,7 +20,7 @@ function getNativeInfo() {
                 NATIVE_CONTRACTS = data.result;
                 CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
                 //console.log(NATIVE_CONTRACTS);
-                addNativeToSelectionBox("native_contracts", "native");
+                addContractsToSelectionBox("native_contracts", "native");
             },
             "json" // The format the response should be in
         ).fail(function() {
@@ -34,7 +34,7 @@ function getNativeInfo() {
     }
 }
 
-function addNativeToSelectionBox(selectionBox, info) {
+function addContractsToSelectionBox(selectionBox, info) {
     document.getElementById(selectionBox).options.length = 0;
 
     if (CONTRACTS_TO_LIST.length > 0) {
@@ -57,6 +57,7 @@ function addNativeToSelectionBox(selectionBox, info) {
 }
 
 function createNativeManifest() {
+    $("#collapseLocalContractsOptions").collapse('hide');
     CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
     $("#local_contracts")[0].selectedIndex = -1
     createManifest();
@@ -64,8 +65,11 @@ function createNativeManifest() {
 
 function createLocalManifest() {
     CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
-    $("#native_contracts")[0].selectedIndex = -1
-    createManifest();
+    if (CONTRACTS_TO_LIST.length > 0) {
+        $("#collapseLocalContractsOptions").collapse('show');
+        $("#native_contracts")[0].selectedIndex = -1
+        createManifest();
+    }
 }
 
 function getCurrentSelectedContract() {
@@ -194,15 +198,71 @@ function invokeFunction() {
 
 }
 
+function checkIfNative(contractHashToAdd) {
+    for (n = 0; n < NATIVE_CONTRACTS.length; n++) {
+        // Remove 0x from Native
+        if (NATIVE_CONTRACTS[n].hash.slice(2) === contractHashToAdd)
+            return true;
+    }
+    return false;
+}
+
+function checkIfLocalContractExists(contractHashToAdd) {
+    for (n = 0; n < LOCAL_CONTRACTS.length; n++) {
+        if (LOCAL_CONTRACTS[n].hash === contractHashToAdd)
+            return n;
+    }
+    return -1;
+}
+
+function checkNativeOrLocalExistedAndSwal(contractHashToAdd) {
+    if (checkIfNative(contractHashToAdd)) {
+        swal("This is a Native Contract!", {
+            icon: "error",
+            buttons: false,
+            timer: 2500,
+        });
+        return true;
+    }
+
+    var checkResultLocalContracts = checkIfLocalContractExists(contractHashToAdd);
+    if (checkResultLocalContracts != -1) {
+        swal({
+            title: "This Local Contract is already tracked!",
+            text: "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash,
+            icon: "info",
+            button: "Ok!",
+            timer: 5500,
+        });
+        return true;
+    }
+
+    return false;
+}
+
 function saveLocalContract() {
     var contractHashToAdd = $("#import_contract_hash").val();
+    if (contractHashToAdd.slice(0, 2) === "0x")
+        contractHashToAdd = contractHashToAdd.slice(2);
+
+    if (!Neon.default.is.scriptHash(contractHashToAdd)) {
+        swal("Invalid scripthash!", {
+            icon: "error",
+            buttons: false,
+            timer: 2500,
+        });
+        return;
+    }
+
+    if (checkNativeOrLocalExistedAndSwal(contractHashToAdd))
+        return;
+
     var jsonForGetContractsState = {
         "jsonrpc": "2.0",
         "id": 5,
         "method": "getcontractstate",
         "params": [contractHashToAdd]
     };
-
 
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
@@ -212,7 +272,7 @@ function saveLocalContract() {
                 console.log(data);
                 LOCAL_CONTRACTS.push(data.result);
                 CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
-                addNativeToSelectionBox("local_contracts", "local_contract");
+                addContractsToSelectionBox("local_contracts", "local_contract");
                 $("#local_contracts")[0].selectedIndex = $("#local_contracts")[0].length - 1;
             }
         },
@@ -220,4 +280,33 @@ function saveLocalContract() {
     ).fail(function() {
         console.log("Error when trying to get getnativecontracts");
     }); //End of POST for search
+}
+
+function deleteLocalContract() {
+    contractIdToRemove = getCurrentSelectedContract();
+    swal({
+        title: "Delete " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + "?",
+        text: "Contract with hash " + LOCAL_CONTRACTS[contractIdToRemove].hash + " will be removed.",
+        icon: "warning",
+        buttons: ["Cancel", "Delete it!"],
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            LOCAL_CONTRACTS.splice(contractIdToRemove, 1);
+            swal("Local contract has been deleted!", {
+                icon: "success",
+            });
+
+            if (LOCAL_CONTRACTS.length == 0) {
+                document.getElementById("local_contracts").options.length = 0;
+                addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
+                $("#native_contracts")[0].selectedIndex = 0;
+                createNativeManifest();
+            } else {
+                addContractsToSelectionBox("local_contracts", "local_contract");
+            }
+        } else {
+            swal("Safe! Contract " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + " was not deleted.");
+        }
+    });
 }

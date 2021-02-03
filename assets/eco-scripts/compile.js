@@ -228,6 +228,7 @@ function socketCompilerCompilexResult() {
 
         // Loading Manifest Info
         console.log("loading manifest");
+        var contractExists = false;
         if (dataSocket.manifest != "") {
             var textmanifest = atob(dataSocket.manifest);
             $("#codemanifest").val(textmanifest);
@@ -238,7 +239,8 @@ function socketCompilerCompilexResult() {
                 manifest: JSON.parse(textmanifest)
 
             });
-            if (!checkNativeOrLocalExistedAndSwal(jsonLocalContract.hash)) {
+            contractExists = checkIfNative(jsonLocalContract.hash) || checkIfLocalContractExists(jsonLocalContract.hash) != -1;
+            if (!contractExists) {
                 LOCAL_CONTRACTS.push(jsonLocalContract);
                 CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
                 addContractsToSelectionBox("local_contracts", "local_contract");
@@ -252,10 +254,18 @@ function socketCompilerCompilexResult() {
         }
         $('#collapseMore').collapse('show');
 
+        var titleSwal = "";
+        var timerSwal = 1100;
+        if (contractExists) {
+            titleSwal = "However, contract is already registered on Local Contracts.";
+            timerSwal = 3500;
+
+        }
         swal("Compiled with success!", {
             icon: "success",
+            title: titleSwal,
             buttons: false,
-            timer: 1100,
+            timer: timerSwal
         });
     });
 }

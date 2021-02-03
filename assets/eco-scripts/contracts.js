@@ -69,6 +69,9 @@ function createLocalManifest() {
         $("#collapseLocalContractsOptions").collapse('show');
         $("#native_contracts")[0].selectedIndex = -1
         createManifest();
+    } else {
+        CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
+        $("#local_contracts")[0].selectedIndex = -1;
     }
 }
 

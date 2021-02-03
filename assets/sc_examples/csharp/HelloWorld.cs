@@ -12,7 +12,7 @@ namespace HelloWorldDemo
     public class Contract1 : SmartContract
     {
         //TODO: Replace it with your own address.
-        static readonly UInt160 Owner = "NTrezR3C4X8aMLVg7vozt5wguyNfFhwuFx".ToScriptHash();
+        static readonly UInt160 Owner = "NiNmXL8FjEUEs1nfX9uHFBNaenxDHJtmuB".ToScriptHash();
 
         private static bool IsOwner() => Runtime.CheckWitness(Owner);
 
@@ -22,9 +22,9 @@ namespace HelloWorldDemo
         public static bool Verify() => IsOwner();
 
         // TODO: Replace it with your methods.
-        public static byte[] MyMethod()
+        public static string MyMethod()
         {
-            return Storage.Get("Hello");
+            return Storage.Get(Storage.CurrentContext, "Hello");
         }
 
         public static void _deploy(object data, bool update)
@@ -32,7 +32,7 @@ namespace HelloWorldDemo
             if (update) return;
 
             // It will be executed during deploy
-            Storage.Put("Hello", "World");
+            Storage.Put(Storage.CurrentContext, "Hello", "World");
         }
 
         public static void Update(ByteString nefFile, string manifest)

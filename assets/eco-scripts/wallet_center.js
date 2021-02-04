@@ -1,4 +1,4 @@
-var CONNECTED_WALLET_ID;
+var CONNECTED_WALLET_ID = -1;
 
 //===============================================================
 function drawWalletsStatus() {
@@ -263,6 +263,7 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
 }
 //===============================================================
 
+/*
 //===============================================================
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
 function changeWalletInfo() {
@@ -311,7 +312,7 @@ function changeWalletInfo() {
         document.getElementById("addressVerificationScript").value = ECO_WALLET[wToChangeIndex].account.contract.script;
         document.getElementById("addressOwners").value = JSON.stringify(ECO_WALLET[wToChangeIndex].owners);
     }
-}
+}*/
 //===============================================================
 
 //===============================================================

@@ -178,6 +178,23 @@ function invokeFunction() {
     }
     invokeparams.push(params);
 
+
+    if (CONNECTED_WALLET_ID == -1) {
+        swal("Connect a wallet and account first.", {
+            icon: "error",
+            buttons: false,
+            timer: 5500,
+        });
+        return;
+    }
+
+    var extra = [{
+        account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+        scopes: "CalledByEntry"
+    }];
+
+    invokeparams.push(extra);
+
     console.log(invokeparams);
     var jsonForInvokingFunction = {
         "jsonrpc": "2.0",

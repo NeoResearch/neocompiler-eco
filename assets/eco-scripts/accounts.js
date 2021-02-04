@@ -2,18 +2,14 @@ var ECO_WALLET = [];
 
 //var map = new Object();
 
-//Template
-//ECO_WALLET.push({ type: 'commonAddress, multisig or specialSC', addressBase58: '', pKeyWif: '', privKey: '', pubKey: '', print: false, verificationScript: ''});
-//AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y
 ECO_WALLET.push({
     account: new Neon.wallet.Account("KxDgvEKzgSBPPfuVfw67oPQBSjidEiqTHURKSDL1R7yGaGYAeYnr"),
-    label: "Default1",
+    label: "Eco 1",
     print: true
 });
-//APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL
 ECO_WALLET.push({
     account: new Neon.wallet.Account("L56SWKLsdynnXTHScMdNjsJRgbtqcf9p5TUgSAHq242L2yD8NyrA"),
-    label: "Default2",
+    label: "Eco 2",
     print: true
 });
 

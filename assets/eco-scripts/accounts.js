@@ -24,7 +24,7 @@ ECO_WALLET.push({
     print: true
 });
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("L4W9Par7Kb3qhqE5YQjYaV2gScaMFBEBi1819HtSQsSHAjJE8jsZ"),
+    account: new Neon.wallet.Account("L2Cxz5JXM6Mh6CACRbXuoV2V8MRbgb9JT6wZH1xf9o26cxGwf9ni"),
     label: "CN3",
     print: true
 });
@@ -46,7 +46,7 @@ ECO_WALLET.push({
     print: true
 });
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYMM6gD8HhUjxobTp5eFgHbqFp5n49ZApNJViU9wnRjyfF2KYsbLg28Kr"),
+    account: new Neon.wallet.Account("6PYQcsb2qphUPJYSA2MuQDsQWvTY8zcVKsCQ7eQhtjmGhJtYt8WwAcpLHV"),
     label: "CN3",
     print: true
 });

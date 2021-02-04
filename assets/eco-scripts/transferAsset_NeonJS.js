@@ -1,4 +1,4 @@
-async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amount, nodeToCall) {
+/*async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amount, nodeToCall) {
     const facade = await Neon.api.NetworkFacade.fromConfig({ node: nodeToCall });
     var fromAccount = ECO_WALLET[idTransferFrom].account;
     client = new Neon.rpc.NeoServerRpcClient(nodeToCall);
@@ -12,7 +12,7 @@ async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amou
             signingCallback: Neon.api.signWithAccount(fromAccount),
         }
     );
-}
+}*/
 
 function transferMultiSign() {
     const script = Neon.sc.createScript({
@@ -26,19 +26,30 @@ function transferMultiSign() {
         ],
     });
 
-    const tx = new Transaction({
+    const tx = new Neon.tx.Transaction({
             signers: [{
                 account: ECO_WALLET[6].account.scriptHash,
-                scopes: WitnessScope.CalledByEntry,
+                scopes: Neon.tx.WitnessScope.CalledByEntry,
             }, ],
-            validUntilBlock: 2000,
-            systemFee: "100000001",
-            networkFee: "100000001",
+            validUntilBlock: Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1,
+            systemFee: 100000000,
+            networkFee: 100000000,
             script,
         })
-        .sign(testWallet.accounts[0], NETWORK_MAGIC)
-        .sign(testWallet.accounts[1], NETWORK_MAGIC)
-        .sign(testWallet.accounts[1], NETWORK_MAGIC);
+        .sign(ECO_WALLET[2].account, NETWORK_MAGIC, 1024)
+        .sign(ECO_WALLET[3].account, NETWORK_MAGIC, 1024)
+        .sign(ECO_WALLET[4].account, NETWORK_MAGIC, 1024);
+
+    const multisigWitness = Neon.tx.Witness.buildMultiSig(
+        tx.serialize(false),
+        tx.witnesses,
+        ECO_WALLET[6].account
+    );
+
+    tx.witnesses = [multisigWitness];
+
+    var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+    const result = client.sendRawTransaction(tx);
 }
 
 /*

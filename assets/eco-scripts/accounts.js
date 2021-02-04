@@ -13,6 +13,53 @@ ECO_WALLET.push({
     print: true
 });
 
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("L4W9Par7Kb3qhqE5YQjYaV2gScaMFBEBi1819HtSQsSHAjJE8jsZ"),
+    label: "CN1",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("L2Mt5aqiXGVQNmdL9dYof9HzLnWbpuGuv35RbwzESRNnwYDa4cdL"),
+    label: "CN2",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("L4W9Par7Kb3qhqE5YQjYaV2gScaMFBEBi1819HtSQsSHAjJE8jsZ"),
+    label: "CN3",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("L1EhXFbsjFNv9uCC16AzmPWGjJtEGc1Ab19t9UJGiXRyJHpYdxxc"),
+    label: "CN4",
+    print: true
+});
+
+/*
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("6PYMM6gD8HhUjxobTp5eFgHbqFp5n49ZApNJViU9wnRjyfF2KYsbLg28Kr"),
+    label: "CN1",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("6PYPN45cvWWCSWfxRczVfS7Jd1hRS5DbBg9LYhngr4XKSguCLzax7o7wD8"),
+    label: "CN2",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("6PYMM6gD8HhUjxobTp5eFgHbqFp5n49ZApNJViU9wnRjyfF2KYsbLg28Kr"),
+    label: "CN3",
+    print: true
+});
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("6PYNTWDFJ2wGNzXx6QNsrn2jWXbEJXEakdb2bHvU9bm4AcBEwDxpqgjctG"),
+    label: "CN4",
+    print: true
+});
+ECO_WALLET[ECO_WALLET.length - 1].account.decrypt("one");
+*/
+
+
+
 // NEP-2 Encrypted wallet
 // newWallet = new Neon.wallet.Account("02eaa8dcf4e94fbb2c0e6d10500b4c14f1deecf68720769d29b163555fe8202e")
 // password = "eco" for AbotXHRH1xRhLCf74mvm8Uv49kQaCayQzr

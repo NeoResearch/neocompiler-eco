@@ -14,6 +14,33 @@ async function transferAssetNeonJS(idTransferFrom, to, assetHashToTransfer, amou
     );
 }
 
+function transferMultiSign() {
+    const script = Neon.sc.createScript({
+        scriptHash: GAS_ASSET,
+        operation: "transfer",
+        args: [
+            Neon.sc.ContractParam.hash160(ECO_WALLET[6].account.address),
+            Neon.sc.ContractParam.hash160(ECO_WALLET[0].account.address),
+            Neon.sc.ContractParam.integer(1),
+            Neon.sc.ContractParam.any(),
+        ],
+    });
+
+    const tx = new Transaction({
+            signers: [{
+                account: ECO_WALLET[6].account.scriptHash,
+                scopes: WitnessScope.CalledByEntry,
+            }, ],
+            validUntilBlock: 2000,
+            systemFee: "100000001",
+            networkFee: "100000001",
+            script,
+        })
+        .sign(testWallet.accounts[0], NETWORK_MAGIC)
+        .sign(testWallet.accounts[1], NETWORK_MAGIC)
+        .sign(testWallet.accounts[1], NETWORK_MAGIC);
+}
+
 /*
 const facade = await Neon.api.NetworkFacade.fromConfig({ node: BASE_PATH_CLI });
 facade.transferToken(

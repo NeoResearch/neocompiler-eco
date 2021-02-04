@@ -338,19 +338,18 @@ function updateAddressSelectionBox() {
 //===============================================================
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
-    //Clear selection box
-    //var currentSelected = document.getElementById(walletSelectionBox).selectedOptions[0].index;
     document.getElementById(walletSelectionBox).options.length = 0;
     for (ka = 0; ka < ECO_WALLET.length; ++ka) {
-        // Removing .slice(0, 4)
-        // addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted.slice(0, 4) + "..." + ECO_WALLET[ka].account.encrypted.slice(-4), "wallet_" + ka, walletSelectionBox);
-        // addOptionToSelectionBox(ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4), "wallet_" + ka, walletSelectionBox);
-        var addressInfoToAdd = ECO_WALLET[ka].label + " - " + ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
-        var titleToOption = "Click to select wallet " + ECO_WALLET[ka].label;
+        var keyToAdd;
         if (isEncryptedOnly(ka))
-            addOptionToSelectionBox("Encrypted: " + ECO_WALLET[ka].account.encrypted, "wallet_" + ka, walletSelectionBox);
+            keyToAdd = ECO_WALLET[ka].account.encrypted;
         else
-            addOptionToSelectionBox(addressInfoToAdd, "wallet_" + ka, walletSelectionBox, titleToOption);
+            keyToAdd = ECO_WALLET[ka].account.address;
+
+        var addressInfoToAdd = ECO_WALLET[ka].label + " - " + keyToAdd.slice(0, 4) + "..." + keyToAdd.slice(-4);
+        var titleToOption = "Click to select wallet " + ECO_WALLET[ka].label;
+
+        addOptionToSelectionBox(addressInfoToAdd, "wallet_" + ka, walletSelectionBox, titleToOption);
     }
     document.getElementById(walletSelectionBox).selectedIndex = 0;
     document.getElementById(walletSelectionBox).onchange();

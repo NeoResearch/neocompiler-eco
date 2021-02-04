@@ -372,6 +372,7 @@ function deployContract() {
         "method": "invokefunction",
         "params": invokeparams
     };
+
     goToTabAndClick("nav-rpc");
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
     $("#txtRPCJson").val(jsonToCallStringified);

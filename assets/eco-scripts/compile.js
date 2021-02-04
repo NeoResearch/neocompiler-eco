@@ -189,7 +189,7 @@ function updateCompilersSelectionBox(compilerType) {
             for (c = 0; c < data.length; c++) {
                 if (data[c].compiler == compilerType) {
                     var valueToOption = compilerType + ":" + data[c].version;
-                    addOptionToSelectionBox(data[c].version, valueToOption, compilerSelectionBoxID, "Selected code example is " + valueToOption);
+                    addOptionToSelectionBox(data[c].version, valueToOption, compilerSelectionBoxID, "Selected compiler version is " + valueToOption);
                     if (data[c].version === "latest")
                         indexToSelect = compilerSelectionBoxObj.length - 1;
                 }
@@ -273,6 +273,8 @@ function socketCompilerCompilexResult() {
             timerSwal = 3500;
 
         }
+
+        // TODO add Another message in case that compiled by Errored
         swal("Compiled with success!", {
             icon: "success",
             title: titleSwal,

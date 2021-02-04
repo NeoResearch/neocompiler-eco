@@ -1,12 +1,17 @@
+function goToTabAndClick(tabToGo) {
+    $('.nav a[href="#' + tabToGo + '"]').tab('show');
+    // Simulate on click event as well
+    $('.nav a[href="#' + tabToGo + '"]')[0].onclick();
+}
+
 $(document).ready(() => {
     let url = location.href.replace(/\/$/, "");
 
     if (location.hash) {
         const pairSplitByHash = url.split("#");
         console.log("url is:" + pairSplitByHash)
-        $('.nav a[href="#' + pairSplitByHash[1] + '"]').tab('show');
-        // Simulate on click event as well
-        $('.nav a[href="#' + pairSplitByHash[1] + '"]')[0].onclick();
+        goToTabAndClick(pairSplitByHash[1]);
+
         url = location.href.replace(/\/#/, "#");
         history.replaceState(null, null, url);
         setTimeout(() => {

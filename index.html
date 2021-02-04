@@ -96,13 +96,7 @@
                 <option disabled>NEO MainNet</option>
             </select>
 
-            <select id="ecolabproviderselection" class="compiler-select w-seta selectclass" title="Select wallet provider">
-                <option disabled value="1">Wallet Provider</option>
-                <option selected>NeoCompiler-Eco</option>
-                <option disabled>NeoLogin</option>
-                <option disabled>O3</option>
-                <option disabled>NeoLine</option>
-            </select>
+            <button type="button" id="button-connect-wallet" onClick="connectWallet()" class="btn btn-default btn-wallet">CONNECT WALLET</button>
         </div>
         <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
 
@@ -1004,16 +998,10 @@
                                         <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <select name="createtx_from" onselect="fillMaxNeoGas()" onchange="fillMaxNeoGas()" id="createtx_from" class="custom-select form-control" size="6"></select>
-                                                    <br>
-                                                    <label id="labelForTransferFrom">From</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
-                                                    <br>
+                                                    <label id="labelForTransferFrom"></label>
                                                     <label id="labelForTransferTo">To</label>
+                                                    <br>
+                                                    <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
                                                 </div>
                                             </div>
                                         </div>

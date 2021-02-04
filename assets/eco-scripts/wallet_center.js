@@ -1,3 +1,5 @@
+var CONNECTED_WALLET_ID;
+
 //===============================================================
 function drawWalletsStatus() {
     var table = document.createElement("tbody");
@@ -14,7 +16,7 @@ function drawWalletsStatus() {
 
     headersLabel.innerHTML = "<b><center><font size='1'>LABEL</font></b>";
     headerRow.insertCell(-1).appendChild(headersLabel);
-    headersAddress.innerHTML = "<b><center><font size='1'>ADDRESS</font></b>";
+    headersAddress.innerHTML = "<b><center><font size='1'>SELECT ADDRESS</font></b>";
     headerRow.insertCell(-1).appendChild(headersAddress);
     headersNeoBalance.innerHTML = "<b><center><font size='1'>NEO</font></b>";
     headerRow.insertCell(-1).appendChild(headersNeoBalance);
@@ -46,9 +48,9 @@ function drawWalletsStatus() {
             addressBase58.setAttribute('value', ka);
             addressBase58.setAttribute('id', "btnGetBalanceAddress" + ka);
             addressBase58.onclick = function() {
-                getNep5TokensForAddress(this.value);
+                changeDefaultWallet(this.value);
             };
-            addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 3) + "..." + ECO_WALLET[ka].account.address.slice(-3);
+            addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
             txRow.insertCell(-1).appendChild(addressBase58);
 
             var walletNeo = document.createElement('span');
@@ -344,12 +346,7 @@ function updateInfoMSOwners() {
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function updateAddressSelectionBox() {
     updateInfoMSOwners();
-    //Adding all known address to NeonInvokeSelectionBox
-    //addAllKnownAddressesToSelectionBox("wallet_invokejs");
-    //addAllKnownAddressesToSelectionBox("wallet_deployjs");
-    //addAllKnownAddressesToSelectionBox("wallet_info");
     addAllKnownAddressesToSelectionBox("createtx_to");
-    addAllKnownAddressesToSelectionBox("createtx_from");
     //addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }
 //===============================================================
@@ -519,10 +516,9 @@ function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1
 }
 
 function fillMaxNeoGas() {
-    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#txcreatesendallneo");
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#txcreatesendallgas");
-    $("#labelForTransferFrom")[0].textContent = "From " + ECO_WALLET[addrFromIndex].label;
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[CONNECTED_WALLET_ID].account.address, "NEO", "#txcreatesendallneo");
+    getAllNeoOrGasFromNeoCli(ECO_WALLET[CONNECTED_WALLET_ID].account.address, "GAS", "#txcreatesendallgas");
+    $("#labelForTransferFrom")[0].textContent = "Sending from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
 }
 
 function fillTransferToLabel() {
@@ -554,4 +550,15 @@ function drawPopulate() {
     updateAddressSelectionBox();
 }
 
-drawPopulate()
+function connectWallet() {
+    goToTabAndClick("nav-wallet");
+    changeDefaultWallet(0, true);
+}
+
+function changeDefaultWallet(walletID, skipSwal = false) {
+    CONNECTED_WALLET_ID = walletID;
+    $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
+    fillMaxNeoGas();
+}
+
+drawPopulate();

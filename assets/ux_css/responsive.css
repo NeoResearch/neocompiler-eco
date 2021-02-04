@@ -17,6 +17,12 @@
         float: left;
         width: 100%;
     }
+    .btn-wallet {
+        height: 80px;
+        font-size: 45px!important;
+        float: left;
+        width: 100%;
+    }
     .col-xs-12 {
         float: left!important;
         flex: 100%!important;

@@ -327,6 +327,27 @@ body {
     float: left!important;
 }
 
+.btn-wallet {
+    padding: 10px 0 10px 0!important;
+    float: left!important;
+    margin-left: 15px!important;
+    text-align: center!important;
+    -webkit-appearance: none!important;
+    -moz-appearance: none!important;
+    appearance: none!important;
+    font-weight: bold!important;
+    font-size: 12px!important;
+    text-align: center!important;
+    border-radius: 20px!important;
+    outline: none!important;
+    -webkit-box-shadow: none!important;
+    box-shadow: none!important;
+    background: #00AF92;
+    color: white!important;
+    width: 150px;
+    border: none!important;
+}
+
 .btn-compile:hover {
     background: white;
     border: 1px solid #00AF92;

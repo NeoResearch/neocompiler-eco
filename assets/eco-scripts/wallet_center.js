@@ -83,48 +83,29 @@ function drawWalletsStatus() {
 //===============================================================
 //================ ADD NEW ADDRESS ==============================
 function addWalletFromForm() {
-    addressBase58ToAdd = document.getElementById('addressToAddBox').value;
-    scriptHashToAdd = document.getElementById('scriptHashToAddBox').value;
-    pubKeyToAdd = document.getElementById('pubKeyToAddBox').value;
-    wifToAdd = document.getElementById('wifToAddBox').value;
-    privKeyToAdd = document.getElementById('privKeyToAddBox').value;
-    vsToAdd = document.getElementById('vsToAddBox').value;
-    encryptedKeyToAdd = document.getElementById('encryptedKeyToAddBox').value;
-    multiSigFlag = $("#cbx_multisig")[0].checked;
-
+    var type = $("#type_to_register")[0].value;
+    var keyToAdd = $("#accountToAddInfo")[0].value;
     var accountToAdd;
-    if (encryptedKeyToAdd != '') {
-        accountToAdd = new Neon.wallet.Account(encryptedKeyToAdd);
-    } else {
-        if (multiSigFlag) {
-            accountToAdd = getAccountFromMultiSigVerification(vsToAdd);
-        } else {
-            if (pubKeyToAdd != '' && wifToAdd === '') {
-                accountToAdd = new Neon.wallet.Account(pubKeyToAdd);
-            } else {
-                if (addressBase58ToAdd != '' && wifToAdd === '') {
-                    accountToAdd = new Neon.wallet.Account(addressBase58ToAdd);
-                } else {
-                    if (scriptHashToAdd != '' && wifToAdd === '') {
-                        accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-                    } else {
-                        if (privKeyToAdd != '') {
-                            accountToAdd = new Neon.wallet.Account(privKeyToAdd);
-                        } else {
-                            if (wifToAdd != '') {
-                                accountToAdd = new Neon.wallet.Account(wifToAdd);
-                            } else {
-                                alert("Error when adding wallet. Values looks all empty.");
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    switch (type) {
+        case 'publickey':
+        case 'address':
+        case 'scripthash':
+        case 'privatekey':
+        case 'wif':
+        case 'encryptedkey':
+            accountToAdd = new Neon.wallet.Account(keyToAdd);
+            break;
+        case 'multisig':
+            accountToAdd = getAccountFromMultiSigVerification(keyToAdd);
+            break;
+        default:
+            console.error("Account to with not found type.")
     }
 
-    if (addToWallet(accountToAdd))
+    var labelToAdd = keyToAdd = $("#accountLabelToAddInfo")[0].value;
+    if (labelToAdd === "")
+        labelToAdd = "ImportedWallet_From_" + type;
+    if (addToWallet(accountToAdd, labelToAdd))
         updateAllWalletData();
 }
 
@@ -146,6 +127,7 @@ function addContractToWallet(scriptHashToAdd) {
         console.log("Nothing to add. Scripthash looks to be empty!");
 }
 
+/*
 function addContractToWalletFromVerification() {
     var verificationScriptToAdd = $("#createtx_from_contract").val();
     var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
@@ -158,7 +140,8 @@ function addContractToWalletFromVerification() {
         $('.nav-pills a[data-target="#wallet"]').tab('show');
     } else
         console.log("Nothing to add. Scripthash looks to be empty!");
-}
+}*/
+
 
 //TODO Add suport for adding multisig and specialSC
 function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
@@ -345,7 +328,7 @@ function updateInfoMSOwners() {
 //===============================================================
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
 function updateAddressSelectionBox() {
-    updateInfoMSOwners();
+    //updateInfoMSOwners();
     addAllKnownAddressesToSelectionBox("createtx_to");
     //addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }

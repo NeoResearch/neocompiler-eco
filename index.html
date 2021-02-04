@@ -1058,20 +1058,23 @@
 
                                     <div class="panel-body">
                                         <div class="row col-walet">
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <select id="type_to_register" class="compiler-select w-seta selectclass">
-                                                    <option value="wallet_0">Address (17 bytes) - WatchOnly </option>
-                                                    <option value="wallet_1">ScriptHash (20 bytes) - WatchOnly </option>
-                                                    <option value="wallet_1">PublicKey (33 bytes)</option>
-                                                    <option value="wallet_1">WIF (26 bytes)</option>
-                                                    <option value="wallet_1">PrivateKey (32 bytes)</option>
-                                                    <option value="wallet_1">EncryptedKey (29 bytes)</option>
-                                                    <option value="wallet_1">VerificationScript (?bytes)</option>
+                                                    <option value="address">Address (17 bytes) - WatchOnly </option>
+                                                    <option value="scripthash">ScriptHash (20 bytes) - WatchOnly </option>
+                                                    <option value="publickey">PublicKey (33 bytes)</option>
+                                                    <option value="wif">WIF (26 bytes)</option>
+                                                    <option value="privatekey">PrivateKey (32 bytes)</option>
+                                                    <option value="encryptedkey">EncryptedKey (29 bytes)</option>
+                                                    <option value="verification">VerificationScript (?bytes)</option>
                                                 </select>
                                                 <br>
                                             </div>
-                                            <div class="col-6">
+                                            <div class="col-4">
                                                 <input style="color: green;" placeholder="Insert account info" type="text" id="accountToAddInfo" maxlength="58" value="" size="58">
+                                            </div>
+                                            <div class="col-4">
+                                                <input style="color: green;" placeholder="Insert account label" type="text" id="accountLabelToAddInfo" value="" size="20">
                                             </div>
                                             <!--
                                             <div class="col-6">

@@ -17,7 +17,6 @@ services:
       - ./runHttpExpress.sh:/opt/runHttpExpress.sh
       - ../../index.html:/opt/index.html
       - ../../assets:/opt/assets/
-      - ../../examples:/opt/examples/
     healthcheck:
       test:
         - CMD

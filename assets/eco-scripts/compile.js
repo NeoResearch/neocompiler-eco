@@ -265,19 +265,19 @@ function socketCompilerCompilexResult() {
             updateABITextarea(JSON.parse(codeabi));
         }
 
-        var titleSwal = "";
-        var timerSwal = 1100;
+        var textSwal = "Proceed to Contracts tab.";
+        var timerSwal = 1700;
         if (contractExists) {
-            titleSwal = "However, contract is already registered on Local Contracts.";
+            textSwal = "However, contract is already registered on Local Contracts.";
             timerSwal = 3500;
-
         }
 
         if (dataSocket.manifest != "") {
             $('#collapseMore').collapse('show');
-            swal("Compiled with success!", {
+            swal({
+                title: "Compiled with success!",
                 icon: "success",
-                text: titleSwal,
+                text: textSwal,
                 buttons: false,
                 timer: timerSwal
             });

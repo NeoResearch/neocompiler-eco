@@ -16,13 +16,13 @@
 
 function transferMultiSign() {
     const script = Neon.sc.createScript({
-        scriptHash: GAS_ASSET,
+        scriptHash: "0x597b1471bbce497b7809e2c8f10db67050008b02",
         operation: "transfer",
         args: [
-            Neon.sc.ContractParam.hash160(ECO_WALLET[6].account.address),
-            Neon.sc.ContractParam.hash160(ECO_WALLET[0].account.address),
-            Neon.sc.ContractParam.integer(1),
-            Neon.sc.ContractParam.any(),
+            Neon.sc.ContractParam.hash160(ECO_WALLET[6].account.scriptHash),
+            Neon.sc.ContractParam.hash160(ECO_WALLET[0].account.scriptHash),
+            Neon.sc.ContractParam.integer(10000000),
+            Neon.sc.ContractParam.integer(1)
         ],
     });
 
@@ -32,13 +32,13 @@ function transferMultiSign() {
                 scopes: Neon.tx.WitnessScope.CalledByEntry,
             }, ],
             validUntilBlock: Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1,
-            systemFee: 100000000,
-            networkFee: 100000000,
             script,
+            systemFee: getFixed8Integer(500),
+            networkFee: getFixed8Integer(600),
         })
-        .sign(ECO_WALLET[2].account, NETWORK_MAGIC, 1024)
-        .sign(ECO_WALLET[3].account, NETWORK_MAGIC, 1024)
-        .sign(ECO_WALLET[4].account, NETWORK_MAGIC, 1024);
+        .sign(ECO_WALLET[2].account, NETWORK_MAGIC)
+        .sign(ECO_WALLET[3].account, NETWORK_MAGIC)
+        .sign(ECO_WALLET[4].account, NETWORK_MAGIC);
 
     const multisigWitness = Neon.tx.Witness.buildMultiSig(
         tx.serialize(false),
@@ -49,9 +49,38 @@ function transferMultiSign() {
     tx.witnesses = [multisigWitness];
 
     var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-    const result = client.sendRawTransaction(tx);
+    return client.sendRawTransaction(tx);
 }
+// a.then(function(v) {console.log(v);})
 
+function transferSingleSign() {
+    const script = Neon.sc.createScript({
+        scriptHash: "0x70e2301955bf1e74cbb31d18c2f96972abadb328",
+        operation: "transfer",
+        args: [
+            Neon.sc.ContractParam.hash160(ECO_WALLET[3].account.scriptHash),
+            Neon.sc.ContractParam.hash160(ECO_WALLET[0].account.scriptHash),
+            Neon.sc.ContractParam.integer(1),
+            Neon.sc.ContractParam.hash160(ECO_WALLET[3].account.scriptHash)
+        ],
+    });
+
+    const tx = new Neon.tx.Transaction({
+            signers: [{
+                account: ECO_WALLET[3].account.scriptHash,
+                scopes: Neon.tx.WitnessScope.CalledByEntry,
+            }, ],
+            validUntilBlock: Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1,
+            systemFee: getFixed8Integer(10),
+            networkFee: getFixed8Integer(10),
+            script,
+        })
+        .sign(ECO_WALLET[3].account, NETWORK_MAGIC);
+
+
+    var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+    return client.sendRawTransaction(tx);
+}
 /*
 const facade = await Neon.api.NetworkFacade.fromConfig({ node: BASE_PATH_CLI });
 facade.transferToken(

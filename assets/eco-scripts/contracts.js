@@ -203,19 +203,13 @@ function invokeFunction() {
         "params": invokeparams
     };
 
-    console.log(jsonForInvokingFunction);
-    console.log(JSON.stringify(jsonForInvokingFunction));
-    $.post(
-        BASE_PATH_CLI, // Gets the URL to sent the post to
-        JSON.stringify(jsonForInvokingFunction), // Serializes form data in standard format
-        function(data) {
-            console.log(data);
-        },
-        "json" // The format the response should be in
-    ).fail(function() {
-        console.log("Error when trying to get jsonForInvokingFunction");
-    }); //End of POST for search
+    goToTabAndClick("nav-rpc");
 
+    console.log(jsonForInvokingFunction);
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    console.log(jsonToCallStringified);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall();
 }
 
 function checkIfNative(contractHashToAdd) {

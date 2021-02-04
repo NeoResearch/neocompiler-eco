@@ -727,35 +727,38 @@
                                             </select>
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="txtRPCJson">RPC Json Model</label>
+                                                <label for="txtRPCJson">Insert RPC Json</label>
                                                 <input id="txtRPCJson" name="contracthash" class="form-control" placeholder="RPC Json Model">
                                             </div>
                                         </div>
+                                    </div>
 
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile"><i class="fas fa-phone"></i> Invoke RPC</button>
+                                        </div>
+                                    </div>
 
+                                    <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label for="txtRPCJsonOut">Output RPC</label>
-                                                <textarea id="txtRPCJsonOut" rows="7" class="form-control" style="background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
+                                                <!--<label for="txtRPCJsonOut">Output</label>-->
+                                                <textarea id="txtRPCJsonOut" rows="8" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px; background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
                                             </div>
                                         </div>
+                                    </div>
 
-
+                                    <div class="row">
                                         <div class="col-md-12">
-                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC" class="btn btn-info btn-sm">
-                                                <i class="fas fa-phone"></i>
-                                            </button>
-                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-info btn-sm" onclick="convertJsonNotifications()">
-                                                <i class="fas fa-exchange-alt"></i> Notifications
-                                            </button>
-
-                                            <textarea id="txt_notifications" readonly="readonly" rows="5" cols="100" placeholder="Listing Notifications"></textarea>
+                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i> Get Notifications</button>
+                                            <!-- cols="100" -->
+                                            <textarea id="txt_notifications" style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;" readonly="readonly" rows="6" placeholder="Notifications/Events are listed here."></textarea>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1835,7 +1838,7 @@
 <script src="assets/ux_js/sweetalert.min-23-12-2020.js" type="text/javascript"></script>
 
 <!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
-<script src="assets/third_party_js/neon-js-browser-next-5.js"></script>
+<script src="assets/third_party_js/neon-js-browser-next-bf4b16.js"></script>
 
 <!-- Load socket-io-->
 <script src="assets/third_party_js/socket.io-2.3.1.js"></script>

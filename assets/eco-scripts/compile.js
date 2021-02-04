@@ -264,7 +264,6 @@ function socketCompilerCompilexResult() {
             var codeabi = atob(dataSocket.abi);
             updateABITextarea(JSON.parse(codeabi));
         }
-        $('#collapseMore').collapse('show');
 
         var titleSwal = "";
         var timerSwal = 1100;
@@ -274,13 +273,23 @@ function socketCompilerCompilexResult() {
 
         }
 
-        // TODO add Another message in case that compiled by Errored
-        swal("Compiled with success!", {
-            icon: "success",
-            title: titleSwal,
-            buttons: false,
-            timer: timerSwal
-        });
+        if (dataSocket.manifest != "") {
+            $('#collapseMore').collapse('show');
+            swal("Compiled with success!", {
+                icon: "success",
+                text: titleSwal,
+                buttons: false,
+                timer: timerSwal
+            });
+        } else {
+            swal({
+                icon: "info",
+                title: "Compiled with coding error!",
+                text: "Please check compiling log.",
+                buttons: false,
+                timer: 8000
+            });
+        }
     });
 }
 setCompiler("csharp");

@@ -87,10 +87,12 @@ app.get('/statusnode/:node', function(req, res) {
         res.send("This is not a valid node parameter");
     }
 
+
+    // $(ls -1rt | tail -n1) prints the last file of ls, instead of *.log
     res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-    var cmddocker = 'cat /opt/nodes-logs/logs-neocli-node' + req.params.node + '/*.log | tail -n 500';
+    var cmddocker = 'cat /opt/nodes-logs/logs-neocli-node' + req.params.node + '/$(ls -1rt | tail -n1) | tail -n 500';
     if (req.params.node == 0)
-        cmddocker = 'cat /opt/nodes-logs/logs-neocli-noderpc/*.log | tail -n 500';
+        cmddocker = 'cat /opt/nodes-logs/logs-neocli-noderpc/$(ls -1rt | tail -n1) | tail -n 500';
     console.log("cmddocker is " + cmddocker);
     var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
         if (e instanceof Error) {

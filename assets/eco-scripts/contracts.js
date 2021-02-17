@@ -102,6 +102,28 @@ function createManifest() {
     drawParametersTable(cI);
 }
 
+function addAllContractParamsToAny(paramTypeSelectionBox) {
+    addPossibleParamsToAny("Any", "Any", paramTypeSelectionBox);
+    addPossibleParamsToAny("Signature", "Signature", paramTypeSelectionBox);
+    addPossibleParamsToAny("Boolean", "Boolean", paramTypeSelectionBox);
+    addPossibleParamsToAny("Integer", "Integer", paramTypeSelectionBox);
+    addPossibleParamsToAny("Hash160", "Hash160", paramTypeSelectionBox);
+    addPossibleParamsToAny("Hash256", "Hash256", paramTypeSelectionBox);
+    addPossibleParamsToAny("ByteArray", "ByteArray", paramTypeSelectionBox);
+    addPossibleParamsToAny("PublicKey", "PublicKey", paramTypeSelectionBox);
+    addPossibleParamsToAny("String", "String", paramTypeSelectionBox);
+    addPossibleParamsToAny("String", "String", paramTypeSelectionBox);
+    addPossibleParamsToAny("Array", "Array", paramTypeSelectionBox);
+    addPossibleParamsToAny("Map", "Map", paramTypeSelectionBox);
+}
+
+function addPossibleParamsToAny(textToOption, valueToOption, anySelectionBox) {
+    var option = document.createElement("option");
+    option.text = textToOption;
+    option.value = valueToOption;
+    anySelectionBox.appendChild(option);
+}
+
 function drawParametersTable() {
     var table = document.createElement("tbody");
     var headerRow = document.createElement('tr');
@@ -133,10 +155,20 @@ function drawParametersTable() {
             paramName.textContent = method.parameters[p].name;
             txRow.insertCell(-1).appendChild(paramName);
 
-            var paramType = document.createElement('span');
-            paramType.setAttribute("class", "badge");
-            paramType.textContent = method.parameters[p].type;
-            txRow.insertCell(-1).appendChild(paramType);
+            // If Any create a selection box
+            if (method.parameters[p].type == "Any") {
+                var paramType = document.createElement('select');
+                paramType.setAttribute("class", "badge");
+                paramType.setAttribute("id", "paramTypeSelectionBoxForAny" + p);
+                paramType.textContent = method.parameters[p].type;
+                addAllContractParamsToAny(paramType);
+                txRow.insertCell(-1).appendChild(paramType);
+            } else {
+                var paramType = document.createElement('span');
+                paramType.setAttribute("class", "badge");
+                paramType.textContent = method.parameters[p].type;
+                txRow.insertCell(-1).appendChild(paramType);
+            }
 
             var paramInput = document.createElement('input');
             paramInput.setAttribute('id', "paramInput" + p);
@@ -295,8 +327,23 @@ function invokeFunction() {
             });
             break;
         }
+        var paramType = method.parameters[p].type;
+        // Handle Any Parameters
+        if (paramType == "Any") {
+            paramType = $("#paramTypeSelectionBoxForAny" + p)[0].value;
+            // Still Any means that user did not select a type
+            if (paramType == "Any") {
+                swal("Error. Parameter " + p + " type should not be Any. Pick an option.", {
+                    icon: "error",
+                    content: content,
+                    buttons: false,
+                    timer: 3500,
+                });
+                break;
+            }
+        }
         var parameter = {
-            type: method.parameters[p].type,
+            type: paramType,
             value: $(inputVar)[0].value
         };
         params.push(parameter);

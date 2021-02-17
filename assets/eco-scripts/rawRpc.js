@@ -18,8 +18,47 @@ function rawRpcCall() {
     ).fail(function() {
         $("#txtRPCJsonOut").val("failed to invoke network!");
     }); //End of POST for search
+}
+
+function drawSigners() {
+    var table = document.createElement("tbody");
+    var headerRow = document.createElement('tr');
+    headerRow.className = "headerrd";
+    var headersAccount = document.createElement('td');
+    var headersScope = document.createElement('td');
 
 
+    headersAccount.innerHTML = "<b><center><font size='1'>ACCOUNT</font></b>";
+    headerRow.insertCell(-1).appendChild(headersAccount);
+    headersScope.innerHTML = "<b><center><font size='1'>SCOPES</font></b>";
+    headerRow.insertCell(-1).appendChild(headersScope);
+
+    table.appendChild(headerRow);
+
+    document.getElementById("tableSigners").innerHTML = "";
+
+    var txRow = table.insertRow(-1);
+
+    var paramAccount = document.createElement('span');
+    paramAccount.setAttribute("class", "badge");
+    paramAccount.textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash;
+    txRow.insertCell(-1).appendChild(paramAccount);
+
+    var paramScope = document.createElement('span');
+    paramScope.setAttribute("class", "badge");
+    paramScope.textContent = "CalledByEntry";
+    txRow.insertCell(-1).appendChild(paramScope);
+
+    document.getElementById("tableSigners").appendChild(table);
+}
+
+function fillRealTxFromInvokeFunction() {
+    var invokeResult = JSON.parse($("#txtRPCJsonOut").val());
+    $("#sys_fee")[0].value = invokeResult.result.gasconsumed / 100000000;
+    $("#net_fee")[0].value = 1000 / 100000000;
+    $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);
+    $("#valid_until")[0].value = Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1;
+    drawSigners();
 }
 
 function convertJsonNotifications() {

@@ -757,6 +757,43 @@
                                             <textarea id="txt_notifications" style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;" readonly="readonly" rows="6" placeholder="Notifications/Events are listed here."></textarea>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i> Get Notifications</button>
+                                            <!-- cols="100" -->
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <label for="tableSigners">Signers</label>
+                                            <table id="tableSigners" class="table text-white twalllet">
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-4">
+                                            <label for="net_fee">Network Fees</label>
+                                            <input type="number" id="net_fee" step="0.00000001" size="10" value="0" class="form-control" required="">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="sys_fee">System Fees</label>
+                                            <input type="number" id="sys_fee" step="0.00000001" size="10" value="0" class="form-control" required="">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="valid_until">Valid Until</label>
+                                            <input type="number" id="valid_until" step="1" size="10" value="0" class="form-control" required="">
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <label for="tx_script">Script</label>
+                                            <textarea id="tx_script" rows="2" cols="100" placeholder="Transaction Script" style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

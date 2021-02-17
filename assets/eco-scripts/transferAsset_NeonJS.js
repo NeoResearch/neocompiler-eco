@@ -16,7 +16,7 @@
 
 function transferMultiSign() {
     const script = Neon.sc.createScript({
-        scriptHash: "0x597b1471bbce497b7809e2c8f10db67050008b02",
+        scriptHash: "0xf61eebf573ea36593fd43aa150c055ad7906ab83",
         operation: "transfer",
         args: [
             Neon.sc.ContractParam.hash160(ECO_WALLET[6].account.scriptHash),
@@ -26,6 +26,7 @@ function transferMultiSign() {
         ],
     });
 
+    //const script = "1102809698000c14572091cc325c657b4b19e0c7104bae06227ab9120c148852656696c49a819b7f5b4b946383a25ee00b6614c01f0c087472616e736665720c1483ab0679ad55c050a13ad43f5936ea73f5eb1ef641627d5b52";
     const tx = new Neon.tx.Transaction({
             signers: [{
                 account: ECO_WALLET[6].account.scriptHash,

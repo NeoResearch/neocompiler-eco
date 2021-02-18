@@ -495,14 +495,35 @@ function updateTransferAmountInfoFromPercentage() {
     var percentage = $("#transfer_nep17_amount_range")[0].value / 100;
     $("#transfer_nep17_amount")[0].value = percentage * $("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML;
     updateTransferAmountInfo();
+    //$("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].style = "border: 1px solid #0aac7c"
+    /*@keyframes pulse {
+        0% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+        }
+    
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+    
+        100% {
+            transform: scale(0.95);
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }*/
 }
 
 function updateTransferAmountInfo() {
-    $("#labelForTransferAmount")[0].textContent = "- Will send " + $("#transfer_nep17_amount")[0].value;
+    var currentAmount = $("#transfer_nep17_amount")[0].value;
+    $("#labelForTransferAmount")[0].textContent = "Transferring " + currentAmount;
+    $("#transfer_nep17_amount")[0].style = "color: white!important;"
+    if (parseFloat(currentAmount) > parseFloat($("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML))
+        $("#transfer_nep17_amount")[0].style = "color: #ff0000!important;"
 }
 
 function updateTransferLabel() {
-    $("#labelForTransferFrom")[0].textContent = "Sending from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
+    $("#labelForTransferFrom")[0].textContent = " from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
     // Updating with all know NEP 17 options
     $("#nep17_asset")[0].length = 0;
     addAssetsToTransfer("NEO");
@@ -606,7 +627,7 @@ function createNep17Tx() {
 
             invokeFunctionWithParams(contractHash, method, params);
 
-            swal("Transfer is being created!", {
+            swal("Transfer has been created!", {
                 icon: "success",
             });
         } else {

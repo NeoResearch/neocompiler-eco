@@ -708,13 +708,6 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i> Get Notifications</button>
-                                            <!-- cols="100" -->
-                                        </div>
-                                    </div>
-
                                     <div class="row mb-2">
                                         <div class="col-md-12">
                                             <label for="tableSigners">Signers</label>
@@ -744,6 +737,12 @@
                                             <textarea id="tx_script" rows="2" cols="100" placeholder="Transaction Script" style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="signAndRelay()"> Relay to Blockchain</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -753,8 +752,6 @@
 
 
                 <!-- PAGINA ACTIVITY INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-activity" role="tabpanel" aria-labelledby="nav-home-tab">
 
                     <nav class="nav-links" aria-label="breadcrumb">
@@ -983,10 +980,10 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label id="labelForTransferFrom"></label>
-                                        <label id="labelForTransferTo">To</label>
-                                        <label id="labelForTransferAmount">- Will send X</label>
-                                        <label id="labelForTransferAsset"></label>
+                                        <label id="labelForTransferAmount" style="font-size: 20px!important;">Transferring X</label>
+                                        <label id="labelForTransferAsset" style="font-size: 20px!important;"></label>
+                                        <label id="labelForTransferFrom" style="font-size: 20px!important;"></label>
+                                        <label id="labelForTransferTo" style="font-size: 20px!important;">To</label>
                                         <br>
                                         <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select" size="3"></select>
                                     </div>
@@ -998,7 +995,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <input type="range" onchange="updateTransferAmountInfoFromPercentage()" id="transfer_nep17_amount_range" value="0" min="0" max="100" />
-                                        <input type="number" onchange="updateTransferAmountInfo()" id="transfer_nep17_amount" value="0"></input>
+                                        <input type="number" onchange="updateTransferAmountInfo()" id="transfer_nep17_amount" value="0" min="0"></input>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="button" onclick="createNep17Tx()" id="txcreate" class="btn btn-default btn-compile">Create Transfer</button>

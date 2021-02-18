@@ -63,3 +63,5 @@ var socketCompilers;
 var refreshHeadersNeoCli = 0;
 
 var NUMBER_FAILS_REQUESTS = 0;
+
+var RELAYED_TXS = [];

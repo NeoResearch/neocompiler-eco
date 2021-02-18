@@ -147,5 +147,5 @@ function signAndRelay() {
 
 
     var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-    return client.sendRawTransaction(tx);
+    RELAYED_TXS.push(client.sendRawTransaction(tx));
 }

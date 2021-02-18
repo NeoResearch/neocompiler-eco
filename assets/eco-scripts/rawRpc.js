@@ -6,13 +6,15 @@ function frmRPCJson() {
 };
 
 
-function rawRpcCall() {
+function rawRpcCall(fillRealTx = false) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
         function(data) {
             $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
             convertJsonNotifications();
+            if (fillRealTx)
+                fillRealTxFromInvokeFunction();
         },
         "json" // The format the response should be in
     ).fail(function() {
@@ -54,6 +56,9 @@ function drawSigners() {
 
 function fillRealTxFromInvokeFunction() {
     var invokeResult = JSON.parse($("#txtRPCJsonOut").val());
+    if (!invokeResult.result)
+        return;
+
     $("#sys_fee")[0].value = invokeResult.result.gasconsumed / 100000000;
     $("#net_fee")[0].value = 1000 / 100000000;
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);

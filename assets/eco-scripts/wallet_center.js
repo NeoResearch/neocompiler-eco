@@ -506,11 +506,9 @@ function addAssetsToTransfer(valueToOption) {
 
 function updateTransferAssetInfo() {
     var selectedAsset = $("#nep17_asset")[0].value;
-    $("#labelForTransferAsset")[0].textContent = " - Will send " + selectedAsset;
+    $("#labelForTransferAsset")[0].textContent = selectedAsset;
     console.log($("#wallet" + selectedAsset + CONNECTED_WALLET_ID)[0].innerHTML);
 
-    //$("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].style
-    // $("#wallet" + selectedAsset + CONNECTED_WALLET_ID)[0]
 }
 
 function updateTransferLabel() {
@@ -569,3 +567,71 @@ function changeDefaultWallet(walletID, skipSwal = false) {
 }
 
 drawPopulate();
+
+function checkIfWalletIsConnected() {
+    if (CONNECTED_WALLET_ID == -1) {
+        swal("Connect a wallet and account first.", {
+            icon: "error",
+            buttons: false,
+            timer: 5500,
+        });
+        return false;
+    }
+    return true;
+}
+
+function createNep17Tx() {
+    if (!checkIfWalletIsConnected())
+        return false;
+
+    var amountToTransfer = $("#transfer_nep17_amount")[0].value;
+    if ($("#transfer_nep17_amount")[0].value == 0) {
+        swal("Transfer amount is currently 0", {
+            icon: "error",
+            buttons: false,
+            timer: 5500,
+        });
+        return false;
+    }
+
+    swal({
+        title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
+        text: "Will send " + amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + $("#labelForTransferTo")[0].textContent,
+        type: "info",
+        buttons: ["Cancel!", "Proceed", ],
+    }).then((willTransfer) => {
+        if (willTransfer) {
+
+            var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
+
+            var params = [{
+                    type: "Hash160",
+                    value: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash
+                },
+                {
+                    type: "Hash160",
+                    value: ECO_WALLET[addrToIndex].account.scriptHash
+                },
+                {
+                    type: "Integer",
+                    value: amountToTransfer
+                },
+                {
+                    type: "Integer",
+                    value: 1
+                },
+            ];
+
+            var contractHash = getNep17HashByName($("#labelForTransferAsset")[0].textContent);
+            var method = "transfer";
+
+            invokeFunctionWithParams(contractHash, method, params);
+
+            swal("Transfer is being created!", {
+                icon: "success",
+            });
+        } else {
+            swal("Ok! Cancelled.");
+        }
+    });
+}

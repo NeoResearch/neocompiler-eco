@@ -1032,37 +1032,28 @@
                             </h4>
                             <div class="container">
                                 <div class="row">
-                                    <div class="container">
-
-                                        <div class="row mb-2">
-                                            <div class="col-md-12">
-                                                <label id="labelForTransferFrom"></label>
-                                                <label id="labelForTransferTo">To</label>
-                                                <label id="labelForTransferAsset"></label>
-                                                <label id="labelForTransferAmount"></label>
-                                                <br>
-                                                <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="3"></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-2">
-                                            <div class="col-md-6">
-                                                <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass">                                                
-                                            </div>
-                                            <div class="col-md-6">                                                
-                                                    <input type="number" id="transfer_nep17_amount" value="0">                                                
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-2">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i class="fas fa-space-shuttle"></i> Transfer </button>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-12">
+                                        <label id="labelForTransferFrom"></label>
+                                        <label id="labelForTransferTo">To</label>
+                                        <label id="labelForTransferAmount">- Will send X</label>
+                                        <label id="labelForTransferAsset"></label>
+                                        <br>
+                                        <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select" size="3"></select>
                                     </div>
                                 </div>
+
+                                <div class="row" style="padding:10px 0 10px 0;">
+                                    <div class="col-md-4">
+                                        <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass"></select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="number" id="transfer_nep17_amount" value="0"></input>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="button" onclick="createNep17Tx()" id="txcreate" class="btn btn-default btn-compile">Create Transfer</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1073,7 +1064,7 @@
                                 <button type="button" onclick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                             </h4>
                             <div class="container">
-                                <div class="row" style="padding:0 20px 0 20px;">
+                                <div class="row" style="padding:0 20px 10px 20px;">
 
                                     <div class="panel-body">
                                         <div class="row col-walet">

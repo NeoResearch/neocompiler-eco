@@ -295,24 +295,41 @@ function deleteLocalContract() {
     });
 }
 
-function checkIfWalletIsConnected() {
-    if (CONNECTED_WALLET_ID == -1) {
-        swal("Connect a wallet and account first.", {
-            icon: "error",
-            buttons: false,
-            timer: 5500,
-        });
-        return false;
-    }
-    return true;
+
+function invokeFunctionWithParams(contractHash, method, params) {
+    if (!checkIfWalletIsConnected())
+        return;
+
+    var invokeparams = [];
+
+    invokeparams.push(contractHash);
+    invokeparams.push(method);
+    invokeparams.push(params);
+
+    var extra = [{
+        account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+        scopes: "CalledByEntry"
+    }];
+    invokeparams.push(extra);
+
+
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "invokefunction",
+        "params": invokeparams
+    };
+
+    goToTabAndClick("nav-rpc");
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(true);
 }
 
 function invokeFunction() {
     var m = $("#contract_methods")[0].selectedIndex;
     var method = CONTRACTS_TO_LIST[getCurrentSelectedContract()].manifest.abi.methods[m];
-    var invokeparams = [];
-    invokeparams.push(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash);
-    invokeparams.push(method.name);
+
     var params = [];
     for (p = 0; p < method.parameters.length; p++) {
         var inputVar = "#paramInput" + p;
@@ -348,34 +365,10 @@ function invokeFunction() {
         };
         params.push(parameter);
     }
-    invokeparams.push(params);
 
-    if (!checkIfWalletIsConnected())
-        return;
-
-    var extra = [{
-        account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
-        scopes: "CalledByEntry"
-    }];
-
-    invokeparams.push(extra);
-
-    console.log(invokeparams);
-    var jsonForInvokingFunction = {
-        "jsonrpc": "2.0",
-        "id": 5,
-        "method": "invokefunction",
-        "params": invokeparams
-    };
-
-    goToTabAndClick("nav-rpc");
-
-    console.log(jsonForInvokingFunction);
-    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
-    console.log(jsonToCallStringified);
-    $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall();
+    invokeFunctionWithParams(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash, method.name, params);
 }
+
 
 function getNativeContractIndexByName(contractName) {
     for (nc = 0; nc < NATIVE_CONTRACTS.length; nc++)
@@ -385,15 +378,6 @@ function getNativeContractIndexByName(contractName) {
 }
 
 function deployContract() {
-    if (!checkIfWalletIsConnected())
-        return;
-
-    var invokeparams = [];
-
-    var contractManagementID = getNativeContractIndexByName("ContractManagement");
-    invokeparams.push(NATIVE_CONTRACTS[contractManagementID].hash);
-    invokeparams.push("deploy");
-
     var contractToDeployID = $("#local_contracts")[0].selectedIndex;
     var params = [{
             type: "ByteArray",
@@ -406,22 +390,17 @@ function deployContract() {
     ];
     invokeparams.push(params);
 
-    var extra = [{
-        account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
-        scopes: "CalledByEntry"
-    }];
-    invokeparams.push(extra);
+    var contractManagementID = getNativeContractIndexByName("ContractManagement");
+    invokeFunctionWithParams(NATIVE_CONTRACTS[contractManagementID].hash, "deploy", params)
+}
 
-
-    var jsonForInvokingFunction = {
-        "jsonrpc": "2.0",
-        "id": 5,
-        "method": "invokefunction",
-        "params": invokeparams
-    };
-
-    goToTabAndClick("nav-rpc");
-    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
-    $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall();
+function getNep17HashByName(name) {
+    switch (name) {
+        case "NEO":
+            return NEO_ASSET;
+        case "GAS":
+            return GAS_ASSET;
+        default:
+            return -1;
+    }
 }

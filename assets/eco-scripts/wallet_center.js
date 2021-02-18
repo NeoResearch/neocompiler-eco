@@ -127,23 +127,7 @@ function addContractToWallet(scriptHashToAdd) {
         console.log("Nothing to add. Scripthash looks to be empty!");
 }
 
-/*
-function addContractToWalletFromVerification() {
-    var verificationScriptToAdd = $("#createtx_from_contract").val();
-    var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
-
-    if (scriptHashToAdd != '') {
-        var accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-        if (addToWallet(accountToAdd, verificationScriptToAdd))
-            updateAllWalletData();
-
-        $('.nav-pills a[data-target="#wallet"]').tab('show');
-    } else
-        console.log("Nothing to add. Scripthash looks to be empty!");
-}*/
-
-
-//TODO Add suport for adding multisig and specialSC
+//TODO Add support for adding multisig and specialSC
 function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
     if (accountToAdd._encrypted != null) {
         if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
@@ -326,13 +310,6 @@ function updateInfoMSOwners() {
 }
 //===============================================================
 
-//===============================================================
-//============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
-function updateAddressSelectionBox() {
-    //updateInfoMSOwners();
-    addAllKnownAddressesToSelectionBox("createtx_to");
-}
-//===============================================================
 
 //===============================================================
 //============= UPDATE ALL SELECTION BOX THAT SHOWS ADDRESSES ===
@@ -357,7 +334,7 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
 
 function updateAllWalletData(updateCache = true) {
     populateAllWalletData();
-    updateAddressSelectionBox();
+    addAllKnownAddressesToSelectionBox("createtx_to");
     drawWalletsStatus();
     changeWalletInfo();
 
@@ -556,7 +533,7 @@ function selfTransfer(idToTransfer) {
 function drawPopulate() {
     drawWalletsStatus();
     populateAllWalletData();
-    updateAddressSelectionBox();
+    addAllKnownAddressesToSelectionBox("createtx_to");
 }
 
 function connectWallet() {
@@ -569,8 +546,6 @@ function changeDefaultWallet(walletID, skipSwal = false) {
     $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
     updateTransferLabel();
 }
-
-drawPopulate();
 
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
@@ -639,3 +614,21 @@ function createNep17Tx() {
         }
     });
 }
+
+
+drawPopulate();
+
+/*
+function addContractToWalletFromVerification() {
+    var verificationScriptToAdd = $("#createtx_from_contract").val();
+    var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
+
+    if (scriptHashToAdd != '') {
+        var accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
+        if (addToWallet(accountToAdd, verificationScriptToAdd))
+            updateAllWalletData();
+
+        $('.nav-pills a[data-target="#wallet"]').tab('show');
+    } else
+        console.log("Nothing to add. Scripthash looks to be empty!");
+}*/

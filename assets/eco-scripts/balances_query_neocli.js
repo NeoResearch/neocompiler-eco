@@ -9,7 +9,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
             //console.log(resultUnclaimed);
             var amountUnclaimable = 0;
             if (resultUnclaimed.result)
-                amountUnclaimable = resultUnclaimed.result.unclaimed / 100000000;
+                amountUnclaimable = resultUnclaimed.result.unclaimed / getFixed8();
 
             var selfTransferID = "selfTransfer(" + indexKA + ")";
             fillSpanTextOrInputBox("#walletUnclaim" + indexKA, '<a onclick=' + selfTransferID + '><i class="fas fa-sm fa-arrow-left"> ' + amountUnclaimable + '</i></a> ', amountUnclaimable);
@@ -38,7 +38,7 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
                     if (resultJsonData.result.balance[i].assethash == NEO_ASSET)
                         $("#walletNEO" + addressID)[0].innerHTML = availableAmount;
                     if (resultJsonData.result.balance[i].assethash == GAS_ASSET)
-                        $("#walletGAS" + addressID)[0].innerHTML = availableAmount / 100000000;
+                        $("#walletGAS" + addressID)[0].innerHTML = availableAmount / getFixed8();
                 } // end loop for every asset
             } else {
                 $("#walletNEO" + addressID)[0].innerHTML = "-";

@@ -59,8 +59,8 @@ function fillRealTxFromInvokeFunction() {
     if (!invokeResult.result)
         return;
 
-    $("#sys_fee")[0].value = invokeResult.result.gasconsumed / 100000000;
-    $("#net_fee")[0].value = 1000 / 100000000;
+    $("#sys_fee")[0].value = invokeResult.result.gasconsumed / getFixed8();
+    $("#net_fee")[0].value = 1000 / getFixed8();
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);
     $("#valid_until")[0].value = Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1;
     drawSigners();

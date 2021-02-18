@@ -21,6 +21,10 @@ function getFixed8Integer(number) {
     return number * 100000000;
 }
 
+function getFixed8() {
+    return 100000000;
+}
+
 // javascript big integer to big-endian byte array (C# representation)
 function bigint2bebytearray(bigint) {
     if (bigint >= 0) {

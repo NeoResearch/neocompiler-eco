@@ -1047,6 +1047,7 @@
                                         <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass"></select>
                                     </div>
                                     <div class="col-md-4">
+                                        <input type="range" onchange="updateTransferAmountInfoFromPercentage()" id="transfer_nep17_amount_range" value="0" min="0" max="100" />
                                         <input type="number" onchange="updateTransferAmountInfo()" id="transfer_nep17_amount" value="0"></input>
                                     </div>
                                     <div class="col-md-4">

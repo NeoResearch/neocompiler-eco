@@ -508,6 +508,15 @@ function updateTransferAssetInfo() {
     var selectedAsset = $("#nep17_asset")[0].value;
     $("#labelForTransferAsset")[0].textContent = selectedAsset;
     $("#transfer_nep17_amount")[0].value = 0;
+    $("#transfer_nep17_amount_range")[0].value = 0;
+    updateTransferAmountInfo();
+}
+
+function updateTransferAmountInfoFromPercentage() {
+    if (!checkIfWalletIsConnected())
+        return false;
+    var percentage = $("#transfer_nep17_amount_range")[0].value / 100;
+    $("#transfer_nep17_amount")[0].value = percentage * $("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML;
     updateTransferAmountInfo();
 }
 
@@ -526,18 +535,9 @@ function updateTransferLabel() {
 }
 
 
-
 function fillTransferToLabel() {
     var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
     $("#labelForTransferTo")[0].textContent = "To " + ECO_WALLET[addrToIndex].label;
-}
-
-function fillAllNeo() {
-    $("#createtx_NEO")[0].value = $("#walletNEO" + CONNECTED_WALLET_ID)[0].innerHTML;
-}
-
-function fillAllGas() {
-    $("#createtx_GAS")[0].value = $("#walletGAS" + CONNECTED_WALLET_ID)[0].innerHTML;
 }
 
 function selfTransfer(idToTransfer) {

@@ -99,10 +99,10 @@ function convertJsonNotifications() {
 
 
 function signAndRelay() {
-    //var sysFee = getFixed8Integer($("#sys_fee")[0].value);
-    //var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
-    var sysFee = getFixed8Integer(500);
-    var netFee = getFixed8Integer(600);
+    var sysFee = Math.ceil(getFixed8Integer($("#sys_fee")[0].value));
+    var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
+    //var sysFee = getFixed8Integer(500);
+    //var netFee = getFixed8Integer(600);
     var validUntil = Number($("#valid_until")[0].value);
     var script = $("#tx_script")[0].value;
 
@@ -131,12 +131,8 @@ function signAndRelay() {
             });
         }
 
-        for (sa = 0; sa < signingAccountsIDs.length; sa++) {
-            console.log(sa + "/" + signingAccountsIDs.length)
-            console.log(signingAccountsIDs[sa]);
-            console.log(ECO_WALLET[signingAccountsIDs[sa]])
+        for (sa = 0; sa < signingAccountsIDs.length; sa++)
             tx.sign(ECO_WALLET[signingAccountsIDs[sa]].account, NETWORK_MAGIC)
-        }
 
         const multisigWitness = Neon.tx.Witness.buildMultiSig(
             tx.serialize(false),

@@ -592,6 +592,10 @@ function createNep17Tx() {
         return false;
 
     var amountToTransfer = $("#transfer_nep17_amount")[0].value;
+
+    if ($("#nep17_asset")[0].value == "GAS")
+        amountToTransfer = getFixed8Integer(amountToTransfer);
+
     if ($("#transfer_nep17_amount")[0].value == 0) {
         swal("Transfer amount is currently 0", {
             icon: "error",

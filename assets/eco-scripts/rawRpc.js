@@ -70,7 +70,7 @@ function convertJsonNotifications() {
     //console.log(jsonObj);
     if ($("#txtRPCJsonOut").val() != "") {
         var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
-        console.log(jsonObj);
+        //console.log(jsonObj);
 
         if (jsonObj.length >= 1 && jsonObj[0].result && jsonObj[0].result.executions) {
             var myNotify = "";
@@ -87,10 +87,17 @@ function convertJsonNotifications() {
                 myNotify += " value(string): " + hex2bin(jsonNotificationsObj.state.value[0].value) + ".\n";
             }
             $("#txt_notifications").val(myNotify);
+            $('#collapseNotifications').collapse('show');
         } else {
+            $('#collapseNotifications').collapse('hide');
             $("#txt_notifications").val("Notifications were not found!");
         }
     } else {
         $("#txt_notifications").val("empty RPC call output to check notification");
     }
+}
+
+
+function signAndRelay() {
+    console.log("Final Challenge!");
 }

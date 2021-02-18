@@ -596,7 +596,7 @@ function createNep17Tx() {
 
     swal({
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
-        text: "Will send " + amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + $("#labelForTransferTo")[0].textContent,
+        text: amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
         type: "info",
         buttons: ["Cancel!", "Proceed", ],
     }).then((willTransfer) => {

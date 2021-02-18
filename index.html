@@ -1047,7 +1047,7 @@
                                         <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass"></select>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="number" id="transfer_nep17_amount" value="0"></input>
+                                        <input type="number" onchange="updateTransferAmountInfo()" id="transfer_nep17_amount" value="0"></input>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="button" onclick="createNep17Tx()" id="txcreate" class="btn btn-default btn-compile">Create Transfer</button>

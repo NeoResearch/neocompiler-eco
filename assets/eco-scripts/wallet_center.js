@@ -507,8 +507,12 @@ function addAssetsToTransfer(valueToOption) {
 function updateTransferAssetInfo() {
     var selectedAsset = $("#nep17_asset")[0].value;
     $("#labelForTransferAsset")[0].textContent = selectedAsset;
-    console.log($("#wallet" + selectedAsset + CONNECTED_WALLET_ID)[0].innerHTML);
+    $("#transfer_nep17_amount")[0].value = 0;
+    updateTransferAmountInfo();
+}
 
+function updateTransferAmountInfo() {
+    $("#labelForTransferAmount")[0].textContent = "- Will send " + $("#transfer_nep17_amount")[0].value;
 }
 
 function updateTransferLabel() {

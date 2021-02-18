@@ -38,3 +38,31 @@ function isEncryptedOnly(idToCheck) {
 
     return false;
 }
+
+function isMultiSig(idToCheck) {
+    if (ECO_WALLET[idToCheck].account.contract.parameters.length > 1)
+        return true;
+    return false;
+}
+
+//Just add if we have privateKey or WIF
+function getMultiSigSignersID(publicKeys, threshold) {
+    var signingAccountsIDs = [];
+    if (publicKeys.length >= threshold) {
+        for (pk = 0; pk < publicKeys.length; pk++) {
+            currentPK = publicKeys[pk];
+            for (ka = 0; ka < ECO_WALLET.length; ka++) {
+                if (typeof(ECO_WALLET[ka].account._privateKey) != "undefined")
+                    if (typeof(ECO_WALLET[ka].account._publicKey) != "undefined")
+                        if (ECO_WALLET[ka].account.publicKey == currentPK) {
+                            signingAccountsIDs.push(ka);
+                            continue;
+                        }
+            }
+        }
+        return signingAccountsIDs;
+    } else {
+        console.error("Error trying to getMultiSigSignersID with threshold greater than pKeys!!")
+        return [];
+    }
+}

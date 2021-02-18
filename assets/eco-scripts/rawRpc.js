@@ -99,5 +99,57 @@ function convertJsonNotifications() {
 
 
 function signAndRelay() {
-    console.log("Final Challenge!");
+    //var sysFee = getFixed8Integer($("#sys_fee")[0].value);
+    //var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
+    var sysFee = getFixed8Integer(500);
+    var netFee = getFixed8Integer(600);
+    var validUntil = Number($("#valid_until")[0].value);
+    var script = $("#tx_script")[0].value;
+
+    const tx = new Neon.tx.Transaction({
+        signers: [{
+            account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+            scopes: Neon.tx.WitnessScope.CalledByEntry,
+        }, ],
+        validUntilBlock: validUntil,
+        script,
+        systemFee: sysFee,
+        networkFee: netFee,
+    })
+
+    if (isMultiSig(CONNECTED_WALLET_ID)) {
+        var publicKeys = Neon.wallet.getPublicKeysFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
+        var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
+        var signingAccountsIDs = getMultiSigSignersID(publicKeys, threshold);
+        if (signingAccountsIDs.length < threshold) {
+            swal({
+                title: "Current Wallet is connected to a multisig!",
+                text: "Your wallet has " + signingAccountsIDs.length + " accounts to sign. But required is " + threshold,
+                icon: "error",
+                button: "Ok!",
+                timer: 5500,
+            });
+        }
+
+        for (sa = 0; sa < signingAccountsIDs.length; sa++) {
+            console.log(sa + "/" + signingAccountsIDs.length)
+            console.log(signingAccountsIDs[sa]);
+            console.log(ECO_WALLET[signingAccountsIDs[sa]])
+            tx.sign(ECO_WALLET[signingAccountsIDs[sa]].account, NETWORK_MAGIC)
+        }
+
+        const multisigWitness = Neon.tx.Witness.buildMultiSig(
+            tx.serialize(false),
+            tx.witnesses,
+            ECO_WALLET[CONNECTED_WALLET_ID].account
+        );
+
+        tx.witnesses = [multisigWitness];
+    } else {
+        tx.sign(ECO_WALLET[CONNECTED_WALLET_ID].account, NETWORK_MAGIC)
+    }
+
+
+    var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+    return client.sendRawTransaction(tx);
 }

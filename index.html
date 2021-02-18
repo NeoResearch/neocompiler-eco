@@ -1033,46 +1033,28 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="container">
+
+                                        <div class="row mb-2">
+                                            <div class="col-md-12">
+                                                <label id="labelForTransferFrom"></label>
+                                                <label id="labelForTransferTo">To</label>
+                                                <label id="labelForTransferAsset"></label>
+                                                <label id="labelForTransferAmount"></label>
+                                                <br>
+                                                <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="3"></select>
+                                            </div>
+                                        </div>
+
                                         <div class="row mb-2">
                                             <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label id="labelForTransferFrom"></label>
-                                                    <label id="labelForTransferTo">To</label>
-                                                    <br>
-                                                    <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select form-control" size="6"></select>
-                                                </div>
+                                                <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass">                                                
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="txcreatesendallneo">NEO Max.</label>
-                                                    <button type="button" onclick="fillAllNeo()" id="txcreatesendallneo" class="btn btn-info btn-sm">0</button>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="txcreatesendallgas">GAS Max.</label>
-                                                    <button type="button" onclick="fillAllGas()" id="txcreatesendallgas" class="btn btn-info btn-sm">0</button>
-                                                    <button type="button" onclick="createGasTxForm()" id="txclaimgas" class="btn btn-info btn-sm">Claim</button>
-                                                </div>
+                                            <div class="col-md-6">                                                
+                                                    <input type="number" id="transfer_nep17_amount" value="0">                                                
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="number" id="createtx_NEO" value="0" class="form-control" required="">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input type="number" id="createtx_GAS" value="0" class="form-control" required="">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
+                                        <div class="row mb-2">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <button type="button" onclick="createSendTxForm()" id="txcreate" class="btn btn-info btn-sm"><i class="fas fa-space-shuttle"></i> Transfer </button>

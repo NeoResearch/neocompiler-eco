@@ -54,13 +54,13 @@ function drawWalletsStatus() {
             txRow.insertCell(-1).appendChild(addressBase58);
 
             var walletNeo = document.createElement('span');
-            walletNeo.setAttribute('id', "walletNeo" + ka);
+            walletNeo.setAttribute('id', "walletNEO" + ka);
             walletNeo.setAttribute("class", "badge");
             walletNeo.textContent = "-";
             txRow.insertCell(-1).appendChild(walletNeo);
 
             var walletGas = document.createElement('span');
-            walletGas.setAttribute('id', "walletGas" + ka);
+            walletGas.setAttribute('id', "walletGAS" + ka);
             walletGas.setAttribute("class", "badge");
             walletGas.textContent = "-";
             txRow.insertCell(-1).appendChild(walletGas);
@@ -331,7 +331,6 @@ function updateInfoMSOwners() {
 function updateAddressSelectionBox() {
     //updateInfoMSOwners();
     addAllKnownAddressesToSelectionBox("createtx_to");
-    //addAllKnownAddressesToSelectionBox("wallet_advanced_signing");
 }
 //===============================================================
 
@@ -345,8 +344,8 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
             keyToAdd = ECO_WALLET[ka].account.encrypted;
         else
             keyToAdd = ECO_WALLET[ka].account.address;
-
-        var addressInfoToAdd = ECO_WALLET[ka].label + " - " + keyToAdd.slice(0, 4) + "..." + keyToAdd.slice(-4);
+        //.slice(0, 4) + "..." + keyToAdd.slice(-4)
+        var addressInfoToAdd = ECO_WALLET[ka].label + " - " + keyToAdd;
         var titleToOption = "Click to select wallet " + ECO_WALLET[ka].label;
 
         addOptionToSelectionBox(addressInfoToAdd, "wallet_" + ka, walletSelectionBox, titleToOption);
@@ -498,11 +497,33 @@ function fillSpanTextOrInputBox(boxToFill, contentToFill, amountUnclaimable = -1
     }
 }
 
-function fillMaxNeoGas() {
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[CONNECTED_WALLET_ID].account.address, "NEO", "#txcreatesendallneo");
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[CONNECTED_WALLET_ID].account.address, "GAS", "#txcreatesendallgas");
-    $("#labelForTransferFrom")[0].textContent = "Sending from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
+function addAssetsToTransfer(valueToOption) {
+    var option = document.createElement("option");
+    option.text = valueToOption;
+    option.value = valueToOption;
+    $("#nep17_asset")[0].appendChild(option);
 }
+
+function updateTransferAssetInfo() {
+    var selectedAsset = $("#nep17_asset")[0].value;
+    $("#labelForTransferAsset")[0].textContent = " - Will send " + selectedAsset;
+    console.log($("#wallet" + selectedAsset + CONNECTED_WALLET_ID)[0].innerHTML);
+
+    //$("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].style
+    // $("#wallet" + selectedAsset + CONNECTED_WALLET_ID)[0]
+}
+
+function updateTransferLabel() {
+    $("#labelForTransferFrom")[0].textContent = "Sending from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
+    // Updating with all know NEP 17 options
+    $("#nep17_asset")[0].length = 0;
+    addAssetsToTransfer("NEO");
+    addAssetsToTransfer("GAS");
+    // Update label
+    updateTransferAssetInfo();
+}
+
+
 
 function fillTransferToLabel() {
     var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
@@ -510,20 +531,23 @@ function fillTransferToLabel() {
 }
 
 function fillAllNeo() {
-    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "NEO", "#createtx_NEO");
+    $("#createtx_NEO")[0].value = $("#walletNEO" + CONNECTED_WALLET_ID)[0].innerHTML;
 }
 
 function fillAllGas() {
-    var addrFromIndex = $("#createtx_from")[0].selectedOptions[0].index;
-    getAllNeoOrGasFromNeoCli(ECO_WALLET[addrFromIndex].account.address, "GAS", "#createtx_GAS");
+    $("#createtx_GAS")[0].value = $("#walletGAS" + CONNECTED_WALLET_ID)[0].innerHTML;
 }
 
 function selfTransfer(idToTransfer) {
     if (idToTransfer < ECO_WALLET.length && idToTransfer > -1) {
-        getAllNeoOrGasFromNeoCli(ECO_WALLET[idToTransfer].account.address, "NEO", "", true);
+        // Perform Self Transfer of NEO and GAS will be claimed
     } else {
-        alert("Cannot transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length)
+        swal({
+            title: "Cannot self-transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length,
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
     }
 }
 
@@ -541,7 +565,7 @@ function connectWallet() {
 function changeDefaultWallet(walletID, skipSwal = false) {
     CONNECTED_WALLET_ID = walletID;
     $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
-    fillMaxNeoGas();
+    updateTransferLabel();
 }
 
 drawPopulate();

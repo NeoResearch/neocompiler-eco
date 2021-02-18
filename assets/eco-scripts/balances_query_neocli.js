@@ -30,80 +30,24 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
         requestJson, // Serializes form data in standard format
         function(resultJsonData) {
             NUMBER_FAILS_REQUESTS = 0;
-            fillSpanTextOrInputBox("#walletNeo" + addressID, 0);
-            fillSpanTextOrInputBox("#walletGas" + addressID, 0);
+            $("#walletNEO" + addressID)[0].innerHTML = 0;
+            $("#walletGAS" + addressID)[0].innerHTML = 0;
             if (resultJsonData.result) {
                 for (i = 0; i < resultJsonData.result.balance.length; ++i) {
                     var availableAmount = resultJsonData.result.balance[i].amount;
                     if (resultJsonData.result.balance[i].assethash == NEO_ASSET)
-                        fillSpanTextOrInputBox("#walletNeo" + addressID, availableAmount);
+                        $("#walletNEO" + addressID)[0].innerHTML = availableAmount;
                     if (resultJsonData.result.balance[i].assethash == GAS_ASSET)
-                        fillSpanTextOrInputBox("#walletGas" + addressID, availableAmount / 100000000);
+                        $("#walletGAS" + addressID)[0].innerHTML = availableAmount / 100000000;
                 } // end loop for every asset
             } else {
-                fillSpanTextOrInputBox("#walletNeo" + addressID, "-");
-                fillSpanTextOrInputBox("#walletGas" + addressID, "-");
+                $("#walletNEO" + addressID)[0].innerHTML = "-";
+                $("#walletGAS" + addressID)[0].innerHTML = "-";
             }
         },
         "json" // The format the response should be in
     ).fail(function() {
-        console.error("getAllNeoOrGasFromNeoCli problem. failed to pass request to RPC network!");
-        NUMBER_FAILS_REQUESTS++;
-    }); //End of POST for search
-}
-
-//GAS: 0x602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7
-//NEO: 0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b
-function getAllNeoOrGasFromNeoCli(adddressToGet, assetToGet, boxToFill = "", automaticTransfer = false, to = "") {
-    var assetToGetHash = NEO_ASSET;
-    if (assetToGet == "GAS")
-        assetToGetHash = GAS_ASSET;
-    requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\"" + adddressToGet + "\"] }";
-    //console.log("getaccountstate request to: "+BASE_PATH_CLI);
-    $.post(
-        BASE_PATH_CLI, // Gets the URL to sent the post to
-        requestJson, // Serializes form data in standard format
-        function(resultJsonData) {
-            NUMBER_FAILS_REQUESTS = 0;
-            fillSpanTextOrInputBox(boxToFill, 0);
-            if (resultJsonData.result) {
-                for (i = 0; i < resultJsonData.result.balance.length; ++i) {
-                    if (resultJsonData.result.balance[i].assethash == assetToGetHash) {
-                        var availableAmount = resultJsonData.result.balance[i].amount;
-                        if (assetToGet == "GAS")
-                            availableAmount = availableAmount / 100000000;
-                        fillSpanTextOrInputBox(boxToFill, availableAmount);
-
-                        if (automaticTransfer) {
-                            if (to === "")
-                                to = adddressToGet;
-
-                            var idToTransfer = searchAddrIndexFromBase58(adddressToGet);
-                            //console.log("idToTransfer:" + idToTransfer);
-                            if (idToTransfer != -1 && availableAmount != 0) {
-                                if (ECO_WALLET[idToTransfer].account.isMultiSig) {
-                                    //Multi-sig address
-                                    var neoToSend = 0;
-                                    var gasToSend = 0;
-                                    if (assetToGet == "NEO")
-                                        neoToSend = availableAmount;
-                                    else
-                                        gasToSend = availableAmount;
-                                    createTxFromMSAccount(idToTransfer, to, neoToSend, gasToSend, getCurrentNetworkNickname());
-                                } else {
-                                    createTxFromAccount(idToTransfer, to, availableAmount, 0, BASE_PATH_CLI, getCurrentNetworkNickname());
-                                }
-                            } // end amount check
-                        } // end automatic transfer
-                    } // Asset hash was the one we were looking for
-                } // end loop for every asset
-            } else {
-                fillSpanTextOrInputBox(boxToFill, "-"); //fills with 0 if reponse does not have result
-            }
-        },
-        "json" // The format the response should be in
-    ).fail(function() {
-        console.error("getAllNeoOrGasFromNeoCli problem. failed to pass request to RPC network!");
+        console.error("queryTofillNeoGasNep17FromNeoCli problem. failed to pass request to RPC network!");
         NUMBER_FAILS_REQUESTS++;
     }); //End of POST for search
 }

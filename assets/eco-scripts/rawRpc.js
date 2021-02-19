@@ -6,7 +6,7 @@ function frmRPCJson() {
 };
 
 
-function rawRpcCall(fillRealTx = false) {
+function rawRpcCall(fillRealTx = false, saveID = -1) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
@@ -15,6 +15,8 @@ function rawRpcCall(fillRealTx = false) {
             convertJsonNotifications();
             if (fillRealTx)
                 fillRealTxFromInvokeFunction();
+            if (saveID != -1)
+                RELAYED_TXS[saveID].push(data);
         },
         "json" // The format the response should be in
     ).fail(function() {
@@ -60,7 +62,7 @@ function fillRealTxFromInvokeFunction() {
         return;
 
     $("#sys_fee")[0].value = invokeResult.result.gasconsumed / getFixed8();
-    $("#net_fee")[0].value = 1000 / getFixed8();
+    $("#net_fee")[0].value = 10000000 / getFixed8();
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);
     $("#valid_until")[0].value = Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1;
     drawSigners();
@@ -145,7 +147,31 @@ function signAndRelay() {
         tx.sign(ECO_WALLET[CONNECTED_WALLET_ID].account, NETWORK_MAGIC)
     }
 
+    var relayedTX = [];
+    relayedTX.push({
+        signers: document.getElementById("tableSigners"),
+        sysfee: $("#sys_fee")[0].value,
+        netfee: $("#net_fee")[0].value,
+        validUntil: $("#valid_until")[0].value,
+        script: $("#tx_script")[0].value,
+        invokeFunction: $("#txtRPCJsonOut").val()
+    });
+    RELAYED_TXS.push(relayedTX);
 
-    var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-    RELAYED_TXS.push(client.sendRawTransaction(tx));
+
+    console.log(tx)
+    console.log(tx.serialize(true))
+    var rawTX = Neon.u.hex2base64(tx.serialize(true));
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "sendrawtransaction",
+        "params": [rawTX]
+    };
+
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(false, RELAYED_TXS.length - 1);
+    //var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+    //RELAYED_TXS.push(client.sendRawTransaction(tx));
 }

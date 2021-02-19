@@ -140,14 +140,14 @@
                 </a>
             </li>
 
-            <!--
+
             <li class="nav-item">
                 <a class="nav-link" onclick="" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
             </li>
-
+            <!--
             <li class="nav-item">
                 <a class="nav-link" onclick="" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/storage.png" style="width: 35px;padding-bottom: 4px;">
@@ -223,14 +223,13 @@
             </li>
 
             <!--<li class="nav-item" style="background: #0aab7b;">-->
-            <!--
+
             <li class="nav-item">
                 <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
-
-            
+            <!--            
             <li class="nav-item">
                 <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Storage Query</p>
@@ -766,99 +765,18 @@
                     </nav>
 
 
-                    <div id="activity">
-
-                        <div class="errors-warnings">
-
-
-                            <div class="display-erros n-padding deploy-bg" style="height: 610px;">
-                                <h4 class="green-title">Historical Relayed TX's</h4>
-                                <div class="container">
-                                    <div class="row">
-
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <span for="cbx_fullHistory" type="checkbox" class="label label-success">Enable full activity history</span>
-                                                    <input type="checkbox" id="cbx_fullHistory">
-                                                </div>
-                                            </div>
-                                            <div class="row mb-5">
-                                                <div class="col-md-12">
-                                                    <div id="divRelayedTXs" class="table-responsive">
-                                                        <table class="table text-white">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>
-                                                                        <div><b> ID </b></div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div><b> Status</b></div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div><b> Restore </b></div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div><b> Transaction parameters </b></div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div><b> Height </b></div>
-                                                                    </td>
-                                                                    <td>
-                                                                        <div><b> Hash </b></div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-3">
-                                                    <button onclick="moveLastTab()" id="btnActivityMoveBackLastTab" class="btn btn-info btn-sm"><i class="fas fa-backward"></i>
-                                                    Deploy&amp;Invoke
-                                                </button>
-                                                </div>
-                                                <div class="col-3">
-                                                    <button type="submit" onclick="exportHistory()" id="btnExportHistory" style="margin-bottom: 5px;" class="btn btn-warning btn-sm text-white"><i
-                                                        class="fas fa-file-download"></i><font size="1"> DOWNLOAD</font>
-                                                </button>
-                                                    <br>
-                                                </div>
-                                                <div class="col-4">
-                                                    <span class="label label-info"><i class="fas fa-file-upload"></i> UPLOAD</span>
-                                                    <input type="file" id="importActivityFile" accept=".json,.JSON" onchange="ImportHistoricalActivityJSON()">
-                                                </div>
-                                                <div class="col-12">
-                                                    <button type="submit" onclick="searchForTXs()" id="btnGenerateTXsReport" style="margin-bottom: 5px;" class="btn btn-info btn-sm"><i
-                                                        class="fas fa-table"></i><font size="1"> Generate TX's Report
-                                                    (TODO)</font></button>
-                                                </div>
-                                            </div>
-                                            <span type="checkbox" class="label label-success">Open Replay TX's Tools</span>
-                                            <input type="checkbox" data-toggle="collapse" data-target="#replayTXsDiv" onclick="openReplayToolsTXs()" id="btnReplayTXsTools"><br>
-                                            <div id="replayTXsDiv" class="collapse">
-                                                <textarea id="txt_replayOrder" readonly="readonly" rows="5" cols="100" placeholder="Order to replay" class="form-control"></textarea>
-                                                <div class="col-md-2">
-                                                    <span for="cbx_disableHistory" type="checkbox" class="label label-success">Disable activity history</span>
-                                                    <input type="checkbox" id="cbx_disableHistory">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <span for="cbx_disableAutomaticClaim" type="checkbox" class="label label-success">Disable automatic claims</span>
-                                                    <input type="checkbox" id="cbx_disableAutomaticClaim">
-                                                </div>
-                                                <button id="btnReplayTXs" onclick="replayTXs()" style="margin-bottom: 5px; margin-top: 5px;" class="btn btn-primary btn-sm">Replay all TXs
-                                            </button>
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+                    <div class="errors-warnings">
+                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                            <h4 class="green-title">Historical Relayed TX's <button type="submit" onclick="updateRelayedTXs()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                            <div class="container">
+                                <div class="row" style="padding:0 20px 0 20px;">
+                                    <table id="tableRelayedTxs" class="table text-white twalllet">
+                                    </table>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
 
 

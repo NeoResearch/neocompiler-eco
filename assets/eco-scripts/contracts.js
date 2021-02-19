@@ -388,10 +388,10 @@ function deployContract() {
             value: btoa(JSON.stringify(LOCAL_CONTRACTS[contractToDeployID].manifest))
         }
     ];
-    invokeparams.push(params);
 
     var contractManagementID = getNativeContractIndexByName("ContractManagement");
-    invokeFunctionWithParams(NATIVE_CONTRACTS[contractManagementID].hash, "deploy", params)
+    var contractManagementHash = NATIVE_CONTRACTS[contractManagementID].hash;
+    invokeFunctionWithParams(contractManagementHash, "deploy", params)
 }
 
 function getNep17HashByName(name) {

@@ -6,16 +6,19 @@ function drawRelayedTXs() {
 
     var headerRow = document.createElement('tr');
     headerRow.className = "headerrd";
-    var headersLabel = document.createElement('td');
-    var headersNeoBalance = document.createElement('td');
-    var headersAddress = document.createElement('td');
+    var headersStatus = document.createElement('td');
+    var headersAppLog = document.createElement('td');
+    var headersRawTx = document.createElement('td');
+    var headersRestore = document.createElement('td');
 
-    headersLabel.innerHTML = "<b><center><font size='1'>STATUS</font></b>";
-    headerRow.insertCell(-1).appendChild(headersLabel);
-    headersAddress.innerHTML = "<b><center><font size='1'>HASH</font></b>";
-    headerRow.insertCell(-1).appendChild(headersAddress);
-    headersNeoBalance.innerHTML = "<b><center><font size='1'>EXTRA</font></b>";
-    headerRow.insertCell(-1).appendChild(headersNeoBalance);
+    headersStatus.innerHTML = "<b><center><font size='1'>STATUS</font></b>";
+    headerRow.insertCell(-1).appendChild(headersStatus);
+    headersAppLog.innerHTML = "<b><center><font size='1'>APP. LOG</font></b>";
+    headerRow.insertCell(-1).appendChild(headersAppLog);
+    headersRawTx.innerHTML = "<b><center><font size='1'>RAW TX.</font></b>";
+    headerRow.insertCell(-1).appendChild(headersRawTx);
+    headersRestore.innerHTML = "<b><center><font size='1'>RESTORE</font></b>";
+    headerRow.insertCell(-1).appendChild(headersRestore);
 
     table.appendChild(headerRow);
 
@@ -30,24 +33,63 @@ function drawRelayedTXs() {
         b.onclick = function() {
             removeRelayedTX(this.value);
         };
-        b.innerHTML = ECO_WALLET[ka].label;
+        var resultOrError = "";
+        var txErrored = false;
+        if (typeof(RELAYED_TXS[rt][1].result) != "undefined") {
+            var txHash = RELAYED_TXS[rt][1].result.hash;
+            resultOrError = txHash.slice(0, 4) + "..." + txHash.slice(-4);
+        } else {
+            txErrored = true;
+            resultOrError = RELAYED_TXS[rt][1].error.message;
+        }
+        b.innerHTML = resultOrError;
         txRow.insertCell(-1).appendChild(b);
 
-        var addressBase58 = document.createElement('button');
-        addressBase58.setAttribute('content', 'test content');
-        addressBase58.setAttribute('class', 'btn btn-success btn-sm');
-        addressBase58.setAttribute('value', ka);
-        addressBase58.setAttribute('id', "btnGetBalanceAddress" + ka);
-        addressBase58.onclick = function() {
-            changeDefaultWallet(this.value);
+        var txAppLog = document.createElement('button');
+        txAppLog.setAttribute('content', 'test content');
+        txAppLog.setAttribute('class', 'btn btn-success btn-sm');
+        txAppLog.setAttribute('value', rt);
+        txAppLog.setAttribute('id', "btnGetAppLogTx" + rt);
+        if (!txErrored) {
+            txAppLog.onclick = function() {
+                callTXAppLog(this.value);
+            };
+            txAppLog.innerHTML = "AppLog";
+        } else {
+            txAppLog.innerHTML = "-";
+        }
+        txRow.insertCell(-1).appendChild(txAppLog);
+
+        var txRaw = document.createElement('button');
+        txRaw.setAttribute('content', 'test content');
+        txRaw.setAttribute('class', 'btn btn-success btn-sm');
+        txRaw.setAttribute('value', rt);
+        txRaw.setAttribute('id', "btnGetRawTx" + rt);
+        if (!txErrored) {
+            txRaw.onclick = function() {
+                callRawTx(this.value);
+            };
+            txRaw.innerHTML = "RawTx";
+        } else {
+            txRaw.innerHTML = "-";
+        }
+        txRow.insertCell(-1).appendChild(txRaw);
+
+        var txRestore = document.createElement('button');
+        txRestore.setAttribute('content', 'test content');
+        txRestore.setAttribute('class', 'btn btn-success btn-sm');
+        txRestore.setAttribute('value', rt);
+        txRestore.setAttribute('id', "btnRestoreTx" + rt);
+        txRestore.onclick = function() {
+            restoreTX(this.value);
         };
-        addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
-        txRow.insertCell(-1).appendChild(addressBase58);
+        txRestore.innerHTML = '<i class="fas fa-trash-restore-alt"></i>';
+        txRow.insertCell(-1).appendChild(txRestore);
     } //Finishes loop that draws each relayed transaction
 
     //Clear previous data
-    document.getElementById("table").innerHTML = "";
+    document.getElementById("tableRelayedTxs").innerHTML = "";
     //Append new table
-    document.getElementById("tableWalletStatus").appendChild(table);
-} //Finishe DrawWallets function
+    document.getElementById("tableRelayedTxs").appendChild(table);
+} //Finishes Draw Relayed TXs
 //===============================================================

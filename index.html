@@ -142,7 +142,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs();" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
@@ -225,7 +225,7 @@
             <!--<li class="nav-item" style="background: #0aab7b;">-->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
@@ -1775,6 +1775,8 @@
 <script src="assets/eco-scripts/conversors.js"></script>
 
 <script src="assets/eco-scripts/contracts.js"></script>
+
+<script src="assets/eco-scripts/relayed_txs.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

@@ -13,8 +13,12 @@ function rawRpcCall(fillRealTx = false, saveID = -1) {
         function(data) {
             $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
             convertJsonNotifications();
+
             if (fillRealTx)
                 fillRealTxFromInvokeFunction();
+            else
+                cleanRealTxInvoke();
+
             if (saveID != -1)
                 RELAYED_TXS[saveID].push(data);
         },
@@ -66,6 +70,14 @@ function fillRealTxFromInvokeFunction() {
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);
     $("#valid_until")[0].value = Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1;
     drawSigners();
+}
+
+function cleanRealTxInvoke() {
+    $("#sys_fee")[0].value = "";
+    $("#net_fee")[0].value = "";
+    $("#tx_script")[0].value = "";
+    $("#valid_until")[0].value = "";
+    document.getElementById("tableSigners").innerHTML = "";
 }
 
 function convertJsonNotifications() {

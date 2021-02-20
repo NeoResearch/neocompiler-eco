@@ -13,7 +13,7 @@ function drawRelayedTXs() {
 
     headersStatus.innerHTML = "<b><center><font size='1'>STATUS</font></b>";
     headerRow.insertCell(-1).appendChild(headersStatus);
-    headersAppLog.innerHTML = "<b><center><font size='1'>APP. LOG</font></b>";
+    headersAppLog.innerHTML = "<b><center><font size='1'>APP. LOG.</font></b>";
     headerRow.insertCell(-1).appendChild(headersAppLog);
     headersRawTx.innerHTML = "<b><center><font size='1'>RAW TX.</font></b>";
     headerRow.insertCell(-1).appendChild(headersRawTx);
@@ -24,8 +24,7 @@ function drawRelayedTXs() {
 
     for (rt = 0; rt < RELAYED_TXS.length; rt++) {
         var txRow = table.insertRow(-1);
-        //row.insertCell(-1).appendChild(document.createTextNode(i));
-        //Insert button that remove rule
+
         var b = document.createElement('button');
         b.setAttribute('content', 'test content');
         b.setAttribute('class', 'btn btn-danger btn-sm');
@@ -45,6 +44,7 @@ function drawRelayedTXs() {
         b.innerHTML = resultOrError;
         txRow.insertCell(-1).appendChild(b);
 
+
         var txAppLog = document.createElement('button');
         txAppLog.setAttribute('content', 'test content');
         txAppLog.setAttribute('class', 'btn btn-success btn-sm');
@@ -54,7 +54,7 @@ function drawRelayedTXs() {
             txAppLog.onclick = function() {
                 callTXAppLog(this.value);
             };
-            txAppLog.innerHTML = "AppLog";
+            txAppLog.innerHTML = "Get Log";
         } else {
             txAppLog.innerHTML = "-";
         }
@@ -69,11 +69,34 @@ function drawRelayedTXs() {
             txRaw.onclick = function() {
                 callRawTx(this.value);
             };
-            txRaw.innerHTML = "RawTx";
+            txRaw.innerHTML = "Get Tx";
         } else {
             txRaw.innerHTML = "-";
         }
         txRow.insertCell(-1).appendChild(txRaw);
+
+
+        /*
+        var infoRaw = "RawTx";
+        var infoAppLog = "AppLog";
+        var funcCallRaw = "callRawTx(this.value)"
+        var funcCallAppLog = "callTXAppLog(this.value)";
+        if (txErrored) {
+            infoRaw = "-";
+            infoAppLog = "-";
+            funcCallRaw = "";
+            funcCallAppLog = "";
+        }
+        var divTemp = document.createElement('div');
+        divTemp.innerHTML = '<div><button content="test content" class="btn btn-success btn-sm" onclick=' + funcCallAppLog +
+            ' value="' +
+            rt + '" id="btnGetAppLogTx0">' + infoAppLog +
+            '</button> <button content="test content" class="btn btn-success btn-sm" value="' +
+            rt + '"  onclick=' + funcCallRaw +
+            '  id="btnGetRawTx0">' +
+            infoRaw + '</button></div>'
+        txRow.insertCell(-1).appendChild(divTemp);
+        */
 
         var txRestore = document.createElement('button');
         txRestore.setAttribute('content', 'test content');
@@ -93,3 +116,33 @@ function drawRelayedTXs() {
     document.getElementById("tableRelayedTxs").appendChild(table);
 } //Finishes Draw Relayed TXs
 //===============================================================
+
+function callTXAppLog(relayedTxID) {
+    var relayedTxHash = RELAYED_TXS[relayedTxID][1].result.hash;
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getapplicationlog",
+        "params": [relayedTxHash]
+    };
+
+    goToTabAndClick("nav-rpc");
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(false);
+}
+
+function callRawTx(relayedTxID) {
+    var relayedTxHash = RELAYED_TXS[relayedTxID][1].result.hash;
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getrawtransaction",
+        "params": [relayedTxHash, true]
+    };
+
+    goToTabAndClick("nav-rpc");
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(false);
+}

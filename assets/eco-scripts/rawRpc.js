@@ -166,7 +166,8 @@ function signAndRelay() {
         netfee: $("#net_fee")[0].value,
         validUntil: $("#valid_until")[0].value,
         script: $("#tx_script")[0].value,
-        invokeFunction: $("#txtRPCJsonOut").val()
+        invokeFunction: $("#txtRPCJson").val(),
+        invokeFunctionOut: $("#txtRPCJsonOut").val()
     });
     RELAYED_TXS.push(relayedTX);
 

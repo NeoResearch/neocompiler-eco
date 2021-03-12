@@ -234,7 +234,8 @@ function socketCompilerCompilexResult() {
         //$("#btn_download")[0].style = "";
 
         //filling hashes
-        var contractScriptHash = getScriptHashFromAVM(hexcodeavm);
+        //getScriptHashFromAVM
+        var contractScriptHash = Neon.u.hash160(hexcodeavm);
         var avmSize = Math.ceil(hexcodeavm.length / 2);
         updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
 

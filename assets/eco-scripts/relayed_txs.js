@@ -34,6 +34,7 @@ function drawRelayedTXs() {
         };
         var resultOrError = "";
         var txErrored = false;
+
         if (typeof(RELAYED_TXS[rt][1].result) != "undefined") {
             var txHash = RELAYED_TXS[rt][1].result.hash;
             resultOrError = txHash.slice(0, 4) + "..." + txHash.slice(-4);

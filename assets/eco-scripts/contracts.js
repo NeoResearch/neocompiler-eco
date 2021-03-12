@@ -1,6 +1,7 @@
 var NATIVE_CONTRACTS = [];
 var LOCAL_CONTRACTS = [];
 var CONTRACTS_TO_LIST = [];
+var PENDING_CONTRACTS = [];
 
 function getNativeInfo() {
     if (NATIVE_CONTRACTS.length == 0) {
@@ -31,6 +32,42 @@ function getNativeInfo() {
     if (LOCAL_CONTRACTS.length == 0) {
         document.getElementById("local_contracts").options.length = 0;
         addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
+    }
+
+    //updateWithDeployedContract();
+}
+
+
+function updateWithDeployedContract() {
+    for (pc = 0; pc < PENDING_CONTRACTS.length; pc++) {
+        var pendingExpectedHash = PENDING_CONTRACTS[pc];
+        var jsonForGetNativeContracts = {
+            "jsonrpc": "2.0",
+            "id": 5,
+            "method": "getcontractstate",
+            "params": [pendingExpectedHash]
+        };
+
+
+        $.post(
+            BASE_PATH_CLI, // Gets the URL to sent the post to
+            JSON.stringify(jsonForGetNativeContracts), // Serializes form data in standard format
+            function(data) {
+                if (data.result) {
+                    contractHash = data.result.hash;
+                    for (c = 0; c < PENDING_CONTRACTS.length; c++)
+                        if (contractHash == "0x" + PENDING_CONTRACTS[c]) {
+                            CONTRACTS_TO_LIST.push(data.result);
+                            PENDING_CONTRACTS.splice(c, 1);
+                            addContractsToSelectionBox("local_contracts", "local_contract");
+                        }
+                }
+            },
+            "json" // The format the response should be in
+        ).fail(function() {
+            console.log("Error when trying to get getcontractstate");
+        }); //End of POST for search
+
     }
 }
 
@@ -378,6 +415,9 @@ function getNativeContractIndexByName(contractName) {
 }
 
 function deployContract() {
+    if (!checkIfWalletIsConnected())
+        return;
+
     var contractToDeployID = $("#local_contracts")[0].selectedIndex;
     var params = [{
             type: "ByteArray",
@@ -391,6 +431,15 @@ function deployContract() {
 
     var contractManagementID = getNativeContractIndexByName("ContractManagement");
     var contractManagementHash = NATIVE_CONTRACTS[contractManagementID].hash;
+
+    // Obtaining contract checkSum, name and expected sender
+    var checkSumHex = revertHexString(Neon.u.base642hex(LOCAL_CONTRACTS[contractToDeployID].nef).slice(-8));
+    var checkSum = parseInt(checkSumHex, 16);
+    var sender = Neon.u.HexString.fromHex(ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash)
+
+    var expectedContractHash = Neon.experimental.getContractHash(sender, checkSum, LOCAL_CONTRACTS[contractToDeployID].manifest.name);
+    PENDING_CONTRACTS.push(expectedContractHash);
+
     invokeFunctionWithParams(contractManagementHash, "deploy", params)
 }
 

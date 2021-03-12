@@ -111,7 +111,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" onclick="getNativeInfo()" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Contracts</p>
                 </a>
@@ -198,7 +198,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-mobile-native" onclick="getNativeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-mobile-native" onclick="getNativeInfo(); updateWithDeployedContract(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Contracts</p>
                 </a>
             </li>
@@ -1716,6 +1716,7 @@
 <script src="assets/ux_js/sweetalert.min-23-12-2020.js" type="text/javascript"></script>
 
 <!-- Load Neon-JS Browser version tools https://unpkg.com/@cityofzion/neon-js@5.0.0-next.4/dist/browser.js -->
+<!-- Generate local by cloning github and running: yarn lint, build and dist:prod -->
 <script src="assets/third_party_js/neon-js-browser-next-6-min.js"></script>
 
 <!-- Load socket-io-->

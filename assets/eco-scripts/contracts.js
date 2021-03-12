@@ -127,6 +127,9 @@ function createManifest() {
         var cI = getCurrentSelectedContract();
         $("#contract_hash").val(CONTRACTS_TO_LIST[cI].hash);
         $("#contract_name").val(CONTRACTS_TO_LIST[cI].manifest.name);
+        if (CONTRACTS_TO_LIST[cI].id)
+            $("#collapseLocalContractsOptions").collapse('hide');
+
         var methods = CONTRACTS_TO_LIST[cI].manifest.abi.methods;
 
         for (m = 0; m < methods.length; ++m) {

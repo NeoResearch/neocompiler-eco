@@ -39,12 +39,12 @@ echo $IP_SERVER3 >> /testes.log
 echo $IP_SERVER4 >> /testes.log
 
 #Since files provided by docker-compose are shared locally it is better to copy before changing
-cp /opt/node/neo-cli/protocolNeoCompiler.json /opt/node/neo-cli/protocol.json
+#cp /opt/node/neo-cli/protocolNeoCompiler.json /opt/node/neo-cli/protocol.json
 
-sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/neo-cli/protocol.json
-sed -i -e "s/eco-neo-csharp-node2-running/$IP_SERVER2/g" /opt/node/neo-cli/protocol.json
-sed -i -e "s/eco-neo-csharp-node3-running/$IP_SERVER3/g" /opt/node/neo-cli/protocol.json
-sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/protocol.json
+sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/neo-cli/config.json
+sed -i -e "s/eco-neo-csharp-node2-running/$IP_SERVER2/g" /opt/node/neo-cli/config.json
+sed -i -e "s/eco-neo-csharp-node3-running/$IP_SERVER3/g" /opt/node/neo-cli/config.json
+sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/config.json
 
 #Trying to normally all dockers
 #sleep 1

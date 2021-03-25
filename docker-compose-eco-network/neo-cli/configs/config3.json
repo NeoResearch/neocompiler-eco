@@ -20,5 +20,23 @@
       "StartConsensus": true,
       "IsActive": true
     }
-  }
+  },
+  "ProtocolConfiguration": {
+        "Magic": 56753,
+        "MillisecondsPerBlock": 1000,
+        "MaxTraceableBlocks": 2102400,
+        "ValidatorsCount": 4,        
+        "StandbyCommittee": [
+            "02f054588f8e48da6626f0000463294a3b3408fde8ee4cd2f04ac1d9a2fe9299e7",
+            "03b58dc798ee8635a130a92ec76ae7fc54d030b0ea5b63b3c0cd5ce258fd0b90c8",
+            "0285d57106beb051982c1f3228db9f00e24bf2564f41078fc6a93a3c652afc715b",
+            "023dd1d74babb78eaf99624e252f9f292d34f031f8e0e5c9300a89833f69c7bc67"
+        ],
+        "SeedList": [
+            "eco-neo-csharp-node1-running:20333",
+            "eco-neo-csharp-node2-running:20334",
+            "eco-neo-csharp-node3-running:20335",
+            "eco-neo-csharp-node4-running:20336"
+        ]
+    }
 }

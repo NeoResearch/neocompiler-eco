@@ -1,5 +1,6 @@
 {
   "PluginConfiguration": {
-    "Path": "ApplicationLogs_{0}"
+    "Path": "ApplicationLogs_{0}",
+    "Network": 56753    
   }
 }

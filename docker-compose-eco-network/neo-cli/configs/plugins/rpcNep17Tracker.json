@@ -3,6 +3,7 @@
     "DBPath": "Nep17BalanceData",
     "TrackHistory" : true,
     "RecordNullAddressHistory": false,
-    "MaxResults" : 1000
+    "MaxResults" : 1000,
+    "Network": 56753
   }
 }

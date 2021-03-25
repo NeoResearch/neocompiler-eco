@@ -27,7 +27,7 @@ services:
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
       - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
-      - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs_{0}/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -62,7 +62,7 @@ services:
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
       - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json          
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
-      - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs_{0}/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -93,7 +93,7 @@ services:
       - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
       - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs_{0}/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -124,7 +124,7 @@ services:
       - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
       - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService         
+      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs_{0}/ConsensusService         
     healthcheck:
       test:
         - CMD
@@ -160,7 +160,7 @@ services:
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
       - ./neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
-      - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs_0000DDB1/ConsensusService
+      - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs_{0}/ConsensusService
       - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json      
     depends_on:
       - eco-neo-csharp-node1-running

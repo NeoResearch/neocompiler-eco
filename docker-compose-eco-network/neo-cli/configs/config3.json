@@ -26,10 +26,10 @@
         "MaxTraceableBlocks": 2102400,
         "ValidatorsCount": 4,        
         "StandbyCommittee": [
-            "02f054588f8e48da6626f0000463294a3b3408fde8ee4cd2f04ac1d9a2fe9299e7",
-            "03b58dc798ee8635a130a92ec76ae7fc54d030b0ea5b63b3c0cd5ce258fd0b90c8",
-            "0285d57106beb051982c1f3228db9f00e24bf2564f41078fc6a93a3c652afc715b",
-            "023dd1d74babb78eaf99624e252f9f292d34f031f8e0e5c9300a89833f69c7bc67"
+            "02ef4279b5fc61d4b17ea4015fd6c3929e44c923c931d453a407fa9715eb8bfc96",
+            "0296be41df7619f2c7752915776b903cb4e00fe91f217170d2c13b87dcb6efbee8",
+            "037890d6be4728e73c2552635228b27a2aa7b1790a5f379172ff8da5e80b5454bc",
+            "0217f606bd64bc7381937f771066132a75f40d87692379edd4459e7dae0faa055c"
         ],
         "SeedList": [
             "eco-neo-csharp-node1-running:20333",

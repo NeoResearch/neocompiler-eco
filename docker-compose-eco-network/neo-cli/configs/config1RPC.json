@@ -17,7 +17,6 @@
     "UnlockWallet": {
       "Path": "walletRpc.json",
       "Password": "one",
-      "StartConsensus": true,
       "IsActive": true
     }
   },

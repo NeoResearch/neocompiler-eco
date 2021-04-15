@@ -260,12 +260,6 @@ function socketCompilerCompilexResult() {
             }
         }
 
-        // Loading all ABI related boxes
-        if (dataSocket.abi != "") {
-            var codeabi = atob(dataSocket.abi);
-            updateABITextarea(JSON.parse(codeabi));
-        }
-
         var textSwal = "Proceed to Contracts tab.";
         var timerSwal = 1700;
         if (contractExists) {
@@ -274,6 +268,16 @@ function socketCompilerCompilexResult() {
         }
 
         if (dataSocket.manifest != "") {
+
+            console.log(dataSocket.manifest);
+            var manifestAtob = atob(dataSocket.manifest);
+            var manifestJson = JSON.parse(manifestAtob);
+            console.log(manifestJson);
+            // Loading all ABI related boxes
+            if (manifestJson.abi != "") {
+                updateABITextarea(manifestJson.abi);
+            }
+
             $('#collapseMore').collapse('show');
             swal({
                 title: "Compiled with success!",

@@ -13,35 +13,35 @@ testnetNodes = [{
         "type": "ecoservices"
     },
     {
-        "protocol": "https",
+        "protocol": "http",
         "url": "seed1t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
-        "protocol": "https",
+        "protocol": "http",
         "url": "seed2t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
-        "protocol": "https",
+        "protocol": "http",
         "url": "seed3t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
-        "protocol": "https",
-        "url": "seed5t.neo.org:20333",
+        "protocol": "http",
+        "url": "seed4t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
-        "protocol": "https",
+        "protocol": "http",
         "url": "seed5t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",

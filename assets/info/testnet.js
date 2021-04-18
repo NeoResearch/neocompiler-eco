@@ -1,4 +1,4 @@
-ecoNodes = [{
+testnetNodes = [{
         "protocol": "https",
         "url": "compilers-neo3.neocompiler.io",
         "location": "worldwide",
@@ -14,23 +14,38 @@ ecoNodes = [{
     },
     {
         "protocol": "https",
-        "url": "node1-neo3.neocompiler.io",
+        "url": "seed1t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "https",
-        "url": "node2-neo3.neocompiler.io",
+        "url": "seed2t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "https",
-        "url": "node3-neo3.neocompiler.io",
+        "url": "seed3t.neo.org:20333",
+        "location": "worldwide",
+        "locale": "worldwide",
+        "type": "RPC"
+    },
+    {
+        "protocol": "https",
+        "url": "seed5t.neo.org:20333",
+        "location": "worldwide",
+        "locale": "worldwide",
+        "type": "RPC"
+    },
+    {
+        "protocol": "https",
+        "url": "seed5t.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     }
+
 ]

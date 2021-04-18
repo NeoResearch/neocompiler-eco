@@ -15,13 +15,15 @@ if (this.window.location.href.indexOf("localhost") != -1)
 
 var default_nodes = ecoNodes;
 if (LOCAL_DEVELOPMENT) {
-    default_nodes = localHostNodes
+    default_nodes = localHostNodes;
+    $("#ecolabnetworkurlselection")[0].selectedIndex = 2;
 }
 
 // ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
 var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
 var BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
+var BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
@@ -53,6 +55,16 @@ function getFirstAvailableService(serviceType, networkServicesObj) {
     }
 }
 
+function getAllAvailableService(serviceType, networkServicesObj) {
+    var nodesUrl = [];
+    for (var kn = 0; kn < networkServicesObj.length; kn++) {
+        var serviceUrlToAdd = getServiceURLByTypeAndNetwork(serviceType, networkServicesObj[kn]);
+
+        if (serviceUrlToAdd !== '')
+            nodesUrl.push(serviceUrlToAdd);
+    }
+    return nodesUrl;
+}
 
 var code_cs = "";
 

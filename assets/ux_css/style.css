@@ -646,6 +646,29 @@ textarea:focus {
     }
 }
 
+.blink_element {
+    animation: buttonPulse 1s linear infinite, fade 500ms;
+}
+
+.blink_element_pause {
+    animation-play-state: paused !important;
+}
+
+@keyframes buttonPulse {
+    0% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    100% {
+        transform: scale(0.75);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+}
+
 .reg-wallet {
     margin-bottom: 60px!important;
 }

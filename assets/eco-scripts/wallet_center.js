@@ -577,11 +577,13 @@ function changeDefaultWallet(walletID, skipSwal = false) {
 
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
-        swal("Connect a wallet and account first.", {
+        swal("Connect a wallet and select an account first.", {
             icon: "error",
             buttons: false,
             timer: 5500,
         });
+        // Blink Wallet button for some couple of time
+        addBlinkToElement("#button-connect-wallet");
         return false;
     }
     return true;

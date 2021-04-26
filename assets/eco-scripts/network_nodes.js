@@ -18,8 +18,8 @@ function changeSelectedNetwork() {
     BASE_PATH_CLI = BASE_PATH_CLI_NODES[0];
 }
 
-function automaticNeoCliNodeSelection() {
-    if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEGITH) {
+function pickBestAvailableRpcNeoNodeCSharpByBlock() {
+    if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEIGHT) {
         var availableNodes = BASE_PATH_CLI_NODES.length;
         var bestNode = BASE_PATH_CLI;
         var bestHeight = LAST_BEST_HEIGHT_NEOCLI;

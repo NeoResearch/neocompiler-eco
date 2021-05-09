@@ -14,22 +14,22 @@ ECO_WALLET.push({
 });
 
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("L2V1qAYX1duMXRASa7LQuE3FdRuoUd9tLxrTAqMQ2M6hxjdwREaZ"),
+    account: new Neon.wallet.Account("KzFWMRCMxXQpB13d17AMrzN1ZvUT81qs1pzeyfuy4vUC84Zs5PEU"),
     label: "CN1",
     print: true
 });
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("L1KBdSEWqHg5EQ4XpgruvJs87xXLyAt1g7cYgdD34rQLY8N52fh6"),
+    account: new Neon.wallet.Account("L1v8pdiuA25a9phLLZjE6CPPgvHJ8mDgun1D2hsbQ3RmA5sB5YCH"),
     label: "CN2",
     print: true
 });
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("L4p4Ln9xtiJtJfreJ15rrtiGod34g9mydbSYBQRvEmjkyAUWJtuW"),
+    account: new Neon.wallet.Account("KycqJ9dB8ij1DoViqtybwGWGtWSAiUDXP4FGFrWAs4F1FJ2Ponn1"),
     label: "CN3",
     print: true
 });
 ECO_WALLET.push({
-    account: new Neon.wallet.Account("Kzp5a4PjopJRmkCoChoB8qmPEktofAMD8jqQeF4Htg4yUdhsx4q8"),
+    account: new Neon.wallet.Account("Kz1And2fvFUxuJ5BuC8Ghjgs8Uz7oH2MbuipYX4UjhTihGqTceSm"),
     label: "CN4",
     print: true
 });

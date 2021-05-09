@@ -1,7 +1,7 @@
 {
   "ApplicationConfiguration": {
     "Logger": {
-      "Path": "Logs_{0}",
+      "Path": "Logs",
       "ConsoleOutput": true,
       "Active": true
     },    
@@ -21,7 +21,7 @@
     }
   },
   "ProtocolConfiguration": {
-        "Magic": 56753,
+        "Network": 56753,
         "MillisecondsPerBlock": 1000,
         "MaxTraceableBlocks": 2102400,
         "ValidatorsCount": 4,        

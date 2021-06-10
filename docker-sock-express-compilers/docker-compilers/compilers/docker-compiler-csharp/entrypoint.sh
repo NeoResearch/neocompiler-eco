@@ -21,21 +21,26 @@ echo "" >> /tmp/output.txt
 echo "Code to be built has been built!!" >> /tmp/output.txt
 echo "" >> /tmp/output.txt
 
+ls /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/
+
+ls /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc
+
+
 # Convert all previous output on /tmp/output.txt to base64
 cat /tmp/output.txt | base64 -w 0 >> /tmp/return.txt
 
 # Add new output related to the AVM, ABI and MANIFEST
 echo -n "\", \"nef\": \"" >> /tmp/return.txt
-if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Contract1.nef ]; then
-   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Contract1.nef | base64 -w 0 >> /tmp/return.txt
+if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.nef ]; then
+   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.nef | base64 -w 0 >> /tmp/return.txt
 fi
 #echo -n "\", \"abi\":\"" >> /tmp/return.txt
 #if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.abi.json ]; then
 #   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.abi.json | base64 -w 0 >> /tmp/return.txt
 #fi
 echo -n "\", \"manifest\":\"" >> /tmp/return.txt
-if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Contract1.manifest.json ]; then
-   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Contract1.manifest.json | base64 -w 0 >> /tmp/return.txt
+if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.manifest.json ]; then
+   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/Template.CSharpNeoCompiler.manifest.json | base64 -w 0 >> /tmp/return.txt
 fi
 echo -n "\"}" >> /tmp/return.txt
 

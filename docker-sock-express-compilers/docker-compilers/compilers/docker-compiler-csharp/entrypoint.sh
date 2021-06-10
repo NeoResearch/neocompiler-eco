@@ -21,11 +21,6 @@ echo "" >> /tmp/output.txt
 echo "Code to be built has been built!!" >> /tmp/output.txt
 echo "" >> /tmp/output.txt
 
-ls /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/
-
-ls /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc
-
-
 # Convert all previous output on /tmp/output.txt to base64
 cat /tmp/output.txt | base64 -w 0 >> /tmp/return.txt
 

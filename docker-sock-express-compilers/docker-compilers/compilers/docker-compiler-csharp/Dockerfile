@@ -20,8 +20,8 @@ RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.CSharp && dotnet build)
 
 #COPY file.csproj /neo-devpack-dotnet/templates/Template.NEP17.CSharp/Template.NEP17.CSharp.csproj
 
-RUN mkdir /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler
-COPY file.csproj /neo-devpack-dotnet/templates/Template.CSharpNeoCompiler/Template.CSharpNeoCompiler.csproj
+RUN mkdir /neo-devpack-dotnet/src/Template.CSharpNeoCompiler
+COPY file.csproj /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Template.CSharpNeoCompiler.csproj
 
 
 ADD entrypoint.sh /entrypoint.sh

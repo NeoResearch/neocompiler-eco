@@ -126,7 +126,7 @@ function signAndRelay() {
             scopes: Neon.tx.WitnessScope.CalledByEntry,
         }, ],
         validUntilBlock: validUntil,
-        script,
+        script: script,
         systemFee: sysFee,
         networkFee: netFee,
     })

@@ -66,3 +66,103 @@ function createEditor(name, mode) {
  */
 
 var aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+
+
+var js = new ace.EditSession(`function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+}`);
+js.setMode('ace/mode/javascript');
+var css = new ace.EditSession(`.blue {
+  color: blue;
+}`);
+css.setMode('ace/mode/css');
+var template = new ace.EditSession(`{{#each records as |record|}}
+{{/each}}`);
+template.setMode('ace/mode/handlebars');
+
+aceEditor.setTheme("ace/theme/dracula");
+aceEditor.setSession(js);
+
+var openSessions = new Map();
+
+const codeTab = document.getElementById('edit-js');
+const cssTab = document.getElementById('edit-css');
+const handlebarsTab = document.getElementById('edit-handlebars');
+
+const selectTab = function(tabId) {
+    const lastSelectedTab = document.getElementsByClassName('editor-tab--active');
+    for (let i = 0; i < lastSelectedTab.length; i += 1) {
+        lastSelectedTab[i].classList.remove('editor-tab--active');
+    }
+    const tab = document.getElementById(tabId);
+    tab.classList.add('editor-tab--active');
+}
+
+/*
+codeTab.addEventListener('click', () => {
+    selectTab('edit-js');
+    aceEditor.setSession(js);
+});
+cssTab.addEventListener('click', () => {
+    selectTab('edit-css');
+    aceEditor.setSession(css);
+});
+handlebarsTab.addEventListener('click', () => {
+    selectTab('edit-handlebars');
+    aceEditor.setSession(template);
+});*/
+
+var Editor = Editor || {};
+
+Editor = {
+    tabs: 0,
+    addNewTab: function() {
+        var self = this;
+        var addTab = document.getElementById('addTabIcon');
+        var liElement = document.createElement('LI');
+        liElement.setAttribute('role', 'presentation');
+
+        // Delete element
+        var iElement = document.createElement('SPAN');
+        iElement.className = 'fa fa-times';
+        iElement.id = this.tabs;
+        iElement.addEventListener('click', function(event) {
+            openSessions.delete(iElement.id);
+            self.deleteTab(iElement);
+        }, false);
+        // Delete element finished
+
+        var anchorElement = document.createElement('A');
+        anchorElement.href = "#";
+        this.tabs++;
+        anchorElement.appendChild(iElement);
+        var textChild = document.createElement('SPAN');
+        textChild.innerHTML = 'Code [' + this.tabs + ']&nbsp;&nbsp;';
+        textChild.class = file;
+        textChild.contenteditable = 'true';
+        textChild.addEventListener('click', function(event) {
+            console.log(openSessions);
+            console.log(iElement.id);
+            aceEditor.setSession(openSessions.get(iElement.id));
+        }, false);
+
+        anchorElement.insertBefore(textChild, iElement);
+        liElement.appendChild(anchorElement);
+        addTab.parentNode.insertBefore(liElement, addTab);
+
+        openSessions.set(iElement.id, new ace.EditSession(textChild.innerHTML));
+    },
+    deleteTab: function(tab) {
+        while (tab.nodeName != 'LI') {
+            tab = tab.parentNode;
+        }
+        tab.parentNode.removeChild(tab);
+    }
+};
+
+$("span[contenteditable='true']").on("blur", function() {
+    var value = $(this).text();
+    var depth = $(this).parents("ul").length;
+    console.log(depth, value);
+});

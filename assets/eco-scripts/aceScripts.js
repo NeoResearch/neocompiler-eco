@@ -140,7 +140,7 @@ Editor = {
         var textChild = document.createElement('SPAN');
         textChild.innerHTML = 'Code [' + this.tabs + ']&nbsp;&nbsp;';
         textChild.class = file;
-        textChild.contenteditable = 'true';
+        //textChild.contenteditable = 'true';
         textChild.addEventListener('click', function(event) {
             console.log(openSessions);
             console.log(iElement.id);

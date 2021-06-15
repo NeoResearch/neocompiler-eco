@@ -68,6 +68,7 @@ function createEditor(name, mode) {
 var aceEditor = createEditor("aceEditor", "ace/mode/csharp");
 
 
+/*
 var js = new ace.EditSession(`function foo(items) {
     var x = "All this is syntax highlighted";
     return x;
@@ -83,9 +84,12 @@ template.setMode('ace/mode/handlebars');
 
 aceEditor.setTheme("ace/theme/dracula");
 aceEditor.setSession(js);
+*/
+var openedSessions = new Map();
+openedSessions.set(-1, new ace.EditSession("mainSession"));
+aceEditor.setSession(openedSessions.get(-1));
 
-var openSessions = new Map();
-
+/*
 const codeTab = document.getElementById('edit-js');
 const cssTab = document.getElementById('edit-css');
 const handlebarsTab = document.getElementById('edit-handlebars');
@@ -97,7 +101,7 @@ const selectTab = function(tabId) {
     }
     const tab = document.getElementById(tabId);
     tab.classList.add('editor-tab--active');
-}
+}*/
 
 /*
 codeTab.addEventListener('click', () => {
@@ -128,7 +132,7 @@ Editor = {
         iElement.className = 'fa fa-times';
         iElement.id = this.tabs;
         iElement.addEventListener('click', function(event) {
-            openSessions.delete(iElement.id);
+            openedSessions.delete(iElement.id);
             self.deleteTab(iElement);
         }, false);
         // Delete element finished
@@ -139,19 +143,20 @@ Editor = {
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
         textChild.innerHTML = 'Code [' + this.tabs + ']&nbsp;&nbsp;';
-        textChild.class = file;
-        //textChild.contenteditable = 'true';
+        textChild.setAttribute('contenteditable', "true");
+        textChild.setAttribute('draggable', "false");
+        textChild.setAttribute('droppable', "false");
         textChild.addEventListener('click', function(event) {
-            console.log(openSessions);
-            console.log(iElement.id);
-            aceEditor.setSession(openSessions.get(iElement.id));
+            //console.log(openSessions);
+            //console.log(iElement.id);
+            aceEditor.setSession(openedSessions.get(iElement.id));
         }, false);
 
         anchorElement.insertBefore(textChild, iElement);
         liElement.appendChild(anchorElement);
         addTab.parentNode.insertBefore(liElement, addTab);
 
-        openSessions.set(iElement.id, new ace.EditSession(textChild.innerHTML));
+        openedSessions.set(iElement.id, new ace.EditSession(textChild.innerHTML));
     },
     deleteTab: function(tab) {
         while (tab.nodeName != 'LI') {
@@ -162,7 +167,13 @@ Editor = {
 };
 
 $("span[contenteditable='true']").on("blur", function() {
+    console.log("Teste");
     var value = $(this).text();
     var depth = $(this).parents("ul").length;
+
     console.log(depth, value);
 });
+
+function goToMainTab() {
+    aceEditor.setSession(openedSessions.get(-1));
+}

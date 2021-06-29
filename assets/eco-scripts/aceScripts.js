@@ -142,11 +142,9 @@ Editor = {
         this.tabs++;
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
-        textChild.innerHTML = 'Code [' + this.tabs + ']&nbsp;&nbsp;';
+        textChild.innerHTML = 'Code [' + this.tabs + ']';
         textChild.setAttribute('contenteditable', "true");
         textChild.addEventListener('click', function(event) {
-            //console.log(openSessions);
-            //console.log(iElement.id);
             aceEditor.setSession(openedSessions.get(iElement.id));
         }, false);
 
@@ -165,11 +163,8 @@ Editor = {
 };
 
 $("span[contenteditable='true']").on("blur", function() {
-    console.log("Teste");
     var value = $(this).text();
     var depth = $(this).parents("ul").length;
-
-    console.log(depth, value);
 });
 
 function goToMainTab() {

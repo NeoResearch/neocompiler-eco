@@ -144,8 +144,6 @@ Editor = {
         var textChild = document.createElement('SPAN');
         textChild.innerHTML = 'Code [' + this.tabs + ']&nbsp;&nbsp;';
         textChild.setAttribute('contenteditable', "true");
-        textChild.setAttribute('draggable', "false");
-        textChild.setAttribute('droppable', "false");
         textChild.addEventListener('click', function(event) {
             //console.log(openSessions);
             //console.log(iElement.id);

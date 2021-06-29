@@ -699,3 +699,62 @@ textarea:focus {
 .form-control[readonly] {
     color: #0aab7b!important;
 }
+
+*[contenteditable='true']:hover,
+*[contenteditable='true']:focus {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}
+
+
+/* Begin Navigation tab style */
+
+.navgationTabs {
+    background-color: #223237!important;
+    float: left;
+    position: relative!important;
+    height: 45px!important;
+    z-index: 0!important;
+    max-height: 35px!important;
+}
+
+.navgationTabs li {
+    background: #09af92!important;
+    color: white!important;
+    text-align: center!important;
+    padding-top: 5px!important;
+    float: left;
+    border-right: 1px solid #07a58a !important;
+    max-height: 35px!important;
+}
+
+.navgationTabs li:hover {
+    border: none!important;
+    text-align: left;
+    border-bottom: 1px solid white!important;
+    background: #07a58a !important;
+    padding: 0!important;
+    padding-top: 4px!important;
+}
+
+.navgationTabs span:hover {
+    border: none!important;
+    text-align: left;
+    padding: 0!important;
+}
+
+.navgationTabs li a {
+    text-decoration: none!important;
+    color: white!important;
+    text-align: left;
+}
+
+.navgationTabs li a:hover {
+    color: white!important;
+    text-align: left;
+    padding: 0!important;
+    border: none!important;
+}
+
+
+/* End Navigation tab style */

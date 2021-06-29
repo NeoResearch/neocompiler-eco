@@ -138,11 +138,12 @@ Editor = {
         // Delete element finished
 
         var anchorElement = document.createElement('A');
-        anchorElement.href = "#";
+        anchorElement.href = "#nav-compilers/";
         this.tabs++;
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
-        textChild.innerHTML = 'Code [' + this.tabs + ']';
+        var fileType = ".cs";
+        textChild.innerHTML = 'Code' + this.tabs + fileType + ' ';
         textChild.setAttribute('contenteditable', "true");
         textChild.addEventListener('click', function(event) {
             aceEditor.setSession(openedSessions.get(iElement.id));

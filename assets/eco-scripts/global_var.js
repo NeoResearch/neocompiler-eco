@@ -1,6 +1,10 @@
 var cSharpFiles = [
     ["./assets/sc_examples/csharp/HelloWorld.cs"],
-    ["./assets/sc_examples/csharp/OracleDemo.cs"]
+    [
+        ["./assets/sc_examples/csharp/NNS/NameService.cs"],
+        ["./assets/sc_examples/csharp/NNS/NameState.cs"],
+        ["./assets/sc_examples/csharp/NNS/RecordType.cs"]
+    ]
 ];
 
 var NETWORK_MAGIC = -1;
@@ -77,3 +81,6 @@ var refreshHeadersNeoCli = 0;
 var NUMBER_FAILS_REQUESTS = 0;
 
 var RELAYED_TXS = [];
+
+/* ACE SESSIONS */
+var openedSessions = new Map();

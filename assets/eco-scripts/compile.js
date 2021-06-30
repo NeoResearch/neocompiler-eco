@@ -78,6 +78,10 @@ function compilerCall() {
     });
 }
 
+function getAllSections() {
+    openedSessions.get("0").getValue()
+}
+
 function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
     $("#contractInfo_ScriptHash")[0].value = contractScriptHash;
     $("#contractInfo_Address")[0].value = toBase58(contractScriptHash);
@@ -120,7 +124,10 @@ function setCompiler(language) {
         exampleToAdd.setAttribute('onClick', onClickFunction)
         exampleToAdd.setAttribute('id', "loadedExample" + e);
         var cutSize = "./assets/sc_examples/" + language + "/";
-        var exampleName = vExamples[e][0].slice(cutSize.length);
+        var nameToCut = vExamples[e][0];
+        if (Array.isArray(nameToCut))
+            nameToCut = nameToCut[0];
+        var exampleName = nameToCut.slice(cutSize.length);
         var exampleInfo = "Selected code example is from " + language + ": " + exampleName;
         exampleToAdd.setAttribute('title', exampleInfo);
         exampleToAdd.appendChild(document.createTextNode(exampleName));
@@ -149,23 +156,35 @@ function setExampleOnChange() {
 function setExample(language, selected_index) {
     //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
     aceEditor.getSession().setValue("");
-    getfile(language, selected_index, 0);
+    getFiles(language, selected_index, 0);
 
     // cleaning file to Save name
     //$("#cbx_example_name")[0].value = "";
 }
 
-function getfile(language, selected_index, index = 0) {
+function getFiles(language, selected_index, index = 0) {
     var vExamples = cSharpFiles;
+    var cutSize = "./assets/sc_examples/" + language + "/";
 
     var numfiles = vExamples[selected_index].length;
     if (index < numfiles) {
         var file = vExamples[selected_index][index];
-        //console.log("getting example file: " + file);
         $.get(file, function(data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
-            getfile(language, selected_index, index + 1);
+            if (numfiles > 1 && index < (numfiles - 1)) {
+                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);
+                Editor.addNewTab(fileName);
+                var nameToClick = "#textChildAce" + (Editor.tabs - 1);
+                $(nameToClick).click();
+                getFiles(language, selected_index, index + 1);
+            }
         });
+    }
+
+    if (numfiles == 1) {
+        for (t = 0; t < Editor.tabs; t++)
+            $('#tabElementAce' + t).click();
+        goToMainTab();
     }
 }
 

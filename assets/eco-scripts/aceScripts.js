@@ -85,7 +85,6 @@ template.setMode('ace/mode/handlebars');
 aceEditor.setTheme("ace/theme/dracula");
 aceEditor.setSession(js);
 */
-var openedSessions = new Map();
 openedSessions.set(-1, new ace.EditSession("mainSession"));
 aceEditor.setSession(openedSessions.get(-1));
 
@@ -121,7 +120,7 @@ var Editor = Editor || {};
 
 Editor = {
     tabs: 0,
-    addNewTab: function() {
+    addNewTab: function(text = "", modeToSet = "ace/mode/csharp") {
         var self = this;
         var addTab = document.getElementById('addTabIcon');
         var liElement = document.createElement('LI');
@@ -130,30 +129,40 @@ Editor = {
         // Delete element
         var iElement = document.createElement('SPAN');
         iElement.className = 'fa fa-times';
-        iElement.id = this.tabs;
+        iElement.id = "tabElementAce" + this.tabs;
+        iElement.name = this.tabs;
         iElement.addEventListener('click', function(event) {
-            openedSessions.delete(iElement.id);
+            openedSessions.delete(Number(iElement.name));
             self.deleteTab(iElement);
         }, false);
         // Delete element finished
 
         var anchorElement = document.createElement('A');
         anchorElement.href = "#nav-compilers/";
-        this.tabs++;
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
         var fileType = ".cs";
-        textChild.innerHTML = 'Code' + this.tabs + fileType + ' ';
+        if (text === "")
+            textChild.innerHTML = 'Code' + this.tabs + fileType + ' ';
+        else
+            textChild.innerHTML = text;
         textChild.setAttribute('contenteditable', "true");
+        textChild.id = "textChildAce" + this.tabs;
         textChild.addEventListener('click', function(event) {
-            aceEditor.setSession(openedSessions.get(iElement.id));
+            aceEditor.setSession(openedSessions.get(Number(iElement.name)));
         }, false);
 
+        this.tabs++;
         anchorElement.insertBefore(textChild, iElement);
         liElement.appendChild(anchorElement);
         addTab.parentNode.insertBefore(liElement, addTab);
 
-        openedSessions.set(iElement.id, new ace.EditSession(textChild.innerHTML));
+        var initialCode = textChild.innerHTML;
+        if (text != "")
+            initialCode = '';
+        var newAceSession = new ace.EditSession(initialCode);
+        newAceSession.setMode(modeToSet);
+        openedSessions.set(Number(iElement.name), newAceSession);
     },
     deleteTab: function(tab) {
         while (tab.nodeName != 'LI') {

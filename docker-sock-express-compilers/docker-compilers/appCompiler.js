@@ -155,51 +155,51 @@ app.post('/compilex', function(req, res) {
         console.log(cmddocker);
         var start = new Date();
         console.log("Calling child_process " + start + "...\n");
-        console.log(io.clients)
-        console.log(io)
-            /*
+        //console.log(io.clients)
+        //console.log(io)
+        /*
 
-                    const { spawn } = require('child_process');
-                    const events = require('events');
-                    const myEmitter = new events.EventEmitter();
+                const { spawn } = require('child_process');
+                const events = require('events');
+                const myEmitter = new events.EventEmitter();
 
-                    const dockerRun = spawn(cmddocker, {
-                        shell: true
-                    });
+                const dockerRun = spawn(cmddocker, {
+                    shell: true
+                });
 
-                    dockerRun.stdout.on('data', (data) => {
-                        var dataToSend = data.toString();
-                        console.log(dataToSend);
+                dockerRun.stdout.on('data', (data) => {
+                    var dataToSend = data.toString();
+                    console.log(dataToSend);
 
-                        if (res.headersSent) {
-                            console.error("Already sent inside dockerRun.stdout.on");
-                        }
-                        res.write(dataToSend); // write data to response stream
-                    });
+                    if (res.headersSent) {
+                        console.error("Already sent inside dockerRun.stdout.on");
+                    }
+                    res.write(dataToSend); // write data to response stream
+                });
 
-                    dockerRun.on('close', (code) => {
-                        if (code !== 0) {
-                            console.log(`grep process exited with code ${code}`);
-                        }
-                        if (res.headersSent) {
-                            console.error("Already sent before close res.end too");
-                        }
+                dockerRun.on('close', (code) => {
+                    if (code !== 0) {
+                        console.log(`grep process exited with code ${code}`);
+                    }
+                    if (res.headersSent) {
+                        console.error("Already sent before close res.end too");
+                    }
 
-                    });
+                });
 
-                    dockerRun.on('exit', (code) => {
-                        if (code !== 0) {
-                            console.log(`EXIT ${code}`);
-                        }
-                        if (res.headersSent) {
-                            console.error("Already sent before close EXIT too");
-                        }
-                        myEmitter.emit('firstSpawn-finished');
-                    });
-                    myEmitter.on('firstSpawn-finished', () => {
-                        res.send(); // finish the request, `end` not `send`
-                        console.log("Write but no ended.")
-                    });*/
+                dockerRun.on('exit', (code) => {
+                    if (code !== 0) {
+                        console.log(`EXIT ${code}`);
+                    }
+                    if (res.headersSent) {
+                        console.error("Already sent before close EXIT too");
+                    }
+                    myEmitter.emit('firstSpawn-finished');
+                });
+                myEmitter.on('firstSpawn-finished', () => {
+                    res.send(); // finish the request, `end` not `send`
+                    console.log("Write but no ended.")
+                });*/
 
         var child = require('child_process').exec(cmddocker, optionsCompilex, (e, stdout, stderr) => {
             console.log("Inside Child process");

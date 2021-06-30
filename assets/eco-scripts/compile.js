@@ -24,7 +24,8 @@ function compilerCall() {
 
     //e.preventDefault(); // Prevents the page from refreshing
     var zip = new JSZip();
-    zip.file("contract", ace.edit("aceEditor").getSession().getValue());
+    zip.file("contract", openedSessions.get(-1).getValue());
+    // zip.file("contract", getAllSections());
     zip.generateAsync({
         type: "base64",
         compression: "DEFLATE",
@@ -79,7 +80,13 @@ function compilerCall() {
 }
 
 function getAllSections() {
-    openedSessions.get("0").getValue()
+    var sessionValues = [];
+    sessionValues.push(openedSessions.get(-1).getValue())
+    for (var [key, value] of openedSessions) {
+        if (key != -1)
+            sessionValues.push(value.getValue());
+    }
+    return sessionValues;
 }
 
 function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {

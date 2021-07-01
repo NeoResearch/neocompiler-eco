@@ -1,8 +1,21 @@
 #!/bin/bash
 rm -rf /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+#
 #only using first file for now
 #echo $COMPILECODE | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
-echo $COMPILECODE_0 | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+#
+for i in $(seq 1 $COMPILECODE_COUNT); do
+  #echo $i; 
+  j=$((i-1))
+  #echo "base64 unzip compile parameter $j";
+  varname=COMPILECODE_$j
+  #echo "varname -> $varname"
+  #echo "ZIP: ${!varname}"
+  echo ${!varname} | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract$i.cs 
+done
+#
+#echo $COMPILECODE_0 | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+#
 #
 #echo -n "{ \"output\": \""
 echo -n "{ \"output\": \"" >> /tmp/return.txt

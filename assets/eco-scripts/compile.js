@@ -1,9 +1,9 @@
-function createCompilexJson(code_cs) {
+function createCompilexJson(code_zip_list) {
     var compilexJson = new Object();
     compilexJson.compilers_versions = $("#compilers_versions-selection-box")[0].value;
     compilexJson.codesend_selected_compiler = $("#codesend_selected_compiler")[0].value;
     compilexJson.cbx_compatible = 1;
-    compilexJson.codesend = code_cs;
+    compilexJson.codesend = code_zip_list;
     compilexJson.socketID = socketCompilers.id;
     return compilexJson;
 }
@@ -23,9 +23,14 @@ function compilerCall() {
     $('#collapseMore').collapse('hide');
 
     //e.preventDefault(); // Prevents the page from refreshing
-    var zip = new JSZip();
-    zip.file("contract", openedSessions.get(-1).getValue());
+    //
+    //
+    //var zip = new JSZip();
+    //
+    //zip.file("contract", openedSessions.get(-1).getValue());
+    //
     // zip.file("contract", getAllSections());
+    /*
     zip.generateAsync({
         type: "base64",
         compression: "DEFLATE",
@@ -33,11 +38,31 @@ function compilerCall() {
             level: 9
         }
     }).then((code) => {
+    */
+    var xl = getAllSections(); // get all codes
+    var xl_p = []; // store promises
+    for(i in xl) {
+        var zip = new JSZip();
+        zip.file("contract_"+i, xl[i]);
+        xl_p[i] = zip.generateAsync({
+            type: "base64",
+            compression: "DEFLATE",
+            compressionOptions: {
+                level: 9
+            }
+        });
+    }
+    // resolve all promises and launch
+    Promise.all(xl_p).then((code_zip_list) => {
+            console.log(code_zip_list);
+            
+        //});
+        
         if (SELECTED_COMPILER == "csharp") {
-            code_cs = code;
+            code_cs = code_zip_list;
             console.log("Compiling C# code...");
         }
-        var indata = createCompilexJson(code_cs);
+        var indata = createCompilexJson(code_zip_list);
         console.log(indata);
         $.ajax({
                 type: "POST",

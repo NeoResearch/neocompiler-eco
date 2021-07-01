@@ -143,14 +143,29 @@ io.set('origins', '*:*');
 app.post('/compilex', function(req, res) {
     var imagename = req.body.compilers_versions;
     var compilerLanguage = req.body.codesend_selected_compiler;
-    var code64 = Buffer.from(req.body.codesend, 'base64').toString('base64');
-    console.log("imagename: " + imagename)
-    console.log("language: " + compilerLanguage)
-    console.log("code64: " + code64)
-        //console.log(req)
+    // 'req.body.codesend' is now a vector
+    var code_zip_list = req.body.codesend;
+    //var code64 = Buffer.from(req.body.codesend, 'base64').toString('base64');
+    var code64_list = [];
+    for(var i in code_zip_list) {
+        code64_list[i] = Buffer.from(code_zip_list[i], 'base64').toString('base64');
+    }
+    //var code64 = Buffer.from(code_zip_list, 'base64').toString('base64');
+    console.log("imagename: " + imagename);
+    console.log("language: " + compilerLanguage);
+    //console.log("code64: " + code64);
+    var compileenv = "-e COMPILECODE_COUNT=" + code64_list.length + " ";
+    compileenv += " -e COMPILECODE="+code64_list[0];
+    for(i in code_zip_list) {
+        console.log("code64[" + i + "]=" + code64_list[i]);
+        compileenv += " -e COMPILECODE_" +i+"="+code64_list[i];
+    }
+    //console.log(req)
+    console.log("compileenv: '" + compileenv + "'");
 
     if (imagename != "" && checkIfCompilerExists(imagename)) {
-        var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+        //var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
+        var cmddocker = "docker run " + compileenv + " -t --rm " + imagename;
         console.log("Compiler Exists! Calling it to compile...");
         console.log(cmddocker);
         var start = new Date();

@@ -1,6 +1,9 @@
 #!/bin/bash
 rm -rf /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
-echo $COMPILECODE | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+#only using first file for now
+#echo $COMPILECODE | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+echo $COMPILECODE_0 | base64 --decode | funzip > /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/Contract1.cs
+#
 #echo -n "{ \"output\": \""
 echo -n "{ \"output\": \"" >> /tmp/return.txt
 echo "Neo compiler version (latest): " >> /tmp/output.txt

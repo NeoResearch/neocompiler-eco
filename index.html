@@ -103,10 +103,10 @@
         <!-- BEGIN UL FOR NAV MENU VERTICAL -->
         <ul class="nav menu-vertical" id="nav-tab" role="tablist">
 
-            <li class="nav-item">
+            <li class="nav-item" >
                 <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Compilers</p>
+                    <p id="compilerNav">Compilers</p>
                 </a>
             </li>
 
@@ -1802,5 +1802,113 @@
         $("#boxForPulseLegacyV2")[0].style = "display: none"
     }, 15000);
 </script>
+<!--<div id="hidetutorial"></div>-->
+<a href="javascript:removetutorial();" id="closetutorial" style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 10%" class="btn btn-danger"><i class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Fechar Tutorial</a>
+<a href="javascript:nextTutorial();" id="nexttutorial" style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 15%" class="btn btn-primary"><i class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Proximo</a>
+<style>
 
+    #hidetutorial{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.4;
+        transition: opacity 1s;
+        padding: 1px;
+        z-index: 1000000;
+        display: none;
+    }
+
+    #closetutorial{
+        display: none;
+    }
+
+    #nexttutorial{
+        display: none;
+    }
+
+    .popover{
+        z-index: 10000000;
+    }
+
+</style>
+<script>
+    var tutorialshow = 0;
+
+    var atualelement = '';
+
+
+    var steps = 1;
+
+
+    function call_fncts(elementBlock2,title,text){
+
+        if(tutorialshow == 0) {
+            $("#hidetutorial").css("display","none");
+            $( atualelement).popover('hide');
+            $(atualelement).popover('dispose');
+
+            $("#hidetutorial").css("display", "block");
+            $("#closetutorial").css("display", "block");
+            $("#nexttutorial").css("display", "block");
+            $("body").css("overflow-y", "hidden");
+            $(".container").css("opacity", "0.5");
+            $("header").css("opacity", "0.5");
+
+
+            //  $("" + elementBlock + "").css("z-index", "10000000000");
+
+            //  $("#" + elementBlock2 + "").css("background", "#00AF92");
+
+            $(elementBlock2).popover({
+                animation: true,
+                title: title,
+                content: text
+
+            });
+
+            atualelement = elementBlock2;
+            $(elementBlock2).popover('show');
+
+        }
+
+    }
+
+
+
+    function nextTutorial(){
+
+        $(".container").css("opacity", "1");
+
+        if(steps == 1){
+            call_fncts("#compilerNav",'O que e a Aba Compiler','Informações sobre Compilação.');
+        }
+
+
+
+        if(steps == 2){
+            removetutorial();
+        }
+        steps = steps + 1;
+    }
+
+    nextTutorial();
+
+</script>
+
+<script>
+
+    function removetutorial(){
+        tutorialshow = 1;
+        $("#hidetutorial").css("display","none");
+        $("#closetutorial").css("display","none");
+        $("#nexttutorial").css("display","none");
+        $( atualelement).popover('hide');
+        $(atualelement).popover('dispose');
+        $(".container").css("opacity", "1");
+        $("header").css("opacity", "1");
+
+
+    }
+</script>
 </html>

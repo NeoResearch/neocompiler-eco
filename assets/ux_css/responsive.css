@@ -7,12 +7,24 @@
 }
 
 @media (max-width: 1024px) {
+
+    .navgationTabs{
+
+        height: 200px!important;
+        max-height: auto!important;
+    }
+
+    .navgationTabs li{
+        max-height:80px!important;
+        float: left!important;
+        width: 100% !important;
+    }
     #aceEditor {
         font-size: 35px!important;
         height: 1000px!important;
     }
     .btn-compile {
-        height: 80px;
+        height: 110px;
         font-size: 45px!important;
         float: left;
         width: 100%;
@@ -37,7 +49,7 @@
     }
     .menu-mobile a {
         padding-top: 10px;
-        float: left;
+        float: right;
     }
     .menu-mobile i {
         color: white!important;
@@ -76,7 +88,7 @@
         height: 200px!important;
     }
     .nav-link img {
-        width: 180px!important;
+        width: 200px!important;
         margin-top: -15px!important;
     }
     header ul li {
@@ -117,9 +129,26 @@
     }
     .collapseMore {
         position: fixed;
+        bottom:2% !important;
+        top: auto!important;
+    }
+    .navgationTabs{
+        max-height:100%!important;
+    }
+    .navgationTabs li a{
+        font-size: 45px!important;
+    }
+    #closetutorial{
+        font-size: 45px!important;
+    }
+
+    #nexttutorial{
+        font-size: 45px!important;
+
+        top: 16%!important;
     }
     .collapseMore img {
-        width: 150px!important;
+        width: 100px!important;
         right: 0;
     }
     #collapseMenuMobile li i {

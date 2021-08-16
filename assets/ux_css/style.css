@@ -758,3 +758,33 @@ textarea:focus {
 
 
 /* End Navigation tab style */
+
+
+/* Begin Tutorial tab style */
+
+#hidetutorial {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+    transition: opacity 1s;
+    padding: 1px;
+    z-index: 1000000;
+    display: none;
+}
+
+#closetutorial {
+    display: none;
+}
+
+#nexttutorial {
+    display: none;
+}
+
+.popover {
+    z-index: 10000000;
+}
+
+
+/* End Tutorial tab style */

@@ -45,6 +45,10 @@ function nextTutorial() {
     }
 
     if (steps == 2) {
+        call_fncts("#compilebtn", 'Compile button', 'Click here to submit code to compiler.');
+    }
+
+    if (steps == 3) {
         removetutorial();
     }
 

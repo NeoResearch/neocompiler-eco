@@ -28,6 +28,17 @@ async function test_utils_hexToBytes() {
 
 // --------------------
 
+test('test_ecoscripts_helper', async () => {
+  await test_ecoscripts_helper();
+}); // test
+
+async function test_ecoscripts_helper() {
+  await delay(100);
+  const output1 = await page.evaluate(
+    () => this.int2hex(10)
+  );
+  expect(output1).toBe("0a");      
+}
 
 
 // --------------------

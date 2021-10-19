@@ -6,8 +6,7 @@
   "main": "lib-neocompiler.test.js",
   "scripts": {
     "test": "jest --verbose",
-    "serve": "http-server ../",
-    "start": "http-server ../"
+    "serve": "http-server ../"
   },
   "author": "",
   "license": "ISC",

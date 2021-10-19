@@ -16,6 +16,6 @@ Feel free to suggest more testing, we need that!
 
 ## Known issues
 
-Note that `dist/` folder is replicated on `tests/` and root `/`.
-This is because of wasm loader of `csbiginteger`... must fix that to prevent duplication.
+Wasm library for `csbiginteger` must live in pre-defined location (defined by webpack).
+So, we use `assets/` here, as a standard (to both `index.html` and `index_local.html`).
 

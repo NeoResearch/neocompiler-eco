@@ -47,16 +47,16 @@ function scripthash2address() {
 }
 
 /* BigInteger <-> Little-Endian ByteArray */
-function conv_bigint2bebytearray() {
+function conv_bigint2lebytearray() {
     valbigint = Number($('#convert_bigint')[0].value);
     //console.log("converting int:"+valbigint);
-    $('#convert_bytearray')[0].value = bigint2bebytearray(valbigint);
+    $('#convert_bytearray')[0].value = bigint2lebytearray(valbigint);
 }
 
-function conv_bebytearray2bigint() {
+function conv_lebytearray2bigint() {
     vbytearray = $('#convert_bytearray')[0].value;
     //console.log("converting int:"+valbigint);
-    $('#convert_bigint')[0].value = "" + behex2bigint(vbytearray);
+    $('#convert_bigint')[0].value = "" + lehex2bigint(vbytearray);
 }
 
 function conv_string_hash() {

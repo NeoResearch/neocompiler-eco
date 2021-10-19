@@ -37,8 +37,21 @@ async function test_ecoscripts_helper() {
   const output1 = await page.evaluate(
     () => this.int2hex(10)
   );
-  expect(output1).toBe("0a");      
+  expect(output1).toBe("0a");
+  //
+  //bigint2lebytearray
+  const output2 = await page.evaluate(
+    () => this.bigint2lebytearray("255")
+  );
+  expect(output2).toBe("ff00");
+  //
+  //lehex2bigint
+  const output3 = await page.evaluate(
+    () => this.lehex2bigint("ff")
+  );
+  expect(output3).toBe("-1");
 }
+
 
 
 // --------------------

@@ -114,7 +114,7 @@ eval("/* WEBPACK VAR INJECTION */(function(__filename, process, __dirname, Buffe
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = \"dist/7277261d1330613f123d733e4ccfe312.wasm\";\n\n//# sourceURL=webpack://csBigIntegerLib/./build/csbiginteger_raw_lib.wasm?");
+eval("module.exports = \"assets/7277261d1330613f123d733e4ccfe312.wasm\";\n\n//# sourceURL=webpack://csBigIntegerLib/./build/csbiginteger_raw_lib.wasm?");
 
 /***/ }),
 

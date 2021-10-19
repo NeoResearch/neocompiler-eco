@@ -1,0 +1,23 @@
+{
+  "name": "lib-neocompiler-tests",
+  "private": true,
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib-neocompiler.test.js",
+  "scripts": {
+    "test": "jest --verbose",
+    "serve": "http-server ../",
+    "start": "http-server ../"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "env": "^0.0.2"
+  },
+  "devDependencies": {
+    "jest": "^27.2.4",
+    "jest-puppeteer": "",
+    "puppeteer": "",
+    "http-server": "^13.0.2"
+  }
+}

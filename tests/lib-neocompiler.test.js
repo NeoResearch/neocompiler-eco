@@ -50,6 +50,16 @@ async function test_ecoscripts_helper() {
     () => this.lehex2bigint("ff")
   );
   expect(output3).toBe("-1");
+  // big 123456789012345678901234
+  const output4 = await page.evaluate(
+    () => this.bigint2lebytearray("123456789012345678901234")
+  );
+  expect(output4).toBe("f2af966ca0101f9b241a");
+  // big 123456789012345678901234
+  const output5 = await page.evaluate(
+    () => this.bigint2lebytearray("123456789012345678901234567890")
+  );
+  expect(output5).toBe("d20a3f4eeee073c3f60fe98e01");
 }
 
 

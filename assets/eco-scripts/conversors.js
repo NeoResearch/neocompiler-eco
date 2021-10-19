@@ -48,7 +48,7 @@ function scripthash2address() {
 
 /* BigInteger <-> Little-Endian ByteArray */
 function conv_bigint2lebytearray() {
-    valbigint = Number($('#convert_bigint')[0].value);
+    valbigint = $('#convert_bigint')[0].value;
     //console.log("converting int:"+valbigint);
     $('#convert_bytearray')[0].value = bigint2lebytearray(valbigint);
 }

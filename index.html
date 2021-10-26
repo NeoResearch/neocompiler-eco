@@ -1226,14 +1226,14 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="convert_bigint">BigInteger</label>
-                                                        <input id="convert_bigint" class="form-control" placeholder="BigInteger" oninput="conv_bigint2bebytearray()">
+                                                        <input id="convert_bigint" class="form-control" placeholder="BigInteger" oninput="conv_bigint2lebytearray()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="convert_bytearray">Little-Endian
                                                             ByteArray</label>
-                                                        <input id="convert_bytearray" class="form-control" placeholder="Little Endian ByteArray" oninput="conv_bebytearray2bigint()">
+                                                        <input id="convert_bytearray" class="form-control" placeholder="Little Endian ByteArray" oninput="conv_lebytearray2bigint()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1765,6 +1765,11 @@
 <!-- Zip compression library -->
 <script src="assets/third_party_js/jszip.min.js"></script>
 
+
+<!-- thirdparty 'assets' csbiginteger wasm -->
+<script src="assets/lib-csbiginteger.js"></script>
+
+<!-- eco-scripts -->
 
 <script src="assets/eco-scripts/crypto.js"></script>
 <script src="assets/eco-scripts/helper.js"></script>

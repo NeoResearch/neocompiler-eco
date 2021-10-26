@@ -25,8 +25,21 @@ function getFixed8() {
     return 100000000;
 }
 
-// javascript big integer to big-endian byte array (C# representation)
-function bigint2bebytearray(bigint) {
+// javascript big integer to little-endian byte array (C# representation)
+// input: biginteger in decimal format (negative is allowed)
+// output: biginteger in big-endian
+function bigint2lebytearray(bigint) {
+    bigint = ""+bigint; // STRING DECIMAL. Example: "-1"
+    var hex = csBigIntegerLib.convert10to16(bigint);
+    // hex is big-endian
+    if((hex.length>=2) && (hex[0]=='0') && (hex[1]=='x'))
+        hex = hex.substr(2); // remove '0x' prefix
+    hex = csBigIntegerLib.revertHexString(hex);
+    // hex is now little-endian
+    return hex;
+    
+    // TODO: remove all functions related to the deprecated implementation below
+    /*
     if (bigint >= 0) {
         bihex = bigint.toString(16);
         if (bihex.length % 2 == 1)
@@ -34,6 +47,7 @@ function bigint2bebytearray(bigint) {
         return revertHexString("00" + bihex); // '00' only really necessary in a few cases... TODO: improve that
     } else
         return negbigint2behex(bigint);
+    */
 }
 
 
@@ -46,9 +60,24 @@ function int2hex(intvalue, padding = 2) {
         hval = "0" + hval;
     return hval;
 }
-// behex2bigint($('#convert_bytearray')[0].value)
-// big endian hex string converted to javascript big integer
-function behex2bigint(behex) {
+
+// little endian hex string converted to javascript big integer (in string decimal)
+// input: example "ff00"
+// output: example "255"
+function lehex2bigint(lehex) {
+    var hex = ""+lehex; // STRING HEX. Example: "ff00"
+    if((hex.length>=2) && (hex[0]=='0') && (hex[1]=='x')) {
+        hex = hex.substr(2); // remove '0x' prefix (SHOULDN'T exist '0x' here...)
+        console.log("WARNING: lehex2bigint(...) expects little-endian, not big-endian '0x' prefixed!")
+    }
+    // convert to big-endian and add '0x'
+    hex = "0x"+csBigIntegerLib.revertHexString(hex);
+    var dec = csBigIntegerLib.convert16to10(hex);
+    // dec is now decimal
+    return dec;
+
+    // TODO: check if something below is still useful...
+    /*
     x = behex;
     // if needs padding
     if (x.length % 2 == 1)
@@ -75,6 +104,7 @@ function behex2bigint(behex) {
         // positive number: positive is easy, just revert and convert to int (TODO: beware javascript natural precision loss)
         return parseInt(revertHexString(behex), 16);
     }
+    */
 }
 
 // negative big integers returned as (big-endian) hex

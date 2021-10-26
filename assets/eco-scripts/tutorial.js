@@ -57,6 +57,9 @@ function removetutorial() {
     $(atualelement).popover('dispose');
     $(".container").css("opacity", "1");
     $("header").css("opacity", "1");
+    setLocalStorage("disabledTutoral", "1");
+    //getLocalStorage("disabledTutoral")
 }
 
-nextTutorial();
+if (getLocalStorage("disabledTutoral") != "1")
+    nextTutorial();

@@ -13,7 +13,8 @@
 </head>
 
 
-
+<!--
+    Bye link to Legacy
 <a class="btn btn-default collapseMore pulse collapsed" id="boxForPulseLegacyV2" href="./neo2/index.html" style="/* margin-top: -20px; */z-index: 80000000!important;bottom: 0%!important;top: 75%;width: 20%;height: 20px;position: fixed;border-radius: 0;border:1px dashed white;">
     <img src="assets/neocompiler-legacy-v2.png" style="width: 55px;float: left;">
 
@@ -34,6 +35,8 @@
 ">NeoCompiler ECO
     </p>
 </a>
+-->
+
 
 <!--Big blue-->
 <div id="mdb-preloader" class="flex-center preloader">
@@ -1798,15 +1801,17 @@
 
 <script src="assets/eco-scripts/tutorial.js"></script>
 
+<script src="assets/eco-scripts/local_storage.js"></script>
+
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>
     $("#rawtest").load("assets/tabs/raw.html");
     $("#sbuildtest").load("assets/tabs/sbuild.html");
 
 
-    window.setTimeout(function() {
+    /*window.setTimeout(function() {
         $("#boxForPulseLegacyV2")[0].style = "display: none"
-    }, 15000);
+    }, 15000);*/
 </script>
 
 

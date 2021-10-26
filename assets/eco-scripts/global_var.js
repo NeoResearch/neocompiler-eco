@@ -1,5 +1,6 @@
 var cSharpFiles = [
     ["./assets/sc_examples/csharp/HelloWorld.cs"],
+    ["./assets/sc_examples/csharp/Oracle.cs"],
     [
         ["./assets/sc_examples/csharp/NNS/NameService.cs"],
         ["./assets/sc_examples/csharp/NNS/NameState.cs"],

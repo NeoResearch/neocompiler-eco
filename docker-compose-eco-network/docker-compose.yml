@@ -23,6 +23,7 @@ services:
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
+      - ./neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
       - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json

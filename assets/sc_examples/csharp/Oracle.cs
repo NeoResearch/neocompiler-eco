@@ -1,13 +1,18 @@
+using Neo;
+using Neo.SmartContract;
 using Neo.SmartContract.Framework;
-using Neo.SmartContract.Framework.Services.Neo;
+using Neo.SmartContract.Framework.Attributes;
+using Neo.SmartContract.Framework.Native;
+using Neo.SmartContract.Framework.Services;
 using System;
+using System.Numerics;
 
-namespace Neo.SmartContract.Examples
+namespace OracleDemo
 {
     [ManifestExtra("Author", "Neo")]
     [ManifestExtra("Email", "dev@neo.org")]
     [ManifestExtra("Description", "This is an oracle example")]
-    public class OracleDemo : Framework.SmartContract
+    public class OracleDemo : SmartContract
     {
         public static void DoRequest()
         {
@@ -22,7 +27,7 @@ namespace Neo.SmartContract.Examples
 
         public static void Callback(string url, string userdata, OracleResponseCode code, string result)
         {
-            if (ExecutionEngine.CallingScriptHash != Oracle.Hash) throw new Exception("Unauthorized!");
+            if (Runtime.CallingScriptHash != Oracle.Hash) throw new Exception("Unauthorized!");
             if (code != OracleResponseCode.Success) throw new Exception("Oracle response failure with code " + (byte)code);
 
             object ret = StdLib.JsonDeserialize(result); // [ "hello world" ]
@@ -34,4 +39,3 @@ namespace Neo.SmartContract.Examples
         }
     }
 }
-

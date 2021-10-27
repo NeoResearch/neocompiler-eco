@@ -65,6 +65,11 @@ async function test_ecoscripts_helper() {
     () => this.base64ToHex("zEE/FqoYO9zHbDvu6q1T4iH2dGs=")
   );
   expect(output6).toBe("cc413f16aa183bdcc76c3beeeaad53e221f6746b");
+  // hexToBase64
+  const output7 = await page.evaluate(
+    () => this.hexToBase64("cc413f16aa183bdcc76c3beeeaad53e221f6746b")
+  );
+  expect(output7).toBe("zEE/FqoYO9zHbDvu6q1T4iH2dGs=");
 }
 
 

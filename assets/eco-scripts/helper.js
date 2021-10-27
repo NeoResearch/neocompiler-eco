@@ -289,3 +289,7 @@ function base64ToHex(str_b64) {
     return result;
 }
 
+function hexToBase64(hexstr) {
+    const str = hexstring2str(hexstr);
+    return btoa(str);
+}

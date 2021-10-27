@@ -20,6 +20,21 @@ function xeh2hex() {
     $("#hexxeh_hex").val(revertHexString($("#hexxeh_xeh").val()));
 };
 
+// base64 <-> hex
+
+function b64hx() {
+    $("#b64hx_hex_base64").val(
+        base64ToHex($("#b64hx_base64_hex").val())
+    );
+};
+
+function hxb64() {
+    $("#b64hx_base64_hex").val(
+        hexToBase64($("#b64hx_hex_base64").val())
+    );
+};
+
+
 /* Number <-> Fixed8 Hex */
 function num2fixed8() {
     const a = new Neon.u.Fixed8(parseInt($("#fx8_number").val()));

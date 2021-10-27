@@ -278,3 +278,14 @@ function convertParam(type, value) {
     return "";
 }
 //===============================================================
+
+function base64ToHex(str_b64) {
+    const str_bytes = atob(str_b64);
+    let result = '';
+    for (let i = 0; i < str_bytes.length; i++) {
+        const hex = str_bytes.charCodeAt(i).toString(16);
+        result += (hex.length === 2 ? hex : '0' + hex);
+    }
+    return result;
+}
+

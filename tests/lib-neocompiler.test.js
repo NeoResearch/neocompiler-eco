@@ -60,7 +60,13 @@ async function test_ecoscripts_helper() {
     () => this.bigint2lebytearray("123456789012345678901234567890")
   );
   expect(output5).toBe("d20a3f4eeee073c3f60fe98e01");
+  // base64ToHex
+  const output6 = await page.evaluate(
+    () => this.base64ToHex("zEE/FqoYO9zHbDvu6q1T4iH2dGs=")
+  );
+  expect(output6).toBe("cc413f16aa183bdcc76c3beeeaad53e221f6746b");
 }
+
 
 
 

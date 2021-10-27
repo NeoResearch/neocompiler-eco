@@ -4,5 +4,8 @@
     "FullState": false,
     "Network": 56753,
     "AutoVerify": false
-  }
+  },
+  "Dependency": [
+    "RpcServer"
+  ]
 }

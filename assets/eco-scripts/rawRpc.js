@@ -14,7 +14,7 @@ function rawRpcCall(fillRealTx = false, saveID = -1) {
             $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
             convertJsonNotifications();
 
-            if (fillRealTx)
+            if (fillRealTx && checkIfWalletIsConnected())
                 fillRealTxFromInvokeFunction();
             else
                 cleanRealTxInvoke();

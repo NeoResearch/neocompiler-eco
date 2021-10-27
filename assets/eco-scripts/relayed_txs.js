@@ -28,7 +28,7 @@ function drawRelayedTXs() {
         var b = document.createElement('button');
         b.setAttribute('content', 'test content');
         b.setAttribute('class', 'btn btn-danger btn-sm');
-        b.setAttribute('value', ka);
+        b.setAttribute('value', rt);
         b.onclick = function() {
             removeRelayedTX(this.value);
         };
@@ -44,7 +44,6 @@ function drawRelayedTXs() {
         }
         b.innerHTML = resultOrError;
         txRow.insertCell(-1).appendChild(b);
-
 
         var txAppLog = document.createElement('button');
         txAppLog.setAttribute('content', 'test content');
@@ -147,3 +146,18 @@ function callRawTx(relayedTxID) {
     $("#txtRPCJson").val(jsonToCallStringified);
     rawRpcCall(false);
 }
+
+//===============================================================
+function removeRelayedTX(idToRemove) {
+    if (idToRemove < RELAYED_TXS.length && idToRemove > -1) {
+        RELAYED_TXS.splice(idToRemove, 1);
+        drawRelayedTXs();
+    } else {
+        swal("Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + RELAYED_TXS.length, {
+            icon: "error",
+            buttons: false,
+            timer: 5500,
+        });
+    }
+}
+//===============================================================

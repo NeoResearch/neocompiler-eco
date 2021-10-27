@@ -49,7 +49,12 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/confi
 #Trying to normally all dockers
 #sleep 1
 
-rm /opt/node/neo-cli/Plugins/OracleService.dll
+
+if [[ ${IS_ORACLE} = "0" ]]; then
+	echo "Deleting Oracle"
+	rm /opt/node/neo-cli/Plugins/OracleService.dll
+	sleep 1
+fi
 
 if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"

@@ -1,7 +1,9 @@
 {
   "PluginConfiguration": {
     "Network": 56753,
-    "Nodes": [],
+    "Nodes": [
+    	"eco-neo-csharp-node1-running:20333"
+    ],
     "MaxTaskTimeout": 432000000,
     "AllowPrivateHost": false,
     "AllowedContentTypes": [ "application/json" ],

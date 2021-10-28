@@ -2,10 +2,10 @@
   "PluginConfiguration": {
     "Network": 56753,
     "Nodes": [
-    	"eco-neo-csharp-node1-running:20333"
+    	"http://eco-neo-csharp-noderpc1-running:30337"
     ],
     "MaxTaskTimeout": 432000000,
-    "AllowPrivateHost": false,
+    "AllowPrivateHost": true,
     "AllowedContentTypes": [ "application/json" ],
     "Https": {
       "Timeout": 5000
@@ -14,7 +14,7 @@
       "EndPoint": "http://127.0.0.1:8080",
       "Timeout": 15000
     },
-    "AutoStart": false
+    "AutoStart": true
   },
   "Dependency": [
     "RpcServer"

@@ -25,6 +25,13 @@ namespace OracleDemo
             Oracle.Request(url, filter, callback, userdata, gasForResponse);
         }
 
+        public static void DoRequestWithParameters(string filter, string url, long gasForResponse)
+        {
+            string callback = "callback"; // callback method
+            object userdata = "userdata"; // arbitrary type
+            Oracle.Request(url, filter, callback, userdata, gasForResponse);
+        }
+        
         public static void Callback(string url, string userdata, OracleResponseCode code, string result)
         {
             if (Runtime.CallingScriptHash != Oracle.Hash) throw new Exception("Unauthorized!");

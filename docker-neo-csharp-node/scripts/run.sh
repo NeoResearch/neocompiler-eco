@@ -60,6 +60,7 @@ if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"
 	rm /opt/node/neo-cli/Plugins/RpcServer.dll
 	rm /opt/node/neo-cli/Plugins/RpcNep17Tracker.dll
+	rm /opt/node/neo-cli/Plugins/RpcNep11Tracker.dll
 	rm /opt/node/neo-cli/Plugins/ApplicationLogs.dll
 	rm /opt/node/neo-cli/Plugins/StateService.dll	
 	sleep 1

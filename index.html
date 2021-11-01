@@ -450,6 +450,18 @@
                                                 </div>
                                             </div>
 
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="storage_key">Enter Key</label>
+                                                        <input id="storage_key" name="storage_key" class="form-control" placeholder="Storage Key" style="width: 100%; margin-bottom: 10px;">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <a id="btnGetStorage" onClick="getStorage()" class="btn btn-success"><i class="fas fa-file-contract"></i> Get Storage</a>
+                                                </div>
+                                            </div>
+
                                             <div class="row mb-2 collapse" id="collapseLocalContractsOptions">
                                                 <div class="col-md-4">
                                                     <a id="btnNewContractDeloy" onClick="deployContract()" class="btn btn-success"><i class="fas fa-file-contract"></i> Deploy Contract</a>
@@ -1162,7 +1174,8 @@
                             </div>
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
-                                <h4 class="green-title">Base64 <-> Hex</h4>
+                                <h4 class="green-title">Base64
+                                    <-> Hex</h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">

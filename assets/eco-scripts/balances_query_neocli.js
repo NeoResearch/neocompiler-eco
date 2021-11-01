@@ -51,3 +51,23 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
         NUMBER_FAILS_REQUESTS++;
     }); //End of POST for search
 }
+
+function getStorage(adddressToGet, addressID) {
+
+    var invokeparams = [];
+
+    invokeparams.push(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash);
+    invokeparams.push($("#storage_key")[0].value);
+
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getstorage",
+        "params": invokeparams
+    };
+
+    goToTabAndClick("nav-rpc");
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(true);
+}

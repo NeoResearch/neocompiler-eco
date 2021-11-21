@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0.101-focal
+FROM mcr.microsoft.com/dotnet/sdk:6.0.100-focal
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

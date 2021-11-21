@@ -1,5 +1,5 @@
 # NEO csharp-nodes network simulator
-FROM mcr.microsoft.com/dotnet/aspnet:5.0.1-focal
+FROM mcr.microsoft.com/dotnet/aspnet:6.0.0-focal
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

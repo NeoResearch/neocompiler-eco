@@ -6,7 +6,7 @@ function frmRPCJson() {
 };
 
 
-function rawRpcCall(fillRealTx = false, saveID = -1) {
+function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
@@ -21,6 +21,9 @@ function rawRpcCall(fillRealTx = false, saveID = -1) {
 
             if (saveID != -1)
                 RELAYED_TXS[saveID].push(data);
+
+            if (relay)
+                signAndRelay();
         },
         "json" // The format the response should be in
     ).fail(function() {

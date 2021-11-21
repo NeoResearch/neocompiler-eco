@@ -166,9 +166,9 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo(); getOracleInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Consensus</p>
+                    <p>Network</p>
                 </a>
             </li>
 
@@ -1357,7 +1357,7 @@
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
-                            <li class="breadcrumb-item active" aria-current="page"><a>Consensus</a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a>Network</a></li>
                         </ol>
                     </nav>
 
@@ -1459,6 +1459,48 @@
 
                                             <div class="col-md-12">
                                                 <textarea id="noderpcdata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                                <h4 class="green-title">OracleService
+                                    <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
+                                        class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="setOracle()" class="btn btn-danger btn-sm">Elect Oracle <i
+                                            class="fas fa-vote-yea"></i></button>
+                                </h4>
+                                <div class="container">
+                                    <div class="row">
+
+                                        <div class="container">
+
+                                            <div class="col-md-12">
+                                                <textarea id="oracleservicedata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                                <h4 class="green-title">OracleHttpsProtocol
+                                    <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
+                                        class="fas fa-sync-alt"></i></button>
+                                </h4>
+                                <div class="container">
+                                    <div class="row">
+
+                                        <div class="container">
+
+                                            <div class="col-md-12">
+                                                <textarea id="oraclehttpsprotocoldata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
 
@@ -1838,6 +1880,8 @@
 <script src="assets/eco-scripts/local_storage.js"></script>
 
 <script src="assets/eco-scripts/tutorial.js"></script>
+
+<script src="assets/eco-scripts/oracles.js"></script>
 
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>

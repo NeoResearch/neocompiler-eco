@@ -161,7 +161,6 @@ services:
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
-      - ./neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json
       - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json            
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
@@ -169,6 +168,9 @@ services:
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
       - ./neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
       - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs/ConsensusService
+      - ./neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
+      - ./nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/neo-cli/Logs/OracleHttpsProtocol
+      - ./nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/neo-cli/Logs/OracleService
       - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json      
     depends_on:
       - eco-neo-csharp-node1-running

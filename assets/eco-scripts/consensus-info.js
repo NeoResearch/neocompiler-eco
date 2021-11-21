@@ -22,6 +22,17 @@ function getNodeInfo() {
 }
 
 
+function getOracleInfo() {
+    $.get(BASE_PATH_ECOSERVICES + '/statusoracles/0', function(data) {
+        $("#oracleservicedata").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#oracleservicedata").scrollTop($("#oracleservicedata")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusoracles/1', function(data) {
+        $("#oraclehttpsprotocoldata").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#oraclehttpsprotocoldata").scrollTop($("#oraclehttpsprotocoldata")[0].scrollHeight);
+    });
+}
+
 function createMultiSigFromNextValidators() {
     var jsonForGetValidators = {
         "jsonrpc": "2.0",

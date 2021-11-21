@@ -567,12 +567,13 @@ function changeDefaultWallet(walletID, skipSwal = false) {
     $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
     updateTransferLabel();
 
-    swal({
-        title: "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label,
-        text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
-        icon: "success",
-        timer: 5500,
-    });
+    if (!skipSwal)
+        swal({
+            title: "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label,
+            text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+            icon: "success",
+            timer: 5500,
+        });
 }
 
 function checkIfWalletIsConnected() {

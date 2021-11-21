@@ -336,7 +336,7 @@ function deleteLocalContract() {
 }
 
 
-function invokeFunctionWithParams(contractHash, method, params) {
+function invokeFunctionWithParams(contractHash, method, params, relay = false) {
     if (!checkIfWalletIsConnected())
         return;
 
@@ -363,7 +363,7 @@ function invokeFunctionWithParams(contractHash, method, params) {
     goToTabAndClick("nav-rpc");
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
     $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall(true);
+    rawRpcCall(true, -1, relay);
 }
 
 function invokeFunction() {

@@ -34,6 +34,15 @@ ECO_WALLET.push({
     print: true
 });
 
+
+ECO_WALLET.push({
+    account: new Neon.wallet.Account("02cd0cc5b234a29f91d523b00bcd3ba204a887de838045bf55c54ae7052db8e22b"),
+    label: "OraclePub",
+    print: true
+});
+
+
+
 /*
 ECO_WALLET.push({
     account: new Neon.wallet.Account("6PYMM6gD8HhUjxobTp5eFgHbqFp5n49ZApNJViU9wnRjyfF2KYsbLg28Kr"),

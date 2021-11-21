@@ -105,7 +105,7 @@ function updateCompilers() {
                 obj["version"] = stdout1[i + 1];
                 // Remove later TODO
                 console.log("Inside updateCompilers - Printing " + obj["version"].substring(1, 4))
-                if (obj["version"].substring(0, 4) == "v3.0")
+                if (obj["version"].substring(0, 2) == "v3")
                     arr.push(obj);
             }
             compilers = arr;

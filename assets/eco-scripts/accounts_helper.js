@@ -6,6 +6,14 @@ function searchAddrIndexFromBase58(addressBase58ToTryToGet) {
     return -1;
 }
 
+function searchAddrIndexFromLabel(addressLabelToTryToGet) {
+    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
+        if (ECO_WALLET[iToFind].account._encrypted == null)
+            if (ECO_WALLET[iToFind].label == addressLabelToTryToGet)
+                return iToFind;
+    return -1;
+}
+
 function searchAddrIndexFromWif(wifToTryToGet) {
     for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
         if (ECO_WALLET[iToFind].account._encrypted == null)

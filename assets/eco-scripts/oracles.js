@@ -1,4 +1,4 @@
-function setOracle() {
+function setRole(role) {
 
     if (NATIVE_CONTRACTS.length == 0) {
         swal("Wait for Native Contracts to be loaded. Call me again.", {
@@ -18,7 +18,7 @@ function setOracle() {
     var roleManagementID = getNativeContractIndexByName("RoleManagement");
 
     var finalParams = [];
-    var itemRoleId = { type: "Integer", value: "8" };
+    var itemRoleId = { type: "Integer", value: role };
     finalParams.push(itemRoleId);
     var pubKeyArrays = [];
     var oraclePub = { type: "PublicKey", value: ECO_WALLET[oracleIndex].account._publicKey };

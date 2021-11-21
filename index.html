@@ -166,7 +166,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo(); getOracleInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Network</p>
                 </a>
@@ -1468,23 +1468,20 @@
                             </div>
 
                             <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
-                                <h4 class="green-title">OracleService
+                                <h4 class="green-title">Oracle Service
                                     <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                         class="fas fa-sync-alt"></i></button>
-                                    <button type="submit" onclick="setOracle()" class="btn btn-danger btn-sm">Elect Oracle <i
+                                    <button type="submit" onclick="setRole(8)" class="btn btn-danger btn-sm">Elect Oracle <i
                                             class="fas fa-vote-yea"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
 
                                             <div class="col-md-12">
                                                 <textarea id="oracleservicedata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1496,15 +1493,48 @@
                                 </h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
 
                                             <div class="col-md-12">
                                                 <textarea id="oraclehttpsprotocoldata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                                <h4 class="green-title">Verification Service
+                                    <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
+                                        class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="setRole(4)" class="btn btn-danger btn-sm">Elect StateService <i
+                                            class="fas fa-vote-yea"></i></button>
+                                </h4>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
 
+                                            <div class="col-md-12">
+                                                <textarea id="verificationservicedata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                                <h4 class="green-title">Verification Context
+                                    <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
+                                        class="fas fa-sync-alt"></i></button>
+                                </h4>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
+
+                                            <div class="col-md-12">
+                                                <textarea id="verificationcontextdata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

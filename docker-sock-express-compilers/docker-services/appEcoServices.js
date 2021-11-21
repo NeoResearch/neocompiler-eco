@@ -105,19 +105,34 @@ app.get('/statusnode/:node', function(req, res) {
     });
 });
 
-app.get('/statusoracles/:node', function(req, res) {
+app.get('/statusservice/:serviceType/:role', function(req, res) {
     // Node 0 is the RPC
-    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 2) {
-        console.log("Someone is doing something crazy. This oracle node does not exist.");
+    if (!isInt(req.params.serviceType) || req.params.serviceType < 0 || req.params.serviceType > 2) {
+        console.log("Someone is doing something crazy. This service node does not exist.");
         res.send("This is not a valid node parameter");
     }
 
+    if (!isInt(req.params.role)) {
+        console.log("Someone is doing something crazy. This service node does not exist.");
+        res.send("This is not a valid node parameter");
+    }
+
+    var serviceName = "";
+    if (req.params.role == 4 && req.params.serviceType == 0)
+        serviceName = "verificationservice";
+
+    if (req.params.role == 4 && req.params.serviceType == 1)
+        serviceName = "verificationcontext";
+
+    if (req.params.role == 8 && req.params.serviceType == 0)
+        serviceName = "oracleservice";
+
+    if (req.params.role == 8 && req.params.serviceType == 1)
+        serviceName = "oraclehttps";
 
     // $(ls -1rt | tail -n1) prints the last file of ls, instead of *.log
     res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-    var cmddocker = 'cd /opt/nodes-logs/logs-neocli-noderpc-oracleservice/ && cat ./$(ls -1rt | tail -n1) | tail -n 500';
-    if (req.params.node == 1)
-        cmddocker = 'cd /opt/nodes-logs/logs-neocli-noderpc-oraclehttps/ && cat  ./$(ls -1rt | tail -n1) | tail -n 500';
+    var cmddocker = 'cd /opt/nodes-logs/logs-neocli-noderpc-' + serviceName + '/ && cat ./$(ls -1rt | tail -n1) | tail -n 500';
     console.log("cmddocker is " + cmddocker);
     var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
         if (e instanceof Error) {
@@ -129,6 +144,8 @@ app.get('/statusoracles/:node', function(req, res) {
         }
     });
 });
+
+
 // ============================================================
 
 // ============================================================

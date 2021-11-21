@@ -23,13 +23,24 @@ function getNodeInfo() {
 
 
 function getOracleInfo() {
-    $.get(BASE_PATH_ECOSERVICES + '/statusoracles/0', function(data) {
+    $.get(BASE_PATH_ECOSERVICES + '/statusservice/0/8', function(data) {
         $("#oracleservicedata").val(data.replace(/[^\x00-\x7F]/g, ""));
         $("#oracleservicedata").scrollTop($("#oracleservicedata")[0].scrollHeight);
     });
-    $.get(BASE_PATH_ECOSERVICES + '/statusoracles/1', function(data) {
+    $.get(BASE_PATH_ECOSERVICES + '/statusservice/1/8', function(data) {
         $("#oraclehttpsprotocoldata").val(data.replace(/[^\x00-\x7F]/g, ""));
         $("#oraclehttpsprotocoldata").scrollTop($("#oraclehttpsprotocoldata")[0].scrollHeight);
+    });
+}
+
+function getStateInfo() {
+    $.get(BASE_PATH_ECOSERVICES + '/statusservice/0/4', function(data) {
+        $("#verificationservicedata").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#verificationservicedata").scrollTop($("#verificationservicedata")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusservice/1/4', function(data) {
+        $("#verificationcontextdata").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#verificationcontextdata").scrollTop($("#verificationcontextdata")[0].scrollHeight);
     });
 }
 

@@ -26,7 +26,6 @@ services:
       - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
-      - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs/ConsensusService
     healthcheck:
@@ -62,8 +61,7 @@ services:
       - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
       - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json      
       - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
-      - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json          
+      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json    
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs/ConsensusService
     healthcheck:
@@ -171,7 +169,9 @@ services:
       - ./neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
       - ./nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/neo-cli/Logs/OracleHttpsProtocol
       - ./nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/neo-cli/Logs/OracleService
-      - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json      
+      - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
+      - ./nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/neo-cli/Logs/VerificationService
+      - ./nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/neo-cli/Logs/VerificationContext       
     depends_on:
       - eco-neo-csharp-node1-running
     healthcheck:

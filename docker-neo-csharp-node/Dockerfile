@@ -1,5 +1,5 @@
 # NEO csharp-nodes network simulator
-FROM microsoft/dotnet:2.2-sdk-bionic
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

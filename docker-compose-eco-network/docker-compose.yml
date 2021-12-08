@@ -23,8 +23,7 @@ services:
       - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json   
-      - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
       - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
       - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs/ConsensusService
@@ -59,8 +58,7 @@ services:
       - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
       - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
-      - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json      
-      - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json    
       - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
       - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs/ConsensusService
@@ -158,9 +156,8 @@ services:
     volumes:
       - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
       - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
-      - ./neo-cli/configs/plugins/rpcNep11Tracker.json:/opt/node/neo-cli/Plugins/RpcNep11Tracker/config.json            
-      - ./neo-cli/configs/plugins/rpcNep17Tracker.json:/opt/node/neo-cli/Plugins/RpcNep17Tracker/config.json
+      - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json     
+      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
       - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
       - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
       - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      

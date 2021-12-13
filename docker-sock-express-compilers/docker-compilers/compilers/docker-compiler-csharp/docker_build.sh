@@ -1,6 +1,7 @@
 #!/bin/bash
 COMPILER_VERSION=2.9.4-dev2
 # https://github.com/neo-project/neo-compiler/commits/master-2.x
+# NeoResearch/neo-compiler-legacy
 COMPILER_COMMIT_NEOCOMPILER=f6b05a6ebea9ce99133cfaf47f154f154c0645ca
 
 #https://github.com/neo-project/neo-devpack-dotnet/commits/master-2.x

@@ -11,6 +11,9 @@ function changeSelectedNetwork() {
         case 3:
             default_nodes = testnetNodes
             break;
+        case 4:
+            default_nodes = mainnetNodes
+            break;
         default:
             console.error(`Sorry, we are out of options for selected network.`);
     }

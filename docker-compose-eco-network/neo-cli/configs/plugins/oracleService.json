@@ -5,6 +5,7 @@
     	"http://eco-neo-csharp-noderpc1-running:30337"
     ],
     "MaxTaskTimeout": 432000000,
+    "MaxOracleTimeout": 10000,
     "AllowPrivateHost": true,
     "AllowedContentTypes": [ "application/json" ],
     "Https": {

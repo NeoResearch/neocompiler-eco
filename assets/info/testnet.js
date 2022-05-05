@@ -14,35 +14,35 @@ testnetNodes = [{
     },
     {
         "protocol": "http",
-        "url": "seed1t.neo.org:20333",
+        "url": "seed1t5.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "http",
-        "url": "seed2t.neo.org:20333",
+        "url": "seed2t5.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "http",
-        "url": "seed3t.neo.org:20333",
+        "url": "seed3t5.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "http",
-        "url": "seed4t.neo.org:20333",
+        "url": "seed4t5.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
     {
         "protocol": "http",
-        "url": "seed5t.neo.org:20333",
+        "url": "seed5t5.neo.org:20333",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"

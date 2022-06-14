@@ -1923,6 +1923,12 @@
         BASE_PATH_ECOSERVICES = $("#eco_services_path")[0].value;
         BASE_PATH_CLI = $("#rpc_nodes_path")[0].value;
         BASE_PATH_NEOSCAN = $("#neoscan_path")[0].value;
+        console.log("updateBASEPATHS: BASE_PATH_COMPILERS='" + BASE_PATH_COMPILERS + "'");
+        console.log("updateBASEPATHS: BASE_PATH_ECOSERVICES='" + BASE_PATH_ECOSERVICES + "'");
+        console.log("updateBASEPATHS: BASE_PATH_CLI='" + BASE_PATH_CLI + "'");
+        console.log("updateBASEPATHS: BASE_PATH_NEOSCAN='" + BASE_PATH_NEOSCAN + "'");
+
+        updateAllCompilerRelatedVariables(BASE_PATH_COMPILERS);
 
         updateNeoScanLinkIfEnable();
     }

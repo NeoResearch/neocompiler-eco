@@ -55,10 +55,10 @@ app.get('/', (req, res) => {
 	return;
     }
 
-    console.log("Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch");
+    console.log("Welcome to our NeoCompiler Eco Compilers RPC API - Neo 2.x - NeoResearch Community");
     var obj = {};
     obj["result"] = true;
-    obj["welcome"] = "Welcome to our NeoCompiler Eco Compilers RPC API - NeoResearch.";
+    obj["welcome"] = "Welcome to our NeoCompiler Eco Compilers RPC API - Neo 2.x - NeoResearch Community";
     var arrMethods = [];
     arrMethods.push({
         method: "/compilex"

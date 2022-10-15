@@ -66,25 +66,10 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 
 ### Dependencies
 
-### Installing docker-compose 1.19.0+
-
-We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:
-
-* Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
-
-```docker
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
-`chmod +x /usr/local/bin/docker-compose`
-
-`echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
-
-`source ~/.bashrc`
-
 ### Docker recommendations
 
 Docker technology is essential for sandboxing all compilers in different environments (for different languages).
+Docker compose is now integrated with desktop docker.
 
 * Ubuntu-based distributions [guidelines](https://docs.docker.com/install/linux/docker-ce/ubuntu/#set-up-the-repository):
 
@@ -147,21 +132,21 @@ The backend for C# is provided using native `github/neo-project` tools, only two
 **Http front-end**:
 `cd /docker-sock-express-compilers/docker-http-express`
 
-`docker-compose up`
+`docker compose up`
 
 **Compilers RPC API Backend**:
 `cd docker-sock-express-compilers/docker-compilers`
 
-`docker-compose up`
+`docker compose up`
 
 **Eco Services**:
 `cd docker-sock-express-compilers/docker-services`
 
-`docker-compose up`
+`docker compose up`
 
 ## A2) Eco Network Funtionalities
 
-Docker-compose is the main tools that acts for the creation of our micro-service.
+Docker compose is the main tools that acts for the creation of our micro-service.
 This script will start all necessary backend functionalities and neo-csharp-nodes.
 
 In particular, we currently have:
@@ -170,7 +155,7 @@ In particular, we currently have:
   * 4 csharp consensus node, two of them are also a RPC as default at port 30333 and 30334;
   * 1 csharp pure RPC nodes at 30337;
 
-### Dealing with docker-compose swarm of containers
+### Dealing with docker compose swarm of containers
 
 Start up the container, checking the messages and following warnings
 
@@ -181,23 +166,23 @@ or:
 `cd ./docker-compose-eco-network`
 
 ```
-docker-compose up
+docker compose up
 ```
 
 Start up the container in a detached mode
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Feel free to take is down
 ```
-docker-compose down
+docker compose down
 ```
 
 However, consider stopping and restarting
 ```
-docker-compose stop
-docker-compose start
+docker compose stop
+docker compose start
 ```
 
 ### NeoCompiler Eco useful commands and ideas

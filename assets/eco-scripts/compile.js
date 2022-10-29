@@ -41,9 +41,9 @@ function compilerCall() {
     */
     var xl = getAllSections(); // get all codes
     var xl_p = []; // store promises
-    for(i in xl) {
+    for (i in xl) {
         var zip = new JSZip();
-        zip.file("contract_"+i, xl[i]);
+        zip.file("contract_" + i, xl[i]);
         xl_p[i] = zip.generateAsync({
             type: "base64",
             compression: "DEFLATE",
@@ -54,10 +54,10 @@ function compilerCall() {
     }
     // resolve all promises and launch
     Promise.all(xl_p).then((code_zip_list) => {
-            console.log(code_zip_list);
-            
+        console.log(code_zip_list);
+
         //});
-        
+
         if (SELECTED_COMPILER == "csharp") {
             code_cs = code_zip_list;
             console.log("Compiling C# code...");
@@ -65,17 +65,17 @@ function compilerCall() {
         var indata = createCompilexJson(code_zip_list);
         console.log(indata);
         $.ajax({
-                type: "POST",
-                url: BASE_PATH_COMPILERS + "/compilex",
-                data: indata,
-                timeout: 360000, //5minutes
-                dataType: "json",
-                crossDomain: true
-            }).done(function(data) {
-                console.log("Waiting for socket response from my client: " + indata.socketID);
-                $("#codewarnerr").val($("#codewarnerr").val() + "\nWaiting reply from socket connection : " + indata.socketID);
-            })
-            .fail(function(jqxhr, settings, ex) {
+            type: "POST",
+            url: BASE_PATH_COMPILERS + "/compilex",
+            data: indata,
+            timeout: 360000, //5minutes
+            dataType: "json",
+            crossDomain: true
+        }).done(function (data) {
+            console.log("Waiting for socket response from my client: " + indata.socketID);
+            $("#codewarnerr").val($("#codewarnerr").val() + "\nWaiting reply from socket connection : " + indata.socketID);
+        })
+            .fail(function (jqxhr, settings, ex) {
                 if (jqxhr.status == 0 && jqxhr.readyState == 0) {
                     console.error("Restarting request");
                 }
@@ -98,7 +98,7 @@ function compilerCall() {
         $.post(
             BASE_PATH_ECOSERVICES + "/compileCounter", // Gets the URL to sent the post to
             null, // Serializes form data in standard format
-            function(data) {},
+            function (data) { },
             "json" // The format the response should be in
         ); //End of POST for Compile counter
     });
@@ -167,7 +167,7 @@ function setCompiler(language) {
     }
 
     //Checking all cookies
-    USER_EXAMPLES.forEach(function(value, key) {
+    USER_EXAMPLES.forEach(function (value, key) {
         addCSContractFromLocalMap(value, key, language);
     });
     if (USER_EXAMPLES.size == 0) {
@@ -201,7 +201,7 @@ function getFiles(language, selected_index, index = 0) {
     var numfiles = vExamples[selected_index].length;
     if (index < numfiles) {
         var file = vExamples[selected_index][index];
-        $.get(file, function(data) {
+        $.get(file, function (data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
             if (numfiles > 1 && index < (numfiles - 1)) {
                 var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);
@@ -231,7 +231,7 @@ function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox
 
 function updateCompilersSelectionBox(compilerType) {
     $.get(BASE_PATH_COMPILERS + '/getcompilers',
-        function(data) {
+        function (data) {
             compilerSelectionBoxID = "compilers_versions-selection-box";
             compilerSelectionBoxObj = document.getElementById(compilerSelectionBoxID);
             compilerSelectionBoxObj.options.length = 0;
@@ -265,35 +265,47 @@ function convertBase64ToHexByte(base64ToConvert) {
 }
 
 function socketCompilerCompilexResult() {
-    socketCompilers.on('compilexResult', function(socketData) {
+    socketCompilers.on('compilexResult', function (socketData) {
         dataSocket = JSON.parse(socketData.stdout);
         console.log(dataSocket);
         $("#compilebtn")[0].disabled = false;
         var coderr = atob(dataSocket.output);
         $("#codewarnerr").val(coderr);
-        var nefByteArray = atob(dataSocket.nef);
-        var hexcodeavm = convertBase64ToHexByte(nefByteArray);
-        $("#codeavm").val(hexcodeavm);
-        hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
-        $("#opcodes").val("");
-        //printOpcode(hexcodeavm, $("#opcodes"));
-        //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-        localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
-        //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
-        //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
-        //console.log(localStorage.getItem('avmFile').charCodeAt(0));
-        //$("#btn_download")[0].style = "";
-
-        //filling hashes
-        //getScriptHashFromAVM
-        var contractScriptHash = Neon.u.hash160(hexcodeavm);
-        var avmSize = Math.ceil(hexcodeavm.length / 2);
-        updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
 
         // Loading Manifest Info
-        console.log("loading manifest");
+        var manifestEmpty = dataSocket.manifest == "";
+        var nefEmpty = dataSocket.nef == "";
+
+        if (nefEmpty == true)
+            $("#codewarnerr").val($("#codewarnerr").val() + "NEF is empty\n");
+
+        if (manifestEmpty == true)
+            $("#codewarnerr").val($("#codewarnerr").val() + "MANIFEST is empty\n");
+
+        if (nefEmpty == false) {
+            var nefByteArray = atob(dataSocket.nef);
+            var hexcodeavm = convertBase64ToHexByte(nefByteArray);
+            $("#codeavm").val(hexcodeavm);
+            hexcodeavm = hexcodeavm.replace(/(\r\n|\n|\r)/gm, "");
+            $("#opcodes").val("");
+            //printOpcode(hexcodeavm, $("#opcodes"));
+            //console.log("GRAVANDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+            localStorage.setItem('avmFile', hexcodeavm); //, {type: 'application/octet-stream'});
+            //datacontent = localStorage.getItem('avmFile', {type: 'application/octet-stream'});
+            //console.log("LENDO BINARIO: "+typeof(datacontent)+":"+datacontent);
+            //console.log(localStorage.getItem('avmFile').charCodeAt(0));
+            //$("#btn_download")[0].style = "";
+
+            //filling hashes
+            //getScriptHashFromAVM
+            var contractScriptHash = Neon.u.hash160(hexcodeavm);
+            var avmSize = Math.ceil(hexcodeavm.length / 2);
+            updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize);
+        }
+
         var contractExists = false;
         if (dataSocket.manifest != "") {
+            console.log("loading manifest");
             var textmanifest = atob(dataSocket.manifest);
             $("#codemanifest").val(textmanifest);
 
@@ -318,8 +330,7 @@ function socketCompilerCompilexResult() {
             timerSwal = 3500;
         }
 
-        if (dataSocket.manifest != "") {
-
+        if (dataSocket.manifest != "" && dataSocket.nef != "") {
             console.log(dataSocket.manifest);
             var manifestAtob = atob(dataSocket.manifest);
             var manifestJson = JSON.parse(manifestAtob);
@@ -341,11 +352,13 @@ function socketCompilerCompilexResult() {
             swal({
                 icon: "info",
                 title: "Compiled with coding error!",
-                text: "Please check compiling log.",
+                text: "Please check compiling log. Manifest is empty: " + manifestEmpty + ", NEF is empty: " + nefEmpty,
                 buttons: false,
                 timer: 8000
             });
         }
     });
 }
+
+// run on file load to set as default
 setCompiler("csharp");

@@ -34,7 +34,7 @@ echo "" >> /tmp/output.txt
 (cd /neo-devpack-dotnet/ && dotnet build ./src/Template.CSharpNeoCompiler/) >> /tmp/output.txt
 
 echo "" >> /tmp/output.txt
-echo "Code to be built has been built!!" >> /tmp/output.txt
+echo "Command dotnet build has been executed...results are below:" >> /tmp/output.txt
 echo "" >> /tmp/output.txt
 
 # Convert all previous output on /tmp/output.txt to base64

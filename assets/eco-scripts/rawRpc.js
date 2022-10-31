@@ -5,9 +5,7 @@ function frmRPCJson() {
         $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"" + $("#rpcMethod").val() + "\", \"params\": [\"\"] }");
 };
 
-
 function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
-    
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
@@ -30,32 +28,6 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
     ).fail(function () {
         $("#txtRPCJsonOut").val("failed to invoke network!");
     }); //End of POST for search
-
-/*
-    $.ajax({
-        type: "POST",
-        url: BASE_PATH_COMPILERS + $("#txtRPCJson").val(),
-        data: indata,
-        timeout: 6000, //5minutes
-        dataType: "json",
-        crossDomain: true
-    }).done(function (data) {
-        $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
-        convertJsonNotifications();
-
-        if (fillRealTx && checkIfWalletIsConnected())
-            fillRealTxFromInvokeFunction();
-        else
-            cleanRealTxInvoke();
-
-        if (saveID != -1)
-            RELAYED_TXS[saveID].push(data);
-
-        if (relay)
-            signAndRelay();
-    }).fail(function (jqxhr, settings, ex) {
-        $("#txtRPCJsonOut").val("failed to invoke network!");
-    });*/
 }
 
 function drawSigners() {

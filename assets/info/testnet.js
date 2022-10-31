@@ -13,12 +13,19 @@ testnetNodes = [{
         "type": "ecoservices"
     },
     {
-        "protocol": "http",
-        "url": "seed1t5.neo.org:20332",
+        "protocol": "https",
+        "url": "n3seed1.ngd.network:20332",
         "location": "worldwide",
         "locale": "worldwide",
         "type": "RPC"
     },
+    {
+        "protocol": "https",
+        "url": "n3seed2.ngd.network:20332",
+        "location": "worldwide",
+        "locale": "worldwide",
+        "type": "RPC"
+    },    
     {
         "protocol": "http",
         "url": "seed2t5.neo.org:20332",

@@ -19,6 +19,8 @@ function changeSelectedNetwork() {
     }
     BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
     BASE_PATH_CLI = BASE_PATH_CLI_NODES[0];
+
+    BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
 }
 
 function pickBestAvailableRpcNeoNodeCSharpByBlock() {

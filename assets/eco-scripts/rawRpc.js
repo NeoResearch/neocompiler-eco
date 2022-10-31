@@ -7,10 +7,11 @@ function frmRPCJson() {
 
 
 function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
+    
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
-        function(data) {
+        function (data) {
             $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
             convertJsonNotifications();
 
@@ -26,9 +27,35 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
                 signAndRelay();
         },
         "json" // The format the response should be in
-    ).fail(function() {
+    ).fail(function () {
         $("#txtRPCJsonOut").val("failed to invoke network!");
     }); //End of POST for search
+
+/*
+    $.ajax({
+        type: "POST",
+        url: BASE_PATH_COMPILERS + $("#txtRPCJson").val(),
+        data: indata,
+        timeout: 6000, //5minutes
+        dataType: "json",
+        crossDomain: true
+    }).done(function (data) {
+        $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
+        convertJsonNotifications();
+
+        if (fillRealTx && checkIfWalletIsConnected())
+            fillRealTxFromInvokeFunction();
+        else
+            cleanRealTxInvoke();
+
+        if (saveID != -1)
+            RELAYED_TXS[saveID].push(data);
+
+        if (relay)
+            signAndRelay();
+    }).fail(function (jqxhr, settings, ex) {
+        $("#txtRPCJsonOut").val("failed to invoke network!");
+    });*/
 }
 
 function drawSigners() {
@@ -127,7 +154,7 @@ function signAndRelay() {
         signers: [{
             account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
             scopes: Neon.tx.WitnessScope.CalledByEntry,
-        }, ],
+        },],
         validUntilBlock: validUntil,
         script: script,
         systemFee: sysFee,

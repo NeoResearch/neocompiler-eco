@@ -36,7 +36,7 @@ function drawWalletsStatus() {
             b.setAttribute('content', 'test content');
             b.setAttribute('class', 'btn btn-danger btn-sm');
             b.setAttribute('value', ka);
-            b.onclick = function() {
+            b.onclick = function () {
                 removeAccountFromEcoWallet(this.value);
             };
             b.innerHTML = ECO_WALLET[ka].label;
@@ -47,7 +47,7 @@ function drawWalletsStatus() {
             addressBase58.setAttribute('class', 'btn btn-success btn-sm');
             addressBase58.setAttribute('value', ka);
             addressBase58.setAttribute('id', "btnGetBalanceAddress" + ka);
-            addressBase58.onclick = function() {
+            addressBase58.onclick = function () {
                 changeDefaultWallet(this.value);
             };
             addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
@@ -336,7 +336,7 @@ function updateAllWalletData(updateCache = true) {
     populateAllWalletData();
     addAllKnownAddressesToSelectionBox("createtx_to");
     drawWalletsStatus();
-    changeWalletInfo();
+    //changeWalletInfo();
 
     if (updateCache)
         cacheWalletForProviders();
@@ -612,28 +612,28 @@ function createNep17Tx() {
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
         text: amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
         type: "info",
-        buttons: ["Cancel!", "Proceed", ],
+        buttons: ["Cancel!", "Proceed",],
     }).then((willTransfer) => {
         if (willTransfer) {
 
             var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
 
             var params = [{
-                    type: "Hash160",
-                    value: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash
-                },
-                {
-                    type: "Hash160",
-                    value: ECO_WALLET[addrToIndex].account.scriptHash
-                },
-                {
-                    type: "Integer",
-                    value: amountToTransfer
-                },
-                {
-                    type: "Integer",
-                    value: 1
-                },
+                type: "Hash160",
+                value: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash
+            },
+            {
+                type: "Hash160",
+                value: ECO_WALLET[addrToIndex].account.scriptHash
+            },
+            {
+                type: "Integer",
+                value: amountToTransfer
+            },
+            {
+                type: "Integer",
+                value: 1
+            },
             ];
 
             var contractHash = getNep17HashByName($("#labelForTransferAsset")[0].textContent);
@@ -649,7 +649,6 @@ function createNep17Tx() {
         }
     });
 }
-
 
 drawPopulate();
 

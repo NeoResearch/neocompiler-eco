@@ -29,13 +29,13 @@ function drawRelayedTXs() {
         b.setAttribute('content', 'test content');
         b.setAttribute('class', 'btn btn-danger btn-sm');
         b.setAttribute('value', rt);
-        b.onclick = function() {
+        b.onclick = function () {
             removeRelayedTX(this.value);
         };
         var resultOrError = "";
         var txErrored = false;
 
-        if (typeof(RELAYED_TXS[rt][1].result) != "undefined") {
+        if (typeof (RELAYED_TXS[rt][1].result) != "undefined") {
             var txHash = RELAYED_TXS[rt][1].result.hash;
             resultOrError = txHash.slice(0, 4) + "..." + txHash.slice(-4);
         } else {
@@ -51,7 +51,7 @@ function drawRelayedTXs() {
         txAppLog.setAttribute('value', rt);
         txAppLog.setAttribute('id', "btnGetAppLogTx" + rt);
         if (!txErrored) {
-            txAppLog.onclick = function() {
+            txAppLog.onclick = function () {
                 callTXAppLog(this.value);
             };
             txAppLog.innerHTML = "Get Log";
@@ -66,7 +66,7 @@ function drawRelayedTXs() {
         txRaw.setAttribute('value', rt);
         txRaw.setAttribute('id', "btnGetRawTx" + rt);
         if (!txErrored) {
-            txRaw.onclick = function() {
+            txRaw.onclick = function () {
                 callRawTx(this.value);
             };
             txRaw.innerHTML = "Get Tx";
@@ -103,7 +103,7 @@ function drawRelayedTXs() {
         txRestore.setAttribute('class', 'btn btn-success btn-sm');
         txRestore.setAttribute('value', rt);
         txRestore.setAttribute('id', "btnRestoreTx" + rt);
-        txRestore.onclick = function() {
+        txRestore.onclick = function () {
             restoreTX(this.value);
         };
         txRestore.innerHTML = '<i class="fas fa-trash-restore-alt"></i>';
@@ -126,6 +126,10 @@ function callTXAppLog(relayedTxID) {
         "params": [relayedTxHash]
     };
 
+    goToTabAndInvokeRPC(jsonForInvokingFunction)
+}
+
+function goToTabAndInvokeRPC(jsonForInvokingFunction) {
     goToTabAndClick("nav-rpc");
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
     $("#txtRPCJson").val(jsonToCallStringified);

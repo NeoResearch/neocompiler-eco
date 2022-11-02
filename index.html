@@ -146,7 +146,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs();" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks();" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
@@ -229,7 +229,7 @@
             <!--<li class="nav-item" style="background: #0aab7b;">-->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
@@ -797,6 +797,17 @@
                         </div>
                     </div>
 
+                    <div class="errors-warnings">
+                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                            <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                            <div class="container">
+                                <div class="row" style="padding:0 20px 0 20px;">
+                                    <table id="tableBlocks" class="table text-white twalllet">
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -1948,6 +1959,8 @@
 <script src="assets/eco-scripts/contracts.js"></script>
 
 <script src="assets/eco-scripts/relayed_txs.js"></script>
+
+<script src="assets/eco-scripts/blocks.js"></script>
 
 <script src="assets/eco-scripts/network_nodes.js"></script>
 

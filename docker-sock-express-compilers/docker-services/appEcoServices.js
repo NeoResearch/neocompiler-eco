@@ -80,7 +80,7 @@ function isInt(value) {
 
 // ============================================================
 // ================== GET NODE LOGS ===========================
-app.get('/statusnode/:node', function(req, res) {
+app.get('/statusnode/:node', function (req, res) {
     // Node 0 is the RPC
     if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
         console.log("Someone is doing something crazy. This node does not exist.");
@@ -90,9 +90,9 @@ app.get('/statusnode/:node', function(req, res) {
 
     // $(ls -1rt | tail -n1) prints the last file of ls, instead of *.log
     res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-    var cmddocker = 'cd /opt/nodes-logs/logs-neocli-node' + req.params.node + '/ && cat ./$(ls -1rt | tail -n1) | tail -n 500';
     if (req.params.node == 0)
-        cmddocker = 'cd /opt/nodes-logs/logs-neocli-noderpc/ && cat  ./$(ls -1rt | tail -n1) | tail -n 500';
+        req.params.node = "rpc";
+    var cmddocker = 'cd /opt/nodes-logs/logs-neocli-node' + req.params.node + '/ && cat ./$(ls -1rt | tail -n1) | tail -n 500';
     console.log("cmddocker is " + cmddocker);
     var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
         if (e instanceof Error) {
@@ -105,7 +105,55 @@ app.get('/statusnode/:node', function(req, res) {
     });
 });
 
-app.get('/statusservice/:serviceType/:role', function(req, res) {
+app.get('/statusnodewithparams/:node/:day/:month/:year/:height/:lines', function (req, res) {
+    // Node 0 is the RPC
+    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
+        console.log("Someone is doing something crazy with node. This node does not exist.");
+        res.send("This is not a valid node parameter");
+    }
+    if (!isInt(req.params.height) || req.params.height < 0 || req.params.height > Number.MAX_VALUE) {
+        console.log("Someone is doing something crazy with height. This node does not exist.");
+        res.send("This is not a valid height parameter");
+    }
+    if (!isInt(req.params.lines) || req.params.lines < 0 || req.params.lines > 1000) {
+        console.log("Someone is doing something crazy with lines. This node does not exist.");
+        res.send("This is not a valid lines parameter");
+    }
+    if (!isInt(req.params.day) || req.params.day < 0 || req.params.day > 31) {
+        console.log("Someone is doing something crazy with day. This node does not exist.");
+        res.send("This is not a valid day parameter");
+    }
+    if (!isInt(req.params.month) || req.params.month < 0 || req.params.month > 12) {
+        console.log("Someone is doing something crazy with month. This node does not exist.");
+        res.send("This is not a valid month parameter");
+    }
+    if (!isInt(req.params.year) || req.params.year < 2022 || req.params.year > 2024) {
+        console.log("Someone is doing something crazy with year. This node does not exist.");
+        res.send("This is not a valid year parameter");
+    }
+
+    if (req.params.day < 10)
+        req.params.day = "0" + req.params.day;
+    if (req.params.node == 0)
+        req.params.node = "rpc";
+
+    res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+    var file = "./" + req.params.year + "-" + req.params.month + "-" + req.params.day + ".log";
+    var grepCmd = "grep -wns height=" + req.params.height + " " + file + " -A " + req.params.lines;
+    var cmddocker = 'cd /opt/nodes-logs/logs-neocli-node' + req.params.node + '/ && ' + grepCmd;
+    console.log("cmddocker is " + cmddocker);
+    var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+        if (e instanceof Error) {
+            res.send("Error:" + e);
+            console.error(e);
+        } else {
+            x = stdout1.replace(/[^\x00-\x7F]/g, "");
+            res.send(x);
+        }
+    });
+});
+
+app.get('/statusservice/:serviceType/:role', function (req, res) {
     // Node 0 is the RPC
     if (!isInt(req.params.serviceType) || req.params.serviceType < 0 || req.params.serviceType > 2) {
         console.log("Someone is doing something crazy. This service node does not exist.");
@@ -150,7 +198,7 @@ app.get('/statusservice/:serviceType/:role', function(req, res) {
 
 // ============================================================
 // ================== GET INCREMENTAL STORAGE =================
-app.get('/incstorage/:height', function(req, res) {
+app.get('/incstorage/:height', function (req, res) {
     if (!isInt(req.params.height) || req.params.height < 0) {
         console.log("Someone is doing something crazy. Height lower than 0 or not int.");
         res.send("This is not a valid height parameter");
@@ -173,7 +221,7 @@ app.get('/incstorage/:height', function(req, res) {
 
 // ============================================================
 // ================== Set Node Block Time =====================
-app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function(req, res) {
+app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function (req, res) {
     //console.log("Local enviroment password is " + process.env.PWD_CN_BLOCKTIME);
 
     console.log("setconsensusnodesblocktime..." + req.params.pwd + "/" + process.env.PWD_CN_BLOCKTIME);
@@ -227,7 +275,7 @@ var io = require('socket.io').listen(server);
 io.set('origins', '*:*');
 var timeleft = (7 * 24 * 60 * 60);
 
-setInterval(function() {
+setInterval(function () {
     timeleft -= 1;
     io.emit('timeleft', {
         timeleft: timeleft,
@@ -237,13 +285,13 @@ setInterval(function() {
     });
 }, 1000);
 
-io.on('connection', function(socket) {
+io.on('connection', function (socket) {
     ecoInfo.addConnection();
     io.emit('userconnected', {
         online: ecoInfo.connections,
         since: ecoInfo.connectionsSince
     });
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
         ecoInfo.removeConnection();
         io.emit('userconnected', {
             online: ecoInfo.connections,
@@ -258,25 +306,25 @@ var optionsGetLogger = {
     killSignal: 'SIGKILL'
 }
 
-app.post('/compileCounter', function(req, res) {
+app.post('/compileCounter', function (req, res) {
     ecoInfo.addCompilation();
     //console.log("Current number of compilation requests is " + ecoInfo.compilationsSince);
     res.send("true");
 });
 
-app.post('/deployCounter', function(req, res) {
+app.post('/deployCounter', function (req, res) {
     ecoInfo.addDeploy();
     //console.log("Current number of deploy requests is " + ecoInfo.deploysSince);
     res.send("true");
 });
 
-app.post('/invokeCounter', function(req, res) {
+app.post('/invokeCounter', function (req, res) {
     ecoInfo.addInvoke();
     //console.log("Current number of invoke requests is " + ecoInfo.invokesSince);
     res.send("true");
 });
 
-app.get('/resetdockerservice/:pwd', function(req, res) {
+app.get('/resetdockerservice/:pwd', function (req, res) {
 
     if (!(req.params.pwd === process.env.PWD_RESET_SERVICE)) {
         console.log("Someone is trying an unauthorized access. ");
@@ -305,14 +353,14 @@ app.get('/resetdockerservice/:pwd', function(req, res) {
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

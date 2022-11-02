@@ -1364,6 +1364,54 @@
 
                     <div id="consensus">
                         <div class="errors-warnings">
+                            <div class="display-erros n-padding deploy-bg" style="height: 140px;">
+                                <h4 class="green-title">Filter Logs
+                                    <button type="submit" onclick="getSpecificNodeHeightInfoFromForm()" class="btn btn-info btn-sm">
+                                        <i class="fas fa-sync-alt">
+                                        </i>
+                                    </button>
+                                </h4>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="container">
+                                                <div class="row">
+                                                    <div class="col-md-3">
+                                                        <div class="form-group">
+                                                            <label for="height_filter_log">Height</label>
+                                                            <input id="height_filter_log" class="form-control" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label for="lines_filter_log">Number Lines</label>
+                                                            <input id="lines_filter_log" class="form-control" value="10">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group">
+                                                            <label for="year_filter_log">Year</label>
+                                                            <input id="year_filter_log" class="form-control" value="" placeholder="2022">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <label for="day_filter_log">Day</label>
+                                                            <input id="day_filter_log" class="form-control" value="" placeholder="01">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div class="form-group">
+                                                            <label for="month_filter_log">Month</label>
+                                                            <input id="month_filter_log" class="form-control" value="" placeholder="12">
+                                                        </div>
+                                                    </div>                                                                                                                                                         
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                             <div class="display-erros n-padding deploy-bg" style="height: 420px;">
                                 <h4 class="green-title">Node1
@@ -1372,15 +1420,11 @@
                                 </h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
-
                                             <div class="col-md-12">
                                                 <textarea id="node1data" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>

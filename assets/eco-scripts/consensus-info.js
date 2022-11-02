@@ -49,6 +49,38 @@ function getSpecificNodeHeightInfo(day, month, year, height, nlines) {
     });
 }
 
+function getSpecificNodeHeightInfoFromForm() {
+    var day, month, year, height, nlines;
+
+    height = parseInt($("#height_filter_log")[0].value);
+    nlines = parseInt($("#lines_filter_log")[0].value);
+
+    var currentDate = new Date();
+    if ($("#year_filter_log")[0].value == "")
+        year = currentDate.getFullYear();
+    else
+        year = parseInt($("#year_filter_log")[0].value);
+
+    if ($("#day_filter_log")[0].value == "")
+        day = currentDate.getDay() - 1;
+    else
+        day = parseInt($("#day_filter_log")[0].value);
+
+    if ($("#month_filter_log")[0].value == "")
+        month = currentDate.getMonth() + 1;
+    else
+        month = parseInt($("#month_filter_log")[0].value);
+
+
+    if (!Number.isInteger(height) || !Number.isInteger(nlines) || !Number.isInteger(year) || !Number.isInteger(day) || !Number.isInteger(month)) {
+        console.error("Not Intenger found!!")
+        return;
+    }
+    getSpecificNodeHeightInfo(day, month, year, height, nlines);
+}
+
+
+
 function getOracleInfo() {
     $.get(BASE_PATH_ECOSERVICES + '/statusservice/0/8', function (data) {
         $("#oracleservicedata").val(data.replace(/[^\x00-\x7F]/g, ""));

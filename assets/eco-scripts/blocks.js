@@ -79,7 +79,7 @@ function printBlocksToTable() {
         blockIndex.setAttribute('value', index);
         blockIndex.setAttribute('id', "btnIndex" + index);
         blockIndex.onclick = function () {
-            callBlockLog(index);
+            callBlockLog(this.value);
         };
         blockIndex.innerHTML = index;
         txRow.insertCell(-1).appendChild(blockIndex);

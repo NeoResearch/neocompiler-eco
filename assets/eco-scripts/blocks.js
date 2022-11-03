@@ -63,8 +63,8 @@ function cleanTableBlocks() {
     document.getElementById("tableBlocks").appendChild(tableBlocks);
 }
 
+
 function printBlocksToTable() {
-    tableRowsCount = 0;
     for (b = 0; b < CURRENT_BLOCKS.length; b++) {
         var txRow = tableBlocks.insertRow(-1);
 
@@ -102,9 +102,9 @@ function printBlocksToTable() {
             txExpandButton.setAttribute('class', 'btn btn-success btn-sm');
             txExpandButton.setAttribute('value', b);
             txExpandButton.setAttribute('id', "btnTxs" + ntxs);
-            /*txExpandButton.onclick = function () {
-                expandTxs(this.value);
-            };*/
+            txExpandButton.onclick = function () {
+                hideUnhideTxs(this.value);
+            };
             txExpandButton.innerHTML = ntxs;
             txRow.insertCell(-1).appendChild(txExpandButton);
 
@@ -162,8 +162,16 @@ function expandTxs(bIndex) {
     headerRow.insertCell(-1).appendChild(headers6);
 
     tableBlocks.appendChild(headerRow);
+    tableBlocks.rows[tableBlocks.rows.length - 1].hidden = true;
 
     nTxs = CURRENT_BLOCKS[bIndex].block.result.tx.length;
+
+    var arrayTxsHiddenRows = [];
+    for (var i = tableBlocks.rows.length; i <= tableBlocks.rows.length + nTxs; i++) {
+        arrayTxsHiddenRows.push(i - 1);
+    }
+    CURRENT_BLOCKS[bIndex]["arrayTxsHiddenRows"] = arrayTxsHiddenRows;
+
     for (tx = 0; tx < nTxs; tx++) {
         var cTx = CURRENT_BLOCKS[bIndex].block.result.tx[tx];
         var txRow = tableBlocks.insertRow(-1);
@@ -213,6 +221,7 @@ function expandTxs(bIndex) {
         nonceCell.setAttribute("class", "badge");
         nonceCell.textContent = nonce;
         txRow.insertCell(-1).appendChild(nonceCell);
+        tableBlocks.rows[tableBlocks.rows.length - 1].hidden = true;
     }
 }
 
@@ -225,4 +234,13 @@ function callTxHash(txHash) {
     };
 
     goToTabAndInvokeRPC(jsonForInvokingFunction);
+}
+
+function hideUnhideTxs(bIndex) {
+    var restoredHiddenRows = CURRENT_BLOCKS[bIndex]["arrayTxsHiddenRows"];
+    console.log(restoredHiddenRows);
+    nTxs = CURRENT_BLOCKS[bIndex].block.result.tx.length;
+    for (i = 0; i < restoredHiddenRows.length; i++) {        
+        tableBlocks.rows[restoredHiddenRows[i]].hidden = !tableBlocks.rows[restoredHiddenRows[i]].hidden;
+    }
 }

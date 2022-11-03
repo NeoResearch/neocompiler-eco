@@ -14,9 +14,7 @@ function drawBlocks(end = -1, count = -1) {
 
     for (b = end; b >= Math.max((end - count), 0); b--) {
         var param = "[" + b + "," + 1 + "]";
-        console.log("block: " + b);
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblock", "params": ' + param + ' } ', function (resultBlock) {
-            console.log(resultBlock)
             var blockIndex = resultBlock.result.index;
             CURRENT_BLOCKS.push({
                 index: blockIndex,
@@ -189,7 +187,7 @@ function expandTxs(bIndex) {
         txHash.onclick = function () {
             callTxHash(this.value);
         };
-        txHash.innerHTML = hash.slice(hash.length - 4) + "..." + hash.slice(-4);
+        txHash.innerHTML = hash.slice(0,4) + "..." + hash.slice(-4);
         txRow.insertCell(-1).appendChild(txHash);
 
         var size = cTx.size;
@@ -238,9 +236,11 @@ function callTxHash(txHash) {
 
 function hideUnhideTxs(bIndex) {
     var restoredHiddenRows = CURRENT_BLOCKS[bIndex]["arrayTxsHiddenRows"];
-    console.log(restoredHiddenRows);
     nTxs = CURRENT_BLOCKS[bIndex].block.result.tx.length;
     for (i = 0; i < restoredHiddenRows.length; i++) {        
         tableBlocks.rows[restoredHiddenRows[i]].hidden = !tableBlocks.rows[restoredHiddenRows[i]].hidden;
     }
+    
+    //scroll to
+    tableBlocks.rows[restoredHiddenRows[restoredHiddenRows.length-1]].scrollIntoView();
 }

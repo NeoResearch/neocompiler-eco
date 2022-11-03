@@ -12,32 +12,6 @@
     <link rel="icon" href="assets/neocompiler.png">
 </head>
 
-
-<!--
-    Bye link to Legacy
-<a class="btn btn-default collapseMore pulse collapsed" id="boxForPulseLegacyV2" href="./neo2/index.html" style="/* margin-top: -20px; */z-index: 80000000!important;bottom: 0%!important;top: 75%;width: 20%;height: 20px;position: fixed;border-radius: 0;border:1px dashed white;">
-    <img src="assets/neocompiler-legacy-v2.png" style="width: 55px;float: left;">
-
-    <p style="
-    color: white;
-    float: left;
-    text-transform: uppercase;
-    padding-left: 20px;
-    padding-bottom: 0;
-    margin-bottom: 0;
-">Legacy NEO 2</p>
-    <br>
-
-    <p style="
-    color: white;
-    float: left;
-    padding-left: 20px;
-">NeoCompiler ECO
-    </p>
-</a>
--->
-
-
 <!--Big blue-->
 <div id="mdb-preloader" class="flex-center preloader">
     <div class="preloader-wrapper active">
@@ -57,9 +31,8 @@
 
 
 <body>
-
-
-    <div class="preloader" style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;padding: 1px;background: #1D2C30;z-index: 1000000!important;">
+    <div class="preloader"
+        style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;padding: 1px;background: #1D2C30;z-index: 1000000!important;">
         <div class="spinner-grow text-center" style="width: 5rem; height: 5rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
@@ -76,22 +49,28 @@
 
             <li class="nav-item text-white" style="width: 300px;padding-left: 10px;padding-top: 15px;">
                 <div class="">
-                    <span id="online" class="label label-success" style="font-size: 10px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+                    <span id="online" class="label label-success"
+                        style="font-size: 10px;background: #00AF92;padding:2px;"><i
+                            class="fas fa-lg fa-spinner"></i></span>
                 </div>
                 <div class="">
-                    <span id="nodeRPCHeader" class="label label-info" style="font-size: 10px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+                    <span id="nodeRPCHeader" class="label label-info"
+                        style="font-size: 10px;background: #00AF92;padding:2px;"><i
+                            class="fas fa-lg fa-spinner"></i></span>
                 </div>
             </li>
 
             <li class="menu-mobile">
-                <a data-toggle="collapse" href="#collapseMenuMobile" role="button" aria-expanded="false" aria-controls="collapseMenuMobile"><i class="fas fa-5x fa-bars"></i></a>
+                <a data-toggle="collapse" href="#collapseMenuMobile" role="button" aria-expanded="false"
+                    aria-controls="collapseMenuMobile"><i class="fas fa-5x fa-bars"></i></a>
             </li>
         </ul>
         <!-- STATUS INFO HEADER -->
 
         <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
         <div class="opt-options-header">
-            <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()" class="compiler-select w-seta selectclass" title="Select network">
+            <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()"
+                class="compiler-select w-seta selectclass" title="Select network">
                 <option disabled>Network</option>
                 <option selected>NeoCompiler-Eco</option>
                 <option>Localhost</option>
@@ -100,7 +79,8 @@
                 <!--<option disabled>MainNet</option>-->
             </select>
 
-            <button type="button" id="button-connect-wallet" onClick="connectWallet()" class="btn btn-default btn-wallet">CONNECT WALLET</button>
+            <button type="button" id="button-connect-wallet" onClick="connectWallet()"
+                class="btn btn-default btn-wallet">CONNECT WALLET</button>
         </div>
         <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
 
@@ -108,21 +88,24 @@
         <ul class="nav menu-vertical" id="nav-tab" role="tablist">
 
             <li class="nav-item">
-                <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-toggle="tab"
+                    href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
                     <p id="compilerNav">Compilers</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" onclick="getNativeInfo(); updateWithDeployedContract();"
+                    href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Contracts</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="populateAllWalletData()" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="populateAllWalletData()" data-toggle="tab" href="#nav-wallet" role="tab"
+                    aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Wallet</p>
                 </a>
@@ -138,7 +121,8 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home"
+                    aria-selected="true">
                     <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Raw RPC</p>
                 </a>
@@ -146,7 +130,8 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks();" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks();" data-toggle="tab" href="#nav-activity"
+                    role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
@@ -160,14 +145,17 @@
             </li>-->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-conversors" role="tab"
+                    aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/conversus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Conversors</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#nav-consensus" onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" data-toggle="tab" href="#nav-consensus"
+                    onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home"
+                    aria-selected="true">
                     <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Network</p>
                 </a>
@@ -196,19 +184,24 @@
     <div class="collapse colapsemenumobile" id="collapseMenuMobile">
         <ul class="nav" id="nav-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" onclick="$('.colapsemenumobile').collapse('hide');" style="margin-top: 0!important;" data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link active" onclick="$('.colapsemenumobile').collapse('hide');"
+                    style="margin-top: 0!important;" data-toggle="tab" href="#nav-compilers" role="tab"
+                    aria-controls="nav-home" aria-selected="true">
                     <p>Compilers</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="nav-mobile-native" onclick="getNativeInfo(); updateWithDeployedContract(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" id="nav-mobile-native"
+                    onclick="getNativeInfo(); updateWithDeployedContract(); $('.colapsemenumobile').collapse('hide');"
+                    data-toggle="tab" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Contracts</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="populateAllWalletData(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="populateAllWalletData(); $('.colapsemenumobile').collapse('hide');"
+                    data-toggle="tab" href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Wallet</p>
                 </a>
             </li>
@@ -221,7 +214,8 @@
             </li>-->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab"
+                    href="#nav-rpc" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Raw RPC</p>
                 </a>
             </li>
@@ -229,7 +223,8 @@
             <!--<li class="nav-item" style="background: #0aab7b;">-->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(); $('.colapsemenumobile').collapse('hide');"
+                    data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Activity</p>
                 </a>
             </li>
@@ -241,13 +236,15 @@
             </li> -->
 
             <li class="nav-item">
-                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="$('.colapsemenumobile').collapse('hide');" data-toggle="tab"
+                    href="#nav-conversors" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Conversors</p>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" onclick="getNodeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab" href="#nav-consensus" role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="getNodeInfo(); $('.colapsemenumobile').collapse('hide');" data-toggle="tab"
+                    href="#nav-consensus" role="tab" aria-controls="nav-home" aria-selected="true">
                     <p>Consensus</p>
                 </a>
             </li>
@@ -278,12 +275,15 @@
                 <br><br><br>
 
                 <!-- BEGIN TAB-PANE COMPILERS -->
-                <div class="tab-pane fade show active" id="nav-compilers" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="tab-pane fade show active" id="nav-compilers" role="tabpanel"
+                    aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">
-                                <a><span class="spinner-grow spinner-grow-sm preloader" role="status" aria-hidden="true"></span> Compilers</a>
+                                <a><span class="spinner-grow spinner-grow-sm preloader" role="status"
+                                        aria-hidden="true"></span> Compilers</a>
                             </li>
                         </ol>
                     </nav>
@@ -295,12 +295,14 @@
                                 <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
                                     <option selected>C#</option>
                                 </select>
-                                <select class="compiler-select w-seta selectclass" onchange="setExampleOnChange()" id="ExampleList"></select>
+                                <select class="compiler-select w-seta selectclass" onchange="setExampleOnChange()"
+                                    id="ExampleList"></select>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0!important;">
                                 <div class="version-compile" style="float: right!important;">
                                     <!--<span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>-->
-                                    <select title="Select compiler version" id="compilers_versions-selection-box" class="compiler-select w-seta selectclass">
+                                    <select title="Select compiler version" id="compilers_versions-selection-box"
+                                        class="compiler-select w-seta selectclass">
                                         <option title="Loading compilers">...</option>
                                     </select>
                                 </div>
@@ -310,15 +312,18 @@
                         <div class="clearfix"></div>
 
                         <div class="version-compile">
-                            <button type="button" id="compilebtn" onClick="compilerCall()" class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
+                            <button type="button" id="compilebtn" onClick="compilerCall()"
+                                class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
                         </div>
 
                         <div class="clearfix"></div>
                         <br> <br>
 
                         <ul class="nav nav-tabs navgationTabs">
-                            <li role="presentation" class="active"><a href="#nav-compilers/" onclick="goToMainTab()">Main.cs</a></li>
-                            <li role="presentation" id="addTabIcon" onclick="Editor.addNewTab()"><a href="#nav-compilers/"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
+                            <li role="presentation" class="active"><a href="#nav-compilers/"
+                                    onclick="goToMainTab()">Main.cs</a></li>
+                            <li role="presentation" id="addTabIcon" onclick="Editor.addNewTab()"><a
+                                    href="#nav-compilers/"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
                         </ul>
 
                         <div id="aceEditor" style="margin-top: 0!important"></div>
@@ -329,7 +334,9 @@
                                     <h4>AVM (in hex):</h4>
 
                                     <div class="" style="margin-bottom: 10px;">
-                                        <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control" style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
+                                        <textarea id="codeavm" name="codeavm" rows="5" cols="100"
+                                            placeholder="AVM (in hex)" class="form-control"
+                                            style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
                                     </div>
 
                                     <!--
@@ -364,21 +371,29 @@
                                     <div class="clearfix"></div>
                                     <div class="display-erros" style="background: transparent">
                                         <label for="contractInfo_ScriptHash">ScriptHash</label>
-                                        <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash" class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
+                                        <input id="contractInfo_ScriptHash" readonly="readonly"
+                                            name="contractInfo_ScriptHash" class="form-control"
+                                            placeholder="Script Hash" style="width: 100%; margin-bottom: 10px;">
 
                                         <label for="contractInfo_Address">Address</label>
-                                        <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address" class="form-control" placeholder="Address (base58)" style="width: 100%; margin-bottom: 10px;">
+                                        <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address"
+                                            class="form-control" placeholder="Address (base58)"
+                                            style="width: 100%; margin-bottom: 10px;">
 
 
                                         <label for="contractInfo_AVMSize">AVM size (in bytes)</label>
-                                        <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize" class="form-control" placeholder="AVM size (in bytes)" style="width: 100%; margin-bottom: 10px;">
+                                        <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize"
+                                            class="form-control" placeholder="AVM size (in bytes)"
+                                            style="width: 100%; margin-bottom: 10px;">
 
 
                                         <h4>ABI:</h4>
-                                        <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100" placeholder="ABI (JSON format)" class="form-control"></textarea>
+                                        <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100"
+                                            placeholder="ABI (JSON format)" class="form-control"></textarea>
 
                                         <h4>MANIFEST:</h4>
-                                        <textarea id="codemanifest" readonly="readonly" rows="5" cols="100" placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
+                                        <textarea id="codemanifest" readonly="readonly" rows="5" cols="100"
+                                            placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -401,14 +416,17 @@
                                 </span>
                             -->
 
-                        <div class="errors-warnings" style="height: auto!important; margin-top: 20px; margin-bottom: 20px;">
+                        <div class="errors-warnings"
+                            style="height: auto!important; margin-top: 20px; margin-bottom: 20px;">
                             <div class="display-erros" style="height: auto!important;">
                                 <h4>Compiler Output (Warning/Errors):</h4>
-                                <textarea id="codewarnerr" readonly="readonly" rows="10" class="form-control"></textarea>
+                                <textarea id="codewarnerr" readonly="readonly" rows="10"
+                                    class="form-control"></textarea>
                             </div>
                         </div>
 
-                        <a class="btn btn-default collapseMore" data-toggle="collapse" href="#collapseMore" role="button" aria-expanded="false" aria-controls="collapseMore">
+                        <a class="btn btn-default collapseMore" data-toggle="collapse" href="#collapseMore"
+                            role="button" aria-expanded="false" aria-controls="collapseMore">
                             <img src="assets/left-arrow.png" style="width: 40px;">
                         </a>
                     </div>
@@ -421,7 +439,8 @@
                 <div class="tab-pane fade" id="nav-contracts" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a> Contracts</a></li>
                         </ol>
                     </nav>
@@ -431,7 +450,8 @@
                             <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
                                 <h4 class="green-title">
                                     Contracts
-                                    <button type="submit" onclick="updateWithDeployedContract()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="updateWithDeployedContract()"
+                                        class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
@@ -440,33 +460,48 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="contract_hash">Contract ScriptHash</label>
-                                                        <input id="contract_hash" name="contract_hash" readonly class="form-control" placeholder="Script Hash" style="width: 100%; margin-bottom: 5px;">
+                                                        <input id="contract_hash" name="contract_hash" readonly
+                                                            class="form-control" placeholder="Script Hash"
+                                                            style="width: 100%; margin-bottom: 5px;">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="contract_name">Name</label>
-                                                        <input id="contract_name" name="contract_name" readonly class="form-control" placeholder="Contract name" style="width: 100%; margin-bottom: 5px;">
+                                                        <input id="contract_name" name="contract_name" readonly
+                                                            class="form-control" placeholder="Contract name"
+                                                            style="width: 100%; margin-bottom: 5px;">
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
-                                                    <a id="btnGetStorage" style="width: 100%; margin-bottom: 10px;" onClick="getStorage()" class="btn btn-success"><i class="fas fa-file-contract"></i> Get Storage</a>
-                                                    <input id="storage_key" name="storage_key" class="form-control" placeholder="Storage Key" style="width: 100%; margin-bottom: 10px;">
+                                                    <a id="btnGetStorage" style="width: 100%; margin-bottom: 10px;"
+                                                        onClick="getStorage()" class="btn btn-success"><i
+                                                            class="fas fa-file-contract"></i> Get Storage</a>
+                                                    <input id="storage_key" name="storage_key" class="form-control"
+                                                        placeholder="Storage Key"
+                                                        style="width: 100%; margin-bottom: 10px;">
                                                 </div>
                                             </div>
 
                                             <div class="row mb-2 collapse" id="collapseLocalContractsOptions">
                                                 <div class="col-md-4">
-                                                    <a id="btnNewContractDeloy" onClick="deployContract()" class="btn btn-success"><i class="fas fa-file-contract"></i> Deploy Contract</a>
+                                                    <a id="btnNewContractDeloy" onClick="deployContract()"
+                                                        class="btn btn-success"><i class="fas fa-file-contract"></i>
+                                                        Deploy Contract</a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a id="btnNewContractToWallet" onClick="addContractToWallet($('#contract_hash').val())" class="btn btn-info "><i class="fas fa-wallet"></i> Import to wallet</a>
+                                                    <a id="btnNewContractToWallet"
+                                                        onClick="addContractToWallet($('#contract_hash').val())"
+                                                        class="btn btn-info "><i class="fas fa-wallet"></i> Import to
+                                                        wallet</a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a id="btnRemoveLocalContract" onClick="deleteLocalContract()" class="btn btn-danger "><i class="fas fa-trash"></i> Remove local contract</a>
+                                                    <a id="btnRemoveLocalContract" onClick="deleteLocalContract()"
+                                                        class="btn btn-danger "><i class="fas fa-trash"></i> Remove
+                                                        local contract</a>
                                                 </div>
                                             </div>
 
@@ -474,13 +509,17 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="native_contracts">Native Contracts</label>
-                                                        <select id="native_contracts" name="native_contracts" onchange="createNativeManifest()" class="custom-select form-control" size="8"></select>
+                                                        <select id="native_contracts" name="native_contracts"
+                                                            onchange="createNativeManifest()"
+                                                            class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="local_contracts">Local Contracts</label>
-                                                        <select id="local_contracts" name="local_contracts" onchange="createLocalManifest()" class="custom-select form-control" size="8"></select>
+                                                        <select id="local_contracts" name="local_contracts"
+                                                            onchange="createLocalManifest()"
+                                                            class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -489,7 +528,8 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="native_methods">ABI Methods</label>
-                                                        <select onchange="drawParametersTable()" id="contract_methods" class="custom-select form-control" size="8"></select>
+                                                        <select onchange="drawParametersTable()" id="contract_methods"
+                                                            class="custom-select form-control" size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -497,7 +537,9 @@
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <button type="button" onclick="invokeFunction()" class="btn btn-info btn-sm"><i class="fas fa-cubes"></i> InvokeFunction </button>
+                                                        <button type="button" onclick="invokeFunction()"
+                                                            class="btn btn-info btn-sm"><i class="fas fa-cubes"></i>
+                                                            InvokeFunction </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -531,14 +573,18 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="import_contract_hash">Contract ScriptHash</label>
-                                                <input id="import_contract_hash" name="import_contract_hash" class="form-control" placeholder="Insert contract script hash">
+                                                <input id="import_contract_hash" name="import_contract_hash"
+                                                    class="form-control" placeholder="Insert contract script hash">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label for="import_contract_hash_button">Import to Local Contracts</label>
+                                                <label for="import_contract_hash_button">Import to Local
+                                                    Contracts</label>
                                                 <br>
-                                                <button id="import_contract_hash_button" type="button" onclick="saveLocalContract()" class="btn btn-info btn-sm"><i class="fas fa-file-contract"></i> Save contract</button>
+                                                <button id="import_contract_hash_button" type="button"
+                                                    onclick="saveLocalContract()" class="btn btn-info btn-sm"><i
+                                                        class="fas fa-file-contract"></i> Save contract</button>
                                             </div>
                                         </div>
                                     </div>
@@ -554,143 +600,168 @@
 
 
                 <!-- PAGINA RPC INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-rpc" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home "></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home "></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>RPC</a></li>
                         </ol>
                     </nav>
 
                     <div id="raw">
-
                         <div class="errors-warnings">
-
-
                             <div class="display-erros n-padding deploy-bg" style="height: auto!important;">
                                 <h4 class="green-title">Request from Neo C# nodes (RPC-JSON API)</h4>
                                 <div class="container">
                                     <div class="row">
+
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="rpcMethod">Method (view <a
-                                                    href="https://docs.neo.org/en-us/node/cli/apigen.html"
-                                                    target="_blank">Official API</a> or put cursor on top for
-                                                tooltip)</label>
-                                                <select name="rpcMethod" id="rpcMethod" class="custom-select form-control" onchange="frmRPCJson()">
-                                                <option title="select">Select a method</option>
-                                                <option title=":Gets the number of blocks in the main chain">
-                                                    getblockcount
-                                                </option>
-                                                <option title="<script_hash> :	Get Balance of Nep17">
-                                                    getnep17balances
-                                                </option>
-                                                <option title="<address> :	Export the private key of the specified address (Need to open the wallet)">
-                                                    dumpprivkey
-                                                </option>
-                                                <option title="<address> :	Check account asset information according to account address">
-                                                    getaccountstate
-                                                </option>
-                                                <option title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging plugin)">
-                                                    getapplicationlog
-                                                </option>
-                                                <option title="<asset_id> :	Query asset information according to the specified asset number">
-                                                    getassetstate
-                                                </option>
-                                                <option title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)">
-                                                    getbalance
-                                                </option>
-                                                <option title=": Gets the hash of the tallest block in the main chain">
-                                                    getbestblockhash
-                                                </option>
-                                                <option title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value">
-                                                    getblock
-                                                </option>
-                                                <option title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index">
-                                                    getblock
-                                                </option>
-                                                <option title="<index>: 	Returns the hash value of the corresponding block based on the specified index">
-                                                    getblockhash
-                                                </option>
-                                                <option title="<index>:[verbose=0] 	Returns header">GetBlockHeader
-                                                </option>
-                                                <option title="<index>: 	Returns the system fees before the block according to the specified index">
-                                                    getblocksysfee
-                                                </option>
-                                                <option title=": Gets the current number of connections for the node">
-                                                    getconnectioncount
-                                                </option>
-                                                <option title="<script_hash>: 	Returns information about the contract based on the specified script hash">
-                                                    getcontractstate
-                                                </option>
-                                                <option title=": Create a new address (Need to open the wallet)">
-                                                    getnewaddress
-                                                </option>
-                                                <option title="<number_of_blocks> <height_to_end (optional)> Return block timestamps (Need to enable CoreMetrics plugin)">
-                                                    getmetricblocktimestamp
-                                                </option>
-                                                <option title=": Get a list of unconfirmed transactions in memory">
-                                                    getrawmempool
-                                                </option>
-                                                <option title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value">
-                                                    getrawtransaction
-                                                </option>
-                                                <option title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key">
-                                                    getstorage
-                                                </option>
-                                                <option title="<txid>: 	Returns the corresponding transaction height information based on the specified txid">
-                                                    gettransactionheight
-                                                </option>
-                                                <option title=": Get a list of nodes that are currently connected/disconnected by this node">
-                                                    getpeers
-                                                </option>
-                                                <option title=": Returns the current NEO consensus nodes information and voting status.">
-                                                    getnextblockvalidators
-                                                </option>
-                                                <option title=": Get committee.">getcommittee</option>
-                                                <option title=": Get version information of this node">getversion
-                                                </option>
-                                                <option title="<script_hash> <params>:	Invokes a smart contract at specified script hash with the given parameters">
-                                                    invoke
-                                                </option>
-                                                <option title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params">
-                                                    invokefunction
-                                                </option>
-                                                <option title="<script>: 	Runs a script through the virtual machine and returns the results">
-                                                    invokescript
-                                                </option>
-                                                <option title=": Lists all the addresses in the current wallet (Need to open the wallet)">
-                                                    listaddress
-                                                </option>
-                                                <option title=": Lists all the plugins loaded in the RPC node">
-                                                    listplugins
-                                                </option>
-                                                <option title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation.">
-                                                    sendrawtransaction
-                                                </option>
-                                                <option title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)">
-                                                    sendtoaddress
-                                                </option>
-                                                <option title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">
-                                                    sendmany
-                                                </option>
-                                                <option title="<hex>: 	Submit new blocks (Needs to be a consensus node)">
-                                                    submitblock
-                                                </option>
-                                                <option title="<address>:	Verify that the address is a correct NEO address">
-                                                    validateaddress
-                                                </option>
-                                                <option title=": Get state height">getstateheight</option>
-                                                <option title="<index>:	Get state root from a specific height">
-                                                    getstateroot
-                                                </option>
-                                                <option title="<state_root,script_hash>: 	Get proof">getproof
-                                                </option>
-                                                <option title="<state_root>: 	Verify Proof">verifyproof</option>
-                                                <option title=": create your invoke function manually!"></option>
-                                            </select>
+                                                        href="https://docs.neo.org/en-us/node/cli/apigen.html"
+                                                        target="_blank">Official API</a> or put cursor on top for
+                                                    tooltip)</label>
+                                                <select name="rpcMethod" id="rpcMethod"
+                                                    class="custom-select form-control" onchange="frmRPCJson()">
+                                                    <option title="select">Select a method</option>
+                                                    <option title=":Gets the number of blocks in the main chain">
+                                                        getblockcount
+                                                    </option>
+                                                    <option title="<script_hash> :	Get Balance of Nep17">
+                                                        getnep17balances
+                                                    </option>
+                                                    <option
+                                                        title="<address> :	Export the private key of the specified address (Need to open the wallet)">
+                                                        dumpprivkey
+                                                    </option>
+                                                    <option
+                                                        title="<address> :	Check account asset information according to account address">
+                                                        getaccountstate
+                                                    </option>
+                                                    <option
+                                                        title="<txid>[verbose=0]: Returns the contract log based on the specified txid (Need to enable logging plugin)">
+                                                        getapplicationlog
+                                                    </option>
+                                                    <option
+                                                        title="<asset_id> :	Query asset information according to the specified asset number">
+                                                        getassetstate
+                                                    </option>
+                                                    <option
+                                                        title="<asset_id> : Returns the balance of the corresponding asset in the wallet according to the specified asset number (Need to open the wallet)">
+                                                        getbalance
+                                                    </option>
+                                                    <option
+                                                        title=": Gets the hash of the tallest block in the main chain">
+                                                        getbestblockhash
+                                                    </option>
+                                                    <option
+                                                        title="<hash> [verbose=0]:	Returns the corresponding block information according to the specified hash value">
+                                                        getblock
+                                                    </option>
+                                                    <option
+                                                        title="<index> [verbose=0]: 	Returns the corresponding block information according to the specified index">
+                                                        getblock
+                                                    </option>
+                                                    <option
+                                                        title="<index>: 	Returns the hash value of the corresponding block based on the specified index">
+                                                        getblockhash
+                                                    </option>
+                                                    <option title="<index>:[verbose=0] 	Returns header">GetBlockHeader
+                                                    </option>
+                                                    <option
+                                                        title="<index>: 	Returns the system fees before the block according to the specified index">
+                                                        getblocksysfee
+                                                    </option>
+                                                    <option
+                                                        title=": Gets the current number of connections for the node">
+                                                        getconnectioncount
+                                                    </option>
+                                                    <option
+                                                        title="<script_hash>: 	Returns information about the contract based on the specified script hash">
+                                                        getcontractstate
+                                                    </option>
+                                                    <option title=": Create a new address (Need to open the wallet)">
+                                                        getnewaddress
+                                                    </option>
+                                                    <option
+                                                        title="<number_of_blocks> <height_to_end (optional)> Return block timestamps (Need to enable CoreMetrics plugin)">
+                                                        getmetricblocktimestamp
+                                                    </option>
+                                                    <option title=": Get a list of unconfirmed transactions in memory">
+                                                        getrawmempool
+                                                    </option>
+                                                    <option
+                                                        title="<txid> [verbose=0]: 	Returns the corresponding transaction information based on the specified hash value">
+                                                        getrawtransaction
+                                                    </option>
+                                                    <option
+                                                        title="<script_hash> <key>: 	Returns the stored value based on the contract script hash and key">
+                                                        getstorage
+                                                    </option>
+                                                    <option
+                                                        title="<txid>: 	Returns the corresponding transaction height information based on the specified txid">
+                                                        gettransactionheight
+                                                    </option>
+                                                    <option
+                                                        title=": Get a list of nodes that are currently connected/disconnected by this node">
+                                                        getpeers
+                                                    </option>
+                                                    <option
+                                                        title=": Returns the current NEO consensus nodes information and voting status.">
+                                                        getnextblockvalidators
+                                                    </option>
+                                                    <option title=": Get committee.">getcommittee</option>
+                                                    <option title=": Get version information of this node">getversion
+                                                    </option>
+                                                    <option
+                                                        title="<script_hash> <params>:	Invokes a smart contract at specified script hash with the given parameters">
+                                                        invoke
+                                                    </option>
+                                                    <option
+                                                        title="<script_hash> <operation> <params>:	Invokes a smart contract at specified script hash, passing in an operation and its params">
+                                                        invokefunction
+                                                    </option>
+                                                    <option
+                                                        title="<script>: 	Runs a script through the virtual machine and returns the results">
+                                                        invokescript
+                                                    </option>
+                                                    <option
+                                                        title=": Lists all the addresses in the current wallet (Need to open the wallet)">
+                                                        listaddress
+                                                    </option>
+                                                    <option title=": Lists all the plugins loaded in the RPC node">
+                                                        listplugins
+                                                    </option>
+                                                    <option
+                                                        title="<hex>: 	Broadcast a transaction over the network. See the network protocol documentation.">
+                                                        sendrawtransaction
+                                                    </option>
+                                                    <option
+                                                        title="<asset_id> <address> <value> [fee=0]: 	Transfer to specified address (Need to open the wallet)">
+                                                        sendtoaddress
+                                                    </option>
+                                                    <option
+                                                        title="<outputs_array> [fee=0] [change_address]: 	Bulk transfer order (Need to open the wallet)">
+                                                        sendmany
+                                                    </option>
+                                                    <option
+                                                        title="<hex>: 	Submit new blocks (Needs to be a consensus node)">
+                                                        submitblock
+                                                    </option>
+                                                    <option
+                                                        title="<address>:	Verify that the address is a correct NEO address">
+                                                        validateaddress
+                                                    </option>
+                                                    <option title=": Get state height">getstateheight</option>
+                                                    <option title="<index>:	Get state root from a specific height">
+                                                        getstateroot
+                                                    </option>
+                                                    <option title="<state_root,script_hash>: 	Get proof">getproof
+                                                    </option>
+                                                    <option title="<state_root>: 	Verify Proof">verifyproof</option>
+                                                    <option title=": create your invoke function manually!"></option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -699,14 +770,18 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="txtRPCJson">Insert RPC Json</label>
-                                                <input id="txtRPCJson" name="contracthash" class="form-control" placeholder="RPC Json Model">
+                                                <input id="txtRPCJson" name="contracthash" class="form-control"
+                                                    placeholder="RPC Json Model">
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile"><i class="fas fa-phone"></i> Invoke RPC</button>
+                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC"
+                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
+                                                class="btn btn-default btn-compile"><i class="fas fa-phone"></i> Invoke
+                                                RPC</button>
                                         </div>
                                     </div>
 
@@ -714,20 +789,28 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <!--<label for="txtRPCJsonOut">Output</label>-->
-                                                <textarea id="txtRPCJsonOut" rows="8" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px; background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
+                                                <textarea id="txtRPCJsonOut" rows="8"
+                                                    style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px; background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i> Get Notifications</button>
+                                            <button type="button"
+                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
+                                                class="btn btn-default btn-compile"
+                                                onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i>
+                                                Get Notifications</button>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="collapse col-md-12" id="collapseNotifications">
-                                            <textarea id="txt_notifications" style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;" readonly="readonly" rows="6" placeholder="Notifications/Events are listed here."></textarea>
+                                            <textarea id="txt_notifications"
+                                                style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"
+                                                readonly="readonly" rows="6"
+                                                placeholder="Notifications/Events are listed here."></textarea>
                                         </div>
                                     </div>
 
@@ -742,52 +825,60 @@
                                     <div class="row mb-2">
                                         <div class="col-md-4">
                                             <label for="net_fee">Network Fees</label>
-                                            <input type="number" id="net_fee" step="0.00000001" size="10" value="0" class="form-control" required="">
+                                            <input type="number" id="net_fee" step="0.00000001" size="10" value="0"
+                                                class="form-control" required="">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="sys_fee">System Fees</label>
-                                            <input type="number" id="sys_fee" step="0.00000001" size="10" value="0" class="form-control" required="">
+                                            <input type="number" id="sys_fee" step="0.00000001" size="10" value="0"
+                                                class="form-control" required="">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="valid_until">Valid Until</label>
-                                            <input type="number" id="valid_until" step="1" size="10" value="0" class="form-control" required="">
+                                            <input type="number" id="valid_until" step="1" size="10" value="0"
+                                                class="form-control" required="">
                                         </div>
                                     </div>
 
                                     <div class="row mb-2">
                                         <div class="col-md-12">
                                             <label for="tx_script">Script</label>
-                                            <textarea id="tx_script" rows="2" cols="100" placeholder="Transaction Script" style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
+                                            <textarea id="tx_script" rows="2" cols="100"
+                                                placeholder="Transaction Script"
+                                                style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <button type="button" style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;" class="btn btn-default btn-compile" onclick="signAndRelay()"> Relay to Blockchain</button>
+                                            <button type="button"
+                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
+                                                class="btn btn-default btn-compile" onclick="signAndRelay()"> Relay to
+                                                Blockchain</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
 
                 <!-- PAGINA ACTIVITY INICIO -->
                 <div class="tab-pane fade" id="nav-activity" role="tabpanel" aria-labelledby="nav-home-tab">
-
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Activity</a></li>
                         </ol>
                     </nav>
 
-
                     <div class="errors-warnings">
                         <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                            <h4 class="green-title">Historical Relayed TX's <button type="submit" onclick="drawRelayedTXs()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                            <h4 class="green-title">Historical Relayed TX's <button type="submit"
+                                    onclick="drawRelayedTXs()" class="btn btn-info btn-sm"><i
+                                        class="fas fa-sync-alt"></i></button></h4>
                             <div class="container">
                                 <div class="row" style="padding:0 20px 0 20px;">
                                     <table id="tableRelayedTxs" class="table text-white twalllet">
@@ -799,7 +890,8 @@
 
                     <div class="errors-warnings">
                         <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                            <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                            <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()"
+                                    class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                             <div class="container">
                                 <div class="row" style="padding:0 20px 0 20px;">
                                     <table id="tableBlocks" class="table text-white twalllet">
@@ -812,60 +904,68 @@
 
 
                 <!-- PAGINA STORAGE INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-storage" role="tabpanel" aria-labelledby="nav-home-tab">
+
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Storage Query</a></li>
                         </ol>
                     </nav>
 
                     <div id="storage">
-
                         <div class="errors-warnings">
-
-
                             <div class="display-erros n-padding deploy-bg" style="height: 410px;">
                                 <h4 class="green-title">Read storage from a Smart Contract</h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
+
                                             <form id="formgetstorage" method="post" class="ng-pristine ng-valid">
                                                 <label for="gsf_contracthash">ScriptHash</label>
-                                                <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash">
+                                                <input id="gsf_contracthash" class="form-control"
+                                                    placeholder="Contract Hash">
                                                 <label for="getStorageFormat">Input Key</label>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input id="gsf_contractkey" class="form-control" placeholder="Storage Key">
+                                                        <input id="gsf_contractkey" class="form-control"
+                                                            placeholder="Storage Key">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <select name="getStorageFormat" id="getStorageFormat" class="custom-select form-control">
-                                                        <option title="gsf_string" selected=""
+                                                        <select name="getStorageFormat" id="getStorageFormat"
+                                                            class="custom-select form-control">
+                                                            <option title="gsf_string" selected=""
                                                                 value="String (no quotes)">String (no quotes)
-                                                        </option>
-                                                        <option title="gsf_hex" value="Hex">Hex</option>
-                                                    </select>
+                                                            </option>
+                                                            <option title="gsf_hex" value="Hex">Hex</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <button type="submit" id="gsfsubmit" style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-info" data-toggle="modal"><i
-                                                            class="fas fa-hdd"></i></button>
+                                                        <button type="submit" id="gsfsubmit"
+                                                            style="margin-bottom: 10px; margin-top: 10px;"
+                                                            class="btn btn-info" data-toggle="modal"><i
+                                                                class="fas fa-hdd"></i></button>
                                                     </div>
                                                 </div>
                                                 <label for="gsf_contractvalue">Output Value</label>
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <input id="gsf_contractvaluehex" class="form-control mt-4" placeholder="Storage Value (Hex)" style="border-bottom: 5px solid #0aab7b;">
+                                                        <input id="gsf_contractvaluehex" class="form-control mt-4"
+                                                            placeholder="Storage Value (Hex)"
+                                                            style="border-bottom: 5px solid #0aab7b;">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id="gsf_contractvaluestr" class="form-control mt-4" placeholder="Storage Value (String)" style="border-bottom: 5px solid #0aab7b;">
+                                                        <input id="gsf_contractvaluestr" class="form-control mt-4"
+                                                            placeholder="Storage Value (String)"
+                                                            style="border-bottom: 5px solid #0aab7b;">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id="gsf_contractvalueint" class="form-control mt-4" placeholder="Storage Value (BigInteger)" style="border-bottom: 5px solid #0aab7b;">
+                                                        <input id="gsf_contractvalueint" class="form-control mt-4"
+                                                            placeholder="Storage Value (BigInteger)"
+                                                            style="border-bottom: 5px solid #0aab7b;">
                                                     </div>
                                                 </div>
                                             </form>
@@ -877,38 +977,38 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 460px;">
                                 <h4 class="green-title">Incremental storage
-                                    <button type="submit" onclick="getIncrementalStorageInfo()" class="btn btn-info btn-sm">
-                                    <i
-                                            class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="getIncrementalStorageInfo()"
+                                        class="btn btn-info btn-sm">
+                                        <i class="fas fa-sync-alt"></i></button>
                                     <br>
 
-                                    <input id="heightForIncStorage" class="form-control" value="0" placeholder="0" oninput="getIncrementalStorageInfo()" style="border-bottom: 2px solid white;">
+                                    <input id="heightForIncStorage" class="form-control" value="0" placeholder="0"
+                                        oninput="getIncrementalStorageInfo()" style="border-bottom: 2px solid white;">
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
                                             <div class="col-md-12">
-                                                <textarea id="textAreaOfIncrementalStorage" readonly="readonly" style="font-size: 15px;" rows="15" cols="100" placeholder="Incremental storage for any height..." class="form-control"></textarea><br>
+                                                <textarea id="textAreaOfIncrementalStorage" readonly="readonly"
+                                                    style="font-size: 15px;" rows="15" cols="100"
+                                                    placeholder="Incremental storage for any height..."
+                                                    class="form-control"></textarea><br>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
 
 
                 <!-- PAGINA WALLET INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-wallet" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Wallet</a></li>
                         </ol>
                     </nav>
@@ -916,7 +1016,8 @@
 
                     <div class="errors-warnings">
                         <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                            <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()" class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                            <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
+                                    class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                             <div class="container">
                                 <div class="row" style="padding:0 20px 0 20px;">
                                     <table id="tableWalletStatus" class="table text-white twalllet">
@@ -933,25 +1034,31 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label id="labelForTransferAmount" style="font-size: 20px!important;">Transferring X</label>
+                                        <label id="labelForTransferAmount"
+                                            style="font-size: 20px!important;">Transferring X</label>
                                         <label id="labelForTransferAsset" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferFrom" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferTo" style="font-size: 20px!important;">To</label>
                                         <br>
-                                        <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to" class="custom-select" size="3"></select>
+                                        <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to"
+                                            class="custom-select" size="3"></select>
                                     </div>
                                 </div>
 
                                 <div class="row" style="padding:10px 0 10px 0;">
                                     <div class="col-md-4">
-                                        <select id="nep17_asset" onchange="updateTransferAssetInfo()" class="compiler-select w-seta selectclass"></select>
+                                        <select id="nep17_asset" onchange="updateTransferAssetInfo()"
+                                            class="compiler-select w-seta selectclass"></select>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="range" onchange="updateTransferAmountInfoFromPercentage()" id="transfer_nep17_amount_range" value="0" min="0" max="100" />
-                                        <input type="number" onchange="updateTransferAmountInfo()" id="transfer_nep17_amount" value="0" min="0"></input>
+                                        <input type="range" onchange="updateTransferAmountInfoFromPercentage()"
+                                            id="transfer_nep17_amount_range" value="0" min="0" max="100" />
+                                        <input type="number" onchange="updateTransferAmountInfo()"
+                                            id="transfer_nep17_amount" value="0" min="0"></input>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="button" onclick="createNep17Tx()" id="txcreate" class="btn btn-default btn-compile">Create Transfer</button>
+                                        <button type="button" onclick="createNep17Tx()" id="txcreate"
+                                            class="btn btn-default btn-compile">Create Transfer</button>
                                     </div>
                                 </div>
 
@@ -960,9 +1067,11 @@
                     </div>
 
                     <div class="errors-warnings reg-wallet">
-                        <div class="display-erros n-padding deploy-bg" id="RegisterAddress" style="height:auto!important;">
+                        <div class="display-erros n-padding deploy-bg" id="RegisterAddress"
+                            style="height:auto!important;">
                             <h4 class="green-title">Import account
-                                <button type="button" onclick="addWalletFromForm();" id="btnNewWallet" class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
+                                <button type="button" onclick="addWalletFromForm();" id="btnNewWallet"
+                                    class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                             </h4>
                             <div class="container">
                                 <div class="row" style="padding:0 20px 10px 20px;">
@@ -970,9 +1079,11 @@
                                     <div class="panel-body">
                                         <div class="row col-walet">
                                             <div class="col-4">
-                                                <select id="type_to_register" class="compiler-select w-seta selectclass">
+                                                <select id="type_to_register"
+                                                    class="compiler-select w-seta selectclass">
                                                     <option value="address">Address (17 bytes) - WatchOnly </option>
-                                                    <option value="scripthash">ScriptHash (20 bytes) - WatchOnly </option>
+                                                    <option value="scripthash">ScriptHash (20 bytes) - WatchOnly
+                                                    </option>
                                                     <option value="publickey">PublicKey (33 bytes)</option>
                                                     <option value="wif">WIF (26 bytes)</option>
                                                     <option value="privatekey">PrivateKey (32 bytes)</option>
@@ -982,36 +1093,13 @@
                                                 <br>
                                             </div>
                                             <div class="col-4">
-                                                <input style="color: green;" placeholder="Insert account info" type="text" id="accountToAddInfo" maxlength="64" value="" size="64">
+                                                <input style="color: green;" placeholder="Insert account info"
+                                                    type="text" id="accountToAddInfo" maxlength="64" value="" size="64">
                                             </div>
                                             <div class="col-4">
-                                                <input style="color: green;" placeholder="Insert account label" type="text" id="accountLabelToAddInfo" value="" size="20">
-                                            </div>
-                                            <!--
-                                            <div class="col-6">
-                                                Address (17 bytes): <input style="color: green;" type="text" name="addressToAddBox" id="addressToAddBox" maxlength="34" size="32" title="public address (base58)">
-                                            </div>
-
-                                            <div class="col-6">
-                                                ScriptHash (20 bytes): <input style="color: green;" type="text" name="scriptHashToAddBox" id="scriptHashToAddBox" maxlength="40" size="38" title="scripthash">
-                                            </div>
-
-                                            <div class="col-6">
-                                                PublicKey (33 bytes): <input style="color: green;" type="text" name="pubKeyToAddBox" id="pubKeyToAddBox" maxlength="66" size="62">
-                                            </div>
-
-                                            <div class="col-6">
-                                                WIF (26 bytes): <input style="color: green;" type="text" name="wifToAddBox" id="wifToAddBox" maxlength="52" size="50">
-                                            </div>
-
-                                            <div class="col-6">
-                                                PrivateKey (32 bytes): <input style="color: green;" type="text" name="privKeyToAddBox" id="privKeyToAddBox" maxlength="64" placeholder="1dd37fba80fec4e6a6f13fd708d8dcb3b29def768017052f6c930fa1c5d90bbb" size="60">
-                                            </div>
-
-                                            <div class="col-6">
-                                                EncryptedKey (29 bytes): <input style="color: green;" type="text" name="encryptedKeyToAddBox" id="encryptedKeyToAddBox" maxlength="58" value="" size="58">
-                                            </div>
-                                        -->
+                                                <input style="color: green;" placeholder="Insert account label"
+                                                    type="text" id="accountLabelToAddInfo" value="" size="20">
+                                            </div>                                           
                                         </div>
                                     </div>
 
@@ -1019,102 +1107,16 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!--
-                    <br><br>
-                    <div class="errors-warnings">
-                        <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
-                            <h4 class="green-title">Accounts detailed info
-                            </h4>
-                            <div class="container">
-                                <div class="row" style="padding:0 20px 0 20px;">
-
-                                    <div class="panel-body">
-
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span class="label label-primary">Pick an address:</span>
-                                                <select name="wallet_info" onchange="changeWalletInfo();" id="wallet_info" class="custom-select form-control"><option value="wallet_0">AK2nJJpJr6o664CWJKi1QRXjqeic2zRp8y</option><option value="wallet_1">APLJBPhtRg2XLhtpxEHd6aRNL7YSLGH2ZL</option><option value="wallet_2">AXxCjds5Fxy7VSrriDMbCrSRTxpRdvmLtx</option><option value="wallet_3">AQaJZTKshTQzcCKmsaoNVrtSP1pEB3Utn9</option><option value="wallet_4">AKkkumHbBipZ46UMZJoFynJMXzSRnBvKcs</option><option value="wallet_5">AWLYWXB8C9Lt1nHdDZJnC5cpYJjgRDLk17</option><option value="wallet_6">AR3uEnLUdfm1tPMJmiJQurAXGL7h3EXQ2F</option><option value="wallet_7">AJmjUqf1jDenxYpuNS4i2NxD9FQYieDpBF</option><option value="wallet_8">AZ81H31DMWzbSnFDLFkzh9vHwaDLayV7fU</option><option value="wallet_9">Encrypted: 6PYMLN5gxjEJ1u4zoTADWM2gphfXRszFKi4QCq6FjwumwPWsf1LoZpvFxU</option></select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span class="label label-success">AddressBase58:</span>
-                                                <textarea id="walletInfoAddressBase58" readonly="readonly" name="infoAddressBase58" placeholder="infoAddressBase58 (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-4">
-                                                <span class="label label-success">ScriptHash:</span>
-                                                <textarea id="walletInfoScripthash" readonly="readonly" name="infoScriptHash" placeholder="infoScriptHash (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-2">
-                                                <span class="label label-success">PublicKey:</span>
-                                                <textarea id="walletInfoPubKey" readonly="readonly" name="infoPubKey" placeholder="infoPubKey (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-2">
-                                                <span class="label label-success">VerificationScript:</span>
-                                                <textarea id="addressVerificationScript" readonly="readonly" name="VerificationScriptInfo" placeholder="VerificationScriptInfo (Pick a wallet id)"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <span class="label label-success">WIF:</span>
-                                                <textarea id="walletInfoWIF" readonly="readonly" name="infoWIF" placeholder="infoWIF (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-4">
-                                                <span class="label label-success">PrivateKey:</span>
-                                                <textarea id="walletInfoPrivateKey" readonly="readonly" name="infoPrivateKey" placeholder="infoPrivateKey (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-2">
-                                                <span class="label label-success">Print:</span>
-                                                <textarea id="addressPrintInfo" readonly="readonly" name="printInfo" placeholder="printInfo (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-2">
-                                                <span class="label label-success">Owners:</span>
-                                                <textarea id="addressOwners" readonly="readonly" name="ownersInfo" placeholder="ownersInfo (Pick a wallet id)"></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-2">
-                                                <br><button type="" onclick="removeAccountFromEcoWallet(document.getElementById('wallet_info').selectedOptions[0].index)" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-user-minus"></i> Remove account
-                                            </button>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <span class="label label-success">EncryptedKey:</span>
-                                                <textarea id="walletInfoEncrypted" readonly="readonly" name="walletInfoEncrypted" placeholder="walletInfoEncrypted (Pick a wallet id)"></textarea>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <form class="form-group ng-pristine ng-valid" onsubmit="decrypt()">
-                                                    <div id="dialog" title="Basic dialog" hidden="" style="display: none;">
-                                                        <input autocomplete="&#8203;&quot;eco&quot;" id="passwordNep2" class="form-control" type="password" placeholder="&#8203;&quot;EnterPassword&quot;">
-                                                        <button type="submit" class="form-control btn btn-info btn-sm">Decrypt</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    -->
                     <br><br>
                 </div>
 
 
                 <!-- PAGINA CONVERSORS INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-conversors" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Conversors</a></li>
                         </ol>
                     </nav>
@@ -1123,7 +1125,8 @@
                         <div class="errors-warnings">
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">String
-                                    <-> Hex</h4>
+                                    <-> Hex
+                                </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
@@ -1132,19 +1135,24 @@
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label for="strhex_str">String</label>
-                                                            <input id="strhex_str" oninput="str2hex()" class="form-control" placeholder="String" oninput="str2hex()">
+                                                            <input id="strhex_str" oninput="str2hex()"
+                                                                class="form-control" placeholder="String"
+                                                                oninput="str2hex()">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-5">
                                                         <div class="form-group">
                                                             <label for="strhex_hex">Hex</label>
-                                                            <input id="strhex_hex" oninput="hex2str()" class="form-control" placeholder="Hex" oninput="hex2str()">
+                                                            <input id="strhex_hex" oninput="hex2str()"
+                                                                class="form-control" placeholder="Hex"
+                                                                oninput="hex2str()">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-2">
                                                         <div class="form-group">
                                                             <label for="hex_length">Length (in bytes)</label>
-                                                            <input id="hex_length" class="form-control" placeholder="Length (in bytes)">
+                                                            <input id="hex_length" class="form-control"
+                                                                placeholder="Length (in bytes)">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1157,7 +1165,8 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">Hex
-                                    <-> xeH</h4>
+                                    <-> xeH
+                                </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
@@ -1165,13 +1174,15 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="hexxeh_hex">Hex</label>
-                                                        <input id="hexxeh_hex" oninput="hex2xeh()" class="form-control" placeholder="Hex" oninput="hex2xeh()">
+                                                        <input id="hexxeh_hex" oninput="hex2xeh()" class="form-control"
+                                                            placeholder="Hex" oninput="hex2xeh()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="hexxeh_xeh">xeH</label>
-                                                        <input id="hexxeh_xeh" oninput="xeh2hex()" class="form-control" placeholder="xeH" oninput="xeh2hex()">
+                                                        <input id="hexxeh_xeh" oninput="xeh2hex()" class="form-control"
+                                                            placeholder="xeH" oninput="xeh2hex()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1182,7 +1193,8 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">Base64
-                                    <-> Hex</h4>
+                                    <-> Hex
+                                </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
@@ -1190,13 +1202,15 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="b64hx_base64_hex">Base64</label>
-                                                        <input id="b64hx_base64_hex" oninput="b64hx()" class="form-control" placeholder="Base64">
+                                                        <input id="b64hx_base64_hex" oninput="b64hx()"
+                                                            class="form-control" placeholder="Base64">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="b64hx_hex_base64">Hex</label>
-                                                        <input id="b64hx_hex_base64" oninput="hxb64()" class="form-control" placeholder="Hex">
+                                                        <input id="b64hx_hex_base64" oninput="hxb64()"
+                                                            class="form-control" placeholder="Hex">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1207,7 +1221,8 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">Number
-                                    <-> Fixed8 Hex</h4>
+                                    <-> Fixed8 Hex
+                                </h4>
                                 <div class="container">
                                     <div class="row">
 
@@ -1216,13 +1231,16 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="fx8_number">Number</label>
-                                                        <input type="number" oninput="num2fixed8()" id="fx8_number" class="form-control" placeholder="Number" oninput="num2fixed8()">
+                                                        <input type="number" oninput="num2fixed8()" id="fx8_number"
+                                                            class="form-control" placeholder="Number"
+                                                            oninput="num2fixed8()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="fx8_hex">Fixed8</label>
-                                                        <input id="fx8_hex" oninput="fixed82num()" class="form-control" placeholder="Fixed8 hex" oninput="fixed82num()">
+                                                        <input id="fx8_hex" oninput="fixed82num()" class="form-control"
+                                                            placeholder="Fixed8 hex" oninput="fixed82num()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1234,7 +1252,8 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">Address
-                                    <-> ScriptHash (big endian)</h4>
+                                    <-> ScriptHash (big endian)
+                                </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
@@ -1242,14 +1261,19 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="address_conversor">Address</label>
-                                                        <input id="address_conversor" oninput="address2scripthash()" class="form-control" placeholder="Address" oninput="address2scripthash()">
+                                                        <input id="address_conversor" oninput="address2scripthash()"
+                                                            class="form-control" placeholder="Address"
+                                                            oninput="address2scripthash()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="scripthash_conversor">ScriptHash (big endian, should start
+                                                        <label for="scripthash_conversor">ScriptHash (big endian, should
+                                                            start
                                                             with 0x)</label>
-                                                        <input id="scripthash_conversor" oninput="scripthash2address()" class="form-control" placeholder="ScriptHash" oninput="scripthash2address()">
+                                                        <input id="scripthash_conversor" oninput="scripthash2address()"
+                                                            class="form-control" placeholder="ScriptHash"
+                                                            oninput="scripthash2address()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1261,7 +1285,8 @@
 
                             <div class="display-erros n-padding deploy-bg" style="height: 180px;">
                                 <h4 class="green-title">BigInteger
-                                    <-> Little-Endian ByteArray</h4>
+                                    <-> Little-Endian ByteArray
+                                </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
@@ -1269,14 +1294,18 @@
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="convert_bigint">BigInteger</label>
-                                                        <input id="convert_bigint" class="form-control" placeholder="BigInteger" oninput="conv_bigint2lebytearray()">
+                                                        <input id="convert_bigint" class="form-control"
+                                                            placeholder="BigInteger"
+                                                            oninput="conv_bigint2lebytearray()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="convert_bytearray">Little-Endian
                                                             ByteArray</label>
-                                                        <input id="convert_bytearray" class="form-control" placeholder="Little Endian ByteArray" oninput="conv_lebytearray2bigint()">
+                                                        <input id="convert_bytearray" class="form-control"
+                                                            placeholder="Little Endian ByteArray"
+                                                            oninput="conv_lebytearray2bigint()">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1295,25 +1324,31 @@
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="convert_string_hash">Hex String</label>
-                                                        <input id="convert_string_hash" class="form-control" placeholder="Input String to Hash" oninput="conv_string_hash()">
+                                                        <input id="convert_string_hash" class="form-control"
+                                                            placeholder="Input String to Hash"
+                                                            oninput="conv_string_hash()">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <label for="convert_string_hash160" title="Scripthash little endian format">Hash160</label>
-                                                        <input id="convert_string_hash160" class="form-control" placeholder="Hash160 (Sha256+Ripemd160)" readonly>
+                                                        <label for="convert_string_hash160"
+                                                            title="Scripthash little endian format">Hash160</label>
+                                                        <input id="convert_string_hash160" class="form-control"
+                                                            placeholder="Hash160 (Sha256+Ripemd160)" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="convert_string_sha256">Hex Sha256</label>
-                                                        <input id="convert_string_sha256" class="form-control" placeholder="Sha256" readonly>
+                                                        <input id="convert_string_sha256" class="form-control"
+                                                            placeholder="Sha256" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label for="convert_string_hash256">Hash256</label>
-                                                        <input id="convert_string_hash256" class="form-control" placeholder="Hash256 (Sha256+Sha256)" readonly>
+                                                        <input id="convert_string_hash256" class="form-control"
+                                                            placeholder="Hash256 (Sha256+Sha256)" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1355,7 +1390,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         -->
                         </div>
@@ -1363,12 +1397,11 @@
                 </div>
 
                 <!-- PAGINA CONSENSUS INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-consensus" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Network</a></li>
                         </ol>
                     </nav>
@@ -1377,7 +1410,8 @@
                         <div class="errors-warnings">
                             <div class="display-erros n-padding deploy-bg" style="height: 140px;">
                                 <h4 class="green-title">Filter Logs
-                                    <button type="submit" onclick="getSpecificNodeHeightInfoFromForm()" class="btn btn-info btn-sm">
+                                    <button type="submit" onclick="getSpecificNodeHeightInfoFromForm()"
+                                        class="btn btn-info btn-sm">
                                         <i class="fas fa-sync-alt">
                                         </i>
                                     </button>
@@ -1385,38 +1419,41 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-3">
-                                                        <div class="form-group">
-                                                            <label for="height_filter_log">Height</label>
-                                                            <input id="height_filter_log" class="form-control" value="1">
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="height_filter_log">Height</label>
+                                                        <input id="height_filter_log" class="form-control" value="1">
                                                     </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="lines_filter_log">Number Lines</label>
-                                                            <input id="lines_filter_log" class="form-control" value="10">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label for="year_filter_log">Year</label>
-                                                            <input id="year_filter_log" class="form-control" value="" placeholder="2022">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <div class="form-group">
-                                                            <label for="day_filter_log">Day</label>
-                                                            <input id="day_filter_log" class="form-control" value="" placeholder="01">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-1">
-                                                        <div class="form-group">
-                                                            <label for="month_filter_log">Month</label>
-                                                            <input id="month_filter_log" class="form-control" value="" placeholder="12">
-                                                        </div>
-                                                    </div>                                                                                                                                                         
                                                 </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="lines_filter_log">Number Lines</label>
+                                                        <input id="lines_filter_log" class="form-control" value="10">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <label for="year_filter_log">Year</label>
+                                                        <input id="year_filter_log" class="form-control" value=""
+                                                            placeholder="2022">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <label for="day_filter_log">Day</label>
+                                                        <input id="day_filter_log" class="form-control" value=""
+                                                            placeholder="01">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <label for="month_filter_log">Month</label>
+                                                        <input id="month_filter_log" class="form-control" value=""
+                                                            placeholder="12">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1427,13 +1464,14 @@
                             <div class="display-erros n-padding deploy-bg" style="height: 420px;">
                                 <h4 class="green-title">Node1
                                     <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
                                             <div class="col-md-12">
-                                                <textarea id="node1data" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="node1data" class="form-control" style="font-size: 12px;"
+                                                    rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1444,7 +1482,7 @@
                             <div class="display-erros n-padding deploy-bg" style="height: 420px;">
                                 <h4 class="green-title">Node2
                                     <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
@@ -1452,11 +1490,10 @@
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="node2data" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="node2data" class="form-control" style="font-size: 12px;"
+                                                    rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1464,7 +1501,7 @@
                             <div class="display-erros n-padding deploy-bg" style="height: 420px;">
                                 <h4 class="green-title">Node3
                                     <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
@@ -1472,11 +1509,10 @@
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="node3data" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="node3data" class="form-control" style="font-size: 12px;"
+                                                    rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1485,7 +1521,7 @@
                             <div class="display-erros n-padding deploy-bg" style="height: 420px;">
                                 <h4 class="green-title">Node4
                                     <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
@@ -1493,102 +1529,108 @@
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="node4data" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="node4data" class="form-control" style="font-size: 12px;"
+                                                    rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
 
 
-                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                            <div class="display-erros n-padding deploy-bg mb-2"
+                                style="height: 420px;margin-bottom: 20px;">
                                 <h4 class="green-title">NodeRPC(WatchOnly)
                                     <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="noderpcdata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="noderpcdata" class="form-control" style="font-size: 12px;"
+                                                    rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                            <div class="display-erros n-padding deploy-bg mb-2"
+                                style="height: 420px;margin-bottom: 20px;">
                                 <h4 class="green-title">Oracle Service
                                     <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
-                                    <button type="submit" onclick="setRole(8)" class="btn btn-danger btn-sm">Elect Oracle <i
-                                            class="fas fa-vote-yea"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="setRole(8)" class="btn btn-danger btn-sm">Elect
+                                        Oracle <i class="fas fa-vote-yea"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="oracleservicedata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="oracleservicedata" class="form-control"
+                                                    style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                            <div class="display-erros n-padding deploy-bg mb-2"
+                                style="height: 420px;margin-bottom: 20px;">
                                 <h4 class="green-title">OracleHttpsProtocol
                                     <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="oraclehttpsprotocoldata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="oraclehttpsprotocoldata" class="form-control"
+                                                    style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                            <div class="display-erros n-padding deploy-bg mb-2"
+                                style="height: 420px;margin-bottom: 20px;">
                                 <h4 class="green-title">Verification Service
                                     <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
-                                    <button type="submit" onclick="setRole(4)" class="btn btn-danger btn-sm">Elect StateService <i
-                                            class="fas fa-vote-yea"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
+                                    <button type="submit" onclick="setRole(4)" class="btn btn-danger btn-sm">Elect
+                                        StateService <i class="fas fa-vote-yea"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="verificationservicedata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="verificationservicedata" class="form-control"
+                                                    style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                            <div class="display-erros n-padding deploy-bg mb-2"
+                                style="height: 420px;margin-bottom: 20px;">
                                 <h4 class="green-title">Verification Context
                                     <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
-                                        class="fas fa-sync-alt"></i></button>
+                                            class="fas fa-sync-alt"></i></button>
                                 </h4>
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
 
                                             <div class="col-md-12">
-                                                <textarea id="verificationcontextdata" class="form-control" style="font-size: 12px;" rows="15" readonly=""></textarea>
+                                                <textarea id="verificationcontextdata" class="form-control"
+                                                    style="font-size: 12px;" rows="15" readonly=""></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1603,24 +1645,22 @@
 
                 <!-- PAGINA STATISTICS INICIO -->
 
-
                 <div class="tab-pane fade" id="nav-statistics" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Statistics</a></li>
                         </ol>
                     </nav>
                 </div>
 
-
                 <!-- PAGINA CONFIG INICIO -->
-
-
                 <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-home-tab">
                     <nav class="nav-links" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page"><a>Settings</a></li>
                         </ol>
                     </nav>
@@ -1638,48 +1678,52 @@
                                                 <!-- <input type="text" onchange="updatePATHS()" id="neonodeurl" class="form-control" placeholder="network, ex: http://localhost:30333" value="https://node1.neocompiler.io">-->
                                                 <span class="label label-success">Neo-cli RPCs</span>
                                                 <select id="selectionBoxRPCNodes" class="custom-select form-control">
-                                                <option value="https://node1.neocompiler.io">
-                                                    https://node1.neocompiler.io
-                                                </option>
-                                                <option value="https://node2.neocompiler.io">
-                                                    https://node2.neocompiler.io
-                                                </option>
-                                                <option value="https://node3.neocompiler.io">
-                                                    https://node3.neocompiler.io
-                                                </option>
-                                            </select>
+                                                    <option value="https://node1.neocompiler.io">
+                                                        https://node1.neocompiler.io
+                                                    </option>
+                                                    <option value="https://node2.neocompiler.io">
+                                                        https://node2.neocompiler.io
+                                                    </option>
+                                                    <option value="https://node3.neocompiler.io">
+                                                        https://node3.neocompiler.io
+                                                    </option>
+                                                </select>
                                                 <span class="label label-info">Selected service</span>
-                                                <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path" value="------">
+                                                <input type="text" onchange="updateBASEPATHS()" id="rpc_nodes_path"
+                                                    value="------">
                                             </div>
                                             <div class="col-md-3">
                                                 <span class="label label-success">Compilers</span>
                                                 <select id="selectionBoxCompilers" class="custom-select form-control">
-                                                <option value="https://compilers.neocompiler.io">
-                                                    https://compilers.neocompiler.io
-                                                </option>
-                                            </select>
+                                                    <option value="https://compilers.neocompiler.io">
+                                                        https://compilers.neocompiler.io
+                                                    </option>
+                                                </select>
                                                 <span class="label label-info">Selected service</span>
-                                                <input type="text" onchange="updateBASEPATHS()" id="compilers_path" value="------">
+                                                <input type="text" onchange="updateBASEPATHS()" id="compilers_path"
+                                                    value="------">
                                             </div>
                                             <div class="col-md-3">
                                                 <span class="label label-success">EcoServices</span>
                                                 <select id="selectionBoxEcoServices" class="custom-select form-control">
-                                                <option value="https://ecoservices.neocompiler.io">
-                                                    https://ecoservices.neocompiler.io
-                                                </option>
-                                            </select>
+                                                    <option value="https://ecoservices.neocompiler.io">
+                                                        https://ecoservices.neocompiler.io
+                                                    </option>
+                                                </select>
                                                 <span class="label label-info">Selected service</span>
-                                                <input type="text" onchange="updateBASEPATHS()" id="eco_services_path" value="------">
+                                                <input type="text" onchange="updateBASEPATHS()" id="eco_services_path"
+                                                    value="------">
                                             </div>
                                             <div class="col-md-3">
                                                 <span class="label label-success">NEOSCAN</span>
                                                 <select id="selectionBoxNeoScan" class="custom-select form-control">
-                                                <option value="https://neoscan.neocompiler.io">
-                                                    https://neoscan.neocompiler.io
-                                                </option>
-                                            </select>
+                                                    <option value="https://neoscan.neocompiler.io">
+                                                        https://neoscan.neocompiler.io
+                                                    </option>
+                                                </select>
                                                 <span class="label label-info">Selected service</span>
-                                                <input type="text" onchange="updateBASEPATHS()" id="neoscan_path" value="------">
+                                                <input type="text" onchange="updateBASEPATHS()" id="neoscan_path"
+                                                    value="------">
                                             </div>
                                             <!--
                                             <div class="col-md-2">
@@ -1699,20 +1743,19 @@
                                 <h4 class="green-title">Automatic selection</h4>
                                 <div class="container">
                                     <div class="row">
-
-
                                         <div class="col-12">
                                             <div class="col-md-3">
                                                 <span class="label label-success">Compiler server</span>
-                                                <br><input type="checkbox" id="cbx_automatic_compiler" checked="">Pick best ping compiler<br>
+                                                <br><input type="checkbox" id="cbx_automatic_compiler" checked="">Pick
+                                                best ping compiler<br>
                                             </div>
                                             <div class="col-md-3">
                                                 <span class="label label-success">RPC c# neo-cli</span>
-                                                <br><input type="checkbox" id="cbx_automatic_node_best_height" onchange="updateAutomaticNodeSelectionFlag()" checked="">Pick best height node<br>
+                                                <br><input type="checkbox" id="cbx_automatic_node_best_height"
+                                                    onchange="updateAutomaticNodeSelectionFlag()" checked="">Pick best
+                                                height node<br>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1722,29 +1765,29 @@
                                 <h4 class="green-title">Consensus Node</h4>
                                 <div class="container">
                                     <div class="row">
-
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="col-md-3">
                                                             <span class="label label-success">Seconds per block</span>
-                                                            <br><input type="text" id="cbx_spb_cn" placeholder="15" size="2">
+                                                            <br><input type="text" id="cbx_spb_cn" placeholder="15"
+                                                                size="2">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <span class="label label-success">Password</span>
-                                                            <br><input type="text" id="cbx_pwd_cn" placeholder="neoresearch" size="12">
+                                                            <br><input type="text" id="cbx_pwd_cn"
+                                                                placeholder="neoresearch" size="12">
                                                         </div>
                                                         <br>
-                                                        <button type="button" onclick="onClickBtnSetCNBlockTime()" id="btc_set_cn_pwd" class="btn btn-info">Set
-                                                    </button>
+                                                        <button type="button" onclick="onClickBtnSetCNBlockTime()"
+                                                            id="btc_set_cn_pwd" class="btn btn-info">Set
+                                                        </button>
                                                     </div>
 
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -1762,12 +1805,14 @@
 
                                                         <div class="col-md-5">
                                                             <span class="label label-success">View NEOSCAN</span>
-                                                            <br><input type="checkbox" id="cbx_enable_neoscan">View links and statistics of NEOSCAN
+                                                            <br><input type="checkbox" id="cbx_enable_neoscan">View
+                                                            links and statistics of NEOSCAN
                                                         </div>
                                                         <div class="col-md-5">
                                                             <span class="label label-success">Perform Queries using
                                                                 NEOSCAN</span>
-                                                            <br><input type="checkbox" id="cbx_query_neoscan">Queries (UTXO, Claims, Neon.ApiProvide) with NEOSCAN
+                                                            <br><input type="checkbox" id="cbx_query_neoscan">Queries
+                                                            (UTXO, Claims, Neon.ApiProvide) with NEOSCAN
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1796,11 +1841,15 @@
                                                         </div>
                                                         <div class="col-md-5">
                                                             <span class="label label-success">Password</span>
-                                                            <br><input type="text" id="cbx_pwd_reset_service" placeholder="dockerreset" size="12">
+                                                            <br><input type="text" id="cbx_pwd_reset_service"
+                                                                placeholder="dockerreset" size="12">
                                                             <br>
-                                                            <button type="button" onclick="onClickPostServerToResetDockerService()" id="btn_reset_service_pwd" class="btn btn-info btn-sm mt-2">Reset docker
-                                                            service
-                                                        </button>
+                                                            <button type="button"
+                                                                onclick="onClickPostServerToResetDockerService()"
+                                                                id="btn_reset_service_pwd"
+                                                                class="btn btn-info btn-sm mt-2">Reset docker
+                                                                service
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1822,31 +1871,38 @@
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <span class="label label-success">Wallet balances</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_wallet" placeholder="10000" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_wallet"
+                                                            placeholder="10000" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">TXs Activity</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_activity" placeholder="10000" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_activity"
+                                                            placeholder="10000" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">Headers info</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_headers" placeholder="1300" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_headers"
+                                                            placeholder="1300" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">Ping compilers</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_compilers" placeholder="20000" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_compilers"
+                                                            placeholder="20000" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">Ping neo-clients</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_neocli" placeholder="10000" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_neocli"
+                                                            placeholder="10000" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">GenesisBlock</span>
-                                                        <br><input type="number" min="0" step="1" id="cbx_refresh_gen" placeholder="10000" size="7">
+                                                        <br><input type="number" min="0" step="1" id="cbx_refresh_gen"
+                                                            placeholder="10000" size="7">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <span class="label label-success">Eco metadata</span>
-                                                        <br><input type="number" min="0" id="cbx_refresh_ecometadata" placeholder="10000" size="7">
+                                                        <br><input type="number" min="0" id="cbx_refresh_ecometadata"
+                                                            placeholder="10000" size="7">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1872,8 +1928,12 @@
     <!-- END SINGLE PAGE CONTAINER PRINCIPAL -->
 
     <!--<div id="hidetutorial"></div>-->
-    <a onclick="removetutorial()" id="closetutorial" style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 10%" class="btn btn-danger"><i class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Close Tutorial</a>
-    <a onclick="nextTutorial()" id="nexttutorial" style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 15%" class="btn btn-primary"><i class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Next</a>
+    <a onclick="removetutorial()" id="closetutorial"
+        style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 10%" class="btn btn-danger"><i
+            class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Close Tutorial</a>
+    <a onclick="nextTutorial()" id="nexttutorial"
+        style="position: absolute;z-index: 10000000;opacity: 1;right: 0;top: 15%" class="btn btn-primary"><i
+            class="fas fa-caret-right"></i> <i class="fas fa-caret-right"></i> Next</a>
 </body>
 
 
@@ -1885,7 +1945,8 @@
 <script src="assets/ux_js/bootstrap.bundle.min.js" type="text/javascript"></script>
 <!-- GET min no conflict direct from https://github.com/ajaxorg/ace-builds-->
 <script src="assets/ux_js/ace-v1.4.12-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="assets/ux_js/ace-v1.4.12-min-noconflict/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+<script src="assets/ux_js/ace-v1.4.12-min-noconflict/ext-language_tools.js" type="text/javascript"
+    charset="utf-8"></script>
 
 <script src="assets/ux_js/sweetalert.min-23-12-2020.js" type="text/javascript"></script>
 
@@ -1986,6 +2047,5 @@
         $("#boxForPulseLegacyV2")[0].style = "display: none"
     }, 15000);*/
 </script>
-
 
 </html>

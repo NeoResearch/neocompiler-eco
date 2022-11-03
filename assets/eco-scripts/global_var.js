@@ -30,6 +30,8 @@ var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes
 var BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
 var BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
 
+var LAST_BEST_HEIGHT_NEOCLI = 1;
+
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
 

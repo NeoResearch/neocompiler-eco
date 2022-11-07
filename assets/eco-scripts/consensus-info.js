@@ -62,7 +62,7 @@ function getSpecificNodeHeightInfoFromForm() {
         year = parseInt($("#year_filter_log")[0].value);
 
     if ($("#day_filter_log")[0].value == "")
-        day = currentDate.getDay() - 1;
+        day = currentDate.getDate();
     else
         day = parseInt($("#day_filter_log")[0].value);
 
@@ -71,6 +71,7 @@ function getSpecificNodeHeightInfoFromForm() {
     else
         month = parseInt($("#month_filter_log")[0].value);
 
+    //console.log("height: " + height + "\tnlines: " + nlines + "\tyear: " + year + "\tday: " + day + "\tmonth: " + month);
 
     if (!Number.isInteger(height) || !Number.isInteger(nlines) || !Number.isInteger(year) || !Number.isInteger(day) || !Number.isInteger(month)) {
         console.error("Not Intenger found!!")

@@ -3,13 +3,37 @@ var MAX_BLOCKS_SCREEN = 10;
 var CURRENT_BLOCKS = [];
 var tableBlocks = document.createElement("tbody");
 
-function drawBlocks(end = -1, count = -1) {
+function drawBlocks() {
     // Clean blocks cache
     CURRENT_BLOCKS = [];
 
-    if (end == -1) {
+    end = parseInt($("#blocks_end_get")[0].value);
+    count = parseInt($("#blocks_count_get")[0].value);
+
+    if (!isNaN(end) && isNaN(count)) {
+        console.error("Invalid parameter for count, should be passed with drawBlocks(end,count)");
+        return;
+    }
+
+    if (isNaN(end) && !isNaN(count)) {
+        console.error("Invalid parameter for last, should be passed with drawBlocks(end,count)");
+        return;
+    }
+
+    if (isNaN(end)) {
         end = LAST_BEST_HEIGHT_NEOCLI - 1;
         count = MAX_BLOCKS_SCREEN;
+    }
+
+    if (count < 0)
+        count = 0;
+
+    if (end < 0)
+        end = 0;
+
+    if (count > 100) {
+        console.error("Too much blocks to be queried!");
+        return;
     }
 
     for (b = end; b >= Math.max((end - count), 0); b--) {
@@ -187,7 +211,7 @@ function expandTxs(bIndex) {
         txHash.onclick = function () {
             callTxHash(this.value);
         };
-        txHash.innerHTML = hash.slice(0,4) + "..." + hash.slice(-4);
+        txHash.innerHTML = hash.slice(0, 4) + "..." + hash.slice(-4);
         txRow.insertCell(-1).appendChild(txHash);
 
         var size = cTx.size;
@@ -237,10 +261,10 @@ function callTxHash(txHash) {
 function hideUnhideTxs(bIndex) {
     var restoredHiddenRows = CURRENT_BLOCKS[bIndex]["arrayTxsHiddenRows"];
     nTxs = CURRENT_BLOCKS[bIndex].block.result.tx.length;
-    for (i = 0; i < restoredHiddenRows.length; i++) {        
+    for (i = 0; i < restoredHiddenRows.length; i++) {
         tableBlocks.rows[restoredHiddenRows[i]].hidden = !tableBlocks.rows[restoredHiddenRows[i]].hidden;
     }
-    
+
     //scroll to
-    tableBlocks.rows[restoredHiddenRows[restoredHiddenRows.length-1]].scrollIntoView();
+    tableBlocks.rows[restoredHiddenRows[restoredHiddenRows.length - 1]].scrollIntoView();
 }

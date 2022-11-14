@@ -88,19 +88,35 @@ function convertJsonNotifications() {
         var jsonObj = JSON.parse($("#txtRPCJsonOut").val());
         //console.log(jsonObj);
 
-        if (jsonObj.length >= 1 && jsonObj[0].result && jsonObj[0].result.executions) {
+        if (jsonObj.result && jsonObj.result.executions) {
             var myNotify = "";
-            var notifArray = [];
-
-            notifArray = jsonObj[0].result.executions[0].notifications;
+            var notifArray = jsonObj.result.executions[0].notifications;
 
             console.log("notifications:" + JSON.stringify(notifArray));
-            for (var nSize = 0; nSize < notifArray.length; nSize++) {
+            console.log(notifArray);
+            var nNotify = notifArray.length;
+            myNotify += "Number of Notifications = " + nNotify;
+            for (var nSize = 0; nSize < nNotify; nSize++) {
                 var jsonNotificationsObj = notifArray[nSize];
-                myNotify += "Notification " + nSize + " typeI: " + jsonNotificationsObj.state.type + ";";
-                myNotify += " typeII: " + jsonNotificationsObj.state.value[0].type + ";";
-                myNotify += " value(hex): " + jsonNotificationsObj.state.value[0].value + ";";
-                myNotify += " value(string): " + hex2bin(jsonNotificationsObj.state.value[0].value) + ".\n";
+                myNotify += "\nID:" + nSize + " - " + jsonNotificationsObj.eventname + " - From Contract: " + jsonNotificationsObj.contract;
+                var notifyNItems = jsonNotificationsObj.state.value.length;
+                myNotify += "\nType: " + jsonNotificationsObj.state.type + " = " + notifyNItems + "\n";
+
+                for (var nValues = 0; nValues < notifyNItems; nValues++) {
+                    var itemType = jsonNotificationsObj.state.value[nValues].type;
+                    myNotify += "\t\tType: " + itemType;
+                    var itemValue = jsonNotificationsObj.state.value[nValues].value;
+                    myNotify += "\tvalue: " + itemValue;
+                    if (itemType == "ByteString") {
+                        var scriptHashNotifyItem = revertHexString(base64ToHex(itemValue));
+                        myNotify += "\tstring: " + toBase58(scriptHashNotifyItem) + "\n";
+                    }else{
+                        myNotify += "\n"
+                    }
+                    //if (itemType != "Integer")
+                    //    myNotify += "\thex2bin: " + hex2bin(jsonNotificationsObj.state.value[nValues].value) + "\n";
+                }
+                myNotify += "\n"
             }
             $("#txt_notifications").val(myNotify);
             $('#collapseNotifications').collapse('show');

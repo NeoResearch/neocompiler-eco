@@ -13,7 +13,6 @@ function getNativeInfo() {
             "params": []
         };
 
-
         $.post(
             BASE_PATH_CLI, // Gets the URL to sent the post to
             JSON.stringify(jsonForGetNativeContracts), // Serializes form data in standard format
@@ -541,4 +540,106 @@ function getEventIdFromABIEvent(eventName, events) {
         if (eventName === events[e].name)
             return e;
     return -1;
+}
+
+
+function convertJsonNotifications() {
+    var appLogTxResult = $("#txtRPCJsonOut").val();
+    if (appLogTxResult != "") {
+        var objJsonAppLog = JSON.parse($("#txtRPCJsonOut").val());
+        //console.log(objJsonAppLog);
+
+        if (objJsonAppLog.result && objJsonAppLog.result.executions) {
+            var myNotify = "";
+            var notifArray = objJsonAppLog.result.executions[0].notifications;
+
+            console.log("notifications:" + JSON.stringify(notifArray));
+            console.log(notifArray);
+            var nNotify = notifArray.length;
+            myNotify += "Number of Notifications = " + nNotify;
+            var shouldRunAgain = false;
+            for (var nSize = 0; nSize < nNotify; nSize++) {
+                var jsonNotificationsObj = notifArray[nSize];
+
+                // Try to get contract related to this Hash
+                var contractNotificationHash = jsonNotificationsObj.contract;
+                var contract = tryToGetNotificationFromContract(contractNotificationHash);
+                var contractName = "Not Found";
+                if (contract != -1)
+                    contractName = contract.manifest.name;
+                if (contractName === "Not Found")
+                    shouldRunAgain = true;
+
+                myNotify += "\nID:" + nSize + " - " + jsonNotificationsObj.eventname + " - From Contract: " + contractNotificationHash + " / " + contractName;
+                var notifyNItems = jsonNotificationsObj.state.value.length;
+                myNotify += "\nType: " + jsonNotificationsObj.state.type + " = " + notifyNItems + "\n";
+
+
+                var contractEventID = -1;
+                if (contract != -1)
+                    contractEventID = getEventIdFromABIEvent(jsonNotificationsObj.eventname, contract.manifest.abi.events);
+
+                var notificationEvent;
+                if (contractEventID != -1) {
+                    notificationEvent = contract.manifest.abi.events[contractEventID];
+                    console.log(notificationEvent);
+
+                    var expectedNumberOfParameters = notificationEvent.parameters.length;
+                    if (notifyNItems != expectedNumberOfParameters) {
+                        console.error("ERROR ON NUMBER OF EVENTS COMPARED TO NOTIFICATION EVENTS ITSELF!");
+                        return;
+                    }
+                }
+
+                for (var p = 0; p < notifyNItems; p++) {
+                    var itemType = jsonNotificationsObj.state.value[p].type;
+
+                    // verify if expected ABI has the same type event
+                    var abiExpectEventType = -1;
+                    var convert = (itemType == "ByteString");
+                    if (contractEventID != -1) {
+                        abiExpectEventType = notificationEvent.parameters[p].type;
+                        if (itemType != abiExpectEventType)
+                            itemType += "/" + abiExpectEventType;
+                    }
+
+                    myNotify += "\t\tType: " + itemType;
+                    var itemValue = jsonNotificationsObj.state.value[p].value;
+                    myNotify += "\tvalue: " + itemValue;
+                    if (convert) {
+                        var scriptHashNotifyItem = revertHexString(base64ToHex(itemValue));
+                        myNotify += "\tstring: " + toBase58(scriptHashNotifyItem) + "\n";
+                    } else {
+                        myNotify += "\n"
+                    }
+
+                    // Compare with contract 
+
+                    //if (itemType != "Integer")
+                    //    myNotify += "\thex2bin: " + hex2bin(jsonNotificationsObj.state.value[nValues].value) + "\n";
+                }
+                //myNotify += "\n"
+            }
+
+            if (shouldRunAgain) {
+                swal({
+                    title: "Some notification's contracts events are not yet know.",
+                    text: "Your local setup still did not load all contracts for this notification event. Try Again while contracts are being loaded.!",
+                    icon: "error",
+                    button: "Ok!",
+                    timer: 5500,
+                });
+            }
+
+
+
+            $("#txt_notifications").val(myNotify);
+            $('#collapseNotifications').collapse('show');
+        } else {
+            $('#collapseNotifications').collapse('hide');
+            $("#txt_notifications").val("Notifications were not found!");
+        }
+    } else {
+        $("#txt_notifications").val("empty RPC call output to check notification");
+    }
 }

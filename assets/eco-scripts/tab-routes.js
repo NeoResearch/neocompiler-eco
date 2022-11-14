@@ -1,4 +1,18 @@
+var AVAILABLE_TABS = ["nav-compilers", "nav-contracts", "nav-wallet", "nav-rpc", "nav-activity", "nav-conversors", "nav-network"];
+
 function goToTabAndClick(tabToGo) {
+    var tabExists = false;
+    for (var t = 0; t < AVAILABLE_TABS.length; t++) {
+        if (AVAILABLE_TABS[t] === tabToGo) {
+            tabExists = true;
+            break;
+        }
+    }
+    if (!tabExists) {
+        console.error("ERROR LOADING PAGE. TAB DOES NOT EXIST! TRIED TO OBTAIN: " + tabToGo);
+        return;
+    }
+
     $('.nav a[href="#' + tabToGo + '"]').tab('show');
     // Simulate on click event as well
     $('.nav a[href="#' + tabToGo + '"]')[0].onclick();
@@ -23,7 +37,7 @@ $(document).ready(() => {
         history.replaceState(null, null, newUrl);
     }
 
-    $('a[data-toggle="tab"]').on("click", function() {
+    $('a[data-toggle="tab"]').on("click", function () {
         let newUrl;
         const hash = $(this).attr("href");
         newUrl = url.split("#")[0] + hash;

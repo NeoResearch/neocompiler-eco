@@ -2,6 +2,7 @@ var NATIVE_CONTRACTS = [];
 var LOCAL_CONTRACTS = [];
 var CONTRACTS_TO_LIST = [];
 var PENDING_CONTRACTS = [];
+var NOTIFICATIONS_SEARCHED_CONTRACTS = [];
 
 function getNativeInfo() {
     if (NATIVE_CONTRACTS.length == 0) {
@@ -16,7 +17,7 @@ function getNativeInfo() {
         $.post(
             BASE_PATH_CLI, // Gets the URL to sent the post to
             JSON.stringify(jsonForGetNativeContracts), // Serializes form data in standard format
-            function(data) {
+            function (data) {
                 //console.log(data);
                 NATIVE_CONTRACTS = data.result;
                 CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
@@ -24,7 +25,7 @@ function getNativeInfo() {
                 addContractsToSelectionBox("native_contracts", "native");
             },
             "json" // The format the response should be in
-        ).fail(function() {
+        ).fail(function () {
             console.log("Error when trying to get getnativecontracts");
         }); //End of POST for search
     }
@@ -32,6 +33,11 @@ function getNativeInfo() {
     if (LOCAL_CONTRACTS.length == 0) {
         document.getElementById("local_contracts").options.length = 0;
         addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
+    }
+
+    if (NOTIFICATIONS_SEARCHED_CONTRACTS.length == 0) {
+        document.getElementById("notification_contracts").options.length = 0;
+        addOptionToSelectionBox("There aren't saved notification contracts", "emptyID", "notification_contracts", "You did not searched for notifications yet.");
     }
 
     //updateWithDeployedContract();
@@ -52,7 +58,7 @@ function updateWithDeployedContract() {
         $.post(
             BASE_PATH_CLI, // Gets the URL to sent the post to
             JSON.stringify(jsonForGetNativeContracts), // Serializes form data in standard format
-            function(data) {
+            function (data) {
                 if (data.result) {
                     contractHash = data.result.hash;
                     for (c = 0; c < PENDING_CONTRACTS.length; c++)
@@ -64,7 +70,7 @@ function updateWithDeployedContract() {
                 }
             },
             "json" // The format the response should be in
-        ).fail(function() {
+        ).fail(function () {
             console.log("Error when trying to get getcontractstate");
         }); //End of POST for search
 
@@ -88,8 +94,10 @@ function addContractsToSelectionBox(selectionBox, info) {
 
     if (selectionBox === "native_contracts") {
         createNativeManifest();
-    } else {
+    } else if (selectionBox === "local_contracts") {
         createLocalManifest();
+    } else if (selectionBox === "notification_contracts") {
+        createNotificationManifest();
     }
 }
 
@@ -97,6 +105,7 @@ function createNativeManifest() {
     $("#collapseLocalContractsOptions").collapse('hide');
     CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
     $("#local_contracts")[0].selectedIndex = -1
+    $("#notification_contracts")[0].selectedIndex = -1;
     createManifest();
 }
 
@@ -104,7 +113,8 @@ function createLocalManifest() {
     CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
     if (CONTRACTS_TO_LIST.length > 0) {
         $("#collapseLocalContractsOptions").collapse('show');
-        $("#native_contracts")[0].selectedIndex = -1
+        $("#native_contracts")[0].selectedIndex = -1;
+        $("#notification_contracts")[0].selectedIndex = -1;
         createManifest();
     } else {
         CONTRACTS_TO_LIST = NATIVE_CONTRACTS;
@@ -112,10 +122,20 @@ function createLocalManifest() {
     }
 }
 
+function createNotificationManifest() {
+    $("#collapseLocalContractsOptions").collapse('hide');
+    CONTRACTS_TO_LIST = NOTIFICATIONS_SEARCHED_CONTRACTS;
+    $("#native_contracts")[0].selectedIndex = -1
+    $("#local_contracts")[0].selectedIndex = -1
+    createManifest();
+}
+
 function getCurrentSelectedContract() {
     var cI = $("#native_contracts")[0].selectedIndex;
     if (cI == -1)
         cI = $("#local_contracts")[0].selectedIndex;
+    if (cI == -1)
+        cI = $("#notification_contracts")[0].selectedIndex;
     return cI;
 }
 
@@ -291,7 +311,7 @@ function saveLocalContract() {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         JSON.stringify(jsonForGetContractsState), // Serializes form data in standard format
-        function(data) {
+        function (data) {
             if (data.result) {
                 console.log(data);
                 LOCAL_CONTRACTS.push(data.result);
@@ -301,7 +321,7 @@ function saveLocalContract() {
             }
         },
         "json" // The format the response should be in
-    ).fail(function() {
+    ).fail(function () {
         console.log("Error when trying to get getnativecontracts");
     }); //End of POST for search
 }
@@ -423,13 +443,13 @@ function deployContract() {
 
     var contractToDeployID = $("#local_contracts")[0].selectedIndex;
     var params = [{
-            type: "ByteArray",
-            value: LOCAL_CONTRACTS[contractToDeployID].nef
-        },
-        {
-            type: "ByteArray",
-            value: btoa(JSON.stringify(LOCAL_CONTRACTS[contractToDeployID].manifest))
-        }
+        type: "ByteArray",
+        value: LOCAL_CONTRACTS[contractToDeployID].nef
+    },
+    {
+        type: "ByteArray",
+        value: btoa(JSON.stringify(LOCAL_CONTRACTS[contractToDeployID].manifest))
+    }
     ];
 
     var contractManagementID = getNativeContractIndexByName("ContractManagement");
@@ -455,4 +475,70 @@ function getNep17HashByName(name) {
         default:
             return -1;
     }
+}
+
+function getContractForNotification(contractToSearch, updatePendingNotification = false) {
+    var jsonForGetContractsState = {
+        "jsonrpc": "2.0",
+        "id": 5,
+        "method": "getcontractstate",
+        "params": [contractToSearch]
+    };
+
+    $.post(
+        BASE_PATH_CLI, // Gets the URL to sent the post to
+        JSON.stringify(jsonForGetContractsState), // Serializes form data in standard format
+        function (data) {
+            if (data.result) {
+                console.log(data.result.manifest.abi.events);
+
+                //just add contract if not there yet
+                var searchID = getContractByHash(contractToSearch, NOTIFICATIONS_SEARCHED_CONTRACTS)
+                if (searchID === -1) {
+                    NOTIFICATIONS_SEARCHED_CONTRACTS.push(data.result);
+                    $('#hidden_notification_contracts').collapse('show');
+                    CONTRACTS_TO_LIST = NOTIFICATIONS_SEARCHED_CONTRACTS;
+                    addContractsToSelectionBox("notification_contracts", "notification");
+                } else {
+                    console.log("CONTRACT ALREADY EXIST  = " + searchID);
+                }
+
+            }
+        },
+        "json" // The format the response should be in
+    ).fail(function () {
+        console.log("Error when trying to get getnativecontracts");
+    }); //End of POST for search
+}
+
+function tryToGetNotificationFromContract(contractToSearch) {
+    var searchID = getContractByHash(contractToSearch, NATIVE_CONTRACTS)
+    if (searchID != -1)
+        return NATIVE_CONTRACTS[searchID];
+
+    searchID = getContractByHash(contractToSearch, LOCAL_CONTRACTS)
+    if (searchID != -1)
+        return LOCAL_CONTRACTS[searchID];
+
+    searchID = getContractByHash(contractToSearch, NOTIFICATIONS_SEARCHED_CONTRACTS)
+    if (searchID != -1)
+        return NOTIFICATIONS_SEARCHED_CONTRACTS[searchID];
+
+    getContractForNotification(contractToSearch);
+
+    return -1;
+}
+
+function getContractByHash(contractHash, CONTRACT_LIST) {
+    for (nc = 0; nc < CONTRACT_LIST.length; nc++)
+        if (CONTRACT_LIST[nc].hash === contractHash)
+            return nc;
+    return -1;
+}
+
+function getEventIdFromABIEvent(eventName, events) {
+    for (e = 0; e < events.length; e++)
+        if (eventName === events[e].name)
+            return e;
+    return -1;
 }

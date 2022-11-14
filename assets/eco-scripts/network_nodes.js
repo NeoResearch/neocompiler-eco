@@ -21,6 +21,11 @@ function changeSelectedNetwork() {
     BASE_PATH_CLI = BASE_PATH_CLI_NODES[0];
 
     BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
+
+    // Update native and deployed
+    NATIVE_CONTRACTS = [];
+    NOTIFICATIONS_SEARCHED_CONTRACTS = [];
+    getNativeInfo();
 }
 
 function pickBestAvailableRpcNeoNodeCSharpByBlock() {
@@ -42,7 +47,7 @@ function pickBestAvailableRpcNeoNodeCSharpByBlock() {
             $.post(
                 neoCliNodeToGetHeight, // Gets the URL to sent the post to
                 requestJson, // Serializes form data in standard format
-                function(resultJsonData) {
+                function (resultJsonData) {
                     NUMBER_FAILS_REQUESTS = 0;
                     //console.log(resultJsonData);
                     var nodeHeight = resultJsonData.result;
@@ -57,7 +62,7 @@ function pickBestAvailableRpcNeoNodeCSharpByBlock() {
                     }
                 },
                 "json" // The format the response should be in
-            ).fail(function() {
+            ).fail(function () {
                 console.error('Could not call the api of node URL', neoCliNodeToGetHeight);
             }); //End of POST for search
         }

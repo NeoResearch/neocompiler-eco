@@ -494,6 +494,7 @@ function updateTransferAmountInfoFromPercentage() {
         return false;
     var percentage = $("#transfer_nep17_amount_range")[0].value / 100;
     $("#transfer_nep17_amount")[0].value = percentage * $("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML;
+    $("#transfer_nep17_amount")[0].value = Math.round($("#transfer_nep17_amount")[0].value);
     updateTransferAmountInfo();
     //$("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].style = "border: 1px solid #0aac7c"
     /*@keyframes pulse {

@@ -651,9 +651,9 @@ function convertJsonNotifications() {
 
             if (shouldRunAgain) {
                 swal({
-                    title: "Some notification's contracts events are not yet know.",
-                    text: "Your local setup still did not load all contracts for this notification event. Try Again while contracts are being loaded.!",
-                    icon: "error",
+                    title: "The hash for contracts requested by notifications events are not yet know.",
+                    text: "Your local setup still did not load all contracts for this notification event. Try again while contracts are being loaded.!",
+                    icon: "warning",
                     button: "Ok!",
                     timer: 5500,
                 });

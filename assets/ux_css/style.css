@@ -58,38 +58,6 @@
     color: white!important;
 }
 
-::-webkit-input-placeholder {
-    /* WebKit, Blink, Edge */
-    color: #fff!important;
-}
-
-:-moz-placeholder {
-    /* Mozilla Firefox 4 to 18 */
-    color: #fff!important;
-    opacity: 1;
-}
-
-::-moz-placeholder {
-    /* Mozilla Firefox 19+ */
-    color: #fff!important;
-    opacity: 1;
-}
-
-:-ms-input-placeholder {
-    /* Internet Explorer 10-11 */
-    color: #fff!important;
-}
-
-::-ms-input-placeholder {
-    /* Microsoft Edge */
-    color: #fff!important;
-}
-
-::placeholder {
-    /* Most modern browsers support this now. */
-    color: #fff!important;
-}
-
 .btn-info {
     background: #00AF92!important;
     border-color: #00AF92!important;

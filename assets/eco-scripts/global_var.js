@@ -21,7 +21,7 @@ if (this.window.location.href.indexOf("localhost") != -1)
 var default_nodes = ecoNodes;
 if (LOCAL_DEVELOPMENT) {
     default_nodes = localHostNodes;
-    $("#ecolabnetworkurlselection")[0].selectedIndex = 2;
+    $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
 }
 
 // ECO SERVICES EXPRESS SERVER RPC PATH

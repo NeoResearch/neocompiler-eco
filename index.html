@@ -5,7 +5,6 @@
     <title>Neo Compiler - Compiling & Testing</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/ux_css/bootstrap.min-5.2.2.css">
-    <link rel="stylesheet" href="assets/ux_css/select2.min-4.1.0.css">
     <link rel="stylesheet" href="assets/ux_css/style.css">
     <link rel="stylesheet" href="assets/ux_css/fontawesome-free-5.15.1-web/css/all.min.css">
     <link rel="icon" href="assets/neocompiler.png">
@@ -63,18 +62,27 @@
 
         <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
         <div class="opt-options-header">
-            <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()"
-                class="compiler-select w-seta selectclass" title="Select network">
-                <option disabled>Network</option>
-                <option selected>NeoCompiler-Eco</option>
-                <option>Localhost</option>
-                <option>TestNet</option>
-                <option>MainNet</option>
-                <!--<option disabled>MainNet</option>-->
-            </select>
-
-            <button type="button" id="button-connect-wallet" onClick="connectWallet()"
-                class="btn btn-default btn-wallet">CONNECT WALLET</button>
+            <div class="row">
+                <div class="col-7">
+                    <div class="form-floating">
+                        <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()" title="Select network"
+                            class="form-select" style="text-align: center!important;">
+                            <option selected>NeoCompiler-Eco</option>
+                            <option>Localhost</option>
+                            <option>TestNet</option>
+                            <option>MainNet</option>
+                            <!--<option disabled>MainNet</option>-->
+                        </select>
+                        <label for="ecolabnetworkurlselection">Select Network</label>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <button type="button" id="button-connect-wallet" onClick="connectWallet()"
+                        class="btn btn-default btn-compile" style="width: 200px;font-weight: bold!important;">CONNECT
+                        WALLET
+                    </button>
+                </div>
+            </div>
         </div>
         <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
 
@@ -125,8 +133,8 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks();" data-bs-toggle="tab" data-toggle="tab" href="#nav-activity"
-                    role="tab" aria-controls="nav-home" aria-selected="true">
+                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks();" data-bs-toggle="tab" data-toggle="tab"
+                    href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
                     <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
                     <p>Activity</p>
                 </a>
@@ -198,35 +206,43 @@
                     </nav>
 
                     <div id="compiler">
+                        <div class="container">
+                            <div class="row gy-2">
 
-                        <div class="row">
-                            <div class="col-md-8 col-sm-8 col-xs-12">
-                                <select id="codesend_selected_compiler" class="compiler-select w-seta selectclass">
-                                    <option selected>C#</option>
-                                </select>
-                                <select class="compiler-select w-seta selectclass" onchange="setExampleOnChange()"
-                                    id="ExampleList"></select>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12" style="padding-right: 0!important;">
-                                <div class="version-compile" style="float: right!important;">
-                                    <!--<span style="margin-right:10px;padding-top: 10px;float: left;"><i class="fas fa-lg fa-code-branch"></i></span>-->
+                                <div class="col-4">
+                                    <select id="codesend_selected_compiler" class="form-select"
+                                        style="text-align: center!important;font-weight: bold!important;">
+                                        <option selected>C#</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-4">
+                                    <select class="form-select"
+                                        style="text-align: center!important;font-weight: bold!important;"
+                                        onchange="setExampleOnChange()" id="ExampleList">
+                                    </select>
+                                </div>
+
+                                <div class="col-4">
                                     <select title="Select compiler version" id="compilers_versions-selection-box"
-                                        class="compiler-select w-seta selectclass">
+                                        class="form-select"
+                                        style="text-align: center!important;font-weight: bold!important;">
                                         <option title="Loading compilers">...</option>
                                     </select>
                                 </div>
+
+                                <div class="col-4">
+                                    <button type="button" id="compilebtn" onClick="compilerCall()"
+                                        style="text-align: center!important;font-weight: bold!important;"
+                                        class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i>
+                                    </button>
+                                </div>
+
                             </div>
                         </div>
 
                         <div class="clearfix"></div>
-
-                        <div class="version-compile">
-                            <button type="button" id="compilebtn" onClick="compilerCall()"
-                                class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i></button>
-                        </div>
-
-                        <div class="clearfix"></div>
-                        <br> <br>
+                        <br>
 
                         <ul class="nav nav-tabs navgationTabs">
                             <li role="presentation" class="active"><a href="#nav-compilers/"
@@ -235,7 +251,8 @@
                                     href="#nav-compilers/"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
                         </ul>
 
-                        <div id="aceEditor" style="margin-top: 0!important"></div>
+                        <div id="aceEditor" style="margin-top: 0!important">
+                        </div>
 
                         <div class="collapse container-colapse" id="collapseMore">
                             <div class="">
@@ -419,16 +436,16 @@
                                                     <div class="form-group">
                                                         <label for="native_contracts">Native Contracts</label>
                                                         <select id="native_contracts" name="native_contracts"
-                                                            onchange="createNativeManifest()"
-                                                            class="custom-select form-control" size="8"></select>
+                                                            onchange="createNativeManifest()" class="form-select"
+                                                            size="8"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="local_contracts">Local Contracts</label>
                                                         <select id="local_contracts" name="local_contracts"
-                                                            onchange="createLocalManifest()"
-                                                            class="custom-select form-control" size="8"></select>
+                                                            onchange="createLocalManifest()" class="form-select"
+                                                            size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,8 +457,8 @@
                                                             Contracts</label>
                                                         <select id="notification_contracts"
                                                             name="notification_contracts"
-                                                            onchange="createNotificationManifest()"
-                                                            class="custom-select form-control" size="8"></select>
+                                                            onchange="createNotificationManifest()" class="form-select"
+                                                            size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -451,7 +468,7 @@
                                                     <div class="form-group">
                                                         <label for="native_methods">ABI Methods</label>
                                                         <select onchange="drawParametersTable()" id="contract_methods"
-                                                            class="custom-select form-control" size="8"></select>
+                                                            class="form-select" size="8"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -544,8 +561,8 @@
                                                         href="https://docs.neo.org/en-us/node/cli/apigen.html"
                                                         target="_blank">Official API</a> or put cursor on top for
                                                     tooltip)</label>
-                                                <select name="rpcMethod" id="rpcMethod"
-                                                    class="custom-select form-control" onchange="frmRPCJson()">
+                                                <select name="rpcMethod" id="rpcMethod" class="form-select"
+                                                    onchange="frmRPCJson()">
                                                     <option title="select">Select a method</option>
                                                     <option title=":Gets the number of blocks in the main chain">
                                                         getblockcount
@@ -976,33 +993,32 @@
                             <h4 class="green-title">Transfer NEP17 Tokens
                             </h4>
                             <div class="container">
-                                <div class="row">
-                                    <div class="col-md-12">
+                                <div class="row gy-2">
+                                    <div class="col-12">
                                         <label id="labelForTransferAmount"
-                                            style="font-size: 20px!important;">Transferring X</label>
+                                            style="font-size: 20px!important;">Transferring
+                                            X</label>
                                         <label id="labelForTransferAsset" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferFrom" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferTo" style="font-size: 20px!important;">To</label>
                                         <br>
                                         <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to"
-                                            class="custom-select" size="3"></select>
-                                    </div>
-                                </div>
-
-                                <div class="row" style="padding:10px 0 10px 0;">
-                                    <div class="col-6 col-md-4">
-                                        <select id="nep17_asset" onchange="updateTransferAssetInfo()"
-                                            class="compiler-select w-seta selectclass"></select>
+                                            class="form-select" size="3"></select>
                                     </div>
 
-                                    <div class="col-6 col-md-4">
+                                    <div class="col-4">
+                                        <select class="form-select" id="nep17_asset"
+                                            onchange="updateTransferAssetInfo()"></select>
+                                    </div>
+
+                                    <div class="col-4">
                                         <input type="range" onchange="updateTransferAmountInfoFromPercentage()"
                                             id="transfer_nep17_amount_range" value="0" min="0" max="100" />
                                         <input type="number" onchange="updateTransferAmountInfo()"
                                             id="transfer_nep17_amount" value="0" min="0"></input>
                                     </div>
 
-                                    <div class="col-6 col-md-4">
+                                    <div class="col-4">
                                         <button type="button" onclick="createNep17Tx()" id="txcreate"
                                             class="btn btn-default btn-compile">Create Transfer</button>
                                     </div>
@@ -1022,7 +1038,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-6 col-md-4">
-                                        <select id="type_to_register" class="compiler-select w-seta selectclass">
+                                        <select id="type_to_register" class="form-select">
                                             <option value="address">Address (17 bytes) - WatchOnly </option>
                                             <option value="scripthash">ScriptHash (20 bytes) - WatchOnly
                                             </option>
@@ -1881,7 +1897,6 @@
 <!-- Loading UX Scripts -->
 <script src="assets/ux_js/jquery-3.6.1.min.js"></script>
 <script src="assets/ux_js/bootstrap.bundle.min-5.2.2.js"></script>
-<script src="assets/ux_js/select2.min-4.1.0-beta.1.js"></script>
 <!-- GET min no conflict direct from https://github.com/ajaxorg/ace-builds-->
 <script src="assets/ux_js/ace-v1.5.0-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="assets/ux_js/ace-v1.5.0-min-noconflict/ext-language_tools.js" type="text/javascript"

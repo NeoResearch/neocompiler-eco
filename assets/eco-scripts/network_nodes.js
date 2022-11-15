@@ -1,17 +1,17 @@
 function changeSelectedNetwork() {
     var selectedNetwork = $("#ecolabnetworkurlselection")[0].selectedIndex;
-    console.log(selectedNetwork);
+    //console.log(selectedNetwork);
     switch (selectedNetwork) {
-        case 1:
+        case 0:
             default_nodes = ecoNodes
             break;
-        case 2:
+        case 1:
             default_nodes = localHostNodes
             break;
-        case 3:
+        case 2:
             default_nodes = testnetNodes
             break;
-        case 4:
+        case 3:
             default_nodes = mainnetNodes
             break;
         default:

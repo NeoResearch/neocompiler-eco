@@ -17,11 +17,6 @@
     color: white!important;
 }
 
-.deploy-bg select {
-    background: #373b3b;
-    border-color: #00AF92;
-    color: white!important;
-}
 
 .deploy-bg input:focus {
     background: #00AF92;
@@ -29,23 +24,6 @@
     color: white!important;
 }
 
-.deploy-bg select {
-    color: white;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    background: #00AF92;
-    border-color: #00AF92;
-    outline: none!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-}
-
-.deploy-bg select:focus {
-    background: #00AF92;
-    border-color: #00AF92;
-    color: white;
-}
 
 .deploy-bg option {
     background: #00AF92;
@@ -127,7 +105,7 @@ body {
     float: left;
     right: 0;
     top: 0;
-    padding: 15px 25px 0 0;
+    padding: 10px 70px 0 0;
     z-index: 2000000!important;
 }
 
@@ -234,157 +212,33 @@ body {
     background: #1D2C30!important;
 }
 
-.select2 {
-    border: none!important;
-    color: white!important;
-    -webkit-appearance: none!important;
-    -moz-appearance: none!important;
-    appearance: none!important;
-    font-weight: bold!important;
-    font-size: 12px!important;
-    text-align: center!important;
+.form-select {
+    background-color: #00AF92;
+    color: white!important;    
     border-radius: 20px!important;
-    outline: none!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-}
-
-.compiler-select {
-    padding: 10px 0 10px 0!important;
-    float: left!important;
-    margin-left: 15px!important;
-    text-align: center!important;
-    border: none!important;
-    color: white!important;
-    -webkit-appearance: none!important;
-    -moz-appearance: none!important;
-    appearance: none!important;
-    font-weight: bold!important;
-    font-size: 12px!important;
-    text-align: center!important;
-    border-radius: 20px!important;
-    outline: none!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-}
-
-.compiler-select option {
-    background: #00AF92!important;
-    color: white!important;
 }
 
 .btn-compile {
     background: #00AF92;
-    color: white;
-    margin-top: 5px;
-    width: 150px;
-    border-radius: 20px!important;
-    border: 1px solid #1D2C30;
-    font-weight: bold!important;
-    font-size: 12px!important;
-    text-align: center!important;
-    padding: 10px 0 10px 0!important;
-    float: left!important;
-}
-
-.btn-wallet {
-    padding: 10px 0 10px 0!important;
-    float: right!important;
-    margin-left: 15px!important;
-    text-align: center!important;
-    -webkit-appearance: none!important;
-    -moz-appearance: none!important;
-    appearance: none!important;
-    font-weight: bold!important;
-    font-size: 12px!important;
-    text-align: center!important;
-    border-radius: 20px!important;
-    outline: none!important;
-    -webkit-box-shadow: none!important;
-    box-shadow: none!important;
-    background: #00AF92;
     color: white!important;
-    width: 150px;
-    border: none!important;
+    border-radius: 20px!important;
+    order: 1px solid #1D2C30;
+    text-align: center!important;            
 }
 
 .btn-compile:hover {
     background: white;
     border: 1px solid #00AF92;
     color: #00AF92;
+    background: #95f7e7;
 }
-
-.select2-selection__arrow {
-    display: none;
-}
-
-.select2-container--default .select2-selection--single {
-    background: #00AF92 url('../down-arrow.png') 120% 45% no-repeat!important;
-    color: white!important;
-    -webkit-appearance: none!important;
-    -moz-appearance: none!important;
-    appearance: none!important;
-    border-color: #00AF92;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 38px;
-    font-size: 15px;
-    float: left;
-    text-align-last: center!important;
-    width: 80%;
-}
-
-.select2-selection--single {
-    border-radius: 20px!important;
-    height: 40px!important;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: white!important;
-}
-
-.select2-container:focus {
-    outline: none!important;
-    border-color: #00AF92;
-}
-
-.select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
-    background: #00AF92!important;
-}
-
-.select2-container--default .select2-selection--single {
-    border: none!important;
-    outline: none!important;
-}
-
-.select2-container--default .select2-selection--single :focus {
-    border: none!important;
-    outline: none!important;
-}
-
-.w-seta {
-    padding: 9px 3% 9px 0!important;
-    width: 230px!important;
-    background: #00AF92 url('../down-arrow.png') 115% 45% no-repeat!important;
-    text-align-last: center!important;
-}
-
-
-/*
-// Was used for ecolabproviderselection and ecolabnetworkurlselection - But removed
-.hw-seta {
-    padding: 9px 6% 9px 0!important;
-    width: 230px!important;
-    font-size: 14px!important;
-    background: #00AF92 url('../down-arrow.png') 115% 45% no-repeat!important;
-    text-align-last: center!important;
-}*/
 
 .version-compile {
     float: left;
     color: white;
 }
+
+.container-colapse .container .errors-warnings {}
 
 .errors-warnings {
     margin-top: 15px;
@@ -447,7 +301,7 @@ body {
     border-top: 10px solid #00AF92;
 }
 
-.container-colapse .container .errors-warnings {}
+
 
 .btn-warning {
     background: #162124!important;
@@ -455,12 +309,7 @@ body {
 }
 
 
-.form-control:disabled,
-.form-control[readonly] {
-    background: transparent;
-    border-color: transparent;
-    border-bottom: 1px dashed #263A40;
-}
+
 
 #codeabi {
     resize: none!important;
@@ -607,6 +456,9 @@ textarea:focus {
 
 .form-control:disabled,
 .form-control[readonly] {
+    background: transparent;
+    border-color: transparent;
+    border-bottom: 1px dashed #263A40;
     color: #0aab7b!important;
 }
 

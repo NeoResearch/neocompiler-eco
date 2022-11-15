@@ -360,5 +360,9 @@ function socketCompilerCompilexResult() {
     });
 }
 
-// run on file load to set as default
-setCompiler("csharp");
+$(document).ready(function () {
+    aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+    openedSessions.set(-1, new ace.EditSession("mainSession"));
+    goToMainTab();
+    setCompiler("csharp");
+});

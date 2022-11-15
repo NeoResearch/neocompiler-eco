@@ -86,4 +86,5 @@ var NUMBER_FAILS_REQUESTS = 0;
 var RELAYED_TXS = [];
 
 /* ACE SESSIONS */
+var aceEditor;
 var openedSessions = new Map();

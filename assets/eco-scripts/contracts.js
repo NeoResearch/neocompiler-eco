@@ -596,22 +596,50 @@ function convertJsonNotifications() {
 
                     // verify if expected ABI has the same type event
                     var abiExpectEventType = -1;
-                    var convert = (itemType == "ByteString");
+                    var originalType = itemType;
                     if (contractEventID != -1) {
                         abiExpectEventType = notificationEvent.parameters[p].type;
                         if (itemType != abiExpectEventType)
                             itemType += "/" + abiExpectEventType;
                     }
 
-                    myNotify += "\t\tType: " + itemType;
+                    myNotify += "\t\t" + itemType;
+
                     var itemValue = jsonNotificationsObj.state.value[p].value;
-                    myNotify += "\tvalue: " + itemValue;
-                    if (convert) {
-                        var scriptHashNotifyItem = revertHexString(base64ToHex(itemValue));
-                        myNotify += "\tstring: " + toBase58(scriptHashNotifyItem) + "\n";
-                    } else {
-                        myNotify += "\n"
+                    // Verify if it is undefined
+                    if (typeof (itemValue) === "undefined") {
+                        itemValue = "!!EMPTY!!";
+                        myNotify += "\t-> NO VALUE\n";
                     }
+                    else {
+                        myNotify += "\t-> " + itemValue;
+                    }
+
+                    if (itemValue != "!!EMPTY!!")
+                        switch (abiExpectEventType) {
+                            case 'Hash160':
+                                myNotify += "\t-> [STR] " + toBase58(revertHexString(base64ToHex(itemValue))) + "\n";
+                                break;
+                            case 'PublicKey':
+                                var pubKey = base64ToHex(itemValue);
+                                myNotify += "\t-> [PUB_KEY] " + pubKey + "\n";
+                                break;
+                            case 'Integer':
+                                myNotify += "\n";
+                                break;
+                            default:
+                                if (originalType === "ByteString") {
+                                    myNotify += "\t-> [STR] " + toBase58(revertHexString(base64ToHex(itemValue))) + "\n";
+                                    break;
+                                }
+
+                                if (originalType === "Integer") {
+                                    myNotify += "\n";
+                                    break;
+                                }
+
+                                myNotify += "\t-> MISSING CORRECT CONVERSION\n"
+                        }
 
                     // Compare with contract 
 

@@ -271,8 +271,13 @@ app.get('/setconsensusnodesblocktime/:node/:spb/:pwd', function (req, res) {
 const EcoData = require('./socket-js/eco-metadata-class.js');
 let ecoInfo = new EcoData();
 
-var io = require('socket.io').listen(server);
-io.set('origins', '*:*');
+var io = require('socket.io')(server, {
+  cors: {
+    origin: '*'
+  }
+});
+
+
 var timeleft = (7 * 24 * 60 * 60);
 
 setInterval(function () {

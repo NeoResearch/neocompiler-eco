@@ -137,8 +137,11 @@ function checkIfCompilerExists(nameToCheck) {
     return false;
 }
 
-var io = require('socket.io').listen(server);
-io.set('origins', '*:*');
+var io = require('socket.io')(server, {
+  cors: {
+    origin: '*'
+  }
+});
 
 app.post('/compilex', function(req, res) {
     var imagename = req.body.compilers_versions;

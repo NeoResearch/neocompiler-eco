@@ -560,10 +560,10 @@ function drawPopulate() {
 
 function connectWallet() {
     goToTabAndClick("nav-wallet");
-    changeDefaultWallet(0, true);
+    changeDefaultWallet(0, true, true);
 }
 
-function changeDefaultWallet(walletID, skipSwal = false) {
+function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     CONNECTED_WALLET_ID = walletID;
     $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
     updateTransferLabel();
@@ -575,8 +575,28 @@ function changeDefaultWallet(walletID, skipSwal = false) {
             icon: "success",
             timer: 5500,
         });
+
+    if (tryDapi) {
+        if (neolineN3)
+            verifyDapi("NeoLine");
+    }
 }
 
+
+function verifyDapi(dapiName) {
+    swal({
+        title: "Want to try to Connect " + dapiName + "?",
+        type: "warning",
+        buttons: ["No", "Yes, try it!"],
+        dangerMode: true,
+    }).then((tryToConnect) => {
+        if (tryToConnect) {
+            getAccountNeoLine();
+        } else {
+            swal("Safe! DAPI " + dapiName + " was not tried to be connected!");
+        }
+    });
+}
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
         swal("Connect a wallet and select an account first.", {
@@ -612,7 +632,7 @@ function createNep17Tx() {
     swal({
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
         text: amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
-        type: "info",
+        icon: "info",
         buttons: ["Cancel!", "Proceed",],
     }).then((willTransfer) => {
         if (willTransfer) {

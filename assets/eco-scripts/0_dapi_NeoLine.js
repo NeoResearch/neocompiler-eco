@@ -45,29 +45,24 @@ function onReadyWeb() {
     })
 }
 
-function invokeWithParametersNeoLine() {
+function invokeWithParametersNeoLine(scriptHashP,methodP,invokeparams,signerAccount) {
 
     return neolineN3
         ?.invoke({
-            scriptHash: "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5",
-            operation: 'balanceOf',
-            args: [
-                {
-                    type: 'Hash160',
-                    value: "b984eaa6d748cabb505ceadbd792bf2e8d903ada",
-                },
-            ],
-            fee: '0.1',
+            scriptHash: scriptHashP,
+            operation: methodP,
+            args: invokeparams,
+            fee: $("#net_fee")[0].value,
             broadcastOverride: false,
             signers: [
                 {
-                    account: "0x7503501b58e0a28101e7cc171d81734885cca792",
+                    account: signerAccount,
                     scopes: 1,
                 },
             ],
         })
         .then((result) => {
-            console.log("Result txid" + result.txid)
+            console.log("Result txid " + result.txid)
             return result.txid
         })
         .catch((error) => {
@@ -165,24 +160,33 @@ const initDapi = () => {
 }
 */
 
-function getNetwork() {
+function getNetwork(accountToSwal = false) {
     return neoline
         ?.getNetworks()
         .then((result) => {
             //shouldUpdate && store.dispatch(batchUpdate({ network: result.defaultNetwork }))
-            console.log(result.defaultNetwork)
-            return result.defaultNetwork
+            console.log(result.defaultNetwork);
+
+            if (accountToSwal != false)
+                swal({
+                    title: "NeoLine Connected!",
+                    text: "NeoLine connected account is " + accountToSwal + " and Network is " + result.defaultNetwork,
+                    icon: "success",
+                    timer: 5500,
+                });
         })
 }
 
-function getAccount() {
+function getAccountNeoLine() {
     neoline
         ?.getAccount()
         .then((account) => {
-            getNetwork(true)
+            var network = getNetwork(account.address);
             sessionStorage.setItem('preConnectWallet', 'Neoline')
             console.log(account.address);
             addDAPIAddressToWallet(account.address);
+
+            changeDefaultWallet(getDapiConnectedWallet(), false, false)
             /*
             store.dispatch(
                 batchUpdate({
@@ -194,7 +198,7 @@ function getAccount() {
 }
 
 
-function getConnectedWallet() {
+function getDapiConnectedWallet() {
     for (ka = 0; ka < ECO_WALLET.length; ka++) {
         if (ECO_WALLET[ka].label.slice(0, 9) == "Connected")
             return ka;
@@ -203,9 +207,8 @@ function getConnectedWallet() {
     return -1;
 }
 
-function deleteConnectedWallet()
-{
-    var connectedWallet = getConnectedWallet();
+function deleteConnectedWallet() {
+    var connectedWallet = getDapiConnectedWallet();
     if (connectedWallet != -1) {
         console.log("Deleting wallet ID" + connectedWallet);
         deleteAccount(connectedWallet);

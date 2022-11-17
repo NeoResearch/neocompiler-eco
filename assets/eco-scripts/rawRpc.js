@@ -83,6 +83,18 @@ function cleanRealTxInvoke() {
 }
 
 function signAndRelay() {
+    var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
+    if (callDapi) {
+        var dapiParams = JSON.parse($("#txtRPCJson").val());
+        if (!dapiParams.params) {
+            console.error("Trying to call DAPI WRONG. Params are missing;");
+            return;
+        }
+        invokeWithParametersNeoLine(dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash);
+        return;
+    }
+
+
     var sysFee = Math.ceil(getFixed8Integer($("#sys_fee")[0].value));
     var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
     //var sysFee = getFixed8Integer(500);

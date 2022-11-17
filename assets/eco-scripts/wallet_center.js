@@ -582,8 +582,6 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
 
     if (tryDapi)
         verifyDapi();
-
-
 }
 
 

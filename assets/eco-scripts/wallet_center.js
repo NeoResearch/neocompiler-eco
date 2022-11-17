@@ -1,5 +1,9 @@
 var CONNECTED_WALLET_ID = -1;
 
+$(window).on('load', function() {
+    drawPopulate();
+});
+
 //===============================================================
 function drawWalletsStatus() {
     var table = document.createElement("tbody");
@@ -576,24 +580,40 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
             timer: 5500,
         });
 
-    if (tryDapi) {
-        if (neolineN3)
-            verifyDapi("NeoLine");
-    }
+    if (tryDapi)
+        verifyDapi();
+
+
 }
 
 
+function createButton(text, cb) {
+    return $('<button>' + text + '</button>').on('click', cb);
+}
+
 function verifyDapi(dapiName) {
+    var dapiToPush = { cancel: "No" };
+    if (neolineN3 && READY_DAPI_WALLETS.NEOLINE)
+        Object.assign(dapiToPush, { nl: "NeoLine" });
+    if (neo3Dapi && READY_DAPI_WALLETS.O3WALLET)
+        Object.assign(dapiToPush, { o3: "O3 Wallet" });
+
     swal({
-        title: "Want to try to Connect " + dapiName + "?",
-        type: "warning",
-        buttons: ["No", "Yes, try it!"],
+        title: "Want to try to Connect a DAPI?",
+        icon: "warning",
+        buttons: dapiToPush,
         dangerMode: true,
-    }).then((tryToConnect) => {
-        if (tryToConnect) {
-            getAccountNeoLine();
-        } else {
-            swal("Safe! DAPI " + dapiName + " was not tried to be connected!");
+    }).then((buttonOption) => {
+        //console.log("Button is: " + buttonOption);
+        switch (buttonOption) {
+            case "nl":
+                getAccountDAPI(neoline,"NeoLine");
+                break;
+            case "o3":
+                getAccountDAPI(neo3Dapi,"O3Wallet");
+                break;
+            default:
+                swal("Safe! No DAPI wallet will be tried to be connected!");
         }
     });
 }
@@ -670,8 +690,6 @@ function createNep17Tx() {
         }
     });
 }
-
-drawPopulate();
 
 /*
 function addContractToWalletFromVerification() {

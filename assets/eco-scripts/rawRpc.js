@@ -90,7 +90,16 @@ function signAndRelay() {
             console.error("Trying to call DAPI WRONG. Params are missing;");
             return;
         }
-        invokeWithParametersNeoLine(dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash);
+        var signerHash = ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash;
+
+        var dapiObj;
+        if (CONNECTED_DAPI_WALLET == "NeoLine")
+            dapiObj = neolineN3;
+
+        if (CONNECTED_DAPI_WALLET == "O3Wallet")
+            dapiObj = neo3Dapi;
+
+        invokeWithParametersDAPI(dapiObj, dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], signerHash);
         return;
     }
 

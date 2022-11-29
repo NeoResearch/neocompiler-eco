@@ -17,12 +17,19 @@ else
     echo "NO LOCAL PATH EXISTS... SETTING TO $(cat .eco_pwd)"
 fi
 
+if [[ -n "$LOCAL_DOCKER_SOCK" ]]; then
+    echo -e "docker is hosted at $LOCAL_DOCKER_SOCK"
+else
+   LOCAL_DOCKER_SOCK="/var/run/docker.sock"
+   echo "using default location for docker at $LOCAL_DOCKER_SOCK"
+fi
+
 # setting .env variables
-echo -e "CHAIN=neo-cli-default-empty-chain.acc\nECO_PWD=$(cat .eco_pwd)" > docker-compose-eco-network/.env
+echo -e "CHAIN=neo-cli-default-empty-chain.acc\nECO_PWD=$(cat .eco_pwd)\nLOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK" > docker-compose-eco-network/.env
 echo -e "DOOR_FRONTEND_HTTP=8000\nECO_PWD=$(cat .eco_pwd)" > docker-sock-express-compilers/docker-http-express/.env
-echo -e "DOOR_ECOSERVICES=9000\nLOCAL_DOCKER_SOCK=/var/run/docker.sock\nPWD_CN_BLOCKTIME=neoresearch\nPWD_RESET_SERVICE=dockerreset\nECO_PWD=$(cat .eco_pwd)" \
+echo -e "DOOR_ECOSERVICES=9000\nLOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK\nPWD_CN_BLOCKTIME=neoresearch\nPWD_RESET_SERVICE=dockerreset\nECO_PWD=$(cat .eco_pwd)" \
             > docker-sock-express-compilers/docker-services/.env
-echo -e "DOOR_COMPILERS=10000\nBUILD_CSHARP=1\nBUILD_ALL_CSHARP=0\nBUILD_GO=0\nBUILD_BOA=0\nBUILD_JAVA=0\nLOCAL_DOCKER_SOCK=/var/run/docker.sock\nECO_PWD=$(cat .eco_pwd)" \
+echo -e "DOOR_COMPILERS=10000\nBUILD_CSHARP=1\nBUILD_ALL_CSHARP=0\nBUILD_GO=0\nBUILD_BOA=0\nBUILD_JAVA=0\nLOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK\nECO_PWD=$(cat .eco_pwd)" \
             > docker-sock-express-compilers/docker-compilers/.env
 
 # ==============================================================

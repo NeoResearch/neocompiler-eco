@@ -45,9 +45,9 @@ services:
     environment:
       - AUTOHEAL_CONTAINER_LABEL=autoheal
       - AUTOHEAL_INTERVAL=5
-      - DOCKER_SOCK=/var/run/docker.sock
+      - DOCKER_SOCK=$LOCAL_DOCKER_SOCK
     networks:
       - ecoservices_express
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock

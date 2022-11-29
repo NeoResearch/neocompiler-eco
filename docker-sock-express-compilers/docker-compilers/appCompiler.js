@@ -87,10 +87,12 @@ function updateCompilers() {
     //(docker images docker-mono-neo-compiler | tail -n +2) | awk '{ print $2 }'
     //(docker images | tail -n 1)
     //docker images | tail -n +2
+
     var child = require('child_process').exec(getCompilersBashCall, optionsGetCompilers, (e, stdout1, stderr) => {
         if (e instanceof Error) {
             return;
-        } else if (stdout1 == null) {
+        } else if ((stdout1 == null) || (stdout1 == '')) {
+            // if docker sock is not available... no image will be found.
             return;
         } else {
             //x = stdout1.replace(/[^\x00-\x7F]/g, "");

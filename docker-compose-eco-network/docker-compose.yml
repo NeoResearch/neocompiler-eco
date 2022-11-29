@@ -208,7 +208,7 @@ services:
       - inside_auto_heal
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
 # ================== AUTO REAL ===================================================
 # ================================================================================
 

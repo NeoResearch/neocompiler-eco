@@ -50,4 +50,4 @@ services:
       - compilers_express
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock

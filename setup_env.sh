@@ -17,7 +17,6 @@ else
     echo "NO LOCAL PATH EXISTS... SETTING TO $(cat .eco_pwd)"
 fi
 
-
 # setting .env variables
 echo -e "CHAIN=neo-cli-default-empty-chain.acc\nECO_PWD=$(cat .eco_pwd)" > docker-compose-eco-network/.env
 echo -e "DOOR_FRONTEND_HTTP=8000\nECO_PWD=$(cat .eco_pwd)" > docker-sock-express-compilers/docker-http-express/.env

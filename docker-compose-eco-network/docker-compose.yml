@@ -20,13 +20,13 @@ services:
       - "20333:20333"
       - "30333:30333"
     volumes:
-      - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json   
-      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
-      - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
-      - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json   
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -55,13 +55,13 @@ services:
       - "20334:20334"
       - "30334:30334"
     volumes:
-      - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
-      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json    
-      - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
-      - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json    
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -90,10 +90,10 @@ services:
       - "20335:20335"
       - "30335:30335"
     volumes:
-      - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -122,10 +122,10 @@ services:
       - "20336:20336"
       - "30336:30336"
     volumes:
-      - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs/ConsensusService         
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs/ConsensusService         
     healthcheck:
       test:
         - CMD
@@ -154,21 +154,21 @@ services:
       - "20337:20337"
       - "30337:30337"
     volumes:
-      - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json     
-      - ./neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
-      - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
-      - ./neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - ./neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
-      - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs/ConsensusService
-      - ./neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
-      - ./nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/neo-cli/Logs/OracleHttpsProtocol
-      - ./nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/neo-cli/Logs/OracleService
-      - ./neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
-      - ./nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/neo-cli/Logs/VerificationService
-      - ./nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/neo-cli/Logs/VerificationContext       
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json     
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/neo-cli/Logs/OracleHttpsProtocol
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/neo-cli/Logs/OracleService
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/neo-cli/Logs/VerificationService
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/neo-cli/Logs/VerificationContext       
     depends_on:
       - eco-neo-csharp-node1-running
     healthcheck:

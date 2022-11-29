@@ -14,13 +14,13 @@ services:
       - PWD_CN_BLOCKTIME=$PWD_CN_BLOCKTIME
       - PWD_RESET_SERVICE=$PWD_RESET_SERVICE
     volumes:
-      - ./appEcoServices.js:/opt/appEcoServices.js
-      - ./run-EcoServicesExpress-RPC-SocketIo.sh:/opt/run-EcoServicesExpress-RPC-SocketIo.sh
-      - ./socket-js:/opt/socket-js
-      - ./eco-metadata.json:/opt/eco-metadata.json
+      - $ECO_PWD/docker-sock-express-compilers/docker-services/appEcoServices.js:/opt/appEcoServices.js
+      - $ECO_PWD/docker-sock-express-compilers/docker-services/run-EcoServicesExpress-RPC-SocketIo.sh:/opt/run-EcoServicesExpress-RPC-SocketIo.sh
+      - $ECO_PWD/docker-sock-express-compilers/docker-services/socket-js:/opt/socket-js
+      - $ECO_PWD/docker-sock-express-compilers/docker-services/eco-metadata.json:/opt/eco-metadata.json
 #      - ./node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
-      - ../../docker-compose-eco-network/nodes-logs:/opt/nodes-logs
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs:/opt/nodes-logs
     healthcheck:
       test:
         - CMD

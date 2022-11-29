@@ -36,6 +36,9 @@ while [[ "$#" > 0 ]]; do case $1 in
   esac;
 done
 
+# MUST SETUP ALL .env FILES FOR docker compose
+./setup_env.sh
+
 # ===================== BUILDS ===============================
 if ((!$DISABLE_BUILD)); then
 	if (($DEV_MODE)); then

@@ -13,10 +13,10 @@ services:
     environment:
       - DOOR_FRONTEND_HTTP=$DOOR_FRONTEND_HTTP
     volumes:
-      - ./appHttp.js:/opt/appHttp.js
-      - ./runHttpExpress.sh:/opt/runHttpExpress.sh
-      - ../../index.html:/opt/index.html
-      - ../../assets:/opt/assets/
+      - $ECO_PWD/docker-sock-express-compilers/docker-http-express/appHttp.js:/opt/appHttp.js
+      - $ECO_PWD/docker-sock-express-compilers/docker-http-express/runHttpExpress.sh:/opt/runHttpExpress.sh
+      - $ECO_PWD/index.html:/opt/index.html
+      - $ECO_PWD/assets:/opt/assets/
     healthcheck:
       test:
         - CMD

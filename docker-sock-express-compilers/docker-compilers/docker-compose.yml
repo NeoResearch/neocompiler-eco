@@ -15,11 +15,11 @@ services:
       - BUILD_ALL_CSHARP=$BUILD_ALL_CSHARP
       - BUILD_CSHARP=$BUILD_CSHARP
     volumes:
-      - ./appCompiler.js:/opt/appCompiler.js
-      - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
-      - ./buildCompilers.sh:/opt/buildCompilers.sh
-      - ./.env:/opt/.env
-      - ./compilers:/opt/compilers
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/appCompiler.js:/opt/appCompiler.js
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/buildCompilers.sh:/opt/buildCompilers.sh
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/.env:/opt/.env
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/compilers:/opt/compilers
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
     healthcheck:
       test:

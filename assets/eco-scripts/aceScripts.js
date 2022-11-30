@@ -9,6 +9,7 @@ function createEditor(name, mode) {
         enableSnippets: true,
         enableLiveAutocompletion: false,
     });
+    editor.setFontSize(18);
     editor.commands.addCommand({
         name: "showKeyboardShortcuts",
         bindKey: {

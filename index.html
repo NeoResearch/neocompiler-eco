@@ -212,7 +212,8 @@
                                 <div class="col-4">
                                     <select id="codesend_selected_compiler" class="form-select"
                                         style="text-align: center!important;font-weight: bold!important;">
-                                        <option selected>C#</option>
+                                        <option onclick="setCompiler('csharp')" selected>C#</option>
+                                        <option onclick="setCompiler('python')">Python</option>
                                     </select>
                                 </div>
 
@@ -318,7 +319,7 @@
                                             placeholder="ABI (JSON format)" class="form-control"></textarea>
 
                                         <h4>MANIFEST:</h4>
-                                        <textarea id="codemanifest" readonly="readonly" rows="5" cols="100"
+                                        <textarea id="codemanifest" readonly="readonly" rows="9" cols="100"
                                             placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
                                     </div>
                                 </div>

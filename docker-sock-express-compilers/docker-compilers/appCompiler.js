@@ -37,7 +37,7 @@ server.headersTimeout = 500000;
 server.keepAliveTimeout = 500000;
 
 var compilers = [];
-var getCompilersBashCall = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-neo-boa| tail -n +2) | awk '{ print $1,$2 }'";
+var getCompilersBashCall = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-neo3-boa-compiler | tail -n +2) | awk '{ print $1,$2 }'";
 
 server.listen(10000 || process.env.PORT, (err) => {
     if (err) {
@@ -85,6 +85,7 @@ app.get('/', (req, res) => {
 
 function updateCompilers() {
     //(docker images docker-mono-neo-compiler | tail -n +2) | awk '{ print $2 }'
+    //(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-neo3-boa-compiler | tail -n +2) | awk '{ print $1,$2 }'
     //(docker images | tail -n 1)
     //docker images | tail -n +2
 
@@ -107,8 +108,15 @@ function updateCompilers() {
                 obj["version"] = stdout1[i + 1];
                 // Remove later TODO
                 console.log("Inside updateCompilers - Printing " + obj["version"].substring(1, 4))
-                if (obj["version"].substring(0, 2) == "v3")
-                    arr.push(obj);
+
+                // ADD only docker-mono-neo-compiler v3 compilers
+                if (obj["compiler"] === "docker-mono-neo-compiler")
+                    if (obj["version"].substring(0, 2) == "v3")
+                        arr.push(obj);
+
+                // Adding all docker-neo3-boa-compiler to list
+                if (obj["compiler"] === "docker-neo3-boa-compiler")
+                        arr.push(obj);
             }
             compilers = arr;
             return;
@@ -140,19 +148,19 @@ function checkIfCompilerExists(nameToCheck) {
 }
 
 var io = require('socket.io')(server, {
-  cors: {
-    origin: '*'
-  }
+    cors: {
+        origin: '*'
+    }
 });
 
-app.post('/compilex', function(req, res) {
+app.post('/compilex', function (req, res) {
     var imagename = req.body.compilers_versions;
     var compilerLanguage = req.body.codesend_selected_compiler;
     // 'req.body.codesend' is now a vector
     var code_zip_list = req.body.codesend;
     //var code64 = Buffer.from(req.body.codesend, 'base64').toString('base64');
     var code64_list = [];
-    for(var i in code_zip_list) {
+    for (var i in code_zip_list) {
         code64_list[i] = Buffer.from(code_zip_list[i], 'base64').toString('base64');
     }
     //var code64 = Buffer.from(code_zip_list, 'base64').toString('base64');
@@ -160,10 +168,10 @@ app.post('/compilex', function(req, res) {
     console.log("language: " + compilerLanguage);
     //console.log("code64: " + code64);
     var compileenv = "-e COMPILECODE_COUNT=" + code64_list.length + " ";
-    compileenv += " -e COMPILECODE="+code64_list[0];
-    for(i in code_zip_list) {
+    compileenv += " -e COMPILECODE=" + code64_list[0];
+    for (i in code_zip_list) {
         console.log("code64[" + i + "]=" + code64_list[i]);
-        compileenv += " -e COMPILECODE_" +i+"="+code64_list[i];
+        compileenv += " -e COMPILECODE_" + i + "=" + code64_list[i];
     }
     //console.log(req)
     console.log("compileenv: '" + compileenv + "'");
@@ -268,14 +276,14 @@ app.post('/compilex', function(req, res) {
 
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
     console.log("catch 404 and forward to error handler");
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     // render the error page
     console.log("render the error page");
     var obj = {};

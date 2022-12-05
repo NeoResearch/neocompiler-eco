@@ -9,6 +9,13 @@ if (($BUILD_CSHARP)); then
 else
 	echo "SKIPING BUILDING mono-neo-compiler $BUILD_CSHARP";
 fi
+
+if (($BUILD_BOA)); then
+	echo "BUILDING BUILDING neo3-boa $BUILD_BOA"
+	(cd compilers/docker-neo3-boa; ./docker_build.sh)
+else
+	echo "SKIPING BUILDING neo3-boa $BUILD_BOA";
+fi
 #================================================
 
 #================================================

@@ -62,6 +62,12 @@ function compilerCall() {
             code_cs = code_zip_list;
             console.log("Compiling C# code...");
         }
+
+        if (SELECTED_COMPILER == "python") {
+            code_cs = code_zip_list;
+            console.log("Compiling Python code...");
+        }
+
         var indata = createCompilexJson(code_zip_list);
         console.log(indata);
         $.ajax({
@@ -143,6 +149,15 @@ function setCompiler(language) {
         aceEditor.getSession().setMode("ace/mode/csharp");
         updateCompilersSelectionBox("docker-mono-neo-compiler");
         vExamples = cSharpFiles;
+        $("#codesend_selected_compiler")[0].selectedIndex = 0;
+        //$("#cbx_example_name")[0].placeholder = "myexample.cs";
+    }
+
+    if (language === "python") {
+        aceEditor.getSession().setMode("ace/mode/python");
+        updateCompilersSelectionBox("docker-neo3-boa-compiler");
+        vExamples = cPythonFiles;
+        $("#codesend_selected_compiler")[0].selectedIndex = 1;
         //$("#cbx_example_name")[0].placeholder = "myexample.cs";
     }
 
@@ -186,7 +201,7 @@ function setExampleOnChange() {
 
 
 function setExample(language, selected_index) {
-    //console.log("Selecting example: " + selected_index + " for Compiler: " + language);
+    console.log("Selecting example: " + selected_index + " for Compiler: " + language);
     aceEditor.getSession().setValue("");
     getFiles(language, selected_index, 0);
 
@@ -196,6 +211,13 @@ function setExample(language, selected_index) {
 
 function getFiles(language, selected_index, index = 0) {
     var vExamples = cSharpFiles;
+    if (language === "csharp")
+        vExamples = cSharpFiles;
+
+    if (language === "python")
+        vExamples = cPythonFiles;
+
+
     var cutSize = "./assets/sc_examples/" + language + "/";
 
     var numfiles = vExamples[selected_index].length;
@@ -266,6 +288,7 @@ function convertBase64ToHexByte(base64ToConvert) {
 
 function socketCompilerCompilexResult() {
     socketCompilers.on('compilexResult', function (socketData) {
+        console.log(socketData.stdout)
         dataSocket = JSON.parse(socketData.stdout);
         console.log(dataSocket);
         $("#compilebtn")[0].disabled = false;

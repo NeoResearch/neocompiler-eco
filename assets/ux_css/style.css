@@ -86,6 +86,10 @@ body {
 }
 
 .nav {
+    z-index: 1000000!important;
+}
+
+.nav {
     background: #223237;
     position: fixed;
     float: left;
@@ -374,9 +378,7 @@ textarea:focus {
     background-color: rgba(0, 175, 146, 1);
 }
 
-.nav {
-    z-index: 1000000!important;
-}
+
 
 .select2-dropdown {
     z-index: 2000000!important;
@@ -462,60 +464,67 @@ textarea:focus {
     color: #0aab7b!important;
 }
 
+/*
 *[contenteditable='true']:hover,
 *[contenteditable='true']:focus {
     border: 1px solid #ccc;
     padding: 5px 10px;
-}
+}*/
 
 
 /* Begin Navigation tab style */
 
-.navgationTabs {
+.aceLITabs {
     background-color: #223237!important;
     float: left;
     position: relative!important;
-    height: 45px!important;
-    z-index: 0!important;
-    max-height: 35px!important;
+/*    height: 45px!important; */
+/*    z-index: 0!important;*/
+/*    max-height: 35px!important;*/
 }
 
-.navgationTabs li {
+
+
+.aceLITabs li {
     background: #09af92!important;
     color: white!important;
     text-align: center!important;
-    padding-top: 5px!important;
     float: left;
+    width: 10%;
+    /*
+    padding-top: 5px!important;
     border-right: 1px solid #07a58a !important;
-    max-height: 35px!important;
+    max-height: 35px!important;*/
 }
 
-.navgationTabs li:hover {
+.aceLITabs li:hover {
     border: none!important;
     text-align: left;
-    border-bottom: 1px solid white!important;
     background: #07a58a !important;
+    /*
+    border-bottom: 1px solid white!important;    
     padding: 0!important;
-    padding-top: 4px!important;
+    padding-top: 4px!important;*/
 }
 
-.navgationTabs span:hover {
+.aceLITabs span:hover {
     border: none!important;
     text-align: left;
-    padding: 0!important;
+    /*padding: 0!important;*/
 }
 
-.navgationTabs li a {
+.aceLITabs li a {
     text-decoration: none!important;
     color: white!important;
     text-align: left;
 }
 
-.navgationTabs li a:hover {
+.aceLITabs li a:hover {
     color: white!important;
     text-align: left;
+    /*
     padding: 0!important;
-    border: none!important;
+    border: none!important;*/
 }
 
 

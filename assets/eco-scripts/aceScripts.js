@@ -57,8 +57,7 @@ Editor = {
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
         var fileType = ".cs";
-        if ($("#codesend_selected_compiler")[0].value === "Python")
-        {
+        if ($("#codesend_selected_compiler")[0].value === "Python") {
             fileType = ".py"
             modeToSet = "ace/mode/python"
         }
@@ -71,6 +70,15 @@ Editor = {
         textChild.id = "textChildAce" + this.tabs;
         textChild.addEventListener('click', function (event) {
             aceEditor.setSession(openedSessions.get(Number(iElement.name)));
+        }, false);
+        jQuery(textChild).bind('dragover drop', function (event) {
+            event.preventDefault();
+            return false;
+        });
+        // Do not allow input value for tab name
+        textChild.addEventListener("input", function () {
+            if ($(this).text() === "")
+                $(this)[0].innerHTML = "Not.Empty";
         }, false);
 
         this.tabs++;
@@ -93,11 +101,12 @@ Editor = {
     }
 };
 
+/*
 $("span[contenteditable='true']").on("blur", function () {
     var value = $(this).text();
+    console.log(value)
     var depth = $(this).parents("ul").length;
-});
-
+});*/
 
 /*
  var dragging = false;

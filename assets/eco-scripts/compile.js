@@ -150,6 +150,7 @@ function setCompiler(language) {
         updateCompilersSelectionBox("docker-mono-neo-compiler");
         vExamples = cSharpFiles;
         $("#codesend_selected_compiler")[0].selectedIndex = 0;
+        $("#mainTabAceEditor")[0].innerHTML = "Main.cs"
         //$("#cbx_example_name")[0].placeholder = "myexample.cs";
     }
 
@@ -158,6 +159,7 @@ function setCompiler(language) {
         updateCompilersSelectionBox("docker-neo3-boa-compiler");
         vExamples = cPythonFiles;
         $("#codesend_selected_compiler")[0].selectedIndex = 1;
+        $("#mainTabAceEditor")[0].innerHTML = "Main.py"
         //$("#cbx_example_name")[0].placeholder = "myexample.cs";
     }
 
@@ -217,7 +219,6 @@ function getFiles(language, selected_index, index = 0) {
     if (language === "python")
         vExamples = cPythonFiles;
 
-
     var cutSize = "./assets/sc_examples/" + language + "/";
 
     var numfiles = vExamples[selected_index].length;
@@ -226,7 +227,7 @@ function getFiles(language, selected_index, index = 0) {
         $.get(file, function (data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
             if (numfiles > 1 && index < (numfiles - 1)) {
-                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);
+                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);                
                 Editor.addNewTab(fileName);
                 var nameToClick = "#textChildAce" + (Editor.tabs - 1);
                 $(nameToClick).click();

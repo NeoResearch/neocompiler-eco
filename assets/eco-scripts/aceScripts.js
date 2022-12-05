@@ -16,8 +16,8 @@ function createEditor(name, mode) {
             win: "Ctrl-Alt-h",
             mac: "Command-Alt-h"
         },
-        exec: function(editor) {
-            ace.config.loadModule("ace/ext/keybinding_menu", function(module) {
+        exec: function (editor) {
+            ace.config.loadModule("ace/ext/keybinding_menu", function (module) {
                 module.init(editor);
                 //editor.showKeyboardShortcuts() just shows when tigger the hotkey
             })
@@ -34,7 +34,8 @@ var Editor = Editor || {};
 
 Editor = {
     tabs: 0,
-    addNewTab: function(text = "", modeToSet = "ace/mode/csharp") {
+    addNewTab: function (text = "") {
+        var modeToSet = "ace/mode/csharp";
         var self = this;
         var addTab = document.getElementById('addTabIcon');
         var liElement = document.createElement('LI');
@@ -45,7 +46,7 @@ Editor = {
         iElement.className = 'fa fa-times';
         iElement.id = "tabElementAce" + this.tabs;
         iElement.name = this.tabs;
-        iElement.addEventListener('click', function(event) {
+        iElement.addEventListener('click', function (event) {
             openedSessions.delete(Number(iElement.name));
             self.deleteTab(iElement);
         }, false);
@@ -56,13 +57,19 @@ Editor = {
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
         var fileType = ".cs";
+        if ($("#codesend_selected_compiler")[0].value === "Python")
+        {
+            fileType = ".py"
+            modeToSet = "ace/mode/python"
+        }
+
         if (text === "")
             textChild.innerHTML = 'Code' + this.tabs + fileType + ' ';
         else
             textChild.innerHTML = text;
         textChild.setAttribute('contenteditable', "true");
         textChild.id = "textChildAce" + this.tabs;
-        textChild.addEventListener('click', function(event) {
+        textChild.addEventListener('click', function (event) {
             aceEditor.setSession(openedSessions.get(Number(iElement.name)));
         }, false);
 
@@ -78,7 +85,7 @@ Editor = {
         newAceSession.setMode(modeToSet);
         openedSessions.set(Number(iElement.name), newAceSession);
     },
-    deleteTab: function(tab) {
+    deleteTab: function (tab) {
         while (tab.nodeName != 'LI') {
             tab = tab.parentNode;
         }
@@ -86,7 +93,7 @@ Editor = {
     }
 };
 
-$("span[contenteditable='true']").on("blur", function() {
+$("span[contenteditable='true']").on("blur", function () {
     var value = $(this).text();
     var depth = $(this).parents("ul").length;
 });

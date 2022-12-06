@@ -211,9 +211,10 @@
 
                                 <div class="col-4">
                                     <select id="codesend_selected_compiler" class="form-select"
+                                        onchange="setCompiler()"
                                         style="text-align: center!important;font-weight: bold!important;">
-                                        <option onclick="setCompiler('csharp')" selected>C#</option>
-                                        <option onclick="setCompiler('python')">Python</option>
+                                        <option selected>C#</option>
+                                        <option>Python</option>
                                     </select>
                                 </div>
 
@@ -246,8 +247,8 @@
                         <br>
 
                         <ul class="nav nav-tabs aceLITabs">
-                            <li role="presentation" class="active"><a href="#nav-compilers/"
-                                    onclick="goToMainTab()" id="mainTabAceEditor">Main.cs</a></li>
+                            <li role="presentation" class="active"><a href="#nav-compilers/" onclick="goToMainTab()"
+                                    id="mainTabAceEditor">Main.cs</a></li>
                             <li role="presentation" id="addTabIcon" onclick="Editor.addNewTab()"><a
                                     href="#nav-compilers/"><i class="fa fa-plus-square" aria-hidden="true"></i></a></li>
                         </ul>

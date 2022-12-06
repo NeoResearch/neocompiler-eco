@@ -142,7 +142,13 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
     // ------------------------------------------
 }
 
-function setCompiler(language) {
+function setCompiler() {
+    if ($("#codesend_selected_compiler")[0].value === "C#")
+        language = "csharp";
+
+    if ($("#codesend_selected_compiler")[0].value === "Python")
+        language = "python";
+        
     var vExamples;
     SELECTED_COMPILER = language;
     if (language === "csharp") {
@@ -227,7 +233,7 @@ function getFiles(language, selected_index, index = 0) {
         $.get(file, function (data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
             if (numfiles > 1 && index < (numfiles - 1)) {
-                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);                
+                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);
                 Editor.addNewTab(fileName);
                 var nameToClick = "#textChildAce" + (Editor.tabs - 1);
                 $(nameToClick).click();
@@ -388,5 +394,5 @@ $(document).ready(function () {
     aceEditor = createEditor("aceEditor", "ace/mode/csharp");
     openedSessions.set(-1, new ace.EditSession("mainSession"));
     goToMainTab();
-    setCompiler("csharp");
+    setCompiler();
 });

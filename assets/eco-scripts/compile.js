@@ -143,6 +143,8 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
 }
 
 function setCompiler() {
+    cleanAllSessionsInsteadOfMain();
+    
     if ($("#codesend_selected_compiler")[0].value === "C#")
         language = "csharp";
 

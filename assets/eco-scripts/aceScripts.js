@@ -28,11 +28,30 @@ function createEditor(name, mode) {
 
 function removeBoldFromCurrentTabs() {
     $("#mainTabAceEditor")[0].style.fontWeight = 'normal';
+    /*
     for (t = 0; t < Editor.tabs; t++) {
         var nameToClick = "#textChildAce" + t;
         $(nameToClick)[0].style.fontWeight = 'normal';
-    }
+    }*/
+    for (var [key, value] of openedSessions)
+        if (key != -1) {
+            var nameToClick = "#textChildAce" + key;
+            $(nameToClick)[0].style.fontWeight = 'normal';
+        }
 }
+
+function cleanAllSessionsInsteadOfMain(){
+    for (var [key, value] of openedSessions)
+    if (key != -1) {
+        var iElementToDeleteName = "#tabElementAce" + key;
+        Editor.deleteTab($(iElementToDeleteName)[0]);
+        openedSessions.delete(key);
+    }
+    Editor.tabs = 0;
+    goToMainTab();
+}
+
+
 function goToMainTab() {
     aceEditor.setSession(openedSessions.get(-1));
 
@@ -60,6 +79,7 @@ Editor = {
         iElement.addEventListener('click', function (event) {
             openedSessions.delete(Number(iElement.name));
             self.deleteTab(iElement);
+            goToMainTab();
         }, false);
         // Delete element finished
 

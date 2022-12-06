@@ -144,7 +144,7 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
 
 function setCompiler() {
     cleanAllSessionsInsteadOfMain();
-    
+
     if ($("#codesend_selected_compiler")[0].value === "C#")
         language = "csharp";
 
@@ -177,8 +177,11 @@ function setCompiler() {
     for (var e = 0; e < vExamples.length; e++) {
         var exampleToAdd = document.createElement("option");
         exampleToAdd.setAttribute('value', e);
-        var onClickFunction = 'setExample("' + language + '","' + e + '");';
-        exampleToAdd.setAttribute('onClick', onClickFunction)
+
+        // Not needed because of select onchange - DUPLICATED
+        //var onClickFunction = 'setExample("' + language + '","' + e + '");';
+        //exampleToAdd.setAttribute('onClick', onClickFunction)
+
         exampleToAdd.setAttribute('id', "loadedExample" + e);
         var cutSize = "./assets/sc_examples/" + language + "/";
         var nameToCut = vExamples[e][0];
@@ -220,35 +223,40 @@ function setExample(language, selected_index) {
 }
 
 function getFiles(language, selected_index, index = 0) {
+    // First clean all session, but only in the first iteraction
+    if (index == 0)
+        cleanAllSessionsInsteadOfMain();
+
     var vExamples = cSharpFiles;
-    if (language === "csharp")
-        vExamples = cSharpFiles;
 
     if (language === "python")
         vExamples = cPythonFiles;
 
     var cutSize = "./assets/sc_examples/" + language + "/";
-
     var numfiles = vExamples[selected_index].length;
+
     if (index < numfiles) {
         var file = vExamples[selected_index][index];
         $.get(file, function (data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
             if (numfiles > 1 && index < (numfiles - 1)) {
-                var fileName = vExamples[selected_index][index + 1][0].slice(cutSize.length);
-                Editor.addNewTab(fileName);
+                index++;
+                var nextFile = vExamples[selected_index][index];
+                var nextFileName = nextFile[0].slice(cutSize.length);
+                //console.log("index: " + index + "/" + numfiles + " file: " + nextFileName)
+                Editor.addNewTab(nextFileName);
+
+                // Move to tab to simulate click and activate as current session
                 var nameToClick = "#textChildAce" + (Editor.tabs - 1);
                 $(nameToClick).click();
-                getFiles(language, selected_index, index + 1);
+
+                getFiles(language, selected_index, index);
             }
         });
     }
 
-    if (numfiles == 1) {
-        for (t = 0; t < Editor.tabs; t++)
-            $('#tabElementAce' + t).click();
-        goToMainTab();
-    }
+    //if (numfiles == 1)
+    //    goToMainTab();
 }
 
 function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {

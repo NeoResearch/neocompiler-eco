@@ -490,10 +490,10 @@ textarea:focus {
     color: white!important;
     text-align: center!important;
     float: left;
-    width: 10%;
-    /*
-    padding-top: 5px!important;
-    border-right: 1px solid #07a58a !important;
+    width: 10%;    
+    padding-top: 0.4%!important;
+    padding-bottom: 0.4%!important;
+    /*border-right: 1px solid #07a58a !important;
     max-height: 35px!important;*/
 }
 

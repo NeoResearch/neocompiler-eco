@@ -26,8 +26,19 @@ function createEditor(name, mode) {
     return editor
 }
 
+function removeBoldFromCurrentTabs() {
+    $("#mainTabAceEditor")[0].style.fontWeight = 'normal';
+    for (t = 0; t < Editor.tabs; t++) {
+        var nameToClick = "#textChildAce" + t;
+        $(nameToClick)[0].style.fontWeight = 'normal';
+    }
+}
 function goToMainTab() {
     aceEditor.setSession(openedSessions.get(-1));
+
+    //Mark current as bold
+    removeBoldFromCurrentTabs();
+    $("#mainTabAceEditor")[0].style.fontWeight = 'bold';
 }
 
 var Editor = Editor || {};
@@ -70,6 +81,10 @@ Editor = {
         textChild.id = "textChildAce" + this.tabs;
         textChild.addEventListener('click', function (event) {
             aceEditor.setSession(openedSessions.get(Number(iElement.name)));
+
+            //Mark current as bold
+            removeBoldFromCurrentTabs();
+            $(this)[0].style.fontWeight = 'bold';
         }, false);
         jQuery(textChild).bind('dragover drop', function (event) {
             event.preventDefault();

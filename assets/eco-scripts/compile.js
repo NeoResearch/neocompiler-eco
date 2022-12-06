@@ -148,7 +148,7 @@ function setCompiler() {
 
     if ($("#codesend_selected_compiler")[0].value === "Python")
         language = "python";
-        
+
     var vExamples;
     SELECTED_COMPILER = language;
     if (language === "csharp") {

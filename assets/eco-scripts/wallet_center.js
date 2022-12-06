@@ -598,6 +598,7 @@ function verifyDapi(dapiName) {
 
     swal({
         title: "Want to try to Connect a DAPI?",
+        text: "NeoLine or O3 may appear (if available)",
         icon: "warning",
         buttons: dapiToPush,
         dangerMode: true,

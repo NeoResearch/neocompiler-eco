@@ -53,22 +53,11 @@ function compilerCall() {
         });
     }
     // resolve all promises and launch
-    Promise.all(xl_p).then((code_zip_list) => {
-        console.log(code_zip_list);
-
-        //});
-
-        if (SELECTED_COMPILER == "csharp") {
-            code_cs = code_zip_list;
-            console.log("Compiling C# code...");
-        }
-
-        if (SELECTED_COMPILER == "python") {
-            code_cs = code_zip_list;
-            console.log("Compiling Python code...");
-        }
-
-        var indata = createCompilexJson(code_zip_list);
+    Promise.all(xl_p).then((ace_sessions_code_zip_list) => {
+        console.log(ace_sessions_code_zip_list);
+        console.log("Compiling " + $("#codesend_selected_compiler")[0].value + " code...");
+        
+        var indata = createCompilexJson(ace_sessions_code_zip_list);
         console.log(indata);
         $.ajax({
             type: "POST",

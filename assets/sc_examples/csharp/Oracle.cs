@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 using Neo;
 using Neo.SmartContract;
 using Neo.SmartContract.Framework;

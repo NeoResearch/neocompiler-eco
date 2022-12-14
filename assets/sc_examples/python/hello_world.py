@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 from boa3.builtin import NeoMetadata, metadata, public
 from boa3.builtin.interop import storage
 

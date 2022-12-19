@@ -202,7 +202,7 @@ function setCompiler() {
     }
 };
 
-function askForSavingContracts() {
+function askForSavingContracts(changeToExample = true) {
     swal({
         title: "Want to save codes to local storage?",
         icon: "warning",
@@ -224,7 +224,8 @@ function askForSavingContracts() {
 
 
                     saveSCExample(name);
-                    setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
+                    if (changeToExample)
+                        setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
                 });
             /*
             var contractsNameByLanguage = "saved_" + SELECTED_COMPILER;
@@ -234,7 +235,8 @@ function askForSavingContracts() {
             //JSON.parse(getLocalStorage("temp_csharp"))
             addCodeToExample(contractsNameByLanguage, "saved" + SELECTED_COMPILER);*/
         } else
-            setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
+            if (changeToExample)
+                setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
     });
 }
 

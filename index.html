@@ -210,8 +210,7 @@
                             <div class="row gy-2">
 
                                 <div class="col-4">
-                                    <select id="codesend_selected_compiler" class="form-select"
-                                        onchange="setCompiler()"
+                                    <select id="codesend_selected_compiler" class="form-select" onchange="setCompiler()"
                                         style="text-align: center!important;font-weight: bold!important;">
                                         <option selected>C#</option>
                                         <option>Python</option>
@@ -1410,6 +1409,21 @@
                                                         <label for="month_filter_log">Month</label>
                                                         <input id="month_filter_log" class="form-control" value=""
                                                             placeholder="12">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="select_log_filter">Search All</label>
+                                                        <select id="searchNodeStatusFilter"
+                                                            onchange="getAllFilteredNodeInfo()" title="Select network"
+                                                            class="form-select" style="text-align: center!important;">
+                                                            <option selected disabled>Search Error</option>
+                                                            <option>OnStop</option>
+                                                            <option>OnStart</option>
+                                                            <option>Error</option>
+                                                            <option>null</option>
+                                                            <!--<option disabled>MainNet</option>-->
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>

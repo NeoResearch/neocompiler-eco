@@ -153,6 +153,37 @@ app.get('/statusnodewithparams/:node/:day/:month/:year/:height/:lines', function
     });
 });
 
+app.get('/statusnodefiltered/:node/:cmd', function (req, res) {
+    // Node 0 is the RPC
+    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
+        console.log("Someone is doing something crazy with node. This node does not exist.");
+        res.send("This is not a valid node parameter");
+    }
+    var cmdToAsk = req.params.cmd;
+    if (cmdToAsk === "OnStart" || cmdToAsk === "OnStop" || cmdToAsk === "null" || cmdToAsk === "Error") {
+        console.log("cmd is : " + cmdToAsk)
+        if (req.params.node == 0)
+            req.params.node = "rpc";
+
+        res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
+        var grepCmd = "grep -wns " + cmdToAsk + " /opt/nodes-logs/logs-neocli-node*/* -A " + 10 + " -B " + 10;
+        var cmddocker = grepCmd;
+        console.log("cmddocker is " + cmddocker);
+        var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
+            if (e instanceof Error) {
+                res.send("Error:" + e);
+                console.error(e);
+            } else {
+                x = stdout1.replace(/[^\x00-\x7F]/g, "");
+                res.send(x);
+            }
+        });
+    } else {
+        console.log("Someone is doing something crazy with height. This node does not exist.");
+        res.send("This is not a valid filtering parameter");
+    }
+});
+
 app.get('/statusservice/:serviceType/:role', function (req, res) {
     // Node 0 is the RPC
     if (!isInt(req.params.serviceType) || req.params.serviceType < 0 || req.params.serviceType > 2) {
@@ -272,9 +303,9 @@ const EcoData = require('./socket-js/eco-metadata-class.js');
 let ecoInfo = new EcoData();
 
 var io = require('socket.io')(server, {
-  cors: {
-    origin: '*'
-  }
+    cors: {
+        origin: '*'
+    }
 });
 
 

@@ -49,6 +49,31 @@ function getSpecificNodeHeightInfo(day, month, year, height, nlines) {
     });
 }
 
+function getAllFilteredNodeInfo() {
+    var errorToAsk = $("#searchNodeStatusFilter")[0].value;
+    
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/1/' + errorToAsk, function (data) {
+        $("#node1data").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#node1data").scrollTop($("#node1data")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/2/' + errorToAsk, function (data) {
+        $("#node2data").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#node2data").scrollTop($("#node2data")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/3/' + errorToAsk, function (data) {
+        $("#node3data").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#node3data").scrollTop($("#node3data")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/4/' + errorToAsk, function (data) {
+        $("#node4data").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#node4data").scrollTop($("#node4data")[0].scrollHeight);
+    });
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/0/' + errorToAsk, function (data) {
+        $("#noderpcdata").val(data.replace(/[^\x00-\x7F]/g, ""));
+        $("#noderpcdata").scrollTop($("#noderpcdata")[0].scrollHeight);
+    });
+}
+
 function getSpecificNodeHeightInfoFromForm() {
     var day, month, year, height, nlines;
 

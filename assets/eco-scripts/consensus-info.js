@@ -51,27 +51,38 @@ function getSpecificNodeHeightInfo(day, month, year, height, nlines) {
 
 function getAllFilteredNodeInfo() {
     var errorToAsk = $("#searchNodeStatusFilter")[0].value;
-    
-    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/1/' + errorToAsk, function (data) {
+
+    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/' + errorToAsk, function (data) {
         $("#node1data").val(data.replace(/[^\x00-\x7F]/g, ""));
         $("#node1data").scrollTop($("#node1data")[0].scrollHeight);
     });
-    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/2/' + errorToAsk, function (data) {
-        $("#node2data").val(data.replace(/[^\x00-\x7F]/g, ""));
-        $("#node2data").scrollTop($("#node2data")[0].scrollHeight);
-    });
-    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/3/' + errorToAsk, function (data) {
-        $("#node3data").val(data.replace(/[^\x00-\x7F]/g, ""));
-        $("#node3data").scrollTop($("#node3data")[0].scrollHeight);
-    });
-    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/4/' + errorToAsk, function (data) {
-        $("#node4data").val(data.replace(/[^\x00-\x7F]/g, ""));
-        $("#node4data").scrollTop($("#node4data")[0].scrollHeight);
-    });
-    $.get(BASE_PATH_ECOSERVICES + '/statusnodefiltered/0/' + errorToAsk, function (data) {
-        $("#noderpcdata").val(data.replace(/[^\x00-\x7F]/g, ""));
-        $("#noderpcdata").scrollTop($("#noderpcdata")[0].scrollHeight);
-    });
+
+    $("#node2data").val("Check the first input box.");
+    $("#node2data").scrollTop($("#node2data")[0].scrollHeight);
+
+    $("#node3data").val("Check the first input box.");
+    $("#node3data").scrollTop($("#node3data")[0].scrollHeight);
+
+    $("#node4data").val("Check the first input box.");
+    $("#node4data").scrollTop($("#node4data")[0].scrollHeight);
+
+    $("#noderpcdata").val("Check the first input box.");
+    $("#noderpcdata").scrollTop($("#noderpcdata")[0].scrollHeight);
+
+
+    $("#oracleservicedata").val("Check the first input box.");
+    $("#oracleservicedata").scrollTop($("#oracleservicedata")[0].scrollHeight);
+
+    $("#oraclehttpsprotocoldata").val("Check the first input box.");
+    $("#oraclehttpsprotocoldata").scrollTop($("#oraclehttpsprotocoldata")[0].scrollHeight);
+
+
+    $("#verificationservicedata").val("Check the first input box.");
+    $("#verificationservicedata").scrollTop($("#verificationservicedata")[0].scrollHeight);
+
+    $("#verificationcontextdata").val("Check the first input box.");
+    $("#verificationcontextdata").scrollTop($("#verificationcontextdata")[0].scrollHeight);
+
 }
 
 function getSpecificNodeHeightInfoFromForm() {

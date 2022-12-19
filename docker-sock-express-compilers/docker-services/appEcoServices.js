@@ -153,21 +153,13 @@ app.get('/statusnodewithparams/:node/:day/:month/:year/:height/:lines', function
     });
 });
 
-app.get('/statusnodefiltered/:node/:cmd', function (req, res) {
-    // Node 0 is the RPC
-    if (!isInt(req.params.node) || req.params.node < 0 || req.params.node > 4) {
-        console.log("Someone is doing something crazy with node. This node does not exist.");
-        res.send("This is not a valid node parameter");
-    }
+app.get('/statusnodefiltered/:cmd', function (req, res) {
     var cmdToAsk = req.params.cmd;
     if (cmdToAsk === "OnStart" || cmdToAsk === "OnStop" || cmdToAsk === "null" || cmdToAsk === "Error") {
         console.log("cmd is : " + cmdToAsk)
-        if (req.params.node == 0)
-            req.params.node = "rpc";
-
         res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
-        var grepCmd = "grep -wns " + cmdToAsk + " /opt/nodes-logs/logs-neocli-node*/* -A " + 10 + " -B " + 10;
-        var cmddocker = grepCmd;
+        var grepCmd = "grep -wns " + cmdToAsk + " ./logs-neocli-node*/* -A " + 10 + " -B " + 10;
+        var cmddocker = 'cd /opt/nodes-logs && ' + grepCmd;
         console.log("cmddocker is " + cmddocker);
         var child = require('child_process').exec(cmddocker, optionsGetLogger, (e, stdout1, stderr) => {
             if (e instanceof Error) {

@@ -28,6 +28,7 @@ if (LOCAL_DEVELOPMENT) {
     $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
 }
 
+var SELECTED_COMPILER = "";
 // ECO SERVICES EXPRESS SERVER RPC PATH
 var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
 var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);

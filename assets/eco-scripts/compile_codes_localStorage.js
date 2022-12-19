@@ -22,6 +22,19 @@ function getSmartContractExamplesFromLocalStorage() {
     return new Map();
 }
 
+$(document).ready(function () {
+    USER_EXAMPLES = getSmartContractExamplesFromLocalStorage();
+    var cachedSelectedIndex = $("#ExampleList")[0].selectedIndex;
+    USER_EXAMPLES.forEach(function (value, key) {
+        removeExampleFromList(key);
+    });
+    USER_EXAMPLES.forEach(function (value, key) {
+        addCSContractFromLocalMap(value, key, SELECTED_COMPILER);
+    });
+    $("#ExampleList")[0].selectedIndex = cachedSelectedIndex;
+
+});
+
 function saveSCExample(fileName) {
     var scToSave = {
         codeArray: getAllSections(),
@@ -41,11 +54,12 @@ function saveSCExample(fileName) {
 }
 
 function removeExampleFromList(key) {
-    document.getElementById("ExampleList").removeChild(document.getElementById("userContracts_" + key));
+    if (document.getElementById("userContracts_" + key))
+        document.getElementById("ExampleList").removeChild(document.getElementById("userContracts_" + key));
 }
 
 function deleteAllSCExamples() {
-    USER_EXAMPLES.forEach(function(value, key) {
+    USER_EXAMPLES.forEach(function (value, key) {
         removeExampleFromList(key);
     });
 

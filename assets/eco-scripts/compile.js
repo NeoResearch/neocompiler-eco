@@ -210,7 +210,6 @@ function askForSavingContracts(changeToExample = true) {
         timer: 15000,
     }).then((buttonOption) => {
         if (buttonOption) {
-
             swal({
                 text: 'Contract name',
                 content: "input",
@@ -221,7 +220,6 @@ function askForSavingContracts(changeToExample = true) {
                 .then((name) => {
                     if (!name)
                         name = "saved_" + SELECTED_COMPILER;
-
 
                     saveSCExample(name);
                     if (changeToExample)
@@ -240,6 +238,40 @@ function askForSavingContracts(changeToExample = true) {
     });
 }
 
+
+function askForDeletingContract() {
+    var key = $("#ExampleList")[0].value;
+    if (!USER_EXAMPLES.has(key)) {
+        swal({
+            icon: "info",
+            title: "Can't be deleted",
+            text: "Trying to delete an example or contract does not exist!",
+            buttons: false,
+            timer: 8000
+        });
+        return;
+    }
+
+    swal({
+        title: "Want to delete contract " + key + "?",
+        icon: "warning",
+        buttons: ["No", "Yes"],
+        timer: 15000,
+    }).then((buttonOption) => {
+        if (buttonOption) {
+            if (USER_EXAMPLES.delete(key)) {
+                removeExampleFromList(key);
+                storeSmartContractExamplesToLocalStorage();
+
+                // Set to first
+                $("#ExampleList")[0].selectedIndex = 0;
+                setExample(SELECTED_COMPILER, 0);
+            } else {
+                console.error("Trying to delete contract that was not found or is an example");
+            }
+        }
+    });
+}
 
 function setExampleOnChange() {
     askForSavingContracts();

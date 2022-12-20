@@ -9,7 +9,7 @@ function createCompilexJson(code_zip_list) {
 }
 
 function compilerCall() {
-    $("#codewarnerr").val("Remote compiling at " + BASE_PATH_COMPILERS + "...");
+    $("#codewarnerr").val("Remote compiling at " + BASE_PATH_COMPILERS + ".\n" + new Date());
     $("#compilebtn")[0].disabled = true;
     code_cs = "";
     $("#codeavm").val("");

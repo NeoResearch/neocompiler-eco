@@ -11,12 +11,24 @@ function drawBlocks() {
     count = parseInt($("#blocks_count_get")[0].value);
 
     if (!isNaN(end) && isNaN(count)) {
-        console.error("Invalid parameter for count, should be passed with drawBlocks(end,count)");
+        swal({
+            title: "Invalid parameter for count",
+            text: "should be passed with drawBlocks(end,count)",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
         return;
     }
 
     if (isNaN(end) && !isNaN(count)) {
-        console.error("Invalid parameter for last, should be passed with drawBlocks(end,count)");
+        swal({
+            title: "Invalid parameter for last",
+            text: "should be passed with drawBlocks(end,count)",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
         return;
     }
 
@@ -31,14 +43,28 @@ function drawBlocks() {
     if (end < 0)
         end = 0;
 
-    if (count > 100) {
-        console.error("Too much blocks to be queried!");
+    var maxQueriedBlocks = 1000;
+    if (count > maxQueriedBlocks) {
+        swal({
+            title: "You should query less blocks.",
+            text: "Count should be lower than" + maxQueriedBlocks,
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
         return;
     }
 
     for (b = end; b >= Math.max((end - count), 0); b--) {
         var param = "[" + b + "," + 1 + "]";
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblock", "params": ' + param + ' } ', function (resultBlock) {
+            if (resultBlock.error)
+                if (resultBlock.error.code === -100) {
+                    cleanTableBlocks();
+                    printBlocksToTable(resultBlock.error.message);
+                    return;
+                }
+
             var blockIndex = resultBlock.result.index;
             CURRENT_BLOCKS.push({
                 index: blockIndex,
@@ -86,7 +112,7 @@ function cleanTableBlocks() {
 }
 
 
-function printBlocksToTable() {
+function printBlocksToTable(errorMsg = "") {
     var printedBlocks = 0;
     var minTxsToPrint = Number($("#blocks_count_get_min_tx")[0].value);
 
@@ -150,7 +176,10 @@ function printBlocksToTable() {
         var txRow = tableBlocks.insertRow(-1);
         var sizeCell = document.createElement('span');
         sizeCell.setAttribute("class", "badge");
-        sizeCell.textContent = "Any Block with more than " + minTxsToPrint + " TXs was found.";
+        if (errorMsg === "")
+            sizeCell.textContent = "Any Block with more than " + minTxsToPrint + " TXs was still found...";
+        else
+            sizeCell.textContent = errorMsg;
         txRow.insertCell(-1).appendChild(sizeCell);
 
         for (e = 0; e < 3; e++) {

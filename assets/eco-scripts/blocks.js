@@ -1,9 +1,15 @@
 //===============================================================
 var MAX_BLOCKS_SCREEN = 10;
 var CURRENT_BLOCKS = [];
+var PROGRESS;
 var tableBlocks = document.createElement("tbody");
 
-function drawBlocks() {
+function drawBlocks(automatic = false) {
+    // automatic is just when you click on the tab. Avoid to redo the search
+    if (automatic) 
+        if (CURRENT_BLOCKS.length > 0)
+            return;
+
     // Clean blocks cache
     CURRENT_BLOCKS = [];
 
@@ -32,6 +38,7 @@ function drawBlocks() {
         return;
     }
 
+
     if (isNaN(end)) {
         end = LAST_BEST_HEIGHT_NEOCLI - 1;
         count = MAX_BLOCKS_SCREEN;
@@ -55,9 +62,17 @@ function drawBlocks() {
         return;
     }
 
+    PROGRESS = { c: 0, count: count }
+    cleanTableBlocks();
+
     for (b = end; b >= Math.max((end - count), 0); b--) {
         var param = "[" + b + "," + 1 + "]";
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblock", "params": ' + param + ' } ', function (resultBlock) {
+            PROGRESS.c++;
+            var percentageComplete = Math.round(Math.min(100, PROGRESS.c / PROGRESS.count * 100));
+            $("#progressBarBlocks")[0].style.width = percentageComplete + "%";
+            $("#progressBarBlocksText").html(percentageComplete + "% complete");
+
             if (resultBlock.error)
                 if (resultBlock.error.code === -100) {
                     cleanTableBlocks();
@@ -70,13 +85,14 @@ function drawBlocks() {
                 index: blockIndex,
                 block: resultBlock
             });
-            CURRENT_BLOCKS.sort(function compare(a, b) {
-                if (a.index > b.index) return -1;
-                if (a.index < b.index) return 1;
-                return 0;
-            })
-            cleanTableBlocks();
-            printBlocksToTable();
+            if (PROGRESS.c > PROGRESS.count) {
+                CURRENT_BLOCKS.sort(function compare(a, b) {
+                    if (a.index > b.index) return -1;
+                    if (a.index < b.index) return 1;
+                    return 0;
+                })
+                printBlocksToTable();
+            }
         });
     } //Finishes loop that draws each relayed transaction
 
@@ -207,7 +223,7 @@ function printBlocksToTable(errorMsg = "") {
         var sizeCell = document.createElement('span');
         sizeCell.setAttribute("class", "badge");
         if (errorMsg === "")
-            sizeCell.textContent = "Any Block with more than " + minTxsToPrint + " TXs was still found...";
+            sizeCell.textContent = "No Block with more than " + minTxsToPrint + " TXs was found.";
         else
             sizeCell.textContent = errorMsg;
         txRow.insertCell(-1).appendChild(sizeCell);

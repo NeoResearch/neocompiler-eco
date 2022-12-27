@@ -180,8 +180,7 @@ function removeRelayedTX(idToRemove) {
 //===============================================================
 function restoreTX(idToRestore) {
     var txToRestore = RELAYED_TXS[idToRestore];
-    console.log(txToRestore);
-
+    //console.log(txToRestore);
 
     document.getElementById("tableSigners").appendChild(txToRestore[0].signers);
     $("#sys_fee")[0].value = txToRestore[0].sysfee;
@@ -191,8 +190,6 @@ function restoreTX(idToRestore) {
     $("#txtRPCJson")[0].value = txToRestore[0].invokeFunction;
     $("#txtRPCJsonOut")[0].value = txToRestore[0].invokeFunctionOut;
 
-
     goToTabAndClick("nav-rpc");
-
 }
 //===============================================================

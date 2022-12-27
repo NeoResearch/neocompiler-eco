@@ -87,10 +87,20 @@ function cleanTableBlocks() {
 
 
 function printBlocksToTable() {
+    var printedBlocks = 0;
+    var minTxsToPrint = Number($("#blocks_count_get_min_tx")[0].value);
+
     for (b = 0; b < CURRENT_BLOCKS.length; b++) {
+        var block = CURRENT_BLOCKS[b].block;
+        var ntxs = block.result.tx.length;
+
+        if (ntxs < minTxsToPrint)
+            continue;
+        printedBlocks++
+
         var txRow = tableBlocks.insertRow(-1);
 
-        var block = CURRENT_BLOCKS[b].block;
+
         var index = block.result.index;
         var size = block.result.size;
         var time = block.result.time;
@@ -110,8 +120,6 @@ function printBlocksToTable() {
         timeCell.setAttribute("class", "badge");
         timeCell.textContent = (Date.now() - time) / 1000 + " seconds ago";
         txRow.insertCell(-1).appendChild(timeCell);
-
-        var ntxs = block.result.tx.length;
 
         if (ntxs == 0) {
             var nTxsCell = document.createElement('span');
@@ -137,6 +145,20 @@ function printBlocksToTable() {
         sizeCell.setAttribute("class", "badge");
         sizeCell.textContent = size + " Bytes";
         txRow.insertCell(-1).appendChild(sizeCell);
+    }
+    if (printedBlocks == 0) {
+        var txRow = tableBlocks.insertRow(-1);
+        var sizeCell = document.createElement('span');
+        sizeCell.setAttribute("class", "badge");
+        sizeCell.textContent = "Any Block with more than " + minTxsToPrint + " TXs was found.";
+        txRow.insertCell(-1).appendChild(sizeCell);
+
+        for (e = 0; e < 3; e++) {
+            var emptyCell = document.createElement('span');
+            emptyCell.setAttribute("class", "badge");
+            emptyCell.textContent = "-";
+            txRow.insertCell(-1).appendChild(emptyCell);
+        }
     }
 }
 

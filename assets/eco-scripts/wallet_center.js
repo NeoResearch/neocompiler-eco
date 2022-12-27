@@ -652,7 +652,7 @@ function createNep17Tx() {
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
         text: amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
         icon: "info",
-        buttons: ["Cancel!", "Proceed",],
+        buttons: ["Cancel", "Proceed",],
     }).then((willTransfer) => {
         if (willTransfer) {
 
@@ -681,11 +681,14 @@ function createNep17Tx() {
 
             invokeFunctionWithParams(contractHash, method, params);
 
-            swal("Transfer has been created!", {
+            swal({
                 icon: "success",
+                title: "Transfer has been created!",
+                text: "If you want to proceed to Blockchain you must Relay it.",
+                timer: 5500,
             });
         } else {
-            swal("Ok! Cancelled.");
+            //swal("Ok! Cancelled.");
         }
     });
 }

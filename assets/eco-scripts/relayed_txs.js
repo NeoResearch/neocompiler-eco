@@ -153,15 +153,46 @@ function callRawTx(relayedTxID) {
 
 //===============================================================
 function removeRelayedTX(idToRemove) {
-    if (idToRemove < RELAYED_TXS.length && idToRemove > -1) {
-        RELAYED_TXS.splice(idToRemove, 1);
-        drawRelayedTXs();
-    } else {
-        swal("Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + RELAYED_TXS.length, {
-            icon: "error",
-            buttons: false,
-            timer: 5500,
-        });
-    }
+    swal({
+        title: "Delete tx " + idToRemove + " hash: " + RELAYED_TXS[0][1].result.hash,
+        text: "Tx will be delated for Historical Relayed list.",
+        icon: "info",
+        buttons: ["Cancel", "Proceed",],
+    }).then((willTransfer) => {
+        if (willTransfer) {
+            if (idToRemove < RELAYED_TXS.length && idToRemove > -1) {
+                RELAYED_TXS.splice(idToRemove, 1);
+                drawRelayedTXs();
+            } else {
+                swal("Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + RELAYED_TXS.length, {
+                    icon: "error",
+                    buttons: false,
+                    timer: 5500,
+                });
+            }
+        } else {
+            //swal("Ok! Cancelled.");
+        }
+    });
+}
+//===============================================================
+
+//===============================================================
+function restoreTX(idToRestore) {
+    var txToRestore = RELAYED_TXS[idToRestore];
+    console.log(txToRestore);
+
+
+    document.getElementById("tableSigners").appendChild(txToRestore[0].signers);
+    $("#sys_fee")[0].value = txToRestore[0].sysfee;
+    $("#net_fee")[0].value = txToRestore[0].netfee;
+    $("#valid_until")[0].value = txToRestore[0].validUntil;
+    $("#tx_script")[0].value = txToRestore[0].script;
+    $("#txtRPCJson")[0].value = txToRestore[0].invokeFunction;
+    $("#txtRPCJsonOut")[0].value = txToRestore[0].invokeFunctionOut;
+
+
+    goToTabAndClick("nav-rpc");
+
 }
 //===============================================================

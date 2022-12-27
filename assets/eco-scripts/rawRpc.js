@@ -152,7 +152,7 @@ function signAndRelay() {
 
     var relayedTX = [];
     relayedTX.push({
-        signers: document.getElementById("tableSigners"),
+        signers: document.getElementById("tableSigners").lastChild,
         sysfee: $("#sys_fee")[0].value,
         netfee: $("#net_fee")[0].value,
         validUntil: $("#valid_until")[0].value,

@@ -3,16 +3,20 @@ function changeSelectedNetwork() {
     //console.log(selectedNetwork);
     switch (selectedNetwork) {
         case 0:
-            default_nodes = ecoNodes
+            default_nodes = ecoNodes;
+            showTabs();
             break;
         case 1:
-            default_nodes = localHostNodes
+            default_nodes = localHostNodes;
+            showTabs();
             break;
         case 2:
-            default_nodes = testnetNodes
+            default_nodes = testnetNodes;
+            hideTabs();
             break;
         case 3:
-            default_nodes = mainnetNodes
+            default_nodes = mainnetNodes;
+            hideTabs();
             break;
         default:
             console.error(`Sorry, we are out of options for selected network.`);
@@ -28,6 +32,19 @@ function changeSelectedNetwork() {
     getNativeInfo();
 }
 
+function showTabs() {
+    $("#navItem-network")[0].hidden=false;
+}
+
+function hideTabs() {
+    $("#navItem-network")[0].hidden=true;
+
+    // Move to Compilers if on a not available tab
+    var currentUrl = location.href.replace(/\/$/, "");
+    const pairSplitByHash = currentUrl.split("#");
+    if (pairSplitByHash[1] === "nav-network")
+        goToTabAndClick("nav-compilers");
+}
 function pickBestAvailableRpcNeoNodeCSharpByBlock() {
     if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEIGHT) {
         var availableNodes = BASE_PATH_CLI_NODES.length;

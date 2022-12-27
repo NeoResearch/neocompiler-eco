@@ -9,7 +9,7 @@ function createCompilexJson(code_zip_list) {
 }
 
 function compilerCall() {
-    $("#codewarnerr").val("Remote compiling at " + BASE_PATH_COMPILERS + "...");
+    $("#codewarnerr").val("Remote compiling at " + BASE_PATH_COMPILERS + ".\n" + new Date());
     $("#compilebtn")[0].disabled = true;
     code_cs = "";
     $("#codeavm").val("");
@@ -202,7 +202,7 @@ function setCompiler() {
     }
 };
 
-function askForSavingContracts() {
+function askForSavingContracts(changeToExample = true) {
     swal({
         title: "Want to save codes to local storage?",
         icon: "warning",
@@ -210,7 +210,6 @@ function askForSavingContracts() {
         timer: 15000,
     }).then((buttonOption) => {
         if (buttonOption) {
-
             swal({
                 text: 'Contract name',
                 content: "input",
@@ -222,9 +221,9 @@ function askForSavingContracts() {
                     if (!name)
                         name = "saved_" + SELECTED_COMPILER;
 
-
                     saveSCExample(name);
-                    setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
+                    if (changeToExample)
+                        setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
                 });
             /*
             var contractsNameByLanguage = "saved_" + SELECTED_COMPILER;
@@ -234,10 +233,45 @@ function askForSavingContracts() {
             //JSON.parse(getLocalStorage("temp_csharp"))
             addCodeToExample(contractsNameByLanguage, "saved" + SELECTED_COMPILER);*/
         } else
-            setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
+            if (changeToExample)
+                setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
     });
 }
 
+
+function askForDeletingContract() {
+    var key = $("#ExampleList")[0].value;
+    if (!USER_EXAMPLES.has(key)) {
+        swal({
+            icon: "info",
+            title: "Can't be deleted",
+            text: "Trying to delete an example or contract does not exist!",
+            buttons: false,
+            timer: 8000
+        });
+        return;
+    }
+
+    swal({
+        title: "Want to delete contract " + key + "?",
+        icon: "warning",
+        buttons: ["No", "Yes"],
+        timer: 15000,
+    }).then((buttonOption) => {
+        if (buttonOption) {
+            if (USER_EXAMPLES.delete(key)) {
+                removeExampleFromList(key);
+                storeSmartContractExamplesToLocalStorage();
+
+                // Set to first
+                $("#ExampleList")[0].selectedIndex = 0;
+                setExample(SELECTED_COMPILER, 0);
+            } else {
+                console.error("Trying to delete contract that was not found or is an example");
+            }
+        }
+    });
+}
 
 function setExampleOnChange() {
     askForSavingContracts();
@@ -444,81 +478,3 @@ $(document).ready(function () {
     goToMainTab();
     setCompiler();
 });
-
-// Local Storage
-
-function addCSContractFromLocalMap(value, key, language) {
-    var added = false;
-    if (value.language === language) {
-        var exampleToAdd = document.createElement("option");
-        exampleToAdd.setAttribute('id', "userContracts_" + key);
-        exampleToAdd.appendChild(document.createTextNode(key));
-        document.getElementById("ExampleList").appendChild(exampleToAdd);
-        added = true;
-    }
-    return added;
-}
-
-/*
-function addCodeToExample(exampleName, idToAdd) {
-    var exampleListUl = document.getElementById("ExampleList");
-
-    var exampleToAdd = document.createElement("option");
-    exampleToAdd.setAttribute('id', idToAdd);
-    var exampleInfo = "Selected code example is from " + SELECTED_COMPILER + ": " + exampleName;
-    exampleToAdd.setAttribute('title', exampleInfo);
-    exampleToAdd.appendChild(document.createTextNode(exampleName));
-
-    exampleListUl.add(exampleToAdd);
-
-    //$("#ExampleList")[0][$("#ExampleList")[0].selectedIndex].id
-}*/
-
-function storeSmartContractExamplesToLocalStorage() {
-    var myExamplesStringified = JSON.stringify([...USER_EXAMPLES]);
-    setLocalStorage("mycontracts", encodeURIComponent(myExamplesStringified), 100);
-}
-
-function getSmartContractExamplesFromLocalStorage() {
-    var mapCokies = getLocalStorage("mycontracts");
-    if (mapCokies)
-        return new Map(JSON.parse(decodeURIComponent(mapCokies)));
-    return new Map();
-}
-
-function saveSCExample(fileName) {
-    var scToSave = {
-        codeArray: getAllSections(),
-        language: SELECTED_COMPILER
-    };
-
-    var cachedSelectedIndex = $("#ExampleList")[0].selectedIndex;
-    USER_EXAMPLES.forEach(function (value, key) {
-        removeExampleFromList(key);
-    });
-    USER_EXAMPLES.set(fileName, scToSave);
-    USER_EXAMPLES.forEach(function (value, key) {
-        addCSContractFromLocalMap(value, key, SELECTED_COMPILER);
-    });
-    $("#ExampleList")[0].selectedIndex = cachedSelectedIndex;
-    storeSmartContractExamplesToLocalStorage();
-}
-
-function removeExampleFromList(key) {
-    document.getElementById("ExampleList").removeChild(document.getElementById("userContracts_" + key));
-}
-
-function restoreSCFromMapToAceEditor(fileNameKey) {
-    if (USER_EXAMPLES.has(fileNameKey)) {
-        var codeArray = USER_EXAMPLES.get(fileNameKey).codeArray;
-
-        aceEditor.getSession().setValue(codeArray[0]);
-        for (f = 1; f < codeArray.length; f++) {
-            Editor.addNewTab("codeSaved_" + f);
-            var nameToClick = "#textChildAce" + (Editor.tabs - 1);
-            $(nameToClick).click();
-            aceEditor.getSession().setValue(codeArray[f]);
-        }
-        //aceEditor.getSession().setValue("ERROR WHILE RESTORING LOCAL CONTRACT! This should not happen. Size of files: " + codeArray.length);
-    }
-}

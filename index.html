@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="assets/ux_css/bootstrap.min-5.2.2.css">
     <link rel="stylesheet" href="assets/ux_css/style.css">
-    <link rel="stylesheet" href="assets/ux_css/fontawesome-free-5.15.1-web/css/all.min.css">
+    <link rel="stylesheet" href="assets/ux_css/fontawesome-free-6.2.1-web/css/all.min.css">
     <link rel="icon" href="assets/neocompiler.png">
 </head>
 
@@ -155,7 +155,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <li class="nav-item" id="navItem-network">
                 <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#nav-network"
                     onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home"
                     aria-selected="true">
@@ -210,8 +210,7 @@
                             <div class="row gy-2">
 
                                 <div class="col-4">
-                                    <select id="codesend_selected_compiler" class="form-select"
-                                        onchange="setCompiler()"
+                                    <select id="codesend_selected_compiler" class="form-select" onchange="setCompiler()"
                                         style="text-align: center!important;font-weight: bold!important;">
                                         <option selected>C#</option>
                                         <option>Python</option>
@@ -240,6 +239,20 @@
                                     </button>
                                 </div>
 
+
+                                <div class="col-4">
+                                    <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
+                                        style="text-align: center!important;font-weight: bold!important;"
+                                        class="btn btn-default btn-compile">Save <i class="fa-solid fa-floppy-disk"></i>
+                                    </button>
+                                </div>
+
+                                <div class="col-4">
+                                    <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
+                                        style="text-align: center!important;font-weight: bold!important;"
+                                        class="btn btn-default btn-compile">Delete <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
@@ -1412,6 +1425,21 @@
                                                             placeholder="12">
                                                     </div>
                                                 </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <label for="select_log_filter">Search All</label>
+                                                        <select id="searchNodeStatusFilter"
+                                                            onchange="getAllFilteredNodeInfo()" title="Select network"
+                                                            class="form-select" style="text-align: center!important;">
+                                                            <option selected disabled>Select filter</option>
+                                                            <option>OnStop</option>
+                                                            <option>OnStart</option>
+                                                            <option>Error</option>
+                                                            <option>null</option>
+                                                            <!--<option disabled>MainNet</option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1955,6 +1983,8 @@
 <script src="assets/eco-scripts/helper.js"></script>
 
 <script src="assets/eco-scripts/abi_manager.js"></script>
+
+<script src="assets/eco-scripts/compile_codes_localStorage.js"></script>
 
 <script src="assets/eco-scripts/compile.js"></script>
 

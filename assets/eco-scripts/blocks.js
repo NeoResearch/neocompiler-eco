@@ -112,6 +112,35 @@ function cleanTableBlocks() {
 }
 
 
+function timeSince(timeInPast) {
+    var timeDiffMessage = "";
+    var delta = Math.abs(Date.now() - timeInPast) / 1000;
+
+    // get days
+    var days = Math.floor(delta / 86400);
+    delta -= days * 86400;
+    if (days != 0)
+        timeDiffMessage += days + "d ";
+
+    // get hours
+    var hours = Math.floor(delta / 3600) % 24;
+    delta -= hours * 3600;
+    if (hours != 0 || days != 0)
+        timeDiffMessage += hours + "h "
+
+    // get minutes
+    var minutes = Math.floor(delta / 60) % 60;
+    delta -= minutes * 60;
+    if (hours != 0 || days != 0 || minutes != 0)
+        timeDiffMessage += minutes + "m "
+
+    // get seconds left
+    var s = Math.round(delta % 60);
+    timeDiffMessage += s + "s";
+
+    return timeDiffMessage;
+}
+
 function printBlocksToTable(errorMsg = "") {
     var printedBlocks = 0;
     var minTxsToPrint = Number($("#blocks_count_get_min_tx")[0].value);
@@ -144,7 +173,8 @@ function printBlocksToTable(errorMsg = "") {
 
         var timeCell = document.createElement('span');
         timeCell.setAttribute("class", "badge");
-        timeCell.textContent = (Date.now() - time) / 1000 + " seconds ago";
+        var timeDifferenceMessage = timeSince(time);
+        timeCell.textContent = timeDifferenceMessage;
         txRow.insertCell(-1).appendChild(timeCell);
 
         if (ntxs == 0) {

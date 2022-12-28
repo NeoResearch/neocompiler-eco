@@ -4,9 +4,43 @@ var CURRENT_BLOCKS = [];
 var PROGRESS;
 var tableBlocks = document.createElement("tbody");
 
+function searchAsAScan() {
+    var searchValue = $(search_blockchain)[0].value;
+
+    //Is address
+    if (Neon.wallet.isAddress(searchValue)) {
+        console.log("Address is: " + searchValue);
+        goToTabAndClick("nav-rpc");
+        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\""+searchValue+"\"] }");
+        rawRpcCall();
+        return;
+    }
+
+    //Tx Hash
+    if (searchValue.length == 66) {
+        console.log("Tx hash is: " + searchValue);
+        goToTabAndClick("nav-rpc");
+        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getapplicationlog\", \"params\": [\""+searchValue+"\"] }");
+        rawRpcCall();
+        return;
+    }
+
+    //Index Hash
+    var possibleHeight = Number(searchValue);
+    var maxHeight = 1000000000; // 1 billion
+    if (possibleHeight >= 0 && possibleHeight < maxHeight) {
+        console.log("Tx hash is: " + searchValue);
+        $("#blocks_end_get")[0].value = searchValue;
+        $("#blocks_count_get")[0].value = 0;
+        cleanTableBlocks();
+        drawBlocks();
+        return;
+    }
+}
+
 function drawBlocks(automatic = false) {
     // automatic is just when you click on the tab. Avoid to redo the search
-    if (automatic) 
+    if (automatic)
         if (CURRENT_BLOCKS.length > 0)
             return;
 
@@ -38,10 +72,25 @@ function drawBlocks(automatic = false) {
         return;
     }
 
+    if (!isNaN(count) && !isNaN(end))
+        if (count > end) {
+            swal({
+                title: "Invalid parameter for coun",
+                text: "Count should be lower than end!",
+                icon: "error",
+                button: "Ok!",
+                timer: 5500,
+            });
+            return;
+        }
 
     if (isNaN(end)) {
         end = LAST_BEST_HEIGHT_NEOCLI - 1;
         count = MAX_BLOCKS_SCREEN;
+
+        // Usually when initialized
+        if (count > end)
+            count = 0;
     }
 
     if (count < 0)

@@ -847,12 +847,24 @@
                             <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()"
                                     class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
 
-                                <div class="progress" style = "margin-top: 1%;">
-                                    <div class="progress-bar-striped bg-success" role="progressbar" aria-label="Success example"
+
+                                <div class="input-group" style="margin-top: 3px;">
+                                    <input id="search_blockchain"
+                                        placeholder="Search for block height, address or transaction ID"
+                                        class="form-control" value="">
+                                    <button type="submit" onclick="searchAsAScan()" class="btn btn-info btn-sm"><i
+                                            class="fa-brands fa-searchengin"></i></button>
+                                </div>
+
+                                <div class="progress" style="margin-top: 3px;">
+                                    <div class="progress-bar-striped bg-success" role="progressbar"
+                                        aria-label="Success example"
                                         style="background-color:#00AF92!important; width: 100%" aria-valuenow="100"
                                         aria-valuemin="0" aria-valuemax="100" id="progressBarBlocks">
                                     </div>
-                                    <small id="progressBarBlocksText" style="color: black;" class="justify-content-center d-flex position-absolute w-100">100% complete</small>
+                                    <small id="progressBarBlocksText" style="color: black;"
+                                        class="justify-content-center d-flex position-absolute w-100">100%
+                                        complete</small>
                                 </div>
                             </h4>
 

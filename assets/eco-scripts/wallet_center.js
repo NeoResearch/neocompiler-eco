@@ -687,6 +687,8 @@ function createNep17Tx() {
                 text: "If you want to proceed to Blockchain you must Relay it.",
                 timer: 5500,
             });
+
+            addBlinkToElement("#relay_btn");
         } else {
             //swal("Ok! Cancelled.");
         }

@@ -22,7 +22,11 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
                 RELAYED_TXS[saveID].push(data);
 
             if (relay)
+            {
                 signAndRelay();
+            }{
+                addBlinkToElement("#relay_btn");
+            }
         },
         "json" // The format the response should be in
     ).fail(function () {

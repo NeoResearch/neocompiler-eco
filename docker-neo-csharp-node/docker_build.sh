@@ -2,7 +2,7 @@
 set -e
 
 # To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="3.5.0-all-plugins-preview-dBFT3.0-preview1-debug"
+NEO_CLI_VERSION="3.5.0-all-plugins-preview-dotnet7"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"

@@ -18,13 +18,13 @@ services:
       - BUILD_BOA=$BUILD_BOA
       - BUILD_JAVA=$BUILD_JAVA
     volumes:
-      - ./appCompiler.js:/opt/appCompiler.js
-      - ./run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
-      - ./buildCompilers.sh:/opt/buildCompilers.sh
-      - ./.env:/opt/.env
-      - ./package.json:/opt/package.json
-      - ./compilers:/opt/compilers
-      - ./node_modules:/opt/node_modules
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/appCompiler.js:/opt/appCompiler.js
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/run-CompilerExpress-RPC.sh:/opt/run-CompilerExpress-RPC.sh
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/buildCompilers.sh:/opt/buildCompilers.sh
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/.env:/opt/.env
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/package.json:/opt/package.json
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/compilers:/opt/compilers
+      - $ECO_PWD/docker-sock-express-compilers/docker-compilers/node_modules:/opt/node_modules
       - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
     healthcheck:
       test:
@@ -55,4 +55,4 @@ services:
       - compilers_express
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock

@@ -1,8 +1,11 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2
-#FROM  mcr.microsoft.com/dotnet/sdk:6.0  # TODO: upgrade
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
+
+# WARNING: too old version of debian... strech is now on archive!
+RUN cat /etc/apt/sources.list
+RUN echo "deb http://archive.debian.org/debian stretch main contrib non-free" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 RUN lsb_release -a

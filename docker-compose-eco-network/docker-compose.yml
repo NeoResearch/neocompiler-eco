@@ -23,15 +23,15 @@ services:
       - "20333:20333"
       - "30333:30333"
     volumes:
-      - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
-      - ./neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
-      - ./neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
-      - ./nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 1
@@ -60,15 +60,15 @@ services:
       - "20334:20334"
       - "30334:30334"
     volumes:
-      - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
-      - ./neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
-      - ./neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
-      - ./nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 1
@@ -96,13 +96,13 @@ services:
     ports:
       - "20335:20335"
     volumes:
-      - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
-      - ./neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - ./nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 0
@@ -130,13 +130,13 @@ services:
     ports:
       - "20336:20336"
     volumes:
-      - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
-      - ./neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - ./nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs
     environment:
       IS_CONSENSUS: 1
       IS_RPC: 0
@@ -165,16 +165,16 @@ services:
       - "20337:20337"
       - "30337:30337"
     volumes:
-      - ./neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
-      - ./neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
-      - ./neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
-      - ./neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - ./neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
-      - ./neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
-      - ./neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
-      - ./neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
-      - ./neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
-      - ./nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/protocol.json:/opt/node/neo-cli/protocolNeoCompiler.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/simplePolicyConfig.json:/opt/node/neo-cli/Plugins/SimplePolicy/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSecurity.json:/opt/node/neo-cli/Plugins/RpcSecurity/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcNep5Tracker.json:/opt/node/neo-cli/Plugins/RpcNep5Tracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcSystemAssetTracker.json:/opt/node/neo-cli/Plugins/RpcSystemAssetTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs
     depends_on:
       - eco-neo-csharp-node1-running
     environment:
@@ -288,7 +288,7 @@ services:
       - inside_auto_heal
     restart: always
     volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
+      - $LOCAL_DOCKER_SOCK:/var/run/docker.sock
 # ================== AUTO REAL ===================================================
 # ================================================================================
 

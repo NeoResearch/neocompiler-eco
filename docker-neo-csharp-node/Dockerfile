@@ -1,5 +1,5 @@
 # NEO csharp-nodes network simulator
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2
+FROM mcr.microsoft.com/dotnet/sdk:7.0
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"
@@ -20,7 +20,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	    psmisc \
 	    tcpdump \
 	    iproute2 \
+		procps \
     && rm -rf /var/lib/apt/lists/*
+# procps => command uptime
 
 # iptables = iptables
 # psmisc = fuser

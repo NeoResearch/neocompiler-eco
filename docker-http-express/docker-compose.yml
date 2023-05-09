@@ -13,12 +13,12 @@ services:
     environment:
       - DOOR_FRONTEND_HTTP=$DOOR_FRONTEND_HTTP
     volumes:
-      - ./appHttp.js:/opt/appHttp.js
-      - ./runHttpExpress.sh:/opt/runHttpExpress.sh
-      - ./node_modules:/opt/node_modules
-      - ../index.html:/opt/index.html
-      - ../public:/opt/public/
-      - ../examples:/opt/examples/
+      - $ECO_PWD/docker-http-express/appHttp.js:/opt/appHttp.js
+      - $ECO_PWD/docker-http-express/runHttpExpress.sh:/opt/runHttpExpress.sh
+      - $ECO_PWD/docker-http-express/node_modules:/opt/node_modules
+      - $ECO_PWD/docker-http-express/../index.html:/opt/index.html
+      - $ECO_PWD/docker-http-express/../public:/opt/public/
+      - $ECO_PWD/docker-http-express/../examples:/opt/examples/
     healthcheck:
       test:
         - CMD

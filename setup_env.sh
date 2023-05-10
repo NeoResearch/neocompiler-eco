@@ -24,6 +24,17 @@ else
    echo "using default location for docker at $LOCAL_DOCKER_SOCK"
 fi
 
+echo "checking docker socket: $LOCAL_DOCKER_SOCK"
+if [[ -f "$LOCAL_DOCKER_SOCK" ]]; then
+  echo "docker ok"
+else
+  echo "docker socket failed at $LOCAL_DOCKER_SOCK! trying local path..."
+  LOCAL_DOCKER_SOCK=/run/user/$UID/docker.sock
+  test -e "$LOCAL_DOCKER_SOCK"
+fi
+echo "docker socket seems ok: $LOCAL_DOCKER_SOCK"
+
+
 # setting .env variables
 echo -e "CHAIN=neo-cli-default-empty-chain.acc\nECO_PWD=$(cat .eco_pwd)\nLOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK" > docker-compose-eco-network/.env
 echo -e "DOOR_FRONTEND_HTTP=8000\nECO_PWD=$(cat .eco_pwd)" > docker-http-express/.env

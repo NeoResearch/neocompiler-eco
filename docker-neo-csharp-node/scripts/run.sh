@@ -43,7 +43,7 @@ echo $IP_SERVER2 >> /testes.log
 echo $IP_SERVER3 >> /testes.log
 echo $IP_SERVER4 >> /testes.log
 
-#Since files provided by docker-compose are shared locally it is better to copy before changing
+#Since files provided by 'docker compose' are shared locally it is better to copy before changing
 cp /opt/node/neo-cli/protocolNeoCompiler.json /opt/node/neo-cli/protocol.json
 
 sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/neo-cli/protocol.json

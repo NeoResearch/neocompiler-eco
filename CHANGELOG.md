@@ -29,7 +29,7 @@ Current development version is 4.0, so a new major version is coming out with ve
 - incremental storage tab (storage changes can be easily tracked)
 - support for automatic selection of best back-end for compiling smart contracts
 - support for automatic selection of best neo-cli RPC node
-- deprecated neo-python for neo-scan and from docker-compose
+- deprecated neo-python for neo-scan and from `docker compose`
 - improved addresses management with simple buttons for adding compiled contract or contracts from verification scripts
 - statistical tool for generating graphs about block timestamps
 - support for modifying consensus default time per block via front-end

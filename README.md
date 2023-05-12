@@ -73,25 +73,15 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 
 ### Dependencies
 
-### Installing docker-compose 1.19.0+
+### Installing `docker compose`
 
-We need docker-compose version 1.23.1 (or more), so we recommend the following steps for installation:
-
-* Ubuntu-based distributions [guidelines](https://docs.docker.com/compose/install/#install-compose):
-
-```docker
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-```
-
-`chmod +x /usr/local/bin/docker-compose`
-
-`echo "export PATH=\$PATH:/usr/local/bin/" >> ~/.bashrc`
-
-`source ~/.bashrc`
+Compose is now part of docker! No need for specific installations!
 
 ### Docker recommendations
 
 Docker technology is essential for sandboxing all compilers in different environments (for different languages).
+
+It is **strongly recommended** to install Docker Rootless: ssee advices on [DockerRootless.md](https://github.com/igormcoelho/firefox-gpu-rootless-docker/blob/main/DockerRootless.md).
 
 We DO NOT recommend packages docker.io/docker-engine: `sudo apt purge docker docker-engine docker.io`.
 
@@ -119,7 +109,7 @@ Adding user to docker group: `sudo usermod -a -G docker $USER`
 
 The online command required to create our own NeoCompiler Ecosystem, suitable for private of public blockchain projects.
 
-This will call a docker-compose with NeoCompiler Private Net (Eco) + NeoScan (optional).
+This will call a `docker compose` with NeoCompiler Private Net (Eco) + NeoScan (optional).
 Furthermore, it will set all available compilers and open the front/backend interface and server, respectively.
 
 `./build_everything.sh`
@@ -145,7 +135,7 @@ This script already builds the compilers and starts the server:
 
 `docker_build.sh`
 
-`docker-compose up`
+`docker compose up`
 
 **Compilers RPC API**:
 `docker-sock-express-compilers/docker-ubuntu-docker-node-express`
@@ -154,7 +144,7 @@ This script already builds the compilers and starts the server:
 
 `docker-sock-express-compilers/docker-compilers`
 
-`docker-compose up`
+`docker compose up`
 
 **Eco Services**:
 `docker-sock-express-compilers/docker-ubuntu-docker-node-express`
@@ -163,7 +153,7 @@ This script already builds the compilers and starts the server:
 
 `docker-sock-express-compilers/docker-services`
 
-`docker-compose up`
+`docker compose up`
 
 ### Building compiling backends (C#, Python, Java and Go)
 
@@ -197,7 +187,7 @@ The backend for Java is provided by neoj compiler (in mono), only two steps are 
 
 ## A2) Eco Network Funtionalities
 
-Docker-compose is the main tools that acts for the creation of our micro-service.
+`Docker compose` is the main tools that acts for the creation of our micro-service.
 
 This script will start all necessary backend functionalities, neo-csharp-nodes and neo-scan (optional, check `.env`).
 
@@ -208,7 +198,7 @@ In particular, we currently have:
   * 1 csharp pure RPC nodes at 30337;
 * optional [neoscan](https://github.com/CityOfZion/neo-scan) full (with images obtained at [https://gitlab.com/CityOfZion/neo-scan/container_registry](https://gitlab.com/CityOfZion/neo-scan/container_registry): neoscan-full and postgress container;
 
-### Dealing with docker-compose swarm of containers
+### Dealing with `docker compose` swarm of containers
 
 Start up the container, checking the messages and following warnings
 
@@ -219,23 +209,23 @@ or:
 `cd ./docker-compose-eco-network`
 
 ```
-docker-compose up
+docker compose up
 ```
 
 Start up the container in a detached mode
 ```
-docker-compose up -d
+docker compose up -d
 ```
 
 Feel free to take is down
 ```
-docker-compose down
+docker compose down
 ```
 
 However, consider stopping and restarting
 ```
-docker-compose stop
-docker-compose start
+docker compose stop
+docker compose start
 ```
 
 ### NeoCompiler Eco useful commands and ideas
@@ -246,7 +236,7 @@ It is also possible to integrate the Eco Network with lighwallet and explorers.
 
 #### Other parameters
 
-One could check docker docker-compose.yml, picking up a combination of your choice from `docker-compose-eco-network` folder.
+One could check docker `docker-compose.yml`, picking up a combination of your choice from `docker-compose-eco-network` folder.
 This can be done for locally modifying some characteristics.
 
 Run `build_everything.sh` with an additional parameter `--no-build` and your modified files of the private net will be called.

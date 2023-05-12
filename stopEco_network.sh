@@ -26,7 +26,7 @@ done
 # Setting all container in the docker-compose-eco-network folder down for avoiding leaving containers running after changing enviroment parameters
 
 echo "STOPPING all network related services";
-(cd docker-compose-eco-network; docker-compose down --volumes)
+(cd docker-compose-eco-network; docker compose down --volumes)
 
 
 if (($STOP_EXPRESS)); then

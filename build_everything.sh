@@ -1,5 +1,4 @@
 #!/bin/bash
-#[[ `docker-compose --version | awk '{print $3}'` == "1.19.0," ]] && echo "docker-compose is ok: 1.19.0" || echo "ERROR: DOCKER COMPOSE VERSION SHOULD BE 1.19.0!"
 
 set -e
 
@@ -69,13 +68,13 @@ echo "TRYING TO STOP all eco related services - including docker services with e
 # BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
 	echo "RUNNING docker with node express for front-end only";
-	(cd docker-http-express; docker-compose up -d)
+	(cd docker-http-express; docker compose up -d)
 fi
 
 echo "RUNNING express compilers";
-(cd docker-sock-express-compilers/docker-compilers; docker-compose up -d)
+(cd docker-sock-express-compilers/docker-compilers; docker compose up -d)
 
 echo "RUNNING express ecoservice";
-(cd docker-sock-express-compilers/docker-services; docker-compose up -d)
+(cd docker-sock-express-compilers/docker-services; docker compose up -d)
 
 echo "EVERYTHING has been built and running!";

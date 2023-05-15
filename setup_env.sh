@@ -17,21 +17,26 @@ else
     echo "NO LOCAL PATH EXISTS... SETTING TO $(cat .eco_pwd)"
 fi
 
+# check if LOCAL_DOCKER_SOCK variable is defined
 if [[ -n "$LOCAL_DOCKER_SOCK" ]]; then
-    echo -e "docker is hosted at $LOCAL_DOCKER_SOCK"
+    echo -e "Docker is defined as LOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK"
+    if ! test -e "$LOCAL_DOCKER_SOCK"; then
+        echo "WARNING: docker socket failed at $LOCAL_DOCKER_SOCK! will proceed anyway..."
+    fi
 else
-   LOCAL_DOCKER_SOCK="/var/run/docker.sock"
-   echo "using default location for docker at $LOCAL_DOCKER_SOCK"
+    echo -e "LOCAL_DOCKER_SOCK variable is undefined! will fix it!"
+    LOCAL_DOCKER_SOCK="/var/run/docker.sock"
+    echo "trying default location for docker at $LOCAL_DOCKER_SOCK"
+    # check if LOCAL_DOCKER_SOCK socket is working
+    echo "checking docker socket: $LOCAL_DOCKER_SOCK"
+    if ! test -e "$LOCAL_DOCKER_SOCK"; then
+        echo "WARNING: docker socket failed at $LOCAL_DOCKER_SOCK! trying local path..."
+        LOCAL_DOCKER_SOCK=/run/user/$UID/docker.sock
+        echo "checking docker socket: $LOCAL_DOCKER_SOCK"
+        test -e "$LOCAL_DOCKER_SOCK"
+    fi
 fi
-
-echo "checking docker socket: $LOCAL_DOCKER_SOCK"
-if [[ -f "$LOCAL_DOCKER_SOCK" ]]; then
-  echo "docker ok"
-else
-  echo "WARNING: docker socket failed at $LOCAL_DOCKER_SOCK! trying local path..."
-  LOCAL_DOCKER_SOCK=/run/user/$UID/docker.sock
-  test -e "$LOCAL_DOCKER_SOCK"
-fi
+# proceed with docker socket
 echo "docker socket seems ok: $LOCAL_DOCKER_SOCK"
 
 

@@ -24,14 +24,27 @@ var NEO_ASSET = "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5";
 
 var USER_EXAMPLES = new Map();
 
-var LOCAL_DEVELOPMENT = false;
-if (this.window.location.href.indexOf("localhost") != -1)
-    LOCAL_DEVELOPMENT = true;
-
+var PERSONALIZED = false;
 var default_nodes = ecoNodes;
-if (LOCAL_DEVELOPMENT) {
-    default_nodes = localHostNodes;
-    $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+
+// ===================================================================
+// set PERSONALIZED to true, to activate personalized.js configuration
+//
+PERSONALIZED = false;
+//
+if (PERSONALIZED) {
+    default_nodes = personalizedNodes;
+    $("#ecolabnetworkurlselection")[0].selectedIndex = 4;
+}
+else {
+    var LOCAL_DEVELOPMENT = false;
+    // not personalized, try 'localhost' configuration
+    if (this.window.location.href.indexOf("localhost") != -1)
+        LOCAL_DEVELOPMENT = true;
+    if (LOCAL_DEVELOPMENT) {
+        default_nodes = localHostNodes;
+        $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+    }
 }
 
 var SELECTED_COMPILER = "";

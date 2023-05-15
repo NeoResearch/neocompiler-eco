@@ -17,6 +17,7 @@ else
     echo "NO LOCAL PATH EXISTS... SETTING TO $(cat .eco_pwd)"
 fi
 
+# check if LOCAL_DOCKER_SOCK variable is defined
 if [[ -n "$LOCAL_DOCKER_SOCK" ]]; then
     echo -e "docker is hosted at $LOCAL_DOCKER_SOCK"
 else
@@ -24,16 +25,14 @@ else
    echo "using default location for docker at $LOCAL_DOCKER_SOCK"
 fi
 
+# check if LOCAL_DOCKER_SOCK socket is working
 echo "checking docker socket: $LOCAL_DOCKER_SOCK"
-if [[ -f "$LOCAL_DOCKER_SOCK" ]]; then
-  echo "docker ok"
-else
-  echo "docker socket failed at $LOCAL_DOCKER_SOCK! trying local path..."
+if ! test -e "$LOCAL_DOCKER_SOCK"; then
+  echo "WARNING: docker socket failed at $LOCAL_DOCKER_SOCK! trying local path..."
   LOCAL_DOCKER_SOCK=/run/user/$UID/docker.sock
   test -e "$LOCAL_DOCKER_SOCK"
 fi
 echo "docker socket seems ok: $LOCAL_DOCKER_SOCK"
-
 
 # setting .env variables
 echo -e "CHAIN=neo-cli-default-empty-chain.acc\nECO_PWD=$(cat .eco_pwd)\nLOCAL_DOCKER_SOCK=$LOCAL_DOCKER_SOCK" > docker-compose-eco-network/.env

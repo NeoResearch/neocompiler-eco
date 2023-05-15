@@ -93,6 +93,7 @@ function updateCompilers() {
         if (e instanceof Error) {
             return;
         } else if ((stdout1 == null) || (stdout1 == '')) {
+            console.log("ERROR: could not inspect docker images... please check docker.sock")
             // if docker sock is not available... no image will be found.
             return;
         } else {
@@ -164,8 +165,8 @@ app.post('/compilex', function (req, res) {
         code64_list[i] = Buffer.from(code_zip_list[i], 'base64').toString('base64');
     }
     //var code64 = Buffer.from(code_zip_list, 'base64').toString('base64');
-    console.log("imagename: " + imagename);
-    console.log("language: " + compilerLanguage);
+    console.log("imagename: '" + imagename + "'");
+    console.log("language: '" + compilerLanguage + "'");
     //console.log("code64: " + code64);
     var compileenv = "-e COMPILECODE_COUNT=" + code64_list.length + " ";
     compileenv += " -e COMPILECODE=" + code64_list[0];
@@ -266,6 +267,7 @@ app.post('/compilex', function (req, res) {
         var msg64 = Buffer.from("Unknown Compiler!", 'ascii').toString('base64');
         var msgret = "{\"output\":\"" + msg64 + "\",\"avm\":\"\",\"abi\":\"\",\"manifest\":\"\"}";
         res.send(msgret);
+        return;
     }; // else of imagename
 
     var msg64WS = Buffer.from("PLEASE WAIT UNTIL WEBSOCKET RESULT", 'ascii').toString('base64');

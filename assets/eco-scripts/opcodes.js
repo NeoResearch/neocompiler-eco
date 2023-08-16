@@ -1,5 +1,5 @@
 // Calculate gas cost
-//https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
+// https://github.com/neo-project/docs/blob/master/en-us/sc/systemfees.md
 // https://github.com/neo-project/neo-vm/blob/master/src/neo-vm/OpCode.cs
 function parseOpcode(opcode, hexavm, target) {
     var pvalue = parseInt(opcode, 16);

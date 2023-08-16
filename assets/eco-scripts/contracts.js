@@ -62,9 +62,23 @@ function updateWithDeployedContract() {
                     contractHash = data.result.hash;
                     for (c = 0; c < PENDING_CONTRACTS.length; c++)
                         if (contractHash == "0x" + PENDING_CONTRACTS[c]) {
-                            CONTRACTS_TO_LIST.push(data.result);
                             PENDING_CONTRACTS.splice(c, 1);
-                            addContractsToSelectionBox("local_contracts", "local_contract");
+                            verifyPendingContracts();
+
+                            var alreadyListed = false;
+                            for (cl = 0; cl < CONTRACTS_TO_LIST.length; cl++) {
+                                if (contractHash == CONTRACTS_TO_LIST[cl].hash) {
+                                    alreadyListed = true;
+                                    break;
+                                }
+                            }
+
+                            checkNativeOrLocalExistedAndSwal(contractHash)
+
+                            if (!alreadyListed) {
+                                CONTRACTS_TO_LIST.push(data.result);
+                                addContractsToSelectionBox("local_contracts", "local_contract");
+                            }
                         }
                 }
             },
@@ -74,6 +88,7 @@ function updateWithDeployedContract() {
         }); //End of POST for search
 
     }
+    verifyPendingContracts();
 }
 
 function addContractsToSelectionBox(selectionBox, info) {
@@ -83,7 +98,7 @@ function addContractsToSelectionBox(selectionBox, info) {
         for (ka = 0; ka < CONTRACTS_TO_LIST.length; ++ka) {
             var contractID = CONTRACTS_TO_LIST[ka].id;
             if (!contractID)
-                contractID = "Not yet deployed"
+                contractID = "Cached"
             var infoToAdd = CONTRACTS_TO_LIST[ka].manifest.name + "(" + contractID + ")" + " - " + CONTRACTS_TO_LIST[ka].hash.slice(0, 4) + "..." + CONTRACTS_TO_LIST[ka].hash.slice(-4);
             var titleToOption = "Click to select " + info + " contract " + CONTRACTS_TO_LIST[ka].manifest.name;
             addOptionToSelectionBox(infoToAdd, info + "_" + ka, selectionBox, titleToOption);
@@ -271,11 +286,11 @@ function checkNativeOrLocalExistedAndSwal(contractHashToAdd) {
     var checkResultLocalContracts = checkIfLocalContractExists(contractHashToAdd);
     if (checkResultLocalContracts != -1) {
         swal({
-            title: "This Local Contract is already tracked!",
+            title: "Local Contract is already listed!",
             text: "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash,
             icon: "info",
             button: "Ok!",
-            timer: 5500,
+            timer: 10500,
         });
         return true;
     }
@@ -670,4 +685,12 @@ function convertJsonNotifications() {
     } else {
         $("#txt_notifications").val("empty RPC call output to check notification");
     }
+}
+
+function verifyPendingContracts() {
+    if (PENDING_CONTRACTS.length == 0)
+        $("#button-refreshWithPendingContracts")[0].disabled = true;
+    else
+        $("#button-refreshWithPendingContracts")[0].disabled = false;
+    $("#button-refreshWithPendingContracts")[0].firstChild.data = " Pending Contracts: " + PENDING_CONTRACTS.length + " ";
 }

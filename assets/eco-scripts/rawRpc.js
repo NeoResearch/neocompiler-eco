@@ -5,7 +5,7 @@ function frmRPCJson() {
         $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"" + $("#rpcMethod").val() + "\", \"params\": [\"\"] }");
 };
 
-function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
+function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay = true) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
@@ -21,11 +21,11 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false) {
             if (saveID != -1)
                 RELAYED_TXS[saveID].push(data);
 
-            if (relay)
-            {
-                signAndRelay();
-            }{
-                addBlinkToElement("#relay_btn");
+            if (relay) {
+                signAndRelay(false);
+            } else {
+                if(blinkRelay)
+                    addBlinkToElement("#relay_btn");
             }
         },
         "json" // The format the response should be in
@@ -86,7 +86,7 @@ function cleanRealTxInvoke() {
     document.getElementById("tableSigners").innerHTML = "";
 }
 
-function signAndRelay() {
+function signAndRelay(blinkRelay = true) {
     var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
     if (callDapi) {
         var dapiParams = JSON.parse($("#txtRPCJson").val());
@@ -179,7 +179,7 @@ function signAndRelay() {
 
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
     $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall(false, RELAYED_TXS.length - 1);
+    rawRpcCall(false, RELAYED_TXS.length - 1, false, blinkRelay);
     //var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
     //RELAYED_TXS.push(client.sendRawTransaction(tx));
 }

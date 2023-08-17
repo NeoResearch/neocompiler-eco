@@ -1,8 +1,16 @@
 #!/bin/bash
 set -e
 
-# To use a newer neo-cli version, just update this variable:
-NEO_CLI_VERSION="3.5.0-all-plugins-preview-dotnet7"
+# This automatically downloads the client from specified NEO_CLI_URL NeoResearch
+NEO_CLI_VERSION="3.6.0-all-plugins-preview1"
+
+BASE_NAME="eco-neo-csharp-node"
+IMAGE_NAME="$BASE_NAME:$NEO_CLI_VERSION"
+
+# Definition of standard neo-cli filenames and URL based on the version
+NEO_CLI_ZIPFN="neo-release-${NEO_CLI_VERSION}.zip"
+#NEO_CLI_URL="https://github.com/neo-project/neo-cli/releases/download/v${NEO_CLI_VERSION}/neo-cli-linux-x64.zip"
+NEO_CLI_URL="https://github.com/NeoResearch/neo-tests/raw/master/releases/neo-release-${NEO_CLI_VERSION}.zip"
 
 function usage {
     echo "Usage: $0 [--no-cache] [--neo-cli <zip-fn>]"
@@ -35,14 +43,6 @@ while [[ "$#" > 0 ]]; do case $1 in
         ;;
   esac;
 done
-
-BASE_NAME="eco-neo-csharp-node"
-IMAGE_NAME="$BASE_NAME:$NEO_CLI_VERSION"
-
-# Definition of standard neo-cli filenames and URL based on the version
-NEO_CLI_ZIPFN="neo-release-${NEO_CLI_VERSION}.zip"
-#NEO_CLI_URL="https://github.com/neo-project/neo-cli/releases/download/v${NEO_CLI_VERSION}/neo-cli-linux-x64.zip"
-NEO_CLI_URL="https://github.com/NeoResearch/neo-tests/raw/master/releases/neo-release-${NEO_CLI_VERSION}.zip"
 
 if [ -z "$NEO_CLI_CUSTOM_ZIPFN" ]; then
     echo "Using downloaded neo-cli v${NEO_CLI_VERSION}"

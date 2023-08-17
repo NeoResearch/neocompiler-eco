@@ -13,7 +13,7 @@ function setRole(role) {
     // Changing to MultiSig Wallet
     changeDefaultWallet(ECO_WALLET.length - 1, true);
 
-    var oracleIndex = searchAddrIndexFromLabel("OraclePub");
+    var serviceIndex = searchAddrIndexFromLabel("OraclePub");
 
     var roleManagementID = getNativeContractIndexByName("RoleManagement");
 
@@ -21,8 +21,8 @@ function setRole(role) {
     var itemRoleId = { type: "Integer", value: role };
     finalParams.push(itemRoleId);
     var pubKeyArrays = [];
-    var oraclePub = { type: "PublicKey", value: ECO_WALLET[oracleIndex].account._publicKey };
-    pubKeyArrays.push(oraclePub);
+    var servicePubKey = { type: "PublicKey", value: ECO_WALLET[serviceIndex].account._publicKey };
+    pubKeyArrays.push(servicePubKey);
     var arrayItem = { type: "Array", value: pubKeyArrays };
     finalParams.push(arrayItem);
 

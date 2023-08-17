@@ -375,6 +375,7 @@ function convertBase64ToHexByte(base64ToConvert) {
     return hexcode;
 }
 
+// on linux you can --- echo "avmopdecode" | xxd -r -p > test.nef
 function socketCompilerCompilexResult() {
     socketCompilers.on('compilexResult', function (socketData) {
         console.log(socketData.stdout)

@@ -246,6 +246,7 @@ function drawParametersTable() {
 
             var paramInput = document.createElement('input');
             paramInput.setAttribute('id', "paramInput" + p);
+            paramInput.setAttribute("class", "form-control");            
             paramInput.placeholder = method.parameters[p].name + "(" + method.parameters[p].type + ")";
             txRow.insertCell(-1).appendChild(paramInput);
         } //Finishes loop that draws each relayed transaction

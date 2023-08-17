@@ -1,3 +1,23 @@
+html,
+body {
+    background: #263A40;
+    --bs-body-bg:  #223237;
+    --bs-body-color: bs-white-rgb;
+    --bs-secondary-color: #62ad28;
+}
+
+.nav {
+    background: #223237;
+    position: fixed;
+    float: left;
+    width: 100%;
+    z-index: 0!important;
+}
+
+.nav li {
+    width: 100px;
+}
+
 .n-padding {
     padding: 0!important;
 }
@@ -17,13 +37,11 @@
     color: white!important;
 }
 
-
 .deploy-bg input:focus {
     background: #00AF92;
     border-color: #00AF92;
     color: white!important;
 }
-
 
 .deploy-bg option {
     background: #00AF92;
@@ -34,21 +52,6 @@
     background: #00AF92;
     border-color: #1D2C30;
     color: white!important;
-}
-
-.btn-info {
-    background: #00AF92!important;
-    border-color: #00AF92!important;
-}
-
-.btn-info:hover {
-    background: #1e1e1e!important;
-    border-color: #ffffff!important;
-}
-
-.btn-info:focus {
-    background: #00AF92!important;
-    border-color: #ffffff!important;
 }
 
 .green-title {
@@ -62,48 +65,6 @@
     padding: 10px 10px 10px 30px;
 }
 
-.tab-pane.fade {
-    transition: all 0.2s;
-    transform: none;
-}
-
-.preloader {
-    z-index: 3000000!important;
-}
-
-.preloader.fade {
-    transition: all 0.2s;
-    transform: translateX(1rem);
-}
-
-.preloader.fade.show {
-    transform: translateX(0rem);
-}
-
-html,
-body {
-    background: #263A40;
-}
-
-.nav {
-    z-index: 1000000!important;
-}
-
-.nav {
-    background: #223237;
-    position: fixed;
-    float: left;
-    width: 100%;
-}
-
-.nav li {
-    width: 100px;
-}
-
-.opt-select {
-    padding: 20px 0 10px 0;
-}
-
 .opt-options-header {
     position: fixed;
     float: left;
@@ -111,11 +72,6 @@ body {
     top: 0;
     padding: 10px 70px 0 0;
     z-index: 2000000!important;
-}
-
-.logo-item {
-    background: #1D2C30;
-    width: 100px;
 }
 
 .breadcrumb {
@@ -186,43 +142,35 @@ body {
     width: 100%;
 }
 
-#aceEditor {
-    position: relative;
-    margin-top: 10px;
-    margin-bottom: 15px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    float: left;
-    width: 100%;
-    height: 350px;
-    border-top: 8px solid #00AF92;
-    background: #223237;
-}
-
-.ace_print-margin {
-    display: none!important;
-}
-
-.ace_gutter-active-line {
-    background: #162124 !important;
-}
-
-.ace_gutter {
-    background: #1D2C30!important;
-}
-
-.ace_active-line {
-    background: #1D2C30!important;
-}
-
 .form-select {
     background-color: #00AF92;
     color: white!important;    
     border-radius: 20px!important;
 }
 
-.btn-compile {
+/* Label Color */
+.form-floating > .form-select ~ label::after 
+{
+    background-color: #00AF92;
+}
+
+/* Begin Simple BTN */
+.btn-info {
+    background: #00AF92!important;
+    border-color: #00AF92!important;
+}
+
+.btn-info:hover {
+    background: #1e1e1e!important;
+    border-color: #ffffff!important;
+}
+
+.btn-info:focus {
+    background: #00AF92!important;
+    border-color: #ffffff!important;
+}
+
+.btn-1 {
     background: #00AF92;
     color: white!important;
     border-radius: 20px!important;
@@ -230,17 +178,14 @@ body {
     text-align: center!important;            
 }
 
-.btn-compile:hover {
+.btn-1:hover {
     background: white;
     border: 1px solid #00AF92;
     color: #00AF92;
     background: #95f7e7;
 }
 
-.version-compile {
-    float: left;
-    color: white;
-}
+/* END SIMPLE BTN */
 
 .container-colapse .container .errors-warnings {}
 
@@ -305,16 +250,6 @@ body {
     border-top: 10px solid #00AF92;
 }
 
-
-
-.btn-warning {
-    background: #162124!important;
-    border-color: #162124!important;
-}
-
-
-
-
 #codeabi {
     resize: none!important;
 }
@@ -327,23 +262,6 @@ input:focus {
     outline: none!important;
     border-color: transparent!important;
 }
-
-
-/* Not used anymore - it was for compilers options
-.opts-compilers {
-    padding-top: 15px;
-    max-width: 200px;
-    color: white;
-    margin-left: 25px;
-    float: right;
-}
-
-.opts-compilers input {
-    width: 30px;
-}
-*/
-
-
 
 textarea {
     width: 100%;
@@ -360,11 +278,7 @@ textarea:focus {
     border-color: transparent!important;
 }
 
-.small-screen {
-    display: none;
-}
-
-
+/*
 .menu-vertical::-webkit-scrollbar-track {
     background-color: rgba(0, 175, 146, 1);
 }
@@ -376,13 +290,7 @@ textarea:focus {
 
 .menu-vertical::-webkit-scrollbar-thumb {
     background-color: rgba(0, 175, 146, 1);
-}
-
-
-
-.select2-dropdown {
-    z-index: 2000000!important;
-}
+}*/
 
 .pulse {
     animation: pulse 0.7s infinite, fade 500ms;
@@ -442,9 +350,9 @@ textarea:focus {
     margin-bottom: 60px!important;
 }
 
-
-.table .headerrd td,
-.table th {
+/* this is due to bootstrap 5.3 */
+.table thead td,
+.table tbody td{
     border-top: transparent!important;
 }
 
@@ -463,12 +371,65 @@ textarea:focus {
     border-bottom: 1px dashed #263A40;
     color: #0aab7b!important;
 }
-/*
-*[contenteditable='true']:hover,
-*[contenteditable='true']:focus {
-    border: 1px solid #ccc;
-    padding: 5px 10px;
-}*/
+
+
+/* Begin Tutorial tab style */
+
+#hidetutorial {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+    transition: opacity 1s;
+    padding: 1px;
+    z-index: 1000000;
+    display: none;
+}
+
+#closetutorial {
+    display: none;
+}
+
+#nexttutorial {
+    display: none;
+}
+
+.popover {
+    z-index: 10000000;
+}
+/* End Tutorial tab style */
+
+/* BEGIN ACE */
+#aceEditor {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    float: left;
+    width: 100%;
+    height: 350px;
+    border-top: 8px solid #00AF92;
+    background: #223237;
+}
+
+.ace_print-margin {
+    display: none!important;
+}
+
+.ace_gutter-active-line {
+    background: #162124 !important;
+}
+
+.ace_gutter {
+    background: #1D2C30!important;
+}
+
+.ace_active-line {
+    background: #1D2C30!important;
+}
 
 
 /* Begin Navigation tab style */
@@ -481,8 +442,6 @@ textarea:focus {
 /*    height: 45px!important; */
 /*    max-height: 35px!important;*/
 }
-
-
 
 .aceLITabs li {
     background: #09af92!important;
@@ -527,34 +486,31 @@ textarea:focus {
 }
 
 
-/* End Navigation tab style */
+/* End Navigation tab style of ACE */
+/* End ACE */
 
-
-/* Begin Tutorial tab style */
-
-#hidetutorial {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: black;
-    opacity: 0.4;
-    transition: opacity 1s;
-    padding: 1px;
-    z-index: 1000000;
-    display: none;
+.preloader {
+    z-index: 3000000!important;
 }
 
-#closetutorial {
-    display: none;
+.preloader.fade {
+    transition: all 0.2s;
+    transform: translateX(1rem);
 }
 
-#nexttutorial {
-    display: none;
+.preloader.fade.show {
+    transform: translateX(0rem);
 }
 
-.popover {
-    z-index: 10000000;
-}
+/* This can be used for transition between tabs to be slower and with effects
+.tab-pane.fade {
+    transition: all 0s;
+    transform: none;
+}*/
 
-
-/* End Tutorial tab style */
+/* OTHER
+*[contenteditable='true']:hover,
+*[contenteditable='true']:focus {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+}*/

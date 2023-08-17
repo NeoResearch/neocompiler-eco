@@ -4,7 +4,7 @@
 <head>
     <title>Neo Compiler - Compiling & Testing</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="assets/ux_css/bootstrap.min-5.2.3.css">
+    <link rel="stylesheet" href="assets/ux_css/bootstrap.min-5.3.1.css">
     <link rel="stylesheet" href="assets/ux_css/style.css">
     <link rel="stylesheet" href="assets/ux_css/fontawesome-free-6.2.1-web/css/all.min.css">
     <link rel="icon" href="assets/neocompiler.png">
@@ -41,7 +41,7 @@
 
         <!-- STATUS INFO HEADER -->
         <ul class="nav">
-            <li class="nav-item logo-item">
+            <li class="nav-item" style="background: #1D2C30; width: 100px;">
                 <a class="nav-link " href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
             </li>
 
@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-5">
                     <button type="button" id="button-connect-wallet" onClick="connectWallet()"
-                        class="btn btn-default btn-compile" style="width: 200px;font-weight: bold!important;">CONNECT
+                        class="btn btn-default btn-1" style="width: 200px;font-weight: bold!important;">CONNECT
                         WALLET
                     </button>
                 </div>
@@ -236,7 +236,7 @@
                                 <div class="col-4">
                                     <button type="button" id="compilebtn" onClick="compilerCall()"
                                         style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-compile">COMPILE <i class="fas fa-hammer"></i>
+                                        class="btn btn-default btn-1">COMPILE <i class="fas fa-hammer"></i>
                                     </button>
                                 </div>
 
@@ -244,14 +244,14 @@
                                 <div class="col-4">
                                     <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
                                         style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-compile">Save <i class="fa-solid fa-floppy-disk"></i>
+                                        class="btn btn-default btn-1">Save <i class="fa-solid fa-floppy-disk"></i>
                                     </button>
                                 </div>
 
                                 <div class="col-4">
                                     <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
                                         style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-compile">Delete <i class="fa-solid fa-trash"></i>
+                                        class="btn btn-default btn-1">Delete <i class="fa-solid fa-trash"></i>
                                     </button>
                                 </div>
                             </div>
@@ -737,7 +737,7 @@
                                         <div class="col-md-12">
                                             <button onclick="rawRpcCall()" id="btnCallJsonRPC"
                                                 style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-compile"><i class="fas fa-phone"></i> Invoke
+                                                class="btn btn-default btn-1"><i class="fas fa-phone"></i> Invoke
                                                 RPC</button>
                                         </div>
                                     </div>
@@ -756,7 +756,7 @@
                                         <div class="col-md-12">
                                             <button type="button"
                                                 style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-compile"
+                                                class="btn btn-default btn-1"
                                                 onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i>
                                                 Get Notifications</button>
                                         </div>
@@ -810,7 +810,7 @@
                                         <div class="col-md-12">
                                             <button type="button" id="relay_btn"
                                                 style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-compile" onclick="signAndRelay(false)"> Relay to
+                                                class="btn btn-default btn-1" onclick="signAndRelay(false)"> Relay to
                                                 Blockchain</button>
                                         </div>
                                     </div>
@@ -1062,7 +1062,7 @@
 
                                     <div class="col-4">
                                         <button type="button" onclick="createNep17Tx()" id="txcreate"
-                                            class="btn btn-default btn-compile">Create Transfer</button>
+                                            class="btn btn-default btn-1">Create Transfer</button>
                                     </div>
                                 </div>
 
@@ -1953,7 +1953,10 @@
 
 <!-- Loading UX Scripts -->
 <script src="assets/ux_js/jquery-3.6.1.min.js"></script>
-<script src="assets/ux_js/bootstrap.bundle.min-5.2.3.js"></script>
+
+<script src="assets/ux_js/bootstrap.bundle.min-5.3.1.js"></script>
+
+
 <!-- GET min no conflict direct from https://github.com/ajaxorg/ace-builds-->
 <script src="assets/ux_js/ace-v1.5.0-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="assets/ux_js/ace-v1.5.0-min-noconflict/ext-language_tools.js" type="text/javascript"

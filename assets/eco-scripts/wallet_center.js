@@ -6,17 +6,17 @@ $(window).on('load', function() {
 
 //===============================================================
 function drawWalletsStatus() {
-    var table = document.createElement("tbody");
+    var tBodyElements = document.createElement("tbody");
     //table.setAttribute('class', 'table');
     //table.style.width = '20px';
 
+    var tHeadElement = document.createElement('thead');
     var headerRow = document.createElement('tr');
-    headerRow.className = "headerrd";
-    var headersLabel = document.createElement('td');
-    var headersNeoBalance = document.createElement('td');
-    var headersGasBalance = document.createElement('td');
-    var headersUnclaimed = document.createElement('td');
-    var headersAddress = document.createElement('td');
+    var headersLabel = document.createElement('th');
+    var headersNeoBalance = document.createElement('th');
+    var headersGasBalance = document.createElement('th');
+    var headersUnclaimed = document.createElement('th');
+    var headersAddress = document.createElement('th');
 
     headersLabel.innerHTML = "<b><center><font size='1'>LABEL</font></b>";
     headerRow.insertCell(-1).appendChild(headersLabel);
@@ -29,11 +29,13 @@ function drawWalletsStatus() {
     headersUnclaimed.innerHTML = "<b><center><font size='1'>UNCLAIMED</font></b>";
     headerRow.insertCell(-1).appendChild(headersUnclaimed);
 
-    table.appendChild(headerRow);
+    tHeadElement.appendChild(headerRow);
+
+    //table.insertCell(-1).appendChild(headerrrrr);
 
     for (ka = 0; ka < ECO_WALLET.length; ka++) {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
-            var txRow = table.insertRow(-1);
+            var txRow = tBodyElements.insertRow(-1);
             //row.insertCell(-1).appendChild(document.createTextNode(i));
             //Insert button that remove rule
             var b = document.createElement('button');
@@ -79,8 +81,9 @@ function drawWalletsStatus() {
 
     //Clear previous data
     document.getElementById("tableWalletStatus").innerHTML = "";
+    document.getElementById("tableWalletStatus").appendChild(tHeadElement);
     //Append new table
-    document.getElementById("tableWalletStatus").appendChild(table);
+    document.getElementById("tableWalletStatus").appendChild(tBodyElements);
 } //Finishe DrawWallets function
 //===============================================================
 

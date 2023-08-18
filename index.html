@@ -1029,37 +1029,43 @@
                             <h4 class="green-title">Transfer NEP17 Tokens
                             </h4>
                             <div class="container">
-                                <div class="row gy-2">
-                                    <div class="col-12">
-                                        <label id="labelForTransferAmount"
-                                            style="font-size: 20px!important;">Transferring
-                                            X</label>
+                                <div class="row mb-2">
+                                    <div class="col align-self-center text-center">
+                                        <label id="labelForTransferAmount" style="font-size: 20px!important;">
+                                            Transferring ?</label>
                                         <label id="labelForTransferAsset" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferFrom" style="font-size: 20px!important;"></label>
                                         <label id="labelForTransferTo" style="font-size: 20px!important;">To</label>
-                                        <br>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-12">
                                         <select name="createtx_to" onchange="fillTransferToLabel()" id="createtx_to"
                                             class="form-select" size="3"></select>
                                     </div>
-
-                                    <div class="col-4">
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6">
                                         <select class="form-select" id="nep17_asset"
                                             onchange="updateTransferAssetInfo()"></select>
                                     </div>
-
-                                    <div class="col-4">
+                                    <div class="col-3">
                                         <input type="range" onchange="updateTransferAmountInfoFromPercentage()"
                                             id="transfer_nep17_amount_range" value="0" min="0" max="100" />
+                                    </div>
+                                    <div class="col-3">
                                         <input type="number" onchange="updateTransferAmountInfo()"
                                             id="transfer_nep17_amount" value="0" min="0"></input>
                                     </div>
-
-                                    <div class="col-4">
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-12">
                                         <button type="button" onclick="createNep17Tx()" id="txcreate"
-                                            class="btn btn-default btn-1">Create Transfer</button>
+                                            style="width: 100%" class="btn btn-default btn-1">
+                                            <i class="fa-solid fa-money-bill-transfer"></i> Create Transfer
+                                        </button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -1072,7 +1078,7 @@
                                     class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                             </h4>
                             <div class="container">
-                                <div class="row">
+                                <div class="row mb-2">
                                     <div class="col-6 col-md-4">
                                         <select id="type_to_register" class="form-select">
                                             <option value="address">Address (17 bytes) - WatchOnly </option>
@@ -1087,16 +1093,15 @@
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input class="form-control" placeholder="Value" type="text"
+                                        <input class="form-control" placeholder="Key" type="text"
                                             id="accountToAddInfo" maxlength="64" value="" size="20">
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input class="form-control" placeholder="Label" type="text"
+                                        <input class="form-control" placeholder="Account label" type="text"
                                             id="accountLabelToAddInfo" value="" size="20">
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>

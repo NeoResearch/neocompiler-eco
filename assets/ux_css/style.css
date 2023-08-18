@@ -171,20 +171,29 @@ body {
 }
 
 .btn-1 {
-    background: #00AF92;
-    color: white!important;
     border-radius: 20px!important;
     border: 1px solid #1D2C30;
-    text-align: center!important;            
+    text-align: center!important;
+    color: white!important;
+    background: #00AF92;         
 }
 
 .btn-1:hover {
-    background: white;
     border: 1px solid #00AF92;
     color: #00AF92;
     background: #95f7e7;
 }
 
+.btn-1-noColor {
+    border-radius: 20px!important;
+    border: 1px solid #1D2C30;
+    text-align: center!important;            
+}
+
+.btn-1-noColor:hover {
+    border: 1px solid #00AF92;
+    color: #00AF92;
+}
 /* END SIMPLE BTN */
 
 .container-colapse .container .errors-warnings {}

@@ -396,71 +396,69 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="container">
-                                            <div class="row">
+                                            <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="contract_hash">Contract ScriptHash</label>
                                                         <input id="contract_hash" name="contract_hash" readonly
-                                                            class="form-control" placeholder="Script Hash"
-                                                            style="width: 100%; margin-bottom: 5px;">
+                                                            class="form-control" placeholder="Script Hash">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="contract_name">Name</label>
                                                         <input id="contract_name" name="contract_name" readonly
-                                                            class="form-control" placeholder="Contract name"
-                                                            style="width: 100%; margin-bottom: 5px;">
+                                                            class="form-control" placeholder="Contract name">
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-2">
+                                            <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <input id="storage_key" name="storage_key" class="form-control"
-                                                        placeholder="Storage Key"
-                                                        style="width: 100%; margin-bottom: 10px;">
+                                                        placeholder="Storage Key" style="width: 100%;">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <a id="btnGetStorage" style="width: 100%; margin-bottom: 10px;"
-                                                        onClick="getStorage()" class="btn btn-success"><i
-                                                            class="fas fa-file-contract"></i> Get Storage</a>
+                                                    <button type="button" id="btnGetStorage" style="width: 100%;" onClick="getStorage()"
+                                                        class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Get
+                                                        Storage</a>
                                                 </div>
                                             </div>
 
-                                            <div class="row mb-2 collapse" id="collapseLocalContractsOptions">
+                                            <div class="row mb-3 collapse" id="collapseLocalContractsOptions">
                                                 <div class="col-md-4">
-                                                    <a id="btnNewContractDeloy" onClick="deployContract()"
-                                                        class="btn btn-success"><i class="fas fa-file-contract"></i>
+                                                    <button type="button" id="btnNewContractDeloy" onClick="deployContract()"
+                                                        class="btn btn-success btn-1-noColor"><i class="fas fa-file-contract"></i>
                                                         Deploy Contract</a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a id="btnNewContractToWallet"
+                                                    <button type="button" id="btnNewContractToWallet"
                                                         onClick="addContractToWallet($('#contract_hash').val())"
-                                                        class="btn btn-info "><i class="fas fa-wallet"></i> Import to
+                                                        class="btn btn-success btn-1-noColor"><i class="fas fa-wallet"></i> Import to
                                                         wallet</a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <a id="btnRemoveLocalContract" onClick="deleteLocalContract()"
-                                                        class="btn btn-danger "><i class="fas fa-trash"></i> Remove
+                                                    <button type="button" id="btnRemoveLocalContract" onClick="deleteLocalContract()"
+                                                        class="btn btn-danger btn-1-noColor"><i class="fas fa-trash"></i> Remove
                                                         local contract</a>
                                                 </div>
                                             </div>
 
+
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
-                                                    <label for="native_contracts">Native Contracts</label>
+                                                    <label>Native Contracts</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label id="label-localContracts">Local
+                                                    <label>Local
                                                         Contracts
-                                                        <button type="submit" id="button-refreshWithPendingContracts"
-                                                            onclick="updateWithDeployedContract()"
-                                                            class="btn btn-info btn-sm"> Pending Contracts: 0 <i
-                                                                class="fas fa-sync-alt"></i></button>
                                                     </label>
+                                                    <button type="button" id="button-refreshWithPendingContracts"
+                                                        onclick="updateWithDeployedContract()" class="btn btn-1 btn-sm">
+                                                        Pending Contracts: 0 <i class="fas fa-sync-alt"></i></button>
                                                 </div>
                                             </div>
+
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
@@ -502,25 +500,20 @@
                                             </div>
 
                                             <div class="row mb-2">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <button type="button" onclick="invokeFunction()"
-                                                            class="btn btn-info btn-sm"><i class="fas fa-cubes"></i>
-                                                            InvokeFunction </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row mb-2">
                                                 <div class="col-md-12">
-                                                    <label for="tableNativeParameters">Parameters</label>
                                                     <table id="tableNativeParameters" class="table text-white twalllet">
                                                     </table>
                                                 </div>
                                             </div>
 
-
+                                            <div class="row mb-2">
+                                                <div class="col-md-12">
+                                                    <button type="button" style="width: 100%;"
+                                                        onclick="invokeFunction()" class="btn btn-1"><i
+                                                            class="fas fa-cubes"></i>
+                                                        InvokeFunction </button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -535,29 +528,19 @@
                                 <h4 class="green-title">
                                     Import Contract
                                 </h4>
-
                                 <div class="container">
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="import_contract_hash">Contract ScriptHash</label>
-                                                <input id="import_contract_hash" name="import_contract_hash"
-                                                    class="form-control" placeholder="Insert contract script hash">
-                                            </div>
+                                            <button id="import_contract_hash_button" type="button"
+                                                onclick="saveLocalContract()" style="width: 100%;"
+                                                class="btn btn-1"><i class="fas fa-file-contract"></i> Save
+                                                contract</button>
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="import_contract_hash_button">Import to Local
-                                                    Contracts</label>
-                                                <br>
-                                                <button id="import_contract_hash_button" type="button"
-                                                    onclick="saveLocalContract()" class="btn btn-info btn-sm"><i
-                                                        class="fas fa-file-contract"></i> Save contract</button>
-                                            </div>
+                                            <input id="import_contract_hash" name="import_contract_hash"
+                                                class="form-control" placeholder="Insert contract script hash">
                                         </div>
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -1104,13 +1087,13 @@
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input style="color: green;" class="form-control" placeholder="Value"
-                                            type="text" id="accountToAddInfo" maxlength="64" value="" size="20">
+                                        <input class="form-control" placeholder="Value" type="text"
+                                            id="accountToAddInfo" maxlength="64" value="" size="20">
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input style="color: green;" class="form-control" placeholder="Label"
-                                            type="text" id="accountLabelToAddInfo" value="" size="20">
+                                        <input class="form-control" placeholder="Label" type="text"
+                                            id="accountLabelToAddInfo" value="" size="20">
                                     </div>
                                 </div>
 

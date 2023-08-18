@@ -239,7 +239,7 @@ function drawParametersTable() {
                 txRow.insertCell(-1).appendChild(paramType);
             } else {
                 var paramType = document.createElement('span');
-                paramType.setAttribute("class", "badge");
+                paramType.setAttribute("class", "form-select");
                 paramType.textContent = method.parameters[p].type;
                 txRow.insertCell(-1).appendChild(paramType);
             }
@@ -693,5 +693,5 @@ function verifyPendingContracts() {
         $("#button-refreshWithPendingContracts")[0].disabled = true;
     else
         $("#button-refreshWithPendingContracts")[0].disabled = false;
-    $("#button-refreshWithPendingContracts")[0].firstChild.data = " Pending Contracts: " + PENDING_CONTRACTS.length + " ";
+    $("#button-refreshWithPendingContracts")[0].textContent = " Pending Contracts: " + PENDING_CONTRACTS.length + " ";
 }

@@ -346,10 +346,6 @@ textarea:focus {
     }
 }
 
-.reg-wallet {
-    margin-bottom: 60px!important;
-}
-
 /* this is due to bootstrap 5.3 */
 .table thead td,
 .table tbody td{

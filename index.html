@@ -417,12 +417,14 @@
 
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
-                                                    <a id="btnGetStorage" style="width: 100%; margin-bottom: 10px;"
-                                                        onClick="getStorage()" class="btn btn-success"><i
-                                                            class="fas fa-file-contract"></i> Get Storage</a>
                                                     <input id="storage_key" name="storage_key" class="form-control"
                                                         placeholder="Storage Key"
                                                         style="width: 100%; margin-bottom: 10px;">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a id="btnGetStorage" style="width: 100%; margin-bottom: 10px;"
+                                                        onClick="getStorage()" class="btn btn-success"><i
+                                                            class="fas fa-file-contract"></i> Get Storage</a>
                                                 </div>
                                             </div>
 
@@ -447,8 +449,21 @@
 
                                             <div class="row mb-2">
                                                 <div class="col-md-6">
+                                                    <label for="native_contracts">Native Contracts</label>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label id="label-localContracts">Local
+                                                        Contracts
+                                                        <button type="submit" id="button-refreshWithPendingContracts"
+                                                            onclick="updateWithDeployedContract()"
+                                                            class="btn btn-info btn-sm"> Pending Contracts: 0 <i
+                                                                class="fas fa-sync-alt"></i></button>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="native_contracts">Native Contracts</label>
                                                         <select id="native_contracts" name="native_contracts"
                                                             onchange="createNativeManifest()" class="form-select"
                                                             size="8"></select>
@@ -456,11 +471,6 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label for="local_contracts" id="label-localContracts">Local Contracts
-                                                            <button type="submit" id="button-refreshWithPendingContracts" onclick="updateWithDeployedContract()"
-                                                                class="btn btn-info btn-sm"> Pending Contracts: 0 <i
-                                                                    class="fas fa-sync-alt"></i></button>
-                                                        </label>
                                                         <select id="local_contracts" name="local_contracts"
                                                             onchange="createLocalManifest()" class="form-select"
                                                             size="8"></select>
@@ -519,8 +529,9 @@
 
 
 
-                        <div class="errors-warnings" style="height: auto!important; margin-bottom: 30px;">
-                            <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                        <div class="errors-warnings">
+                            <div class="display-erros n-padding deploy-bg"
+                                style="height:auto!important; margin-bottom: 30px;">
                                 <h4 class="green-title">
                                     Import Contract
                                 </h4>
@@ -756,8 +767,8 @@
                                         <div class="col-md-12">
                                             <button type="button"
                                                 style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-1"
-                                                onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i>
+                                                class="btn btn-default btn-1" onclick="convertJsonNotifications()"><i
+                                                    class="fas fa-exchange-alt"></i>
                                                 Get Notifications</button>
                                         </div>
                                     </div>
@@ -1070,9 +1081,9 @@
                         </div>
                     </div>
 
-                    <div class="errors-warnings reg-wallet">
+                    <div class="errors-warnings">
                         <div class="display-erros n-padding deploy-bg" id="RegisterAddress"
-                            style="height:auto!important;">
+                            style="height:auto!important; margin-bottom: 30px;">
                             <h4 class="green-title">Import account
                                 <button type="button" onclick="addWalletFromForm();" id="btnNewWallet"
                                     class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
@@ -1093,13 +1104,13 @@
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input style="color: green;" placeholder="Value" type="text"
-                                            id="accountToAddInfo" maxlength="64" value="" size="20">
+                                        <input style="color: green;" class="form-control" placeholder="Value"
+                                            type="text" id="accountToAddInfo" maxlength="64" value="" size="20">
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input style="color: green;" placeholder="Label" type="text"
-                                            id="accountLabelToAddInfo" value="" size="20">
+                                        <input style="color: green;" class="form-control" placeholder="Label"
+                                            type="text" id="accountLabelToAddInfo" value="" size="20">
                                     </div>
                                 </div>
 
@@ -1680,8 +1691,7 @@
                     </nav>
 
                     <div id="config">
-                        <div class="errors-warnings config-class">
-
+                        <div class="errors-warnings">
                             <div class="display-erros n-padding deploy-bg" style="height: 210px;">
                                 <h4 class="green-title">Personalized Base Paths</h4>
                                 <div class="container">

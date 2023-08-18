@@ -11,7 +11,7 @@ body {
     position: fixed;
     float: left;
     width: 100%;
-    z-index: 0!important;
+    z-index: 1000000!important;
 }
 
 .nav li {
@@ -194,6 +194,12 @@ body {
     border: 1px solid #00AF92;
     color: #00AF92;
 }
+
+/* should be used together */
+.btn-1-darker {
+    background: #154d44;         
+}
+
 /* END SIMPLE BTN */
 
 .container-colapse .container .errors-warnings {}

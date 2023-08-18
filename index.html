@@ -235,23 +235,25 @@
 
                                 <div class="col-4">
                                     <button type="button" id="compilebtn" onClick="compilerCall()"
-                                        style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-1">COMPILE <i class="fas fa-hammer"></i>
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i class="fas fa-hammer"></i> COMPILE
                                     </button>
                                 </div>
 
 
                                 <div class="col-4">
                                     <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
-                                        style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-1">Save <i class="fa-solid fa-floppy-disk"></i>
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i
+                                            class="fa-solid fa-floppy-disk"></i> Save
                                     </button>
                                 </div>
 
                                 <div class="col-4">
                                     <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
-                                        style="text-align: center!important;font-weight: bold!important;"
-                                        class="btn btn-default btn-1">Delete <i class="fa-solid fa-trash"></i>
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i class="fa-solid fa-trash"></i>
+                                        Delete
                                     </button>
                                 </div>
                             </div>
@@ -419,27 +421,33 @@
                                                         placeholder="Storage Key" style="width: 100%;">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <button type="button" id="btnGetStorage" style="width: 100%;" onClick="getStorage()"
-                                                        class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Get
+                                                    <button type="button" id="btnGetStorage" style="width: 100%;"
+                                                        onClick="getStorage()" class="btn btn-success btn-1"><i
+                                                            class="fas fa-file-contract"></i> Get
                                                         Storage</a>
                                                 </div>
                                             </div>
 
                                             <div class="row mb-3 collapse" id="collapseLocalContractsOptions">
                                                 <div class="col-md-4">
-                                                    <button type="button" id="btnNewContractDeloy" onClick="deployContract()"
-                                                        class="btn btn-success btn-1-noColor"><i class="fas fa-file-contract"></i>
+                                                    <button type="button" id="btnNewContractDeloy"
+                                                        onClick="deployContract()"
+                                                        class="btn btn-success btn-1-noColor"><i
+                                                            class="fas fa-file-contract"></i>
                                                         Deploy Contract</a>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <button type="button" id="btnNewContractToWallet"
                                                         onClick="addContractToWallet($('#contract_hash').val())"
-                                                        class="btn btn-success btn-1-noColor"><i class="fas fa-wallet"></i> Import to
+                                                        class="btn btn-success btn-1-noColor"><i
+                                                            class="fas fa-wallet"></i> Import to
                                                         wallet</a>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <button type="button" id="btnRemoveLocalContract" onClick="deleteLocalContract()"
-                                                        class="btn btn-danger btn-1-noColor"><i class="fas fa-trash"></i> Remove
+                                                    <button type="button" id="btnRemoveLocalContract"
+                                                        onClick="deleteLocalContract()"
+                                                        class="btn btn-danger btn-1-noColor"><i
+                                                            class="fas fa-trash"></i> Remove
                                                         local contract</a>
                                                 </div>
                                             </div>
@@ -532,8 +540,8 @@
                                     <div class="row mb-2">
                                         <div class="col-md-6">
                                             <button id="import_contract_hash_button" type="button"
-                                                onclick="saveLocalContract()" style="width: 100%;"
-                                                class="btn btn-1"><i class="fas fa-file-contract"></i> Save
+                                                onclick="saveLocalContract()" style="width: 100%;" class="btn btn-1"><i
+                                                    class="fas fa-file-contract"></i> Save
                                                 contract</button>
                                         </div>
                                         <div class="col-md-6">
@@ -562,11 +570,11 @@
 
                     <div id="raw">
                         <div class="errors-warnings">
-                            <div class="display-erros n-padding deploy-bg" style="height: auto!important;">
+                            <div class="display-erros n-padding deploy-bg"
+                                style="height: auto!important; margin-bottom: 30px;">
                                 <h4 class="green-title">Request from Neo C# nodes (RPC-JSON API)</h4>
                                 <div class="container">
-                                    <div class="row">
-
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="rpcMethod">Method (view <a
@@ -717,46 +725,37 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="txtRPCJson">Insert RPC Json</label>
-                                                <input id="txtRPCJson" name="contracthash" class="form-control"
-                                                    placeholder="RPC Json Model">
-                                            </div>
+                                            <label for="txtRPCJson">Insert RPC Json</label>
+                                            <input id="txtRPCJson" name="contracthash" class="form-control"
+                                                placeholder="RPC Json Model">
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
-                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC"
-                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
+                                            <button onclick="rawRpcCall()" id="btnCallJsonRPC" style="width: 100%"
                                                 class="btn btn-default btn-1"><i class="fas fa-phone"></i> Invoke
                                                 RPC</button>
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
-                                            <div class="form-group">
-                                                <!--<label for="txtRPCJsonOut">Output</label>-->
-                                                <textarea id="txtRPCJsonOut" rows="8"
-                                                    style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px; background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"></textarea>
-                                            </div>
+                                            <textarea id="txtRPCJsonOut" rows="10" class="form-control"></textarea>
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
-                                            <button type="button"
-                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-1" onclick="convertJsonNotifications()"><i
-                                                    class="fas fa-exchange-alt"></i>
+                                            <button type="button" style="width: 100%" class="btn btn-default btn-1"
+                                                onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i>
                                                 Get Notifications</button>
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="collapse col-md-12" id="collapseNotifications">
                                             <textarea id="txt_notifications"
                                                 style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"
@@ -800,12 +799,13 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row mb-2">
                                         <div class="col-md-12">
-                                            <button type="button" id="relay_btn"
-                                                style="margin-left: 5px; margin-bottom: 5px; margin-top: 5px;"
-                                                class="btn btn-default btn-1" onclick="signAndRelay(false)"> Relay to
-                                                Blockchain</button>
+                                            <button type="button" id="relay_btn" style="width: 100%"
+                                                class="btn btn-default btn-1 btn-1-darker"
+                                                onclick="signAndRelay(false)">
+                                                <i class="fa-solid fa-signature"></i> Sign and Relay to Blockchain
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -1116,7 +1116,7 @@
 
                     <div id="div-conversos">
                         <div class="errors-warnings">
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">String
                                     <-> Hex
                                 </h4>
@@ -1156,7 +1156,7 @@
 
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">Hex
                                     <-> xeH
                                 </h4>
@@ -1184,7 +1184,7 @@
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">Base64
                                     <-> Hex
                                 </h4>
@@ -1212,7 +1212,7 @@
                                 </div>
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">Number
                                     <-> Fixed8 Hex
                                 </h4>
@@ -1243,7 +1243,7 @@
 
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">Address
                                     <-> ScriptHash (big endian)
                                 </h4>
@@ -1276,7 +1276,7 @@
 
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">BigInteger
                                     <-> Little-Endian ByteArray
                                 </h4>
@@ -1308,7 +1308,7 @@
 
                             </div>
 
-                            <div class="display-erros n-padding deploy-bg" style="height: 180px;">
+                            <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                                 <h4 class="green-title">Hex String -> Hash</h4>
                                 <div class="container">
                                     <div class="row">

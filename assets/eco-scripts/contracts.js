@@ -232,14 +232,14 @@ function drawParametersTable() {
             // If Any create a selection box
             if (method.parameters[p].type == "Any") {
                 var paramType = document.createElement('select');
-                paramType.setAttribute("class", "badge");
+                paramType.setAttribute("class", "form-select");
                 paramType.setAttribute("id", "paramTypeSelectionBoxForAny" + p);
                 paramType.textContent = method.parameters[p].type;
                 addAllContractParamsToAny(paramType);
                 txRow.insertCell(-1).appendChild(paramType);
             } else {
                 var paramType = document.createElement('span');
-                paramType.setAttribute("class", "form-select");
+                paramType.setAttribute("class", "badge");
                 paramType.textContent = method.parameters[p].type;
                 txRow.insertCell(-1).appendChild(paramType);
             }

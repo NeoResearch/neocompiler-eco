@@ -24,7 +24,7 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
             if (relay) {
                 signAndRelay(false);
             } else {
-                if(blinkRelay)
+                if (blinkRelay)
                     addBlinkToElement("#relay_btn");
             }
         },
@@ -87,6 +87,9 @@ function cleanRealTxInvoke() {
 }
 
 function signAndRelay(blinkRelay = true) {
+    if (!checkIfWalletIsConnected())
+        return;
+
     var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
     if (callDapi) {
         var dapiParams = JSON.parse($("#txtRPCJson").val());

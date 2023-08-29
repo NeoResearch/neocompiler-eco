@@ -65,6 +65,7 @@ body {
     padding: 10px 10px 10px 30px;
 }
 
+/* END Header buttons Wallet and network */
 .opt-options-header {
     position: fixed;
     float: left;
@@ -73,6 +74,7 @@ body {
     padding: 10px 70px 0 0;
     z-index: 2000000!important;
 }
+/* END Header buttons Wallet and network */
 
 .breadcrumb {
     background: none;

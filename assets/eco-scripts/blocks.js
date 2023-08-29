@@ -4,8 +4,21 @@ var CURRENT_BLOCKS = [];
 var PROGRESS;
 var tableBlocks = document.createElement("tbody");
 
+// This searchers address or TX hash
 function searchAsAScan() {
     var searchValue = $(search_blockchain)[0].value;
+
+    if(searchValue == "")
+    {
+        swal({
+            title: "Invalid value to search",
+            text: "Enter address or TX Hash or index",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
+        return;
+    }
 
     //Is address
     if (Neon.wallet.isAddress(searchValue)) {

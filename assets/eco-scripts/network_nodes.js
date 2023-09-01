@@ -32,17 +32,16 @@ function changeSelectedNetwork() {
 
     BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
 
+    //ReestartSocketIO
+    startSocketIoConnections();
+
     // Update native and deployed
     NATIVE_CONTRACTS = [];
     NOTIFICATIONS_SEARCHED_CONTRACTS = [];
     getNativeInfo();
-
     // Update Compilers
     updateCompilersList();
     setCompiler();
-
-    //ReestartSocketIO
-    startSocketIoConnections()
 }
 
 function showTabs() {

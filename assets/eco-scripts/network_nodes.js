@@ -20,7 +20,7 @@ function changeSelectedNetwork() {
             break;
         case 4:
             default_nodes = personalizedNodes;
-            hideTabs();
+            showTabs();
             break;
         default:
             console.error(`Sorry, we are out of options for selected network.`);

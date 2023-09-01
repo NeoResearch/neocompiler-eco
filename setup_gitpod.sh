@@ -3,7 +3,7 @@
 set -e
 
 # check if gitpod exists
-# gp info  > gitpod.txt
+gp info  > gitpod.txt
 
 # ================
 # get workspace id

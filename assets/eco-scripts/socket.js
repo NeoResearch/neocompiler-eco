@@ -44,3 +44,6 @@ function startSocketIoConnections() {
         $("#online")[0].innerHTML = onlineStats;
     });
 }
+
+//Initialize Socket IO
+startSocketIoConnections();

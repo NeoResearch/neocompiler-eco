@@ -208,8 +208,7 @@
 
                     <div id="compiler">
                         <div class="container">
-                            <div class="row gy-2">
-
+                            <div class="row mb-2">
                                 <div class="col-4">
                                     <select id="codesend_selected_compiler" class="form-select" onchange="setCompiler()"
                                         style="text-align: center!important;font-weight: bold!important;">
@@ -225,21 +224,30 @@
                                     </select>
                                 </div>
 
-                                <div class="col-4">
-                                    <select title="Select compiler version" id="compilers_versions-selection-box"
+                                <div class="col-2">
+                                    <select title="Select compiler server" onChange="changeServerBasePath()" id="compilers_server-selection-box"
                                         class="form-select"
                                         style="text-align: center!important;font-weight: bold!important;">
-                                        <option title="Loading compilers">...</option>
+                                        <option title="Loading compilers">Loading...</option>
                                     </select>
                                 </div>
 
+                                <div class="col-2">
+                                    <select title="Select compiler version" id="compilers_versions-selection-box"
+                                        class="form-select"
+                                        style="text-align: center!important;font-weight: bold!important;">
+                                        <option title="Loading compilers">Loading...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
                                 <div class="col-4">
                                     <button type="button" id="compilebtn" onClick="compilerCall()"
                                         style="text-align: center!important;font-weight: bold!important; width: 100%;"
                                         class="btn btn-default btn-1 btn-1-darker"><i class="fas fa-hammer"></i> COMPILE
                                     </button>
                                 </div>
-
 
                                 <div class="col-4">
                                     <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
@@ -1093,8 +1101,8 @@
                                     </div>
 
                                     <div class="col-6 col-md-4">
-                                        <input class="form-control" placeholder="Key" type="text"
-                                            id="accountToAddInfo" maxlength="64" value="" size="20">
+                                        <input class="form-control" placeholder="Key" type="text" id="accountToAddInfo"
+                                            maxlength="64" value="" size="20">
                                     </div>
 
                                     <div class="col-6 col-md-4">

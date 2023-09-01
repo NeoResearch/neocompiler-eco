@@ -11,6 +11,8 @@ function createCompilexJson(code_zip_list) {
 function compilerCall() {
     $("#codewarnerr").val("Remote compiling at " + BASE_PATH_COMPILERS + "\n" + new Date());
     $("#compilebtn")[0].disabled = true;
+    $("#compilers_server-selection-box")[0].disabled = true;
+    $("#compilers_versions-selection-box")[0].disabled = true;
     code_cs = "";
     $("#codeavm").val("");
     $("#opcodes").val("");
@@ -74,7 +76,7 @@ function compilerCall() {
                 if (jqxhr.status == 0 && jqxhr.readyState == 0) {
                     console.error("Restarting request");
                 }
-                swal("Failed" + ex + " Something went wrong!", {
+                swal("Failed" + ex + " Something went wrong while calling " + BASE_PATH_COMPILERS + "/compilex", {
                     icon: "error",
                     buttons: false,
                     timer: 2500,
@@ -84,6 +86,8 @@ function compilerCall() {
                 console.log(jqxhr);
                 console.log(settings);
                 $("#compilebtn")[0].disabled = false;
+                $("#compilers_server-selection-box")[0].disabled = false;
+                $("#compilers_versions-selection-box")[0].disabled = false;
                 $("#codewarnerr").val("failed" + ex + "settings " + settings + " status " + jqxhr.status + " rs " + jqxhr.readyState);
                 $("#codeavm").val("failed" + ex + "settings " + settings + " status " + jqxhr.status + " rs " + jqxhr.readyState);
                 $("#opcodes").val("");
@@ -131,6 +135,14 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
     // ------------------------------------------
 }
 
+function updateListOfAvailableCompilerVersion(language)
+{
+    if (language === "csharp") 
+        updateCompilersSelectionBox("docker-mono-neo-compiler");
+
+    if (language === "python")
+        updateCompilersSelectionBox("docker-neo3-boa-compiler");
+}
 function setCompiler() {
     cleanAllSessionsInsteadOfMain();
     aceEditor.getSession().setValue("");
@@ -143,9 +155,12 @@ function setCompiler() {
 
     var vExamples;
     SELECTED_COMPILER = language;
+    
+    //First, update list with all available versions
+    updateListOfAvailableCompilerVersion(language);
+    
     if (language === "csharp") {
         aceEditor.getSession().setMode("ace/mode/csharp");
-        updateCompilersSelectionBox("docker-mono-neo-compiler");
         vExamples = cSharpFiles;
         $("#codesend_selected_compiler")[0].selectedIndex = 0;
         $("#mainTabAceEditor")[0].innerHTML = "Main.cs"
@@ -154,7 +169,6 @@ function setCompiler() {
 
     if (language === "python") {
         aceEditor.getSession().setMode("ace/mode/python");
-        updateCompilersSelectionBox("docker-neo3-boa-compiler");
         vExamples = cPythonFiles;
         $("#codesend_selected_compiler")[0].selectedIndex = 1;
         $("#mainTabAceEditor")[0].innerHTML = "Main.py"
@@ -357,6 +371,8 @@ function updateCompilersSelectionBox(compilerType) {
                 }
             }
             $("#compilebtn")[0].disabled = false;
+            $("#compilers_server-selection-box")[0].disabled = false;
+            $("#compilers_versions-selection-box")[0].disabled = false;
             //Select the latest as default
             compilerSelectionBoxObj.selectedIndex = indexToSelect;
         },
@@ -382,6 +398,8 @@ function socketCompilerCompilexResult() {
         dataSocket = JSON.parse(socketData.stdout);
         console.log(dataSocket);
         $("#compilebtn")[0].disabled = false;
+        $("#compilers_server-selection-box")[0].disabled = false;
+        $("#compilers_versions-selection-box")[0].disabled = false;
         var coderr = atob(dataSocket.output);
         $("#codewarnerr").val(coderr);
 
@@ -473,9 +491,28 @@ function socketCompilerCompilexResult() {
     });
 }
 
+function updateCompilersList() {
+    boxID = "compilers_server-selection-box";
+    document.getElementById(boxID).options.length = 0;
+
+    var compilersList = getAllAvailableService("ecocompilers", default_nodes);
+    for (c = 0; c < compilersList.length; c++)
+        addOptionToSelectionBox(compilersList[c], compilersList[c], boxID, "Selected server version is " + compilersList[c]);
+
+    //Select the latest as default
+    document.getElementById(boxID).selectedIndex = 0;
+}
+
+function changeServerBasePath(){
+    BASE_PATH_COMPILERS = document.getElementById("compilers_server-selection-box").value;
+    updateListOfAvailableCompilerVersion(language);
+}
+
+
 $(document).ready(function () {
     aceEditor = createEditor("aceEditor", "ace/mode/csharp");
     openedSessions.set(-1, new ace.EditSession("mainSession"));
     goToMainTab();
+    updateCompilersList();
     setCompiler();
 });

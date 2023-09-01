@@ -39,4 +39,3 @@ function queryHeaderSummary() {
 }
 
 setRefreshingIntervalForHeadersInfo(800); //0.8s
-startSocketIoConnections();

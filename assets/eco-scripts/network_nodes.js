@@ -18,6 +18,10 @@ function changeSelectedNetwork() {
             default_nodes = mainnetNodes;
             hideTabs();
             break;
+        case 4:
+            default_nodes = personalizedNodes;
+            hideTabs();
+            break;
         default:
             console.error(`Sorry, we are out of options for selected network.`);
     }
@@ -26,18 +30,27 @@ function changeSelectedNetwork() {
 
     BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
 
+    BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
+
     // Update native and deployed
     NATIVE_CONTRACTS = [];
     NOTIFICATIONS_SEARCHED_CONTRACTS = [];
     getNativeInfo();
+
+    // Update Compilers
+    updateCompilersList();
+    setCompiler();
+
+    //ReestartSocketIO
+    startSocketIoConnections()
 }
 
 function showTabs() {
-    $("#navItem-network")[0].hidden=false;
+    $("#navItem-network")[0].hidden = false;
 }
 
 function hideTabs() {
-    $("#navItem-network")[0].hidden=true;
+    $("#navItem-network")[0].hidden = true;
 
     // Move to Compilers if on a not available tab
     var currentUrl = location.href.replace(/\/$/, "");

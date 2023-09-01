@@ -150,6 +150,12 @@ body {
     border-radius: 20px!important;
 }
 
+.form-select:hover {
+    background-color: #154d44;
+    color: white!important;    
+    border-radius: 20px!important;
+}
+
 /* Label Color */
 .form-floating > .form-select ~ label::after 
 {

@@ -10,3 +10,4 @@ node_modules
 .devcontainer/
 .eco_pwd
 .env
+gitpod.txt

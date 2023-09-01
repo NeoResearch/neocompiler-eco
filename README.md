@@ -16,6 +16,8 @@
       width="125px;" />
 </p>
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#/https://github.com/neoresearch/neocompiler-eco/)
+
 This is an open-source initiative for providing an easy access to on NEO ecosystem.
 
 In particular, we provide simple interact and didactic interfaces for allowing online compiling for C#, Python, Go and Java.

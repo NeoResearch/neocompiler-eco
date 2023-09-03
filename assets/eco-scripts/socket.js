@@ -1,34 +1,35 @@
 function startSocketIoConnections() {
-    if (socket) {
+    //Start services
+    if (socket)
         if (socket.io.uri != BASE_PATH_ECOSERVICES)
             socket.disconnect();
-        else
-            return;
-    }
+
 
     socket = io.connect(BASE_PATH_ECOSERVICES, {
         resource: 'nodejs',
     });
 
-    if (socketCompilers) {
+    socketServicesEvents();
+
+    //Start compilers
+    if (socketCompilers)
         if (socketCompilers.io.uri != BASE_PATH_COMPILERS)
             socketCompilers.disconnect();
-        else
-            return;
-    }
 
     socketCompilers = io.connect(BASE_PATH_COMPILERS, {
         resource: 'nodejs',
     });
 
     socketCompilerCompilexResult();
+}
 
-    socket.on('userconnected', function(data) {
+function socketServicesEvents() {
+    socket.on('userconnected', function (data) {
         onlineStats = '<i class="fas fa-plug"></i> ' + data['online'];
         onlineStats += ' -> ' + '<i class="fas fa-phone"></i> ' + data['since'];
     });
 
-    socket.on('timeleft', function(data) {
+    socket.on('timeleft', function (data) {
         numberCompilations = data['compilations'];
         numberDeploys = data['deploys'];
         numberInvokes = data['invokes'];

@@ -38,10 +38,14 @@ function changeSelectedNetwork() {
     // Update native and deployed
     NATIVE_CONTRACTS = [];
     NOTIFICATIONS_SEARCHED_CONTRACTS = [];
+    //Requires RPC call
     getNativeInfo();
-    // Update Compilers
+    
+    // Does not require RPC call - Just update list from known nodes
     updateCompilersList();
     setCompiler();
+
+    cleanHeaderSummary();
 }
 
 function showTabs() {

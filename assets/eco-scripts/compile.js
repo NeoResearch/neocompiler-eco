@@ -495,6 +495,7 @@ function updateCompilersList() {
     boxID = "compilers_server-selection-box";
     document.getElementById(boxID).options.length = 0;
 
+    //Get fixed list
     var compilersList = getAllAvailableService("ecocompilers", default_nodes);
     for (c = 0; c < compilersList.length; c++)
         addOptionToSelectionBox(compilersList[c], compilersList[c], boxID, "Selected server version is " + compilersList[c]);

@@ -3,8 +3,7 @@
 set -e
 
 # Increase MaxConcurrentConnections for improving gitpod overload problems
-sed -i '/MaxConcurrentConnections/c\\t"\tMaxConcurrentConnections": '1000',' ./docker-compose-eco-network/neo-cli/configs/plugins/rpcServer1.json
-
+sed -i '/MaxConcurrentConnections/c\\t\t\t\t"MaxConcurrentConnections": '1000',' ./docker-compose-eco-network/neo-cli/configs/plugins/rpcServer1.json
 
 # check if gitpod exists
 gp info  > gitpod.txt

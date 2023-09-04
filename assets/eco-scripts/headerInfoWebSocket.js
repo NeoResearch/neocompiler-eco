@@ -27,4 +27,4 @@ function queryHeaderSummary() {
     }); // NEO useragent
 }
 
-setRefreshingIntervalForHeadersInfo(800); //0.8s
+setRefreshingIntervalForHeadersInfo(2000); //2s

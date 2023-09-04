@@ -2,9 +2,6 @@
 
 set -e
 
-# Increase MaxConcurrentConnections for improving gitpod overload problems
-sed -i '/MaxConcurrentConnections/c\\t"\tMaxConcurrentConnections": '1000',' ./docker-compose-eco-network/neo-cli/configs/plugins/rpcServer1.json
-
 # ======================= FIX LOCAL PATHS ====================
 # Mount paths must be relative to host docker, even on DooD
 # Put your local path on .eco_pwd file: echo $PWD > .eco_pwd 

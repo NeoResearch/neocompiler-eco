@@ -1,0 +1,31 @@
+ports:   
+    - name: C# TCP Doors
+      port: 20333-20337
+      protocol: http         
+      visibility: public
+      onOpen: ignore 
+    - name: C# RPC Doors
+      port: 30333-30337
+      protocol: http         
+      visibility: public
+      onOpen: ignore
+    - name: Eco-Frontend
+      port: 8000
+      visibility: public
+      protocol: http
+      onOpen: open-browser
+    - name: Eco Services
+      port: 9000
+      protocol: http      
+      visibility: public
+      onOpen: ignore       
+    - name: Eco-Compilers
+      port: 10000
+      protocol: http      
+      visibility: public
+      onOpen: ignore
+
+tasks:
+    - name: setup and run
+    - init: ./setup_gitpod.sh
+      command: ./build_everything.sh 

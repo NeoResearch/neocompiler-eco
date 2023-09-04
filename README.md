@@ -36,7 +36,7 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 
 * Tested with Firefox Quantum - 84.0
 
-#####  The current front-end interface can be acessed from:
+#####  The current front-end interface can be accessed from:
 * [https://neocompiler.io](https://neocompiler.io), automatically generated from the source code located in this current repository.
 
 ##### Compilers RPC API services are available at:
@@ -52,8 +52,8 @@ Just type `./make-docs.sh`, and find `./docs/build/html/index.html` (the same as
 ### What does it currently do
 * Compile input C# code using reliable and safe servers (backend) compilers;
 * Return NEF compatible files: AVM, ABI and MANIFEST codes;
-* Deploy and invoke code to private net, shared privatenet, testnet (unsafe), mainet (unsafe);
-* Save your history of activies for testing a given smart contract;
+* Deploy and invoke code to private net, shared privatenet, testnet (unsafe), mainnet (unsafe);
+* Save your history of activities for testing a given smart contract;
 * Tests with different wallets, synced and with able to provide historic data our activity;
 * Perform all up-to-date blockchain invocations and RPC calls;
 * Runs RPC with all enabled plugins and up-to-date features;
@@ -146,7 +146,7 @@ The backend for C# is provided using native `github/neo-project` tools, only two
 
 `docker compose up`
 
-## A2) Eco Network Funtionalities
+## A2) Eco Network Functionalities
 
 Docker compose is the main tools that acts for the creation of our micro-service.
 This script will start all necessary backend functionalities and neo-csharp-nodes.

@@ -9,9 +9,7 @@
         "SslCertPassword": "",
         "TrustedAuthorities": [],
         "RpcUser": "",
-        "RpcPass": "",
-        "EnableCors": true,
-        "AllowOrigins": [],         
+        "RpcPass": "",       
         "MaxGasInvoke": 20,
         "MaxFee": 0.1,
         "MaxConcurrentConnections": 40,
@@ -19,7 +17,8 @@
         "MaxStackSize": 65535,
         "DisabledMethods": [ "openwallet" ],
         "SessionEnabled": false,
-        "SessionExpirationTime": 60
+        "SessionExpirationTime": 60,
+        "FindStoragePageSize": 50        
       }
     ]
   }

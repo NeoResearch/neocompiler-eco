@@ -5,7 +5,7 @@ LABEL authors="imcoelho,vncoelho"
 
 #xxd decoder for hex to binary
 RUN apt-get update && apt-get install -y --no-install-recommends \
-      xxd unzip \
+      xxd unzip git \
     && rm -rf /var/lib/apt/lists/*
 
 ARG REPO_DEVPACK

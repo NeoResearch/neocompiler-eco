@@ -7,7 +7,6 @@ node_modules
 *.DS_Store
 *nohup*
 *.pdf
-.devcontainer/
 .eco_pwd
 .env
 gitpod.txt

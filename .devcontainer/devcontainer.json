@@ -1,0 +1,19 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+  },
+  "portsAttributes": {
+    "8000": {
+      "label": "eco-frontend"
+    },
+    "9000": {
+      "label": "eco-services"
+    },
+    "10000": {
+      "label": "eco-compilers"
+    },
+    "30333-30337": {
+      "label": "rpc-nodes"
+    }    
+  }
+}

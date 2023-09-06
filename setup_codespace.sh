@@ -7,9 +7,6 @@ sed -i 's/PERSONALIZED = false/PERSONALIZED = true/' ./assets/eco-scripts/global
 
 CHOST=$(jq -r ".CODESPACE_NAME" /workspaces/.codespaces/shared/environment-variables.json)
 
-# https://8000-neoresearch-neocompiler-len9qk36eo0.ws-us104.gitpod.io
-
-
 PORT_8000=`echo "${CHOST}-8000.app.github.dev"`
 PORT_9000=`echo "${CHOST}-9000.app.github.dev"`
 PORT_10000=`echo "${CHOST}-10000.app.github.dev"`

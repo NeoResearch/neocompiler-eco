@@ -1,19 +1,26 @@
 {
   "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-  },
+  "features": {},
   "portsAttributes": {
     "8000": {
-      "label": "eco-frontend"
+      "label": "eco-frontend",
+      "visibility": "public"
     },
     "9000": {
-      "label": "eco-services"
+      "label": "eco-services",
+      "visibility": "public"
     },
     "10000": {
-      "label": "eco-compilers"
+      "label": "eco-compilers",
+      "visibility": "public"
+    },
+    "20333-20337": {
+      "label": "tcp-c#-nodes",
+      "visibility": "public"
     },
     "30333-30337": {
-      "label": "rpc-nodes"
-    }    
+      "label": "rpc-c#-nodes",
+      "visibility": "public"
+    }
   }
 }

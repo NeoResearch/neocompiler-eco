@@ -53,11 +53,18 @@ fi
 
 echo "BUILDING docker with docker and express";
 (cd docker-sock-express-compilers/docker-ubuntu-docker-node-express; ./docker_build-all.sh)
+
+echo "BUILDING compilers";
+(cd docker-sock-express-compilers/docker-compilers; ./buildCompilers.sh)
 # ===================== BUILDS  END =========================
 
-echo "TRYING TO STOP all eco related services - including docker services with express servers";
-./stopEco_network.sh
-./runEco_network.sh
+# ===================== STOP EVERYTHING =========================
+echo "STOPPING containers";
+./stop_everything.sh
+# ===================== STOP EVERYTHING =========================
+
+echo "Call docker-compose network";
+(cd docker-compose-eco-network; ./runDetachedCompose-EcoNodes.sh)
 
 # BUILDING AND RUNNING EXPRESS FOR FRONT-END ONLY
 if ((!$DISABLE_WEB)); then
@@ -68,11 +75,7 @@ fi
 echo "RUNNING express ecoservice";
 (cd docker-sock-express-compilers/docker-services; docker compose up -d)
 
-echo "BUILDING compilers";
-(cd docker-sock-express-compilers/docker-compilers; ./buildCompilers.sh)
-
 echo "RUNNING express compilers";
 (cd docker-sock-express-compilers/docker-compilers; docker compose up -d)
-
 
 echo "EVERYTHING has been built and running!";

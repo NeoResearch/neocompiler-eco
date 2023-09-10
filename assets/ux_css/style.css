@@ -205,11 +205,6 @@ body {
     padding-top: 20px;
 }
 
-.tab-content {
-    float: left;
-    width: 100%;
-}
-
 .form-select {
     background-color: #00AF92;
     color: white !important;

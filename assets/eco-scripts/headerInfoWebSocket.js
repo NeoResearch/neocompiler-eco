@@ -8,8 +8,8 @@ function setRefreshingIntervalForHeadersInfo(intervalForRefreshing) {
 }
 
 function cleanHeaderSummary() {
-    $("#online")[0].innerHTML = "Loading ...";
-    $("#nodeRPCHeader")[0].innerHTML = "Loading ...";
+    $("#online")[0].innerHTML = "<i class='fas fa-lg fa-spinner'></i>";
+    $("#nodeRPCHeader")[0].innerHTML = "<i class='fas fa-lg fa-spinner'></i>";
 }
 
 

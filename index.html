@@ -86,8 +86,7 @@
         <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
 
         <!-- BEGIN UL FOR NAV MENU VERTICAL -->
-        <ul class="nav main-menu" id="nav-tab" role="tablist">
-
+        <ul class="nav main-menu" role="tablist">
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-bs-toggle="tab"
                     data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -95,7 +94,6 @@
                     <p id="compilerNav">Compilers</p>
                 </a>
             </li>
-
             <li class="nav-item" role="presentation">
                 <a class="nav-link" data-bs-toggle="tab" data-toggle="tab"
                     onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab"
@@ -104,7 +102,6 @@
                     <p>Contracts</p>
                 </a>
             </li>
-
             <li class="nav-item">
                 <a class="nav-link" onclick="populateAllWalletData()" data-bs-toggle="tab" data-toggle="tab"
                     href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -112,16 +109,6 @@
                     <p>Wallet</p>
                 </a>
             </li>
-
-            <!--
-            <li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-contracts" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/deploy.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Sign</p>
-                </a>
-            </li>-->
-
-
             <li class="nav-item">
                 <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-rpc" role="tab"
                     aria-controls="nav-home" aria-selected="true">
@@ -129,8 +116,6 @@
                     <p>Raw RPC</p>
                 </a>
             </li>
-
-
             <li class="nav-item">
                 <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(true);" data-bs-toggle="tab" data-toggle="tab"
                     href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -138,14 +123,6 @@
                     <p>Activity</p>
                 </a>
             </li>
-            <!--
-            <li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-storage" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/storage.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Storage Query</p>
-                </a>
-            </li>-->
-
             <li class="nav-item">
                 <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-conversors" role="tab"
                     aria-controls="nav-home" aria-selected="true">
@@ -153,7 +130,6 @@
                     <p>Conversors</p>
                 </a>
             </li>
-
             <li class="nav-item" id="navItem-network">
                 <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#nav-network"
                     onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home"
@@ -162,28 +138,13 @@
                     <p>Network</p>
                 </a>
             </li>
-
-            <!--<li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#nav-statistics" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/statistics.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Statistics</p>
-                </a>
-            </li>-->
-
-            <!--<li class="nav-item">
-                <a class="nav-link" onclick="" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/settings.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Settings</p>
-                </a>
-            </li>-->
         </ul>
         <!-- END UL FOR NAV MENU VERTICAL -->
-
     </header>
     <!-- END HEADER AREA -->
 
     <!-- BEGIN SINGLE PAGE CONTAINER PRINCIPAL -->
-    <div class="container containerprincipal">
+    <div class="container">
         <div class="row">
             <div class="tab-content">
                 <!-- SPACING ON THE LATERAL SIDE -->
@@ -278,7 +239,7 @@
                         <div id="aceEditor" style="margin-top: 0!important">
                         </div>
 
-                        <div class="collapse container-colapse" id="collapseMore">
+                        <div class="collapse colapse-nef" id="collapseMore">
                             <div class="">
                                 <div class="errors-warnings" style="height: auto!important;">
                                     <h4>NEF (in hex):</h4>

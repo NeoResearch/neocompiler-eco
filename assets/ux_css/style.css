@@ -277,8 +277,6 @@ body {
 
 /* END SIMPLE BTN */
 
-.container-colapse .container .errors-warnings {}
-
 .errors-warnings {
     margin-top: 15px;
     color: white;
@@ -330,7 +328,9 @@ body {
 
 .collapseMore img {}
 
-.container-colapse {
+.colapse-nef .container .errors-warnings {}
+
+.colapse-nef {
     margin-top: 20px;
     margin-bottom: 15px;
     background: #1D2C30;

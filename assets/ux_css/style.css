@@ -19,6 +19,7 @@ body {
     width: 100%;
     z-index: 1000000 !important;
 }
+
 /* END TOP PAGE NAV STYLE */
 
 /* BEGIN VERTICAL MENU STYLE */
@@ -72,6 +73,7 @@ body {
     background: #25515e;
     border-bottom: 5px solid #00AF92;
 }
+
 /* END VERTICAL MENU STYLE */
 
 /* Begin Navigation tab style */
@@ -80,7 +82,7 @@ body {
     float: left;
     position: relative !important;
     z-index: 0 !important;
-    width: 100%;    
+    width: 100%;
     /*    height: 45px!important; */
     /*    max-height: 35px!important;*/
 }

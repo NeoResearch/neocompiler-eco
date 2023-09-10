@@ -28,7 +28,6 @@
 </div>
 
 <body>
-
     <div class="preloader"
         style="position: absolute;left: 0;top: 0;width: 100%;height: 100%;padding: 1px;background: #1D2C30;z-index: 1000000!important;">
         <div class="spinner-grow text-center" style="width: 5rem; height: 5rem;" role="status">
@@ -38,29 +37,29 @@
 
     <!-- BEGIN HEADER AREA -->
     <header>
-        <!-- NAVIGATION -->
-        <ul class="nav top-menu">
+        <!-- TOP INFO MENU -->
+        <ul class="nav top-info-menu">
             <li class="nav-item" style="background: #1D2C30; width: 100px;">
                 <a class="nav-link " href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
             </li>
 
-            <li class="nav-item text-white" style="width: 300px;padding-left: 10px;padding-top: 15px;">
+            <li class="nav-item text-white" style="width: 300px; padding-left: 10px;padding-top: 15px;">
                 <div class="">
                     <span id="online" class="label label-success"
-                        style="font-size: 10px;background: #00AF92;padding:2px;"><i
+                        style="font-size: 18px;background: #00AF92;padding:2px;"><i
                             class="fas fa-lg fa-spinner"></i></span>
                 </div>
                 <div class="">
                     <span id="nodeRPCHeader" class="label label-info"
-                        style="font-size: 10px;background: #00AF92;padding:2px;"><i
+                        style="font-size: 18px;background: #00AF92;padding:2px;"><i
                             class="fas fa-lg fa-spinner"></i></span>
                 </div>
             </li>
         </ul>
-        <!-- STATUS INFO HEADER -->
+        <!-- TOP INFO MENU -->
 
         <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
-        <div class="opt-options-header">
+        <div class="options-in-the-header">
             <div class="row">
                 <div class="col-7">
                     <div class="form-floating">
@@ -993,7 +992,7 @@
                                         id="transfer_nep17_amount_range" value="0" min="0" max="100" />
                                 </div>
                                 <div class="col-3">
-                                    <input type="number" onchange="updateTransferAmountInfo()"
+                                    <input type="number" class="form-control" onchange="updateTransferAmountInfo()"
                                         id="transfer_nep17_amount" value="0" min="0"></input>
                                 </div>
                             </div>

@@ -11,16 +11,15 @@ body {
     z-index: 1000000 !important;
 }
 
-/* BEGIN TOP PAGE NAV STYLE */
-.top-menu {
+/* BEGIN TOP PAGE TOP INFO NAV STYLE */
+.top-info-menu {
     background: #223237;
     position: fixed;
     float: left;
     width: 100%;
     z-index: 1000000 !important;
 }
-
-/* END TOP PAGE NAV STYLE */
+/* END TOP PAGE TOP INFO NAV STYLE */
 
 /* BEGIN VERTICAL MENU STYLE */
 .main-menu {
@@ -184,7 +183,7 @@ body {
 }
 
 /* END Header buttons Wallet and network */
-.opt-options-header {
+.options-in-the-header {
     position: fixed;
     float: left;
     right: 0;
@@ -192,7 +191,6 @@ body {
     padding: 10px 70px 0 0;
     z-index: 2000000 !important;
 }
-
 /* END Header buttons Wallet and network */
 
 .breadcrumb {

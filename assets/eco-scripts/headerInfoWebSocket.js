@@ -12,7 +12,6 @@ function cleanHeaderSummary() {
     $("#nodeRPCHeader")[0].innerHTML = "<i class='fas fa-lg fa-spinner'></i>";
 }
 
-
 function queryHeaderSummary() {
     $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getversion", "params": [""] }', function(resultGetVersion) {
         $.post(BASE_PATH_CLI, '{ "jsonrpc": "2.0", "id": 5, "method": "getblockcount", "params": [""] }', function(resultBlockCount) {

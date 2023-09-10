@@ -17,8 +17,8 @@ namespace OracleDemo
     {
         public static void DoRequest()
         {
-            string url = "https://raw.githubusercontent.com/neo-project/examples/master/csharp/Oracle/example.json"; // the content is  { "value": "hello world" }
-            string filter = "$.value";  // JSONPath format https://github.com/atifaziz/JSONPath
+            string url = "https://compilers-neo3.neocompiler.io/";
+            string filter = "$.result";  // JSONPath format https://github.com/atifaziz/JSONPath
             string callback = "callback"; // callback method
             object userdata = "userdata"; // arbitrary type
             long gasForResponse = Oracle.MinimumResponseFee;

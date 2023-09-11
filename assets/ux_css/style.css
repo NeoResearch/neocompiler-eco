@@ -18,12 +18,12 @@ body {
     float: left;
     left: 100px;
     width: 100%;
-    height: 84px !important;
+    height: 79px !important;
     z-index: 1000000 !important;
 }
 /* END TOP PAGE TOP INFO NAV STYLE */
 
-.noHover{
+.noHoverLogoNeoCompiler{
     pointer-events: none;
 }
 
@@ -59,7 +59,7 @@ body {
 .main-menu li a {
     color: white;
     border-bottom: 5px solid transparent;
-    padding: 15% 0 0 0 !important;
+    padding: 10px 0px 0px 0px;
     bottom: 0 !important;
     font-size: 10px;
     text-transform: uppercase;

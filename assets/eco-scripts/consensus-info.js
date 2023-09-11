@@ -175,5 +175,3 @@ function createMultiSigFromNextValidators() {
         console.log("Error when trying to get nextvalidators");
     }); //End of POST for search
 }
-
-createMultiSigFromNextValidators()

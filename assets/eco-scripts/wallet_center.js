@@ -1,9 +1,5 @@
 var CONNECTED_WALLET_ID = -1;
 
-$(window).on('load', function() {
-    drawPopulate();
-});
-
 //===============================================================
 function drawWalletsStatus() {
     var tBodyElements = document.createElement("tbody");

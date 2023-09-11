@@ -51,7 +51,6 @@ function cleanAllSessionsInsteadOfMain(){
     goToMainTab();
 }
 
-
 function goToMainTab() {
     aceEditor.setSession(openedSessions.get(-1));
 

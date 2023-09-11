@@ -53,7 +53,6 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
 }
 
 function getStorage(adddressToGet, addressID) {
-
     var invokeparams = [];
 
     invokeparams.push(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash);

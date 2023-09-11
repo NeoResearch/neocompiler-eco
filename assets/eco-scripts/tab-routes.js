@@ -1,4 +1,5 @@
-var AVAILABLE_TABS = ["nav-compilers", "nav-contracts", "nav-wallet", "nav-rpc", "nav-activity", "nav-conversors", "nav-network"];
+var AVAILABLE_TABS = ["nav-compilers", "nav-contracts", "nav-wallet",
+    "nav-rpc", "nav-activity", "nav-conversors", "nav-network", "nav-config"];
 
 function goToTabAndClick(tabToGo) {
     var tabExists = false;

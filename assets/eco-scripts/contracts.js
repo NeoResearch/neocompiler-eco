@@ -370,7 +370,6 @@ function deleteLocalContract() {
     });
 }
 
-
 function invokeFunctionWithParams(contractHash, method, params, relay = false) {
     if (!checkIfWalletIsConnected())
         return;
@@ -557,7 +556,6 @@ function getEventIdFromABIEvent(eventName, events) {
             return e;
     return -1;
 }
-
 
 function convertJsonNotifications() {
     var appLogTxResult = $("#txtRPCJsonOut").val();

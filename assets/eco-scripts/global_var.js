@@ -11,7 +11,7 @@ var cSharpFiles = [
         ["./assets/sc_examples/csharp/NNS/NameState.cs"],
         ["./assets/sc_examples/csharp/NNS/RecordType.cs"],
         ["./assets/sc_examples/csharp/NNS/RecordState.cs"]
-    ]    
+    ]
 ];
 
 var cPythonFiles = [
@@ -27,6 +27,7 @@ var USER_EXAMPLES = new Map();
 var PERSONALIZED = false;
 var default_nodes = ecoNodes;
 
+var BASE_PATH_ECOSERVICES, BASE_PATH_COMPILERS, BASE_PATH_CLI, BASE_PATH_CLI_NODES;
 // ===================================================================
 // set PERSONALIZED to true, to activate personalized.js configuration
 //
@@ -48,11 +49,7 @@ else {
 }
 
 var SELECTED_COMPILER = "";
-// ECO SERVICES EXPRESS SERVER RPC PATH
-var BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
-var BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
-var BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
-var BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
+updateAllBasePaths();
 
 var LAST_BEST_HEIGHT_NEOCLI = 1;
 
@@ -95,6 +92,25 @@ function getAllAvailableService(serviceType, networkServicesObj) {
             nodesUrl.push(serviceUrlToAdd);
     }
     return nodesUrl;
+}
+
+function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {
+    var option = document.createElement("option");
+    option.text = textToOption;
+    option.value = valueToOption;
+    option.title = title;
+    var select = document.getElementById(walletSelectionBox);
+    select.appendChild(option);
+}
+
+/* UPDATE BASE PATHS */
+function updateAllBasePaths() {
+    BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
+    BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
+    BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
+    BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
+    
+    fillNodesList();
 }
 
 var code_cs = "";

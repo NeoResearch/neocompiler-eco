@@ -25,12 +25,7 @@ function changeSelectedNetwork() {
         default:
             console.error(`Sorry, we are out of options for selected network.`);
     }
-    BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
-    BASE_PATH_CLI = BASE_PATH_CLI_NODES[0];
-
-    BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
-
-    BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
+    updateAllBasePaths();
 
     //ReestartSocketIO
     startSocketIoConnections();
@@ -45,7 +40,7 @@ function changeSelectedNetwork() {
     updateCompilersList();
     setCompiler();
 
-    cleanHeaderSummary();
+    cleanVersionHeightSummary();
 }
 
 function showTabs() {

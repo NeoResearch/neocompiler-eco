@@ -1,3 +1,5 @@
+var onlineStats = "";
+
 function startSocketIoConnections() {
     //Start services
     if (socket)
@@ -42,9 +44,6 @@ function socketServicesEvents() {
         var output = '<i class="fas fa-stopwatch"></i> ' + hours + ':' + minutes + ':' + seconds;
         $("#online")[0].innerHTML = output + ' -> ' + onlineStats;        
         */
-        $("#online")[0].innerHTML = onlineStats;
+        //$("#online")[0].innerHTML = onlineStats;
     });
 }
-
-//Initialize Socket IO
-startSocketIoConnections();

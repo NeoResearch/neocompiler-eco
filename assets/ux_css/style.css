@@ -3,7 +3,7 @@ body {
     background: #263A40;
     --bs-body-bg: #223237;
     --bs-body-color: bs-white-rgb;
-    --bs-secondary-color: #62ad28;
+    --bs-secondary-color: #bccff0;
 }
 
 /* ALL NAV SHOULD BE IN FRONT */
@@ -17,7 +17,7 @@ body {
     position: fixed;
     float: left;
     width: 100%;
-    height: 80px;
+    height: 80px !important;
     z-index: 1000000 !important;
 }
 /* END TOP PAGE TOP INFO NAV STYLE */

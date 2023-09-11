@@ -44,14 +44,25 @@
             <a class="nav-link" href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
         </li>
 
-        <li class="nav-item text-white" style="width: 300px; padding-left: 10px;padding-top: 15px;">
-            <div class="">
+        <li class="nav-item text-white" style="width: 250px; padding-left: 10px;padding-top: 15px;">
+            <!--<div class="">
                 <span id="online" class="label label-success"
-                    style="font-size: 18px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+                    style="font-size: 16px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+            </div>-->
+            <div class="">
+                <span id="nodeVersion" class="label label-info"
+                    style="font-size: 16px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
             </div>
             <div class="">
-                <span id="nodeRPCHeader" class="label label-info"
-                    style="font-size: 18px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+                <span id="nodeHeight" class="label label-info"
+                    style="font-size: 16px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+            </div>
+        </li>
+
+        <li class="nav-item text-white" style="width: 250px; padding-left: 10px;padding-top: 15px;">
+            <div class="">
+                <span id="nodeURL" class="label label-info" style="font-size: 16px;background: #00AF92;padding:2px;"><i
+                        class="fas fa-lg fa-spinner"></i></span>
             </div>
         </li>
     </ul>
@@ -134,6 +145,13 @@
                 aria-selected="true">
                 <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Network</p>
+            </a>
+        </li>
+        <li class="nav-config" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" onclick="" href="#nav-config" role="tab"
+                aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Config</p>
             </a>
         </li>
     </ul>
@@ -336,8 +354,6 @@
 
 
             <!-- PAGINA Contracts INICIO -->
-
-
             <div class="tab-pane fade" id="nav-contracts" role="tabpanel">
                 <nav class="nav-links" aria-label="breadcrumb">
                     <ol class="breadcrumb">
@@ -354,129 +370,120 @@
                             Contracts
                         </h4>
                         <div class="container">
-                            <div class="row">
-                                <div class="container">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="contract_hash">Contract ScriptHash</label>
-                                                <input id="contract_hash" name="contract_hash" readonly
-                                                    class="form-control" placeholder="Script Hash">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="contract_name">Name</label>
-                                                <input id="contract_name" name="contract_name" readonly
-                                                    class="form-control" placeholder="Contract name">
-                                            </div>
-                                        </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contract_hash">Contract ScriptHash</label>
+                                        <input id="contract_hash" name="contract_hash" readonly class="form-control"
+                                            placeholder="Script Hash">
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="contract_name">Name</label>
+                                        <input id="contract_name" name="contract_name" readonly class="form-control"
+                                            placeholder="Contract name">
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <input id="storage_key" name="storage_key" class="form-control"
-                                                placeholder="Storage Key" style="width: 100%;">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button type="button" id="btnGetStorage" style="width: 100%;"
-                                                onClick="getStorage()" class="btn btn-success btn-1"><i
-                                                    class="fas fa-file-contract"></i> Get
-                                                Storage</a>
-                                        </div>
-                                    </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <input id="storage_key" name="storage_key" class="form-control"
+                                        placeholder="Storage Key" style="width: 100%;">
+                                </div>
+                                <div class="col-md-6">
+                                    <button type="button" id="btnGetStorage" style="width: 100%;" onClick="getStorage()"
+                                        class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Get
+                                        Storage</a>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-3 collapse" id="collapseLocalContractsOptions">
-                                        <div class="col-md-4">
-                                            <button type="button" id="btnNewContractDeloy" onClick="deployContract()"
-                                                class="btn btn-success btn-1-noColor"><i
-                                                    class="fas fa-file-contract"></i>
-                                                Deploy Contract</a>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" id="btnNewContractToWallet"
-                                                onClick="addContractToWallet($('#contract_hash').val())"
-                                                class="btn btn-success btn-1-noColor"><i class="fas fa-wallet"></i>
-                                                Import to
-                                                wallet</a>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="button" id="btnRemoveLocalContract"
-                                                onClick="deleteLocalContract()" class="btn btn-danger btn-1-noColor"><i
-                                                    class="fas fa-trash"></i>
-                                                Remove
-                                                local contract</a>
-                                        </div>
-                                    </div>
+                            <div class="row mb-3 collapse" id="collapseLocalContractsOptions">
+                                <div class="col-md-4">
+                                    <button type="button" id="btnNewContractDeloy" onClick="deployContract()"
+                                        class="btn btn-success btn-1-noColor"><i class="fas fa-file-contract"></i>
+                                        Deploy Contract</a>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" id="btnNewContractToWallet"
+                                        onClick="addContractToWallet($('#contract_hash').val())"
+                                        class="btn btn-success btn-1-noColor"><i class="fas fa-wallet"></i>
+                                        Import to
+                                        wallet</a>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" id="btnRemoveLocalContract" onClick="deleteLocalContract()"
+                                        class="btn btn-danger btn-1-noColor"><i class="fas fa-trash"></i>
+                                        Remove
+                                        local contract</a>
+                                </div>
+                            </div>
 
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <label>Native Contracts</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label>Local
-                                                Contracts
-                                            </label>
-                                            <button type="button" id="button-refreshWithPendingContracts"
-                                                onclick="updateWithDeployedContract()" class="btn btn-1 btn-sm">
-                                                Pending Contracts: 0 <i class="fas fa-sync-alt"></i></button>
-                                        </div>
-                                    </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <label>Native Contracts</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Local
+                                        Contracts
+                                    </label>
+                                    <button type="button" id="button-refreshWithPendingContracts"
+                                        onclick="updateWithDeployedContract()" class="btn btn-1 btn-sm">
+                                        Pending Contracts: 0 <i class="fas fa-sync-alt"></i></button>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <select id="native_contracts" name="native_contracts"
-                                                    onchange="createNativeManifest()" class="form-select"
-                                                    size="8"></select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <select id="local_contracts" name="local_contracts"
-                                                    onchange="createLocalManifest()" class="form-select"
-                                                    size="8"></select>
-                                            </div>
-                                        </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select id="native_contracts" name="native_contracts"
+                                            onchange="createNativeManifest()" class="form-select" size="8"></select>
                                     </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select id="local_contracts" name="local_contracts"
+                                            onchange="createLocalManifest()" class="form-select" size="8"></select>
+                                    </div>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-2 collapse" id="hidden_notification_contracts">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="notification_contracts">Additional Notification
-                                                    Contracts</label>
-                                                <select id="notification_contracts" name="notification_contracts"
-                                                    onchange="createNotificationManifest()" class="form-select"
-                                                    size="8"></select>
-                                            </div>
-                                        </div>
+                            <div class="row mb-2 collapse" id="hidden_notification_contracts">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="notification_contracts">Additional Notification
+                                            Contracts</label>
+                                        <select id="notification_contracts" name="notification_contracts"
+                                            onchange="createNotificationManifest()" class="form-select"
+                                            size="8"></select>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                <label for="native_methods">ABI Methods</label>
-                                                <select onchange="drawParametersTable()" id="contract_methods"
-                                                    class="form-select" size="8"></select>
-                                            </div>
-                                        </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="native_methods">ABI Methods</label>
+                                        <select onchange="drawParametersTable()" id="contract_methods"
+                                            class="form-select" size="8"></select>
                                     </div>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <table id="tableNativeParameters" class="table text-white twalllet">
-                                            </table>
-                                        </div>
-                                    </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <table id="tableNativeParameters" class="table text-white twalllet">
+                                    </table>
+                                </div>
+                            </div>
 
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
-                                            <button type="button" style="width: 100%;" onclick="invokeFunction()"
-                                                class="btn btn-1"><i class="fas fa-cubes"></i>
-                                                InvokeFunction </button>
-                                        </div>
-                                    </div>
+                            <div class="row mb-2">
+                                <div class="col-md-12">
+                                    <button type="button" style="width: 100%;" onclick="invokeFunction()"
+                                        class="btn btn-1"><i class="fas fa-cubes"></i>
+                                        InvokeFunction </button>
                                 </div>
                             </div>
                         </div>
@@ -505,11 +512,7 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
-
 
             <!-- PAGINA RPC INICIO -->
             <div class="tab-pane fade" id="nav-rpc" role="tabpanel">
@@ -1576,6 +1579,58 @@
                     <br><br>
                 </div>
             </div>
+            <!-- END NETWORK -->
+
+            <!-- BEGIN CONFIG -->
+            <div class="tab-pane fade" id="nav-config" role="tabpanel">
+                <nav class="nav-links" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page"><a> Config</a></li>
+                    </ol>
+                </nav>
+
+
+                <div class="errors-warnings">
+                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                        <h4 class="green-title">
+                            Contracts
+                        </h4>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input id="newnode_url" name="newnode_url" class="form-control"
+                                    placeholder="New RPC Node (https://node.to.add)" style="width: 100%;">
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" id="btnAddNode" style="width: 100%;" onClick="addNewRPCNode()"
+                                    class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Add RPC Node</a>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                            <div class="row mb-3">
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <label>RPC Nodes</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <select id="rpc_nodes_list" name="rpc_nodes" onchange="changeRPCHeaderURL()"
+                                            class="form-select" size="8"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CONFIG -->
         </div>
         <!-- END SINGLE PAGE TAB CONTENT -->
     </div>
@@ -1624,6 +1679,11 @@
 <!--<script type="text/javascript" src="assets/info/mainnet.js"></script>-->
 
 <!-- LOADING Global Vars -->
+
+<script src="assets/eco-scripts/headerInfoWebSocket.js"></script>
+
+<script src="assets/eco-scripts/config.js"></script>
+
 <script src="assets/eco-scripts/global_var.js"></script>
 
 <script src="assets/eco-scripts/accounts.js"></script>
@@ -1665,8 +1725,6 @@
 
 <script src="assets/eco-scripts/socket.js"></script>
 
-<script src="assets/eco-scripts/headerInfoWebSocket.js"></script>
-
 <script src="assets/eco-scripts/balances_query_neocli.js"></script>
 
 <script src="assets/eco-scripts/accounts_helper.js"></script>
@@ -1703,13 +1761,23 @@
 <script src="assets/eco-scripts/roleManagementAPI.js"></script>
 
 
-
-
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>
-    /*window.setTimeout(function() {
-        $("#boxForPulseLegacyV2")[0].style = "display: none"
-    }, 15000);*/
+    window.onload = function exampleFunction() {
+        setRefreshingIntervalForHeadersInfo(2000); //2s
+
+        //Initialize Socket IO
+        startSocketIoConnections();
+
+        createMultiSigFromNextValidators();
+
+        if (getLocalStorage("disabledTutoral") != "1")
+            nextTutorial();
+
+        drawPopulate();
+    }
+
+
 </script>
 
 </html>

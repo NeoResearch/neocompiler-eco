@@ -345,14 +345,6 @@ function getFiles(language, selected_index, index = 0) {
     //    goToMainTab();
 }
 
-function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {
-    var option = document.createElement("option");
-    option.text = textToOption;
-    option.value = valueToOption;
-    option.title = title;
-    var select = document.getElementById(walletSelectionBox);
-    select.appendChild(option);
-}
 
 function updateCompilersSelectionBox(compilerType) {
     $.get(BASE_PATH_COMPILERS + '/getcompilers',

@@ -40,10 +40,6 @@
 
     <!-- TOP INFO MENU -->
     <ul class="nav top-info-menu">
-        <li class="nav-item" style="background: #1D2C30; width: 100px;">
-            <a class="nav-link" href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
-        </li>
-
         <li class="nav-item text-white" style="width: 300px; padding-left: 10px;padding-top: 5px;">
             <!--<div class="">
                 <span id="online" class="label label-success"
@@ -61,10 +57,6 @@
                 <span id="nodeHeight" class="label label-info spanHeader">
                     <i class="fas fa-lg fa-spinner"></i></span>
             </div>
-        </li>
-
-        <li class="nav-item text-white" style="width: 250px; padding-left: 10px;padding-top: 15px;">
-
         </li>
     </ul>
     <!-- TOP INFO MENU -->
@@ -97,10 +89,16 @@
 
     <!-- BEGIN UL FOR NAV MENU VERTICAL -->
     <ul class="nav main-menu" role="tablist">
+        <li class="nav-item noHover">
+            <a class="nav-link" style="border-bottom: 0px !important; padding-top: 8% !important; padding-left: 16% !important; padding-right: 16% !important; height: 84px;">
+                <img src="assets/neocompiler.png" style="margin-top: 0!important; width: 65px;">
+            </a>
+        </li>
+
         <li class="nav-item" role="presentation">
-            <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-bs-toggle="tab"
+            <a class="nav-link active" onclick="" data-bs-toggle="tab"
                 data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
-                <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
+                <img src="./assets/icons/compilers.png" style="width: 35px; padding-bottom: 4px;">
                 <p id="compilerNav">Compilers</p>
             </a>
         </li>
@@ -108,7 +106,7 @@
             <a class="nav-link" data-bs-toggle="tab" data-toggle="tab"
                 onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab"
                 aria-controls="nav-home" aria-selected="true">
-                <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
+                <img src="./assets/icons/contracts.png" style="width: 35px; padding-bottom: 4px;">
                 <p>Contracts</p>
             </a>
         </li>

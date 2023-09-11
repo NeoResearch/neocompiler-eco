@@ -1,40 +1,37 @@
-    personalizedNodes = [
+   personalizedNodes = [
       {
-        "protocol": "http",      
-        "url": "localhost:10000",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "type": "ecocompilers"
+         "protocol": "https",
+         "url": "compilers-neo3.neocompiler.io",
+         "location": "worldwide",
+         "locale": "worldwide",
+         "type": "ecocompilers"
       },
       {
-        "protocol": "http",
-        "url": "localhost:9000",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "type": "ecoservices"
+         "protocol": "https",
+         "url": "ecoservices-neo3.neocompiler.io",
+         "location": "worldwide",
+         "locale": "worldwide",
+         "type": "ecoservices"
       },
       {
-        "protocol": "http",
-        "url": "localhost",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "port": "30333",
-        "type": "RPC"
+         "protocol": "https",
+         "url": "node1-neo3.neocompiler.io",
+         "location": "worldwide",
+         "locale": "worldwide",
+         "type": "RPC"
       },
       {
-        "protocol": "http",
-        "url": "localhost",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "port": "30334",
-        "type": "RPC"
+         "protocol": "https",
+         "url": "node2-neo3.neocompiler.io",
+         "location": "worldwide",
+         "locale": "worldwide",
+         "type": "RPC"
       },
       {
-        "protocol": "http",
-        "url": "localhost",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "port": "30337",
-        "type": "RPC"
+         "protocol": "https",
+         "url": "node3-neo3.neocompiler.io",
+         "location": "worldwide",
+         "locale": "worldwide",
+         "type": "RPC"
       }
   ]

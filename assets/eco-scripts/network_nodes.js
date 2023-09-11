@@ -3,7 +3,7 @@ function changeSelectedNetwork() {
     //console.log(selectedNetwork);
     switch (selectedNetwork) {
         case 0:
-            default_nodes = ecoNodes;
+            default_nodes = personalizedNodes;
             showTabs();
             break;
         case 1:
@@ -17,10 +17,6 @@ function changeSelectedNetwork() {
         case 3:
             default_nodes = mainnetNodes;
             hideTabs();
-            break;
-        case 4:
-            default_nodes = personalizedNodes;
-            showTabs();
             break;
         default:
             console.error(`Sorry, we are out of options for selected network.`);

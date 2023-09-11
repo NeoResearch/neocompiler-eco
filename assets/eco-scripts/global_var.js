@@ -25,7 +25,7 @@ var NEO_ASSET = "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5";
 var USER_EXAMPLES = new Map();
 
 var PERSONALIZED = false;
-var default_nodes = ecoNodes;
+var default_nodes = personalizedNodes;
 
 var BASE_PATH_ECOSERVICES, BASE_PATH_COMPILERS, BASE_PATH_CLI, BASE_PATH_CLI_NODES;
 // ===================================================================
@@ -35,7 +35,7 @@ PERSONALIZED = false;
 //
 if (PERSONALIZED) {
     default_nodes = personalizedNodes;
-    $("#ecolabnetworkurlselection")[0].selectedIndex = 4;
+    $("#ecolabnetworkurlselection")[0].selectedIndex = 0;
 }
 else {
     var LOCAL_DEVELOPMENT = false;

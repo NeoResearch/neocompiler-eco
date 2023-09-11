@@ -3,7 +3,7 @@
 
 <head>
     <title>Neo Compiler - Compiling & Testing</title>
-    <meta charset="utf-8">   
+    <meta charset="utf-8">
     <meta name="NeoCompiler" content="A set of tools for developing and testing smart contracts on Neo blockchain.">
     <meta name="author" content="NeoResearch">
     <link rel="icon" href="assets/neocompiler.png">
@@ -37,111 +37,108 @@
         </div>
     </div>
 
-    <!-- BEGIN HEADER AREA -->
-    <header>
-        <!-- TOP INFO MENU -->
-        <ul class="nav top-info-menu">
-            <li class="nav-item" style="background: #1D2C30; width: 100px;">
-                <a class="nav-link" href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
-            </li>
 
-            <li class="nav-item text-white" style="width: 300px; padding-left: 10px;padding-top: 15px;">
-                <div class="">
-                    <span id="online" class="label label-success"
-                        style="font-size: 18px;background: #00AF92;padding:2px;"><i
-                            class="fas fa-lg fa-spinner"></i></span>
-                </div>
-                <div class="">
-                    <span id="nodeRPCHeader" class="label label-info"
-                        style="font-size: 18px;background: #00AF92;padding:2px;"><i
-                            class="fas fa-lg fa-spinner"></i></span>
-                </div>
-            </li>
-        </ul>
-        <!-- TOP INFO MENU -->
+    <!-- TOP INFO MENU -->
+    <ul class="nav top-info-menu">
+        <li class="nav-item" style="background: #1D2C30; width: 100px;">
+            <a class="nav-link" href=""><img src="assets/neocompiler.png" style="width: 65px"></a>
+        </li>
 
-        <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
-        <div class="options-in-the-header">
-            <div class="row">
-                <div class="col-7">
-                    <div class="form-floating">
-                        <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()" title="Select network"
-                            class="form-select" style="text-align: center!important;">
-                            <option selected>NeoCompiler-Eco</option>
-                            <option>Localhost</option>
-                            <option>TestNet</option>
-                            <option>MainNet</option>
-                            <option>Personalized</option>
-                        </select>
-                        <label for="ecolabnetworkurlselection">Select Network</label>
-                    </div>
-                </div>
-                <div class="col-5">
-                    <button type="button" id="button-connect-wallet" onClick="connectWallet()"
-                        class="btn btn-default btn-1" style="width: 200px;font-weight: bold!important;">CONNECT
-                        WALLET
-                    </button>
+        <li class="nav-item text-white" style="width: 300px; padding-left: 10px;padding-top: 15px;">
+            <div class="">
+                <span id="online" class="label label-success"
+                    style="font-size: 18px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+            </div>
+            <div class="">
+                <span id="nodeRPCHeader" class="label label-info"
+                    style="font-size: 18px;background: #00AF92;padding:2px;"><i class="fas fa-lg fa-spinner"></i></span>
+            </div>
+        </li>
+    </ul>
+    <!-- TOP INFO MENU -->
+
+    <!-- BEGIN SELECTION OF NETWORK AND WALLET PROVIDER -->
+    <div class="options-in-the-header">
+        <div class="row">
+            <div class="col-7">
+                <div class="form-floating">
+                    <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()" title="Select network"
+                        class="form-select" style="text-align: center!important;">
+                        <option selected>NeoCompiler-Eco</option>
+                        <option>Localhost</option>
+                        <option>TestNet</option>
+                        <option>MainNet</option>
+                        <option>Personalized</option>
+                    </select>
+                    <label for="ecolabnetworkurlselection">Select Network</label>
                 </div>
             </div>
+            <div class="col-5">
+                <button type="button" id="button-connect-wallet" onClick="connectWallet()" class="btn btn-default btn-1"
+                    style="width: 200px;font-weight: bold!important;">CONNECT
+                    WALLET
+                </button>
+            </div>
         </div>
-        <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
+    </div>
+    <!-- END SELECTION OF NETWORK AND WALLET PROVIDER -->
 
-        <!-- BEGIN UL FOR NAV MENU VERTICAL -->
-        <ul class="nav main-menu" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-bs-toggle="tab"
-                    data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
-                    <p id="compilerNav">Compilers</p>
-                </a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab"
-                    onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab"
-                    aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Contracts</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="populateAllWalletData()" data-bs-toggle="tab" data-toggle="tab"
-                    href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Wallet</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-rpc" role="tab"
-                    aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Raw RPC</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(true);" data-bs-toggle="tab" data-toggle="tab"
-                    href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Activity</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-conversors" role="tab"
-                    aria-controls="nav-home" aria-selected="true">
-                    <img src="./assets/icons/conversus.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Conversors</p>
-                </a>
-            </li>
-            <li class="nav-item" id="navItem-network">
-                <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#nav-network"
-                    onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home"
-                    aria-selected="true">
-                    <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
-                    <p>Network</p>
-                </a>
-            </li>
-        </ul>
-        <!-- END UL FOR NAV MENU VERTICAL -->
-    </header>
+    <!-- BEGIN UL FOR NAV MENU VERTICAL -->
+    <ul class="nav main-menu" role="tablist">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" onclick="" style="margin-top: 0!important;" data-bs-toggle="tab"
+                data-toggle="tab" href="#nav-compilers" role="tab" aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/compilers.png" style="width: 35px;padding-bottom: 4px;">
+                <p id="compilerNav">Compilers</p>
+            </a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" data-bs-toggle="tab" data-toggle="tab"
+                onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab"
+                aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/contracts.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Contracts</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="populateAllWalletData()" data-bs-toggle="tab" data-toggle="tab"
+                href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Wallet</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-rpc" role="tab"
+                aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Raw RPC</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="drawRelayedTXs(); drawBlocks(true);" data-bs-toggle="tab" data-toggle="tab"
+                href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/activty.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Activity</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-conversors" role="tab"
+                aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/conversus.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Conversors</p>
+            </a>
+        </li>
+        <li class="nav-item" id="navItem-network">
+            <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" href="#nav-network"
+                onclick="getNodeInfo(); getOracleInfo(); getStateInfo()" role="tab" aria-controls="nav-home"
+                aria-selected="true">
+                <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
+                <p>Network</p>
+            </a>
+        </li>
+    </ul>
+    <!-- END UL FOR NAV MENU VERTICAL -->
+
     <!-- END HEADER AREA -->
 
     <!-- BEGIN SINGLE PAGE CONTAINER PRINCIPAL -->
@@ -162,7 +159,6 @@
                         </li>
                     </ol>
                 </nav>
-
 
                 <div class="container">
                     <div class="row mb-2">

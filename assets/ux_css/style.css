@@ -17,6 +17,7 @@ body {
     position: fixed;
     float: left;
     width: 100%;
+    height: 80px;
     z-index: 1000000 !important;
 }
 /* END TOP PAGE TOP INFO NAV STYLE */

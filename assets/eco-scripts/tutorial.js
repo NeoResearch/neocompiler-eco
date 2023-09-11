@@ -59,6 +59,3 @@ function removetutorial() {
     $("header").css("opacity", "1");
     setLocalStorage("disabledTutoral", "1");
 }
-
-if (getLocalStorage("disabledTutoral") != "1")
-    nextTutorial();

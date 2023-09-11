@@ -133,8 +133,10 @@ body {
 /* End Navigation tab style of ACE */
 /* End ACE */
 
-
-
+.spanHeader {
+    font-size: 15px;
+    background: #00AF92;padding:2px;
+}
 
 .n-padding {
     padding: 0 !important;

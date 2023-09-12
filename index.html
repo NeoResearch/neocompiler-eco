@@ -65,7 +65,7 @@
     <div class="options-in-the-header">
         <div class="row">
             <div class="col-7">
-                <select id="ecolabnetworkurlselection" onchange="changeSelectedNetwork()" title="Select network"
+                <select id="ecolabnetworkurlselection" onchange="changeToSelectedNetwork()" title="Select network"
                     class="form-select" style="text-align: center!important;">
                     <option selected>Personalized</option>
                     <option>Localhost</option>
@@ -146,7 +146,7 @@
         <li class="nav-config" role="presentation">
             <a class="nav-link" data-bs-toggle="tab" data-toggle="tab" onclick="" href="#nav-config" role="tab"
                 aria-controls="nav-home" aria-selected="true">
-                <img src="./assets/icons/consensus.png" style="width: 35px;padding-bottom: 4px;">
+                <img src="./assets/icons/config.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Config</p>
             </a>
         </li>
@@ -1757,19 +1757,28 @@
 <!-- First Load all Pending HTML on other files - TODO Maybe move this up -->
 <script>
     window.onload = function exampleFunction() {
-        setRefreshingIntervalForHeadersInfo(2000); //2s
+        //Finishes Ace SETUP
+        aceEditor = createEditor("aceEditor", "ace/mode/csharp");
+        openedSessions.set(-1, new ace.EditSession("mainSession"));
+        goToACEMainTab();
 
+        // Setup Base Baths
+        changeToSelectedNetwork();
+        
         //Initialize Socket IO
         startSocketIoConnections();
 
+        // Set header refrishing interval
+        setRefreshingIntervalForHeadersInfo(2000); //2s
+
         createMultiSigFromNextValidators();
 
+        drawPopulateAllWalletAccountsInfo();
+
+        // Call tutorial
         if (getLocalStorage("disabledTutoral") != "1")
             nextTutorial();
-
-        drawPopulate();
     }
-
 </script>
 
 </html>

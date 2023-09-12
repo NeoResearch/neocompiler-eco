@@ -91,7 +91,6 @@
                 <img src="assets/neocompiler.png" style="height: 74px;">
             </a>
         </li>
-
         <li class="nav-item" role="presentation">
             <a class="nav-link active" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-compilers"
                 role="tab" aria-controls="nav-home" aria-selected="true">
@@ -176,66 +175,57 @@
 
                 <div class="container">
                     <div class="row mb-2">
-                        <div class="col-4">
-                            <select id="codesend_selected_compiler" class="form-select" onchange="setCompiler()"
-                                style="text-align: center!important;font-weight: bold!important;">
-                                <option selected>C#</option>
-                                <option>Python</option>
-                            </select>
+                        <div class="col-md-8">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <select id="codesend_selected_compiler" class="form-select"
+                                        onchange="setCompilerAndExample()"
+                                        style="text-align: center!important;font-weight: bold!important;">
+                                        <option selected>C#</option>
+                                        <option>Python</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <select title="Select compiler version" id="compilers_versions-selection-box"
+                                        class="form-select"
+                                        style="text-align: center!important;font-weight: bold!important;">
+                                        <option title="Loading compilers">Loading...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-4">
+                                    <button type="button" id="compilebtn" onClick="compilerCall()"
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i class="fas fa-hammer"></i> COMPILE
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i class="fa-solid fa-trash"></i>
+                                        Delete
+                                    </button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
+                                        style="text-align: center!important;font-weight: bold!important; width: 100%;"
+                                        class="btn btn-default btn-1 btn-1-darker"><i
+                                            class="fa-solid fa-floppy-disk"></i>
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-4">
-                            <select class="form-select"
+                        <div class="col-md-4">
+                            <select class="form-select checkedOption"
                                 style="text-align: center!important;font-weight: bold!important;"
-                                onchange="setExampleOnChange()" id="ExampleList">
+                                onchange="setExampleOnChange()" size="3" id="ExampleList">
                             </select>
-                        </div>
-
-                        <div class="col-2">
-                            <select title="Select compiler server" onChange="changeServerBasePath()"
-                                id="compilers_server-selection-box" class="form-select"
-                                style="text-align: center!important;font-weight: bold!important;">
-                                <option title="Loading compilers">Loading...</option>
-                            </select>
-                        </div>
-
-                        <div class="col-2">
-                            <select title="Select compiler version" id="compilers_versions-selection-box"
-                                class="form-select" style="text-align: center!important;font-weight: bold!important;">
-                                <option title="Loading compilers">Loading...</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col-4">
-                            <button type="button" id="compilebtn" onClick="compilerCall()"
-                                style="text-align: center!important;font-weight: bold!important; width: 100%;"
-                                class="btn btn-default btn-1 btn-1-darker"><i class="fas fa-hammer"></i> COMPILE
-                            </button>
-                        </div>
-
-                        <div class="col-4">
-                            <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
-                                style="text-align: center!important;font-weight: bold!important; width: 100%;"
-                                class="btn btn-default btn-1 btn-1-darker"><i class="fa-solid fa-floppy-disk"></i>
-                                Save
-                            </button>
-                        </div>
-
-                        <div class="col-4">
-                            <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
-                                style="text-align: center!important;font-weight: bold!important; width: 100%;"
-                                class="btn btn-default btn-1 btn-1-darker"><i class="fa-solid fa-trash"></i>
-                                Delete
-                            </button>
                         </div>
                     </div>
                 </div>
-
-                <div class="clearfix"></div>
-                <br>
-
+                
                 <ul class="nav nav-tabs aceLITabs" id="navFiles">
                     <li role="presentation" class="active"><a href="#nav-compilers/" onclick="goToMainTab()"
                             id="mainTabAceEditor">Main.cs</a></li>
@@ -391,7 +381,7 @@
                                 <div class="col-md-6">
                                     <button type="button" id="btnGetStorage" style="width: 100%;" onClick="getStorage()"
                                         class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Get
-                                        Storage</a>
+                                        Storage</button>
                                 </div>
                             </div>
 
@@ -399,20 +389,20 @@
                                 <div class="col-md-4">
                                     <button type="button" id="btnNewContractDeloy" onClick="deployContract()"
                                         class="btn btn-success btn-1-noColor"><i class="fas fa-file-contract"></i>
-                                        Deploy Contract</a>
+                                        Deploy Contract</button>
                                 </div>
                                 <div class="col-md-4">
                                     <button type="button" id="btnNewContractToWallet"
                                         onClick="addContractToWallet($('#contract_hash').val())"
                                         class="btn btn-success btn-1-noColor"><i class="fas fa-wallet"></i>
                                         Import to
-                                        wallet</a>
+                                        wallet</button>
                                 </div>
                                 <div class="col-md-4">
                                     <button type="button" id="btnRemoveLocalContract" onClick="deleteLocalContract()"
                                         class="btn btn-danger btn-1-noColor"><i class="fas fa-trash"></i>
                                         Remove
-                                        local contract</a>
+                                        local contract</button>
                                 </div>
                             </div>
 
@@ -527,8 +517,8 @@
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="rpcMethod">Method (view <a
-                                                href="https://docs.neo.org/en-us/node/cli/apigen.html"
+                                        <label for="rpcMethod">
+                                            Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
                                                 target="_blank">Official API</a> or put cursor on top for
                                             tooltip)</label>
                                         <select name="rpcMethod" id="rpcMethod" class="form-select"
@@ -1591,38 +1581,63 @@
                 <div class="errors-warnings">
                     <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
                         <h4 class="green-title">
-                            Contracts
+                            RPC
                         </h4>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <input id="newnode_url" name="newnode_url" class="form-control"
-                                    placeholder="New RPC Node (https://node.to.add)" style="width: 100%;">
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" id="btnAddNode" style="width: 100%;" onClick="addNewRPCNode()"
-                                    class="btn btn-success btn-1"><i class="fas fa-file-contract"></i> Add RPC Node</a>
-                            </div>
-                        </div>
-
                         <div class="container">
-                            <div class="row mb-3">
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <label>RPC Nodes</label>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                    <div class="form-group">
-                                        <select id="rpc_nodes_list" name="rpc_nodes" onchange="changeRPCHeaderURL()"
-                                            class="form-select" size="8"></select>
-                                    </div>
+                                    <button type="button" id="btnAddNode" style="width: 100%;" onClick="addNewRPCNode()"
+                                        class="btn btn-success btn-1">
+                                        <i class="fa-solid fa-plus"></i> Add RPC Node
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="newnode_url" class="form-control"
+                                        placeholder="New RPC Node (https://node.to.add)" style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <select id="rpc_nodes_list" name="rpc_nodes" onchange="changeRPCHeaderURL()"
+                                        class="form-select checkedOption" size="3"
+                                        style="text-align: center!important;font-weight: bold!important;"></select>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="errors-warnings">
+                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                        <h4 class="green-title">
+                            Compiler Service
+                        </h4>
+                        <div class="container">
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <button type="button" id="btnAddCompilationService" style="width: 100%;"
+                                        onClick="addNewCompilationService()" class="btn btn-success btn-1">
+                                        <i class="fa-solid fa-plus"></i> Add Compilation Service
+                                    </button>
+                                </div>
+                                <div class="col-md-6">
+                                    <input id="newCompilation_url" class="form-control"
+                                        placeholder="New Compilation Service (https://compilerServer.to.add)"
+                                        style="width: 100%;">
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <select class="form-select checkedOption"
+                                        style="text-align: center!important;font-weight: bold!important;"
+                                        id="compiler_list" onchange="changeBasePathCompilers()" size="2">
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -1762,9 +1777,11 @@
         openedSessions.set(-1, new ace.EditSession("mainSession"));
         goToACEMainTab();
 
+        loadSmartContractExamplesFromLocalStorage();
+
         // Setup Base Baths
         changeToSelectedNetwork();
-        
+
         //Initialize Socket IO
         startSocketIoConnections();
 

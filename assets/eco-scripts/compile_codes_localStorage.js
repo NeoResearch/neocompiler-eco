@@ -22,7 +22,7 @@ function getSmartContractExamplesFromLocalStorage() {
     return new Map();
 }
 
-$(document).ready(function () {
+function loadSmartContractExamplesFromLocalStorage(){
     USER_EXAMPLES = getSmartContractExamplesFromLocalStorage();
     var cachedSelectedIndex = $("#ExampleList")[0].selectedIndex;
     USER_EXAMPLES.forEach(function (value, key) {
@@ -32,8 +32,7 @@ $(document).ready(function () {
         addCSContractFromLocalMap(value, key, SELECTED_COMPILER);
     });
     $("#ExampleList")[0].selectedIndex = cachedSelectedIndex;
-
-});
+}
 
 function saveSCExample(fileName) {
     var scToSave = {

@@ -22,6 +22,7 @@ function changeToSelectedNetwork() {
             console.error(`Sorry, we are out of options for selected network.`);
     }
     updateAllBasePaths();
+    
     // Clean Header Summary
     cleanVersionHeightSummary();
 

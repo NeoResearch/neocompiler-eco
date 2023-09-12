@@ -171,6 +171,11 @@ body {
     color: white !important;
 }
 
+.checkedOption option:checked {
+    background: #13ae2b;
+    color: white;
+}
+
 .green-title {
     float: left;
     width: 100%;

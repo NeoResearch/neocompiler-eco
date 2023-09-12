@@ -85,12 +85,15 @@ function getAllAvailableService(serviceType, networkServicesObj) {
 
 function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {
     var option = document.createElement("option");
-    option.text = textToOption;
-    option.value = valueToOption;
-    option.title = title;
-    var select = document.getElementById(walletSelectionBox);
-    select.appendChild(option);
+    //option.text = textToOption;
+    //option.value = valueToOption;
+    option.setAttribute('value', valueToOption);
+    //option.title = title;
+    option.setAttribute('title', title);
+    option.appendChild(document.createTextNode(textToOption));
+    document.getElementById(walletSelectionBox).add(option);
 }
+
 
 /* UPDATE BASE PATHS */
 function updateAllBasePaths() {

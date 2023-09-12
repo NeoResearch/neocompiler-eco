@@ -21,7 +21,7 @@ function compilerCall() {
     $("#contracthashjs").val("");
     $("#contractparams").val("\"\"");
     $("#selected_compiler_form").val(SELECTED_COMPILER);
-    $('#collapseMore').collapse('hide');
+    $('#collapseNEFAfterCompilation').collapse('hide');
 
     //e.preventDefault(); // Prevents the page from refreshing
     //
@@ -460,7 +460,7 @@ function socketCompilerCompilexResult() {
                 updateABITextarea(manifestJson.abi);
             }
 
-            $('#collapseMore').collapse('show');
+            $('#collapseNEFAfterCompilation').collapse('show');
             swal({
                 title: "Compiled with success!",
                 icon: "success",

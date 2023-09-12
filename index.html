@@ -238,21 +238,20 @@
                                 class="fa fa-plus-square" aria-hidden="true"></i></a></li>
                 </ul>
 
-                <div id="aceEditor" style="margin-top: 0!important">
-                </div>
+                <div id="aceEditor"> </div>
 
-                <div class="collapse colapse-nef" id="collapseMore">
-                    <div class="">
-                        <div class="errors-warnings" style="height: auto!important;">
-                            <h4>NEF (in hex):</h4>
+                <div class="collapse colapse-nef" id="collapseNEFAfterCompilation">
+                    <div class="generalContainer">
+                        <h4>NEF (in hex):</h4>
 
-                            <div style="margin-bottom: 10px;">
-                                <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="NEF (in hex)"
-                                    class="form-control"
-                                    style="color: #0aab7b!important; background: none;border: none;resize: none;outline: none;"></textarea>
-                            </div>
+                        <div style="margin-bottom: 10px;">
+                            <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="NEF (in hex)"
+                                class="form-control"
+                                style="color: #0aab7b!important; background: none;border: none;resize: none;outline: none;">
+                            </textarea>
+                        </div>
 
-                            <!--
+                        <!--
                                     <div class="dropdown show">
                                         <a class="btn btn-warning text-white dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-upload"></i> AVM
@@ -276,40 +275,37 @@
                                         </div>
                                     </div>
                                     -->
-                        </div>
+                    </div>
 
-                        <div class="errors-warnings" style="min-height:700px;height: auto!important;">
-                            <h4>Compiled contract info:</h4>
-                            <div class="clearfix"></div>
-                            <div class="display-erros" style="background: transparent">
-                                <label for="contractInfo_ScriptHash">ScriptHash</label>
-                                <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash"
-                                    class="form-control" placeholder="Script Hash"
-                                    style="width: 100%; margin-bottom: 10px;">
+                    <div class="generalContainer">
+                        <h4>Compiled contract info:</h4>
+                        <div class="display-erros" style="background: transparent; padding: 10px">
+                            <label for="contractInfo_ScriptHash">ScriptHash</label>
+                            <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash"
+                                class="form-control" placeholder="Script Hash"
+                                style="width: 100%; margin-bottom: 10px;">
 
-                                <label for="contractInfo_Address">Address</label>
-                                <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address"
-                                    class="form-control" placeholder="Address (base58)"
-                                    style="width: 100%; margin-bottom: 10px;">
-
-
-                                <label for="contractInfo_AVMSize">AVM size (in bytes)</label>
-                                <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize"
-                                    class="form-control" placeholder="AVM size (in bytes)"
-                                    style="width: 100%; margin-bottom: 10px;">
+                            <label for="contractInfo_Address">Address</label>
+                            <input id="contractInfo_Address" readonly="readonly" name="contractInfo_Address"
+                                class="form-control" placeholder="Address (base58)"
+                                style="width: 100%; margin-bottom: 10px;">
 
 
-                                <h4>ABI:</h4>
-                                <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100"
-                                    placeholder="ABI (JSON format)" class="form-control"></textarea>
+                            <label for="contractInfo_AVMSize">AVM size (in bytes)</label>
+                            <input id="contractInfo_AVMSize" readonly="readonly" name="contractInfo_AVMSize"
+                                class="form-control" placeholder="AVM size (in bytes)"
+                                style="width: 100%; margin-bottom: 10px;">
 
-                                <h4>MANIFEST:</h4>
-                                <textarea id="codemanifest" readonly="readonly" rows="9" cols="100"
-                                    placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
-                            </div>
+
+                            <h4>ABI:</h4>
+                            <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100"
+                                placeholder="ABI (JSON format)" class="form-control"></textarea>
+
+                            <h4>MANIFEST:</h4>
+                            <textarea id="codemanifest" readonly="readonly" rows="9" cols="100"
+                                placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
                         </div>
                     </div>
-                    <!-- END DIV EMPTY CLASS -->
                 </div>
                 <!-- END COLLAPSE MORE -->
 
@@ -328,18 +324,12 @@
                                 </span>
                             -->
 
-                <div class="errors-warnings" style="height: auto!important;">
-                    <div class="display-erros" style="height: auto!important; margin-bottom: 30px;">
+                <div class="generalContainer">
+                    <div class="display-erros" style="margin-bottom: 30px; padding: 10px;">
                         <h4>Compiler Output (Warning/Errors):</h4>
                         <textarea id="codewarnerr" readonly="readonly" rows="10" class="form-control"></textarea>
                     </div>
                 </div>
-
-                <!--<a class="btn btn-default collapseMore" data-toggle="collapse" href="#collapseMore"
-                            role="button" aria-expanded="false" aria-controls="collapseMore">
-                            <img src="assets/left-arrow.png" style="width: 40px;">
-                        </a> -->
-
             </div>
 
 
@@ -354,8 +344,8 @@
                 </nav>
 
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">
                             Contracts
                         </h4>
@@ -480,10 +470,8 @@
                     </div>
                 </div>
 
-
-
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important; margin-bottom: 30px;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg" style="margin-bottom: 30px;">
                         <h4 class="green-title">
                             Import Contract
                         </h4>
@@ -514,8 +502,8 @@
                     </ol>
                 </nav>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height: auto!important; margin-bottom: 30px;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg" style="margin-bottom: 30px;">
                         <h4 class="green-title">Request from Neo C# nodes (RPC-JSON API)</h4>
                         <div class="container">
                             <div class="row mb-2">
@@ -763,8 +751,8 @@
                     </ol>
                 </nav>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Historical Relayed TX's <button type="submit" onclick="drawRelayedTXs()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                         <div class="container">
@@ -776,8 +764,8 @@
                     </div>
                 </div>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
 
@@ -834,102 +822,6 @@
                 </div>
             </div>
 
-
-            <!-- PAGINA STORAGE INICIO -->
-            <div class="tab-pane fade" id="nav-storage" role="tabpanel">
-
-                <nav class="nav-links" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page"><a><i class="fas fa-home"></i></a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page"><a>Storage Query</a></li>
-                    </ol>
-                </nav>
-
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height: 410px;">
-                        <h4 class="green-title">Read storage from a Smart Contract</h4>
-                        <div class="container">
-                            <div class="row">
-                                <div class="container">
-
-                                    <form id="formgetstorage" method="post" class="ng-pristine ng-valid">
-                                        <label for="gsf_contracthash">ScriptHash</label>
-                                        <input id="gsf_contracthash" class="form-control" placeholder="Contract Hash">
-                                        <label for="getStorageFormat">Input Key</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input id="gsf_contractkey" class="form-control"
-                                                    placeholder="Storage Key">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <select name="getStorageFormat" id="getStorageFormat"
-                                                    class="custom-select form-control">
-                                                    <option title="gsf_string" selected="" value="String (no quotes)">
-                                                        String (no quotes)
-                                                    </option>
-                                                    <option title="gsf_hex" value="Hex">Hex</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <button type="submit" id="gsfsubmit"
-                                                    style="margin-bottom: 10px; margin-top: 10px;" class="btn btn-info"
-                                                    data-toggle="modal"><i class="fas fa-hdd"></i></button>
-                                            </div>
-                                        </div>
-                                        <label for="gsf_contractvalue">Output Value</label>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input id="gsf_contractvaluehex" class="form-control mt-4"
-                                                    placeholder="Storage Value (Hex)"
-                                                    style="border-bottom: 5px solid #0aab7b;">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input id="gsf_contractvaluestr" class="form-control mt-4"
-                                                    placeholder="Storage Value (String)"
-                                                    style="border-bottom: 5px solid #0aab7b;">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input id="gsf_contractvalueint" class="form-control mt-4"
-                                                    placeholder="Storage Value (BigInteger)"
-                                                    style="border-bottom: 5px solid #0aab7b;">
-                                            </div>
-                                        </div>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="display-erros n-padding deploy-bg" style="height: 460px;">
-                        <h4 class="green-title">Incremental storage
-                            <button type="submit" onclick="getIncrementalStorageInfo()" class="btn btn-info btn-sm">
-                                <i class="fas fa-sync-alt"></i></button>
-                            <br>
-
-                            <input id="heightForIncStorage" class="form-control" value="0" placeholder="0"
-                                oninput="getIncrementalStorageInfo()" style="border-bottom: 2px solid white;">
-                        </h4>
-                        <div class="container">
-                            <div class="row">
-                                <div class="container">
-                                    <div class="col-md-12">
-                                        <textarea id="textAreaOfIncrementalStorage" readonly="readonly"
-                                            style="font-size: 15px;" rows="15" cols="100"
-                                            placeholder="Incremental storage for any height..."
-                                            class="form-control"></textarea><br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
             <!-- PAGINA WALLET INICIO -->
             <div class="tab-pane fade" id="nav-wallet" role="tabpanel">
                 <nav class="nav-links" aria-label="breadcrumb">
@@ -940,8 +832,8 @@
                     </ol>
                 </nav>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                         <div class="container">
@@ -953,8 +845,8 @@
                     </div>
                 </div>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Transfer NEP17 Tokens
                         </h4>
                         <div class="container">
@@ -999,9 +891,8 @@
                     </div>
                 </div>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" id="RegisterAddress"
-                        style="height:auto!important; margin-bottom: 30px;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg" id="RegisterAddress" style="margin-bottom: 30px;">
                         <h4 class="green-title">Import account
                             <button type="button" onclick="addWalletFromForm();" id="btnNewWallet"
                                 class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
@@ -1049,7 +940,7 @@
                 </nav>
 
 
-                <div class="errors-warnings">
+                <div class="generalContainer">
                     <div class="display-erros n-padding deploy-bg" style="height: 130px;">
                         <h4 class="green-title">String
                             <-> Hex
@@ -1085,7 +976,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="display-erros n-padding deploy-bg" style="height: 130px;">
@@ -1327,7 +1217,7 @@
                     </ol>
                 </nav>
 
-                <div class="errors-warnings">
+                <div class="generalContainer">
                     <div class="display-erros n-padding deploy-bg" style="height: 140px;">
                         <h4 class="green-title">Filter Logs
                             <button type="submit" onclick="getSpecificNodeHeightInfoFromForm()"
@@ -1394,9 +1284,7 @@
                         </div>
                     </div>
 
-
-
-                    <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Node1
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1414,7 +1302,7 @@
                     </div>
 
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Node2
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1433,7 +1321,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Node3
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1452,8 +1340,7 @@
                         </div>
                     </div>
 
-
-                    <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">Node4
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1472,8 +1359,7 @@
                         </div>
                     </div>
 
-
-                    <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="display-erros n-padding deploy-bg mb-2">
                         <h4 class="green-title">NodeRPC(WatchOnly)
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1491,7 +1377,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="display-erros n-padding deploy-bg mb-2">
                         <h4 class="green-title">Oracle Service
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1511,7 +1397,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="display-erros n-padding deploy-bg mb-2">
                         <h4 class="green-title">OracleHttpsProtocol
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1549,7 +1435,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="display-erros n-padding deploy-bg mb-2">
                         <h4 class="green-title">Verification Context
                             <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1557,7 +1443,6 @@
                         <div class="container">
                             <div class="row">
                                 <div class="container">
-
                                     <div class="col-md-12">
                                         <textarea id="verificationcontextdata" class="form-control"
                                             style="font-size: 12px;" rows="15" readonly=""></textarea>
@@ -1566,7 +1451,6 @@
                             </div>
                         </div>
                     </div>
-                    <br><br>
                 </div>
             </div>
             <!-- END NETWORK -->
@@ -1582,8 +1466,8 @@
                 </nav>
 
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">
                             RPC
                         </h4>
@@ -1612,8 +1496,8 @@
                     </div>
                 </div>
 
-                <div class="errors-warnings">
-                    <div class="display-erros n-padding deploy-bg" style="height:auto!important;">
+                <div class="generalContainer">
+                    <div class="display-erros n-padding deploy-bg">
                         <h4 class="green-title">
                             Compiler Service
                         </h4>

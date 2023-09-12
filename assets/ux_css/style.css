@@ -11,6 +11,7 @@ body {
     z-index: 1000000 !important;
 }
 
+/* ======================= */
 /* BEGIN TOP PAGE TOP INFO NAV STYLE */
 .top-info-menu {
     position: fixed;
@@ -22,11 +23,9 @@ body {
     z-index: 1000000 !important;
 }
 /* END TOP PAGE TOP INFO NAV STYLE */
+/* ======================= */
 
-.noHoverLogoNeoCompiler{
-    pointer-events: none;
-}
-
+/* ======================= */
 /* BEGIN VERTICAL MENU STYLE */
 .main-menu {
     position: fixed;
@@ -71,8 +70,32 @@ body {
     border-bottom: 5px solid #00AF92;
 }
 
+/* Logo Item of main-menu no hover */
+.noHoverLogoNeoCompiler{
+    pointer-events: none;
+}
 /* END VERTICAL MENU STYLE */
+/* ======================= */
 
+/* ======================= */
+/* BEGIN Header buttons Wallet and network */
+.options-in-the-header {
+    position: fixed;
+    float: left;
+    right: 0;
+    top: 0;
+    padding: 10px 70px 0 0;
+    z-index: 2000000 !important;
+}
+
+.spanHeader {
+    font-size: 15px;
+    background: #00AF92;padding:2px;
+}
+/* END Header buttons Wallet and network */
+/* ======================= */
+
+/* ======================= */
 /* Begin Navigation tab style */
 .aceLITabs {
     background-color: #223237 !important;
@@ -125,15 +148,8 @@ body {
     padding: 0!important;
     border: none!important;*/
 }
-
-
 /* End Navigation tab style of ACE */
-/* End ACE */
-
-.spanHeader {
-    font-size: 15px;
-    background: #00AF92;padding:2px;
-}
+/* ======================= */
 
 .n-padding {
     padding: 0 !important;
@@ -185,21 +201,6 @@ body {
     top: 0;
     left: 0;
     padding: 10px 10px 10px 30px;
-}
-
-/* END Header buttons Wallet and network */
-.options-in-the-header {
-    position: fixed;
-    float: left;
-    right: 0;
-    top: 0;
-    padding: 10px 70px 0 0;
-    z-index: 2000000 !important;
-}
-/* END Header buttons Wallet and network */
-
-.breadcrumb {
-    background: none;
 }
 
 .breadcrumb a {
@@ -268,22 +269,20 @@ body {
 
 /* END SIMPLE BTN */
 
-.errors-warnings {
+.generalContainer {
     margin-top: 15px;
     color: white;
 }
 
-.errors-warnings h4 {
+.generalContainer h4 {
     font-size: 16px;
 }
 
-.errors-warnings .display-erros {
+.generalContainer .display-erros {
     margin-top: 20px;
-    padding: 10px;
     float: left;
     width: 100%;
     background: #162124;
-    height: 200px;
 }
 
 .preloader .spinner-grow {
@@ -299,15 +298,7 @@ body {
     left: 50%;
 }
 
-.collapseMore {
-    background: #00AF92;
-    border-radius: 50% 0 0 50%;
-    position: absolute;
-    top: 50%;
-    right: 0;
-}
-
-#collapseMore {
+#collapseNEFAfterCompilation {
     transition: height 0.5s;
     -moz-transition: height 0.5s;
     /* Firefox 4 */
@@ -316,10 +307,6 @@ body {
     -o-transition: height 0.5s;
     /* Opera */
 }
-
-.collapseMore img {}
-
-.colapse-nef .container .errors-warnings {}
 
 .colapse-nef {
     margin-top: 20px;
@@ -358,20 +345,6 @@ textarea:focus {
     outline: none !important;
     border-color: transparent !important;
 }
-
-/*
-.main-menu::-webkit-scrollbar-track {
-    background-color: rgba(0, 175, 146, 1);
-}
-
-.main-menu::-webkit-scrollbar {
-    width: 2px;
-    background-color: rgba(0, 175, 146, 1);
-}
-
-.main-menu::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 175, 146, 1);
-}*/
 
 .pulse {
     animation: pulse 0.7s infinite, fade 500ms;
@@ -431,6 +404,7 @@ textarea:focus {
     }
 }
 
+/* ============================  */
 /* this is due to bootstrap 5.3 */
 .table thead td,
 .table tbody td {
@@ -448,10 +422,10 @@ textarea:focus {
     border-bottom: 1px dashed #263A40;
     color: #0aab7b !important;
 }
+/* ============================  */
 
 
 /* Begin Tutorial tab style */
-
 #hidetutorial {
     position: absolute;
     width: 100%;
@@ -475,13 +449,12 @@ textarea:focus {
 .popover {
     z-index: 10000000;
 }
-
 /* End Tutorial tab style */
 
 /* BEGIN ACE */
 #aceEditor {
     position: relative;
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 15px;
     right: 0;
     bottom: 0;

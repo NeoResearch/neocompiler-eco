@@ -168,7 +168,7 @@ function createMultiSigFromNextValidators() {
                 label: "CN-MultiSig",
                 print: true
             });
-            drawPopulate();
+            drawPopulateAllWalletAccountsInfo();
         },
         "json" // The format the response should be in
     ).fail(function () {

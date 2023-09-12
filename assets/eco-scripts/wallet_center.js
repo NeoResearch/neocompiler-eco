@@ -123,7 +123,7 @@ function addContractToWallet(scriptHashToAdd) {
         accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
         labelToAdd = scriptHashToAdd.slice(0, 3) + "..." + scriptHashToAdd.slice(-3)
         if (addToWallet(accountToAdd, labelToAdd))
-            drawPopulate();
+            drawPopulateAllWalletAccountsInfo();
 
         $('.nav a[href="#nav-wallet"]').tab('show');
     } else
@@ -357,7 +357,7 @@ function populateAllWalletData() {
 //===============================================================
 function deleteAccount(idToRemove) {
     ECO_WALLET.splice(idToRemove, 1);
-    drawPopulate();
+    drawPopulateAllWalletAccountsInfo();
 }
 
 function removeAccountFromEcoWallet(idToRemove) {
@@ -555,7 +555,7 @@ function selfTransfer(idToTransfer) {
     }
 }
 
-function drawPopulate() {
+function drawPopulateAllWalletAccountsInfo() {
     drawWalletsStatus();
     populateAllWalletData();
     addAllKnownAddressesToSelectionBox("createtx_to");
@@ -605,10 +605,10 @@ function verifyDapi(dapiName) {
         //console.log("Button is: " + buttonOption);
         switch (buttonOption) {
             case "nl":
-                getAccountDAPI(neoline,"NeoLine");
+                getAccountDAPI(neoline, "NeoLine");
                 break;
             case "o3":
-                getAccountDAPI(neo3Dapi,"O3Wallet");
+                getAccountDAPI(neo3Dapi, "O3Wallet");
                 break;
             default:
                 swal("Safe! No DAPI wallet will be tried to be connected!");

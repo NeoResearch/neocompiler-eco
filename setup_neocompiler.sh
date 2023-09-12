@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-# set personalized to true
-sed -i 's/PERSONALIZED = false/PERSONALIZED = true/' ./assets/eco-scripts/global_var.js
-
 PORT_9000=`echo "ecoservices-neo3.neocompiler.io"`
 PORT_10000=`echo "compilers-neo3.neocompiler.io"`
 PORT_30333=`echo "node1-neo3.neocompiler.io"`

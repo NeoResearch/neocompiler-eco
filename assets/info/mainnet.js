@@ -1,17 +1,4 @@
-mainnetNodes = [{
-        "protocol": "https",
-        "url": "compilers-neo3.neocompiler.io",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "type": "ecocompilers"
-    },
-    {
-        "protocol": "https",
-        "url": "ecoservices-neo3.neocompiler.io",
-        "location": "worldwide",
-        "locale": "worldwide",
-        "type": "ecoservices"
-    },
+mainnetNodes = [
     {
         "protocol": "https",
         "url": "n3seed1.ngd.network:10332",

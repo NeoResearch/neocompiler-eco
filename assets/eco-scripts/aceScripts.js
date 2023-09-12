@@ -48,10 +48,10 @@ function cleanAllSessionsInsteadOfMain(){
         openedSessions.delete(key);
     }
     Editor.tabs = 0;
-    goToMainTab();
+    goToACEMainTab();
 }
 
-function goToMainTab() {
+function goToACEMainTab() {
     aceEditor.setSession(openedSessions.get(-1));
 
     //Mark current as bold
@@ -78,7 +78,7 @@ Editor = {
         iElement.addEventListener('click', function (event) {
             openedSessions.delete(Number(iElement.name));
             self.deleteTab(iElement);
-            goToMainTab();
+            goToACEMainTab();
         }, false);
         // Delete element finished
 

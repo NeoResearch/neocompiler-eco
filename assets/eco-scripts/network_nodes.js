@@ -1,4 +1,4 @@
-function changeSelectedNetwork() {
+function changeToSelectedNetwork() {
     var selectedNetwork = $("#ecolabnetworkurlselection")[0].selectedIndex;
     //console.log(selectedNetwork);
     switch (selectedNetwork) {
@@ -22,6 +22,8 @@ function changeSelectedNetwork() {
             console.error(`Sorry, we are out of options for selected network.`);
     }
     updateAllBasePaths();
+    // Clean Header Summary
+    cleanVersionHeightSummary();
 
     //ReestartSocketIO
     startSocketIoConnections();
@@ -32,11 +34,7 @@ function changeSelectedNetwork() {
     //Requires RPC call
     getNativeInfo();
     
-    // Does not require RPC call - Just update list from known nodes
-    updateCompilersList();
-    setCompiler();
-
-    cleanVersionHeightSummary();
+    setCompilerAndExample();
 }
 
 function showTabs() {
@@ -52,6 +50,7 @@ function hideTabs() {
     if (pairSplitByHash[1] === "nav-network")
         goToTabAndClick("nav-compilers");
 }
+
 function pickBestAvailableRpcNeoNodeCSharpByBlock() {
     if (AUTOMATIC_PIC_CSHARP_NODE_BEST_HEIGHT) {
         var availableNodes = BASE_PATH_CLI_NODES.length;

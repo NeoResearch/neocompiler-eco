@@ -19,39 +19,28 @@ var cPythonFiles = [
 ];
 
 var NETWORK_MAGIC = -1;
+var LAST_BEST_HEIGHT_NEOCLI = 1;
 var GAS_ASSET = "0xd2a4cff31913016155e38e474a2c06d08be276cf";
 var NEO_ASSET = "0xef4073a0f2b305a38ec4050e4d3d28bc40ea63f5";
 
 var USER_EXAMPLES = new Map();
+var BASE_PATH_ECOSERVICES, BASE_PATH_COMPILERS, BASE_PATH_CLI, BASE_PATH_CLI_NODES;
+var SELECTED_COMPILER = "";
 
-var PERSONALIZED = false;
 var default_nodes = personalizedNodes;
 
-var BASE_PATH_ECOSERVICES, BASE_PATH_COMPILERS, BASE_PATH_CLI, BASE_PATH_CLI_NODES;
-// ===================================================================
-// set PERSONALIZED to true, to activate personalized.js configuration
-//
-PERSONALIZED = false;
-//
-if (PERSONALIZED) {
-    default_nodes = personalizedNodes;
-    $("#ecolabnetworkurlselection")[0].selectedIndex = 0;
-}
-else {
-    var LOCAL_DEVELOPMENT = false;
-    // not personalized, try 'localhost' configuration
-    if (this.window.location.href.indexOf("localhost") != -1)
-        LOCAL_DEVELOPMENT = true;
-    if (LOCAL_DEVELOPMENT) {
-        default_nodes = localHostNodes;
-        $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
-    }
-}
+$("#ecolabnetworkurlselection")[0].selectedIndex = 0;
 
-var SELECTED_COMPILER = "";
-updateAllBasePaths();
-
-var LAST_BEST_HEIGHT_NEOCLI = 1;
+/* check if it is localhost development */
+var LOCAL_DEVELOPMENT = false;
+// not personalized, try 'localhost' configuration
+if (this.window.location.href.indexOf("localhost") != -1)
+    LOCAL_DEVELOPMENT = true;
+if (LOCAL_DEVELOPMENT) {
+    default_nodes = localHostNodes;
+    $("#ecolabnetworkurlselection")[0].selectedIndex = 1;
+}
+/* =============================== */
 
 function getServiceURLByTypeAndNetwork(serviceType, networkService) {
     var serviceUrlToAdd = '';
@@ -105,12 +94,17 @@ function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox
 
 /* UPDATE BASE PATHS */
 function updateAllBasePaths() {
-    BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
-    BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
+    // just update paths for services and compilers if local or personalized
+    if (default_nodes == personalizedNodes || default_nodes == localHostNodes) {
+        BASE_PATH_ECOSERVICES = getFirstAvailableService("ecoservices", default_nodes);
+        BASE_PATH_COMPILERS = getFirstAvailableService("ecocompilers", default_nodes);
+    }
+
     BASE_PATH_CLI = getFirstAvailableService("RPC", default_nodes);
     BASE_PATH_CLI_NODES = getAllAvailableService("RPC", default_nodes);
-    
+
     fillNodesList();
+    updateCompilersList();
 }
 
 var code_cs = "";

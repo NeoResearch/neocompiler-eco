@@ -2,9 +2,6 @@
 
 set -e
 
-# set personalized to true
-sed -i 's/PERSONALIZED = false/PERSONALIZED = true/' ./assets/eco-scripts/global_var.js
-
 # echo $(jq -r ".CODESPACE_NAME" /workspaces/.codespaces/shared/environment-variables.json)
 CHOST=${CODESPACE_NAME}
 

@@ -135,15 +135,14 @@ function updateCompiledOrLoadedContractInfo(contractScriptHash, avmSize) {
     // ------------------------------------------
 }
 
-function updateListOfAvailableCompilerVersion(language)
-{
-    if (language === "csharp") 
+function updateListOfAvailableCompilerVersion(language) {
+    if (language === "csharp")
         updateCompilersSelectionBox("docker-mono-neo-compiler");
 
     if (language === "python")
         updateCompilersSelectionBox("docker-neo3-boa-compiler");
 }
-function setCompiler() {
+function setCompilerAndExample() {
     cleanAllSessionsInsteadOfMain();
     aceEditor.getSession().setValue("");
 
@@ -155,10 +154,10 @@ function setCompiler() {
 
     var vExamples;
     SELECTED_COMPILER = language;
-    
+
     //First, update list with all available versions
     updateListOfAvailableCompilerVersion(language);
-    
+
     if (language === "csharp") {
         aceEditor.getSession().setMode("ace/mode/csharp");
         vExamples = cSharpFiles;
@@ -340,9 +339,6 @@ function getFiles(language, selected_index, index = 0) {
             }
         });
     }
-
-    //if (numfiles == 1)
-    //    goToMainTab();
 }
 
 
@@ -483,29 +479,7 @@ function socketCompilerCompilexResult() {
     });
 }
 
-function updateCompilersList() {
-    boxID = "compilers_server-selection-box";
-    document.getElementById(boxID).options.length = 0;
-
-    //Get fixed list
-    var compilersList = getAllAvailableService("ecocompilers", default_nodes);
-    for (c = 0; c < compilersList.length; c++)
-        addOptionToSelectionBox(compilersList[c], compilersList[c], boxID, "Selected server version is " + compilersList[c]);
-
-    //Select the latest as default
-    document.getElementById(boxID).selectedIndex = 0;
-}
-
-function changeServerBasePath(){
+function changeServerBasePath() {
     BASE_PATH_COMPILERS = document.getElementById("compilers_server-selection-box").value;
     updateListOfAvailableCompilerVersion(language);
 }
-
-
-$(document).ready(function () {
-    aceEditor = createEditor("aceEditor", "ace/mode/csharp");
-    openedSessions.set(-1, new ace.EditSession("mainSession"));
-    goToMainTab();
-    updateCompilersList();
-    setCompiler();
-});

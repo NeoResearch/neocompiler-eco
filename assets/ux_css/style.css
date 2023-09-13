@@ -22,6 +22,7 @@ body {
     height: 79px !important;
     z-index: 1000000 !important;
 }
+
 /* END TOP PAGE TOP INFO NAV STYLE */
 /* ======================= */
 
@@ -71,9 +72,10 @@ body {
 }
 
 /* Logo Item of main-menu no hover */
-.noHoverLogoNeoCompiler{
+.noHoverLogoNeoCompiler {
     pointer-events: none;
 }
+
 /* END VERTICAL MENU STYLE */
 /* ======================= */
 
@@ -90,8 +92,10 @@ body {
 
 .spanHeader {
     font-size: 15px;
-    background: #00AF92;padding:2px;
+    background: #00AF92;
+    padding: 2px;
 }
+
 /* END Header buttons Wallet and network */
 /* ======================= */
 
@@ -148,40 +152,48 @@ body {
     padding: 0!important;
     border: none!important;*/
 }
+
 /* End Navigation tab style of ACE */
 /* ======================= */
 
-.n-padding {
-    padding: 0 !important;
+.containerForCompilingResult {
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+    background: #162124;
+    padding: 0px;
 }
 
-.deploy-bg {
-    background: #223237 !important;
-    height: auto;
+.standardContainer {
+    background: #223237;
+    margin-top: 20px;
+    float: left;
+    width: 100%;
+    padding: 0px;
 }
 
-.deploy-bg label {
+.standardContainer label {
     font-size: 13px !important;
 }
 
-.deploy-bg input {
+.standardContainer input {
     background: #444444;
     border-color: #00AF92;
     color: white !important;
 }
 
-.deploy-bg input:focus {
+.standardContainer input:focus {
     background: #00AF92;
     border-color: #00AF92;
     color: white !important;
 }
 
-.deploy-bg option {
+.standardContainer option {
     background: #00AF92;
     color: white;
 }
 
-.deploy-bg input:focus {
+.standardContainer input:focus {
     background: #00AF92;
     border-color: #1D2C30;
     color: white !important;
@@ -276,13 +288,6 @@ body {
 
 .generalContainer h4 {
     font-size: 16px;
-}
-
-.generalContainer .display-erros {
-    margin-top: 20px;
-    float: left;
-    width: 100%;
-    background: #162124;
 }
 
 .preloader .spinner-grow {
@@ -422,6 +427,7 @@ textarea:focus {
     border-bottom: 1px dashed #263A40;
     color: #0aab7b !important;
 }
+
 /* ============================  */
 
 
@@ -449,6 +455,7 @@ textarea:focus {
 .popover {
     z-index: 10000000;
 }
+
 /* End Tutorial tab style */
 
 /* BEGIN ACE */

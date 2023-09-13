@@ -269,7 +269,7 @@
                                         <br>
                                         <br>
                                         <div class="collapse" id="opcodesDiv">
-                                            <div class="display-erros" style="margin-bottom: 10px;height: 150px">
+                                            <div class="containerForCompilingResult" style="margin-bottom: 10px;height: 150px">
                                                     <textarea id="txt_opcodes" readonly="readonly" rows="5" cols="100" placeholder="Listing AVM OpCodes" class="form-control" style="background: none;border: none;resize: none;outline: none;"></textarea>
                                             </div>
                                         </div>
@@ -279,7 +279,7 @@
 
                     <div class="generalContainer">
                         <h4>Compiled contract info:</h4>
-                        <div class="display-erros" style="background: transparent; padding: 10px">
+                        <div class="containerForCompilingResult" style="background: transparent; padding: 10px">
                             <label for="contractInfo_ScriptHash">ScriptHash</label>
                             <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash"
                                 class="form-control" placeholder="Script Hash"
@@ -325,7 +325,7 @@
                             -->
 
                 <div class="generalContainer">
-                    <div class="display-erros" style="margin-bottom: 30px; padding: 10px;">
+                    <div class="containerForCompilingResult" style="margin-bottom: 30px; padding: 10px;">
                         <h4>Compiler Output (Warning/Errors):</h4>
                         <textarea id="codewarnerr" readonly="readonly" rows="10" class="form-control"></textarea>
                     </div>
@@ -343,9 +343,8 @@
                     </ol>
                 </nav>
 
-
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">
                             Contracts
                         </h4>
@@ -471,7 +470,7 @@
                 </div>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg" style="margin-bottom: 30px;">
+                    <div class="standardContainer" style="margin-bottom: 30px;">
                         <h4 class="green-title">
                             Import Contract
                         </h4>
@@ -503,7 +502,7 @@
                 </nav>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg" style="margin-bottom: 30px;">
+                    <div class="standardContainer" style="margin-bottom: 30px;">
                         <h4 class="green-title">Request from Neo C# nodes (RPC-JSON API)</h4>
                         <div class="container">
                             <div class="row mb-2">
@@ -752,7 +751,7 @@
                 </nav>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Historical Relayed TX's <button type="submit" onclick="drawRelayedTXs()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                         <div class="container">
@@ -765,7 +764,7 @@
                 </div>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Blocks <button type="submit" onclick="drawBlocks()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button>
 
@@ -833,7 +832,7 @@
                 </nav>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
                         <div class="container">
@@ -846,7 +845,7 @@
                 </div>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Transfer NEP17 Tokens
                         </h4>
                         <div class="container">
@@ -892,7 +891,7 @@
                 </div>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg" id="RegisterAddress" style="margin-bottom: 30px;">
+                    <div class="standardContainer" id="RegisterAddress" style="margin-bottom: 30px;">
                         <h4 class="green-title">Import account
                             <button type="button" onclick="addWalletFromForm();" id="btnNewWallet"
                                 class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
@@ -941,7 +940,7 @@
 
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">String
                             <-> Hex
                         </h4>
@@ -978,7 +977,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Hex
                             <-> xeH
                         </h4>
@@ -1006,7 +1005,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Base64
                             <-> Hex
                         </h4>
@@ -1034,7 +1033,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Number
                             <-> Fixed8 Hex
                         </h4>
@@ -1064,7 +1063,7 @@
 
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Address
                             <-> ScriptHash (big endian)
                         </h4>
@@ -1097,7 +1096,7 @@
 
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">BigInteger
                             <-> Little-Endian ByteArray
                         </h4>
@@ -1128,7 +1127,7 @@
 
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg" style="height: 130px;">
+                    <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Hex String -> Hash</h4>
                         <div class="container">
                             <div class="row">
@@ -1170,7 +1169,7 @@
                     </div>
 
                     <!--
-                            <div class="display-erros n-padding deploy-bg" style="height: 420px;">
+                            <div class="standardContainer" style="height: 420px;">
                                 <h4 class="green-title">Disassembly opcodes</h4>
                                 <div class="container">
                                     <div class="row">
@@ -1218,7 +1217,7 @@
                 </nav>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg" style="height: 140px;">
+                    <div class="standardContainer" style="height: 140px;">
                         <h4 class="green-title">Filter Logs
                             <button type="submit" onclick="getSpecificNodeHeightInfoFromForm()"
                                 class="btn btn-info btn-sm">
@@ -1284,7 +1283,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Node1
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1302,7 +1301,7 @@
                     </div>
 
 
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Node2
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1321,7 +1320,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Node3
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1340,7 +1339,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">Node4
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1359,7 +1358,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2">
+                    <div class="standardContainer mb-2">
                         <h4 class="green-title">NodeRPC(WatchOnly)
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1377,7 +1376,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2">
+                    <div class="standardContainer mb-2">
                         <h4 class="green-title">Oracle Service
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1397,7 +1396,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2">
+                    <div class="standardContainer mb-2">
                         <h4 class="green-title">OracleHttpsProtocol
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1415,7 +1414,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="standardContainer mb-2" style="height: 420px;margin-bottom: 20px;">
                         <h4 class="green-title">Verification Service
                             <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1435,7 +1434,7 @@
                         </div>
                     </div>
 
-                    <div class="display-erros n-padding deploy-bg mb-2">
+                    <div class="standardContainer mb-2">
                         <h4 class="green-title">Verification Context
                             <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1465,9 +1464,8 @@
                     </ol>
                 </nav>
 
-
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">
                             RPC
                         </h4>
@@ -1497,7 +1495,7 @@
                 </div>
 
                 <div class="generalContainer">
-                    <div class="display-erros n-padding deploy-bg">
+                    <div class="standardContainer">
                         <h4 class="green-title">
                             Compiler Service
                         </h4>

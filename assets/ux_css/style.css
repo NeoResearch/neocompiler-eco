@@ -52,8 +52,9 @@ body {
 }
 
 .main-menu li a:hover {
-    background: #2b3f45;
+    background: #557883;
     border-bottom: 5px solid #00AF92;
+    color: white;
 }
 
 .main-menu li a {
@@ -69,6 +70,7 @@ body {
 .main-menu .active {
     background: #25515e;
     border-bottom: 5px solid #00AF92;
+    color: white;
 }
 
 /* Logo Item of main-menu no hover */
@@ -411,6 +413,10 @@ textarea:focus {
 .table thead td,
 .table tbody td {
     border-top: transparent !important;
+}
+
+.table td:hover{
+    background-color:  #0aab7b;
 }
 
 .twalllet td {

@@ -836,7 +836,7 @@
                     <div class="standardContainer">
                         <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
-                        <div class="container">
+                        <div class="container" >
                             <div class="row" style="padding:0 20px 0 20px;">
                                 <table id="tableWalletStatus" class="table text-white twalllet">
                                 </table>
@@ -871,7 +871,7 @@
                                         onchange="updateTransferAssetInfo()"></select>
                                 </div>
                                 <div class="col-3">
-                                    <input type="range" onchange="updateTransferAmountInfoFromPercentage()"
+                                    <input type="range" class="form-range" onchange="updateTransferAmountInfoFromPercentage()"
                                         id="transfer_nep17_amount_range" value="0" min="0" max="100" />
                                 </div>
                                 <div class="col-3">
@@ -947,32 +947,25 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <form id="str2hash" class="ng-pristine ng-valid">
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label for="strhex_str">String</label>
-                                                    <input id="strhex_str" oninput="str2hex()" class="form-control"
-                                                        placeholder="String" oninput="str2hex()">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="form-group">
-                                                    <label for="strhex_hex">Hex</label>
-                                                    <input id="strhex_hex" oninput="hex2str()" class="form-control"
-                                                        placeholder="Hex" oninput="hex2str()">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label for="hex_length">Length (in bytes)</label>
-                                                    <input id="hex_length" class="form-control"
-                                                        placeholder="Length (in bytes)">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="strhex_str">String</label>
+                                        <input id="strhex_str" oninput="str2hex()" class="form-control"
+                                            placeholder="String" oninput="str2hex()">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label for="strhex_hex">Hex</label>
+                                        <input id="strhex_hex" oninput="hex2str()" class="form-control"
+                                            placeholder="Hex" oninput="hex2str()">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="hex_length">Length (in bytes)</label>
+                                        <input id="hex_length" class="form-control" placeholder="Length (in bytes)">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -984,22 +977,18 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="hexxeh_hex">Hex</label>
-                                                <input id="hexxeh_hex" oninput="hex2xeh()" class="form-control"
-                                                    placeholder="Hex" oninput="hex2xeh()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="hexxeh_xeh">xeH</label>
-                                                <input id="hexxeh_xeh" oninput="xeh2hex()" class="form-control"
-                                                    placeholder="xeH" oninput="xeh2hex()">
-                                            </div>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="hexxeh_hex">Hex</label>
+                                        <input id="hexxeh_hex" oninput="hex2xeh()" class="form-control"
+                                            placeholder="Hex" oninput="hex2xeh()">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="hexxeh_xeh">xeH</label>
+                                        <input id="hexxeh_xeh" oninput="xeh2hex()" class="form-control"
+                                            placeholder="xeH" oninput="xeh2hex()">
                                     </div>
                                 </div>
                             </div>
@@ -1012,22 +1001,18 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="b64hx_base64_hex">Base64</label>
-                                                <input id="b64hx_base64_hex" oninput="b64hx()" class="form-control"
-                                                    placeholder="Base64">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="b64hx_hex_base64">Hex</label>
-                                                <input id="b64hx_hex_base64" oninput="hxb64()" class="form-control"
-                                                    placeholder="Hex">
-                                            </div>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="b64hx_base64_hex">Base64</label>
+                                        <input id="b64hx_base64_hex" oninput="b64hx()" class="form-control"
+                                            placeholder="Base64">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="b64hx_hex_base64">Hex</label>
+                                        <input id="b64hx_hex_base64" oninput="hxb64()" class="form-control"
+                                            placeholder="Hex">
                                     </div>
                                 </div>
                             </div>
@@ -1040,28 +1025,22 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="fx8_number">Number</label>
-                                                <input type="number" oninput="num2fixed8()" id="fx8_number"
-                                                    class="form-control" placeholder="Number" oninput="num2fixed8()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="fx8_hex">Fixed8</label>
-                                                <input id="fx8_hex" oninput="fixed82num()" class="form-control"
-                                                    placeholder="Fixed8 hex" oninput="fixed82num()">
-                                            </div>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="fx8_number">Number</label>
+                                        <input type="number" oninput="num2fixed8()" id="fx8_number" class="form-control"
+                                            placeholder="Number" oninput="num2fixed8()">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="fx8_hex">Fixed8</label>
+                                        <input id="fx8_hex" oninput="fixed82num()" class="form-control"
+                                            placeholder="Fixed8 hex" oninput="fixed82num()">
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="standardContainer" style="height: 130px;">
@@ -1070,26 +1049,21 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="address_conversor">Address</label>
-                                                <input id="address_conversor" oninput="address2scripthash()"
-                                                    class="form-control" placeholder="Address"
-                                                    oninput="address2scripthash()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="scripthash_conversor">ScriptHash (big endian, should
-                                                    start
-                                                    with 0x)</label>
-                                                <input id="scripthash_conversor" oninput="scripthash2address()"
-                                                    class="form-control" placeholder="ScriptHash"
-                                                    oninput="scripthash2address()">
-                                            </div>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="address_conversor">Address</label>
+                                        <input id="address_conversor" oninput="address2scripthash()"
+                                            class="form-control" placeholder="Address" oninput="address2scripthash()">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="scripthash_conversor">ScriptHash (big endian, should
+                                            start
+                                            with 0x)</label>
+                                        <input id="scripthash_conversor" oninput="scripthash2address()"
+                                            class="form-control" placeholder="ScriptHash"
+                                            oninput="scripthash2address()">
                                     </div>
                                 </div>
                             </div>
@@ -1103,66 +1077,58 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="convert_bigint">BigInteger</label>
-                                                <input id="convert_bigint" class="form-control" placeholder="BigInteger"
-                                                    oninput="conv_bigint2lebytearray()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="convert_bytearray">Little-Endian
-                                                    ByteArray</label>
-                                                <input id="convert_bytearray" class="form-control"
-                                                    placeholder="Little Endian ByteArray"
-                                                    oninput="conv_lebytearray2bigint()">
-                                            </div>
-                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="convert_bigint">BigInteger</label>
+                                        <input id="convert_bigint" class="form-control" placeholder="BigInteger"
+                                            oninput="conv_bigint2lebytearray()">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="convert_bytearray">Little-Endian
+                                            ByteArray</label>
+                                        <input id="convert_bytearray" class="form-control"
+                                            placeholder="Little Endian ByteArray" oninput="conv_lebytearray2bigint()">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
                     </div>
 
                     <div class="standardContainer" style="height: 130px;">
                         <h4 class="green-title">Hex String -> Hash</h4>
+
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="convert_string_hash">Hex String</label>
-                                                <input id="convert_string_hash" class="form-control"
-                                                    placeholder="Input String to Hash" oninput="conv_string_hash()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="convert_string_hash160"
-                                                    title="Scripthash little endian format">Hash160</label>
-                                                <input id="convert_string_hash160" class="form-control"
-                                                    placeholder="Hash160 (Sha256+Ripemd160)" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="convert_string_sha256">Hex Sha256</label>
-                                                <input id="convert_string_sha256" class="form-control"
-                                                    placeholder="Sha256" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="convert_string_hash256">Hash256</label>
-                                                <input id="convert_string_hash256" class="form-control"
-                                                    placeholder="Hash256 (Sha256+Sha256)" readonly>
-                                            </div>
-                                        </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="convert_string_hash">Hex String</label>
+                                        <input id="convert_string_hash" class="form-control"
+                                            placeholder="Input String to Hash" oninput="conv_string_hash()">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="convert_string_hash160"
+                                            title="Scripthash little endian format">Hash160</label>
+                                        <input id="convert_string_hash160" class="form-control"
+                                            placeholder="Hash160 (Sha256+Ripemd160)" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="convert_string_sha256">Hex Sha256</label>
+                                        <input id="convert_string_sha256" class="form-control" placeholder="Sha256"
+                                            readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="convert_string_hash256">Hash256</label>
+                                        <input id="convert_string_hash256" class="form-control"
+                                            placeholder="Hash256 (Sha256+Sha256)" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -1226,58 +1192,52 @@
                                 </i>
                             </button>
                         </h4>
+
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="height_filter_log">Height</label>
-                                                <input id="height_filter_log" class="form-control" value="1">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="lines_filter_log">Number Lines</label>
-                                                <input id="lines_filter_log" class="form-control" value="10">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label for="year_filter_log">Year</label>
-                                                <input id="year_filter_log" class="form-control" value=""
-                                                    placeholder="2022">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="day_filter_log">Day</label>
-                                                <input id="day_filter_log" class="form-control" value=""
-                                                    placeholder="01">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="form-group">
-                                                <label for="month_filter_log">Month</label>
-                                                <input id="month_filter_log" class="form-control" value=""
-                                                    placeholder="12">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label for="select_log_filter">Search All</label>
-                                                <select id="searchNodeStatusFilter" onchange="getAllFilteredNodeInfo()"
-                                                    title="Select network" class="form-select"
-                                                    style="text-align: center!important;">
-                                                    <option selected disabled>Select filter</option>
-                                                    <option>OnStop</option>
-                                                    <option>OnStart</option>
-                                                    <option>Error</option>
-                                                    <option>null</option>
-                                                    <!--<option disabled>MainNet</option>-->
-                                                </select>
-                                            </div>
-                                        </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="height_filter_log">Height</label>
+                                        <input id="height_filter_log" class="form-control" value="1">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="lines_filter_log">Number Lines</label>
+                                        <input id="lines_filter_log" class="form-control" value="10">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="year_filter_log">Year</label>
+                                        <input id="year_filter_log" class="form-control" value="" placeholder="2022">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="day_filter_log">Day</label>
+                                        <input id="day_filter_log" class="form-control" value="" placeholder="01">
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label for="month_filter_log">Month</label>
+                                        <input id="month_filter_log" class="form-control" value="" placeholder="12">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="select_log_filter">Search All</label>
+                                        <select id="searchNodeStatusFilter" onchange="getAllFilteredNodeInfo()"
+                                            title="Select network" class="form-select"
+                                            style="text-align: center!important;">
+                                            <option selected disabled>Select filter</option>
+                                            <option>OnStop</option>
+                                            <option>OnStart</option>
+                                            <option>Error</option>
+                                            <option>null</option>
+                                            <!--<option disabled>MainNet</option>-->
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -1309,13 +1269,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="node2data" class="form-control" style="font-size: 12px;" rows="15"
-                                            readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="node2data" class="form-control" style="font-size: 12px;" rows="15"
+                                        readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1328,13 +1284,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="node3data" class="form-control" style="font-size: 12px;" rows="15"
-                                            readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="node3data" class="form-control" style="font-size: 12px;" rows="15"
+                                        readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1347,13 +1299,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="node4data" class="form-control" style="font-size: 12px;" rows="15"
-                                            readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="node4data" class="form-control" style="font-size: 12px;" rows="15"
+                                        readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1366,12 +1314,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="noderpcdata" class="form-control" style="font-size: 12px;"
-                                            rows="15" readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="noderpcdata" class="form-control" style="font-size: 12px;" rows="15"
+                                        readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1386,12 +1331,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="oracleservicedata" class="form-control" style="font-size: 12px;"
-                                            rows="15" readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="oracleservicedata" class="form-control" style="font-size: 12px;"
+                                        rows="15" readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1404,12 +1346,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="oraclehttpsprotocoldata" class="form-control"
-                                            style="font-size: 12px;" rows="15" readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="oraclehttpsprotocoldata" class="form-control" style="font-size: 12px;"
+                                        rows="15" readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1424,12 +1363,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-
-                                    <div class="col-md-12">
-                                        <textarea id="verificationservicedata" class="form-control"
-                                            style="font-size: 12px;" rows="15" readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="verificationservicedata" class="form-control" style="font-size: 12px;"
+                                        rows="15" readonly=""></textarea>
                                 </div>
                             </div>
                         </div>
@@ -1442,11 +1378,9 @@
                         </h4>
                         <div class="container">
                             <div class="row">
-                                <div class="container">
-                                    <div class="col-md-12">
-                                        <textarea id="verificationcontextdata" class="form-control"
-                                            style="font-size: 12px;" rows="15" readonly=""></textarea>
-                                    </div>
+                                <div class="col-md-12">
+                                    <textarea id="verificationcontextdata" class="form-control" style="font-size: 12px;"
+                                        rows="15" readonly=""></textarea>
                                 </div>
                             </div>
                         </div>

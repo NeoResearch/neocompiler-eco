@@ -161,6 +161,7 @@
 
     <!-- BEGIN SINGLE PAGE CONTAINER PRINCIPAL -->
     <div class="container">
+        <!-- tab-content for the nav-panel -->
         <div class="tab-content">
             <!-- SPACING ON THE LATERAL SIDE -->
             <br><br><br>
@@ -242,7 +243,7 @@
 
                 <div class="collapse colapse-nef" id="collapseNEFAfterCompilation">
                     <div class="generalContainer">
-                        <h4>NEF (in hex):</h4>
+                        <h4 style="font-size: 16px;">NEF (in hex):</h4>
 
                         <div style="margin-bottom: 10px;">
                             <textarea id="codeavm" name="codeavm" rows="5" cols="100" placeholder="NEF (in hex)"
@@ -278,7 +279,7 @@
                     </div>
 
                     <div class="generalContainer">
-                        <h4>Compiled contract info:</h4>
+                        <h4 style="font-size: 16px;">Compiled contract info:</h4>
                         <div class="containerForCompilingResult" style="background: transparent; padding: 10px">
                             <label for="contractInfo_ScriptHash">ScriptHash</label>
                             <input id="contractInfo_ScriptHash" readonly="readonly" name="contractInfo_ScriptHash"
@@ -297,11 +298,11 @@
                                 style="width: 100%; margin-bottom: 10px;">
 
 
-                            <h4>ABI:</h4>
+                            <h4 style="font-size: 16px;">ABI:</h4>
                             <textarea id="textAreaCodeabi" readonly="readonly" rows="5" cols="100"
                                 placeholder="ABI (JSON format)" class="form-control"></textarea>
 
-                            <h4>MANIFEST:</h4>
+                            <h4 style="font-size: 16px;">MANIFEST:</h4>
                             <textarea id="codemanifest" readonly="readonly" rows="9" cols="100"
                                 placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
                         </div>
@@ -326,7 +327,7 @@
 
                 <div class="generalContainer">
                     <div class="containerForCompilingResult" style="margin-bottom: 30px; padding: 10px;">
-                        <h4>Compiler Output (Warning/Errors):</h4>
+                        <h4 style="font-size: 16px;">Compiler Output (Warning/Errors):</h4>
                         <textarea id="codewarnerr" readonly="readonly" rows="10" class="form-control"></textarea>
                     </div>
                 </div>

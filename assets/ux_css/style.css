@@ -204,6 +204,11 @@ body {
     color: white;
 }
 
+.generalContainer {
+    margin-top: 15px;
+    color: white;
+}
+
 .green-title {
     float: left;
     width: 100%;
@@ -213,6 +218,7 @@ body {
     top: 0;
     left: 0;
     padding: 10px 10px 10px 30px;
+    font-size: 16px;
 }
 
 .breadcrumb a {
@@ -280,15 +286,6 @@ body {
 }
 
 /* END SIMPLE BTN */
-
-.generalContainer {
-    margin-top: 15px;
-    color: white;
-}
-
-.generalContainer h4 {
-    font-size: 16px;
-}
 
 .preloader .spinner-grow {
     background: #00AF92;

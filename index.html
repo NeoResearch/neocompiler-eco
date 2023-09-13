@@ -941,7 +941,7 @@
 
 
                 <div class="generalContainer">
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">String
                             <-> Hex
                         </h4>
@@ -971,7 +971,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Hex
                             <-> xeH
                         </h4>
@@ -995,7 +995,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Base64
                             <-> Hex
                         </h4>
@@ -1019,7 +1019,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Number
                             <-> Fixed8 Hex
                         </h4>
@@ -1043,17 +1043,18 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Address
                             <-> ScriptHash (big endian)
                         </h4>
                         <div class="container">
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="address_conversor">Address</label>
                                         <input id="address_conversor" oninput="address2scripthash()"
-                                            class="form-control" placeholder="Address" oninput="address2scripthash()">
+                                            class="form-control" placeholder="Address" oninput="address2scripthash()" aria-describedby="address_conversor_db">
+                                            <small id="address_conversor_db" class="form-text text-muted">Address</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -1071,7 +1072,7 @@
 
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">BigInteger
                             <-> Little-Endian ByteArray
                         </h4>
@@ -1097,9 +1098,8 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer" style="height: 130px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Hex String -> Hash</h4>
-
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-3">
@@ -1307,7 +1307,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer mb-2">
+                    <div class="standardContainer">
                         <h4 class="green-title">NodeRPC(WatchOnly)
                             <button type="submit" onclick="getNodeInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1322,7 +1322,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer mb-2">
+                    <div class="standardContainer">
                         <h4 class="green-title">Oracle Service
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1339,7 +1339,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer mb-2">
+                    <div class="standardContainer">
                         <h4 class="green-title">OracleHttpsProtocol
                             <button type="submit" onclick="getOracleInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1354,7 +1354,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer mb-2" style="height: 420px;margin-bottom: 20px;">
+                    <div class="standardContainer">
                         <h4 class="green-title">Verification Service
                             <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>
@@ -1371,7 +1371,7 @@
                         </div>
                     </div>
 
-                    <div class="standardContainer mb-2">
+                    <div class="standardContainer">
                         <h4 class="green-title">Verification Context
                             <button type="submit" onclick="getStateInfo()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i></button>

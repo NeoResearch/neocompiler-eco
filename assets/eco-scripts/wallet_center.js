@@ -571,16 +571,33 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     $("#button-connect-wallet")[0].textContent = ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(0, 4) + "..." + ECO_WALLET[CONNECTED_WALLET_ID].account.address.slice(-4);
     updateTransferLabel();
 
-    if (!skipSwal)
-        swal({
-            title: "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label,
-            text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
-            icon: "success",
-            timer: 5500,
-        });
+    var isWatchOnly = false;
+    if (ECO_WALLET[CONNECTED_WALLET_ID].account._privateKey === undefined)
+        isWatchOnly = true;
 
-    if (tryDapi)
+    if (ECO_WALLET[CONNECTED_WALLET_ID]) {
+        if (!skipSwal) {
+            var swalText = "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label;
+            if (isWatchOnly)
+                swalText += "!!! - BE CAREFUL - WATCH ONLY";
+            swal({
+                title: swalText,
+                text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+                icon: "success",
+                timer: 5500,
+            });
+        }
+        if (isWatchOnly) {
+            $("#relay_btn")[0].disabled = true;
+        } else {
+            $("#relay_btn")[0].disabled = false;
+        }
+    }
+
+    if (tryDapi) {
         verifyDapi();
+        $("#relay_btn")[0].disabled = false;
+    }
 }
 
 

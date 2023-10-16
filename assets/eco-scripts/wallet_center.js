@@ -572,7 +572,7 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     updateTransferLabel();
 
     var isWatchOnly = false;
-    if (ECO_WALLET[CONNECTED_WALLET_ID].account._privateKey === undefined)
+    if (ECO_WALLET[CONNECTED_WALLET_ID].account._privateKey === undefined && !isMultiSig(CONNECTED_WALLET_ID))
         isWatchOnly = true;
 
     if (ECO_WALLET[CONNECTED_WALLET_ID]) {

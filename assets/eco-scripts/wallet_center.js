@@ -684,10 +684,11 @@ function createNep17Tx() {
     if (!checkIfWalletIsConnected())
         return false;
 
-    var amountToTransfer = $("#transfer_nep17_amount")[0].value;
+    var rawAmountToTransfer = $("#transfer_nep17_amount")[0].value;
 
+    var amountToTransferAdjusted = rawAmountToTransfer;
     if ($("#nep17_asset")[0].value == "GAS")
-        amountToTransfer = getFixed8Integer(amountToTransfer);
+        amountToTransferAdjusted = getFixed8Integer(rawAmountToTransfer);
 
     if ($("#transfer_nep17_amount")[0].value == 0) {
         swal("Transfer amount is currently 0", {
@@ -700,7 +701,7 @@ function createNep17Tx() {
 
     swal({
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
-        text: amountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
+        text: rawAmountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
         icon: "info",
         buttons: ["Cancel", "Proceed",],
     }).then((willTransfer) => {
@@ -718,7 +719,7 @@ function createNep17Tx() {
             },
             {
                 type: "Integer",
-                value: amountToTransfer
+                value: amountToTransferAdjusted
             },
             {
                 type: "Integer",

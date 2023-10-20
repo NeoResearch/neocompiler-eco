@@ -589,13 +589,18 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
         }
         if (isWatchOnly) {
             $("#relay_btn")[0].disabled = true;
+
+            // but check if it is dapi from neoline or o3
+            var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
+            if (callDapi)
+                $("#relay_btn")[0].disabled = false;
         } else {
             $("#relay_btn")[0].disabled = false;
         }
     }
 
     if (tryDapi) {
-        verifyDapi();
+        askToConnectToDapi();
         $("#relay_btn")[0].disabled = false;
     }
 }
@@ -605,7 +610,7 @@ function createButton(text, cb) {
     return $('<button>' + text + '</button>').on('click', cb);
 }
 
-function verifyDapi(dapiName) {
+function askToConnectToDapi() {
     var dapiToPush = { cancel: "No" };
     if (neolineN3 && READY_DAPI_WALLETS.NEOLINE)
         Object.assign(dapiToPush, { nl: "NeoLine" });

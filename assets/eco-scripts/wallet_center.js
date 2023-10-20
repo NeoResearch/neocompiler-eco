@@ -563,7 +563,11 @@ function drawPopulateAllWalletAccountsInfo() {
 
 function connectWallet() {
     goToTabAndClick("nav-wallet");
-    changeDefaultWallet(0, true, true);
+
+    var walletToSelectByDefault = 0;
+    if (CONNECTED_WALLET_ID != -1)
+        walletToSelectByDefault = CONNECTED_WALLET_ID;
+    changeDefaultWallet(walletToSelectByDefault, true, true);
 }
 
 function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
@@ -575,11 +579,15 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     if (ECO_WALLET[CONNECTED_WALLET_ID].account._privateKey === undefined && !isMultiSig(CONNECTED_WALLET_ID))
         isWatchOnly = true;
 
+    var dapiWalletConnected = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
+
     if (ECO_WALLET[CONNECTED_WALLET_ID]) {
         if (!skipSwal) {
             var swalText = "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label;
-            if (isWatchOnly)
+            if (isWatchOnly && !dapiWalletConnected)
                 swalText += "!!! - BE CAREFUL - WATCH ONLY";
+            else if (dapiWalletConnected)
+                swalText += "!!! - BE CAREFUL - YOU ARE CONNECTING TO YOUR PROVIDER";
             swal({
                 title: swalText,
                 text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
@@ -591,8 +599,7 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
             $("#relay_btn")[0].disabled = true;
 
             // but check if it is dapi from neoline or o3
-            var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
-            if (callDapi)
+            if (dapiWalletConnected)
                 $("#relay_btn")[0].disabled = false;
         } else {
             $("#relay_btn")[0].disabled = false;
@@ -600,8 +607,26 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     }
 
     if (tryDapi) {
-        askToConnectToDapi();
-        $("#relay_btn")[0].disabled = false;
+        if (dapiWalletConnected)
+        {
+            swal({
+                title: "Already connected to a dAPI wallet",
+                text: "Do you want to change wallet provider?",
+                icon: "warning",
+                buttons: ["Yes", "No. Keep connected!"],
+                dangerMode: true,
+            }).then((willchange) => {
+                if (!willchange) {
+                    askToConnectToDapi();
+                    $("#relay_btn")[0].disabled = false;
+                } else {
+                    swal("Default has been kept!");
+                }
+            });
+        }else{
+            askToConnectToDapi();
+            $("#relay_btn")[0].disabled = false;
+        }
     }
 }
 
@@ -627,13 +652,17 @@ function askToConnectToDapi() {
         //console.log("Button is: " + buttonOption);
         switch (buttonOption) {
             case "nl":
-                getAccountDAPI(neoline, "NeoLine");
+                CONNECTED_DAPI_WALLET_OBJ = neolineN3;
+                CONNECTED_DAPI_WALLET = "NeoLine";
+                getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
                 break;
             case "o3":
-                getAccountDAPI(neo3Dapi, "O3Wallet");
+                CONNECTED_DAPI_WALLET_OBJ = neo3Dapi;
+                CONNECTED_DAPI_WALLET = "O3Wallet";
+                getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
                 break;
             default:
-                swal("Safe! No DAPI wallet will be tried to be connected!");
+                swal("Default has been kept!");
         }
     });
 }

@@ -2,6 +2,8 @@ var READY_DAPI_WALLETS = { NEOLINE: false, O3WALLET: false };
 
 var CONNECTED_DAPI_WALLET = "NONE";
 
+var CONNECTED_DAPI_WALLET_OBJ;
+
 function getNetworkDAPI(dapiObj, accountToSwal = false) {
     return dapiObj
         ?.getNetworks()
@@ -19,11 +21,10 @@ function getNetworkDAPI(dapiObj, accountToSwal = false) {
         })
 }
 
-function getAccountDAPI(dapiObj, dapiName) {
+function getAccountDAPI(dapiObj) {
     dapiObj
         ?.getAccount()
         .then((account) => {
-            CONNECTED_DAPI_WALLET = dapiName;
             console.log(account.address);
             getNetworkDAPI(dapiObj, account.address);
             deleteAndAddDAPIAddressToWallet(account.address);
@@ -31,13 +32,13 @@ function getAccountDAPI(dapiObj, dapiName) {
         }).catch((error) => convertWalletError(error))
 }
 
-function invokeWithParametersDAPI(dapiObj, scriptHashP, methodP, invokeparams, signerAccount) {
+function invokeWithParametersDAPI(dapiObj, netFee, scriptHashP, methodP, invokeparams, signerAccount) {
     dapiObj
         ?.invoke({
             scriptHash: scriptHashP,
             operation: methodP,
             args: invokeparams,
-            fee: '0',
+            fee: netFee / 100000000,
             broadcastOverride: false,
             signers: [
                 {
@@ -123,4 +124,29 @@ function convertWalletError(error) {
             console.error(error)
             break
     }
+}
+
+
+function dAPISwitchWalletNetwork(networkId) {
+    /* Example */
+    CONNECTED_DAPI_WALLET_OBJ.switchWalletNetwork({
+        chainId: networkId
+    })
+        .then((result) => {
+            console.log("Result switch network" + result)
+            return result
+        })
+        .catch((error) => {
+            const { type, description, data } = error;
+            switch (type) {
+                case UNKNOWN_ERROR:
+                    console.log(description);
+                    break;
+                default:
+                    // Not an expected error object.  Just write the error to the console.
+                    console.error(error);
+                    break;
+            }
+        });
+
 }

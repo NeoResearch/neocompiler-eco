@@ -90,6 +90,9 @@ function signAndRelay(blinkRelay = true) {
     if (!checkIfWalletIsConnected())
         return;
 
+    var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
+    //============================================
+    //This is dapi call from parameters
     var callDapi = getDapiConnectedWallet() == CONNECTED_WALLET_ID;
     if (callDapi) {
         var dapiParams = JSON.parse($("#txtRPCJson").val());
@@ -99,20 +102,15 @@ function signAndRelay(blinkRelay = true) {
         }
         var signerHash = ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash;
 
-        var dapiObj;
-        if (CONNECTED_DAPI_WALLET == "NeoLine")
-            dapiObj = neolineN3;
 
-        if (CONNECTED_DAPI_WALLET == "O3Wallet")
-            dapiObj = neo3Dapi;
 
-        invokeWithParametersDAPI(dapiObj, dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], signerHash);
+        invokeWithParametersDAPI(CONNECTED_DAPI_WALLET_OBJ, netFee, dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], signerHash);
+
         return;
     }
-
+    //============================================
 
     var sysFee = Math.ceil(getFixed8Integer($("#sys_fee")[0].value));
-    var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
     //var sysFee = getFixed8Integer(500);
     //var netFee = getFixed8Integer(600);
     var validUntil = Number($("#valid_until")[0].value);

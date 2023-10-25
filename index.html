@@ -419,13 +419,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="native_contracts" name="native_contracts"
-                                            onchange="createNativeManifest()" class="form-select" size="8"></select>
+                                            onchange="createNativeManifest()" class="form-select checkedOption" size="8"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="local_contracts" name="local_contracts"
-                                            onchange="createLocalManifest()" class="form-select" size="8"></select>
+                                            onchange="createLocalManifest()" class="form-select checkedOption" size="8"></select>
                                     </div>
                                 </div>
                             </div>
@@ -436,7 +436,7 @@
                                         <label for="notification_contracts">Additional Notification
                                             Contracts</label>
                                         <select id="notification_contracts" name="notification_contracts"
-                                            onchange="createNotificationManifest()" class="form-select"
+                                            onchange="createNotificationManifest()" class="form-select checkedOption"
                                             size="8"></select>
                                     </div>
                                 </div>
@@ -447,7 +447,7 @@
                                     <div class="form-group">
                                         <label for="native_methods">ABI Methods</label>
                                         <select onchange="drawParametersTable()" id="contract_methods"
-                                            class="form-select" size="8"></select>
+                                            class="form-select checkedOption" size="8"></select>
                                     </div>
                                 </div>
                             </div>
@@ -513,12 +513,12 @@
                                         Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
                                             target="_blank">Official API</a> or put cursor on top for
                                         tooltip)</label> -->
-                                    <select name="rpcMethod" id="rpcMethod" class="form-select" onchange="frmRPCJson()"
+                                    <select name="rpcMethod" id="rpcMethod" class="form-select checkedOption" onchange="frmRPCJson()"
                                         size="3">
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <button onclick="rawRpcCall()" style="width: 100%" class="btn btn-default btn-1">
+                                    <button id="rawRpcPostCallButton" onclick="rawRpcCall()" style="width: 100%" class="btn btn-default btn-1">
                                         <i class="fas fa-phone"></i> Post to RPC
                                     </button>
                                 </div>

@@ -671,6 +671,7 @@ function convertJsonNotifications() {
                     button: "Ok!",
                     timer: 5500,
                 });
+                addBlinkToElement("#rawRpcPostCallButton");
             }
 
             $("#txt_notifications").val(myNotify);

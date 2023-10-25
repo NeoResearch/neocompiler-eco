@@ -8,8 +8,7 @@ var tableBlocks = document.createElement("tbody");
 function searchAsAScan() {
     var searchValue = $(search_blockchain)[0].value;
 
-    if(searchValue == "")
-    {
+    if (searchValue == "") {
         swal({
             title: "Invalid value to search",
             text: "Enter address or TX Hash or index",
@@ -24,7 +23,7 @@ function searchAsAScan() {
     if (Neon.wallet.isAddress(searchValue)) {
         console.log("Address is: " + searchValue);
         goToTabAndClick("nav-rpc");
-        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\""+searchValue+"\"] }");
+        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\"" + searchValue + "\"] }");
         rawRpcCall();
         return;
     }
@@ -33,7 +32,7 @@ function searchAsAScan() {
     if (searchValue.length == 66) {
         console.log("Tx hash is: " + searchValue);
         goToTabAndClick("nav-rpc");
-        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getapplicationlog\", \"params\": [\""+searchValue+"\"] }");
+        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getapplicationlog\", \"params\": [\"" + searchValue + "\"] }");
         rawRpcCall();
         return;
     }
@@ -63,32 +62,38 @@ function drawBlocks(automatic = false) {
     end = parseInt($("#blocks_end_get")[0].value);
     count = parseInt($("#blocks_count_get")[0].value);
 
+    if (isNaN(end) && isNaN(count)) {
+        count = MAX_BLOCKS_SCREEN;
+        end = LAST_BEST_HEIGHT_NEOCLI - 1;
+        // Usually when initialized
+        if (count > end)
+            count = 0;
+    }
+
     if (!isNaN(end) && isNaN(count)) {
-        swal({
-            title: "Invalid parameter for count",
-            text: "should be passed with drawBlocks(end,count)",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
-        return;
+        count = 0;
+        $("#blocks_count_get")[0].value = count;
     }
 
     if (isNaN(end) && !isNaN(count)) {
-        swal({
-            title: "Invalid parameter for last",
-            text: "should be passed with drawBlocks(end,count)",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
-        return;
+        end = LAST_BEST_HEIGHT_NEOCLI - 1;
+        $("#blocks_end_get")[0].value = end;
     }
 
-    if (!isNaN(count) && !isNaN(end))
+    if (count < 0) {
+        count = 0;
+        $("#blocks_count_get")[0].value = count;
+    }
+
+    if (end < 0) {
+        end = 0;
+        $("#blocks_end_get")[0].value = end;
+    }
+
+    if (!isNaN(count) && !isNaN(end)) {
         if (count > end) {
             swal({
-                title: "Invalid parameter for coun",
+                title: "Invalid parameter for count",
                 text: "Count should be lower than end!",
                 icon: "error",
                 button: "Ok!",
@@ -96,21 +101,7 @@ function drawBlocks(automatic = false) {
             });
             return;
         }
-
-    if (isNaN(end)) {
-        end = LAST_BEST_HEIGHT_NEOCLI - 1;
-        count = MAX_BLOCKS_SCREEN;
-
-        // Usually when initialized
-        if (count > end)
-            count = 0;
     }
-
-    if (count < 0)
-        count = 0;
-
-    if (end < 0)
-        end = 0;
 
     var maxQueriedBlocks = 1000;
     if (count > maxQueriedBlocks) {
@@ -124,7 +115,8 @@ function drawBlocks(automatic = false) {
         return;
     }
 
-    PROGRESS = { c: 0, count: count }
+    // Add count fail otherwise it is not printed sometimes if post fails
+    PROGRESS = { c: 0, count: count, f: 0 }
     cleanTableBlocks();
 
     for (b = end; b >= Math.max((end - count), 0); b--) {
@@ -147,13 +139,20 @@ function drawBlocks(automatic = false) {
                 index: blockIndex,
                 block: resultBlock
             });
-            if (PROGRESS.c > PROGRESS.count) {
+        }).fail(function () {
+            PROGRESS.f++;
+            console.log("Failed requested for blocks: " + PROGRESS.f);
+        }).always(function () {
+            if ((PROGRESS.c + PROGRESS.f) > PROGRESS.count) {
                 CURRENT_BLOCKS.sort(function compare(a, b) {
                     if (a.index > b.index) return -1;
                     if (a.index < b.index) return 1;
                     return 0;
                 })
-                printBlocksToTable();
+                if (CURRENT_BLOCKS.length != 0)
+                    printBlocksToTable();
+                else
+                    printBlocksToTable("Error when searching for these blocks.");
             }
         });
     } //Finishes loop that draws each relayed transaction

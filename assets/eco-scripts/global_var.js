@@ -83,7 +83,7 @@ function getAllAvailableService(serviceType, networkServicesObj) {
     return nodesUrl;
 }
 
-function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox, title = "") {
+function addOptionToSelectionBox(textToOption, valueToOption, selectionBoxToAdd, title = "") {
     var option = document.createElement("option");
     //option.text = textToOption;
     //option.value = valueToOption;
@@ -91,7 +91,7 @@ function addOptionToSelectionBox(textToOption, valueToOption, walletSelectionBox
     //option.title = title;
     option.setAttribute('title', title);
     option.appendChild(document.createTextNode(textToOption));
-    document.getElementById(walletSelectionBox).add(option);
+    document.getElementById(selectionBoxToAdd).add(option);
 }
 
 

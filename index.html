@@ -103,6 +103,13 @@
                 <p id="compilerNav">Compilers</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-rpc" role="tab"
+                aria-controls="nav-home" aria-selected="true">
+                <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
+                <p>RPC API</p>
+            </a>
+        </li>
         <li class="nav-item" role="presentation">
             <a class="nav-link" data-bs-toggle="tab" data-toggle="tab"
                 onclick="getNativeInfo(); updateWithDeployedContract();" href="#nav-contracts" role="tab"
@@ -116,13 +123,6 @@
                 href="#nav-wallet" role="tab" aria-controls="nav-home" aria-selected="true">
                 <img src="./assets/icons/walet.png" style="width: 35px;padding-bottom: 4px;">
                 <p>Wallet</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" onclick="" data-bs-toggle="tab" data-toggle="tab" href="#nav-rpc" role="tab"
-                aria-controls="nav-home" aria-selected="true">
-                <img src="./assets/icons/raw.png" style="width: 35px;padding-bottom: 4px;">
-                <p>Raw RPC</p>
             </a>
         </li>
         <li class="nav-item">
@@ -506,50 +506,90 @@
                     <div class="standardContainer" style="margin-bottom: 30px;">
                         <h4 class="green-title">Request from Neo C# nodes (RPC-JSON API)</h4>
                         <div class="container">
+
                             <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="rpcMethod">
-                                            Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
-                                                target="_blank">Official API</a> or put cursor on top for
-                                            tooltip)</label>
-                                        <select name="rpcMethod" id="rpcMethod" class="form-select"
-                                            onchange="frmRPCJson()">
-                                            <option disabled selected title="select">Select a method</option>
-                                        </select>
+                                <div class="col-md-6">
+                                    <!-- <label for="rpcMethod">
+                                        Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
+                                            target="_blank">Official API</a> or put cursor on top for
+                                        tooltip)</label> -->
+                                    <select name="rpcMethod" id="rpcMethod" class="form-select" onchange="frmRPCJson()"
+                                        size="3">
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <button onclick="rawRpcCall()" style="width: 100%" class="btn btn-default btn-1">
+                                        <i class="fas fa-phone"></i> Post to RPC
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="collapse" id="signAndRelayDivCollapse">
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <label for="tableSigners">Signers</label>
+                                        <table id="tableSigners" class="table text-white twalllet">
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-4">
+                                        <label for="net_fee">Network Fees</label>
+                                        <input type="number" id="net_fee" step="0.00000001" size="10" value="0"
+                                            class="form-control" required="">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="sys_fee">System Fees</label>
+                                        <input type="number" id="sys_fee" step="0.00000001" size="10" value="0"
+                                            class="form-control" required="">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="valid_until">Valid Until</label>
+                                        <input type="number" id="valid_until" step="1" size="10" value="0"
+                                            class="form-control" required="">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <label for="tx_script">Script</label>
+                                        <textarea id="tx_script" rows="2" cols="100" placeholder="Transaction Script"
+                                            style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <button disabled type="button" id="relay_btn" style="width: 100%"
+                                            class="btn btn-default btn-1 btn-1-darker" onclick="signAndRelay(false)">
+                                            <i class="fa-solid fa-signature"></i> Sign and Relay to Blockchain
+                                        </button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <label for="txtRPCJson">Insert RPC Json</label>
+                                    <label for="txtRPCJson">Request parameters</label>
                                     <input id="txtRPCJson" name="contracthash" class="form-control"
-                                        placeholder="RPC Json Model">
+                                        placeholder="RPC call (pick a method)">
                                 </div>
                             </div>
 
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <button onclick="rawRpcCall()" id="btnCallJsonRPC" style="width: 100%"
-                                        class="btn btn-default btn-1"><i class="fas fa-phone"></i> Invoke
-                                        RPC</button>
+                                    <textarea id="txtRPCJsonOut" rows="7" class="form-control"></textarea>
                                 </div>
                             </div>
 
-                            <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <textarea id="txtRPCJsonOut" rows="10" class="form-control"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
+                            <!--<div class="row mb-2">
                                 <div class="col-md-12">
                                     <button type="button" style="width: 100%" class="btn btn-default btn-1"
                                         onclick="convertJsonNotifications()"><i class="fas fa-exchange-alt"></i>
                                         Get Notifications</button>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="row mb-2">
                                 <div class="collapse col-md-12" id="collapseNotifications">
@@ -557,49 +597,6 @@
                                         style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"
                                         readonly="readonly" rows="6"
                                         placeholder="Notifications/Events are listed here."></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <label for="tableSigners">Signers</label>
-                                    <table id="tableSigners" class="table text-white twalllet">
-                                    </table>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col-md-4">
-                                    <label for="net_fee">Network Fees</label>
-                                    <input type="number" id="net_fee" step="0.00000001" size="10" value="0"
-                                        class="form-control" required="">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="sys_fee">System Fees</label>
-                                    <input type="number" id="sys_fee" step="0.00000001" size="10" value="0"
-                                        class="form-control" required="">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="valid_until">Valid Until</label>
-                                    <input type="number" id="valid_until" step="1" size="10" value="0"
-                                        class="form-control" required="">
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <label for="tx_script">Script</label>
-                                    <textarea id="tx_script" rows="2" cols="100" placeholder="Transaction Script"
-                                        style="background: none;border: none;resize: none;outline: none;color: #0aab7b!important;"></textarea>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                                <div class="col-md-12">
-                                    <button type="button" id="relay_btn" style="width: 100%"
-                                        class="btn btn-default btn-1 btn-1-darker" onclick="signAndRelay(false)">
-                                        <i class="fa-solid fa-signature"></i> Sign and Relay to Blockchain
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -704,7 +701,7 @@
                     <div class="standardContainer">
                         <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
                                 class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
-                        <div class="container" >
+                        <div class="container">
                             <div class="row" style="padding:0 20px 0 20px;">
                                 <table id="tableWalletStatus" class="table text-white twalllet">
                                 </table>
@@ -739,7 +736,8 @@
                                         onchange="updateTransferAssetInfo()"></select>
                                 </div>
                                 <div class="col-3">
-                                    <input type="range" class="form-range" onchange="updateTransferAmountInfoFromPercentage()"
+                                    <input type="range" class="form-range"
+                                        onchange="updateTransferAmountInfoFromPercentage()"
                                         id="transfer_nep17_amount_range" value="0" min="0" max="100" />
                                 </div>
                                 <div class="col-3">
@@ -921,8 +919,9 @@
                                     <div class="form-group">
                                         <label for="address_conversor">Address</label>
                                         <input id="address_conversor" oninput="address2scripthash()"
-                                            class="form-control" placeholder="Address" oninput="address2scripthash()" aria-describedby="address_conversor_db">
-                                            <small id="address_conversor_db" class="form-text text-muted">Address</small>
+                                            class="form-control" placeholder="Address" oninput="address2scripthash()"
+                                            aria-describedby="address_conversor_db">
+                                        <small id="address_conversor_db" class="form-text text-muted">Address</small>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

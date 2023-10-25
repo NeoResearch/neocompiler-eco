@@ -6,6 +6,16 @@ function frmRPCJson() {
 };
 
 function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay = true) {
+    if ($("#txtRPCJson").val() === "") {
+        swal({
+            title: "Error. JSON RPC call is empty",
+            text: "Pick a method",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
+        return;
+    }
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         $("#txtRPCJson").val(), // Serializes form data in standard format
@@ -13,10 +23,10 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
             $("#txtRPCJsonOut").val(JSON.stringify(data, null, '  '));
             convertJsonNotifications();
 
+            cleanRealTxInvoke();
+
             if (fillRealTx && checkIfWalletIsConnected())
-                fillRealTxFromInvokeFunction();
-            else
-                cleanRealTxInvoke();
+                fillRealTxFromInvokeFunction();                
 
             if (saveID != -1)
                 RELAYED_TXS[saveID].push(data);
@@ -24,8 +34,14 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
             if (relay) {
                 signAndRelay(false);
             } else {
-                if (blinkRelay)
+                if (blinkRelay && fillRealTx) {
+                    $('#signAndRelayDivCollapse').collapse('show');
+                    $("#relay_btn")[0].disabled = false;
                     addBlinkToElement("#relay_btn");
+                } else {
+                    $("#relay_btn")[0].disabled = true;
+                    $('#signAndRelayDivCollapse').collapse('hide');
+                }
             }
         },
         "json" // The format the response should be in
@@ -71,6 +87,16 @@ function fillRealTxFromInvokeFunction() {
     if (!invokeResult.result)
         return;
 
+    if (!invokeResult.result.script) {
+        swal({
+            title: "There is not a script in this call to be invoked with a wallet",
+            text: "Call a diferent method. Then you can try to send to blockchain.",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
+        return;
+    }
     $("#sys_fee")[0].value = invokeResult.result.gasconsumed / getFixed8();
     $("#net_fee")[0].value = 10000000 / getFixed8();
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);

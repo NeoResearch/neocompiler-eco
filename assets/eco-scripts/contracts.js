@@ -673,13 +673,12 @@ function convertJsonNotifications() {
                 });
             }
 
-
-
             $("#txt_notifications").val(myNotify);
             $('#collapseNotifications').collapse('show');
         } else {
             $('#collapseNotifications').collapse('hide');
             $("#txt_notifications").val("Notifications were not found!");
+            console.log("This call did not produce any notification as result. When notifications are found they are shown.");
         }
     } else {
         $("#txt_notifications").val("empty RPC call output to check notification");

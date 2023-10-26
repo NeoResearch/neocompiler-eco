@@ -259,5 +259,10 @@ var rpcMethod = [
     // =================== StatePlugin ===========================
 ];
 
-for (m = 0; m < rpcMethod.length; m++)
-    addOptionToSelectionBox(rpcMethod[m][0], rpcMethod[m][0], "rpcMethod", rpcMethod[m][3])
+function addJsonRPCMethodsToSelectionBox() {
+    for (m = 0; m < rpcMethod.length; m++)
+        addOptionToSelectionBox(rpcMethod[m][0], rpcMethod[m][0], "rpcMethodSelectionBox", rpcMethod[m][3])
+
+    $("#rpcMethodSelectionBox")[0].selectedIndex = 0;
+    frmRPCJson();
+}

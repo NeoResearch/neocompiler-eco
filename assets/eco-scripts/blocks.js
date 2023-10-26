@@ -171,13 +171,13 @@ function cleanTableBlocks() {
     var headers3 = document.createElement('td');
     var headers4 = document.createElement('td');
 
-    headers1.innerHTML = "<b><center><font size='1'>Index</font></b>";
+    headers1.innerHTML = "<b><center><font size='1'>INDEX</font></b>";
     headerRow.insertCell(-1).appendChild(headers1);
-    headers2.innerHTML = "<b><center><font size='1'>Time</font></b>";
+    headers2.innerHTML = "<b><center><font size='1'>TIME</font></b>";
     headerRow.insertCell(-1).appendChild(headers2);
-    headers3.innerHTML = "<b><center><font size='1'>Txs.</font></b>";
+    headers3.innerHTML = "<b><center><font size='1'>TXS.</font></b>";
     headerRow.insertCell(-1).appendChild(headers3);
-    headers4.innerHTML = "<b><center><font size='1'>Size</font></b>";
+    headers4.innerHTML = "<b><center><font size='1'>SIZE</font></b>";
     headerRow.insertCell(-1).appendChild(headers4);
 
     tableBlocks.appendChild(headerRow);

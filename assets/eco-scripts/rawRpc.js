@@ -1,8 +1,5 @@
 function frmRPCJson() {
-    if ($("#txtRPCJson").val() == "Select a method")
-        $("#txtRPCJson").val("");
-    else
-        $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"" + $("#rpcMethod").val() + "\", \"params\": [\"\"] }");
+    $("#txtRPCJson").val("{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"" + $("#rpcMethodSelectionBox").val() + "\", \"params\": [\"\"] }");
 };
 
 function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay = true) {
@@ -26,7 +23,7 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
             cleanRealTxInvoke();
 
             if (fillRealTx && checkIfWalletIsConnected())
-                fillRealTxFromInvokeFunction();                
+                fillRealTxFromInvokeFunction();
 
             if (saveID != -1)
                 RELAYED_TXS[saveID].push(data);

@@ -3,6 +3,7 @@ body {
     background: #263A40;
     --bs-body-bg: #223237;
     --bs-emphasis-color:  #3eff34;
+    --bs-body-color: bs-white-rgb;
     --bs-secondary-color: #bccff0;
 }
 

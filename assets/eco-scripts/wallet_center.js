@@ -349,7 +349,7 @@ function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             addressToGet = ECO_WALLET[ka].account.address;
-            queryTofillNeoGasNep17FromNeoCli(addressToGet, ka);
+            queryNep17BalancesFromNeoCsharpNodeJsonRPC(addressToGet, ka);
             callUnclaimedFromNeoCli(addressToGet, ka);
         }
 }
@@ -571,11 +571,23 @@ function updateTransferLabel() {
     $("#nep17_asset")[0].length = 0;
 
     var nep17BalancesOfConnectedWallet = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances;
-    for (i = 0; i < nep17BalancesOfConnectedWallet.length; ++i)
-        addAssetsToTransfer(nep17BalancesOfConnectedWallet[i].symbol);
+    if (nep17BalancesOfConnectedWallet.length > 0) {
+        $('#transferNep17ModuleCollapse').collapse('show');
+        for (i = 0; i < nep17BalancesOfConnectedWallet.length; ++i)
+            addAssetsToTransfer(nep17BalancesOfConnectedWallet[i].symbol);
 
-    // Update label
-    updateTransferAssetInfo();
+        // Update label
+        updateTransferAssetInfo();
+
+        if(isWatchOnlyAndNotDapi(CONNECTED_WALLET_ID)){
+            $("#createTransferButton")[0].disabled = true;
+        }else{
+            $("#createTransferButton")[0].disabled = false;
+        }     
+
+    } else {        
+        $('#transferNep17ModuleCollapse').collapse('hide');   
+    }
 }
 
 

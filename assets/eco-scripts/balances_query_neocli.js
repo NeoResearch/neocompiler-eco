@@ -22,7 +22,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
     }); //End of POST for search
 }
 
-function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
+function queryNep17BalancesFromNeoCsharpNodeJsonRPC(adddressToGet, addressID) {
     requestJson = "{ \"jsonrpc\": \"2.0\", \"id\": 5, \"method\": \"getnep17balances\", \"params\": [\"" + adddressToGet + "\"] }";
 
     $.post(
@@ -34,6 +34,11 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
             $("#walletGAS" + addressID)[0].innerHTML = 0;
             if (resultJsonData.result) {
                 ECO_WALLET[addressID]["nep17balances"] = resultJsonData.result.balance;
+
+                //update transfers amounts if wallet is connect and is equal
+                if (addressID == CONNECTED_WALLET_ID)
+                    updateTransferLabel();
+
                 for (i = 0; i < resultJsonData.result.balance.length; ++i) {
                     var availableAmount = resultJsonData.result.balance[i].amount;
                     if (resultJsonData.result.balance[i].assethash == NEO_ASSET)
@@ -48,7 +53,7 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
         },
         "json" // The format the response should be in
     ).fail(function () {
-        console.error("queryTofillNeoGasNep17FromNeoCli problem. failed to pass request to RPC network!");
+        console.error("queryNep17BalancesFromNeoCsharpNodeJsonRPC problem. failed to pass request to RPC network!");
         NUMBER_FAILS_REQUESTS++;
     }); //End of POST for search
 }

@@ -53,6 +53,14 @@ function isMultiSig(idToCheck) {
     return false;
 }
 
+function isWatchOnlyAndNotDapi(idToCheck) {
+    var isWatchOnly = false;
+    if (ECO_WALLET[idToCheck].account._privateKey === undefined && !isMultiSig(idToCheck) && !(getDapiConnectedWallet() == idToCheck))
+        isWatchOnly = true;
+
+    return isWatchOnly;
+}
+
 //Just add if we have privateKey or WIF
 function getMultiSigSignersID(publicKeys, threshold) {
     var signingAccountsIDs = [];
@@ -60,8 +68,8 @@ function getMultiSigSignersID(publicKeys, threshold) {
         for (pk = 0; pk < publicKeys.length; pk++) {
             currentPK = publicKeys[pk];
             for (ka = 0; ka < ECO_WALLET.length; ka++) {
-                if (typeof(ECO_WALLET[ka].account._privateKey) != "undefined")
-                    if (typeof(ECO_WALLET[ka].account._publicKey) != "undefined")
+                if (typeof (ECO_WALLET[ka].account._privateKey) != "undefined")
+                    if (typeof (ECO_WALLET[ka].account._publicKey) != "undefined")
                         if (ECO_WALLET[ka].account.publicKey == currentPK) {
                             signingAccountsIDs.push(ka);
                             continue;

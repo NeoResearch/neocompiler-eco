@@ -36,6 +36,9 @@ function changeToSelectedNetwork() {
     getNativeInfo();
     
     setCompilerAndExample();
+    
+    if(CONNECTED_WALLET_ID != -1)
+        populateAllWalletData();    
 }
 
 function showTabs() {

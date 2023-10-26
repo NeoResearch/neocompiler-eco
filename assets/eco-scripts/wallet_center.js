@@ -492,12 +492,47 @@ function updateTransferAssetInfo() {
     updateTransferAmountInfo();
 }
 
+function getIdOfNep17AssetFromBalances(assetToFind) {
+    var nep17BalancesOfConnectedWallet = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances;
+
+    for (i = 0; i < nep17BalancesOfConnectedWallet.length; ++i)
+        if (nep17BalancesOfConnectedWallet[i].symbol == assetToFind)
+            return i;
+
+    return -1;
+}
+
+function getAdjustNep17Balance(assetToFind) {
+    var assetIdFromBalances = getIdOfNep17AssetFromBalances(assetToFind);
+    if (assetIdFromBalances == -1) {
+        swal({
+            title: "Error when getting nep17 balance",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
+        console.log("Error updateTransferAmountInfoFromPercentage");
+        return;
+    }
+
+    var assetDecimals = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances[assetIdFromBalances].decimals;
+    var rawBalance = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances[assetIdFromBalances].amount;
+    return rawBalance / Math.pow(10, assetDecimals);
+}
+
 function updateTransferAmountInfoFromPercentage() {
     if (!checkIfWalletIsConnected())
         return false;
+    var nep17AssetName = $("#nep17_asset")[0].value;
+    var availableAmountForThisNEP17asset = getAdjustNep17Balance(nep17AssetName);
+
     var percentage = $("#transfer_nep17_amount_range")[0].value / 100;
-    $("#transfer_nep17_amount")[0].value = percentage * $("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML;
-    $("#transfer_nep17_amount")[0].value = Math.round($("#transfer_nep17_amount")[0].value);
+    $("#transfer_nep17_amount")[0].value = percentage * availableAmountForThisNEP17asset;
+
+    var assetIdFromBalances = getIdOfNep17AssetFromBalances(nep17AssetName);
+    var assetDecimals = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances[assetIdFromBalances].decimals;
+    var amount = parseFloat($("#transfer_nep17_amount")[0].value);
+    $("#transfer_nep17_amount")[0].value = amount.toFixed(assetDecimals)
     updateTransferAmountInfo();
     //$("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].style = "border: 1px solid #0aac7c"
     /*@keyframes pulse {
@@ -521,8 +556,12 @@ function updateTransferAmountInfoFromPercentage() {
 function updateTransferAmountInfo() {
     var currentAmount = $("#transfer_nep17_amount")[0].value;
     $("#labelForTransferAmount")[0].textContent = "Transferring " + currentAmount;
-    $("#transfer_nep17_amount")[0].style = "color: white!important;"
-    if (parseFloat(currentAmount) > parseFloat($("#wallet" + $("#nep17_asset")[0].value + CONNECTED_WALLET_ID)[0].innerHTML))
+    $("#transfer_nep17_amount")[0].style = "color: white!important;";
+
+    var nep17AssetName = $("#nep17_asset")[0].value;
+    var availableAmountForThisNEP17asset = getAdjustNep17Balance(nep17AssetName);
+
+    if (parseFloat(currentAmount) > parseFloat(availableAmountForThisNEP17asset))
         $("#transfer_nep17_amount")[0].style = "color: #ff0000!important;"
 }
 
@@ -530,8 +569,11 @@ function updateTransferLabel() {
     $("#labelForTransferFrom")[0].textContent = " from " + ECO_WALLET[CONNECTED_WALLET_ID].label;
     // Updating with all know NEP 17 options
     $("#nep17_asset")[0].length = 0;
-    addAssetsToTransfer("NEO");
-    addAssetsToTransfer("GAS");
+
+    var nep17BalancesOfConnectedWallet = ECO_WALLET[CONNECTED_WALLET_ID].nep17balances;
+    for (i = 0; i < nep17BalancesOfConnectedWallet.length; ++i)
+        addAssetsToTransfer(nep17BalancesOfConnectedWallet[i].symbol);
+
     // Update label
     updateTransferAssetInfo();
 }
@@ -607,8 +649,7 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
     }
 
     if (tryDapi) {
-        if (dapiWalletConnected)
-        {
+        if (dapiWalletConnected) {
             swal({
                 title: "Already connected to a dAPI wallet",
                 text: "Do you want to change wallet provider?",
@@ -623,7 +664,7 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
                     swal("Default has been kept!");
                 }
             });
-        }else{
+        } else {
             askToConnectToDapi();
             $("#relay_btn")[0].disabled = false;
         }

@@ -4,7 +4,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
-        function(resultUnclaimed) {
+        function (resultUnclaimed) {
             //console.log("resultUnclaimed")
             //console.log(resultUnclaimed);
             var amountUnclaimable = 0;
@@ -17,7 +17,7 @@ function callUnclaimedFromNeoCli(adddressToGet, indexKA) {
             return amountUnclaimable;
         },
         "json" // The format the response should be in
-    ).fail(function() {
+    ).fail(function () {
         console.error("callUnclaimedFromNeoCli problem. failed to pass request to RPC network!");
     }); //End of POST for search
 }
@@ -28,11 +28,12 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
     $.post(
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
-        function(resultJsonData) {
+        function (resultJsonData) {
             NUMBER_FAILS_REQUESTS = 0;
             $("#walletNEO" + addressID)[0].innerHTML = 0;
             $("#walletGAS" + addressID)[0].innerHTML = 0;
             if (resultJsonData.result) {
+                ECO_WALLET[addressID]["nep17balances"] = resultJsonData.result.balance;
                 for (i = 0; i < resultJsonData.result.balance.length; ++i) {
                     var availableAmount = resultJsonData.result.balance[i].amount;
                     if (resultJsonData.result.balance[i].assethash == NEO_ASSET)
@@ -46,7 +47,7 @@ function queryTofillNeoGasNep17FromNeoCli(adddressToGet, addressID) {
             }
         },
         "json" // The format the response should be in
-    ).fail(function() {
+    ).fail(function () {
         console.error("queryTofillNeoGasNep17FromNeoCli problem. failed to pass request to RPC network!");
         NUMBER_FAILS_REQUESTS++;
     }); //End of POST for search

@@ -1,17 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <BaseNameArgument Condition="'$(AssemblyName)' != ''">--base-name $(AssemblyName)</BaseNameArgument>
+    <BaseNameArgument Condition="'$(AssemblyName)' == ''">--base-name $(MSBuildProjectName)</BaseNameArgument>  
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup>  
     <ProjectReference Include="..\..\src\Neo.SmartContract.Framework\Neo.SmartContract.Framework.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Message Text="Start NeoContract converter, Source File: $(TargetPath) - Project Path $(ProjectPath)" Importance="high">
     </Message>
-    <Exec Command="/neo-devpack-dotnet/src/Neo.Compiler.CSharp/bin/$(ConfigurationName)/net7.0/nccs &quot;$(ProjectPath)&quot;" />
+    <Exec Command="/neo-devpack-dotnet/src/Neo.Compiler.CSharp/bin/$(ConfigurationName)/net7.0/nccs $(BaseNameArgument) &quot;$(ProjectPath)&quot;" />
   </Target>
   
 </Project>

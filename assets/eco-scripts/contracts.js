@@ -485,7 +485,7 @@ function findNetworkFee() {
         jsonToCallStringified, // Serializes form data in standard format
         function (netFeeResult) {
             console.log(netFeeResult);
-            console.log("calculated fee is:" + netFeeResult..result.networkfee);
+            console.log("calculated fee is:" + netFeeResult.result.networkfee);
             $("#net_fee")[0].value = netFeeResult.result.networkfee / getFixed8();
         },
         "json" // The format the response should be in

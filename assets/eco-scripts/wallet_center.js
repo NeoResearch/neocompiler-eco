@@ -783,7 +783,8 @@ function createNep17Tx() {
             var contractHash = getNep17HashByName($("#labelForTransferAsset")[0].textContent);
             var method = "transfer";
 
-            invokeFunctionWithParams(contractHash, method, params);
+            var autoRelay = false;
+            invokeFunctionWithParams(contractHash, method, params, autoRelay);
 
             swal({
                 icon: "success",

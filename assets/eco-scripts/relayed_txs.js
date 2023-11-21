@@ -179,8 +179,9 @@ function removeRelayedTX(idToRemove) {
 
 //===============================================================
 function restoreTX(idToRestore) {
+    console.log(idToRestore)
     var txToRestore = RELAYED_TXS[idToRestore];
-    //console.log(txToRestore);
+    console.log(txToRestore);
 
     document.getElementById("tableSigners").appendChild(txToRestore[0].signers);
     $("#sys_fee")[0].value = txToRestore[0].sysfee;
@@ -191,5 +192,8 @@ function restoreTX(idToRestore) {
     $("#txtRPCJsonOut")[0].value = txToRestore[0].invokeFunctionOut;
 
     goToTabAndClick("nav-rpc");
+
+    if (checkIfWalletIsConnected())
+        enableSignRelayAndBlink();
 }
 //===============================================================

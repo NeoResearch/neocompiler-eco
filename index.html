@@ -574,7 +574,7 @@
                                 <div class="row mb-2">
                                     <div class="col-md-12">
                                         <button disabled type="button" id="relay_btn" style="width: 100%"
-                                            class="btn btn-default btn-1 btn-1-darker" onclick="signAndRelay(false)">
+                                            class="btn btn-default btn-1 btn-1-darker" onclick="signAndRelay()">
                                             <i class="fa-solid fa-signature"></i> Sign and Relay to Blockchain
                                         </button>
                                     </div>
@@ -630,8 +630,14 @@
 
                 <div class="generalContainer">
                     <div class="standardContainer">
-                        <h4 class="green-title">Historical Relayed TX's <button type="submit" onclick="drawRelayedTXs()"
-                                class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                        <h4 class="green-title">Historical Relayed TX's
+                            <button type="submit" onclick="drawRelayedTXs()" class="btn btn-info btn-sm"><i
+                                    class="fas fa-sync-alt"></i>
+                            </button>
+                            <button type="submit" onclick="cleanAllRelayedTxs()" class="btn btn-danger btn-sm">
+                                Delete All <i class="fas fa-trash"></i>
+                            </button>
+                        </h4>
                         <div class="container">
                             <div class="row" style="padding:0 20px 0 20px;">
                                 <table id="tableRelayedTxs" class="table text-white twalllet">
@@ -1425,6 +1431,8 @@
 
 <script src="assets/eco-scripts/compile_codes_localStorage.js"></script>
 
+<script src="assets/eco-scripts/activity_localStorage.js"></script>
+
 <script src="assets/eco-scripts/compile.js"></script>
 
 <script src="assets/eco-scripts/opcodes.js"></script>
@@ -1496,6 +1504,9 @@
 
         //Add JSON RpcMethod to box
         addJsonRPCMethodsToSelectionBox();
+
+        // Restores relayed txs from LocalStorage
+        restoreRelayedTxsFromLocalStorage();
 
         // Call tutorial
         if (getLocalStorage("disabledTutoral") != "1")

@@ -370,7 +370,7 @@ function deleteLocalContract() {
     });
 }
 
-function invokeFunctionWithParams(contractHash, method, params, relay = false) {
+function invokeFunctionWithParams(contractHash, method, params, relay) {
     if (!checkIfWalletIsConnected())
         return;
 
@@ -443,7 +443,8 @@ function invokeFunction() {
         params.push(parameter);
     }
 
-    invokeFunctionWithParams(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash, method.name, params);
+    var autoRelay = false;
+    invokeFunctionWithParams(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash, method.name, params, autoRelay);
 }
 
 function findNetworkFee() {
@@ -527,7 +528,8 @@ function deployContract() {
     var expectedContractHash = Neon.experimental.getContractHash(sender, checkSum, LOCAL_CONTRACTS[contractToDeployID].manifest.name);
     PENDING_CONTRACTS.push(expectedContractHash);
 
-    invokeFunctionWithParams(contractManagementHash, "deploy", params)
+    var autoRelay = false;
+    invokeFunctionWithParams(contractManagementHash, "deploy", params, autoRelay)
 }
 
 function getNep17HashByName(name) {

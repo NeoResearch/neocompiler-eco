@@ -26,15 +26,17 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
                 fillRealTxFromInvokeFunction();
 
             if (saveID != -1)
+            {
+                // updates saved tx with input
                 RELAYED_TXS[saveID].push(data);
+                storeActivitiesToLocalStorage();
+            }
 
             if (relay) {
-                signAndRelay(false);
+                signAndRelay();
             } else {
                 if (blinkRelay && fillRealTx) {
-                    $('#signAndRelayDivCollapse').collapse('show');
-                    $("#relay_btn")[0].disabled = false;
-                    addBlinkToElement("#relay_btn");
+                    enableSignRelayAndBlink();
                 } else {
                     $("#relay_btn")[0].disabled = true;
                     $('#signAndRelayDivCollapse').collapse('hide');
@@ -45,6 +47,12 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
     ).fail(function () {
         $("#txtRPCJsonOut").val("failed to invoke network!");
     }); //End of POST for search
+}
+
+function enableSignRelayAndBlink() {
+    $('#signAndRelayDivCollapse').collapse('show');
+    $("#relay_btn")[0].disabled = false;
+    addBlinkToElement("#relay_btn");
 }
 
 function drawSigners() {
@@ -110,10 +118,11 @@ function cleanRealTxInvoke() {
     document.getElementById("tableSigners").innerHTML = "";
 }
 
-function signAndRelay(blinkRelay = true) {
+function signAndRelay() {
     if (!checkIfWalletIsConnected())
         return;
 
+    //Network fee should be passed to DAPI
     var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
     //============================================
     //This is dapi call from parameters
@@ -133,8 +142,6 @@ function signAndRelay(blinkRelay = true) {
     //============================================
 
     var sysFee = Math.ceil(getFixed8Integer($("#sys_fee")[0].value));
-    //var sysFee = getFixed8Integer(500);
-    //var netFee = getFixed8Integer(600);
     var validUntil = Number($("#valid_until")[0].value);
     var script = $("#tx_script")[0].value;
 
@@ -161,13 +168,14 @@ function signAndRelay(blinkRelay = true) {
         invokeFunction: $("#txtRPCJson").val(),
         invokeFunctionOut: $("#txtRPCJsonOut").val()
     });
+    
+    // Create Field for TXs
     RELAYED_TXS.push(relayedTX);
+    storeActivitiesToLocalStorage();
 
-
-    console.log(tx)
-    console.log(tx.serialize(true))
+    //console.log(tx)
+    //console.log(tx.serialize(true))
     var rawTX = Neon.u.hex2base64(tx.serialize(true));
-
 
     var jsonForInvokingFunction = {
         "jsonrpc": "2.0",
@@ -175,15 +183,17 @@ function signAndRelay(blinkRelay = true) {
         "method": "sendrawtransaction",
         "params": [rawTX]
     };
-
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+
     $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall(false, RELAYED_TXS.length - 1, false, blinkRelay);
-    //var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-    //RELAYED_TXS.push(client.sendRawTransaction(tx));
+    var fillRealTx = false;
+    var autoRelay = false;
+    var autoBlink = false;
+    var savedTXID = RELAYED_TXS.length - 1;
+    rawRpcCall(fillRealTx, savedTXID, autoRelay, autoBlink);
 }
 
-function signTx(tx){
+function signTx(tx) {
     if (isMultiSig(CONNECTED_WALLET_ID)) {
         var publicKeys = Neon.wallet.getPublicKeysFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
         var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))

@@ -327,6 +327,10 @@ function getFiles(language, selected_index, index = 0) {
         var file = vExamples[selected_index][index];
         $.get(file, function (data) {
             aceEditor.getSession().setValue(aceEditor.getSession().getValue() + data);
+            //tab has been filled - move to main as default
+            goToACEMainTab();
+
+            //Is there any next file to be obtained?
             if (numfiles > 1 && index < (numfiles - 1)) {
                 index++;
                 var nextFile = vExamples[selected_index][index];
@@ -337,10 +341,8 @@ function getFiles(language, selected_index, index = 0) {
                 // Move to tab to simulate click and activate as current session
                 var nameToClick = "#textChildAce" + (Editor.tabs - 1);
                 $(nameToClick).click();
-
                 getFiles(language, selected_index, index);
-            }
-            goToACEMainTab();
+            }            
         });
     }
 }

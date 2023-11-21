@@ -246,7 +246,7 @@ function drawParametersTable() {
 
             var paramInput = document.createElement('input');
             paramInput.setAttribute('id', "paramInput" + p);
-            paramInput.setAttribute("class", "form-control");            
+            paramInput.setAttribute("class", "form-control");
             paramInput.placeholder = method.parameters[p].name + "(" + method.parameters[p].type + ")";
             txRow.insertCell(-1).appendChild(paramInput);
         } //Finishes loop that draws each relayed transaction
@@ -389,7 +389,7 @@ function invokeFunctionWithParams(contractHash, method, params, relay = false) {
 
     var jsonForInvokingFunction = {
         "jsonrpc": "2.0",
-        "id": 5,
+        "id": 1,
         "method": "invokefunction",
         "params": invokeparams
     };
@@ -397,7 +397,10 @@ function invokeFunctionWithParams(contractHash, method, params, relay = false) {
     goToTabAndClick("nav-rpc");
     var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
     $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall(true, -1, relay);
+
+    var fillNextTx = true;
+    var saveID = -1;
+    rawRpcCall(fillNextTx, saveID, relay);
 }
 
 function invokeFunction() {
@@ -443,6 +446,53 @@ function invokeFunction() {
     invokeFunctionWithParams(CONTRACTS_TO_LIST[getCurrentSelectedContract()].hash, method.name, params);
 }
 
+function findNetworkFee() {
+    if (!checkIfWalletIsConnected())
+        return;
+    var sysFee = Math.ceil(getFixed8Integer($("#sys_fee")[0].value));
+    var validUntil = Number($("#valid_until")[0].value);
+    var script = $("#tx_script")[0].value;
+
+    var netFee = Math.ceil(getFixed8Integer($("#net_fee")[0].value));
+
+    const tx = new Neon.tx.Transaction({
+        signers: [{
+            account: ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
+            scopes: Neon.tx.WitnessScope.CalledByEntry,
+        },],
+        validUntilBlock: validUntil,
+        script: script,
+        systemFee: sysFee,
+        networkFee: netFee,
+    })
+
+    signTx(tx);
+    console.log(tx)
+
+    var rawTX = Neon.u.hex2base64(tx.serialize(true));
+    console.log(rawTX)
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 10,
+        "method": "calculatenetworkfee",
+        "params": [rawTX]
+    };
+
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    console.log(jsonToCallStringified)
+    $.post(
+        BASE_PATH_CLI, // Gets the URL to sent the post to
+        jsonToCallStringified, // Serializes form data in standard format
+        function (netFeeResult) {
+            console.log(netFeeResult);
+            console.log("calculated fee is:" + netFeeResult..result.networkfee);
+            $("#net_fee")[0].value = netFeeResult.result.networkfee / getFixed8();
+        },
+        "json" // The format the response should be in
+    ).fail(function () {
+        $("#txtRPCJsonOut").val("failed to invoke network!");
+    }); //End of POST for search
+}
 
 function getNativeContractIndexByName(contractName) {
     for (nc = 0; nc < NATIVE_CONTRACTS.length; nc++)

@@ -94,8 +94,9 @@ function fillRealTxFromInvokeFunction() {
         });
         return;
     }
+
     $("#sys_fee")[0].value = invokeResult.result.gasconsumed / getFixed8();
-    $("#net_fee")[0].value = 10000000 / getFixed8();
+    $("#net_fee")[0].value = 20000000 / getFixed8();
     $("#tx_script")[0].value = Neon.u.base642hex(invokeResult.result.script);
     $("#valid_until")[0].value = Neon.tx.Transaction.MAX_TRANSACTION_LIFESPAN + LAST_BEST_HEIGHT_NEOCLI - 1;
     drawSigners();
@@ -125,8 +126,6 @@ function signAndRelay(blinkRelay = true) {
         }
         var signerHash = ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash;
 
-
-
         invokeWithParametersDAPI(CONNECTED_DAPI_WALLET_OBJ, netFee, dapiParams.params[0], dapiParams.params[1], dapiParams.params[2], signerHash);
 
         return;
@@ -150,6 +149,41 @@ function signAndRelay(blinkRelay = true) {
         networkFee: netFee,
     })
 
+    signTx(tx);
+
+    var relayedTX = [];
+    relayedTX.push({
+        signers: document.getElementById("tableSigners").lastChild,
+        sysfee: $("#sys_fee")[0].value,
+        netfee: $("#net_fee")[0].value,
+        validUntil: $("#valid_until")[0].value,
+        script: $("#tx_script")[0].value,
+        invokeFunction: $("#txtRPCJson").val(),
+        invokeFunctionOut: $("#txtRPCJsonOut").val()
+    });
+    RELAYED_TXS.push(relayedTX);
+
+
+    console.log(tx)
+    console.log(tx.serialize(true))
+    var rawTX = Neon.u.hex2base64(tx.serialize(true));
+
+
+    var jsonForInvokingFunction = {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "sendrawtransaction",
+        "params": [rawTX]
+    };
+
+    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
+    $("#txtRPCJson").val(jsonToCallStringified);
+    rawRpcCall(false, RELAYED_TXS.length - 1, false, blinkRelay);
+    //var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
+    //RELAYED_TXS.push(client.sendRawTransaction(tx));
+}
+
+function signTx(tx){
     if (isMultiSig(CONNECTED_WALLET_ID)) {
         var publicKeys = Neon.wallet.getPublicKeysFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
         var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
@@ -177,33 +211,4 @@ function signAndRelay(blinkRelay = true) {
     } else {
         tx.sign(ECO_WALLET[CONNECTED_WALLET_ID].account, NETWORK_MAGIC)
     }
-
-    var relayedTX = [];
-    relayedTX.push({
-        signers: document.getElementById("tableSigners").lastChild,
-        sysfee: $("#sys_fee")[0].value,
-        netfee: $("#net_fee")[0].value,
-        validUntil: $("#valid_until")[0].value,
-        script: $("#tx_script")[0].value,
-        invokeFunction: $("#txtRPCJson").val(),
-        invokeFunctionOut: $("#txtRPCJsonOut").val()
-    });
-    RELAYED_TXS.push(relayedTX);
-
-
-    console.log(tx)
-    console.log(tx.serialize(true))
-    var rawTX = Neon.u.hex2base64(tx.serialize(true));
-    var jsonForInvokingFunction = {
-        "jsonrpc": "2.0",
-        "id": 5,
-        "method": "sendrawtransaction",
-        "params": [rawTX]
-    };
-
-    var jsonToCallStringified = JSON.stringify(jsonForInvokingFunction);
-    $("#txtRPCJson").val(jsonToCallStringified);
-    rawRpcCall(false, RELAYED_TXS.length - 1, false, blinkRelay);
-    //var client = new Neon.rpc.RPCClient(BASE_PATH_CLI);
-    //RELAYED_TXS.push(client.sendRawTransaction(tx));
 }

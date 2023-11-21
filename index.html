@@ -419,13 +419,15 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="native_contracts" name="native_contracts"
-                                            onchange="createNativeManifest()" class="form-select checkedOption" size="8"></select>
+                                            onchange="createNativeManifest()" class="form-select checkedOption"
+                                            size="8"></select>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <select id="local_contracts" name="local_contracts"
-                                            onchange="createLocalManifest()" class="form-select checkedOption" size="8"></select>
+                                            onchange="createLocalManifest()" class="form-select checkedOption"
+                                            size="8"></select>
                                     </div>
                                 </div>
                             </div>
@@ -513,12 +515,13 @@
                                         Method (view <a href="https://docs.neo.org/en-us/node/cli/apigen.html"
                                             target="_blank">Official API</a> or put cursor on top for
                                         tooltip)</label> -->
-                                    <select id="rpcMethodSelectionBox" class="form-select checkedOption" onchange="frmRPCJson()"
-                                        size="3">
+                                    <select id="rpcMethodSelectionBox" class="form-select checkedOption"
+                                        onchange="frmRPCJson()" size="3">
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <button id="rawRpcPostCallButton" onclick="rawRpcCall()" style="width: 100%" class="btn btn-default btn-1">
+                                    <button id="rawRpcPostCallButton" onclick="rawRpcCall()" style="width: 100%"
+                                        class="btn btn-default btn-1">
                                         <i class="fas fa-phone"></i> Post to RPC
                                     </button>
                                 </div>
@@ -548,6 +551,15 @@
                                         <label for="valid_until">Valid Until</label>
                                         <input type="number" id="valid_until" step="1" size="10" value="0"
                                             class="form-control" required="">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-default btn-1 btn-1-darker"
+                                            onclick="findNetworkFee()">
+                                            <i class="fa-solid fa-bug-slash"></i> Optimize Net. Fee
+                                        </button>
                                     </div>
                                 </div>
 
@@ -747,8 +759,8 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-12">
-                                    <button type="button" onclick="createNep17Tx()" id="createTransferButton" style="width: 100%"
-                                        class="btn btn-default btn-1">
+                                    <button type="button" onclick="createNep17Tx()" id="createTransferButton"
+                                        style="width: 100%" class="btn btn-default btn-1">
                                         <i class="fa-solid fa-money-bill-transfer"></i> Create Transfer
                                     </button>
                                 </div>

@@ -340,6 +340,7 @@ function getFiles(language, selected_index, index = 0) {
 
                 getFiles(language, selected_index, index);
             }
+            goToACEMainTab();
         });
     }
 }

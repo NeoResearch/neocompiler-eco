@@ -77,6 +77,7 @@ function restoreSCFromMapToAceEditor(fileNameKey) {
             $(nameToClick).click();
             aceEditor.getSession().setValue(codeArray[f]);
         }
+        goToACEMainTab();
         //aceEditor.getSession().setValue("ERROR WHILE RESTORING LOCAL CONTRACT! This should not happen. Size of files: " + codeArray.length);
     }
 }

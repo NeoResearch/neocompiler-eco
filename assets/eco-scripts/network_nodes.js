@@ -22,23 +22,27 @@ function changeToSelectedNetwork() {
             console.error(`Sorry, we are out of options for selected network.`);
     }
     updateAllBasePaths();
-    
+
     // Clean Header Summary
     cleanVersionHeightSummary();
 
     //ReestartSocketIO
     startSocketIoConnections();
 
+    updateContrantsWhenNetworkIsSelected();
+
+    setCompilerAndExample();
+
+    if (CONNECTED_WALLET_ID != -1)
+        populateAllWalletData();
+}
+
+function updateContrantsWhenNetworkIsSelected() {
     // Update native and deployed
     NATIVE_CONTRACTS = [];
-    NOTIFICATIONS_SEARCHED_CONTRACTS = [];
-    //Requires RPC call
-    getNativeInfo();
-    
-    setCompilerAndExample();
-    
-    if(CONNECTED_WALLET_ID != -1)
-        populateAllWalletData();    
+    restoreContractsLocalStorage();
+
+    refreshNativeContracts();
 }
 
 function showTabs() {

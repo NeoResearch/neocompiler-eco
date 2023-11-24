@@ -6,13 +6,19 @@ function drawRelayedTXs() {
 
     var headerRow = document.createElement('tr');
     headerRow.className = "headerrd";
-    var headersStatus = document.createElement('td');
+    var headersHash = document.createElement('td');
+    var headersContract = document.createElement('td');
+    var headersMethod = document.createElement('td');
     var headersAppLog = document.createElement('td');
     var headersRawTx = document.createElement('td');
     var headersRestore = document.createElement('td');
 
-    headersStatus.innerHTML = "<b><center><font size='1'>STATUS</font></b>";
-    headerRow.insertCell(-1).appendChild(headersStatus);
+    headersHash.innerHTML = "<b><center><font size='1'>HASH</font></b>";
+    headerRow.insertCell(-1).appendChild(headersHash);
+    headersContract.innerHTML = "<b><center><font size='1'>CONTRACT</font></b>";
+    headerRow.insertCell(-1).appendChild(headersContract);
+    headersMethod.innerHTML = "<b><center><font size='1'>METHOD</font></b>";
+    headerRow.insertCell(-1).appendChild(headersMethod);
     headersAppLog.innerHTML = "<b><center><font size='1'>APP. LOG.</font></b>";
     headerRow.insertCell(-1).appendChild(headersAppLog);
     headersRawTx.innerHTML = "<b><center><font size='1'>RAW TX.</font></b>";
@@ -45,6 +51,47 @@ function drawRelayedTXs() {
         b.innerHTML = resultOrError;
         txRow.insertCell(-1).appendChild(b);
 
+        // Getting invoked function as JSON
+        var invokedFunction = JSON.parse(RELAYED_TXS[rt][0].invokeFunction);
+
+        // ============== Contract
+        var txCalledContract = document.createElement('span');
+        txCalledContract.setAttribute('class', 'badge');
+        txCalledContract.setAttribute('id', "spanCalledContractTx" + rt);
+        if (!txErrored) {
+            var contractHash = invokedFunction.params[0];
+
+            //Check if loaded
+            if (NATIVE_CONTRACTS.length != 0) {
+                var contract = tryToGetNotificationFromContract(contractHash);
+                var contractName = "Not Found";
+                if (contract != -1)
+                    contractName = contract.manifest.name;
+
+                txCalledContract.innerHTML = contractName;
+                if (contractName === "Not Found")
+                    txCalledContract.innerHTML = "Refresh. Still Querying...";
+            } else {
+                txCalledContract.innerHTML = "Refresh. Still Loading...";
+            }
+        } else {
+            txCalledContract.innerHTML = "-";
+        }
+        txRow.insertCell(-1).appendChild(txCalledContract);
+        // ============== Contract
+
+        // ============== Contract
+        var txCalledMethod = document.createElement('span');
+        txCalledMethod.setAttribute('class', 'badge');
+        txCalledMethod.setAttribute('id', "spanCalledMethod" + rt);
+        if (!txErrored) {
+            txCalledMethod.innerHTML =  invokedFunction.params[1].toUpperCase() + " - " + invokedFunction.params[2].length + " PARAMS";
+        } else {
+            txCalledMethod.innerHTML = "-";
+        }
+        txRow.insertCell(-1).appendChild(txCalledMethod);
+        // ============== Contract
+
         var txAppLog = document.createElement('button');
         txAppLog.setAttribute('content', 'test content');
         txAppLog.setAttribute('class', 'btn btn-success btn-sm');
@@ -54,7 +101,7 @@ function drawRelayedTXs() {
             txAppLog.onclick = function () {
                 callTXAppLog(this.value);
             };
-            txAppLog.innerHTML = "Get Log";
+            txAppLog.innerHTML = '<i class="fas fa-book"></i>';
         } else {
             txAppLog.innerHTML = "-";
         }
@@ -69,7 +116,7 @@ function drawRelayedTXs() {
             txRaw.onclick = function () {
                 callRawTx(this.value);
             };
-            txRaw.innerHTML = "Get Tx";
+            txRaw.innerHTML = '<i class="fas fa-receipt"></i>';
         } else {
             txRaw.innerHTML = "-";
         }
@@ -154,8 +201,8 @@ function callRawTx(relayedTxID) {
 //===============================================================
 function removeRelayedTX(idToRemove) {
     swal({
-        title: "Delete tx " + idToRemove + " hash: " + RELAYED_TXS[0][1].result.hash,
-        text: "Tx will be delated for Historical Relayed list.",
+        title: "Delete tx " + idToRemove + " hash: " + RELAYED_TXS[0][1].result.hash.slice(0, 4) + "..." + + RELAYED_TXS[0][1].result.hash.slice(-4),
+        text: "This TX will be deleted from your activity!",
         icon: "info",
         buttons: ["Cancel", "Proceed",],
     }).then((willTransfer) => {

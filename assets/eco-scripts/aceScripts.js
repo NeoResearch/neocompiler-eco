@@ -83,7 +83,8 @@ Editor = {
         // Delete element finished
 
         var anchorElement = document.createElement('A');
-        anchorElement.href = "#nav-compilers/";
+        // commented because it was changing tab
+        //anchorElement.href = "#nav-compilers/";
         anchorElement.appendChild(iElement);
         var textChild = document.createElement('SPAN');
         var fileType = ".cs";

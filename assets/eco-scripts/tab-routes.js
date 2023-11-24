@@ -24,7 +24,6 @@ $(document).ready(() => {
 
     if (location.hash) {
         const pairSplitByHash = url.split("#");
-        //console.log("url is:" + pairSplitByHash)
         goToTabAndClick(pairSplitByHash[1]);
 
         url = location.href.replace(/\/#/, "#");

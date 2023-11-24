@@ -404,6 +404,9 @@
                             <div class="row mb-2">
                                 <div class="col-md-6">
                                     <label>Native Contracts</label>
+                                    <button type="submit" onclick="refreshNativeContracts()"
+                                        class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i>
+                                    </button>
                                 </div>
                                 <div class="col-md-6">
                                     <label>Local
@@ -432,16 +435,30 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-2 collapse" id="hidden_notification_contracts">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="notification_contracts">Additional Notification
-                                            Contracts</label>
-                                        <select id="notification_contracts" name="notification_contracts"
-                                            onchange="createNotificationManifest()" class="form-select checkedOption"
-                                            size="8"></select>
+                            <div class="row mb-2 collapse show" id="hidden_notification_contracts">
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <label for="notification_contracts">Additional Contracts</label>
+                                        <button type="submit" onclick="btnAdditionalContractsSave()"
+                                            class="btn btn-success btn-sm">
+                                            Save <i class="fas fa-save"></i>
+                                        </button>
+                                        <button type="submit" onclick="btnAdditionalContractsClean()"
+                                            class="btn btn-danger btn-sm">
+                                            Clean List <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
+                                <div class="row mb-2">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <select id="notification_contracts" name="notification_contracts"
+                                                onchange="createNotificationManifest()"
+                                                class="form-select checkedOption" size="8"></select>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="row mb-2">
@@ -1432,6 +1449,8 @@
 <script src="assets/eco-scripts/compile_codes_localStorage.js"></script>
 
 <script src="assets/eco-scripts/activity_localStorage.js"></script>
+
+<script src="assets/eco-scripts/contracts_localStorage.js"></script>
 
 <script src="assets/eco-scripts/compile.js"></script>
 

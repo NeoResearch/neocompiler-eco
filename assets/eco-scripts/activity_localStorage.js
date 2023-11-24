@@ -3,7 +3,7 @@ function getActivitiesFromLocalStorage() {
     if (actitiviesRelayedTxs)
         return JSON.parse(actitiviesRelayedTxs)
 
-    return new [];
+    return [];
 }
 
 function storeActivitiesToLocalStorage() {

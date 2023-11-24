@@ -2,7 +2,7 @@ var NATIVE_CONTRACTS = [];
 var LOCAL_CONTRACTS = [];
 var CONTRACTS_TO_LIST = [];
 var PENDING_CONTRACTS = [];
-var NOTIFICATIONS_SEARCHED_CONTRACTS = [];
+var ADDITIONAL_SEARCHED_CONTRACTS = [];
 
 function getNativeInfo() {
     if (NATIVE_CONTRACTS.length == 0) {
@@ -29,19 +29,21 @@ function getNativeInfo() {
         }); //End of POST for search
     }
 
+    tryToCleanContractSelectionBoxes();
+    //updateWithDeployedContract();
+}
+
+function tryToCleanContractSelectionBoxes() {
     if (LOCAL_CONTRACTS.length == 0) {
         document.getElementById("local_contracts").options.length = 0;
         addOptionToSelectionBox("There aren't saved local contracts", "emptyID", "local_contracts", "Please import one local contract.");
     }
 
-    if (NOTIFICATIONS_SEARCHED_CONTRACTS.length == 0) {
+    if (ADDITIONAL_SEARCHED_CONTRACTS.length == 0) {
         document.getElementById("notification_contracts").options.length = 0;
-        addOptionToSelectionBox("There aren't saved notification contracts", "emptyID", "notification_contracts", "You did not searched for notifications yet.");
+        addOptionToSelectionBox("There aren't saved additional contracts for this network", "emptyID", "notification_contracts", "You did not searched for notifications yet.");
     }
-
-    //updateWithDeployedContract();
 }
-
 
 function updateWithDeployedContract() {
     for (pc = 0; pc < PENDING_CONTRACTS.length; pc++) {
@@ -138,7 +140,7 @@ function createLocalManifest() {
 
 function createNotificationManifest() {
     $("#collapseLocalContractsOptions").collapse('hide');
-    CONTRACTS_TO_LIST = NOTIFICATIONS_SEARCHED_CONTRACTS;
+    CONTRACTS_TO_LIST = ADDITIONAL_SEARCHED_CONTRACTS;
     $("#native_contracts")[0].selectedIndex = -1
     $("#local_contracts")[0].selectedIndex = -1
     createManifest();
@@ -556,15 +558,17 @@ function getContractForNotification(contractToSearch, updatePendingNotification 
         JSON.stringify(jsonForGetContractsState), // Serializes form data in standard format
         function (data) {
             if (data.result) {
-                console.log(data.result.manifest.abi.events);
+                //console.log(data.result.manifest.abi.events);
 
                 //just add contract if not there yet
-                var searchID = getContractByHash(contractToSearch, NOTIFICATIONS_SEARCHED_CONTRACTS)
+                var searchID = getContractByHash(contractToSearch, ADDITIONAL_SEARCHED_CONTRACTS)
                 if (searchID === -1) {
-                    NOTIFICATIONS_SEARCHED_CONTRACTS.push(data.result);
-                    $('#hidden_notification_contracts').collapse('show');
-                    CONTRACTS_TO_LIST = NOTIFICATIONS_SEARCHED_CONTRACTS;
-                    addContractsToSelectionBox("notification_contracts", "notification");
+                    ADDITIONAL_SEARCHED_CONTRACTS.push(data.result);
+                    // Save
+                    btnAdditionalContractsSave();
+                    //$('#hidden_notification_contracts').collapse('show');
+                    CONTRACTS_TO_LIST = ADDITIONAL_SEARCHED_CONTRACTS;
+                    addContractsToSelectionBox("notification_contracts", "additional");
                 } else {
                     console.log("CONTRACT ALREADY EXIST  = " + searchID);
                 }
@@ -577,7 +581,8 @@ function getContractForNotification(contractToSearch, updatePendingNotification 
     }); //End of POST for search
 }
 
-function tryToGetNotificationFromContract(contractToSearch) {
+
+function searchContractIdFromAllTypesOfContracts(contractToSearch) {
     var searchID = getContractByHash(contractToSearch, NATIVE_CONTRACTS)
     if (searchID != -1)
         return NATIVE_CONTRACTS[searchID];
@@ -586,9 +591,17 @@ function tryToGetNotificationFromContract(contractToSearch) {
     if (searchID != -1)
         return LOCAL_CONTRACTS[searchID];
 
-    searchID = getContractByHash(contractToSearch, NOTIFICATIONS_SEARCHED_CONTRACTS)
+    searchID = getContractByHash(contractToSearch, ADDITIONAL_SEARCHED_CONTRACTS)
     if (searchID != -1)
-        return NOTIFICATIONS_SEARCHED_CONTRACTS[searchID];
+        return ADDITIONAL_SEARCHED_CONTRACTS[searchID];
+
+    return -1;
+}
+
+function tryToGetNotificationFromContract(contractToSearch) {
+    var searchName = searchContractIdFromAllTypesOfContracts(contractToSearch);
+    if (searchName != -1)
+        return searchName;
 
     getContractForNotification(contractToSearch);
 
@@ -744,4 +757,9 @@ function verifyPendingContracts() {
     else
         $("#button-refreshWithPendingContracts")[0].disabled = false;
     $("#button-refreshWithPendingContracts")[0].textContent = " Pending Contracts: " + PENDING_CONTRACTS.length + " ";
+}
+
+function refreshNativeContracts() {
+    NATIVE_CONTRACTS = [];
+    getNativeInfo();
 }

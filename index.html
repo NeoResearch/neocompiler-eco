@@ -734,8 +734,18 @@
 
                 <div class="generalContainer">
                     <div class="standardContainer">
-                        <h4 class="green-title">Wallet <button type="submit" onclick="populateAllWalletData()"
-                                class="btn btn-info btn-sm"><i class="fas fa-sync-alt"></i></button></h4>
+                        <h4 class="green-title">Wallet
+                            <button type="submit" onclick="populateAllWalletData()" class="btn btn-info btn-sm"><i
+                                    class="fas fa-sync-alt"></i>
+                            </button>
+                            <button type="submit" onclick="btnWalletSave()" class="btn btn-success btn-sm">
+                                Save <i class="fas fa-save"></i>
+                            </button>
+                            <button type="submit" onclick="btnWalletClean()" class="btn btn-danger btn-sm">
+                                Clean Extra <i class="fas fa-trash"></i>
+                            </button>
+
+                        </h4>
                         <div class="container">
                             <div class="row" style="padding:0 20px 0 20px;">
                                 <table id="tableWalletStatus" class="table text-white twalllet">
@@ -1452,6 +1462,8 @@
 
 <script src="assets/eco-scripts/contracts_localStorage.js"></script>
 
+<script src="assets/eco-scripts/wallet_localStorage.js"></script>
+
 <script src="assets/eco-scripts/compile.js"></script>
 
 <script src="assets/eco-scripts/opcodes.js"></script>
@@ -1519,6 +1531,8 @@
 
         createMultiSigFromNextValidators();
 
+        /* Restore Account from Local Storage */
+        restoreWalletExtraAccountsLocalStorage();
         drawPopulateAllWalletAccountsInfo();
 
         //Add JSON RpcMethod to box

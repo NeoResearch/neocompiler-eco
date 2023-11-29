@@ -1,5 +1,5 @@
 var ECO_WALLET = [];
-
+var ECO_EXTRA_ACCOUNTS = [];
 //var map = new Object();
 
 ECO_WALLET.push({
@@ -34,39 +34,11 @@ ECO_WALLET.push({
     print: true
 });
 
-
 ECO_WALLET.push({
     account: new Neon.wallet.Account("02cd0cc5b234a29f91d523b00bcd3ba204a887de838045bf55c54ae7052db8e22b"),
     label: "OraclePub",
     print: true
 });
-
-
-
-/*
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYMM6gD8HhUjxobTp5eFgHbqFp5n49ZApNJViU9wnRjyfF2KYsbLg28Kr"),
-    label: "CN1",
-    print: true
-});
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYPN45cvWWCSWfxRczVfS7Jd1hRS5DbBg9LYhngr4XKSguCLzax7o7wD8"),
-    label: "CN2",
-    print: true
-});
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYQcsb2qphUPJYSA2MuQDsQWvTY8zcVKsCQ7eQhtjmGhJtYt8WwAcpLHV"),
-    label: "CN3",
-    print: true
-});
-ECO_WALLET.push({
-    account: new Neon.wallet.Account("6PYNTWDFJ2wGNzXx6QNsrn2jWXbEJXEakdb2bHvU9bm4AcBEwDxpqgjctG"),
-    label: "CN4",
-    print: true
-});
-ECO_WALLET[ECO_WALLET.length - 1].account.decrypt("one");
-*/
-
 
 
 // NEP-2 Encrypted wallet

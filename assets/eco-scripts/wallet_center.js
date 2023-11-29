@@ -52,7 +52,7 @@ function drawWalletsStatus() {
             addressBase58.onclick = function () {
                 changeDefaultWallet(this.value);
             };
-            addressBase58.innerHTML = ECO_WALLET[ka].account.address.slice(0, 4) + "..." + ECO_WALLET[ka].account.address.slice(-4);
+            addressBase58.innerHTML = ECO_WALLET[ka].account._address.slice(0, 4) + "..." + ECO_WALLET[ka].account._address.slice(-4);
             txRow.insertCell(-1).appendChild(addressBase58);
 
             var walletNeo = document.createElement('span');
@@ -109,12 +109,7 @@ function addWalletFromForm() {
     if (labelToAdd === "")
         labelToAdd = "ImportedWallet_From_" + type;
     if (addToWallet(accountToAdd, labelToAdd))
-        updateAllWalletData();
-}
-
-function cacheWalletForProviders() {
-    // Updated cache of ECO_WALLET in case of user changing to providers
-    window.storedECO_WALLET = ECO_WALLET;
+        drawPopulateAllWalletAccountsInfo();
 }
 
 function addContractToWallet(scriptHashToAdd) {
@@ -143,11 +138,8 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
             });
             return false;
         }
-        ECO_WALLET.push({
-            account: accountToAdd,
-            label: labelToAdd,
-            print: true
-        });
+
+        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
         return true;
     }
     var addressBase58ToAdd = accountToAdd.address;
@@ -209,12 +201,7 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
         if (verificationScriptToAdd != "")
             accountToAdd.contract.script = verificationScriptToAdd;
 
-        ECO_WALLET.push({
-            account: accountToAdd,
-            label: labelToAdd,
-            print: true
-        });
-
+        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
         return true;
     }
 
@@ -240,16 +227,29 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
             });
             return false;
         }
-        ECO_WALLET.push({
+        // TODO CHECK IF IT IS OK WITHOUT OWNERS
+        /*
+        ECO_EXTRA_ACCOUNTS.push({
             account: accountToAdd,
             print: true,
             owners: ''
-        });
+        });*/
+        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
         return true;
     }
 }
 //===============================================================
 
+function addExtraAccountAndUpdateWallet(accToAdd, labelToAdd, print) {
+    var newAcc = {
+        account: accToAdd,
+        label: labelToAdd,
+        print: print
+    };
+    ECO_EXTRA_ACCOUNTS.push(newAcc);
+    ECO_WALLET.push(newAcc);
+    btnWalletSave();
+}
 /*
 //===============================================================
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
@@ -323,7 +323,7 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
         if (isEncryptedOnly(ka))
             keyToAdd = ECO_WALLET[ka].account.encrypted;
         else
-            keyToAdd = ECO_WALLET[ka].account.address;
+            keyToAdd = ECO_WALLET[ka].account._address;
         //.slice(0, 4) + "..." + keyToAdd.slice(-4)
         var addressInfoToAdd = ECO_WALLET[ka].label + " - " + keyToAdd;
         var titleToOption = "Click to select wallet " + ECO_WALLET[ka].label;
@@ -334,16 +334,6 @@ function addAllKnownAddressesToSelectionBox(walletSelectionBox) {
     document.getElementById(walletSelectionBox).onchange();
 }
 //===============================================================
-
-function updateAllWalletData(updateCache = true) {
-    populateAllWalletData();
-    addAllKnownAddressesToSelectionBox("createtx_to");
-    drawWalletsStatus();
-    //changeWalletInfo();
-
-    if (updateCache)
-        cacheWalletForProviders();
-}
 
 function populateAllWalletData() {
     for (ka = 0; ka < ECO_WALLET.length; ++ka)
@@ -384,24 +374,6 @@ function removeAccountFromEcoWallet(idToRemove) {
 }
 //===============================================================
 
-function decrypt() {
-    var idToDecrypt = $("#wallet_info")[0].selectedOptions[0].index;
-    var encryptedKey = ECO_WALLET[idToDecrypt].account.encrypted;
-    var passValue = $("#passwordNep2").val();
-    $("#passwordNep2").val("");
-    console.log("idToDecrypt: " + idToDecrypt + " encryptedKey " + encryptedKey);
-    console.log("passValue: " + passValue);
-
-    ECO_WALLET[idToDecrypt].account.decrypt(passValue).then(decryptedWallet => {
-        removeAccountFromEcoWallet(idToDecrypt);
-        addToWallet(decryptedWallet);
-        updateAllWalletData();
-        createNotificationOrAlert("Wallet decrypted!", "Address: " + decryptedWallet.address, 5000);
-    }).catch(err => {
-        console.log(err);
-        createNotificationOrAlert("Wallet decryptation ERROR", "Response: " + err, 5000);
-    });
-}
 
 function getAddressBase58FromMultiSig(verificationScript) {
     jssonArrayWithAddr = [];
@@ -579,14 +551,14 @@ function updateTransferLabel() {
         // Update label
         updateTransferAssetInfo();
 
-        if(isWatchOnlyAndNotDapi(CONNECTED_WALLET_ID)){
+        if (isWatchOnlyAndNotDapi(CONNECTED_WALLET_ID)) {
             $("#createTransferButton")[0].disabled = true;
-        }else{
+        } else {
             $("#createTransferButton")[0].disabled = false;
-        }     
+        }
 
-    } else {        
-        $('#transferNep17ModuleCollapse').collapse('hide');   
+    } else {
+        $('#transferNep17ModuleCollapse').collapse('hide');
     }
 }
 
@@ -799,18 +771,3 @@ function createNep17Tx() {
         }
     });
 }
-
-/*
-function addContractToWalletFromVerification() {
-    var verificationScriptToAdd = $("#createtx_from_contract").val();
-    var scriptHashToAdd = getScriptHashFromAVM(verificationScriptToAdd);
-
-    if (scriptHashToAdd != '') {
-        var accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-        if (addToWallet(accountToAdd, verificationScriptToAdd))
-            updateAllWalletData();
-
-        $('.nav-pills a[data-target="#wallet"]').tab('show');
-    } else
-        console.log("Nothing to add. Scripthash looks to be empty!");
-}*/

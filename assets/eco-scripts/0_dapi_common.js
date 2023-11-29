@@ -89,7 +89,7 @@ function deleteAndAddDAPIAddressToWallet(keyToAdd) {
     var accountToAdd = new Neon.wallet.Account(keyToAdd)
     var labelToAdd = "Connected_" + CONNECTED_DAPI_WALLET;
     if (addToWallet(accountToAdd, labelToAdd))
-        updateAllWalletData();
+        drawPopulateAllWalletAccountsInfo();
 }
 
 function convertWalletError(error) {

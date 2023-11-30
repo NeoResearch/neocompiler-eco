@@ -2,8 +2,7 @@ var CONNECTED_WALLET_ID = -1;
 
 //===============================================================
 function drawWalletsStatus() {
-    
-    var tBodyElements = document.createElement("tbody");    
+    var tBodyElements = document.createElement("tbody");
     //table.setAttribute('class', 'table');
     //table.style.width = '20px';
 
@@ -29,10 +28,14 @@ function drawWalletsStatus() {
     tHeadElement.appendChild(headerRow);
 
     //table.insertCell(-1).appendChild(headerrrrr);
-
-    for (ka = 0; ka < ECO_WALLET.length; ka++) {
+    var numberOfAccounts = ECO_WALLET.length;
+    var extraLength = numberOfAccounts - ECO_EXTRA_ACCOUNTS.length;
+    for (ka = 0; ka < numberOfAccounts; ka++) {
         if (ECO_WALLET[ka].print == true && !isEncryptedOnly(ka)) {
             var txRow = tBodyElements.insertRow(-1);
+            if (ka >= extraLength)
+                txRow.classList.add("table-dark");
+
             //row.insertCell(-1).appendChild(document.createTextNode(i));
             //Insert button that remove rule
             var b = document.createElement('button');

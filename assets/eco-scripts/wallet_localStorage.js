@@ -70,6 +70,7 @@ function restoreWalletExtraAccountsLocalStorage() {
     var tempWallet = getExtraWalletAccountFromLocalStorage();
     if (tempWallet != [] && tempWallet.length > 0) {
         ECO_EXTRA_ACCOUNTS = tempWallet;
+        ECO_WALLET = DEFAULT_WALLET;
         ECO_WALLET = ECO_WALLET.concat(ECO_EXTRA_ACCOUNTS);
     }
 }
@@ -107,7 +108,9 @@ function btnWalletSave() {
 }
 
 function btnWalletClean() {
-    ECO_WALLET = ECO_WALLET.filter( ( el ) => !ECO_EXTRA_ACCOUNTS.includes( el ) );
+    // This filter also worked
+    //ECO_WALLET = ECO_WALLET.filter( ( el ) => !ECO_EXTRA_ACCOUNTS.includes( el ) );
+    ECO_WALLET = DEFAULT_WALLET;
     ECO_EXTRA_ACCOUNTS = [];
     setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(ECO_EXTRA_ACCOUNTS));
     drawPopulateAllWalletAccountsInfo();

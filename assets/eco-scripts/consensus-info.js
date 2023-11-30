@@ -163,11 +163,13 @@ function createMultiSigFromNextValidators() {
                 });*/
             }
             var genesisMultiSigAccount = Neon.wallet.Account.createMultiSig(3, arrayMSValidators);
-            ECO_WALLET.push({
+            DEFAULT_WALLET.push({
                 account: genesisMultiSigAccount,
                 label: "CN-MultiSig",
                 print: true
             });
+            ECO_WALLET = DEFAULT_WALLET;
+            ECO_WALLET = ECO_WALLET.concat(ECO_EXTRA_ACCOUNTS);
             drawPopulateAllWalletAccountsInfo();
         },
         "json" // The format the response should be in

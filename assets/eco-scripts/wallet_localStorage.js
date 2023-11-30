@@ -107,8 +107,10 @@ function btnWalletSave() {
 }
 
 function btnWalletClean() {
+    ECO_WALLET = ECO_WALLET.filter( ( el ) => !ECO_EXTRA_ACCOUNTS.includes( el ) );
     ECO_EXTRA_ACCOUNTS = [];
     setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(ECO_EXTRA_ACCOUNTS));
+    drawPopulateAllWalletAccountsInfo();
 }
 
 

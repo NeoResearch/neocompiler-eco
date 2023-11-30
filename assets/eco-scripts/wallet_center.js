@@ -2,7 +2,8 @@ var CONNECTED_WALLET_ID = -1;
 
 //===============================================================
 function drawWalletsStatus() {
-    var tBodyElements = document.createElement("tbody");
+    
+    var tBodyElements = document.createElement("tbody");    
     //table.setAttribute('class', 'table');
     //table.style.width = '20px';
 
@@ -127,85 +128,12 @@ function addContractToWallet(scriptHashToAdd) {
 
 //TODO Add support for adding multisig and specialSC
 function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
-    if (accountToAdd._encrypted != null) {
-        if (searchAddrIndexFromEncrypted(accountToAdd.encrypted) != -1) {
-            swal({
-                title: "Encrypted key already registered.",
-                text: " Please, delete index " + searchAddrIndexFromEncrypted(accountToAdd.encrypted) + " first.",
-                icon: "error",
-                button: "Ok!",
-                timer: 5500,
-            });
-            return false;
-        }
-
-        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
-        return true;
-    }
-    var addressBase58ToAdd = accountToAdd.address;
 
     if (!accountToAdd.isMultiSig) {
-        console.log("pubAddressToAdd: '" + addressBase58ToAdd + "'");
-        if (accountToAdd._WIF != null) {
-            var wifToAdd = accountToAdd.WIF;
-            console.log("wifToAdd: " + wifToAdd);
-            if (!Neon.default.is.wif(wifToAdd) && wifToAdd != '') {
-                alert("This WIF " + wifToAdd + " does not seems to be valid.");
-                return false;
-            }
-            //console.log(getWifIfKnownAddress(wifToAdd));
-            if (wifToAdd == '') {
-                alert("WIF is null.");
-                return false;
-            }
-
-            if (searchAddrIndexFromWif(wifToAdd) != -1) {
-                swal({
-                    title: "WIF already registered.",
-                    text: "Please, delete index " + searchAddrIndexFromWif(wifToAdd) + " first.",
-                    icon: "error",
-                    button: "Ok!",
-                    timer: 5500,
-                });
-                return false;
-            }
-            console.log("wif " + wifToAdd + " is ok!");
-        }
-
-        //TODO Check if addressBase58 already exists by getting it from wif
-        if (searchAddrIndexFromBase58(addressBase58ToAdd) != -1) {
-            swal({
-                title: "Public addressBase58 already registered.",
-                text: "Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.",
-                icon: "error",
-                button: "Ok!",
-                timer: 5500,
-            });
+        if (!checkIfAccountAlreadyBelongsToEcoWallet(accountToAdd.address))
             return false;
-        }
-
-        if (!Neon.default.is.address(addressBase58ToAdd) && addressBase58ToAdd != '') {
-            alert("Public addressBase58 " + addressBase58ToAdd + " is not being recognized as a valid address.");
-            return false;
-        }
-        console.log("Address " + addressBase58ToAdd + " is ok!");
-
-        if (accountToAdd._publicKey != null) {
-            if (!Neon.default.is.publicKey(accountToAdd.publicKey) && accountToAdd.publicKey != '') {
-                alert("Public key " + accountToAdd.publicKey + " is not being recognized as a valid address.");
-                return false;
-            }
-            console.log("pubKey " + accountToAdd.publicKey + " is ok!");
-        }
-
-        if (verificationScriptToAdd != "")
-            accountToAdd.contract.script = verificationScriptToAdd;
-
-        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
-        return true;
-    }
-
-    if (accountToAdd.isMultiSig) {
+    } else {
+        // Checks for multisig
         var vsToAdd = accountToAdd.contract.script;
         if (vsToAdd == '') {
             alert("Verification script is empty for this multisig!");
@@ -217,28 +145,30 @@ function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
             return false;
         }
 
-        if (searchAddrIndexFromBase58(addressBase58ToAdd) != -1) {
-            swal({
-                title: "Public addressBase58 already registered for this MultiSig.",
-                text: "Please, delete index " + searchAddrIndexFromBase58(addressBase58ToAdd) + " first.",
-                icon: "error",
-                button: "Ok!",
-                timer: 5500,
-            });
+        if (!checkIfAccountAlreadyBelongsToEcoWallet(addressBase58ToAdd))
             return false;
-        }
-        // TODO CHECK IF IT IS OK WITHOUT OWNERS
-        /*
-        ECO_EXTRA_ACCOUNTS.push({
-            account: accountToAdd,
-            print: true,
-            owners: ''
-        });*/
-        addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
-        return true;
     }
+    // TODO --- CHECK IF IT IS OK WITHOUT OWNERS FOR MULTI SIGNATURES
+    addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
+    return true;
 }
 //===============================================================
+
+function checkIfAccountAlreadyBelongsToEcoWallet(baseValue) {
+    var registeredIndex = searchWalletID(baseValue);
+
+    if (registeredIndex != -1) {
+        swal({
+            title: "Public addressBase58 already registered for ECO_WALLET.",
+            text: "Please, delete index " + registeredIndex + " first.",
+            icon: "error",
+            button: "Ok!",
+            timer: 5500,
+        });
+        return false;
+    }
+    return true;
+}
 
 function addExtraAccountAndUpdateWallet(accToAdd, labelToAdd, print) {
     var newAcc = {
@@ -621,6 +551,7 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
                 timer: 5500,
             });
         }
+
         if (isWatchOnly) {
             $("#relay_btn")[0].disabled = true;
 
@@ -691,6 +622,7 @@ function askToConnectToDapi() {
         }
     });
 }
+
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
         swal("Connect a wallet and select an account first.", {

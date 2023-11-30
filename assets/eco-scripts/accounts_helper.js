@@ -1,32 +1,33 @@
-function searchAddrIndexFromBase58(addressBase58ToTryToGet) {
-    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
-        if (ECO_WALLET[iToFind].account._encrypted == null)
-            if (ECO_WALLET[iToFind].account.address == addressBase58ToTryToGet)
+// searchAddrIndexFromAddressPrivateKeyWifiLabelEncrypted
+function searchWalletID(baseValue) {
+    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind) {
+        if (ECO_WALLET[iToFind].account._encrypted != null)
+            if (ECO_WALLET[iToFind].account.encrypted == baseValue)
                 return iToFind;
+
+        if (ECO_WALLET[iToFind].account.address == baseValue)
+            return iToFind;
+
+        if (ECO_WALLET[iToFind].label == baseValue)
+            return iToFind;
+
+        if (ECO_WALLET[iToFind].account._privateKey != null)
+            if (ECO_WALLET[iToFind].account.privateKey == baseValue)
+                return iToFind;
+
+        if (ECO_WALLET[iToFind].account._WIF != null)
+            if (ECO_WALLET[iToFind].account.WIF == baseValue)
+                return iToFind;
+    }
+
     return -1;
 }
+
 
 function searchAddrIndexFromLabel(addressLabelToTryToGet) {
     for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
         if (ECO_WALLET[iToFind].account._encrypted == null)
             if (ECO_WALLET[iToFind].label == addressLabelToTryToGet)
-                return iToFind;
-    return -1;
-}
-
-function searchAddrIndexFromWif(wifToTryToGet) {
-    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
-        if (ECO_WALLET[iToFind].account._encrypted == null)
-            if (ECO_WALLET[iToFind].account._WIF != null)
-                if (ECO_WALLET[iToFind].account.WIF == wifToTryToGet)
-                    return iToFind;
-    return -1;
-}
-
-function searchAddrIndexFromEncrypted(encryptedToTryToGet) {
-    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind)
-        if (ECO_WALLET[iToFind].account._encrypted != null)
-            if (ECO_WALLET[iToFind].account.encrypted == encryptedToTryToGet)
                 return iToFind;
     return -1;
 }

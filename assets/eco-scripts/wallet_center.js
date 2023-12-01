@@ -600,7 +600,7 @@ function createButton(text, cb) {
 function askToConnectToDapi() {
     var sHtmlText = '';
     if (neolineN3 && READY_DAPI_WALLETS.NEOLINE)
-        sHtmlText += `<button onClick="connectNeoLineExitSwal()">NeoLine</a><br>`;
+        sHtmlText += `<button onClick="connectNeoLineExitSwal()" class="btn btn-default btn-1">NeoLine</a><br>`;
     if (neo3Dapi && READY_DAPI_WALLETS.O3WALLET)
         sHtmlText += `<button onClick="connectNeoLineExitSwal()" class="btn btn-default btn-1"> O3 Wallet </a>`;
 

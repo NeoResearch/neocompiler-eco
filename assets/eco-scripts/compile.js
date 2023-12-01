@@ -75,11 +75,9 @@ function compilerCall() {
                 if (jqxhr.status == 0 && jqxhr.readyState == 0) {
                     console.error("Restarting request");
                 }
-                swal("Failed" + ex + " Something went wrong while calling " + BASE_PATH_COMPILERS + "/compilex", {
-                    icon: "error",
-                    buttons: false,
-                    timer: 2500,
-                });
+                var sText = "Failed" + ex + " Something went wrong while calling " + BASE_PATH_COMPILERS + "/compilex";
+                swal2Simple("Compiling problems", sText, 3000, "error");
+
                 console.log("Failed " + ex);
                 console.log(ex);
                 console.log(jqxhr);
@@ -198,7 +196,7 @@ function setCompilerAndExample() {
     }
     // Set first as default
     $("#ExampleList")[0].selectedIndex = 0;
-    
+
     //Checking all contracts from local storage
     var added = false;
     var keyToAdd = "";
@@ -219,28 +217,50 @@ function setCompilerAndExample() {
 };
 
 function askForSavingContracts(changeToExample = true) {
-    swal({
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            denyButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
         title: "Want to save codes to local storage?",
         icon: "warning",
-        buttons: ["No", "Yes"],
+        showDenyButton: true,
+        confirmButtonText: "Yes, save it!",
+        denyButtonText: "No",
         timer: 15000,
-    }).then((buttonOption) => {
-        if (buttonOption) {
-            swal({
-                text: 'Contract name',
-                content: "input",
-                button: {
-                    text: "Save it!"
-                },
-            })
-                .then((name) => {
-                    if (!name)
-                        name = "saved_" + SELECTED_COMPILER;
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var htmlText = `<input id="swal-filename" placeholder="filename.cs (.py)" class="form-control swal-input">`;
 
-                    saveSCExample(name);
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                },
+                buttonsStyling: false
+            });
+
+            swalWithBootstrapButtons.fire({
+                title: "Contract name",
+                html: htmlText,
+                color: "#00AF92",
+                background: "#263A40",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var fileName = document.getElementById("swal-filename").value;
+                    if (!fileName)
+                        fileName = "saved_" + SELECTED_COMPILER;
+
+                    saveSCExample(fileName);
                     if (changeToExample)
                         setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
-                });
+                }
+            });
+
             /*
             var contractsNameByLanguage = "saved_" + SELECTED_COMPILER;
             var arraySessionsCode = getAllSections();
@@ -258,23 +278,28 @@ function askForSavingContracts(changeToExample = true) {
 function askForDeletingContract() {
     var key = $("#ExampleList")[0].value;
     if (!USER_EXAMPLES.has(key)) {
-        swal({
-            icon: "info",
-            title: "Can't be deleted",
-            text: "Trying to delete an example or contract does not exist!",
-            buttons: false,
-            timer: 8000
-        });
+        swal2Simple("Can't be deleted", "Trying to delete an example or contract does not exist!", 8000, "error");
         return;
     }
 
-    swal({
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
         title: "Want to delete contract " + key + "?",
         icon: "warning",
-        buttons: ["No", "Yes"],
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No",
         timer: 15000,
-    }).then((buttonOption) => {
-        if (buttonOption) {
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
             if (USER_EXAMPLES.delete(key)) {
                 removeExampleFromList(key);
                 storeSmartContractExamplesToLocalStorage();
@@ -342,7 +367,7 @@ function getFiles(language, selected_index, index = 0) {
                 var nameToClick = "#textChildAce" + (Editor.tabs - 1);
                 $(nameToClick).click();
                 getFiles(language, selected_index, index);
-            }            
+            }
         });
     }
 }
@@ -464,21 +489,10 @@ function socketCompilerCompilexResult() {
             }
 
             $('#collapseNEFAfterCompilation').collapse('show');
-            swal({
-                title: "Compiled with success!",
-                icon: "success",
-                text: textSwal,
-                buttons: false,
-                timer: timerSwal
-            });
+            swal2Simple("Compiled with success!", textSwal, timerSwal, "success");
         } else {
-            swal({
-                icon: "info",
-                title: "Compiled with coding error!",
-                text: "Please check compiling log. Manifest is empty: " + manifestEmpty + ", NEF is empty: " + nefEmpty,
-                buttons: false,
-                timer: 8000
-            });
+            var sText = "Please check compiling log. Manifest is empty: " + manifestEmpty + ", NEF is empty: " + nefEmpty;
+            swal2Simple("Compiled with coding error!", sText, 5500, "error");
         }
     });
 }

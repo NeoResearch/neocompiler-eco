@@ -85,7 +85,7 @@ function drawRelayedTXs() {
         txCalledMethod.setAttribute('class', 'badge');
         txCalledMethod.setAttribute('id', "spanCalledMethod" + rt);
         if (!txErrored) {
-            txCalledMethod.innerHTML =  invokedFunction.params[1].toUpperCase() + " - " + invokedFunction.params[2].length + " PARAMS";
+            txCalledMethod.innerHTML = invokedFunction.params[1].toUpperCase() + " - " + invokedFunction.params[2].length + " PARAMS";
         } else {
             txCalledMethod.innerHTML = "-";
         }
@@ -200,25 +200,30 @@ function callRawTx(relayedTxID) {
 
 //===============================================================
 function removeRelayedTX(idToRemove) {
-    swal({
-        title: "Delete tx " + idToRemove + " hash: " + RELAYED_TXS[0][1].result.hash.slice(0, 4) + "..." + + RELAYED_TXS[0][1].result.hash.slice(-4),
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "Deleting tx " + idToRemove + " hash: " + RELAYED_TXS[0][1].result.hash.slice(0, 4) + "..." + + RELAYED_TXS[0][1].result.hash.slice(-4),
         text: "This TX will be deleted from your activity!",
         icon: "info",
-        buttons: ["Cancel", "Proceed",],
-    }).then((willTransfer) => {
-        if (willTransfer) {
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
             if (idToRemove < RELAYED_TXS.length && idToRemove > -1) {
                 RELAYED_TXS.splice(idToRemove, 1);
                 drawRelayedTXs();
             } else {
-                swal("Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + RELAYED_TXS.length, {
-                    icon: "error",
-                    buttons: false,
-                    timer: 5500,
-                });
+                var sText = "Cannot remove TX with ID " + idToRemove + " from set of relayed transactions with size " + RELAYED_TXS.length;
+                swal2Simple("Removing tx problems", sText, 5500, "error");
             }
-        } else {
-            //swal("Ok! Cancelled.");
         }
     });
 }

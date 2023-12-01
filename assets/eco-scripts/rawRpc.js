@@ -4,13 +4,7 @@ function frmRPCJson() {
 
 function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay = true) {
     if ($("#txtRPCJson").val() === "") {
-        swal({
-            title: "Error. JSON RPC call is empty",
-            text: "Pick a method",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        swal2Simple("Error. JSON RPC call is empty", "Pick a method", 5500, "error");
         return;
     }
     $.post(
@@ -25,8 +19,7 @@ function rawRpcCall(fillRealTx = false, saveID = -1, relay = false, blinkRelay =
             if (fillRealTx && checkIfWalletIsConnected())
                 fillRealTxFromInvokeFunction();
 
-            if (saveID != -1)
-            {
+            if (saveID != -1) {
                 // updates saved tx with input
                 RELAYED_TXS[saveID].push(data);
                 storeActivitiesToLocalStorage();
@@ -93,13 +86,9 @@ function fillRealTxFromInvokeFunction() {
         return;
 
     if (!invokeResult.result.script) {
-        swal({
-            title: "There is not a script in this call to be invoked with a wallet",
-            text: "Call a diferent method. Then you can try to send to blockchain.",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        var sTitle = "Invoking error";
+        var sText = "There is not a script in this call to be invoked with a wallet. Call a diferent method. Then you can try to send to blockchain.";
+        swal2Simple(sTitle, sText, 5500, "error");
         return;
     }
 
@@ -168,7 +157,7 @@ function signAndRelay() {
         invokeFunction: $("#txtRPCJson").val(),
         invokeFunctionOut: $("#txtRPCJsonOut").val()
     });
-    
+
     // Create Field for TXs
     RELAYED_TXS.push(relayedTX);
     storeActivitiesToLocalStorage();
@@ -199,14 +188,10 @@ function signTx(tx) {
         var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
         var signingAccountsIDs = getMultiSigSignersID(publicKeys, threshold);
         if (signingAccountsIDs.length < threshold) {
-            swal({
-                title: "Current Wallet is connected to a multisig!",
-                text: "Your wallet has " + signingAccountsIDs.length + " accounts to sign. But required is " + threshold,
-                icon: "error",
-                button: "Ok!",
-                timer: 5500,
-            });
+            var sText = "Current Wallet is connected to a multisig!" + "Your wallet has " + signingAccountsIDs.length + " accounts to sign. But required is " + threshold;
+            swal2Simple("Wallet while signing", sText, 5500, "error");
         }
+
 
         for (sa = 0; sa < signingAccountsIDs.length; sa++)
             tx.sign(ECO_WALLET[signingAccountsIDs[sa]].account, NETWORK_MAGIC)

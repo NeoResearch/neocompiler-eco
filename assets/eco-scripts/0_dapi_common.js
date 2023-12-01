@@ -11,13 +11,10 @@ function getNetworkDAPI(dapiObj, accountToSwal = false) {
             //shouldUpdate && store.dispatch(batchUpdate({ network: result.defaultNetwork }))
             console.log(result.defaultNetwork);
 
-            if (accountToSwal != false)
-                swal({
-                    title: "NeoLine Connected!",
-                    text: "NeoLine connected account is " + accountToSwal + " and Network is " + result.defaultNetwork,
-                    icon: "success",
-                    timer: 5500,
-                });
+            if (accountToSwal != false) {
+                var sText = "NeoLine connected account is " + accountToSwal + " and Network is " + result.defaultNetwork;
+                swal2Simple("NeoLine Connected!", sText, 5500, "success");
+            }
         })
 }
 
@@ -149,4 +146,18 @@ function dAPISwitchWalletNetwork(networkId) {
             }
         });
 
+}
+
+function connectNeoLineExitSwal() {
+    Swal.close();
+    CONNECTED_DAPI_WALLET_OBJ = neolineN3;
+    CONNECTED_DAPI_WALLET = "NeoLine";
+    getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
+}
+
+function connectO3ExitSwal() {
+    Swal.close();
+    CONNECTED_DAPI_WALLET_OBJ = neo3Dapi;
+    CONNECTED_DAPI_WALLET = "O3Wallet";
+    getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
 }

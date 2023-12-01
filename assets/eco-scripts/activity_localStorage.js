@@ -16,19 +16,28 @@ function restoreRelayedTxsFromLocalStorage() {
 }
 
 function cleanAllRelayedTxs() {
-    swal({
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
         title: "Delete all Relayed Txs activity?",
         text: "This is permanent and you won't be able to retrieve it.",
         icon: "warning",
-        buttons: ["Cancel", "Delete it!"],
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
             RELAYED_TXS = [];
             storeActivitiesToLocalStorage();
             drawRelayedTXs();
         } else {
-            swal("Safe! Relayed TXs are preserved.");
+            swal2Simple("Safe!", "Relayed TXs are preserved.", 5500, "success");
         }
     });
 }

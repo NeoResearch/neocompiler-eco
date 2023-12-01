@@ -278,23 +278,14 @@ function checkIfLocalContractExists(contractHashToAdd) {
 
 function checkNativeOrLocalExistedAndSwal(contractHashToAdd) {
     if (checkIfNative(contractHashToAdd)) {
-        swal("This is a Native Contract!", {
-            icon: "error",
-            buttons: false,
-            timer: 2500,
-        });
+        swal2Simple("Contract error", "This is a Native Contract!", 5500, "error");
         return true;
     }
 
     var checkResultLocalContracts = checkIfLocalContractExists(contractHashToAdd);
     if (checkResultLocalContracts != -1) {
-        swal({
-            title: "Local Contract is already listed!",
-            text: "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash,
-            icon: "info",
-            button: "Ok!",
-            timer: 10500,
-        });
+        var sText = "This is a Native Contract!" + "Local Contract is already listed!" + "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash;
+        swal2Simple("Contract exists", sText, 5500, "error");
         return true;
     }
 
@@ -307,11 +298,7 @@ function saveLocalContract() {
         contractHashToAdd = contractHashToAdd.slice(2);
 
     if (!Neon.default.is.scriptHash(contractHashToAdd)) {
-        swal("Invalid scripthash!", {
-            icon: "error",
-            buttons: false,
-            timer: 2500,
-        });
+        swal2Simple("Saving contract problems", "Invalid scripthash!", 5500, "error");
         return;
     }
 
@@ -345,18 +332,25 @@ function saveLocalContract() {
 
 function deleteLocalContract() {
     contractIdToRemove = getCurrentSelectedContract();
-    swal({
-        title: "Delete " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + "?",
-        text: "Contract with hash " + LOCAL_CONTRACTS[contractIdToRemove].hash + " will be removed.",
-        icon: "warning",
-        buttons: ["Cancel", "Delete it!"],
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "Delete " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + " ?",
+        text: "Contract will be removed.",
+        icon: "question",
+        footer: "Hash: " + LOCAL_CONTRACTS[contractIdToRemove].hash,
+        confirmButtonText: "Yes, delete it!",
+        showCancelButton: true,
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
             LOCAL_CONTRACTS.splice(contractIdToRemove, 1);
-            swal("Local contract has been deleted!", {
-                icon: "success",
-            });
+            swal2Simple("Deleted", "Local contract has been deleted!", 5500, "success");
 
             if (LOCAL_CONTRACTS.length == 0) {
                 document.getElementById("local_contracts").options.length = 0;
@@ -367,7 +361,8 @@ function deleteLocalContract() {
                 addContractsToSelectionBox("local_contracts", "local_contract");
             }
         } else {
-            swal("Safe! Contract " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + " was not deleted.");
+            var sText = "Contract " + LOCAL_CONTRACTS[contractIdToRemove].manifest.name + " was not deleted.";
+            swal2Simple("Safe!", sText, 5500, "success");
         }
     });
 }
@@ -415,12 +410,7 @@ function invokeFunction() {
         if ($(inputVar)[0].value === "") {
             var content = document.createElement('div');
             content.innerHTML = '<b>' + method.parameters[p].name + '</b> Parameter should be filled.';
-            swal("Error. There are parameters that need to be filled.", {
-                icon: "error",
-                content: content,
-                buttons: false,
-                timer: 3500,
-            });
+            swal2Simple("Invoke Function error", "There are parameters that need to be filled.", 3500, "error");
             break;
         }
         var paramType = method.parameters[p].type;
@@ -429,12 +419,8 @@ function invokeFunction() {
             paramType = $("#paramTypeSelectionBoxForAny" + p)[0].value;
             // Still Any means that user did not select a type
             if (paramType == "Any") {
-                swal("Error. Parameter " + p + " type should not be Any. Pick an option.", {
-                    icon: "error",
-                    content: content,
-                    buttons: false,
-                    timer: 3500,
-                });
+                var sText = "Error. Parameter " + p + " type should not be Any. Pick an option.";
+                swal2Simple("Invoke Function error", sText, 5500, "error");
                 break;
             }
         }
@@ -729,13 +715,9 @@ function convertJsonNotifications() {
             }
 
             if (shouldRunAgain) {
-                swal({
-                    title: "The hash for contracts requested by notifications events are not yet know.",
-                    text: "Your local setup still did not load all contracts for this notification event. Try again while contracts are being loaded.!",
-                    icon: "warning",
-                    button: "Ok!",
-                    timer: 5500,
-                });
+                var sTitle = "The hash for contracts requested by notifications events are not yet know.";
+                var sText = "Your local setup still did not load all contracts for this notification event. Try again while contracts are being loaded.!";
+                swal2Simple(sTitle, sText, 5500, "warning");
                 addBlinkToElement("#rawRpcPostCallButton");
             }
 

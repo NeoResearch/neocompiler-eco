@@ -1,11 +1,6 @@
 function setRole(role) {
-
     if (NATIVE_CONTRACTS.length == 0) {
-        swal("Wait for Native Contracts to be loaded. Call me again.", {
-            icon: "error",
-            buttons: false,
-            timer: 1500,
-        });
+        swal2Simple("Native Contract loading...", "Wait for Native Contracts to be loaded. Call me again.", 5500, "error");
         getNativeInfo()
         return;
     }

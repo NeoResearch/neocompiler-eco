@@ -9,13 +9,7 @@ function searchAsAScan() {
     var searchValue = $(search_blockchain)[0].value;
 
     if (searchValue == "") {
-        swal({
-            title: "Invalid value to search",
-            text: "Enter address or TX Hash or index",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        swal2Simple("Searching Block", "Invalid value to search. Enter address or TX Hash or index", 5500, "error");
         return;
     }
 
@@ -92,26 +86,15 @@ function drawBlocks(automatic = false) {
 
     if (!isNaN(count) && !isNaN(end)) {
         if (count > end) {
-            swal({
-                title: "Invalid parameter for count",
-                text: "Count should be lower than end!",
-                icon: "error",
-                button: "Ok!",
-                timer: 5500,
-            });
+            swal2Simple("Invalid parameter for count", "Count should be lower than end!", 5500, "error");
             return;
         }
     }
 
     var maxQueriedBlocks = 1000;
     if (count > maxQueriedBlocks) {
-        swal({
-            title: "You should query less blocks.",
-            text: "Count should be lower than" + maxQueriedBlocks,
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        var sText = "You should query less blocks. " + "Count should be lower than" + maxQueriedBlocks;
+        swal2Simple("Blocks queries error", sText, 5500, "error");
         return;
     }
 

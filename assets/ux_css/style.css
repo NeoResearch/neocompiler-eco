@@ -2,7 +2,7 @@ html,
 body {
     background: #263A40;
     --bs-body-bg: #223237;
-    --bs-emphasis-color:  #3eff34;
+    --bs-emphasis-color: #3eff34;
     --bs-body-color: bs-white-rgb;
     --bs-secondary-color: #bccff0;
 }
@@ -179,12 +179,14 @@ body {
     font-size: 13px !important;
 }
 
+.swal-input,
 .standardContainer input {
     background: #444444;
     border-color: #00AF92;
     color: white !important;
 }
 
+.swal-input:focus,
 .standardContainer input:focus {
     background: #00AF92;
     border-color: #00AF92;
@@ -416,8 +418,8 @@ textarea:focus {
     border-top: transparent !important;
 }
 
-.table td:hover{
-    background-color:  #0aab7b;
+.table td:hover {
+    background-color: #0aab7b;
 }
 
 .twalllet td {

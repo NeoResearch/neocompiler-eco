@@ -161,13 +161,9 @@ function checkIfAccountAlreadyBelongsToEcoWallet(baseValue) {
     var registeredIndex = searchWalletID(baseValue);
 
     if (registeredIndex != -1) {
-        swal({
-            title: "Public addressBase58 already registered for ECO_WALLET.",
-            text: "Please, delete index " + registeredIndex + " first.",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        var sTitle = "Public addressBase58 already registered for ECO_WALLET.";
+        var sText = "Please, delete index " + registeredIndex + " first.";
+        swal2Simple(sTitle, sText, 5500, "error");
         return false;
     }
     return true;
@@ -285,23 +281,32 @@ function deleteAccount(idToRemove) {
 
 function removeAccountFromEcoWallet(idToRemove) {
     if (idToRemove < ECO_WALLET.length && idToRemove > -1) {
-        swal({
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-danger",
+                cancelButton: "btn btn-success"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
             title: "Delete " + ECO_WALLET[idToRemove].label + "?",
-            text: " Address " + ECO_WALLET[idToRemove].account.address + " will be removed.",
-            type: "warning",
-            buttons: ["Cancel", "Delete it!"],
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
+            text: "Account will be removed!",
+            footer: "Address: " + ECO_WALLET[idToRemove].account.address,
+            showCancelButton: true,
+            icon: "question",
+            confirmButtonText: "Yes, delete it!",
+            color: "#00AF92",
+            background: "#263A40",
+        }).then((result) => {
+            if (result.isConfirmed) {
                 deleteAccount(idToRemove);
-                swal("Address has been deleted!", {
-                    icon: "success",
-                });
+                swal2Simple("Deleted!", "Address has been deleted!", 0, "success");
             } else {
-                swal("Safe! Account " + ECO_WALLET[idToRemove].label + " was not deleted.");
+                swal2Simple("Safe!", "Account was not deleted!", 0, "success");
             }
         });
     } else {
+        //This shoud not happen
         alert("Cannot remove TX with ID " + idToRemove + " from set of known addresses with size " + ECO_WALLET.length)
     }
 }
@@ -410,12 +415,7 @@ function getIdOfNep17AssetFromBalances(assetToFind) {
 function getAdjustNep17Balance(assetToFind) {
     var assetIdFromBalances = getIdOfNep17AssetFromBalances(assetToFind);
     if (assetIdFromBalances == -1) {
-        swal({
-            title: "Error when getting nep17 balance",
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        swal2Simple("Error when getting nep17 balance", "", 5500, "error");
         console.log("Error updateTransferAmountInfoFromPercentage");
         return;
     }
@@ -505,12 +505,8 @@ function selfTransfer(idToTransfer) {
     if (idToTransfer < ECO_WALLET.length && idToTransfer > -1) {
         // Perform Self Transfer of NEO and GAS will be claimed
     } else {
-        swal({
-            title: "Cannot self-transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length,
-            icon: "error",
-            button: "Ok!",
-            timer: 5500,
-        });
+        var sTitle = "Cannot self-transfer anything from " + idToTransfer + " from set of known addresses with size " + ECO_WALLET.length;
+        swal2Simple(sTitle, "", 5500, "error");
     }
 }
 
@@ -542,17 +538,15 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
 
     if (ECO_WALLET[CONNECTED_WALLET_ID]) {
         if (!skipSwal) {
-            var swalText = "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label;
+            var sTitle = "Wallet changed to " + ECO_WALLET[CONNECTED_WALLET_ID].label;
             if (isWatchOnly && !dapiWalletConnected)
-                swalText += "!!! - BE CAREFUL - WATCH ONLY";
+                sTitle += "!!! - BE CAREFUL - WATCH ONLY";
             else if (dapiWalletConnected)
-                swalText += "!!! - BE CAREFUL - YOU ARE CONNECTING TO YOUR PROVIDER";
-            swal({
-                title: swalText,
-                text: "Current selected address is " + ECO_WALLET[CONNECTED_WALLET_ID].account.address + " - " + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash,
-                icon: "success",
-                timer: 5500,
-            });
+                sTitle += "!!! - BE CAREFUL - YOU ARE CONNECTING TO YOUR PROVIDER";
+
+            var sHtml = 'Address: <b>' + ECO_WALLET[CONNECTED_WALLET_ID].account.address + '</b>';
+            var sFooter = 'Scripthash: <b>' + ECO_WALLET[CONNECTED_WALLET_ID].account.scriptHash + '</b>';
+            swal2Simple(sTitle, sHtml, 5500, "info", true, sFooter)
         }
 
         if (isWatchOnly) {
@@ -568,18 +562,27 @@ function changeDefaultWallet(walletID, skipSwal = false, tryDapi = false) {
 
     if (tryDapi) {
         if (dapiWalletConnected) {
-            swal({
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: "btn btn-success",
+                    cancelButton: "btn btn-danger"
+                },
+                buttonsStyling: false
+            });
+            swalWithBootstrapButtons.fire({
                 title: "Already connected to a dAPI wallet",
                 text: "Do you want to change wallet provider?",
-                icon: "warning",
-                buttons: ["Yes", "No. Keep connected!"],
-                dangerMode: true,
-            }).then((willchange) => {
-                if (!willchange) {
+                showCancelButton: true,
+                confirmButtonText: "Yes, change account!",
+                cancelButtonText: "No. Keep connected!",
+                color: "#00AF92",
+                background: "#263A40",
+            }).then((result) => {
+                if (result.isConfirmed) {
                     askToConnectToDapi();
                     $("#relay_btn")[0].disabled = false;
                 } else {
-                    swal("Default has been kept!");
+                    swal2Simple("No change", "Default has been kept!", 0, "success");
                 }
             });
         } else {
@@ -595,44 +598,36 @@ function createButton(text, cb) {
 }
 
 function askToConnectToDapi() {
-    var dapiToPush = { cancel: "No" };
+    var sHtmlText = '';
     if (neolineN3 && READY_DAPI_WALLETS.NEOLINE)
-        Object.assign(dapiToPush, { nl: "NeoLine" });
+        sHtmlText += `<button onClick="connectNeoLineExitSwal()">NeoLine</a><br>`;
     if (neo3Dapi && READY_DAPI_WALLETS.O3WALLET)
-        Object.assign(dapiToPush, { o3: "O3 Wallet" });
+        sHtmlText += `<button onClick="connectNeoLineExitSwal()" class="btn btn-default btn-1"> O3 Wallet </a>`;
 
-    swal({
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
         title: "Want to try to Connect a DAPI?",
-        text: "NeoLine or O3 may appear (if available)",
+        html: sHtmlText,
         icon: "warning",
-        buttons: dapiToPush,
-        dangerMode: true,
-    }).then((buttonOption) => {
-        //console.log("Button is: " + buttonOption);
-        switch (buttonOption) {
-            case "nl":
-                CONNECTED_DAPI_WALLET_OBJ = neolineN3;
-                CONNECTED_DAPI_WALLET = "NeoLine";
-                getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
-                break;
-            case "o3":
-                CONNECTED_DAPI_WALLET_OBJ = neo3Dapi;
-                CONNECTED_DAPI_WALLET = "O3Wallet";
-                getAccountDAPI(CONNECTED_DAPI_WALLET_OBJ);
-                break;
-            default:
-                swal("Default has been kept!");
+        confirmButtonText: "No, keep default!",
+        footer: "NeoLine and O3 Wallet are supported",
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            swal2Simple("Not connected", "Default has been kept!", 5500, "info");
         }
     });
 }
 
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
-        swal("Connect a wallet and select an account first.", {
-            icon: "error",
-            buttons: false,
-            timer: 5500,
-        });
+        swal2Simple("No Wallet", "Connect a wallet and select an account first!", 5500, "error");
         // Blink Wallet button for some couple of time
         addBlinkToElement("#button-connect-wallet");
         return false;
@@ -651,22 +646,27 @@ function createNep17Tx() {
         amountToTransferAdjusted = getFixed8Integer(rawAmountToTransfer);
 
     if ($("#transfer_nep17_amount")[0].value == 0) {
-        swal("Transfer amount is currently 0", {
-            icon: "error",
-            buttons: false,
-            timer: 5500,
-        });
+        swal2Simple("NEP 17 transfer error", "Transfer amount is currently 0!", 5500, "error");
         return false;
     }
 
-    swal({
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
         title: "Transfer from " + ECO_WALLET[CONNECTED_WALLET_ID].label,
         text: rawAmountToTransfer + " " + $("#labelForTransferAsset")[0].textContent + " " + $("#labelForTransferTo")[0].textContent,
+        showCancelButton: true,
+        confirmButtonText: "Proceed",
         icon: "info",
-        buttons: ["Cancel", "Proceed",],
-    }).then((willTransfer) => {
-        if (willTransfer) {
-
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
             var addrToIndex = $("#createtx_to")[0].selectedOptions[0].index;
 
             var params = [{
@@ -692,17 +692,9 @@ function createNep17Tx() {
 
             var autoRelay = false;
             invokeFunctionWithParams(contractHash, method, params, autoRelay);
-
-            swal({
-                icon: "success",
-                title: "Transfer has been created!",
-                text: "If you want to proceed to Blockchain you must Relay it.",
-                timer: 5500,
-            });
+            swal2Simple("Transfer has been created!", "If you want to proceed to Blockchain you must Relay it.", 5500, "success");
 
             addBlinkToElement("#relay_btn");
-        } else {
-            //swal("Ok! Cancelled.");
         }
     });
 }

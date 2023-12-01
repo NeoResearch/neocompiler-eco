@@ -4,12 +4,7 @@ function getIDFromExtraAccount(addressToSearch) {
             return ea;
 
     console.error("ERROR WHILE SEARCHING FOR ADDRESS");
-    swal({
-        title: "ERROR WHILE SEARCHING FOR ADDRESS",
-        icon: "error",
-        button: "Ok!",
-        timer: 5500,
-    });
+    swal2Simple("Search error", "ERROR WHILE SEARCHING FOR ADDRESS", 5500, "error");
     return -1;
 }
 function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
@@ -19,12 +14,7 @@ function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
                 return ea;
 
     console.error("ERROR WHILE SEARCHING FOR ADDRESS");
-    swal({
-        title: "ERROR WHILE SEARCHING FOR ADDRESS",
-        icon: "error",
-        button: "Ok!",
-        timer: 5500,
-    });
+    swal2Simple("Search error", "ERROR WHILE SEARCHING FOR ADDRESS", 5500, "error");
     return -1;
 }
 
@@ -47,14 +37,8 @@ function getExtraWalletAccountFromLocalStorage() {
                 myRestoredAccount.decrypt("teste").then(decryptedAccount => {
                     drawPopulateAllWalletAccountsInfo();
                 }).catch(err => {
-                    console.log(err)
-                    console.log("DECRYPTATION ERROR WHILE RESTORING");
-                    swal({
-                        title: "Error when decrypting extra accounts!! Check github for more info.",
-                        icon: "error",
-                        button: "Ok!",
-                        timer: 5500,
-                    });
+                    console.error(err);
+                    swal2Simple("Decryption error", "Error when decrypting extra accounts!", 5500, "error");
                 });
             }
 
@@ -89,12 +73,7 @@ function btnWalletSave() {
                 setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(SAFE_ACCOUNTS));
             }).catch(err => {
                 console.error(err);
-                swal({
-                    title: "Error when encrypted extra accounts to be saved!! Check github for more info.",
-                    icon: "error",
-                    button: "Ok!",
-                    timer: 5500,
-                });
+                swal2Simple("Encryption error", "Error when encripting extra accounts!", 5500, "error");
             });
         } else {
             SAFE_ACCOUNTS.push({

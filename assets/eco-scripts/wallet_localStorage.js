@@ -21,8 +21,6 @@ function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
 
 async function getExtraWalletAccountFromLocalStorage() {
     var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
-    console.log("hello")
-    console.log(mySafeExtraAccountsWallet)
     if (mySafeExtraAccountsWallet) {
         mySafeExtraAccountsWallet = JSON.parse(mySafeExtraAccountsWallet);
         var myRecreatedExtraAccounts = [];
@@ -31,16 +29,13 @@ async function getExtraWalletAccountFromLocalStorage() {
             var storedKey = accountData.key;
             var label = accountData.label;
             var print = accountData.print;
-            console.log(storedKey)
-            var myRestoredAccount = new Neon.wallet.Account(storedKey);
-            console.log(myRestoredAccount)
-            try {
-                if (!Neon.wallet.isAddress(storedKey) && !Neon.wallet.isPublicKey(storedKey)) {
-                    console.log("trying to decrypt from local storage")
-                    await myRestoredAccount.decrypt(MASTER_KEY_WALLET);
-                }
 
-                console.log(myRestoredAccount)
+            var myRestoredAccount = new Neon.wallet.Account(storedKey);
+
+            try {
+                if (!Neon.wallet.isAddress(storedKey) && !Neon.wallet.isPublicKey(storedKey))
+                    await myRestoredAccount.decrypt(MASTER_KEY_WALLET);
+
                 myRecreatedExtraAccounts.push({
                     account: myRestoredAccount,
                     label: label,
@@ -51,15 +46,10 @@ async function getExtraWalletAccountFromLocalStorage() {
                 swal2Simple("Decryption error", "Error when decrypting extra accounts!", 5500, "error");
             }
         }));
-
-        console.log("finally")
-        console.log(myRecreatedExtraAccounts)
         return myRecreatedExtraAccounts;
     }
-
     return [];
 }
-
 
 function restoreWalletExtraAccountsLocalStorage() {
     var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");

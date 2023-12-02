@@ -125,3 +125,5 @@ var RELAYED_TXS = [];
 /* ACE SESSIONS */
 var aceEditor;
 var openedSessions = new Map();
+
+var MASTER_KEY_WALLET = "";

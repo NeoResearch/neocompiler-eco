@@ -19,30 +19,41 @@ function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
 }
 
 
-function getExtraWalletAccountFromLocalStorage() {
+async function getExtraWalletAccountFromLocalStorage() {
     var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
+    console.log("hello")
+    console.log(mySafeExtraAccountsWallet)
     if (mySafeExtraAccountsWallet) {
         mySafeExtraAccountsWallet = JSON.parse(mySafeExtraAccountsWallet);
         var myRecreatedExtraAccounts = [];
-        for (ea = 0; ea < mySafeExtraAccountsWallet.length; ++ea) {
-            var storedKey = mySafeExtraAccountsWallet[ea].key;
+
+        await Promise.all(mySafeExtraAccountsWallet.map(async (accountData) => {
+            var storedKey = accountData.key;
+            var label = accountData.label;
+            var print = accountData.print;
+            console.log(storedKey)
             var myRestoredAccount = new Neon.wallet.Account(storedKey);
-            myRecreatedExtraAccounts.push({
-                account: myRestoredAccount,
-                label: mySafeExtraAccountsWallet[ea].label,
-                print: mySafeExtraAccountsWallet[ea].print
-            });
+            console.log(myRestoredAccount)
+            try {
+                if (!Neon.wallet.isAddress(storedKey) && !Neon.wallet.isPublicKey(storedKey)) {
+                    console.log("trying to decrypt from local storage")
+                    await myRestoredAccount.decrypt(MASTER_KEY_WALLET);
+                }
 
-            if (!Neon.wallet.isAddress(storedKey)) {
-                myRestoredAccount.decrypt("teste").then(decryptedAccount => {
-                    drawPopulateAllWalletAccountsInfo();
-                }).catch(err => {
-                    console.error(err);
-                    swal2Simple("Decryption error", "Error when decrypting extra accounts!", 5500, "error");
+                console.log(myRestoredAccount)
+                myRecreatedExtraAccounts.push({
+                    account: myRestoredAccount,
+                    label: label,
+                    print: print
                 });
+            } catch (err) {
+                console.error(err);
+                swal2Simple("Decryption error", "Error when decrypting extra accounts!", 5500, "error");
             }
+        }));
 
-        }
+        console.log("finally")
+        console.log(myRecreatedExtraAccounts)
         return myRecreatedExtraAccounts;
     }
 
@@ -51,38 +62,58 @@ function getExtraWalletAccountFromLocalStorage() {
 
 
 function restoreWalletExtraAccountsLocalStorage() {
-    var tempWallet = getExtraWalletAccountFromLocalStorage();
-    if (tempWallet != [] && tempWallet.length > 0) {
+    var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
+    if (mySafeExtraAccountsWallet && MASTER_KEY_WALLET == "") {
+        setMasterKey(() => {
+            updateExtraAndEcoWallet();
+        }, "Restoring accounts");
+    } else {
+        updateExtraAndEcoWallet();
+    }
+}
+
+async function updateExtraAndEcoWallet() {
+    var tempWallet = await getExtraWalletAccountFromLocalStorage();
+    if (tempWallet.length > 0) {
         ECO_EXTRA_ACCOUNTS = tempWallet;
-        ECO_WALLET = DEFAULT_WALLET;
-        ECO_WALLET = ECO_WALLET.concat(ECO_EXTRA_ACCOUNTS);
+        ECO_WALLET = DEFAULT_WALLET.concat(ECO_EXTRA_ACCOUNTS);
+        drawPopulateAllWalletAccountsInfo();
     }
 }
 
 function btnWalletSave() {
-    var SAFE_ACCOUNTS = [];
-    for (ea = 0; ea < ECO_EXTRA_ACCOUNTS.length; ++ea) {
-        if (ECO_EXTRA_ACCOUNTS[ea].account._privateKey != undefined) {
-            ECO_EXTRA_ACCOUNTS[ea].account.encrypt("teste").then(encryptedAccount => {
-                var restoredID = getIDFromExtraAccount(encryptedAccount.address);
+    if (ECO_EXTRA_ACCOUNTS.length > 0) {
+        if (MASTER_KEY_WALLET == "") {
+            swal2Simple("MASTER KEY IS EMPTY", "A password is required for saving new addresses", 5500, "error");
+            return false;
+        }
+
+        var SAFE_ACCOUNTS = [];
+        for (ea = 0; ea < ECO_EXTRA_ACCOUNTS.length; ++ea) {
+            if (ECO_EXTRA_ACCOUNTS[ea].account._privateKey != undefined) {
+                ECO_EXTRA_ACCOUNTS[ea].account.encrypt(MASTER_KEY_WALLET).then(encryptedAccount => {
+                    var restoredID = getIDFromExtraAccount(encryptedAccount.address);
+                    SAFE_ACCOUNTS.push({
+                        key: encryptedAccount.encrypted,
+                        label: ECO_EXTRA_ACCOUNTS[restoredID].label,
+                        print: ECO_EXTRA_ACCOUNTS[restoredID].print
+                    });
+                    setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(SAFE_ACCOUNTS));
+                }).catch(err => {
+                    console.error(err);
+                    swal2Simple("Encryption error", "Error when encripting extra accounts!", 5500, "error");
+                });
+            } else {
                 SAFE_ACCOUNTS.push({
-                    key: encryptedAccount.encrypted,
-                    label: ECO_EXTRA_ACCOUNTS[restoredID].label,
-                    print: ECO_EXTRA_ACCOUNTS[restoredID].print
+                    key: ECO_EXTRA_ACCOUNTS[ea].account.address,
+                    label: ECO_EXTRA_ACCOUNTS[ea].label,
+                    print: ECO_EXTRA_ACCOUNTS[ea].print
                 });
                 setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(SAFE_ACCOUNTS));
-            }).catch(err => {
-                console.error(err);
-                swal2Simple("Encryption error", "Error when encripting extra accounts!", 5500, "error");
-            });
-        } else {
-            SAFE_ACCOUNTS.push({
-                key: ECO_EXTRA_ACCOUNTS[ea].account.address,
-                label: ECO_EXTRA_ACCOUNTS[ea].label,
-                print: ECO_EXTRA_ACCOUNTS[ea].print
-            });
-            setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(SAFE_ACCOUNTS));
+            }
         }
+    } else {
+        localStorage.removeItem("mySafeEncryptedExtraAccounts");
     }
 }
 
@@ -91,7 +122,7 @@ function btnWalletClean() {
     //ECO_WALLET = ECO_WALLET.filter( ( el ) => !ECO_EXTRA_ACCOUNTS.includes( el ) );
     ECO_WALLET = DEFAULT_WALLET;
     ECO_EXTRA_ACCOUNTS = [];
-    setLocalStorage("mySafeEncryptedExtraAccounts", JSON.stringify(ECO_EXTRA_ACCOUNTS));
+    localStorage.removeItem("mySafeEncryptedExtraAccounts");
     drawPopulateAllWalletAccountsInfo();
 }
 

@@ -168,8 +168,7 @@ function createMultiSigFromNextValidators() {
                 label: "CN-MultiSig",
                 print: true
             });
-            ECO_WALLET = DEFAULT_WALLET;
-            ECO_WALLET = ECO_WALLET.concat(ECO_EXTRA_ACCOUNTS);
+            ECO_WALLET = DEFAULT_WALLET.concat(ECO_EXTRA_ACCOUNTS);
             drawPopulateAllWalletAccountsInfo();
         },
         "json" // The format the response should be in

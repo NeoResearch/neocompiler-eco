@@ -87,104 +87,12 @@ function drawWalletsStatus() {
 } //Finishe DrawWallets function
 //===============================================================
 
-//===============================================================
-//================ ADD NEW ADDRESS ==============================
-function addWalletFromForm() {
-    var type = $("#type_to_register")[0].value;
-    var keyToAdd = $("#accountToAddInfo")[0].value;
-    var accountToAdd;
-    switch (type) {
-        case 'publickey':
-        case 'address':
-        case 'scripthash':
-        case 'privatekey':
-        case 'wif':
-        case 'encryptedkey':
-            accountToAdd = new Neon.wallet.Account(keyToAdd);
-            break;
-        case 'multisig':
-            accountToAdd = getAccountFromMultiSigVerification(keyToAdd);
-            break;
-        default:
-            console.error("Account to with not found type.")
-    }
-
-    var labelToAdd = keyToAdd = $("#accountLabelToAddInfo")[0].value;
-    if (labelToAdd === "")
-        labelToAdd = "ImportedWallet_From_" + type;
-    if (addToWallet(accountToAdd, labelToAdd))
-        drawPopulateAllWalletAccountsInfo();
-}
-
-function addContractToWallet(scriptHashToAdd) {
-    var accountToAdd;
-    if (scriptHashToAdd != '') {
-        accountToAdd = new Neon.wallet.Account(scriptHashToAdd);
-        labelToAdd = scriptHashToAdd.slice(0, 3) + "..." + scriptHashToAdd.slice(-3)
-        if (addToWallet(accountToAdd, labelToAdd))
-            drawPopulateAllWalletAccountsInfo();
-
-        $('.nav a[href="#nav-wallet"]').tab('show');
-    } else
-        console.log("Nothing to add. Scripthash looks to be empty!");
-}
-
-//TODO Add support for adding multisig and specialSC
-function addToWallet(accountToAdd, labelToAdd, verificationScriptToAdd = "") {
-
-    if (!accountToAdd.isMultiSig) {
-        if (!checkIfAccountAlreadyBelongsToEcoWallet(accountToAdd.address))
-            return false;
-    } else {
-        // Checks for multisig
-        var vsToAdd = accountToAdd.contract.script;
-        if (vsToAdd == '') {
-            alert("Verification script is empty for this multisig!");
-            return false;
-        }
-
-        if (accountToAdd.address != toBase58(getScriptHashFromAVM(vsToAdd))) {
-            alert("Error on converting verification script to base58");
-            return false;
-        }
-
-        if (!checkIfAccountAlreadyBelongsToEcoWallet(addressBase58ToAdd))
-            return false;
-    }
-    // TODO --- CHECK IF IT IS OK WITHOUT OWNERS FOR MULTI SIGNATURES
-    addExtraAccountAndUpdateWallet(accountToAdd, labelToAdd, true);
-    return true;
-}
-//===============================================================
-
-function checkIfAccountAlreadyBelongsToEcoWallet(baseValue) {
-    var registeredIndex = searchWalletID(baseValue);
-
-    if (registeredIndex != -1) {
-        var sTitle = "Public addressBase58 already registered for ECO_WALLET.";
-        var sText = "Please, delete index " + registeredIndex + " first.";
-        swal2Simple(sTitle, sText, 5500, "error");
-        return false;
-    }
-    return true;
-}
-
-function addExtraAccountAndUpdateWallet(accToAdd, labelToAdd, print) {
-    var newAcc = {
-        account: accToAdd,
-        label: labelToAdd,
-        print: print
-    };
-    ECO_EXTRA_ACCOUNTS.push(newAcc);
-    ECO_WALLET.push(newAcc);
-    btnWalletSave();
-}
 /*
 //===============================================================
 //============= FUNCTION CALLED WHEN SELECTION BOX CHANGES ======
 function changeWalletInfo() {
     var wToChangeIndex = $("#wallet_info")[0].selectedOptions[0].index;
-
+ 
     if (isEncryptedOnly(wToChangeIndex)) {
         $("#dialog").show();
         document.getElementById("walletInfoEncrypted").value = ECO_WALLET[wToChangeIndex].account.encrypted;
@@ -197,33 +105,33 @@ function changeWalletInfo() {
         document.getElementById("addressVerificationScript").value = "-";
         document.getElementById("addressOwners").value = "-";
     } else {
-
+ 
         document.getElementById("walletInfoAddressBase58").value = ECO_WALLET[wToChangeIndex].account.address;
-
+ 
         if (ECO_WALLET[wToChangeIndex].account._encrypted != null) {
             document.getElementById("walletInfoEncrypted").value = ECO_WALLET[wToChangeIndex].account.encrypted;
         } else {
             $("#dialog").hide();
             document.getElementById("walletInfoEncrypted").value = "-";
         }
-
+ 
         document.getElementById("walletInfoScripthash").value = ECO_WALLET[wToChangeIndex].account.scriptHash;
-
+ 
         if (!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._publicKey != null)
             document.getElementById("walletInfoPubKey").value = ECO_WALLET[wToChangeIndex].account.publicKey;
         else
             document.getElementById("walletInfoPubKey").value = "-";
-
+ 
         if (!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._WIF != null)
             document.getElementById("walletInfoWIF").value = ECO_WALLET[wToChangeIndex].account.WIF;
         else
             document.getElementById("walletInfoWIF").value = "-";
-
+ 
         if (!ECO_WALLET[wToChangeIndex].account.isMultiSig && ECO_WALLET[wToChangeIndex].account._privateKey != null)
             document.getElementById("walletInfoPrivateKey").value = ECO_WALLET[wToChangeIndex].account.privateKey;
         else
             document.getElementById("walletInfoPrivateKey").value = "-";
-
+ 
         document.getElementById("addressPrintInfo").value = ECO_WALLET[wToChangeIndex].print;
         document.getElementById("addressVerificationScript").value = ECO_WALLET[wToChangeIndex].account.contract.script;
         document.getElementById("addressOwners").value = JSON.stringify(ECO_WALLET[wToChangeIndex].owners);
@@ -275,7 +183,13 @@ function populateAllWalletData() {
 
 //===============================================================
 function deleteAccount(idToRemove) {
+    if (idToRemove >= DEFAULT_WALLET.length) {
+        var defaultLength = DEFAULT_WALLET.length;
+        ECO_EXTRA_ACCOUNTS.splice(idToRemove - defaultLength, 1);
+        btnWalletSave();
+    }
     ECO_WALLET.splice(idToRemove, 1);
+
     drawPopulateAllWalletAccountsInfo();
 }
 

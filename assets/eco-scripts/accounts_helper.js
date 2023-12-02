@@ -1,22 +1,22 @@
 // searchAddrIndexFromAddressPrivateKeyWifiLabelEncrypted
-function searchWalletID(baseValue) {
-    for (iToFind = 0; iToFind < ECO_WALLET.length; ++iToFind) {
-        if (ECO_WALLET[iToFind].account._encrypted != null)
-            if (ECO_WALLET[iToFind].account.encrypted == baseValue)
+function searchWalletID(BASE_ARRAY_SEARCH, baseValue) {
+    for (iToFind = 0; iToFind < BASE_ARRAY_SEARCH.length; ++iToFind) {
+        if (BASE_ARRAY_SEARCH[iToFind].account._encrypted != null)
+            if (BASE_ARRAY_SEARCH[iToFind].account.encrypted == baseValue)
                 return iToFind;
 
-        if (ECO_WALLET[iToFind].account.address == baseValue)
+        if (BASE_ARRAY_SEARCH[iToFind].account.address == baseValue)
             return iToFind;
 
-        if (ECO_WALLET[iToFind].label == baseValue)
+        if (BASE_ARRAY_SEARCH[iToFind].label == baseValue)
             return iToFind;
 
-        if (ECO_WALLET[iToFind].account._privateKey != null)
-            if (ECO_WALLET[iToFind].account.privateKey == baseValue)
+        if (BASE_ARRAY_SEARCH[iToFind].account._privateKey != null)
+            if (BASE_ARRAY_SEARCH[iToFind].account.privateKey == baseValue)
                 return iToFind;
 
-        if (ECO_WALLET[iToFind].account._WIF != null)
-            if (ECO_WALLET[iToFind].account.WIF == baseValue)
+        if (BASE_ARRAY_SEARCH[iToFind].account._WIF != null)
+            if (BASE_ARRAY_SEARCH[iToFind].account.WIF == baseValue)
                 return iToFind;
     }
 

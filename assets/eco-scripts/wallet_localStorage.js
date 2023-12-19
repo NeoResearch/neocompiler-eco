@@ -29,9 +29,7 @@ async function getExtraWalletAccountFromLocalStorage() {
             var storedKey = accountData.key;
             var label = accountData.label;
             var print = accountData.print;
-
             var myRestoredAccount = new Neon.wallet.Account(storedKey);
-
             try {
                 if (!Neon.wallet.isAddress(storedKey) && !Neon.wallet.isPublicKey(storedKey))
                     await myRestoredAccount.decrypt(MASTER_KEY_WALLET);
@@ -43,9 +41,23 @@ async function getExtraWalletAccountFromLocalStorage() {
                 });
             } catch (err) {
                 console.error(err);
-                swal2Simple("Decryption error", "Error when decrypting extra accounts!", 5500, "error");
+                myRecreatedExtraAccounts = [];
+                $("#btnWalletSaveID")[0].disabled = true;
+                $("#btnNewWallet")[0].disabled = true;
+                $("#btnLoadSavedAccount")[0].disabled = false;
+                MASTER_KEY_WALLET = "";
+                var footerMsg = "You can not save anything meanwhile. Try to clean or redefine password";
+                swal2Simple("Decryption error", "Error when decrypting extra accounts! TryAgain with new password.", 10000, "error", false, footerMsg);
             }
         }));
+
+        console.log(myRecreatedExtraAccounts)
+        if (myRecreatedExtraAccounts.length != 0) {
+            $("#btnWalletSaveID")[0].disabled = false;
+            $("#btnNewWallet")[0].disabled = false;
+            $("#btnLoadSavedAccount")[0].disabled = true;
+        }
+        
         return myRecreatedExtraAccounts;
     }
     return [];
@@ -53,12 +65,19 @@ async function getExtraWalletAccountFromLocalStorage() {
 
 function restoreWalletExtraAccountsLocalStorage() {
     var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
+    var mySafeExtraAccountsWalletJson = JSON.parse(mySafeExtraAccountsWallet);
+    var nAccounts = mySafeExtraAccountsWalletJson.length;
+    var nEncryptedAccounts = getNumberOfSafeEncryptedAccountsFromVector(mySafeExtraAccountsWalletJson);
+    console.log("You have " + nEncryptedAccounts + " encrypted accounts to be decrypted.");
+
+
     if (mySafeExtraAccountsWallet && MASTER_KEY_WALLET == "") {
         setMasterKey(() => {
             updateExtraAndEcoWallet();
-        }, "Restoring accounts");
+        }, "Restoring: " + nAccounts + " accounts (" + nEncryptedAccounts + " encrypted)");
     } else {
-        updateExtraAndEcoWallet();
+        console.error("restoreWalletExtraAccountsLocalStorage error. Trying to restore with a key already set. Not expected.")
+        //updateExtraAndEcoWallet();
     }
 }
 
@@ -69,6 +88,16 @@ async function updateExtraAndEcoWallet() {
         ECO_WALLET = DEFAULT_WALLET.concat(ECO_EXTRA_ACCOUNTS);
         drawPopulateAllWalletAccountsInfo();
     }
+}
+
+function getNumberOfSafeEncryptedAccountsFromVector(mySafeExtraAccountsWallet) {
+    var nEncryptedAccounts = 0;
+    if (mySafeExtraAccountsWallet.length > 0)
+        for (ea = 0; ea < mySafeExtraAccountsWallet.length; ++ea)
+            if (!Neon.wallet.isAddress(mySafeExtraAccountsWallet[ea].key))
+                nEncryptedAccounts++;
+
+    return nEncryptedAccounts;
 }
 
 function btnWalletSave() {

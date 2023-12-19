@@ -75,7 +75,6 @@ function addSafeAccount(accountToAdd, labelToAdd) {
         addAccountAndDraw(accountToAdd, labelToAdd);
     } else {
         setMasterKey(() => {
-            console.log("dasidhsi")
             addAccountAndDraw(accountToAdd, labelToAdd);
         }, "Adding new account.");
     }
@@ -123,6 +122,7 @@ function setMasterKey(callback, labelToAdd) {
             callback();
         }else{
             swal2Simple("Be careful!", "A password is needed for this action.", 0, "error");
+            callback();
         }
     });
 }

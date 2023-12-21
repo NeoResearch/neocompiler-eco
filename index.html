@@ -739,13 +739,17 @@
                             <button type="submit" onclick="populateAllWalletData()" class="btn btn-info btn-sm"><i
                                     class="fas fa-sync-alt"></i>
                             </button>
+                            <!--
                             <button type="submit" onclick="btnWalletSave()" id="btnWalletSaveID" class="btn btn-success btn-sm">
                                 Save <i class="fas fa-save"></i>
                             </button>
-                            <button type="submit" onclick="btnWalletClean()" class="btn btn-danger btn-sm">
+                            -->
+                            <button type="submit" disabled onclick="btnWalletClean()" id="btnWalletCleanID"
+                                class="btn btn-danger btn-sm">
                                 Clean Extra <i class="fas fa-trash"></i>
                             </button>
-                            <button type="submit" disabled onclick="restoreWalletExtraAccountsLocalStorage()" id="btnLoadSavedAccount" class="btn btn-danger btn-sm">
+                            <button type="submit" disabled onclick="restoreWalletExtraAccountsLocalStorage()"
+                                id="btnLoadSavedAccount" class="btn btn-danger btn-sm">
                                 Load Saved Accounts <i class="fas fa-trash"></i>
                             </button>
                         </h4>
@@ -808,7 +812,7 @@
                 <div class="generalContainer">
                     <div class="standardContainer" id="RegisterAddress" style="margin-bottom: 30px;">
                         <h4 class="green-title">Import account
-                            <button type="button" onclick="addWalletFromForm();" id="btnNewWallet"
+                            <button type="button" onclick="addWalletFromForm();" id="btnAddNewAccount"
                                 class="btn btn-success btn-sm"><i class="fas fa-user-plus"></i></button>
                         </h4>
                         <div class="container">

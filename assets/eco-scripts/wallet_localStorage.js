@@ -7,6 +7,7 @@ function getIDFromExtraAccount(addressToSearch) {
     swal2Simple("Search error", "ERROR WHILE SEARCHING FOR ADDRESS", 5500, "error");
     return -1;
 }
+
 function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
     for (ea = 0; ea < baseEncrypted.length; ++ea)
         if (baseEncrypted[ea].encrypted != undefined)
@@ -17,7 +18,6 @@ function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
     swal2Simple("Search error", "ERROR WHILE SEARCHING FOR ADDRESS", 5500, "error");
     return -1;
 }
-
 
 async function getExtraWalletAccountFromLocalStorage() {
     var serializedAccountKeys = getLocalStorage("mySafeEncryptedExtraAccounts");
@@ -44,8 +44,8 @@ async function getExtraWalletAccountFromLocalStorage() {
             } catch (err) {
                 console.error(err);
                 myRecreatedExtraAccounts = [];
-                $("#btnWalletSaveID")[0].disabled = true;
-                $("#btnNewWallet")[0].disabled = true;
+                //$("#btnWalletSaveID")[0].disabled = true;
+                $("#btnAddNewAccount")[0].disabled = true;
                 $("#btnLoadSavedAccount")[0].disabled = false;
                 MASTER_KEY_WALLET = "";
                 var footerMsg = "You can not save anything meanwhile. Try to clean or redefine password";
@@ -55,8 +55,8 @@ async function getExtraWalletAccountFromLocalStorage() {
 
         //console.log(myRecreatedExtraAccounts)
         if (myRecreatedExtraAccounts.length != 0) {
-            $("#btnWalletSaveID")[0].disabled = false;
-            $("#btnNewWallet")[0].disabled = false;
+            //$("#btnWalletSaveID")[0].disabled = false;
+            $("#btnAddNewAccount")[0].disabled = false;
             $("#btnLoadSavedAccount")[0].disabled = true;
         }
 
@@ -68,19 +68,23 @@ async function getExtraWalletAccountFromLocalStorage() {
 function restoreWalletExtraAccountsLocalStorage() {
     // Serialized Storage
     var serializedKeys = getLocalStorage("mySafeEncryptedExtraAccounts");
-    var serializedKeysJson = JSON.parse(serializedKeys);
+    if (serializedKeys) {
+        //Since there are keys, clean button will be enabled
+        $("#btnWalletCleanID")[0].disabled = false;
 
-    var nAccounts = serializedKeysJson.length;
-    var nEncryptedAccounts = getNumberOfSafeEncryptedAccountsFromVector(serializedKeysJson);
-    //console.log("You have " + nAccounts + " account and " + nEncryptedAccounts + " encrypted accounts to be decrypted.");
+        var serializedKeysJson = JSON.parse(serializedKeys);
+        var nAccounts = serializedKeysJson.length;
+        var nEncryptedAccounts = getNumberOfSafeEncryptedAccountsFromVector(serializedKeysJson);
+        //console.log("You have " + nAccounts + " account and " + nEncryptedAccounts + " encrypted accounts to be decrypted.");
 
-    if (serializedKeys && MASTER_KEY_WALLET == "") {
-        setMasterKey(() => {
-            updateExtraAndEcoWallet();
-        }, "Restoring: " + nAccounts + " accounts (" + nEncryptedAccounts + " encrypted)");
-    } else {
-        console.error("restoreWalletExtraAccountsLocalStorage error. Trying to restore with a key already set. Not expected.")
-        //updateExtraAndEcoWallet();
+        if (MASTER_KEY_WALLET == "") {
+            setMasterKey(() => {
+                updateExtraAndEcoWallet();
+            }, "Restoring: " + nAccounts + " accounts (" + nEncryptedAccounts + " encrypted)", true);
+        } else {
+            console.error("restoreWalletExtraAccountsLocalStorage error. Trying to restore with a key already set. Not expected.")
+            //updateExtraAndEcoWallet();
+        }
     }
 }
 
@@ -103,6 +107,7 @@ function getNumberOfSafeEncryptedAccountsFromVector(mySafeExtraAccountsWallet) {
     return nEncryptedAccounts;
 }
 
+/*
 function btnWalletSave() {
     if (MASTER_KEY_WALLET == "") {
         setMasterKey(() => {
@@ -111,14 +116,17 @@ function btnWalletSave() {
     } else {
         extraWalletSave();
     }
-}
+}*/
 
 function extraWalletSave() {
     if (ECO_EXTRA_ACCOUNTS.length > 0) {
         if (MASTER_KEY_WALLET == "") {
-            swal2Simple("MASTER KEY IS EMPTY", "A password is required for saving new addresses", 5500, "error");
+            swal2Simple("MASTER KEY NOT FOUND", "A password is required for saving your accounts", 5500, "error");
             return false;
         }
+
+        // Since something is saved Clean will be enabled
+        $("#btnWalletCleanID")[0].disabled = false;
 
         var SAFE_ACCOUNTS = [];
         for (ea = 0; ea < ECO_EXTRA_ACCOUNTS.length; ++ea) {
@@ -146,16 +154,40 @@ function extraWalletSave() {
         }
     } else {
         localStorage.removeItem("mySafeEncryptedExtraAccounts");
+        $("#btnWalletCleanID")[0].disabled = true;
     }
 }
 
 function btnWalletClean() {
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-success"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "You will delete all your extra accounts?",
+        text: "Be carefull. Your local storage for wallet will be empty.",
+        showCancelButton: true,
+        icon: "question",
+        confirmButtonText: "Yes, delete it!",
+        color: "#00AF92",
+        background: "#263A40",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            ECO_WALLET = DEFAULT_WALLET;
+            ECO_EXTRA_ACCOUNTS = [];
+            localStorage.removeItem("mySafeEncryptedExtraAccounts");
+            drawPopulateAllWalletAccountsInfo();
+            swal2Simple("Deleted!", "All saved addresses were delete", 0, "success");
+        } else {
+            swal2Simple("Safe!", "Your local storage for accounts is preserved", 0, "success");
+        }
+    });
+
     // This filter also worked
     //ECO_WALLET = ECO_WALLET.filter( ( el ) => !ECO_EXTRA_ACCOUNTS.includes( el ) );
-    ECO_WALLET = DEFAULT_WALLET;
-    ECO_EXTRA_ACCOUNTS = [];
-    localStorage.removeItem("mySafeEncryptedExtraAccounts");
-    drawPopulateAllWalletAccountsInfo();
 }
 
 

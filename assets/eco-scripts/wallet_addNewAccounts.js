@@ -71,16 +71,16 @@ function addAccountAndDraw(accountToAdd, labelToAdd) {
 function addSafeAccount(accountToAdd, labelToAdd) {
     //Asks for password if privatekey or wif or encrypted
     if (MASTER_KEY_WALLET != "") {
-        swal2Simple("You have a master key", "This account will be linked to your password", 5500, "success");
+        swal2Simple("Your master key isalready defined", "This account will be linked to your password.\n Remember it!", 5500, "success");
         addAccountAndDraw(accountToAdd, labelToAdd);
     } else {
         setMasterKey(() => {
             addAccountAndDraw(accountToAdd, labelToAdd);
-        }, "Adding new account.");
+        }, "Restoring account from WIF/PrivateKey/EncryptedKey");
     }
 }
 
-function setMasterKey(callback, labelToAdd) {
+function setMasterKey(callback, labelToAdd, loading = false) {
     var serializedHTML =
         '<div class="input-group">' +
         '<input id="input-newaccount-password-1" placeholder="password" class="form-control swal-input" type="password">' +
@@ -100,7 +100,7 @@ function setMasterKey(callback, labelToAdd) {
     });
 
     swalWithBootstrapButtons.fire({
-        title: "Enter your password for local storage (MasterKey) - " + labelToAdd,
+        title: "Define your Master Key for local storage.\n" + labelToAdd,
         html: serializedHTML,
         color: "#00AF92",
         background: "#263A40",
@@ -121,9 +121,18 @@ function setMasterKey(callback, labelToAdd) {
     }).then((result) => {
         if (result.isConfirmed) {
             callback();
-        }else{
-            swal2Simple("Be carefull!", "A password is needed for this action.", 0, "error");
-            callback();
+        } else {
+            // if loading user should not be able to save of add until loaded or cleanned
+            if (loading) {
+                // Disable Save
+                // Disable add new accounts
+                // Only enable load or clean
+                //$("#btnWalletSaveID")[0].disabled = true;
+                $("#btnAddNewAccount")[0].disabled = true;
+                $("#btnLoadSavedAccount")[0].disabled = false;
+            }
+            swal2Simple("Nothing will happen!!", "A password is needed for this action.", 0, "error");
+            //callback();
         }
     });
 }
@@ -147,7 +156,8 @@ function tryToDecrypt(keyToAdd, labelToAdd) {
     });
 
     swalWithBootstrapButtons.fire({
-        title: "Enter your decription key. After that the MasterKey will be used to re-encrypt.",
+        title: "Let's try to decrypt your account. Enter your password.",
+        footer: "After that the MasterKey will be used to re-encrypt.",
         html: serializedHTML,
         color: "#00AF92",
         background: "#263A40",
@@ -159,11 +169,10 @@ function tryToDecrypt(keyToAdd, labelToAdd) {
                 try {
                     Swal.update({ footer: "Decrypting..." });
                     const decryptedAccount = await accountToAdd.decrypt(pass);
-                    console.log("Decrypted");
                     addSafeAccount(decryptedAccount, labelToAdd);
                     resolve(true); // Resolve with true if decryption is successful
                 } catch (err) {
-                    console.error(err);
+                    //console.error(err);
                     Swal.update({ footer: "Decryption error. Password should be wrong." });
                     resolve(false); // Resolve with false if decryption fails
                 }

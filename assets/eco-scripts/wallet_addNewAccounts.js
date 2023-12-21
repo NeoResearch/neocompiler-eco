@@ -71,7 +71,7 @@ function addAccountAndDraw(accountToAdd, labelToAdd) {
 function addSafeAccount(accountToAdd, labelToAdd) {
     //Asks for password if privatekey or wif or encrypted
     if (MASTER_KEY_WALLET != "") {
-        swal2Simple("You already have a master key", "Check on config tab", 5500, "success");
+        swal2Simple("You have a master key", "This account will be linked to your password", 5500, "success");
         addAccountAndDraw(accountToAdd, labelToAdd);
     } else {
         setMasterKey(() => {
@@ -110,6 +110,7 @@ function setMasterKey(callback, labelToAdd) {
             var pass2 = document.getElementById("input-newaccount-password-2").value;
             if (pass1 !== "" && pass1 == pass2) {
                 MASTER_KEY_WALLET = pass1;
+                swal2Simple("Your Master Key has been set", "Remember your password", 5500, "success");
                 return true;
             }
             else {
@@ -121,7 +122,7 @@ function setMasterKey(callback, labelToAdd) {
         if (result.isConfirmed) {
             callback();
         }else{
-            swal2Simple("Be careful!", "A password is needed for this action.", 0, "error");
+            swal2Simple("Be carefull!", "A password is needed for this action.", 0, "error");
             callback();
         }
     });
@@ -232,5 +233,5 @@ function addExtraAccountAndUpdateWallet(accToAdd, labelToAdd, print) {
     };
     ECO_EXTRA_ACCOUNTS.push(newAcc);
     ECO_WALLET.push(newAcc);
-    btnWalletSave();
+    extraWalletSave();
 }

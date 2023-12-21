@@ -20,12 +20,14 @@ function getIDFromExtraAccountStillEncrypted(baseEncrypted, encryptedToSearch) {
 
 
 async function getExtraWalletAccountFromLocalStorage() {
-    var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
-    if (mySafeExtraAccountsWallet) {
-        mySafeExtraAccountsWallet = JSON.parse(mySafeExtraAccountsWallet);
+    var serializedAccountKeys = getLocalStorage("mySafeEncryptedExtraAccounts");
+
+    if (serializedAccountKeys) {
+        var serializedAccountKeysJson = JSON.parse(serializedAccountKeys);
         var myRecreatedExtraAccounts = [];
 
-        await Promise.all(mySafeExtraAccountsWallet.map(async (accountData) => {
+        // Direct add or try to decrypt 
+        await Promise.all(serializedAccountKeysJson.map(async (accountData) => {
             var storedKey = accountData.key;
             var label = accountData.label;
             var print = accountData.print;
@@ -51,27 +53,28 @@ async function getExtraWalletAccountFromLocalStorage() {
             }
         }));
 
-        console.log(myRecreatedExtraAccounts)
+        //console.log(myRecreatedExtraAccounts)
         if (myRecreatedExtraAccounts.length != 0) {
             $("#btnWalletSaveID")[0].disabled = false;
             $("#btnNewWallet")[0].disabled = false;
             $("#btnLoadSavedAccount")[0].disabled = true;
         }
-        
+
         return myRecreatedExtraAccounts;
     }
     return [];
 }
 
 function restoreWalletExtraAccountsLocalStorage() {
-    var mySafeExtraAccountsWallet = getLocalStorage("mySafeEncryptedExtraAccounts");
-    var mySafeExtraAccountsWalletJson = JSON.parse(mySafeExtraAccountsWallet);
-    var nAccounts = mySafeExtraAccountsWalletJson.length;
-    var nEncryptedAccounts = getNumberOfSafeEncryptedAccountsFromVector(mySafeExtraAccountsWalletJson);
-    console.log("You have " + nEncryptedAccounts + " encrypted accounts to be decrypted.");
+    // Serialized Storage
+    var serializedKeys = getLocalStorage("mySafeEncryptedExtraAccounts");
+    var serializedKeysJson = JSON.parse(serializedKeys);
 
+    var nAccounts = serializedKeysJson.length;
+    var nEncryptedAccounts = getNumberOfSafeEncryptedAccountsFromVector(serializedKeysJson);
+    //console.log("You have " + nAccounts + " account and " + nEncryptedAccounts + " encrypted accounts to be decrypted.");
 
-    if (mySafeExtraAccountsWallet && MASTER_KEY_WALLET == "") {
+    if (serializedKeys && MASTER_KEY_WALLET == "") {
         setMasterKey(() => {
             updateExtraAndEcoWallet();
         }, "Restoring: " + nAccounts + " accounts (" + nEncryptedAccounts + " encrypted)");
@@ -101,6 +104,16 @@ function getNumberOfSafeEncryptedAccountsFromVector(mySafeExtraAccountsWallet) {
 }
 
 function btnWalletSave() {
+    if (MASTER_KEY_WALLET == "") {
+        setMasterKey(() => {
+            extraWalletSave();
+        }, "You need to set your password.");
+    } else {
+        extraWalletSave();
+    }
+}
+
+function extraWalletSave() {
     if (ECO_EXTRA_ACCOUNTS.length > 0) {
         if (MASTER_KEY_WALLET == "") {
             swal2Simple("MASTER KEY IS EMPTY", "A password is required for saving new addresses", 5500, "error");

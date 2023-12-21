@@ -184,14 +184,15 @@ function signAndRelay() {
 
 function signTx(tx) {
     if (isMultiSig(CONNECTED_WALLET_ID)) {
-        var publicKeys = Neon.wallet.getPublicKeysFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
-        var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(Neon.u.base642hex(ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script))
+        var base64VerificationScript = ECO_WALLET[CONNECTED_WALLET_ID].account.contract.script;
+        var hexVerificationScript = Neon.u.base642hex(base64VerificationScript);
+        var publicKeys = Neon.wallet.getPublicKeysFromVerificationScript(hexVerificationScript);
+        var threshold = Neon.wallet.getSigningThresholdFromVerificationScript(hexVerificationScript);
         var signingAccountsIDs = getMultiSigSignersID(publicKeys, threshold);
         if (signingAccountsIDs.length < threshold) {
             var sText = "Current Wallet is connected to a multisig!" + "Your wallet has " + signingAccountsIDs.length + " accounts to sign. But required is " + threshold;
             swal2Simple("Wallet while signing", sText, 5500, "error");
         }
-
 
         for (sa = 0; sa < signingAccountsIDs.length; sa++)
             tx.sign(ECO_WALLET[signingAccountsIDs[sa]].account, NETWORK_MAGIC)

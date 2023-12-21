@@ -186,7 +186,7 @@ function deleteAccount(idToRemove) {
     if (idToRemove >= DEFAULT_WALLET.length) {
         var defaultLength = DEFAULT_WALLET.length;
         ECO_EXTRA_ACCOUNTS.splice(idToRemove - defaultLength, 1);
-        btnWalletSave();
+        extraWalletSave();
     }
     ECO_WALLET.splice(idToRemove, 1);
 

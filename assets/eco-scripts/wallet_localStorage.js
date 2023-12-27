@@ -180,6 +180,10 @@ function btnWalletClean() {
             ECO_EXTRA_ACCOUNTS = [];
             localStorage.removeItem("mySafeEncryptedExtraAccounts");
             drawPopulateAllWalletAccountsInfo();
+
+            $("#btnAddNewAccount")[0].disabled = false;
+            $("#btnLoadSavedAccount")[0].disabled = true;
+
             swal2Simple("Deleted!", "All saved addresses were delete", 0, "success");
         } else {
             swal2Simple("Safe!", "Your local storage for accounts is preserved", 0, "success");

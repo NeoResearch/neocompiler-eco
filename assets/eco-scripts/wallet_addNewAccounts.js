@@ -4,18 +4,32 @@ function togglePasswordSwal() {
     passwordField.attr('type', passwordFieldType === 'password' ? 'text' : 'password');
 }
 
+//Function to generated label to imported account
+function makeid(length) {
+    let id = '';
+    const labelCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let counter = 0;
+    while (counter < length) {
+        id += labelCharacters.charAt(Math.floor(Math.random() * labelCharacters.length));
+        counter += 1;
+    }
+    return id;
+}
+
 //First verifications for adding new wallet
 function addWalletFromForm() {
     var type = $("#type_to_register")[0].value;
     var keyToAdd = $("#accountToAddInfo")[0].value;
     var labelToAdd = $("#accountLabelToAddInfo")[0].value;
+
     if (labelToAdd === "")
-        labelToAdd = "ImportedWallet_From_" + type;
+        labelToAdd = makeid(5) + "_From_" + type;
 
     if (keyToAdd == "") {
         swal2Simple("Error when adding " + type, "Empty key", 5500, "error");
         return false;
     }
+
     if (type == 'address' && !Neon.wallet.isAddress(keyToAdd)) {
         swal2Simple("Error when adding " + type, "Not valid", 5500, "error");
         return false;
@@ -41,20 +55,14 @@ function addWalletFromForm() {
         return false;
     }
 
-    if (["publickey", "address", "scripthash"].includes(type)) {
+    if (["publickey", "address", "scripthash", "privatekey", "wif"].includes(type)) {
         var accountToAdd = new Neon.wallet.Account(keyToAdd);
-        addAccountAndDraw(accountToAdd, labelToAdd);
+        addSafeAccount(accountToAdd, labelToAdd);
     }
 
     if (type == 'multisig') {
         var accountToAdd = getAccountFromMultiSigVerification(keyToAdd);
-        addAccountAndDraw(accountToAdd, labelToAdd);
-    }
-
-    // These are more complex because requires encrypting data and setting a master key
-    if (["privatekey", "wif"].includes(type)) {
-        var accountToAdd = new Neon.wallet.Account(keyToAdd);
-        addSafeAccount(accountToAdd, labelToAdd)
+        addSafeAccount(accountToAdd, labelToAdd);
     }
 
     // Even more complex because requires first decrypting
@@ -71,12 +79,12 @@ function addAccountAndDraw(accountToAdd, labelToAdd) {
 function addSafeAccount(accountToAdd, labelToAdd) {
     //Asks for password if privatekey or wif or encrypted
     if (MASTER_KEY_WALLET != "") {
-        swal2Simple("Your master key isalready defined", "This account will be linked to your password.\n Remember it!", 5500, "success");
+        swal2Simple("Your master key is already defined", "This account will be linked to your password.\n Remember it!", 5500, "success");
         addAccountAndDraw(accountToAdd, labelToAdd);
     } else {
         setMasterKey(() => {
             addAccountAndDraw(accountToAdd, labelToAdd);
-        }, "Restoring account from WIF/PrivateKey/EncryptedKey");
+        }, "Importing new account");
     }
 }
 
@@ -131,7 +139,7 @@ function setMasterKey(callback, labelToAdd, loading = false) {
                 $("#btnAddNewAccount")[0].disabled = true;
                 $("#btnLoadSavedAccount")[0].disabled = false;
             }
-            swal2Simple("Nothing will happen!!", "A password is needed for this action.", 0, "error");
+            swal2Simple("You are blocked from importing new accounts!", "A MasterKey is needed for continuing.", 0, "error");
             //callback();
         }
     });

@@ -290,6 +290,14 @@ body {
     background: #154d44;
 }
 
+.btn-1-darker-danger {
+    background: #5f1b1d;
+}
+
+.btn-1-darker-danger:hover {
+    background: #f25e63;
+}
+
 /* END SIMPLE BTN */
 
 .preloader .spinner-grow {

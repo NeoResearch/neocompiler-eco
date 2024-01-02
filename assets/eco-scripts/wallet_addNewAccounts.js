@@ -4,18 +4,6 @@ function togglePasswordSwal() {
     passwordField.attr('type', passwordFieldType === 'password' ? 'text' : 'password');
 }
 
-//Function to generated label to imported account
-function makeid(length) {
-    let id = '';
-    const labelCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let counter = 0;
-    while (counter < length) {
-        id += labelCharacters.charAt(Math.floor(Math.random() * labelCharacters.length));
-        counter += 1;
-    }
-    return id;
-}
-
 //First verifications for adding new wallet
 function addWalletFromForm() {
     var type = $("#type_to_register")[0].value;

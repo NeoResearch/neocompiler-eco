@@ -293,3 +293,17 @@ function hexToBase64(hexstr) {
     const str = hexstring2str(hexstr);
     return btoa(str);
 }
+
+
+
+//Function to generated random IDS
+function makeid(length) {
+    let id = '';
+    const labelCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let counter = 0;
+    while (counter < length) {
+        id += labelCharacters.charAt(Math.floor(Math.random() * labelCharacters.length));
+        counter += 1;
+    }
+    return id;
+}

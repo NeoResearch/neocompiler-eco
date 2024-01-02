@@ -225,11 +225,11 @@ function askForSavingContracts(changeToExample = true) {
         buttonsStyling: false
     });
     swalWithBootstrapButtons.fire({
-        title: "Want to save codes to local storage?",
-        icon: "warning",
+        title: "Do you want to save your " + Editor.tabs + 1 + " files in your browser local storage?",
+        icon: "question",
         showDenyButton: true,
         confirmButtonText: "Yes, save it!",
-        denyButtonText: "No",
+        denyButtonText: "No. Clean it.",
         timer: 15000,
         color: "#00AF92",
         background: "#263A40",
@@ -249,16 +249,14 @@ function askForSavingContracts(changeToExample = true) {
                 html: htmlText,
                 color: "#00AF92",
                 background: "#263A40",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var fileName = document.getElementById("swal-filename").value;
-                    if (!fileName)
-                        fileName = "saved_" + SELECTED_COMPILER;
+            }).then(() => {
+                var fileName = document.getElementById("swal-filename").value;
+                if (!fileName)
+                    fileName = makeid(5) + "_" + SELECTED_COMPILER;
 
-                    saveSCExample(fileName);
-                    if (changeToExample)
-                        setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
-                }
+                saveSCExample(fileName);
+                if (changeToExample)
+                    setExample(SELECTED_COMPILER, $("#ExampleList")[0].selectedIndex);
             });
 
             /*
@@ -291,7 +289,7 @@ function askForDeletingContract() {
     });
     swalWithBootstrapButtons.fire({
         title: "Want to delete contract " + key + "?",
-        icon: "warning",
+        icon: "question",
         showCancelButton: true,
         confirmButtonText: "Yes, delete it!",
         cancelButtonText: "No",

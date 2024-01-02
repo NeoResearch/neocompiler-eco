@@ -86,6 +86,7 @@ Editor = {
         // commented because it was changing tab
         //anchorElement.href = "#nav-compilers/";
         anchorElement.appendChild(iElement);
+        anchorElement.href = "#nav-compilers/";
         var textChild = document.createElement('SPAN');
         var fileType = ".cs";
         if ($("#codesend_selected_compiler")[0].value === "Python") {

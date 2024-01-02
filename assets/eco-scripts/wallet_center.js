@@ -541,7 +541,7 @@ function askToConnectToDapi() {
 
 function checkIfWalletIsConnected() {
     if (CONNECTED_WALLET_ID == -1) {
-        swal2Simple("No Wallet", "Connect a wallet and select an account first!", 5500, "error");
+        swal2Simple("Wallet not found!", "Connect a wallet and select an account first!", 5500, "error");
         // Blink Wallet button for some couple of time
         addBlinkToElement("#button-connect-wallet");
         return false;

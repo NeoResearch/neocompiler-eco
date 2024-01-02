@@ -284,8 +284,9 @@ function checkNativeOrLocalExistedAndSwal(contractHashToAdd) {
 
     var checkResultLocalContracts = checkIfLocalContractExists(contractHashToAdd);
     if (checkResultLocalContracts != -1) {
-        var sText = "This is a Native Contract!" + "Local Contract is already listed!" + "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash;
-        swal2Simple("Contract exists", sText, 5500, "error");
+        var sTitle = "Local Contract is already listed!";
+        var sText = "Before adding it to Local Contract you should delete " + LOCAL_CONTRACTS[checkResultLocalContracts].manifest.name + " with hash " + LOCAL_CONTRACTS[checkResultLocalContracts].hash;
+        swal2Simple(sTitle, sText, 5500, "error");
         return true;
     }
 
@@ -294,9 +295,12 @@ function checkNativeOrLocalExistedAndSwal(contractHashToAdd) {
 
 function saveLocalContract() {
     var contractHashToAdd = $("#import_contract_hash").val();
+
+    // if start with 0x cuts it
     if (contractHashToAdd.slice(0, 2) === "0x")
         contractHashToAdd = contractHashToAdd.slice(2);
 
+    // verify if scripthash is correct
     if (!Neon.default.is.scriptHash(contractHashToAdd)) {
         swal2Simple("Saving contract problems", "Invalid scripthash!", 5500, "error");
         return;
@@ -326,7 +330,8 @@ function saveLocalContract() {
         },
         "json" // The format the response should be in
     ).fail(function () {
-        console.log("Error when trying to get getnativecontracts");
+        console.error("Error when trying to get getcontractstate inside function");
+        swal2Simple("Error when trying to get getcontractstate inside function", "Json call error", 5500, "error");
     }); //End of POST for search
 }
 

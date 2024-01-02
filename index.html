@@ -439,6 +439,9 @@
                             <div class="row mb-2 collapse show" id="hidden_notification_contracts">
                                 <div class="row mb-2">
                                     <div class="col-md-6">
+                                        <label for="native_methods">ABI Methods</label>
+                                    </div>
+                                    <div class="col-md-6">
                                         <label for="notification_contracts">Additional Contracts</label>
                                         <button type="submit" onclick="btnAdditionalContractsSave()"
                                             class="btn btn-success btn-sm">
@@ -453,22 +456,23 @@
                                 <div class="row mb-2">
                                     <div class="col-md-6">
                                         <div class="form-group">
+                                            <select onchange="drawParametersTable()" id="contract_methods"
+                                                class="form-select checkedOption" size="8"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
                                             <select id="notification_contracts" name="notification_contracts"
                                                 onchange="createNotificationManifest()"
                                                 class="form-select checkedOption" size="8"></select>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             <div class="row mb-2">
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="native_methods">ABI Methods</label>
-                                        <select onchange="drawParametersTable()" id="contract_methods"
-                                            class="form-select checkedOption" size="8"></select>
-                                    </div>
+
                                 </div>
                             </div>
 
@@ -494,17 +498,16 @@
                     <div class="standardContainer" style="margin-bottom: 30px;">
                         <h4 class="green-title">
                             Import Contract
+                            <button type="button" onclick="saveLocalContract();" id="btnAddNewAccount"
+                                class="btn btn-success btn-sm">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
                         </h4>
                         <div class="container">
                             <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <button id="import_contract_hash_button" type="button" onclick="saveLocalContract()"
-                                        style="width: 100%;" class="btn btn-1"><i class="fas fa-file-contract"></i> Save
-                                        contract</button>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <input id="import_contract_hash" name="import_contract_hash" class="form-control"
-                                        placeholder="Insert contract script hash">
+                                        placeholder="Contract Script Hash (example: 0xacce6fd80d44e1796aa0c2c625e9e4e0ce39efc0)">
                                 </div>
                             </div>
                         </div>

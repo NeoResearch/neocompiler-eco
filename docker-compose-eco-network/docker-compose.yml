@@ -11,7 +11,7 @@ networks:
 
 services:
 # ================================================================================
-# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
+# ================== OPEN CONTAINER WITH Neo.CLI CONSENSUS NODES AND RPC =========
   eco-neo-csharp-node1-running:
     image: eco-neo-csharp-node:latest
     container_name: "eco-neo-csharp-node1-running"
@@ -20,13 +20,13 @@ services:
       - "20333:20333"
       - "30333:30333"
     volumes:
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1.json:/opt/node/neo-cli/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer1.json:/opt/node/neo-cli/Plugins/RpcServer/config.json   
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet1.json:/opt/node/neo-cli/wallet1.json
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node1:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1.json:/opt/node/Neo.CLI/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer1.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json   
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet1.json:/opt/node/Neo.CLI/wallet1.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node1:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -55,13 +55,13 @@ services:
       - "20334:20334"
       - "30334:30334"
     volumes:
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config2.json:/opt/node/neo-cli/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer2.json:/opt/node/neo-cli/Plugins/RpcServer/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json    
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet2.json:/opt/node/neo-cli/wallet2.json
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node2:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config2.json:/opt/node/Neo.CLI/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer2.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json    
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet2.json:/opt/node/Neo.CLI/wallet2.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node2:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -90,10 +90,10 @@ services:
       - "20335:20335"
       - "30335:30335"
     volumes:
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config3.json:/opt/node/neo-cli/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet3.json:/opt/node/neo-cli/wallet3.json
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node3:/opt/node/neo-cli/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config3.json:/opt/node/Neo.CLI/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet3.json:/opt/node/Neo.CLI/wallet3.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node3:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
       test:
         - CMD
@@ -122,10 +122,10 @@ services:
       - "20336:20336"
       - "30336:30336"
     volumes:
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config4.json:/opt/node/neo-cli/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/wallet4.json:/opt/node/neo-cli/wallet4.json
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node4:/opt/node/neo-cli/Logs/ConsensusService         
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config4.json:/opt/node/Neo.CLI/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet4.json:/opt/node/Neo.CLI/wallet4.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node4:/opt/node/Neo.CLI/Logs/ConsensusService         
     healthcheck:
       test:
         - CMD
@@ -154,21 +154,21 @@ services:
       - "20337:20337"
       - "30337:30337"
     volumes:
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/config1RPC.json:/opt/node/neo-cli/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/appLogConfig.json:/opt/node/neo-cli/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/rpcServer3.json:/opt/node/neo-cli/Plugins/RpcServer/config.json     
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/tokensTracker.json:/opt/node/neo-cli/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/statesDumper.json:/opt/node/neo-cli/Plugins/StatesDumper/config.json
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/getIncStorage.sh:/opt/getIncStorage.sh
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/dBFT.json:/opt/node/neo-cli/Plugins/DBFTPlugin/config.json      
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/wallets/walletRpc.json:/opt/node/neo-cli/walletRpc.json      
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc:/opt/node/neo-cli/Logs/ConsensusService
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/oracleService.json:/opt/node/neo-cli/Plugins/OracleService/config.json      
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/neo-cli/Logs/OracleHttpsProtocol
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/neo-cli/Logs/OracleService
-      - $ECO_PWD/docker-compose-eco-network/neo-cli/configs/plugins/stateService.json:/opt/node/neo-cli/Plugins/StateService/config.json
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/neo-cli/Logs/VerificationService
-      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/neo-cli/Logs/VerificationContext       
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1RPC.json:/opt/node/Neo.CLI/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json     
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/statesDumper.json:/opt/node/Neo.CLI/Plugins/StatesDumper/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/getIncStorage.sh:/opt/getIncStorage.sh
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/walletRpc.json:/opt/node/Neo.CLI/walletRpc.json      
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc:/opt/node/Neo.CLI/Logs/ConsensusService
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/oracleService.json:/opt/node/Neo.CLI/Plugins/OracleService/config.json      
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/Neo.CLI/Logs/OracleHttpsProtocol
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/Neo.CLI/Logs/OracleService
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/stateService.json:/opt/node/Neo.CLI/Plugins/StateService/config.json
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/Neo.CLI/Logs/VerificationService
+      - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/Neo.CLI/Logs/VerificationContext       
     depends_on:
       - eco-neo-csharp-node1-running
     healthcheck:
@@ -187,7 +187,7 @@ services:
         - private_net
         - inside_auto_heal
 
-# ================== OPEN CONTAINER WITH NEO-CLI CONSENSUS NODES AND RPC =========
+# ================== OPEN CONTAINER WITH Neo.CLI CONSENSUS NODES AND RPC =========
 # ================================================================================
 
 

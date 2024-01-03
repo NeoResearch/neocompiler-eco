@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# This script starts a neo-cli node
+# This script starts a Neo.CLI node
 
-#screen -L -dmS node1RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/
-#screen -L -dmS node2RPC expect /opt/start_rpc_node.sh /opt/node/neo-cli/
-#screen -L -dmS node1 expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet1.json one callRPC
-#screen -L -dmS node2 expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet2.json two 0
-#screen -L -dmS node3 expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet3.json three 0
-#screen -L -dmS node4 expect /opt/start_consensus_node.sh /opt/node/neo-cli/ wallet4.json four 0
+#screen -L -dmS node1RPC expect /opt/start_rpc_node.sh /opt/node/Neo.CLI/
+#screen -L -dmS node2RPC expect /opt/start_rpc_node.sh /opt/node/Neo.CLI/
+#screen -L -dmS node1 expect /opt/start_consensus_node.sh /opt/node/Neo.CLI/ wallet1.json one callRPC
+#screen -L -dmS node2 expect /opt/start_consensus_node.sh /opt/node/Neo.CLI/ wallet2.json two 0
+#screen -L -dmS node3 expect /opt/start_consensus_node.sh /opt/node/Neo.CLI/ wallet3.json three 0
+#screen -L -dmS node4 expect /opt/start_consensus_node.sh /opt/node/Neo.CLI/ wallet4.json four 0
 
 # wait for everybody
 echo "COMECOU AGORA" > /testes.log
@@ -39,12 +39,12 @@ echo $IP_SERVER3 >> /testes.log
 echo $IP_SERVER4 >> /testes.log
 
 #Since files provided by docker-compose are shared locally it is better to copy before changing
-#cp /opt/node/neo-cli/protocolNeoCompiler.json /opt/node/neo-cli/protocol.json
+#cp /opt/node/Neo.CLI/protocolNeoCompiler.json /opt/node/Neo.CLI/protocol.json
 
-sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/neo-cli/config.json
-sed -i -e "s/eco-neo-csharp-node2-running/$IP_SERVER2/g" /opt/node/neo-cli/config.json
-sed -i -e "s/eco-neo-csharp-node3-running/$IP_SERVER3/g" /opt/node/neo-cli/config.json
-sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/config.json
+sed -i -e "s/eco-neo-csharp-node1-running/$IP_SERVER1/g" /opt/node/Neo.CLI/config.json
+sed -i -e "s/eco-neo-csharp-node2-running/$IP_SERVER2/g" /opt/node/Neo.CLI/config.json
+sed -i -e "s/eco-neo-csharp-node3-running/$IP_SERVER3/g" /opt/node/Neo.CLI/config.json
+sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/Neo.CLI/config.json
 
 #Trying to normally all dockers
 #sleep 1
@@ -52,26 +52,26 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/neo-cli/confi
 
 if [[ ${IS_ORACLE} = "0" ]]; then
 	echo "Deleting Oracle"
-	rm /opt/node/neo-cli/Plugins/OracleService.dll
+	rm /opt/node/Neo.CLI/Plugins/OracleService.dll
 	sleep 1
 fi
 
 if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"
-	rm /opt/node/neo-cli/Plugins/RpcServer.dll
-	rm /opt/node/neo-cli/Plugins/TokensTracker.dll
-	rm /opt/node/neo-cli/Plugins/ApplicationLogs.dll
-	rm /opt/node/neo-cli/Plugins/StateService.dll	
+	rm /opt/node/Neo.CLI/Plugins/RpcServer.dll
+	rm /opt/node/Neo.CLI/Plugins/TokensTracker.dll
+	rm /opt/node/Neo.CLI/Plugins/ApplicationLogs.dll
+	rm /opt/node/Neo.CLI/Plugins/StateService.dll	
 	sleep 1
 fi
 
 if [[ ${IS_RPC_CLIENT} = "0" ]]; then
 	echo "Deleting RpcClient"
-	rm /opt/node/neo-cli/Plugins/RpcClient.dll
+	rm /opt/node/Neo.CLI/Plugins/RpcClient.dll
 	sleep 1
 fi
 
-echo "LAUNCHING neo-cli...";
+echo "LAUNCHING Neo.CLI...";
 screen -L -dmS node /opt/start_node.sh
 
 service cron restart

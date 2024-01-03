@@ -1,4 +1,5 @@
 # NEO csharp-nodes network simulator
+# https://hub.docker.com/_/microsoft-dotnet-aspnet/
 FROM mcr.microsoft.com/dotnet/aspnet:7.0.14-jammy
 
 LABEL maintainer="NeoResearch"

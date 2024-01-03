@@ -10,14 +10,13 @@
       "Path": "Data_LevelDB_{0}"
     },
     "P2P": {
-      "Port": 20334,
-      "WsPort": 10334,
+      "Port": 20335,
       "MinDesiredConnections": 10,
       "MaxConnections": 40,
       "MaxConnectionsPerAddress": 10
     },
     "UnlockWallet": {
-      "Path": "wallet2.json",
+      "Path": "./wallet3.json",
       "Password": "one",
       "IsActive": true
     }

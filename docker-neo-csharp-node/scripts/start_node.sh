@@ -1,2 +1,2 @@
 #!/bin/bash
-(cd /opt/node/neo-cli/; dotnet neo-cli.dll)
+(cd /opt/node/Neo.CLI/; dotnet neo-cli.dll)

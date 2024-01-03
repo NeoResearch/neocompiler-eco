@@ -23,6 +23,5 @@ RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.CSharp && dotnet build)
 RUN mkdir /neo-devpack-dotnet/src/Template.CSharpNeoCompiler
 COPY file.csproj /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/NeoCompilerContractGenerated.csproj
 
-
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT /entrypoint.sh

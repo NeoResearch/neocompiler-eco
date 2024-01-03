@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <BaseNameArgument Condition="'$(AssemblyName)' != ''">--base-name $(AssemblyName)</BaseNameArgument>
-    <BaseNameArgument Condition="'$(AssemblyName)' == ''">--base-name $(MSBuildProjectName)</BaseNameArgument> 
     <CheckedArgument Condition="'$(CheckForOverflowUnderflow)' == 'true'">--checked</CheckedArgument>
     <TargetFramework>net7.0</TargetFramework>
+    <Nullable>disable</Nullable>    
   </PropertyGroup>
 
   <ItemGroup>  
@@ -14,7 +13,7 @@
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Message Text="Start NeoContract converter, Source File: $(TargetPath) - Project Path $(ProjectPath)" Importance="high">
     </Message>
-    <Exec Command="/neo-devpack-dotnet/src/Neo.Compiler.CSharp/bin/$(ConfigurationName)/net7.0/nccs $(CheckedArgument) $(BaseNameArgument) &quot;$(ProjectPath)&quot;" />
+    <Exec Command="/neo-devpack-dotnet/src/Neo.Compiler.CSharp/bin/$(ConfigurationName)/net7.0/nccs $(CheckedArgument) &quot;$(ProjectPath)&quot;" />
   </Target>
   
 </Project>

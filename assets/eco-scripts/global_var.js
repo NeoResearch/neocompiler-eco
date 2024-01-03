@@ -1,5 +1,6 @@
 var cSharpFiles = [
     ["./assets/sc_examples/csharp/HelloWorld.cs"],
+    ["./assets/sc_examples/csharp/HelloWorld-Core.cs"],
     ["./assets/sc_examples/csharp/Oracle.cs"],
     [
         ["./assets/sc_examples/csharp/AssetCombiner/AssetCombiner.cs"],
@@ -13,16 +14,15 @@ var cSharpFiles = [
         ["./assets/sc_examples/csharp/NNS/RecordState.cs"]
     ],
     [
+        ["./assets/sc_examples/csharp/NFT-Core/Token.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Loot.Admin.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Loot.cs"],
-        ["./assets/sc_examples/csharp/NFT-Core/Token.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Token.Item.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Tools.cs"]
     ],
     ["./assets/sc_examples/csharp/ContractCall-Core.cs"],
     ["./assets/sc_examples/csharp/Event-Core.cs"],
     ["./assets/sc_examples/csharp/Exception-Core.cs"],
-    ["./assets/sc_examples/csharp/HelloWorld-Core.cs"],
     ["./assets/sc_examples/csharp/Inscription-Core.cs"],
     ["./assets/sc_examples/csharp/Modifier-Core.cs"],
     ["./assets/sc_examples/csharp/Nep17Token-Core.cs"],

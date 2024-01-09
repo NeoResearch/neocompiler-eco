@@ -52,24 +52,32 @@ sed -i -e "s/eco-neo-csharp-node4-running/$IP_SERVER4/g" /opt/node/Neo.CLI/confi
 
 if [[ ${IS_ORACLE} = "0" ]]; then
 	echo "Deleting Oracle"
-	rm /opt/node/Neo.CLI/Plugins/OracleService.dll
+	rm -r /opt/node/Neo.CLI/Plugins/OracleService
 	sleep 1
 fi
 
 if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	echo "Deleting RPCServer"
-	rm /opt/node/Neo.CLI/Plugins/RpcServer.dll
-	rm /opt/node/Neo.CLI/Plugins/TokensTracker.dll
-	rm /opt/node/Neo.CLI/Plugins/ApplicationLogs.dll
-	rm /opt/node/Neo.CLI/Plugins/StateService.dll	
+	rm -r /opt/node/Neo.CLI/Plugins/RpcServer
+	rm -r /opt/node/Neo.CLI/Plugins/TokensTracker
+	rm -r /opt/node/Neo.CLI/Plugins/ApplicationLogs
+	rm -r /opt/node/Neo.CLI/Plugins/StateService
 	sleep 1
 fi
 
 if [[ ${IS_RPC_CLIENT} = "0" ]]; then
 	echo "Deleting RpcClient"
-	rm /opt/node/Neo.CLI/Plugins/RpcClient.dll
+	rm -r /opt/node/Neo.CLI/Plugins/RpcClient
 	sleep 1
 fi
+
+if [[ ${IS_REST_SERVER} = "0" ]]; then
+	echo "Deleting RestServer"
+	rm -r /opt/node/Neo.CLI/Plugins/RestServer
+	sleep 1
+fi
+
+
 
 echo "LAUNCHING Neo.CLI...";
 screen -L -dmS node /opt/start_node.sh

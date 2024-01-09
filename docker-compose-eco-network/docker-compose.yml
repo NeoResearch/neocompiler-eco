@@ -41,6 +41,7 @@ services:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
       IS_ORACLE: 0
+      IS_REST_SERVER: 0      
     labels:
       autoheal: 'true'
     networks:
@@ -75,7 +76,8 @@ services:
     environment:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
-      IS_ORACLE: 0      
+      IS_ORACLE: 0
+      IS_REST_SERVER: 0         
     labels:
       autoheal: 'true'
     networks:
@@ -107,7 +109,8 @@ services:
     environment:
       IS_RPC_SERVER: 0
       IS_RPC_CLIENT: 0
-      IS_ORACLE: 0      
+      IS_ORACLE: 0
+      IS_REST_SERVER: 0           
     labels:
       autoheal: 'true'
     networks:
@@ -139,7 +142,8 @@ services:
     environment:
       IS_RPC_SERVER: 0
       IS_RPC_CLIENT: 0
-      IS_ORACLE: 0      
+      IS_ORACLE: 0
+      IS_REST_SERVER: 0      
     labels:
       autoheal: 'true'
     networks:
@@ -153,10 +157,12 @@ services:
     ports:
       - "20337:20337"
       - "30337:30337"
+      - "40337:40337"      
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1RPC.json:/opt/node/Neo.CLI/config.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json     
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/restServer.json:/opt/node/Neo.CLI/Plugins/RestServer/config.json       
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/statesDumper.json:/opt/node/Neo.CLI/Plugins/StatesDumper/config.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/getIncStorage.sh:/opt/getIncStorage.sh
@@ -180,7 +186,8 @@ services:
     environment:
       IS_RPC_SERVER: 1
       IS_RPC_CLIENT: 0
-      IS_ORACLE: 1      
+      IS_REST_SERVER: 1
+      IS_ORACLE: 1
     labels:
       autoheal: 'true'
     networks:

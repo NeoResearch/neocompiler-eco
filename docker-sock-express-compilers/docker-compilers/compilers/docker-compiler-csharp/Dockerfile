@@ -14,6 +14,7 @@ ARG COMPILER_COMMIT_DEVPACK
 
 #Adding Desired Neo-DevPack-Dotnet which contains both framework and MSIL
 RUN git clone $REPO_DEVPACK && (cd /neo-devpack-dotnet && git checkout $BRANCH_DEVPACK && git checkout $COMPILER_COMMIT_DEVPACK)
+RUN cd /neo-devpack-dotnet/ && ./scripts/load_submodule.sh
 RUN (cd /neo-devpack-dotnet/src/Neo.SmartContract.Framework && dotnet restore)
 RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.CSharp && dotnet restore)
 RUN (cd /neo-devpack-dotnet/src/Neo.Compiler.CSharp && dotnet build)

@@ -21,10 +21,10 @@ services:
       - "30333:30333"
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1.json:/opt/node/Neo.CLI/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer1.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json   
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/ApplicationLogs.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer1.json:/opt/node/Neo.CLI/Plugins/RpcServer/RpcServer.json   
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/TokensTracker.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/DBFTPlugin.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet1.json:/opt/node/Neo.CLI/wallet1.json
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node1:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
@@ -57,10 +57,10 @@ services:
       - "30334:30334"
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config2.json:/opt/node/Neo.CLI/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer2.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json    
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/ApplicationLogs.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer2.json:/opt/node/Neo.CLI/Plugins/RpcServer/RpcServer.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/TokensTracker.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/DBFTPlugin.json    
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet2.json:/opt/node/Neo.CLI/wallet2.json
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node2:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
@@ -93,7 +93,7 @@ services:
       - "30335:30335"
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config3.json:/opt/node/Neo.CLI/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/DBFTPlugin.json      
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet3.json:/opt/node/Neo.CLI/wallet3.json
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node3:/opt/node/Neo.CLI/Logs/ConsensusService
     healthcheck:
@@ -126,7 +126,7 @@ services:
       - "30336:30336"
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config4.json:/opt/node/Neo.CLI/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/DBFTPlugin.json      
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/wallet4.json:/opt/node/Neo.CLI/wallet4.json
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-node4:/opt/node/Neo.CLI/Logs/ConsensusService         
     healthcheck:
@@ -160,19 +160,18 @@ services:
       - "40337:40337"      
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1RPC.json:/opt/node/Neo.CLI/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/config.json     
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/restServer.json:/opt/node/Neo.CLI/Plugins/RestServer/config.json       
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/config.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/statesDumper.json:/opt/node/Neo.CLI/Plugins/StatesDumper/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/ApplicationLogs.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/RpcServer.json    
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/TokensTracker.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/statesDumper.json:/opt/node/Neo.CLI/Plugins/StatesDumper/StatesDumper.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/getIncStorage.sh:/opt/getIncStorage.sh
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/dBFT.json:/opt/node/Neo.CLI/Plugins/DBFTPlugin/DBFTPlugin.json      
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/wallets/walletRpc.json:/opt/node/Neo.CLI/walletRpc.json      
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc:/opt/node/Neo.CLI/Logs/ConsensusService
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/oracleService.json:/opt/node/Neo.CLI/Plugins/OracleService/config.json      
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/oracleService.json:/opt/node/Neo.CLI/Plugins/OracleService/OracleService.json      
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oraclehttps:/opt/node/Neo.CLI/Logs/OracleHttpsProtocol
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-oracleservice:/opt/node/Neo.CLI/Logs/OracleService
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/stateService.json:/opt/node/Neo.CLI/Plugins/StateService/config.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/stateService.json:/opt/node/Neo.CLI/Plugins/StateService/StateService.json
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationservice:/opt/node/Neo.CLI/Logs/VerificationService
       - $ECO_PWD/docker-compose-eco-network/nodes-logs/logs-neocli-noderpc-verificationcontext:/opt/node/Neo.CLI/Logs/VerificationContext       
     depends_on:

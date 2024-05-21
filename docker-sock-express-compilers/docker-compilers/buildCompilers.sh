@@ -22,7 +22,7 @@ fi
 #Building all available version of compilers
 if (($BUILD_ALL_CSHARP)); then
 	echo "BUILDING all C# compilers"
-	(cd compilers/docker-compiler-csharp; ./docker_build_list_of_compilers.sh)
+	(cd compilers/docker-compiler-csharp; ./list_of_compilers_docker_build.sh)
 else
 	echo "SKIPING build of all C# Compilers";
 fi

@@ -33,8 +33,5 @@ ADD ./scripts/run.sh /opt/
 #Script used to simple start RPC
 ADD ./scripts/start_node.sh /opt/
 
-#Script used to modify neo-cli protocol characteristcs - currently, change secondsperblock
-#ADD ./scripts/updateConsensusCharacteristics.sh /opt/
-
 # On docker run, start the consensus nodes
 CMD ["/bin/bash", "/opt/run.sh"]

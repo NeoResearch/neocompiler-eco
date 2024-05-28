@@ -82,6 +82,4 @@ fi
 echo "LAUNCHING Neo.CLI...";
 screen -L -dmS node /opt/start_node.sh
 
-service cron restart
-
 sleep infinity

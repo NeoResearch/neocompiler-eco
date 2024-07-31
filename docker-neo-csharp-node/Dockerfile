@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	    expect \
 	    libsnappy-dev \
 	    libleveldb-dev \
+	    librocksdb-dev \
 	    wget \
 	    curl \
 	    nano \

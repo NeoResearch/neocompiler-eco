@@ -1,0 +1,33 @@
+networks:
+  private_net:
+    external: true
+
+volumes:
+  neofs_chain_inner_ring:
+
+services:
+  neofs-innerring:
+    image: nspccdev/neofs-ir:0.43.0
+    hostname: neofs-innerring
+    container_name: neofs-innerring
+    restart: "no"
+    ports:
+      - "5002:5002"
+      - "5003:5003"
+      - "5004:5004"
+    networks:
+      - private_net
+    stop_signal: SIGKILL
+    volumes:
+      - neofs_chain_inner_ring:/neofs_chain/
+      - ./cfg:/etc/neofs/ir
+      - ./az.json:/wallet.json
+      - ./cli-cfg.yml:/cli-cfg.yml
+      - ../neofs-cli:/neofs-cli
+    command: [ "neofs-ir", "--config", "/etc/neofs/ir/config.yml" ]
+    healthcheck:
+      test: ["CMD", "/neofs-cli", "control", "healthcheck", "-c", "/cli-cfg.yml", "--endpoint", "localhost:5002", "--ir"]
+      interval: 5s
+      timeout: 5s
+      retries: 600
+      start_period: 60s

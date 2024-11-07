@@ -1,0 +1,64 @@
+# Logger section
+logger:
+  level: debug # Minimum enabled logging level
+
+# Profiler section
+pprof:
+  enabled: false
+  address: :9080  # Server address
+  shutdown_timeout: 15s  # Timeout for profiling HTTP server graceful shutdown
+
+# Application metrics section
+prometheus:
+  enabled: false
+  address: :9090  # Server address
+  shutdown_timeout: 15s  # Timeout for metrics HTTP server graceful shutdown
+
+# NeoFS chain section
+morph:
+  dial_timeout: 60s  # Timeout for side chain NEO RPC client connection
+  endpoints:  # Side chain NEO RPC endpoints
+    - ws://neofs-innerring:5003/ws
+
+# Tree section
+tree:
+  enabled: true
+
+# Storage engine configuration
+storage:
+  shard:
+    0:
+      writecache:
+        enabled: false
+        path: /storage/wc0  # Write-cache root directory
+
+      metabase:
+        path: /storage/meta0  # Path to the metabase
+
+      blobstor:
+        - type: peapod
+          path: /storage/peapod0.db
+        - type: fstree
+          path: /storage/fstree0  # FSTree root directory
+          depth: 2
+
+      pilorama:
+        path: /storage/pilorama0  # Path to the pilorama database
+
+    1:
+      writecache:
+        enabled: false
+        path: /storage/wc1  # Write-cache root directory
+
+      metabase:
+        path: /storage/meta1  # Path to the metabase
+
+      blobstor:
+        - type: peapod
+          path: /storage/peapod1.db
+        - type: fstree
+          path: /storage/fstree1  # FSTree root directory
+          depth: 2
+
+      pilorama:
+        path: /storage/pilorama1  # Path to the pilorama database

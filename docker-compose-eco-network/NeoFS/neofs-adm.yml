@@ -1,0 +1,4 @@
+rpc-endpoint: http://localhost:5003
+credentials:
+  az: "one"
+  contract: "one"

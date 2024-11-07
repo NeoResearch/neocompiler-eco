@@ -12,7 +12,7 @@
       "Timeout": 5000
     },
     "NeoFS": {
-      "EndPoint": "http://127.0.0.1:8080",
+      "EndPoint": "http://neofs-storage-node:5005",
       "Timeout": 15000
     },
     "AutoStart": true

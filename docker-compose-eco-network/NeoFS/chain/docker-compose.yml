@@ -1,0 +1,44 @@
+networks:
+  private_net:
+    external: true
+
+services:
+  neofs-main-chain:
+    image: nspccdev/neo-go:0.106.3
+    container_name: neofs-main-chain
+    command: ["node", "--config-path", "/config", "--privnet", "--debug"]
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    healthcheck:
+      test: [ "CMD", "/neo-go", "query", "height", "-r", "http://127.0.0.1:5000" ]
+      interval: 5s
+      timeout: 1s
+      retries: 5
+      start_period: 5s
+    hostname: neofs-main-chain
+    restart: "no"
+    networks:
+      - private_net
+    stop_signal: SIGKILL
+    volumes:
+    # config file
+    - ./protocol.privnet.yml:/config/protocol.privnet.yml
+    # wallet of this node
+    - ./neofs-main-chain-wallet.json:/wallets/neofs-main-chain-wallet.json
+    # wallets of neocompiler nodes
+    - ../../Neo.CLI/wallets/wallet1.json:/wallets/wallet1.json
+    - ../../Neo.CLI/wallets/wallet2.json:/wallets/wallet2.json
+    - ../../Neo.CLI/wallets/wallet3.json:/wallets/wallet3.json
+    # multipurpose wallet
+    - ../multipurpose-wallet/wallet.json:/wallets/multipurpose-wallet.json
+    # wallets' configs
+    - ./neofs-main-chain-wallet-config.yml:/wallets/neofs-main-chain-wallet-config.yml
+    - ./neo-wallet1-config.yml:/wallets/neo-wallet1-config.yml
+    - ./neo-wallet2-config.yml:/wallets/neo-wallet2-config.yml
+    - ./neo-wallet3-config.yml:/wallets/neo-wallet3-config.yml
+    - ../multipurpose-wallet/config.yml:/wallets/multipurpose-wallet-config.yml
+    # binaries and directory with neofs-contract
+    - ../neo-go:/neo-go
+    - ../neofs-cli:/neofs-cli
+    - ../neofs-contract:/neofs-contract

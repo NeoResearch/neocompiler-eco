@@ -6,7 +6,7 @@
       "Active": true
     },    
     "Storage": {
-      "Engine": "LevelDBStore",
+      "Engine": "RocksDBStore",
       "Path": "Data_LevelDB_{0}"
     },
     "P2P": {

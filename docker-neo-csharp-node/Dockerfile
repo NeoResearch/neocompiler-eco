@@ -1,6 +1,6 @@
 # NEO csharp-nodes network simulator
 # https://hub.docker.com/_/microsoft-dotnet-aspnet/
-FROM mcr.microsoft.com/dotnet/aspnet:8.0.3-jammy
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

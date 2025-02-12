@@ -1,1 +1,56 @@
-{"name":null,"version":"1.0","scrypt":{"n":16384,"r":8,"p":8},"accounts":[{"address":"Nii9kBJ3p9EVCVAsiQTvDpk5GsTZxWADSm","label":null,"isDefault":false,"lock":false,"key":"6PYQSMuevDXx6AdiuPkoKTH4RdedSK5NQV6Dg2qz8MMBQnysJvT8UwY3aA","contract":{"script":"DCECjbtCkzn/hcvwygX29QqapyAROMpkWKXjx4Nn\u002BQS4nS9BVuezJw==","parameters":[{"name":"signature","type":"Signature"}],"deployed":false},"extra":null},{"address":"NforeidHBjJDK6sGdxiAMRfQwW8UnkwMFm","label":null,"isDefault":false,"lock":false,"key":"6PYLXgdYBcgKHSrkFQzgaSzRNDPTrg9W55uWMdqFiYv3muCyxtt6nBfawP","contract":{"script":"EwwhA1zR9GrhQorBpNC7XVPtiRVXCfnnZ6voOaQCNJSUrWVQDCECf8MjXSSxDgcBAltpaDPynqOMmq6A4Ts92U0Aqsmw1IsMIQKNu0KTOf\u002BFy/DKBfb1CpqnIBE4ymRYpePHg2f5BLidLwwhA7vEo2UkjJZSANeVfiV14U6TKgT35D\u002BDTGibvctybETDFEGe0Nw6","parameters":[{"name":"parameter0","type":"Signature"},{"name":"parameter1","type":"Signature"},{"name":"parameter2","type":"Signature"}],"deployed":false},"extra":null}],"extra":null}
+{
+    "name": null,
+    "version": "1.0",
+    "scrypt": {
+        "n": 16384,
+        "r": 8,
+        "p": 8
+    },
+    "accounts": [
+        {
+            "address": "Nii9kBJ3p9EVCVAsiQTvDpk5GsTZxWADSm",
+            "label": null,
+            "isDefault": false,
+            "lock": false,
+            "key": "6PYQSMuevDXx6AdiuPkoKTH4RdedSK5NQV6Dg2qz8MMBQnysJvT8UwY3aA",
+            "contract": {
+                "script": "DCECjbtCkzn/hcvwygX29QqapyAROMpkWKXjx4Nn\u002BQS4nS9BVuezJw==",
+                "parameters": [
+                    {
+                        "name": "signature",
+                        "type": "Signature"
+                    }
+                ],
+                "deployed": false
+            },
+            "extra": null
+        },
+        {
+            "address": "NforeidHBjJDK6sGdxiAMRfQwW8UnkwMFm",
+            "label": null,
+            "isDefault": false,
+            "lock": false,
+            "key": "6PYQSMuevDXx6AdiuPkoKTH4RdedSK5NQV6Dg2qz8MMBQnysJvT8UwY3aA",
+            "contract": {
+                "script": "EwwhA1zR9GrhQorBpNC7XVPtiRVXCfnnZ6voOaQCNJSUrWVQDCECf8MjXSSxDgcBAltpaDPynqOMmq6A4Ts92U0Aqsmw1IsMIQKNu0KTOf\u002BFy/DKBfb1CpqnIBE4ymRYpePHg2f5BLidLwwhA7vEo2UkjJZSANeVfiV14U6TKgT35D\u002BDTGibvctybETDFEGe0Nw6",
+                "parameters": [
+                    {
+                        "name": "parameter0",
+                        "type": "Signature"
+                    },
+                    {
+                        "name": "parameter1",
+                        "type": "Signature"
+                    },
+                    {
+                        "name": "parameter2",
+                        "type": "Signature"
+                    }
+                ],
+                "deployed": false
+            },
+            "extra": null
+        }
+    ],
+    "extra": null
+}

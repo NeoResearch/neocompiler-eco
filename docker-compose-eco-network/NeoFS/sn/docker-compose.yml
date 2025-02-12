@@ -1,0 +1,40 @@
+networks:
+  private_net:
+    external: true
+
+volumes:
+  neofs_storage:
+
+services:
+  neofs-storage-node:
+    image: nspccdev/neofs-storage:0.43.0
+    hostname: neofs-storage-node
+    container_name: neofs-storage-node
+    restart: "no"
+    ports:
+      - "5005:5005"
+      - "5006:5006"
+    networks:
+      - private_net
+    volumes:
+      - neofs_storage:/storage
+      - ./wallet01.json:/wallet.json
+      - ../multipurpose-wallet/config.yml:/wallets/multipurpose-wallet-config.yml
+      - ../multipurpose-wallet/wallet.json:/wallets/multipurpose-wallet.json
+      - ../neofs-cli:/neofs-cli
+      - ./cli-cfg.yml:/cli-cfg.yml
+      - ./cfg:/etc/neofs/storage
+    stop_signal: SIGKILL
+    command: [ "neofs-node", "--config", "/etc/neofs/storage/config.yml" ]
+    environment:
+      - NEOFS_NODE_WALLET_PATH=./wallet.json
+      - NEOFS_NODE_WALLET_PASSWORD=
+      - NEOFS_NODE_ADDRESSES=neofs-storage-node:5005
+      - NEOFS_GRPC_0_ENDPOINT=0.0.0.0:5005
+      - NEOFS_CONTROL_GRPC_ENDPOINT=0.0.0.0:5006
+    healthcheck:
+      test: ["CMD", "/neofs-cli", "control", "healthcheck", "-c", "/cli-cfg.yml", "--endpoint", "neofs-storage-node:5006"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

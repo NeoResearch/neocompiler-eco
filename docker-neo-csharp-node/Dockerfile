@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	    libsnappy-dev \
 	    libleveldb-dev \
 	    librocksdb-dev \
+	    sqlite3 \
 	    wget \
 	    curl \
 	    nano \

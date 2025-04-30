@@ -4,7 +4,8 @@
     "FullState": false,
     "Network": 56753,
     "AutoVerify": true,
-    "MaxFindResultItems": 100
+    "MaxFindResultItems": 100,
+    "UnhandledExceptionPolicy": "StopPlugin"
   },
   "Dependency": [
     "RpcServer"

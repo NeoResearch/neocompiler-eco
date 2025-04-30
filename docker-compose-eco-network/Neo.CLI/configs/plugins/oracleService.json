@@ -8,6 +8,7 @@
     "MaxOracleTimeout": 10000,
     "AllowPrivateHost": true,
     "AllowedContentTypes": [ "application/json" ],
+    "UnhandledExceptionPolicy": "Ignore",
     "Https": {
       "Timeout": 5000
     },

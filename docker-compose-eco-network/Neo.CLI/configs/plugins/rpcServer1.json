@@ -9,7 +9,7 @@
         "SslCertPassword": "",
         "TrustedAuthorities": [],
         "RpcUser": "",
-        "RpcPass": "",       
+        "RpcPass": "",
         "MaxGasInvoke": 20,
         "MaxFee": 0.1,
         "MaxConcurrentConnections": 40,

@@ -30,7 +30,10 @@
         "MaxTraceableBlocks": 2102400,
     	"Hardforks": {
         	"HF_Aspidochelone": 0,
-        	"HF_Basilisk": 0
+        	"HF_Basilisk": 0,
+        	"HF_Cockatrice": 0,
+        	"HF_Domovoi": 0,
+        	"HF_Echidna": 0
     	},
 	"InitialGasDistribution": 5200000000000000,    	
         "ValidatorsCount": 4,         

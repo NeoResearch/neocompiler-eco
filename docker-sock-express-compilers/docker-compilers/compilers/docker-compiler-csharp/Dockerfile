@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0.303-jammy
+FROM mcr.microsoft.com/dotnet/sdk:9.0.203-noble
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

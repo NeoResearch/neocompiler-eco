@@ -201,6 +201,28 @@
                                 </div>
                             </div>
                             <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <select id="codesend_selected_optimization" class="form-select"
+                                        onchange="setCompilerAndExample()"
+                                        style="text-align: center!important;font-weight: bold!important;">
+                                        <option>None</option>
+                                        <option selected>Basic</option>
+                                        <option>All</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check"
+                                         style="text-align:center!important;font-weight:bold!important;">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="compilers_assembly_checkbox">
+                                        <label class="form-check-label" for="compilers_assembly_checkbox">
+                                            Assembly
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="row mb-2">
                                 <div class="col-md-4">
                                     <button type="button" id="compilebtn" onClick="compilerCall()"
                                         style="text-align: center!important;font-weight: bold!important; width: 100%;"

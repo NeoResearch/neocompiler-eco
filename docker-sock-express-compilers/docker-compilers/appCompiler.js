@@ -174,6 +174,8 @@ app.post('/compilex', function (req, res) {
         console.log("code64[" + i + "]=" + code64_list[i]);
         compileenv += " -e COMPILECODE_" + i + "=" + code64_list[i];
     }
+    compileenv += " -e OPTLEVEL="+req.body.optLevel;
+    compileenv += " -e ASSEMBLY="+req.body.assembly;
     //console.log(req)
     console.log("compileenv: '" + compileenv + "'");
 

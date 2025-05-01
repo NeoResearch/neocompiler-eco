@@ -4,6 +4,20 @@
 rm  /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/*.cs 2> /dev/null
 rm -r /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/ 2> /dev/null
 
+
+cp -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/NeoCompilerContractGenerated.csprojBackup \
+      /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/NeoCompilerContractGenerated.csproj
+
+# 1) add "--assembly" right after the nccs executable name
+
+if [[ "${ASSEMBLY,,}" == "true" ]]; then
+   sed -i -E 's|(\/nccs[[:space:]]+)|\1--assembly |' /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/NeoCompilerContractGenerated.csproj
+fi
+
+# 2) add "--optimize All" right after the $(CheckedArgument) placeholder
+sed -i -E 's|(\$\([Cc]heckedArgument\))|\1 --optimize ${OPTLEVEL}|g' /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/NeoCompilerContractGenerated.csproj
+
+
 for i in $(seq 1 $COMPILECODE_COUNT); do
   #echo $i; 
   j=$((i-1))

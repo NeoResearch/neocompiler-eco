@@ -5,6 +5,8 @@ function createCompilexJson(code_zip_list) {
     compilexJson.cbx_compatible = 1;
     compilexJson.codesend = code_zip_list;
     compilexJson.socketID = socketCompilers.id;
+    compilexJson.optLevel = $("#codesend_selected_optimization")[0].value;
+    compilexJson.assembly = $("#compilers_assembly_checkbox")[0].checked;
     return compilexJson;
 }
 

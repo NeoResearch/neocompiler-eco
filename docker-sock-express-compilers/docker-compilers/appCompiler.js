@@ -179,7 +179,7 @@ app.post('/compilex', function (req, res) {
 
     if (imagename != "" && checkIfCompilerExists(imagename)) {
         //var cmddocker = "docker run -e COMPILECODE=" + code64 + " -t --rm " + imagename;
-        var cmddocker = "docker run " + compileenv + " -t --rm " + imagename;
+        var cmddocker = "docker run " + compileenv + " -i --rm " + imagename;
         console.log("Compiler Exists! Calling it to compile...");
         console.log(cmddocker);
         var start = new Date();
@@ -255,7 +255,6 @@ app.post('/compilex', function (req, res) {
                 console.log(stdout);
                 //res.send(stdout);
                 console.log("\nReturned from Compilex\n");
-
 
                 io.to(req.body.socketID).emit('compilexResult', {
                     stdout: stdout

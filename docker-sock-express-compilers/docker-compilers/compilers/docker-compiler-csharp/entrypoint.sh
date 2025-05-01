@@ -63,6 +63,11 @@ echo -n "\", \"manifest\":\"" >> /tmp/return.txt
 if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/*.manifest.json ]; then
    cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/*.manifest.json | base64 -w 0 >> /tmp/return.txt
 fi
+
+echo -n "\", \"asm\":\"" >> /tmp/return.txt
+if [ -f /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/*.asm ]; then
+   cat /neo-devpack-dotnet/src/Template.CSharpNeoCompiler/bin/sc/*.asm | base64 -w 0 >> /tmp/return.txt
+fi
 echo -n "\"}" >> /tmp/return.txt
 
 # display result in stdout

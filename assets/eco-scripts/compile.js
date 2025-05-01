@@ -423,12 +423,16 @@ function socketCompilerCompilexResult() {
         // Loading Manifest Info
         var manifestEmpty = dataSocket.manifest == "";
         var nefEmpty = dataSocket.nef == "";
+        var asmEmpty = dataSocket.asm == "";
 
         if (nefEmpty == true)
             $("#codewarnerr").val($("#codewarnerr").val() + "NEF is empty\n");
 
         if (manifestEmpty == true)
             $("#codewarnerr").val($("#codewarnerr").val() + "MANIFEST is empty\n");
+
+        if (asmEmpty == true)
+            $("#codeasm").val($("#codeasm").val() + "ASM is empty\n");
 
         if (nefEmpty == false) {
             var nefByteArray = atob(dataSocket.nef);
@@ -469,6 +473,10 @@ function socketCompilerCompilexResult() {
                 CONTRACTS_TO_LIST = LOCAL_CONTRACTS;
                 addContractsToSelectionBox("local_contracts", "local_contract");
             }
+        }
+
+        if (dataSocket.asm != ""){
+            $("#codeasm").val(atob(dataSocket.asm));
         }
 
         var textSwal = "Proceed to Contracts tab.";

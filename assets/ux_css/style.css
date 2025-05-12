@@ -244,6 +244,23 @@ body {
     background-color: transparent;
 }
 
+.form-check {
+    background-color: #00AF92;
+    color: white !important;
+    border-radius: 20px !important;
+    overflow: hidden; /* ensures content stays within the border radius */
+}
+
+.form-check-input {
+    accent-color: white; /* makes checkbox white, can be changed */
+    border-radius:  20px !important;
+    flex-shrink: 0;
+}
+
+.form-check-label {
+    margin: 0; /* centers vertically */
+}
+
 /* Begin Simple BTN */
 .btn-info {
     background: #00AF92 !important;

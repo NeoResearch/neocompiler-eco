@@ -10,6 +10,20 @@ function hex2str() {
     $("#hex_length").val(($("#strhex_hex").val().length / 2).toString());
 };
 
+function str2base64() {
+    var hex = Neon.u.str2hexstring($("#strbase64_str").val());
+    $("#b64hx_str").val(
+        hexToBase64(hex)
+    );
+};
+
+function b64hxstr() {
+    var hex = base64ToHex($("#b64hx_str").val());
+    $("#strbase64_str").val(
+        Neon.u.hexstring2str(hex)
+    );
+};
+
 /* Hex  <-> xeH */
 function hex2xeh() {
     $("#hexxeh_xeh").val(revertHexString($("#hexxeh_hex").val()));

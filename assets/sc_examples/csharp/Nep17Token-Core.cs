@@ -1,31 +1,39 @@
-using System;
-using System.ComponentModel;
-using System.Numerics;
-using Neo;
-using Neo.SmartContract;
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// Nep17Token.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
+using System;
+using System.ComponentModel;
+using System.Numerics;
 
 namespace NEP17
 {
+    /// <inheritdoc />
     [DisplayName("SampleNep17Token")]
-    [ManifestExtra("Author", "core-dev")]
-    [ManifestExtra("Description", "A sample NEP-17 token")]
-    [ManifestExtra("Email", "core@neo.org")]
-    [ManifestExtra("Version", "0.0.1")]
-    [ContractSourceCode("https://github.com/neo-project/neo/examples/NEP17")]
-    [ContractPermission("*", "*")]
-    [SupportedStandards("NEP-17")]
+    [ContractAuthor("core-dev", "dev@neo.org")]
+    [ContractVersion("0.0.1")]
+    [ContractDescription("A sample NEP-17 token")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
+    [SupportedStandards(NepStandard.Nep17)]
     public class SampleNep17Token : Nep17Token
     {
         #region Owner
 
         private const byte PrefixOwner = 0xff;
 
-        [InitialValue("NUuJw4C4XJFzxAvSZnFTfsNoWZytmQKXQP", ContractParameterType.Hash160)]
-        private static readonly UInt160 InitialOwner = default;
+        private static readonly UInt160 InitialOwner = "NUuJw4C4XJFzxAvSZnFTfsNoWZytmQKXQP";
 
         [Safe]
         public static UInt160 GetOwner()
@@ -45,7 +53,7 @@ namespace NEP17
         [DisplayName("SetOwner")]
         public static event OnSetOwnerDelegate OnSetOwner;
 
-        public static void SetOwner(UInt160 newOwner)
+        public static void SetOwner(UInt160? newOwner)
         {
             if (IsOwner() == false)
                 throw new InvalidOperationException("No Authorization!");
@@ -62,8 +70,7 @@ namespace NEP17
 
         private const byte PrefixMinter = 0xfd;
 
-        [InitialValue("NUuJw4C4XJFzxAvSZnFTfsNoWZytmQKXQP", ContractParameterType.Hash160)]
-        private static readonly UInt160 InitialMinter = default;
+        private static readonly UInt160 InitialMinter = "NUuJw4C4XJFzxAvSZnFTfsNoWZytmQKXQP";
 
         [Safe]
         public static UInt160 GetMinter()
@@ -87,7 +94,7 @@ namespace NEP17
         {
             if (IsOwner() == false)
                 throw new InvalidOperationException("No Authorization!");
-            if (newMinter is not { IsValid: true }) return;
+            if (!newMinter.IsValid) return;
             Storage.Put(new[] { PrefixMinter }, newMinter);
             OnSetMinter(newMinter);
         }
@@ -101,39 +108,16 @@ namespace NEP17
 
         #endregion
 
-        #region NEP17
+        #region Example.SmartContract.NEP17
 
-        [Safe]
-        public override byte Decimals() => 8;
-
-        [Safe]
-        public override string Symbol() => "SampleNep17Token";
+        public override string Symbol { [Safe] get => "SampleNep17Token"; }
+        public override byte Decimals { [Safe] get => 8; }
 
         public new static void Burn(UInt160 account, BigInteger amount)
         {
             if (IsOwner() == false && IsMinter() == false)
                 throw new InvalidOperationException("No Authorization!");
             Nep17Token.Burn(account, amount);
-        }
-
-        #endregion
-
-        #region Payment
-
-        public static bool Withdraw(UInt160 to, BigInteger amount)
-        {
-            if (IsOwner() == false)
-                throw new InvalidOperationException("No Authorization!");
-            if (amount <= 0)
-                return false;
-            // TODO: Add logic
-            return true;
-        }
-
-        // NOTE: Allow NEP-17 tokens to be received for this contract
-        public static void OnNEP17Payment(UInt160 from, BigInteger amount, object data)
-        {
-            // TODO: Add logic
         }
 
         #endregion

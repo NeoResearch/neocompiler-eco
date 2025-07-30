@@ -1,28 +1,42 @@
-using System;
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// Inscription.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
-using Neo.SmartContract.Framework.Native;
-
-using System.ComponentModel;
-using Neo;
 using Neo.SmartContract.Framework.Services;
+using System;
+using System.ComponentModel;
 
 namespace Inscription
 {
     [DisplayName("SampleInscription")]
-    [ManifestExtra("Author", "core-dev")]
-    [ManifestExtra("Description", "A sample inscription contract.")]
-    [ManifestExtra("Email", "core@neo.org")]
-    [ManifestExtra("Version", "0.0.1")]
-    [ContractSourceCode("https://github.com/neo-project/neo/examples/Inscription")]
-    [ContractPermission("*", "*")]
+    [ContractAuthor("core-dev", "dev@neo.org")]
+    [ContractDescription("A sample inscription contract.")]
+    [ContractVersion("0.0.1")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
     public class SampleInscription : SmartContract
     {
-        // Event for logging inscriptions
+        /// <summary>
+        /// Neo.SmartContract.Examples.Event for logging inscriptions
+        /// </summary>
         [DisplayName("InscriptionAdded")]
         public static event Action<UInt160, string> InscriptionAdded;
 
-        // Method to store an inscription
+        /// <summary>
+        /// Method to store an inscription
+        /// </summary>
+        /// <param name="address">Address</param>
+        /// <param name="inscription">Inscription</param>
+        /// <exception cref="Exception">Failure when is not signed by the address</exception>
         public static void AddInscription(UInt160 address, string inscription)
         {
             if (!Runtime.CheckWitness(address))
@@ -32,36 +46,15 @@ namespace Inscription
             InscriptionAdded(address, inscription);
         }
 
-        // Method to read an inscription
+        /// <summary>
+        /// Method to read an inscription
+        /// </summary>
+        /// <param name="address">Address</param>
+        /// <returns>Inscription readed</returns>
         [Safe]
         public static string GetInscription(UInt160 address)
         {
-            return Storage.Get(Storage.CurrentContext, address);
-        }
-
-        [DisplayName("_deploy")]
-        public static void OnDeployment(object data, bool update)
-        {
-            if (update)
-            {
-                // Add logic for fixing contract on update
-                return;
-            }
-            // Add logic here for 1st time deployed
-        }
-
-        // TODO: Allow ONLY contract owner to call update
-        public static bool Update(ByteString nefFile, string manifest)
-        {
-            ContractManagement.Update(nefFile, manifest);
-            return true;
-        }
-
-        // TODO: Allow ONLY contract owner to call destroy
-        public static bool Destroy()
-        {
-            ContractManagement.Destroy();
-            return true;
+            return Storage.Get(Storage.CurrentReadOnlyContext, address);
         }
     }
 }

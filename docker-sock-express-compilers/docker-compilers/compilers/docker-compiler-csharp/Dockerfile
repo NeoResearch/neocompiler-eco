@@ -1,4 +1,6 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0.203-noble
+# https://hub.docker.com/_/microsoft-dotnet-sdk/
+# https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md#full-tag-listing
+FROM mcr.microsoft.com/dotnet/sdk:9.0.302-noble
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

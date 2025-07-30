@@ -17,8 +17,7 @@ var cSharpFiles = [
         ["./assets/sc_examples/csharp/NFT-Core/Token.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Loot.Admin.cs"],
         ["./assets/sc_examples/csharp/NFT-Core/Loot.cs"],
-        ["./assets/sc_examples/csharp/NFT-Core/Token.Item.cs"],
-        ["./assets/sc_examples/csharp/NFT-Core/Tools.cs"]
+        ["./assets/sc_examples/csharp/NFT-Core/Token.Item.cs"]
     ],
     ["./assets/sc_examples/csharp/ContractCall-Core.cs"],
     ["./assets/sc_examples/csharp/Event-Core.cs"],

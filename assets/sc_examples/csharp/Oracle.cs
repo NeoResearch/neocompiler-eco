@@ -1,49 +1,84 @@
-// SPDX-License-Identifier: MIT
-using Neo;
-using Neo.SmartContract;
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// Oracle.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 using System;
-using System.Numerics;
+using System.ComponentModel;
+using Neo.SmartContract.Framework.Interfaces;
 
-namespace OracleDemo
+namespace Oracle
 {
-    [ManifestExtra("Author", "Neo")]
-    [ManifestExtra("Email", "dev@neo.org")]
-    [ManifestExtra("Description", "This is an oracle example")]
-    public class OracleDemo : SmartContract
+    [DisplayName("SampleOracle")]
+    [ContractAuthor("code-dev", "dev@neo.org")]
+    [ContractDescription("A sample contract to demonstrate how to use Example.SmartContract.Oracle Service")]
+    [ContractVersion("0.0.1")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
+    public class SampleOracle : SmartContract, IOracle
     {
+        [Safe]
+        public static string GetResponse()
+        {
+            return Storage.Get(Storage.CurrentReadOnlyContext, "Response");
+        }
+
         public static void DoRequest()
         {
-            string url = "https://compilers-neo3.neocompiler.io/";
-            string filter = "$.result";  // JSONPath format https://github.com/atifaziz/JSONPath
-            string callback = "callback"; // callback method
-            object userdata = "userdata"; // arbitrary type
-            long gasForResponse = Oracle.MinimumResponseFee;
-
-            Oracle.Request(url, filter, callback, userdata, gasForResponse);
+            /*
+                JSON DATA EXAMPLE
+                {
+                    "id": "6520ad3c12a5d3765988542a",
+                    "record": {
+                        "propertyName": "Hello World!"
+                    },
+                    "metadata": {
+                        "name": "HelloWorld",
+                        "readCountRemaining": 98,
+                        "timeToExpire": 86379,
+                        "createdAt": "2023-10-07T00:58:36.746Z"
+                    }
+                }
+                See JSONPath format at https://github.com/atifaziz/JSONPath
+                JSONPath = "$.record.propertyName"
+                ReturnValue = ["Hello World!"]
+                ReturnValueType = string array
+            */
+            var requestUrl = "https://api.jsonbin.io/v3/qs/6520ad3c12a5d3765988542a";
+            Neo.SmartContract.Framework.Native.Oracle.Request(requestUrl, "$.record.propertyName", Method.OnOracleResponse, null, Neo.SmartContract.Framework.Native.Oracle.MinimumResponseFee);
         }
 
-        public static void DoRequestWithParameters(string filter, string url, long gasForResponse)
+        /// <summary>
+        /// This implements the IOracle interface
+        /// This method is called after the Oracle receives response from requested URL
+        /// </summary>
+        /// <param name="requestedUrl">Requested url</param>
+        /// <param name="userData">User data provided during the request</param>
+        /// <param name="oracleResponse">Oracle response code</param>
+        /// <param name="jsonString">Oracle response data</param>
+        /// <exception cref="InvalidOperationException">It was not called by the oracle</exception>
+        /// <exception cref="Exception">It was not a success</exception>
+        public void OnOracleResponse(string requestedUrl, object userData, OracleResponseCode oracleResponse, string jsonString)
         {
-            string callback = "callback"; // callback method
-            object userdata = "userdata"; // arbitrary type
-            Oracle.Request(url, filter, callback, userdata, gasForResponse);
-        }
-        
-        public static void Callback(string url, string userdata, OracleResponseCode code, string result)
-        {
-            if (Runtime.CallingScriptHash != Oracle.Hash) throw new Exception("Unauthorized!");
-            if (code != OracleResponseCode.Success) throw new Exception("Oracle response failure with code " + (byte)code);
+            if (Runtime.CallingScriptHash != Neo.SmartContract.Framework.Native.Oracle.Hash)
+                throw new InvalidOperationException("No Authorization!");
+            if (oracleResponse != OracleResponseCode.Success)
+                throw new Exception("Oracle response failure with code " + (byte)oracleResponse);
 
-            object ret = StdLib.JsonDeserialize(result); // [ "hello world" ]
-            object[] arr = (object[])ret;
-            string value = (string)arr[0];
+            var jsonArrayValues = (object[])StdLib.JsonDeserialize(jsonString);
+            var jsonFirstValue = (string)jsonArrayValues[0];
 
-            Runtime.Log("userdata: " + userdata);
-            Runtime.Log("response value: " + value);
+            Storage.Put(Storage.CurrentContext, "Response", jsonFirstValue);
         }
     }
 }

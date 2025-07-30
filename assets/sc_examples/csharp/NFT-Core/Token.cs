@@ -1,18 +1,18 @@
-// Copyright (C) 2021 Neo Core.
-// This file belongs to the NEO-GAME-Loot contract developed for neo N3
+// Copyright (C) 2015-2025 The Neo Project.
 //
-// The NEO-GAME-Loot is free smart contract distributed under the MIT software 
-// license, see the accompanying file LICENSE in the main directory of
-// the project or http://www.opensource.org/licenses/mit-license.php 
+// Token.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
 // for more details.
-// 
+//
 // Redistribution and use in source and binary forms with or without
 // modifications are permitted.
 
-using System.Numerics;
-using Neo;
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Services;
+using System.Numerics;
+
 namespace NFT
 {
     public class TokenState : Nep11TokenState
@@ -33,7 +33,7 @@ namespace NFT
 
         public void OwnerOnly()
         {
-            Tools.Require(Runtime.CheckWitness(Owner), "Authorization failed.");
+            ExecutionEngine.Assert(Runtime.CheckWitness(Owner), "Authorization failed.");
         }
     }
 }

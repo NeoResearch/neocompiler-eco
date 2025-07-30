@@ -1,29 +1,40 @@
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// Exception.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using System.ComponentModel;
-using Neo;
-using Neo.Cryptography.ECC;
-using Neo.SmartContract;
 
 namespace Exception
 {
     [DisplayName("SampleException")]
-    [ManifestExtra("Author", "core-dev")]
-    [ManifestExtra("Description", "A sample contract to demonstrate how to handle exception")]
-    [ManifestExtra("Email", "core@neo.org")]
-    [ManifestExtra("Version", "0.0.1")]
-    [ContractSourceCode("https://github.com/neo-project/neo/examples/Exception")]
-    [ContractPermission("*", "*")]
+    [ContractAuthor("core-dev", "dev@neo.org")]
+    [ContractDescription("A sample contract to demonstrate how to handle exception")]
+    [ContractVersion("0.0.1")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
     public class SampleException : SmartContract
     {
-        [InitialValue("0a0b0c0d0E0F", ContractParameterType.ByteArray)]
+        [ByteArray("0a0b0c0d0E0F")]
         private static readonly ByteString invalidECpoint = default;
-        [InitialValue("024700db2e90d9f02c4f9fc862abaca92725f95b4fddcc8d7ffa538693ecf463a9", ContractParameterType.ByteArray)]
+
+        [ByteArray("024700db2e90d9f02c4f9fc862abaca92725f95b4fddcc8d7ffa538693ecf463a9")]
         private static readonly ByteString byteString2Ecpoint = default;
-        [InitialValue("NXV7ZhHiyM1aHXwpVsRZC6BwNFP2jghXAq", ContractParameterType.Hash160)]
+
+        [Hash160("NXV7ZhHiyM1aHXwpVsRZC6BwNFP2jghXAq")]
         private static readonly ByteString validUInt160 = default;
-        [InitialValue("edcf8679104ec2911a4fe29ad7db232a493e5b990fb1da7af0c7b989948c8925", ContractParameterType.ByteArray)]
+
+        [ByteArray("edcf8679104ec2911a4fe29ad7db232a493e5b990fb1da7af0c7b989948c8925")]
         private static readonly byte[] validUInt256 = default;
+
         public static object try01()
         {
             int v = 0;
@@ -67,7 +78,7 @@ namespace Exception
             try
             {
                 v = 2;
-                throwcall();
+                Throwcall();
             }
             catch
             {
@@ -88,16 +99,16 @@ namespace Exception
                 try
                 {
                     v = 2;
-                    throwcall();
+                    Throwcall();
                 }
                 catch
                 {
                     v = 3;
-                    throwcall();
+                    Throwcall();
                 }
                 finally
                 {
-                    throwcall();
+                    Throwcall();
                     v++;
                 }
             }
@@ -128,7 +139,7 @@ namespace Exception
             try
             {
                 v = 2;
-                throwcall();
+                Throwcall();
             }
             finally
             {
@@ -143,7 +154,7 @@ namespace Exception
             try
             {
                 v = 2;
-                throwcall();
+                Throwcall();
             }
             catch
             {
@@ -391,12 +402,12 @@ namespace Exception
             return (v, data);
         }
 
-        public static object throwcall()
+        private static object Throwcall()
         {
             throw new System.Exception();
         }
 
-        public static object tryUncatchableException()
+        public static object TryUncatchableException()
         {
             int v = 0;
             try

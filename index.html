@@ -202,8 +202,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                    <select id="codesend_selected_optimization" class="form-select"
-                                        onchange="setCompilerAndExample()"
+                                    <select id="codesend_selected_optimization" class="form-select"                                        
                                         style="text-align: center!important;font-weight: bold!important;">
                                         <option>None</option>
                                         <option selected>Basic</option>
@@ -212,17 +211,15 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check"
-                                         style="text-align:center!important;font-weight:bold!important;">
-                                        <input class="form-check-input"
-                                               type="checkbox"
-                                               id="compilers_assembly_checkbox"
-                                               checked>
+                                        style="text-align:center!important;font-weight:bold!important;">
+                                        <input class="form-check-input" type="checkbox" id="compilers_assembly_checkbox"
+                                            checked>
                                         <label class="form-check-label" for="compilers_assembly_checkbox">
                                             Create .ASM
                                         </label>
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="row mb-2">
                                 <div class="col-md-4">
                                     <button type="button" id="compilebtn" onClick="compilerCall()"
@@ -233,15 +230,15 @@
                                 <div class="col-md-4">
                                     <button type="button" id="deleteContractBtn" onClick="askForDeletingContract()"
                                         style="text-align: center!important;font-weight: bold!important; width: 100%;"
-                                        class="btn btn-default btn-1 btn-1-darker-danger"><i class="fa-solid fa-trash"></i>
+                                        class="btn btn-default btn-1 btn-1-darker-danger"><i
+                                            class="fa-solid fa-trash"></i>
                                         Delete
                                     </button>
                                 </div>
                                 <div class="col-md-4">
                                     <button type="button" id="saveContractBtn" onClick="askForSavingContracts(false)"
                                         style="text-align: center!important;font-weight: bold!important; width: 100%;"
-                                        class="btn btn-default btn-1"><i
-                                            class="fa-solid fa-floppy-disk"></i>
+                                        class="btn btn-default btn-1"><i class="fa-solid fa-floppy-disk"></i>
                                         Save
                                     </button>
                                 </div>
@@ -250,7 +247,7 @@
                         <div class="col-md-4">
                             <select class="form-select checkedOption"
                                 style="text-align: center!important;font-weight: bold!important;"
-                                onchange="setExampleOnChange()" size="3" id="ExampleList">
+                                onchange="setExampleOnChange()" size="5" id="ExampleList">
                             </select>
                         </div>
                     </div>
@@ -331,8 +328,8 @@
                                 placeholder="MANIFEST (JSON format)" class="form-control"></textarea>
 
                             <h4 style="font-size: 16px;">ASM:</h4>
-                            <textarea id="codeasm" readonly="readonly" rows="9" cols="100"
-                                    placeholder="ASM" class="form-control"></textarea>
+                            <textarea id="codeasm" readonly="readonly" rows="9" cols="100" placeholder="ASM"
+                                class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
@@ -653,6 +650,7 @@
 
                             <div class="row mb-2">
                                 <div class="collapse col-md-12" id="collapseNotifications">
+                                    <label for="txt_notifications">Notifications</label>
                                     <textarea id="txt_notifications"
                                         style="margin-left: 5px; margin-bottom: 20px; margin-top: 5px;background: #00AF92;color: white!important;border:none;resize: none;outline: none;width: 100%;"
                                         readonly="readonly" rows="6"
@@ -899,20 +897,44 @@
                                     <div class="form-group">
                                         <label for="strhex_str">String</label>
                                         <input id="strhex_str" oninput="str2hex()" class="form-control"
-                                            placeholder="String" oninput="str2hex()">
+                                            placeholder="String">
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label for="strhex_hex">Hex</label>
                                         <input id="strhex_hex" oninput="hex2str()" class="form-control"
-                                            placeholder="Hex" oninput="hex2str()">
+                                            placeholder="Hex">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label for="hex_length">Length (in bytes)</label>
                                         <input id="hex_length" class="form-control" placeholder="Length (in bytes)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="standardContainer">
+                        <h4 class="green-title">String
+                            <-> Base64
+                        </h4>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="strbase64_str">String</label>
+                                        <input id="strbase64_str" oninput="str2base64()" class="form-control"
+                                            placeholder="String">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="b64hx_str">Base64</label>
+                                        <input id="b64hx_str" oninput="b64hxstr()" class="form-control"
+                                            placeholder="Base64">
                                     </div>
                                 </div>
                             </div>
@@ -929,14 +951,14 @@
                                     <div class="form-group">
                                         <label for="hexxeh_hex">Hex</label>
                                         <input id="hexxeh_hex" oninput="hex2xeh()" class="form-control"
-                                            placeholder="Hex" oninput="hex2xeh()">
+                                            placeholder="Hex">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="hexxeh_xeh">xeH</label>
                                         <input id="hexxeh_xeh" oninput="xeh2hex()" class="form-control"
-                                            placeholder="xeH" oninput="xeh2hex()">
+                                            placeholder="xeH">
                                     </div>
                                 </div>
                             </div>
@@ -977,14 +999,14 @@
                                     <div class="form-group">
                                         <label for="fx8_number">Number</label>
                                         <input type="number" oninput="num2fixed8()" id="fx8_number" class="form-control"
-                                            placeholder="Number" oninput="num2fixed8()">
+                                            placeholder="Number">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="fx8_hex">Fixed8</label>
                                         <input id="fx8_hex" oninput="fixed82num()" class="form-control"
-                                            placeholder="Fixed8 hex" oninput="fixed82num()">
+                                            placeholder="Fixed8 hex">
                                     </div>
                                 </div>
                             </div>
@@ -1001,7 +1023,7 @@
                                     <div class="form-group">
                                         <label for="address_conversor">Address</label>
                                         <input id="address_conversor" oninput="address2scripthash()"
-                                            class="form-control" placeholder="Address" oninput="address2scripthash()"
+                                            class="form-control" placeholder="Address"
                                             aria-describedby="address_conversor_db">
                                         <small id="address_conversor_db" class="form-text text-muted">Address</small>
                                     </div>
@@ -1012,8 +1034,7 @@
                                             start
                                             with 0x)</label>
                                         <input id="scripthash_conversor" oninput="scripthash2address()"
-                                            class="form-control" placeholder="ScriptHash"
-                                            oninput="scripthash2address()">
+                                            class="form-control" placeholder="ScriptHash">
                                     </div>
                                 </div>
                             </div>

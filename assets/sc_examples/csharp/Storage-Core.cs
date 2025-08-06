@@ -1,40 +1,47 @@
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// Storage.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
-using System.ComponentModel;
-using Neo;
-using Neo.Cryptography.ECC;
 using Neo.SmartContract.Framework.Services;
+using System.ComponentModel;
 
-namespace Storage
+namespace ExampleStorage
 {
     [DisplayName("SampleStorage")]
-    [ManifestExtra("Author", "code-dev")]
-    [ManifestExtra("Description", "A sample contract to demonstrate how to use storage")]
-    [ManifestExtra("Email", "core@neo.org")]
-    [ManifestExtra("Version", "0.0.1")]
-    [ContractSourceCode("https://github.com/neo-project/neo/examples/Storage")]
-    [ContractPermission("*", "*")]
+    [ContractAuthor("code-dev", "dev@neo.org")]
+    [ContractDescription("A sample contract to demonstrate how to use storage")]
+    [ContractVersion("0.0.1")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
     public class SampleStorage : SmartContract
     {
         #region Byte
 
         public static bool TestPutByte(byte[] key, byte[] value)
         {
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, 0x11);
+            var storage = new StorageMap(0x11);
             storage.Put((ByteString)key, (ByteString)value);
             return true;
         }
 
         public static void TestDeleteByte(byte[] key)
         {
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, 0x11);
+            var storage = new StorageMap(0x11);
             storage.Delete((ByteString)key);
         }
 
         public static byte[] TestGetByte(byte[] key)
         {
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentReadOnlyContext;
-            var storage = new StorageMap(context, 0x11);
+            var storage = new StorageMap(0x11);
             var value = storage.Get((ByteString)key);
             return (byte[])value;
         }
@@ -42,7 +49,7 @@ namespace Storage
         public static byte[] TestOver16Bytes()
         {
             var value = new byte[] { 0x3b, 0x00, 0x32, 0x03, 0x23, 0x23, 0x23, 0x23, 0x02, 0x23, 0x23, 0x02, 0x23, 0x23, 0x02, 0x23, 0x23, 0x02, 0x23, 0x23, 0x02, 0x23, 0x23, 0x02 };
-            StorageMap storageMap = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, "test_map");
+            StorageMap storageMap = new StorageMap("test_map");
             storageMap.Put((ByteString)new byte[] { 0x01 }, (ByteString)value);
             return (byte[])storageMap.Get((ByteString)new byte[] { 0x01 });
         }
@@ -54,7 +61,7 @@ namespace Storage
         public static bool TestPutString(byte[] key, byte[] value)
         {
             var prefix = "aa";
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, prefix);
+            var storage = new StorageMap(prefix);
             storage.Put((ByteString)key, (ByteString)value);
             return true;
         }
@@ -62,15 +69,14 @@ namespace Storage
         public static void TestDeleteString(byte[] key)
         {
             var prefix = "aa";
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, prefix);
+            var storage = new StorageMap(prefix);
             storage.Delete((ByteString)key);
         }
 
         public static byte[] TestGetString(byte[] key)
         {
             var prefix = "aa";
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentReadOnlyContext;
-            var storage = new StorageMap(context, prefix);
+            var storage = new StorageMap(prefix);
             var value = storage.Get((ByteString)key);
             return (byte[])value;
         }
@@ -82,7 +88,7 @@ namespace Storage
         public static bool TestPutByteArray(byte[] key, byte[] value)
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, prefix);
+            var storage = new StorageMap(prefix);
             storage.Put((ByteString)key, (ByteString)value);
             return true;
         }
@@ -90,15 +96,14 @@ namespace Storage
         public static void TestDeleteByteArray(byte[] key)
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, prefix);
+            var storage = new StorageMap(prefix);
             storage.Delete((ByteString)key);
         }
 
         public static byte[] TestGetByteArray(byte[] key)
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext.AsReadOnly;
-            var storage = new StorageMap(context, prefix);
+            var storage = new StorageMap(prefix);
             var value = storage.Get((ByteString)key);
             return (byte[])value;
         }
@@ -106,8 +111,7 @@ namespace Storage
         public static bool TestNewGetMethods()
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext;
-            var storage = new StorageMap(context, prefix);
+            var storage = new StorageMap(prefix);
 
             var boolValue = true;
             var intValue = 123;
@@ -154,8 +158,7 @@ namespace Storage
         public static byte[] TestNewGetByteArray()
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext;
-            var storage = new StorageMap(context, prefix);
+            var storage = new StorageMap(prefix);
             var byteArray = new byte[] { 0x00, 0x01 };
             storage.Put("byteArray", byteArray);
             var byteArray2 = storage.GetByteArray("byteArray");
@@ -167,8 +170,7 @@ namespace Storage
         public static bool TestPutReadOnly(byte[] key, byte[] value)
         {
             var prefix = new byte[] { 0x00, 0xFF };
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext.AsReadOnly;
-            var storage = new StorageMap(context, prefix);
+            var storage = new StorageMap(prefix);
             storage.Put((ByteString)key, (ByteString)value);
             return true;
         }
@@ -183,9 +185,8 @@ namespace Storage
         public static int SerializeTest(byte[] key, int value)
         {
             var prefix = new byte[] { 0x01, 0xAA };
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext;
-            var storage = new StorageMap(context, prefix);
-            var val = new Value() { Val = value };
+            var storage = new StorageMap(prefix);
+            var val = new Value { Val = value };
             storage.PutObject(key, val);
             val = (Value)storage.GetObject(key);
             return val.Val;
@@ -197,10 +198,9 @@ namespace Storage
 
         public static byte[] TestFind()
         {
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentContext;
-            Neo.SmartContract.Framework.Services.Storage.Put(context, (ByteString)"key1", (ByteString)new byte[] { 0x01 });
-            Neo.SmartContract.Framework.Services.Storage.Put(context, (ByteString)"key2", (ByteString)new byte[] { 0x02 });
-            Iterator<byte[]> iterator = (Iterator<byte[]>)Neo.SmartContract.Framework.Services.Storage.Find(context, "key", FindOptions.ValuesOnly);
+            Storage.Put((ByteString)"key1", (ByteString)new byte[] { 0x01 });
+            Storage.Put((ByteString)"key2", (ByteString)new byte[] { 0x02 });
+            var iterator = (Iterator<byte[]>)Storage.Find("key", FindOptions.ValuesOnly);
             iterator.Next();
             return iterator.Value;
         }
@@ -212,7 +212,7 @@ namespace Storage
         public static bool TestIndexPut(byte[] key, byte[] value)
         {
             var prefix = "ii";
-            var storage = new StorageMap(Neo.SmartContract.Framework.Services.Storage.CurrentContext, prefix);
+            var storage = new StorageMap(prefix);
             storage[(ByteString)key] = (ByteString)value;
             return true;
         }
@@ -220,10 +220,8 @@ namespace Storage
         public static byte[] TestIndexGet(byte[] key)
         {
             var prefix = "ii";
-            var context = Neo.SmartContract.Framework.Services.Storage.CurrentReadOnlyContext;
-            var storage = new StorageMap(context, prefix);
-            var value = storage[(ByteString)key];
-            return (byte[])value;
+            var storage = new StorageMap(prefix);
+            return (byte[])storage[(ByteString)key];
         }
 
         #endregion

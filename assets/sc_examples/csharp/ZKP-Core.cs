@@ -1,18 +1,29 @@
+// Copyright (C) 2015-2025 The Neo Project.
+//
+// ZKP.cs file belongs to the neo project and is free
+// software distributed under the MIT software license, see the
+// accompanying file LICENSE in the main directory of the
+// repository or http://www.opensource.org/licenses/mit-license.php
+// for more details.
+//
+// Redistribution and use in source and binary forms with or without
+// modifications are permitted.
+
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Native;
+using System;
 using System.ComponentModel;
 
 namespace ZKP
 {
     [DisplayName("SampleZKP")]
-    [ManifestExtra("Author", "code-dev")]
-    [ManifestExtra("Description", "A sample contract to demonstrate how to use ZKP")]
-    [ManifestExtra("Email", "core@neo.org")]
-    [ManifestExtra("Version", "0.0.1")]
-    [ContractSourceCode("https://github.com/neo-project/neo/examples/ZKP")]
-    [ContractPermission("*", "*")]
-    public class SampleZKP : SmartContract
+    [ContractAuthor("code-dev")]
+    [ContractVersion("0.0.1")]
+    [ContractDescription("A sample contract to demonstrate how to use Example.SmartContract.ZKPil")]
+    [ContractSourceCode("https://github.com/neo-project/neo-devpack-dotnet/tree/master/examples/")]
+    [ContractPermission(Permission.Any, Method.Any)]
+    public class ExampleZKP : SmartContract
     {
         public static readonly byte[] alphaPoint =
         {
@@ -44,8 +55,7 @@ namespace ZKP
         97, 134, 254, 116, 89, 166, 119, 221, 223
     };
 
-        public static readonly byte[][] ic = new byte[][]
-        {
+        public static readonly byte[][] ic = {
         new byte[]
         {
             14, 152, 253, 159, 101, 142, 227, 5, 166, 71, 152, 207, 32, 152, 56, 172, 191, 43, 184, 28, 148, 40, 224, 42, 135, 137, 181, 215, 96, 34, 200, 127, 77, 151, 165, 11, 130, 57, 91, 83, 71, 38, 253, 159, 103, 191, 139, 120, 20, 9, 91, 120, 106, 16, 209, 88, 87, 206, 209, 233,
@@ -67,12 +77,12 @@ namespace ZKP
         /// <param name="c">Point C</param>
         /// <param name="public_input">Public paramters</param>
         /// <returns>result</returns>
-        public static bool Veify(byte[] a, byte[] b, byte[] c, long[] public_input)
+        public static bool Veify(byte[] a, byte[] b, byte[] c, byte[][] public_input)
         {
             //Equation left1: A*B
-            byte[] lt = Crypto.Bls12381Pairing(a, b);
+            byte[] lt = (byte[])CryptoLib.Bls12381Pairing(a, b);
             //Equation right1: alpha*beta
-            byte[] rt1 = Crypto.Bls12381Pairing(alphaPoint, betaPoint);
+            byte[] rt1 = (byte[])CryptoLib.Bls12381Pairing(alphaPoint, betaPoint);
             //Equation right2: sum(pub_input[i]*(beta*u_i(x)+alpha*v_i(x)+w_i(x))/gamma)*gamma
             int inputlen = public_input.Length;
             int iclen = ic.Length;
@@ -80,15 +90,15 @@ namespace ZKP
             byte[] acc = ic[0];
             for (int i = 0; i < inputlen; i++)
             {
-                byte[] temp = Crypto.Bls12381Mul(ic[i + 1], public_input[i]);
-                acc = Crypto.Bls12381Add(acc, temp);
+                byte[] temp = (byte[])CryptoLib.Bls12381Mul(ic[i + 1], public_input[i]/*32-bytes LE field element.*/, false);
+                acc = (byte[])CryptoLib.Bls12381Add(acc, temp);
             }
-            byte[] rt2 = Crypto.Bls12381Pairing(acc, gamma_inversePoint);
+            byte[] rt2 = (byte[])CryptoLib.Bls12381Pairing(acc, gamma_inversePoint);
             //Equation right3: C*delta
-            byte[] rt3 = Crypto.Bls12381Pairing(c, deltaPoint);
+            byte[] rt3 = (byte[])CryptoLib.Bls12381Pairing(c, deltaPoint);
             //Check equal
-            byte[] t1 = Crypto.Bls12381Add(rt1, rt2);
-            byte[] t2 = Crypto.Bls12381Add(t1, rt3);
+            byte[] t1 = (byte[])CryptoLib.Bls12381Add(rt1, rt2);
+            byte[] t2 = (byte[])CryptoLib.Bls12381Add(t1, rt3);
             return lt == t2;
         }
     }

@@ -16,6 +16,21 @@
     <link rel="stylesheet" href="assets/ux_css/style.css">
     <link rel="stylesheet" href="assets/ux_css/fontawesome-free-6.4.2-web/css/all.min.css">
     <link rel="stylesheet" href="assets/ux_css/sweetalert2-11-10-0.min.css">
+
+    <!-- GA4 - gtag.js -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GG71S3G63S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        // Consent Mode (básico – ajusta conforme sua LGPD/consentimento)
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'granted'
+        });
+        gtag('js', new Date());
+        gtag('config', 'G-GG71S3G63S', { send_page_view: true }); // em site tradicional
+    </script>
+
 </head>
 
 <!--Big blue-->
@@ -202,7 +217,7 @@
                             </div>
                             <div class="row mb-2">
                                 <div class="col-md-6">
-                                    <select id="codesend_selected_optimization" class="form-select"                                        
+                                    <select id="codesend_selected_optimization" class="form-select"
                                         style="text-align: center!important;font-weight: bold!important;">
                                         <option>None</option>
                                         <option selected>Basic</option>

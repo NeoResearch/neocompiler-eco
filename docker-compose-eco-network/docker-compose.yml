@@ -155,11 +155,12 @@ services:
     ports:
       - "20337:20337"
       - "30337:30337"
-      - "40337:40337"      
+      - "40337:40337"  
     volumes:
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/config1RPC.json:/opt/node/Neo.CLI/config.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/appLogConfig.json:/opt/node/Neo.CLI/Plugins/ApplicationLogs/ApplicationLogs.json
-      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/RpcServer.json    
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/rpcServer3.json:/opt/node/Neo.CLI/Plugins/RpcServer/RpcServer.json
+      - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/restServer.json:/opt/node/Neo.CLI/Plugins/RestServer/RestServer.json          
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/tokensTracker.json:/opt/node/Neo.CLI/Plugins/TokensTracker/TokensTracker.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/configs/plugins/storageDumper.json:/opt/node/Neo.CLI/Plugins/StorageDumper/StorageDumper.json
       - $ECO_PWD/docker-compose-eco-network/Neo.CLI/getIncStorage.sh:/opt/getIncStorage.sh

@@ -7,7 +7,7 @@
     },    
     "Storage": {
       "Engine": "RocksDBStore",
-      "Path": "Data_LevelDB_{0}"
+      "Path": "Data_RocksDB_{0}"
     },
     "P2P": {
       "Port": 20333,

@@ -1,6 +1,6 @@
 # NEO csharp-nodes network simulator
 # https://mcr.microsoft.com/v2/dotnet/aspnet/tags/list
-FROM mcr.microsoft.com/dotnet/aspnet:9.0.11-noble
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 
 LABEL maintainer="NeoResearch"
 LABEL authors="imcoelho,vncoelho"

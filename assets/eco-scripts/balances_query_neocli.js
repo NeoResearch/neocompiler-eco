@@ -29,6 +29,7 @@ function queryNep17BalancesFromNeoCsharpNodeJsonRPC(adddressToGet, addressID) {
         BASE_PATH_CLI, // Gets the URL to sent the post to
         requestJson, // Serializes form data in standard format
         function (resultJsonData) {
+            console.log(resultJsonData)
             NUMBER_FAILS_REQUESTS = 0;
             $("#walletNEO" + addressID)[0].innerHTML = 0;
             $("#walletGAS" + addressID)[0].innerHTML = 0;

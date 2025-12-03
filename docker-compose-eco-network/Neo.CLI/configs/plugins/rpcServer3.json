@@ -4,7 +4,7 @@
     "Servers": [
       {
         "Network": 56753,
-        "BindAddress": "127.0.0.1",
+        "BindAddress": "0.0.0.0",
         "Port": 30337,
         "SslCert": "",
         "SslCertPassword": "",

@@ -1,15 +1,20 @@
 {
   "PluginConfiguration": {
+    "UnhandledExceptionPolicy": "Ignore",
     "Servers": [
       {
         "Network": 56753,
-        "BindAddress": "0.0.0.0",
+        "BindAddress": "127.0.0.1",
         "Port": 30337,
         "SslCert": "",
         "SslCertPassword": "",
         "TrustedAuthorities": [],
         "RpcUser": "",
-        "RpcPass": "",       
+        "RpcPass": "",
+        "EnableCors": false,
+        "AllowOrigins": [],
+        "KeepAliveTimeout": 60,
+        "RequestHeadersTimeout": 15,
         "MaxGasInvoke": 20,
         "MaxFee": 0.1,
         "MaxConcurrentConnections": 40,
@@ -23,3 +28,4 @@
     ]
   }
 }
+

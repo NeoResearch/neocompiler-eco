@@ -37,7 +37,8 @@ server.headersTimeout = 500000;
 server.keepAliveTimeout = 500000;
 
 var compilers = [];
-var getCompilersBashCall = "(docker images docker-mono-neo-compiler | tail -n +2; docker images docker-neo3-boa-compiler | tail -n +2) | awk '{ print $1,$2 }'";
+// docker images docker-neo3-boa-compiler | tail -n +2
+var getCompilersBashCall = "docker images --format '{{.Repository}} {{.Tag}}' docker-mono-neo-compiler";
 
 server.listen(10000 || process.env.PORT, (err) => {
     if (err) {
@@ -101,6 +102,7 @@ function updateCompilers() {
             //res.setHeader('Content-Type', 'text/plain; charset="utf-8"');
             var arr = [];
             var stdout1 = stdout1.match(/[^\s]+/g);
+
             // we loop from 1 to 1 less than the length because
             // the first two elements are empty due to the way the split worked
             for (var i = 0, l = stdout1.length - 1; i < l; i = i + 2) {
@@ -108,6 +110,7 @@ function updateCompilers() {
                 obj["compiler"] = stdout1[i];
                 obj["version"] = stdout1[i + 1];
                 // Remove later TODO
+                
                 console.log("Inside updateCompilers - Printing " + obj["version"].substring(1, 4))
 
                 // ADD only docker-mono-neo-compiler v3 compilers

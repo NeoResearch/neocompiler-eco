@@ -4,14 +4,14 @@
     "Servers": [
       {
         "Network": 56753,
-        "BindAddress": "127.0.0.1",
+        "BindAddress": "0.0.0.0",
         "Port": 30333,
         "SslCert": "",
         "SslCertPassword": "",
         "TrustedAuthorities": [],
         "RpcUser": "",
         "RpcPass": "",
-        "EnableCors": false,
+        "EnableCors": true,
         "AllowOrigins": [],
         "KeepAliveTimeout": 60,
         "RequestHeadersTimeout": 15,

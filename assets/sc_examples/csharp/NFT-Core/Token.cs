@@ -1,4 +1,4 @@
-// Copyright (C) 2015-2025 The Neo Project.
+// Copyright (C) 2015-2026 The Neo Project.
 //
 // Token.cs file belongs to the neo project and is free
 // software distributed under the MIT software license, see the
@@ -21,14 +21,14 @@ namespace NFT
 
         public BigInteger Credential;
 
-        public static TokenState MintLoot(UInt160 owner, BigInteger tokenId, BigInteger credential) => new(owner, tokenId, credential);
+        public static TokenState MintLoot(UInt160 owner, BigInteger tokenId, BigInteger credential) => new TokenState(owner, tokenId, credential);
 
         private TokenState(UInt160 owner, BigInteger tokenId, BigInteger credential)
         {
             Owner = owner;
             TokenId = tokenId;
             Credential = credential;
-            Name = "N3 Secure Loot #" + TokenId;
+            Name = $"N3 Secure Loot #{TokenId}";
         }
 
         public void OwnerOnly()

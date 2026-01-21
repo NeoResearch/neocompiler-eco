@@ -1,5 +1,6 @@
 var cSharpFiles = [
     ["./assets/sc_examples/csharp/HelloWorld.cs"],
+    ["./assets/sc_examples/csharp/FaunFeatures.cs"],
     ["./assets/sc_examples/csharp/HelloWorld-Core.cs"],
     ["./assets/sc_examples/csharp/Oracle.cs"],
     [

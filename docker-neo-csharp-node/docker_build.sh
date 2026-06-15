@@ -2,7 +2,7 @@
 set -e
 
 # This automatically downloads the client from specified NEO_CLI_URL NeoResearch
-NEO_CLI_VERSION="3.9.1-all-plugins-preview1"
+NEO_CLI_VERSION="3.10.0-all-plugins"
 
 BASE_NAME="eco-neo-csharp-node"
 IMAGE_NAME="$BASE_NAME:$NEO_CLI_VERSION"

@@ -62,6 +62,7 @@ if [[ ${IS_RPC_SERVER} = "0" ]]; then
 	rm -r /opt/node/Neo.CLI/Plugins/TokensTracker
 	rm -r /opt/node/Neo.CLI/Plugins/ApplicationLogs
 	rm -r /opt/node/Neo.CLI/Plugins/StateService
+	rm -r /opt/node/Neo.CLI/Plugins/DeferredRelay
 	sleep 1
 fi
 

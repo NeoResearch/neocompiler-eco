@@ -1,6 +1,5 @@
 {
   "PluginConfiguration": {
-    "Network": 56753,
     "BindAddress": "0.0.0.0",
     "Port": 40337,
     "KeepAliveTimeout": 120,

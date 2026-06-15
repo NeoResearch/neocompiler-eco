@@ -2,8 +2,7 @@
   "PluginConfiguration": {
     "Path": "Data_MPT_{0}",
     "FullState": false,
-    "Network": 56753,
-    "AutoVerify": true,
+    "AutoVerify": false,
     "MaxFindResultItems": 100,
     "UnhandledExceptionPolicy": "StopPlugin"
   },

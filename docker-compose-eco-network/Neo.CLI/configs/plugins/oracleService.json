@@ -1,6 +1,5 @@
 {
   "PluginConfiguration": {
-    "Network": 56753,
     "Nodes": [
     	"http://eco-neo-csharp-noderpc1-running:30337"
     ],

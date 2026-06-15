@@ -11,8 +11,10 @@
     },
     "P2P": {
       "Port": 20335,
+      "EnableCompression": true,
       "MinDesiredConnections": 10,
       "MaxConnections": 40,
+      "MaxKnownHashes": 1000,      
       "MaxConnectionsPerAddress": 10
     },
     "UnlockWallet": {
@@ -33,7 +35,8 @@
         	"HF_Basilisk": 0,
         	"HF_Cockatrice": 0,
         	"HF_Domovoi": 0,
-        	"HF_Echidna": 0
+        	"HF_Echidna": 0,
+        	"HF_Faun": 0
     	},
 	"InitialGasDistribution": 5200000000000000,    	
         "ValidatorsCount": 4,         
